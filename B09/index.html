@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>반복 횟수 체험 · 에듀다움 B09</title>
+<style>
+  :root{
+    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+    --point:#3D5AFE; --point-soft:#E4E8FF;
+    --amber:#FFB800; --muted:#5E5E5E;
+    --r:18px; --r-sm:12px;
+    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
+    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+    background-size:22px 22px;background-position:-11px -11px}
+  .wrap{max-width:760px;margin:0 auto;padding:16px 16px 44px}
+
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;font-size:14px;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;padding:9px 16px;min-height:44px;
+    box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
+  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .back:focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
+    border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
+
+  h1{font-size:clamp(26px,6.4vw,40px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:15.5px;color:var(--muted);margin-top:9px;font-weight:700}
+
+  section{margin-top:18px}
+  .hint{display:flex;align-items:center;gap:9px;background:var(--surface);border:2.5px solid var(--ink);
+    border-radius:var(--r-sm);box-shadow:var(--hard-sm);padding:11px 14px;font-size:14px;font-weight:700;margin-bottom:16px}
+  .hint svg{flex-shrink:0}
+
+  .stage{display:grid;grid-template-columns:minmax(0,1fr) 152px;gap:14px;align-items:stretch}
+  .panel{background:var(--ink);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);
+    padding:16px;display:flex;align-items:center;justify-content:center}
+  #led{width:100%;max-width:210px;height:auto;display:block}
+  .px{fill:#333030;transition:fill .1s}
+  .px.on{fill:var(--point)}
+
+  .cmp{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);
+    padding:12px 12px 10px;display:flex;flex-direction:column}
+  #blk{width:100%;height:190px;display:block;flex:0 0 auto}
+  .bk{fill:var(--point-soft);stroke:var(--ink);stroke-width:1.6}
+  .fr{fill:var(--point);fill-opacity:.16;stroke:var(--ink);stroke-width:2}
+  .cmprow{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:12.5px;font-weight:800;
+    border-top:2px solid var(--ink);padding-top:6px;margin-top:7px}
+  .cmprow b{font-family:'Courier New',monospace;font-size:17px;font-weight:900}
+
+  .dial{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);
+    padding:14px 16px 10px;margin-top:16px}
+  .dial .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .dial label{font-size:15px;font-weight:900}
+  .dial .val{font-family:'Courier New',monospace;font-weight:900;font-size:17px;background:var(--point);color:#fff;
+    border:2.5px solid var(--ink);border-radius:9px;padding:2px 13px}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;min-height:44px;background:transparent;
+    display:block;margin-top:2px}
+  input[type=range]::-webkit-slider-runnable-track{height:14px;border-radius:999px;background:var(--point-soft);
+    border:2.5px solid var(--ink)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;margin-top:-13px;border-radius:50%;
+    background:var(--amber);border:3px solid var(--ink);cursor:pointer}
+  input[type=range]::-moz-range-track{height:14px;border-radius:999px;background:var(--point-soft);border:2.5px solid var(--ink)}
+  input[type=range]::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:var(--amber);border:3px solid var(--ink);cursor:pointer}
+  input[type=range]:focus-visible{outline:3px solid var(--point);outline-offset:2px}
+  input[type=range]:disabled::-webkit-slider-thumb{background:#D9D4C7}
+
+  .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-family:inherit;
+    font-size:16px;font-weight:900;color:var(--ink);background:var(--surface);border:2.5px solid var(--ink);
+    border-radius:var(--r-sm);box-shadow:var(--hard-sm);padding:12px 22px;min-height:48px;min-width:44px;
+    transition:transform .1s,box-shadow .1s}
+  .btn.main{background:var(--amber);flex:1 1 190px}
+  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn:focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  .btn[disabled]{background:#E7E2D5;color:#8A8578;cursor:default;box-shadow:none;transform:none}
+
+  .score{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--ink);color:var(--paper);
+    border-radius:var(--r);padding:14px 20px;margin-top:16px;font-size:15px;font-weight:800}
+  .score b{font-family:'Courier New',monospace;font-size:30px;font-weight:900;color:var(--amber)}
+
+  .ask{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:14.5px;font-weight:800}
+  .ask svg{flex-shrink:0}
+
+  footer{text-align:center;margin-top:28px}
+  footer a{display:inline-flex;align-items:center;text-decoration:none;font-weight:900;font-size:14px;color:var(--ink);
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;padding:11px 20px;min-height:44px;
+    box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
+  footer a:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  footer a:focus-visible{outline:3px solid var(--point);outline-offset:3px}
+
+  @media(max-width:560px){
+    .wrap{padding:14px 13px 40px}
+    .stage{grid-template-columns:1fr}
+    #blk{height:118px}
+    .panel{padding:14px}
+    .btn.main{flex:1 1 100%}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="back" href="../">← 전체 목록</a>
+    <span class="tag">B09 · 반복</span>
+  </nav>
+
+  <header>
+    <h1>몇 번 나타날까요</h1>
+    <p class="lead">반복 횟수를 정하고 하트를 세어 보세요</p>
+  </header>
+
+  <section>
+    <p class="hint">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="var(--ink)" stroke-width="2.2"/><path d="M12 8v5" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="16.4" r="1.3" fill="var(--ink)"/></svg>
+      <span>기기로 옮기기 전에 먼저 예상해 보세요</span>
+    </p>
+
+    <div class="stage">
+      <div class="panel">
+        <svg id="led" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg>
+      </div>
+      <div class="cmp">
+        <svg id="blk" viewBox="0 0 120 188" preserveAspectRatio="xMidYMax meet" aria-hidden="true"></svg>
+        <div class="cmprow"><span>늘어선 블록</span><b id="n1">9</b></div>
+        <div class="cmprow"><span>반복 블록</span><b>4</b></div>
+      </div>
+    </div>
+
+    <div class="dial">
+      <div class="row">
+        <label for="cnt">반복 횟수</label>
+        <span class="val" id="nv">3</span>
+      </div>
+      <input type="range" id="cnt" min="1" max="8" step="1" value="3">
+    </div>
+
+    <div class="acts">
+      <button class="btn main" id="go" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 5l12 7-12 7V5Z" fill="var(--ink)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/></svg>
+        해 보기</button>
+      <button class="btn" id="reset" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4h4" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        다시 하기</button>
+    </div>
+
+    <p class="score"><span>하트가 나타난 수</span><b id="num" aria-live="polite">0</b></p>
+
+    <p class="ask">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="var(--point)" stroke-width="2.6"/><path d="m16 16 5 5" stroke="var(--point)" stroke-width="2.6" stroke-linecap="round"/></svg>
+      <span>블록 수가 줄어도 결과는 같나요</span>
+    </p>
+  </section>
+
+  <footer><a href="../">← 전체 목록</a></footer>
+</div>
+
+<script>
+const NS = 'http://www.w3.org/2000/svg';
+const $ = id => document.getElementById(id);
+
+/* 하트 도안 (마이크로비트 기본 하트와 같은 5x5 배치) */
+const HEART = [[0,1,0,1,0],[1,1,1,1,1],[1,1,1,1,1],[0,1,1,1,0],[0,0,1,0,0]];
+
+/* 5x5 격자 만들기 */
+const cells = [];
+(function buildLed(){
+  const led = $('led');
+  for (let r = 0; r < 5; r++) {
+    for (let c = 0; c < 5; c++) {
+      const el = document.createElementNS(NS, 'rect');
+      el.setAttribute('x', (c * 21.25).toFixed(2));
+      el.setAttribute('y', (r * 21.25).toFixed(2));
+      el.setAttribute('width', '15');
+      el.setAttribute('height', '15');
+      el.setAttribute('rx', '3');
+      el.setAttribute('class', 'px');
+      led.appendChild(el);
+      cells.push(el);
+    }
+  }
+})();
+
+function drawHeart(on){
+  for (let i = 0; i < cells.length; i++) {
+    const lit = on && HEART[(i / 5) | 0][i % 5] === 1;
+    cells[i].classList.toggle('on', lit);
+  }
+}
+
+/* 블록 견줌 그림: 왼쪽은 늘어선 블록, 오른쪽은 반복 블록 하나로 묶은 것 */
+function addRect(svg, x, y, w, h, cls){
+  const el = document.createElementNS(NS, 'rect');
+  el.setAttribute('x', x); el.setAttribute('y', y);
+  el.setAttribute('width', w); el.setAttribute('height', h);
+  el.setAttribute('rx', '2.5'); el.setAttribute('class', cls);
+  svg.appendChild(el);
+}
+function drawBlocks(n){
+  const svg = $('blk');
+  while (svg.firstChild) svg.removeChild(svg.firstChild);
+  const H = 5.6, G = 2.0, BASE = 186;
+  const total = n * 3;                       /* 묶음 3개짜리를 n번 늘어놓은 것 */
+  for (let i = 0; i < total; i++) {
+    addRect(svg, 7, BASE - (i + 1) * (H + G), 42, H, 'bk');
+  }
+  const fh = 3 * (H + G) + 8;
+  addRect(svg, 69, BASE - fh, 44, fh, 'fr');
+  for (let i = 0; i < 3; i++) {
+    addRect(svg, 74, BASE - 4 - (i + 1) * (H + G), 34, H, 'bk');
+  }
+  $('n1').textContent = String(total);
+}
+
+/* 실행 */
+let timer = null;
+let running = false;
+
+function clearTimer(){
+  if (timer) { clearTimeout(timer); timer = null; }
+}
+function lock(on){
+  running = on;
+  $('go').disabled = on;
+  $('cnt').disabled = on;
+}
+function setNum(v){ $('num').textContent = String(v); }
+
+function play(){
+  if (running) return;
+  clearTimer();
+  const n = Number($('cnt').value);
+  let done = 0;
+  setNum(0);
+  drawHeart(false);
+  lock(true);
+  const step = function(){
+    if (done >= n) { timer = null; lock(false); return; }
+    drawHeart(true);
+    done += 1;
+    setNum(done);
+    timer = setTimeout(function(){
+      drawHeart(false);
+      timer = setTimeout(step, 230);
+    }, 420);
+  };
+  step();
+}
+
+function reset(){
+  clearTimer();
+  lock(false);
+  drawHeart(false);
+  setNum(0);
+}
+
+$('cnt').addEventListener('input', function(){
+  const n = Number($('cnt').value);
+  $('nv').textContent = String(n);
+  drawBlocks(n);
+});
+$('go').addEventListener('click', play);
+$('reset').addEventListener('click', reset);
+
+drawBlocks(Number($('cnt').value));
+drawHeart(false);
+setNum(0);
+</script>
+</body>
+</html>

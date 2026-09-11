@@ -1,0 +1,13 @@
+{
+  "name": "edudaum-web",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "audit": "python _tools/audit.py",
+    "check": "python _tools/jscheck.py",
+    "headless": "node _tools/headless.mjs"
+  },
+  "devDependencies": {
+    "puppeteer-core": "^23.11.1"
+  }
+}

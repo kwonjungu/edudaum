@@ -1,0 +1,10 @@
+node_modules/
+__pycache__/
+*.pyc
+_tools/_chk/
+_tools/_shot/
+_tools/_감사결과.json
+_tools/_헤드리스결과.json
+_tools/_감사보고.md
+_tools/_배치*
+package-lock.json

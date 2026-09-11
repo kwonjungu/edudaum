@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>신호등 명령 바꾸기</title>
+<style>
+:root{
+  --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+  --point:#F59E0B; --point-soft:#FFF0C7;
+  --muted:#6B6B6B; --red:#E5484D; --green:#12B76A;
+  --r:18px; --r-sm:12px;
+  --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+  background-size:22px 22px;
+  color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
+  font-size:17px; line-height:1.45; font-weight:600;
+  -webkit-text-size-adjust:100%;
+}
+main{max-width:920px;margin:0 auto;padding:16px 14px 28px}
+h1{
+  font-size:clamp(24px,5.6vw,34px); font-weight:900; letter-spacing:-.035em;
+  margin:0 0 12px;
+}
+.stage{
+  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px;
+  align-items:start; margin:0;
+}
+@media (max-width:719px){ .stage{grid-template-columns:minmax(0,1fr)} }
+
+.face{
+  background:var(--surface); border:3px solid var(--ink);
+  border-radius:var(--r); box-shadow:var(--hard); padding:12px;
+}
+.scene svg{display:block;width:100%;height:auto}
+
+.lamp{fill:#EFEAE0;stroke:var(--ink);stroke-width:3}
+.lamp.on.red{fill:var(--red)}
+.lamp.on.green{fill:var(--green)}
+.ring{fill:none;stroke:var(--ink);stroke-width:0;}
+.lamp.on + .ring{stroke-width:6}
+.band{fill:#E8E2D6;stroke:var(--ink);stroke-width:3}
+.stripe{fill:var(--surface)}
+.fig{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round}
+.fig circle{fill:var(--point)}
+#walker{transition:transform .18s linear}
+.svgtxt{font:700 15px "Pretendard","Malgun Gothic",sans-serif;fill:var(--ink)}
+
+.cmds{list-style:none;margin:0 0 12px;padding:0;counter-reset:c}
+.cmds li{
+  counter-increment:c; position:relative;
+  border:2.5px solid var(--ink); border-radius:var(--r-sm);
+  background:var(--paper); padding:10px 12px 10px 42px; margin:0 0 8px;
+}
+.cmds li::before{
+  content:counter(c); position:absolute; left:8px; top:8px;
+  width:24px; height:24px; border:2.5px solid var(--ink); border-radius:50%;
+  background:var(--surface); text-align:center; line-height:20px; font-weight:900; font-size:14px;
+}
+.cmds li.live{background:var(--point-soft)}
+#sec{
+  display:inline-block; min-width:2.2em; text-align:center; font-weight:900;
+  border-bottom:3px solid var(--ink);
+}
+#range{
+  display:block; width:100%; margin:8px 0 0;
+  min-height:48px; height:48px; accent-color:var(--point); cursor:pointer;
+}
+.row{display:flex;flex-wrap:wrap;gap:8px}
+button{
+  font:inherit; font-weight:800; color:var(--ink); cursor:pointer;
+  min-height:48px; min-width:88px; padding:10px 18px;
+  border:3px solid var(--ink); border-radius:999px;
+  background:var(--surface); box-shadow:var(--hard-sm);
+  transition:transform .1s ease, box-shadow .1s ease;
+}
+button.main{background:var(--point)}
+button:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+button:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+:focus-visible{outline:3px solid var(--point);outline-offset:3px}
+input[type=range]:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
+
+.out{
+  margin:12px 0 0; min-height:52px; display:flex; align-items:center;
+  border:3px solid var(--ink); border-radius:var(--r-sm);
+  background:var(--ink); color:var(--paper); padding:10px 14px;
+  font-weight:900; font-size:19px;
+}
+.out:empty{background:var(--surface)}
+.ask{
+  margin:14px 0 0; padding:10px 14px; font-weight:800;
+  border:2.5px dashed var(--ink); border-radius:var(--r-sm); background:var(--point-soft);
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important}
+}
+</style>
+</head>
+<body>
+<main>
+  <h1>신호등 명령 바꾸기</h1>
+
+  <section class="stage">
+    <div class="face scene">
+      <svg viewBox="0 0 320 232" role="img" aria-label="보행자 신호등과 횡단보도">
+        <rect x="10" y="6" width="64" height="112" rx="12" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
+        <circle id="lampR" class="lamp red" cx="42" cy="38" r="19"/>
+        <circle class="ring" cx="42" cy="38" r="25"/>
+        <circle id="lampG" class="lamp green" cx="42" cy="86" r="19"/>
+        <circle class="ring" cx="42" cy="86" r="25"/>
+        <text class="svgtxt" x="84" y="44">빨강</text>
+        <text class="svgtxt" x="84" y="92">초록</text>
+        <rect x="36" y="118" width="12" height="50" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
+        <rect class="band" x="8" y="168" width="304" height="52" rx="8"/>
+        <g class="stripe" aria-hidden="true">
+          <rect x="16" y="174" width="12" height="40"/><rect x="40" y="174" width="12" height="40"/>
+          <rect x="64" y="174" width="12" height="40"/><rect x="88" y="174" width="12" height="40"/>
+          <rect x="112" y="174" width="12" height="40"/><rect x="136" y="174" width="12" height="40"/>
+          <rect x="160" y="174" width="12" height="40"/><rect x="184" y="174" width="12" height="40"/>
+          <rect x="208" y="174" width="12" height="40"/><rect x="232" y="174" width="12" height="40"/>
+          <rect x="256" y="174" width="12" height="40"/><rect x="280" y="174" width="12" height="40"/>
+        </g>
+        <g id="walker" transform="translate(12,0)">
+          <g class="fig">
+            <circle cx="10" cy="128" r="9"/>
+            <path d="M10 137 L10 152"/>
+            <path d="M10 141 L1 148 M10 141 L19 146"/>
+            <path d="M10 152 L2 167 M10 152 L18 167"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+
+    <div class="face">
+      <ol class="cmds">
+        <li>빨간불 30초 켜기</li>
+        <li class="live">
+          <label for="range">초록불 <output id="sec" for="range">20</output>초 켜기</label>
+          <input id="range" type="range" min="3" max="20" step="1" value="20">
+        </li>
+        <li>끝나기 5초 전 깜빡</li>
+      </ol>
+      <div class="row">
+        <button id="run" class="main" type="button">실행</button>
+        <button id="reset" type="button">다시 하기</button>
+      </div>
+      <p id="out" class="out" role="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <p class="ask">무엇이 그대로인가요?</p>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var CELLS = 12;      // 다 건너는 데 드는 칸 수
+  var STEPPX = 23;     // 한 칸의 가로 길이
+  var TICK = 220;      // 명령 속 1초를 화면에서 돌리는 시간
+
+  var range = document.getElementById('range');
+  var secOut = document.getElementById('sec');
+  var runBtn = document.getElementById('run');
+  var resetBtn = document.getElementById('reset');
+  var out = document.getElementById('out');
+  var lampR = document.getElementById('lampR');
+  var lampG = document.getElementById('lampG');
+  var walker = document.getElementById('walker');
+
+  var timer = null;
+  var t = 0;
+  var step = 0;
+
+  function lamps(mode) {
+    lampR.classList.toggle('on', mode === 'red');
+    lampG.classList.toggle('on', mode === 'green');
+  }
+
+  function place() {
+    walker.setAttribute('transform', 'translate(' + (12 + step * STEPPX) + ',0)');
+  }
+
+  function lock(on) {
+    runBtn.disabled = on;
+    range.disabled = on;
+  }
+
+  function halt() {
+    if (timer !== null) { clearInterval(timer); timer = null; }
+  }
+
+  function finish() {
+    halt();
+    lock(false);
+    lamps('red');
+    var left = CELLS - step;
+    out.textContent = left <= 0 ? '다 건넜어요' : left + '칸 남기고 멈췄어요';
+  }
+
+  function tick() {
+    var g = parseInt(range.value, 10);
+    t += 1;
+    if (t > g) { finish(); return; }
+    if (step < CELLS) { step += 1; place(); }
+    var blink = (t > g - 5) && (t % 2 === 1);
+    lamps(blink ? 'off' : 'green');
+    if (step >= CELLS) { finish(); }
+  }
+
+  function run() {
+    if (timer !== null) { return; }
+    t = 0;
+    step = 0;
+    out.textContent = '';
+    place();
+    lamps('green');
+    lock(true);
+    timer = setInterval(tick, TICK);
+  }
+
+  function reset() {
+    halt();
+    lock(false);
+    t = 0;
+    step = 0;
+    range.value = '20';
+    secOut.textContent = '20';
+    out.textContent = '';
+    place();
+    lamps('red');
+  }
+
+  range.addEventListener('input', function () { secOut.textContent = range.value; });
+  runBtn.addEventListener('click', run);
+  resetBtn.addEventListener('click', reset);
+  window.addEventListener('pagehide', halt);
+
+  reset();
+})();
+</script>
+</body>
+</html>

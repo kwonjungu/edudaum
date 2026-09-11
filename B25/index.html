@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>같은 시험지로 견주기 — 에듀다움 B25</title>
+<style>
+  :root{
+    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+    --point:#FF5A5F; --point-soft:#FFE3E4;
+    --green:#12B76A; --muted:#6B6B6B; --desk:#EFE2CB;
+    --r:18px; --r-sm:12px;
+    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
+    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+    background-size:22px 22px;background-position:-11px -11px;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:14px 14px 56px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+  .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);
+    font-weight:800;font-size:13px;background:var(--surface);border:2.5px solid var(--ink);
+    border-radius:999px;padding:7px 14px;box-shadow:var(--hard-sm);min-height:44px;
+    transition:transform .12s,box-shadow .12s}
+  .back:hover{transform:translate(-1px,-1px)}
+  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;
+    border:2.5px solid var(--ink);border-radius:999px;padding:5px 14px;box-shadow:var(--hard-sm)}
+  h1{font-size:clamp(26px,6.5vw,40px);font-weight:900;letter-spacing:-.035em;line-height:1.05}
+  .lead{font-size:15px;color:var(--muted);font-weight:700;margin-top:8px}
+  .card{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+    box-shadow:var(--hard);padding:16px 14px;margin-top:16px}
+  h2{font-size:16px;font-weight:900;letter-spacing:-.02em;margin-bottom:10px}
+  .cond{display:grid;grid-template-columns:44px 1fr auto auto;align-items:center;gap:8px;
+    border:2.5px solid var(--ink);border-radius:var(--r-sm);padding:8px 10px;margin-top:8px;
+    background:var(--paper)}
+  .cond.chg{background:var(--point-soft)}
+  .cond.lock{opacity:.55}
+  .cl{font-size:14px;font-weight:900}
+  .cv{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
+  .keep{font-size:12px;font-weight:800;color:var(--muted);white-space:nowrap}
+  button{font-family:inherit;cursor:pointer;color:var(--ink)}
+  .mini{min-height:44px;min-width:72px;font-size:14px;font-weight:900;background:var(--surface);
+    border:2.5px solid var(--ink);border-radius:10px;box-shadow:var(--hard-sm);padding:6px 10px;
+    transition:transform .1s,box-shadow .1s}
+  .mini:hover:not(:disabled){transform:translate(-1px,-1px)}
+  .mini:active:not(:disabled){transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+  .btn{display:block;width:100%;min-height:48px;margin-top:14px;font-size:17px;font-weight:900;
+    background:var(--point);color:#fff;border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    box-shadow:var(--hard-sm);padding:11px 10px;transition:transform .1s,box-shadow .1s}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px)}
+  .btn:active:not(:disabled){transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+  .btn.ghost{background:var(--surface);color:var(--ink)}
+  button:disabled{opacity:.45;cursor:default;box-shadow:none;transform:none}
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  .hint{margin-top:10px;font-size:14px;font-weight:800;text-align:center;
+    background:var(--ink);color:var(--paper);border-radius:999px;padding:8px 12px}
+  .trow{display:grid;grid-template-columns:44px repeat(3,1fr);gap:6px;align-items:center;margin-top:8px}
+  .rl{font-size:13px;font-weight:900}
+  .tile{min-width:0;border:2.5px solid var(--ink);border-radius:10px;padding:6px 3px;
+    display:flex;flex-direction:column;align-items:center;gap:2px;background:var(--surface)}
+  .tile.bgd{background:var(--desk)}
+  .tile.now{box-shadow:var(--hard-sm)}
+  .hand{width:35px;height:35px;color:var(--ink)}
+  .tile.angs .hand{transform:rotate(-24deg)}
+  .tl{font-size:11px;font-weight:700;color:var(--muted);text-align:center;line-height:1.2}
+  .marks{display:flex;gap:4px;margin-top:2px}
+  .m{width:18px;height:18px;display:block;border:2px solid var(--ink);border-radius:5px;background:var(--paper)}
+  .m svg{width:100%;height:100%;display:block}
+  .m.ok{background:#DFF6E9;border-color:var(--green)}
+  .m.no{background:var(--point-soft);border-color:var(--point)}
+  .cap{font-size:12px;font-weight:700;color:var(--muted);margin-top:8px;text-align:center}
+  table.sc{width:100%;border-collapse:collapse;margin-top:6px;font-size:14px}
+  table.sc th,table.sc td{border:2px solid var(--ink);padding:6px 2px;text-align:center;
+    font-weight:800;font-variant-numeric:tabular-nums}
+  table.sc thead th{background:var(--ink);color:var(--paper);font-size:13px}
+  table.sc td.tot{background:var(--point-soft)}
+  @media (max-width:430px){
+    .trow{grid-template-columns:repeat(3,1fr)}
+    .rl{grid-column:1/-1}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <symbol id="h-palm" viewBox="0 0 44 44">
+    <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="6" y="18" width="13" height="18" rx="4"/>
+      <path d="M9.5 18v-6M13 18v-8M16.5 18v-6"/>
+      <rect x="25" y="18" width="13" height="18" rx="4"/>
+      <path d="M28.5 18v-6M32 18v-8M35.5 18v-6"/>
+    </g>
+  </symbol>
+  <symbol id="h-fist" viewBox="0 0 44 44">
+    <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="16" y="16" width="19" height="19" rx="6"/>
+      <path d="M21 16v-4M26 16v-5M31 16v-4"/>
+      <path d="M16 26h9"/>
+      <path d="M12 16c-4 5-4 13 0 18"/>
+      <path d="M12 16h4M12 34h4"/>
+    </g>
+  </symbol>
+  <symbol id="h-lock" viewBox="0 0 44 44">
+    <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M9 28v-6l4-4 4 4v6"/>
+      <path d="M17 28V16l4-4 4 4v12"/>
+      <path d="M25 28v-6l4-4 4 4v6"/>
+      <rect x="7" y="28" width="30" height="8" rx="3"/>
+    </g>
+  </symbol>
+  <symbol id="mk-o" viewBox="0 0 20 20">
+    <circle cx="10" cy="10" r="5.5" fill="none" stroke="#12B76A" stroke-width="3"/>
+  </symbol>
+  <symbol id="mk-x" viewBox="0 0 20 20">
+    <g stroke="#FF5A5F" stroke-width="3" stroke-linecap="round"><path d="M6 6l8 8M14 6l-8 8"/></g>
+  </symbol>
+</svg>
+
+<div class="wrap">
+  <nav class="nav">
+    <a class="back" href="../index.html">
+      <svg width="13" height="13" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L6 10l6 6"/></svg>
+      전체 목록</a>
+    <span class="tag">B25</span>
+  </nav>
+
+  <section>
+    <h1>같은 시험지로 견주기</h1>
+    <p class="lead">조건 하나만 바꾸어 다시 학습시켜요.</p>
+    <div class="card">
+      <h2>학습 묶음</h2>
+      <div class="cond" id="r-bg"><span class="cl">배경</span><span class="cv" id="v-bg">흰 종이</span><button class="mini" id="b-bg" disabled>바꾸기</button></div>
+      <div class="cond" id="r-ang"><span class="cl">각도</span><span class="cv" id="v-ang">위</span><button class="mini" id="b-ang" disabled>바꾸기</button></div>
+      <div class="cond" id="r-cnt"><span class="cl">장수</span><span class="cv" id="v-cnt">깍지만 4장</span><button class="mini" id="b-cnt" disabled>바꾸기</button></div>
+    </div>
+    <button class="btn" id="run">시험하기</button>
+    <p class="hint" id="hint">시험하기를 누르세요</p>
+  </section>
+
+  <section>
+    <div class="card">
+      <h2>시험 자료 9장</h2>
+      <div id="grid"></div>
+      <p class="cap">왼쪽 1회차 · 오른쪽 2회차</p>
+      <p class="cap">수업용으로 그린 자료예요.</p>
+    </div>
+    <div class="card">
+      <h2>맞힌 수</h2>
+      <table class="sc">
+        <thead><tr><th></th><th>손바닥</th><th>주먹</th><th>깍지</th><th>모두</th></tr></thead>
+        <tbody id="scb"></tbody>
+      </table>
+    </div>
+    <button class="btn ghost" id="reset">다시 하기</button>
+  </section>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var NAME = ['손바닥', '주먹', '깍지'];
+  var SYM = ['h-palm', 'h-fist', 'h-lock'];
+  var BG = { w: '흰 종이', d: '책상' };
+  var ANG = { t: '위', s: '옆' };
+
+  /* 시험 자료 9장. 한 번 정하면 두 회차 내내 바뀌지 않는다. */
+  var TEST = [
+    { n: 0, bg: 'w', ang: 't' }, { n: 0, bg: 'w', ang: 't' }, { n: 0, bg: 'd', ang: 't' },
+    { n: 1, bg: 'w', ang: 't' }, { n: 1, bg: 'd', ang: 't' }, { n: 1, bg: 'w', ang: 's' },
+    { n: 2, bg: 'w', ang: 't' }, { n: 2, bg: 'w', ang: 's' }, { n: 2, bg: 'd', ang: 's' }
+  ];
+
+  var st;
+
+  function fresh() {
+    return { bg: ['w'], ang: ['t'], cnt: [10, 10, 4], changed: null, round: 0, marks: [null, null] };
+  }
+
+  /* 학습 묶음이 그 장의 배경과 각도를 담고 있고, 그 이름의 장수가 넉넉해야 알아본다. */
+  function judge(t) {
+    return st.bg.indexOf(t.bg) >= 0 && st.ang.indexOf(t.ang) >= 0 && st.cnt[t.n] >= 8;
+  }
+
+  function $(id) { return document.getElementById(id); }
+
+  function buildGrid() {
+    var g = $('grid');
+    g.textContent = '';
+    for (var n = 0; n < 3; n++) {
+      var row = document.createElement('div');
+      row.className = 'trow';
+      var lab = document.createElement('span');
+      lab.className = 'rl';
+      lab.textContent = NAME[n];
+      row.appendChild(lab);
+      for (var i = 0; i < TEST.length; i++) {
+        if (TEST[i].n !== n) { continue; }
+        var t = TEST[i];
+        var tile = document.createElement('div');
+        tile.className = 'tile' + (t.bg === 'd' ? ' bgd' : '') + (t.ang === 's' ? ' angs' : '');
+        tile.setAttribute('data-i', String(i));
+        tile.innerHTML =
+          '<svg class="hand" aria-hidden="true"><use href="#' + SYM[n] + '"></use></svg>' +
+          '<span class="tl">' + BG[t.bg] + ' ' + ANG[t.ang] + '</span>' +
+          '<span class="marks"><i class="m" data-m="' + i + '-0"></i>' +
+          '<i class="m" data-m="' + i + '-1"></i></span>';
+        row.appendChild(tile);
+      }
+      g.appendChild(row);
+    }
+  }
+
+  function paintMarks() {
+    var cells = document.querySelectorAll('.m');
+    for (var k = 0; k < cells.length; k++) {
+      var p = cells[k].getAttribute('data-m').split('-');
+      var i = Number(p[0]);
+      var r = Number(p[1]);
+      var res = st.marks[r];
+      if (!res) {
+        cells[k].className = 'm';
+        cells[k].innerHTML = '';
+        cells[k].removeAttribute('aria-label');
+        continue;
+      }
+      var ok = res[i];
+      cells[k].className = 'm ' + (ok ? 'ok' : 'no');
+      cells[k].innerHTML = '<svg aria-hidden="true"><use href="#' + (ok ? 'mk-o' : 'mk-x') + '"></use></svg>';
+      cells[k].setAttribute('aria-label', (r + 1) + '회차 ' + (ok ? '맞음' : '틀림'));
+    }
+    var tiles = document.querySelectorAll('.tile');
+    for (var q = 0; q < tiles.length; q++) {
+      var idx = Number(tiles[q].getAttribute('data-i'));
+      var moved = !!(st.marks[0] && st.marks[1] && st.marks[0][idx] !== st.marks[1][idx]);
+      tiles[q].classList.toggle('now', moved);
+    }
+  }
+
+  function paintScore() {
+    var body = $('scb');
+    body.textContent = '';
+    for (var r = 0; r < 2; r++) {
+      var res = st.marks[r];
+      if (!res) { continue; }
+      var per = [0, 0, 0];
+      var all = 0;
+      for (var i = 0; i < TEST.length; i++) {
+        if (res[i]) { per[TEST[i].n] += 1; all += 1; }
+      }
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<th>' + (r + 1) + '회차</th><td>' + per[0] + '</td><td>' + per[1] +
+        '</td><td>' + per[2] + '</td><td class="tot">' + all + '</td>';
+      body.appendChild(tr);
+    }
+  }
+
+  function paintCond() {
+    $('v-bg').textContent = st.bg.map(function (k) { return BG[k]; }).join('·');
+    $('v-ang').textContent = st.ang.map(function (k) { return ANG[k]; }).join('·');
+    $('v-cnt').textContent = st.cnt[2] >= 8 ? '모두 10장' : '깍지만 4장';
+    var keys = ['bg', 'ang', 'cnt'];
+    for (var i = 0; i < keys.length; i++) {
+      var k = keys[i];
+      var row = $('r-' + k);
+      var btn = $('b-' + k);
+      btn.disabled = !(st.round === 1 && !st.changed);
+      row.className = 'cond' + (st.changed === k ? ' chg' : (st.changed ? ' lock' : ''));
+      var tag = row.querySelector('.keep');
+      if (st.changed) {
+        if (!tag) {
+          tag = document.createElement('span');
+          tag.className = 'keep';
+          row.insertBefore(tag, btn);
+        }
+        tag.textContent = st.changed === k ? '바꿈' : '그대로';
+      } else if (tag) {
+        row.removeChild(tag);
+      }
+    }
+  }
+
+  function paintHint() {
+    var h = $('hint');
+    if (st.round === 0) { h.textContent = '시험하기를 누르세요'; }
+    else if (st.round === 1 && !st.changed) { h.textContent = '조건 하나만 바꾸세요'; }
+    else if (st.round === 1) { h.textContent = '다시 시험하기를 누르세요'; }
+    else { h.textContent = '무엇이 달라졌나요?'; }
+    $('run').disabled = (st.round >= 2) || (st.round === 1 && !st.changed);
+  }
+
+  function render() { paintCond(); paintMarks(); paintScore(); paintHint(); }
+
+  function run() {
+    if ($('run').disabled) { return; }
+    var r = st.round;
+    var res = [];
+    for (var i = 0; i < TEST.length; i++) { res.push(judge(TEST[i])); }
+    st.marks[r] = res;
+    st.round = r + 1;
+    render();
+  }
+
+  function change(k) {
+    if (st.round !== 1 || st.changed) { return; }
+    st.changed = k;
+    if (k === 'bg') { st.bg = ['w', 'd']; }
+    if (k === 'ang') { st.ang = ['t', 's']; }
+    if (k === 'cnt') { st.cnt = [10, 10, 10]; }
+    render();
+  }
+
+  function reset() { st = fresh(); render(); }
+
+  $('run').addEventListener('click', run);
+  $('reset').addEventListener('click', reset);
+  $('b-bg').addEventListener('click', function () { change('bg'); });
+  $('b-ang').addEventListener('click', function () { change('ang'); });
+  $('b-cnt').addEventListener('click', function () { change('cnt'); });
+
+  st = fresh();
+  buildGrid();
+  render();
+}());
+</script>
+</body>
+</html>

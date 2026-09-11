@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>도서관 순서도 시험</title>
+<style>
+:root{
+  --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+  --point:#12B76A; --point-soft:#D6F5E6;
+  --muted:#6B6B6B;
+  --r:18px; --r-sm:12px;
+  --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+  background-size:22px 22px;
+  color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
+  font-size:17px; line-height:1.45; font-weight:600;
+  -webkit-text-size-adjust:100%;
+}
+main{max-width:900px;margin:0 auto;padding:16px 14px 28px}
+h1{font-size:clamp(24px,5.6vw,34px);font-weight:900;letter-spacing:-.035em;margin:0 0 12px}
+
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+button{
+  font:inherit; font-weight:800; color:var(--ink); cursor:pointer;
+  min-height:48px; min-width:96px; padding:10px 16px;
+  border:3px solid var(--ink); border-radius:999px;
+  background:var(--surface); box-shadow:var(--hard-sm);
+  transition:transform .1s ease, box-shadow .1s ease;
+}
+button.main{background:var(--point)}
+button.alt{background:var(--point-soft)}
+button:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+button:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+
+.wrap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:719px){ .wrap{grid-template-columns:minmax(0,1fr)} }
+
+.face{
+  background:var(--surface); border:3px solid var(--ink);
+  border-radius:var(--r); box-shadow:var(--hard); padding:12px;
+}
+.face svg{display:block;width:100%;height:auto}
+
+.shape{fill:var(--surface);stroke:var(--ink);stroke-width:3}
+.node.lit .shape{fill:var(--point-soft);stroke-width:5}
+.cap{font:800 15px "Pretendard","Malgun Gothic",sans-serif;fill:var(--ink)}
+.yn{font:900 15px "Pretendard","Malgun Gothic",sans-serif;fill:var(--ink)}
+.edge{fill:none;stroke:var(--ink);stroke-width:3;marker-end:url(#arw)}
+.edge.lit{stroke:var(--point);stroke-width:7}
+
+.rec{
+  display:flex; align-items:center; gap:8px; min-height:52px;
+  border:2.5px solid var(--ink); border-radius:var(--r-sm);
+  background:var(--paper); padding:8px 12px; margin:0 0 8px;
+  font-weight:800;
+}
+.rec b{
+  flex:0 0 auto; background:var(--ink); color:var(--paper);
+  border-radius:999px; padding:3px 12px; font-size:15px;
+}
+.rec span{color:var(--ink)}
+.rec span:empty::before{content:"—";color:var(--muted)}
+.ask{
+  margin:14px 0 0; padding:10px 14px; font-weight:800;
+  border:2.5px dashed var(--ink); border-radius:var(--r-sm); background:var(--point-soft);
+}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none !important;transition:none !important}
+}
+</style>
+</head>
+<body>
+<main>
+  <h1>도서관 순서도 시험</h1>
+
+  <section>
+    <div class="row">
+      <button id="swap" type="button">갈래 바꾸기</button>
+      <button id="runY" class="main" type="button">빌릴 수 있음</button>
+      <button id="runN" class="alt" type="button">빌릴 수 없음</button>
+      <button id="reset" type="button">다시 하기</button>
+    </div>
+
+    <div class="wrap">
+      <div class="face">
+        <svg viewBox="0 0 360 392" role="img" aria-label="도서관 대출 순서도">
+          <defs>
+            <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M0 0 L10 5 L0 10 z" fill="#141414"/>
+            </marker>
+          </defs>
+
+          <path id="e0" class="edge" d="M180 46 V56"/>
+          <path id="e1" class="edge" d="M180 98 V116"/>
+          <path id="eL" class="edge" d="M110 148 H78 V210"/>
+          <path id="eR" class="edge" d="M250 148 H282 V210"/>
+          <path id="eL2" class="edge" d="M78 252 V270"/>
+          <path id="eLE" class="edge" d="M78 312 V356 H132"/>
+          <path id="eRE" class="edge" d="M282 252 V356 H228"/>
+
+          <g id="nStart" class="node">
+            <ellipse class="shape" cx="180" cy="26" rx="46" ry="19"/>
+            <text class="cap" x="180" y="32" text-anchor="middle">시작</text>
+          </g>
+          <g id="nCheck" class="node">
+            <rect class="shape" x="114" y="56" width="132" height="42" rx="4"/>
+            <text class="cap" x="180" y="83" text-anchor="middle">상태 확인</text>
+          </g>
+          <g id="nAsk" class="node">
+            <polygon class="shape" points="180,116 252,148 180,180 108,148"/>
+            <text class="cap" x="180" y="154" text-anchor="middle">빌릴 수 있나?</text>
+          </g>
+          <text id="labL" class="yn" x="102" y="140" text-anchor="end">아니요</text>
+          <text id="labR" class="yn" x="258" y="140" text-anchor="start">예</text>
+
+          <g id="nLog" class="node">
+            <rect class="shape" x="20" y="210" width="116" height="42" rx="4"/>
+            <text class="cap" x="78" y="237" text-anchor="middle">기록 남기기</text>
+          </g>
+          <g id="nHand" class="node">
+            <rect class="shape" x="20" y="270" width="116" height="42" rx="4"/>
+            <text class="cap" x="78" y="297" text-anchor="middle">책 건네기</text>
+          </g>
+          <g id="nBook" class="node">
+            <rect class="shape" x="224" y="210" width="116" height="42" rx="4"/>
+            <text class="cap" x="282" y="237" text-anchor="middle">예약 안내</text>
+          </g>
+          <g id="nEnd" class="node">
+            <ellipse class="shape" cx="180" cy="356" rx="46" ry="19"/>
+            <text class="cap" x="180" y="362" text-anchor="middle">끝</text>
+          </g>
+        </svg>
+      </div>
+
+      <div>
+        <p class="rec"><b>있음</b><span id="recY"></span></p>
+        <p class="rec"><b>없음</b><span id="recN"></span></p>
+        <p class="ask">두 줄이 바뀌었나요?</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+
+  var STEP = 380;
+
+  var swapBtn = document.getElementById('swap');
+  var runYBtn = document.getElementById('runY');
+  var runNBtn = document.getElementById('runN');
+  var resetBtn = document.getElementById('reset');
+  var labL = document.getElementById('labL');
+  var labR = document.getElementById('labR');
+  var recY = document.getElementById('recY');
+  var recN = document.getElementById('recN');
+
+  var LEFT = ['nStart', 'e0', 'nCheck', 'e1', 'nAsk', 'eL', 'nLog', 'eL2', 'nHand', 'eLE', 'nEnd'];
+  var RIGHT = ['nStart', 'e0', 'nCheck', 'e1', 'nAsk', 'eR', 'nBook', 'eRE', 'nEnd'];
+  var ALL = ['nStart', 'nCheck', 'nAsk', 'nLog', 'nHand', 'nBook', 'nEnd',
+             'e0', 'e1', 'eL', 'eR', 'eL2', 'eLE', 'eRE'];
+
+  var swapped = true;
+  var timer = null;
+
+  var calm = window.matchMedia
+    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    : false;
+
+  function clearLit() {
+    for (var i = 0; i < ALL.length; i += 1) {
+      document.getElementById(ALL[i]).classList.remove('lit');
+    }
+  }
+
+  function labels() {
+    labL.textContent = swapped ? '아니요' : '예';
+    labR.textContent = swapped ? '예' : '아니요';
+  }
+
+  function lock(on) {
+    swapBtn.disabled = on;
+    runYBtn.disabled = on;
+    runNBtn.disabled = on;
+    resetBtn.disabled = on;
+  }
+
+  function halt() {
+    if (timer !== null) { clearInterval(timer); timer = null; }
+  }
+
+  function write(canBorrow, takeLeft) {
+    var slot = canBorrow ? recY : recN;
+    slot.textContent = '→ ' + (takeLeft ? '책 건네기' : '예약 안내');
+  }
+
+  function walk(canBorrow) {
+    if (timer !== null) { return; }
+    var takeLeft = swapped ? !canBorrow : canBorrow;
+    var path = takeLeft ? LEFT : RIGHT;
+    clearLit();
+
+    if (calm) {
+      for (var i = 0; i < path.length; i += 1) {
+        document.getElementById(path[i]).classList.add('lit');
+      }
+      write(canBorrow, takeLeft);
+      return;
+    }
+
+    var k = 0;
+    lock(true);
+    timer = setInterval(function () {
+      document.getElementById(path[k]).classList.add('lit');
+      k += 1;
+      if (k >= path.length) {
+        halt();
+        lock(false);
+        write(canBorrow, takeLeft);
+      }
+    }, STEP);
+  }
+
+  function swap() {
+    if (timer !== null) { return; }
+    swapped = !swapped;
+    labels();
+    clearLit();
+    recY.textContent = '';
+    recN.textContent = '';
+  }
+
+  function reset() {
+    halt();
+    lock(false);
+    swapped = true;
+    labels();
+    clearLit();
+    recY.textContent = '';
+    recN.textContent = '';
+  }
+
+  swapBtn.addEventListener('click', swap);
+  runYBtn.addEventListener('click', function () { walk(true); });
+  runNBtn.addEventListener('click', function () { walk(false); });
+  resetBtn.addEventListener('click', reset);
+  window.addEventListener('pagehide', halt);
+
+  reset();
+})();
+</script>
+</body>
+</html>

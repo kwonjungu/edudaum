@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>예시를 옮겨 보기</title>
+<style>
+:root{
+  --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+  --point:#3D5AFE; --point-soft:#E4E8FF;
+  --muted:#6B6B6B; --amber:#FFB800;
+  --r:18px; --r-sm:12px;
+  --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+  background-size:22px 22px;
+  color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
+  font-size:17px; line-height:1.45; font-weight:600;
+  -webkit-text-size-adjust:100%;
+}
+main{max-width:900px;margin:0 auto;padding:16px 14px 28px}
+h1{font-size:clamp(24px,5.6vw,34px);font-weight:900;letter-spacing:-.035em;margin:0 0 6px}
+.lead{color:var(--muted);font-size:15px;margin:0 0 14px}
+
+.panel{
+  background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+  box-shadow:var(--hard);padding:14px;margin:0 0 14px;
+}
+.boxes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
+.box{border:2.5px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);padding:10px}
+.box h2{font-size:15px;font-weight:900;margin:0 0 8px}
+.slot{display:flex;flex-wrap:wrap;gap:8px;min-height:88px;align-content:flex-start}
+
+.card{
+  width:76px;min-height:76px;padding:4px;cursor:pointer;
+  background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+  box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s;
+}
+.card:active{transform:translate(3px,3px);box-shadow:none}
+.card svg,.chip svg{display:block;width:100%;height:auto}
+
+.rule{
+  display:flex;align-items:center;flex-wrap:wrap;gap:10px;
+  background:var(--ink);color:var(--paper);border-radius:var(--r-sm);padding:12px 14px;margin:0 0 12px;
+}
+.rule .lab{font-size:13px;font-weight:900;color:#C9C4B8}
+.rule .val{font-weight:900;font-size:17px;background:var(--point);color:#fff;border-radius:8px;padding:4px 14px}
+
+.tests{display:flex;flex-wrap:wrap;gap:10px}
+.chip{
+  width:96px;border:2.5px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);
+  padding:6px;text-align:center;
+}
+.chip.chg{border-width:4px;background:var(--point-soft)}
+.chip .go{display:block;font-size:14px;font-weight:900;margin-top:4px}
+.chip .mk{display:none;font-size:12px;font-weight:900;color:var(--point)}
+.chip.chg .mk{display:block}
+
+.btn{
+  margin-top:12px;min-height:48px;padding:11px 20px;font:inherit;font-weight:900;font-size:16px;cursor:pointer;
+  background:var(--amber);color:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+  box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s;
+}
+.btn:active{transform:translate(3px,3px);box-shadow:none}
+
+.obs{background:var(--ink);color:var(--paper);border:3px solid var(--ink);border-radius:var(--r);padding:14px 16px;box-shadow:var(--hard)}
+.obs p{margin:0;font-size:15px;font-weight:700}
+.obs p+p{margin-top:6px;color:var(--amber)}
+
+.lab2{font-size:12.5px;font-weight:900;letter-spacing:.04em;color:var(--muted);display:block;margin-bottom:8px}
+
+:focus-visible{outline:3px solid var(--point);outline-offset:3px}
+@media (max-width:520px){.boxes{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <h1>예시를 옮겨 보기</h1>
+  <p class="lead">카드를 누르면 옆 상자로 가요</p>
+
+  <section class="panel">
+    <span class="lab2">예시 카드</span>
+    <div class="boxes">
+      <div class="box"><h2>1상자</h2><div class="slot" id="s1"></div></div>
+      <div class="box"><h2>2상자</h2><div class="slot" id="s2"></div></div>
+    </div>
+
+    <div id="pool" hidden>
+      <button class="card" type="button" data-id="a" data-fill="y" data-size="b" data-shape="c">
+        <svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="26" fill="#3D5AFE" stroke="#141414" stroke-width="3"/></svg>
+      </button>
+      <button class="card" type="button" data-id="b" data-fill="y" data-size="b" data-shape="q">
+        <svg viewBox="0 0 72 72" aria-hidden="true"><rect x="10" y="10" width="52" height="52" rx="5" fill="#3D5AFE" stroke="#141414" stroke-width="3"/></svg>
+      </button>
+      <button class="card" type="button" data-id="c" data-fill="n" data-size="b" data-shape="t">
+        <svg viewBox="0 0 72 72" aria-hidden="true"><polygon points="36,10 62,60 10,60" fill="#FFFFFF" stroke="#141414" stroke-width="3"/></svg>
+      </button>
+      <button class="card" type="button" data-id="d" data-fill="n" data-size="s" data-shape="c">
+        <svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="15" fill="#FFFFFF" stroke="#141414" stroke-width="3"/></svg>
+      </button>
+    </div>
+
+    <button class="btn" type="button" id="reset">처음으로</button>
+  </section>
+
+  <section class="panel">
+    <div class="rule"><span class="lab">찾은 규칙</span><span class="val" id="rule"></span></div>
+    <span class="lab2">새 카드</span>
+    <div class="tests">
+      <div class="chip" data-fill="y" data-size="s" data-shape="t">
+        <svg viewBox="0 0 72 72" aria-hidden="true"><polygon points="36,22 51,52 21,52" fill="#3D5AFE" stroke="#141414" stroke-width="3"/></svg>
+        <span class="go"></span><span class="mk">바뀜</span>
+      </div>
+      <div class="chip" data-fill="n" data-size="b" data-shape="q">
+        <svg viewBox="0 0 72 72" aria-hidden="true"><rect x="10" y="10" width="52" height="52" rx="5" fill="#FFFFFF" stroke="#141414" stroke-width="3"/></svg>
+        <span class="go"></span><span class="mk">바뀜</span>
+      </div>
+      <div class="chip" data-fill="n" data-size="s" data-shape="t">
+        <svg viewBox="0 0 72 72" aria-hidden="true"><polygon points="36,22 51,52 21,52" fill="#FFFFFF" stroke="#141414" stroke-width="3"/></svg>
+        <span class="go"></span><span class="mk">바뀜</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="obs">
+    <p>무엇을 옮기니 규칙이 달라졌나요?</p>
+    <p>한쪽에만 모으면 어떻게 되나요?</p>
+  </section>
+</main>
+
+<script>
+(function () {
+  'use strict';
+  var FEATS = [['fill', '칠하기'], ['size', '크기'], ['shape', '모양']];
+  var WORD = {
+    y: '칠한', n: '칠하지 않은',
+    b: '큰', s: '작은',
+    c: '동그라미', q: '네모', t: '세모'
+  };
+  var START = { a: 1, b: 1, c: 2, d: 2 };
+
+  var s1 = document.getElementById('s1');
+  var s2 = document.getElementById('s2');
+  var ruleEl = document.getElementById('rule');
+  var cards = [].slice.call(document.querySelectorAll('#pool .card'));
+  var chips = [].slice.call(document.querySelectorAll('.chip'));
+  var prev = {};
+
+  function tell(card) {
+    var where = card.parentNode === s1 ? '1상자' : '2상자';
+    card.setAttribute('aria-label',
+      WORD[card.dataset.fill] + ' ' + WORD[card.dataset.size] + ' ' +
+      WORD[card.dataset.shape] + ', 지금 ' + where + ', 눌러서 옮기기');
+  }
+
+  function setOf(slot, f) {
+    var out = [];
+    [].forEach.call(slot.querySelectorAll('.card'), function (c) {
+      if (out.indexOf(c.dataset[f]) < 0) { out.push(c.dataset[f]); }
+    });
+    return out;
+  }
+
+  function findRule() {
+    if (!s1.querySelector('.card') || !s2.querySelector('.card')) { return { kind: 'empty' }; }
+    for (var i = 0; i < FEATS.length; i++) {
+      var f = FEATS[i][0];
+      var v1 = setOf(s1, f), v2 = setOf(s2, f);
+      var overlap = v1.some(function (v) { return v2.indexOf(v) >= 0; });
+      if (!overlap) { return { kind: 'ok', f: f, name: FEATS[i][1], v1: v1, v2: v2 }; }
+    }
+    return { kind: 'none' };
+  }
+
+  function update() {
+    var r = findRule();
+    ruleEl.textContent = r.kind === 'ok' ? r.name
+      : (r.kind === 'empty' ? '한쪽이 비었어요' : '못 찾음');
+    chips.forEach(function (chip, i) {
+      var go = '알 수 없음';
+      if (r.kind === 'ok') {
+        var v = chip.dataset[r.f];
+        if (r.v1.indexOf(v) >= 0) { go = '1상자'; }
+        else if (r.v2.indexOf(v) >= 0) { go = '2상자'; }
+      }
+      chip.querySelector('.go').textContent = go;
+      var changed = prev[i] !== undefined && prev[i] !== go;
+      if (changed) { chip.classList.add('chg'); } else { chip.classList.remove('chg'); }
+      prev[i] = go;
+    });
+  }
+
+  function place(card, n) {
+    (n === 1 ? s1 : s2).appendChild(card);
+    tell(card);
+  }
+
+  cards.forEach(function (card) {
+    card.addEventListener('click', function () {
+      place(card, card.parentNode === s1 ? 2 : 1);
+      update();
+    });
+  });
+
+  document.getElementById('reset').addEventListener('click', function () {
+    prev = {};
+    cards.forEach(function (c) { place(c, START[c.dataset.id]); });
+    update();
+  });
+
+  cards.forEach(function (c) { place(c, START[c.dataset.id]); });
+  update();
+})();
+</script>
+</body>
+</html>

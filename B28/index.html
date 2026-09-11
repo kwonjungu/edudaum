@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>빠진 사람 찾기 — 에듀다움 B28</title>
+<style>
+  :root{
+    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+    --point:#12B76A; --point-soft:#D6F5E6;
+    --coral:#FF5A5F; --coral-soft:#FFE3E4; --muted:#6B6B6B; --night:#DDE3EC;
+    --r:18px; --r-sm:12px;
+    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
+    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+    background-size:22px 22px;background-position:-11px -11px;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:14px 14px 56px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+  .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);
+    font-weight:800;font-size:13px;background:var(--surface);border:2.5px solid var(--ink);
+    border-radius:999px;padding:7px 14px;box-shadow:var(--hard-sm);min-height:44px;
+    transition:transform .12s,box-shadow .12s}
+  .back:hover{transform:translate(-1px,-1px)}
+  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;
+    border:2.5px solid var(--ink);border-radius:999px;padding:5px 14px;box-shadow:var(--hard-sm)}
+  h1{font-size:clamp(26px,6.5vw,40px);font-weight:900;letter-spacing:-.035em;line-height:1.05}
+  .lead{font-size:15px;color:var(--muted);font-weight:700;margin-top:8px}
+  .card{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+    box-shadow:var(--hard);padding:16px 14px;margin-top:16px}
+  h2{font-size:16px;font-weight:900;letter-spacing:-.02em;margin-bottom:10px}
+  .hidden{display:none}
+  button{font-family:inherit;cursor:pointer;color:var(--ink)}
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+
+  .brow{display:grid;grid-template-columns:30px 1fr 46px;align-items:center;gap:8px;margin-top:8px}
+  .brow .ic{width:28px;height:28px;color:var(--ink)}
+  .brow.dark .ic{background:var(--night);border-radius:7px}
+  .track{border:2.5px solid var(--ink);border-radius:999px;height:26px;background:var(--surface);
+    overflow:hidden;position:relative;min-width:0}
+  .fill{display:block;height:100%;background:#8EE3BC;transition:width .4s ease}
+  .blab{position:absolute;inset:0;display:flex;align-items:center;padding-left:9px;
+    font-size:12.5px;font-weight:800;white-space:nowrap;overflow:hidden}
+  .bnum{font-size:14px;font-weight:900;text-align:right;font-variant-numeric:tabular-nums}
+  .brow.hi .track{box-shadow:var(--hard-sm)}
+  .brow.up .fill{background:#5AD79F}
+  .sum{font-size:13px;font-weight:800;color:var(--muted);text-align:right;margin-top:10px}
+
+  .hint{margin-top:14px;font-size:14px;font-weight:800;text-align:center;
+    background:var(--ink);color:var(--paper);border-radius:999px;padding:8px 12px}
+  .cnt{font-size:13px;font-weight:900;text-align:center;margin-top:8px;font-variant-numeric:tabular-nums}
+  .plist{display:grid;gap:8px;margin-top:10px}
+  .pbtn{display:grid;grid-template-columns:32px 1fr auto;align-items:center;gap:10px;
+    width:100%;min-height:52px;background:var(--surface);border:2.5px solid var(--ink);
+    border-radius:var(--r-sm);box-shadow:var(--hard-sm);padding:8px 12px;text-align:left;
+    font-size:15px;font-weight:800;transition:transform .1s,box-shadow .1s}
+  .pbtn:hover:not(:disabled){transform:translate(-1px,-1px)}
+  .pbtn:active:not(:disabled){transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+  .pbtn[aria-pressed="true"]{background:var(--point-soft)}
+  .pbtn .ic{width:30px;height:30px;color:var(--ink)}
+  .pbtn.dark .ic{background:var(--night);border-radius:7px}
+  .pick{width:20px;height:20px;border:2.5px solid var(--ink);border-radius:6px;background:var(--paper)}
+  .pbtn[aria-pressed="true"] .pick{background:var(--point)}
+
+  .srow{display:grid;grid-template-columns:30px 1fr auto auto;align-items:center;gap:8px;
+    border:2.5px solid var(--ink);border-radius:var(--r-sm);padding:8px 10px;margin-top:8px;
+    background:var(--paper);font-size:14px;font-weight:800}
+  .srow .ic{width:28px;height:28px}
+  .srow.dark .ic{background:var(--night);border-radius:7px}
+  .srow .num{font-variant-numeric:tabular-nums;font-size:13px;color:var(--muted)}
+  .verd{font-size:12.5px;font-weight:900;border:2px solid var(--ink);border-radius:999px;
+    padding:3px 9px;white-space:nowrap}
+  .verd.ok{background:var(--point-soft)}
+  .verd.mid{background:#FFF0C7}
+  .verd.no{background:var(--coral-soft)}
+  .adds{display:grid;gap:8px;margin-top:10px}
+  .abtn{width:100%;min-height:48px;font-size:15px;font-weight:900;background:var(--surface);
+    border:2.5px solid var(--ink);border-radius:var(--r-sm);box-shadow:var(--hard-sm);padding:10px;
+    transition:transform .1s,box-shadow .1s}
+  .abtn:hover{transform:translate(-1px,-1px)}
+  .abtn:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+  .abtn[aria-pressed="true"]{background:var(--point);color:#fff}
+  .btn{display:block;width:100%;min-height:48px;margin-top:14px;font-size:17px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    box-shadow:var(--hard-sm);padding:11px 10px;transition:transform .1s,box-shadow .1s}
+  .btn:hover{transform:translate(-1px,-1px)}
+  .btn:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+  .cap{font-size:12px;font-weight:700;color:var(--muted);margin-top:10px;text-align:center}
+  @media (max-width:430px){
+    .srow{grid-template-columns:30px 1fr auto}
+    .srow .verd{grid-column:2/-1;justify-self:start}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" aria-hidden="true" style="position:absolute">
+  <symbol id="hd-r" viewBox="0 0 44 44">
+    <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="15" y="15" width="17" height="21" rx="5"/>
+      <path d="M19 15v-6M24 15v-8M29 15v-6"/>
+      <path d="M15 22l-6 5 6 6"/>
+    </g>
+  </symbol>
+  <symbol id="hd-l" viewBox="0 0 44 44">
+    <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" transform="translate(44,0) scale(-1,1)">
+      <rect x="15" y="15" width="17" height="21" rx="5"/>
+      <path d="M19 15v-6M24 15v-8M29 15v-6"/>
+      <path d="M15 22l-6 5 6 6"/>
+    </g>
+  </symbol>
+  <symbol id="hd-s" viewBox="0 0 44 44">
+    <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="15" y="15" width="17" height="21" rx="5"/>
+      <path d="M19 15v-6M24 15v-8M29 15v-6"/>
+      <rect x="11" y="27" width="25" height="11" rx="4"/>
+      <path d="M17 30v5M24 30v5M31 30v5"/>
+    </g>
+  </symbol>
+  <symbol id="hd-b" viewBox="0 0 44 44">
+    <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="15" y="15" width="17" height="21" rx="5"/>
+      <path d="M19 15v-6M24 15v-8M29 15v-6"/>
+      <path d="M15 22l-6 5 6 6"/>
+      <rect x="15" y="21" width="17" height="9" rx="2" transform="rotate(-14 23.5 25.5)"/>
+    </g>
+  </symbol>
+  <symbol id="pl-sun" viewBox="0 0 20 20">
+    <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="10" cy="10" r="4"/><path d="M10 1v2M10 17v2M1 10h2M17 10h2M3.6 3.6l1.4 1.4M15 15l1.4 1.4M16.4 3.6L15 5M5 15l-1.4 1.4"/>
+    </g>
+  </symbol>
+  <symbol id="pl-moon" viewBox="0 0 20 20">
+    <path d="M15 12.5A6.5 6.5 0 0 1 7.5 5a6.5 6.5 0 1 0 7.5 7.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<div class="wrap">
+  <nav class="nav">
+    <a class="back" href="../index.html">
+      <svg width="13" height="13" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L6 10l6 6"/></svg>
+      전체 목록</a>
+    <span class="tag">B28</span>
+  </nav>
+
+  <section>
+    <h1>빠진 사람 찾기</h1>
+    <p class="lead">쓸 사람이 자료에 있는지 세어 봐요.</p>
+
+    <div class="card">
+      <h2>학습 사진</h2>
+      <div id="chart"></div>
+      <p class="sum" id="sum"></p>
+    </div>
+
+    <div id="pa">
+      <p class="hint" id="hintA">쓸 사람 세 명을 고르세요</p>
+      <p class="cnt" id="cnt"></p>
+      <div class="plist" id="people"></div>
+    </div>
+
+    <div id="pb" class="hidden">
+      <div class="card">
+        <h2>점검표</h2>
+        <div id="sheet"></div>
+      </div>
+      <p class="hint" id="hintB">한 곳에만 열 장을 더 넣어요</p>
+      <div class="adds" id="adds"></div>
+      <button class="btn" id="reset">다시 하기</button>
+    </div>
+
+    <p class="cap">수업용으로 만든 가상 도우미예요.</p>
+  </section>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* 가상 도우미가 학습에 쓴 사진 서른 장의 구성 */
+  var ROWS = [
+    { k: 'r1', ic: 'hd-r', dark: false, lab: '오른손 · 밝은 곳', base: 24 },
+    { k: 'r2', ic: 'hd-l', dark: false, lab: '왼손 · 밝은 곳', base: 4 },
+    { k: 'r3', ic: 'hd-s', dark: false, lab: '긴소매 · 밝은 곳', base: 2 },
+    { k: 'r4', ic: 'hd-r', dark: true, lab: '오른손 · 어두운 곳', base: 0 }
+  ];
+
+  var PEOPLE = [
+    { id: 'p1', ic: 'hd-r', dark: false, lab: '오른손 · 교실', k: 'r1' },
+    { id: 'p2', ic: 'hd-l', dark: false, lab: '왼손 · 교실', k: 'r2' },
+    { id: 'p3', ic: 'hd-s', dark: false, lab: '긴소매 · 교실', k: 'r3' },
+    { id: 'p4', ic: 'hd-r', dark: true, lab: '오른손 · 복도', k: 'r4' },
+    { id: 'p5', ic: 'hd-b', dark: false, lab: '반창고 손 · 교실', k: '' }
+  ];
+
+  var ADDS = [
+    { k: 'r2', lab: '왼손 열 장' },
+    { k: 'r3', lab: '긴소매 열 장' },
+    { k: 'r4', lab: '어두운 곳 열 장' }
+  ];
+
+  var st;
+
+  function fresh() { return { picked: [], add: null }; }
+
+  function countOf(k) {
+    for (var i = 0; i < ROWS.length; i++) {
+      if (ROWS[i].k === k) { return ROWS[i].base + (st.add === k ? 10 : 0); }
+    }
+    return 0;
+  }
+
+  function total() {
+    var s = 0;
+    for (var i = 0; i < ROWS.length; i++) { s += countOf(ROWS[i].k); }
+    return s;
+  }
+
+  /* 닮은 사진이 얼마나 있느냐로만 갈린다. 미리 정해 둔 판정이 아니다. */
+  function verdict(n) {
+    if (n >= 8) { return { t: '잘 알아봐요', c: 'ok' }; }
+    if (n >= 1) { return { t: '자주 놓쳐요', c: 'mid' }; }
+    return { t: '거의 못 알아봐요', c: 'no' };
+  }
+
+  function $(id) { return document.getElementById(id); }
+
+  function icon(name, cls) {
+    return '<svg class="' + cls + '" aria-hidden="true"><use href="#' + name + '"></use></svg>';
+  }
+
+  function pickedKeys() {
+    var out = [];
+    for (var i = 0; i < st.picked.length; i++) {
+      for (var j = 0; j < PEOPLE.length; j++) {
+        if (PEOPLE[j].id === st.picked[i]) { out.push(PEOPLE[j].k); }
+      }
+    }
+    return out;
+  }
+
+  function buildPeople() {
+    var box = $('people');
+    box.textContent = '';
+    for (var i = 0; i < PEOPLE.length; i++) {
+      var p = PEOPLE[i];
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'pbtn' + (p.dark ? ' dark' : '');
+      b.setAttribute('data-id', p.id);
+      b.setAttribute('aria-pressed', 'false');
+      b.innerHTML = icon(p.ic, 'ic') + '<span>' + p.lab + '</span><span class="pick"></span>';
+      b.addEventListener('click', onPick);
+      box.appendChild(b);
+    }
+  }
+
+  function buildAdds() {
+    var box = $('adds');
+    box.textContent = '';
+    for (var i = 0; i < ADDS.length; i++) {
+      var a = ADDS[i];
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'abtn';
+      b.setAttribute('data-k', a.k);
+      b.setAttribute('aria-pressed', 'false');
+      b.textContent = a.lab;
+      b.addEventListener('click', onAdd);
+      box.appendChild(b);
+    }
+  }
+
+  function paintChart() {
+    var keys = pickedKeys();
+    var box = $('chart');
+    box.textContent = '';
+    for (var i = 0; i < ROWS.length; i++) {
+      var r = ROWS[i];
+      var n = countOf(r.k);
+      var row = document.createElement('div');
+      row.className = 'brow' + (r.dark ? ' dark' : '') + (n === 0 ? ' zero' : '') +
+        (keys.indexOf(r.k) >= 0 ? ' hi' : '') + (st.add === r.k ? ' up' : '');
+      row.innerHTML = icon(r.ic, 'ic') +
+        '<span class="track"><span class="fill" style="width:' + Math.round(n / 34 * 100) + '%"></span>' +
+        '<span class="blab">' + r.lab + '</span></span>' +
+        '<span class="bnum">' + n + '장</span>';
+      box.appendChild(row);
+    }
+    $('sum').textContent = '모두 ' + total() + '장';
+  }
+
+  function paintPeople() {
+    var btns = $('people').querySelectorAll('.pbtn');
+    for (var i = 0; i < btns.length; i++) {
+      var on = st.picked.indexOf(btns[i].getAttribute('data-id')) >= 0;
+      btns[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    $('cnt').textContent = st.picked.length + ' / 3';
+  }
+
+  function paintSheet() {
+    var box = $('sheet');
+    box.textContent = '';
+    for (var i = 0; i < st.picked.length; i++) {
+      var p = null;
+      for (var j = 0; j < PEOPLE.length; j++) {
+        if (PEOPLE[j].id === st.picked[i]) { p = PEOPLE[j]; }
+      }
+      if (!p) { continue; }
+      var n = p.k ? countOf(p.k) : 0;
+      var v = verdict(n);
+      var row = document.createElement('div');
+      row.className = 'srow' + (p.dark ? ' dark' : '');
+      row.innerHTML = icon(p.ic, 'ic') + '<span>' + p.lab + '</span>' +
+        '<span class="num">' + n + '장</span>' +
+        '<span class="verd ' + v.c + '">' + v.t + '</span>';
+      box.appendChild(row);
+    }
+  }
+
+  function paintAdds() {
+    var btns = $('adds').querySelectorAll('.abtn');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].setAttribute('aria-pressed', st.add === btns[i].getAttribute('data-k') ? 'true' : 'false');
+    }
+    $('hintB').textContent = st.add ? '아직 빠진 사람은 누구인가요?' : '한 곳에만 열 장을 더 넣어요';
+  }
+
+  function render() {
+    var done = st.picked.length >= 3;
+    $('pa').classList.toggle('hidden', done);
+    $('pb').classList.toggle('hidden', !done);
+    paintChart();
+    paintPeople();
+    if (done) { paintSheet(); paintAdds(); }
+  }
+
+  function onPick(e) {
+    var id = e.currentTarget.getAttribute('data-id');
+    var at = st.picked.indexOf(id);
+    if (at >= 0) { st.picked.splice(at, 1); }
+    else if (st.picked.length < 3) { st.picked.push(id); }
+    render();
+  }
+
+  function onAdd(e) {
+    var k = e.currentTarget.getAttribute('data-k');
+    st.add = (st.add === k) ? null : k;
+    render();
+  }
+
+  function reset() { st = fresh(); render(); }
+
+  $('reset').addEventListener('click', reset);
+
+  st = fresh();
+  buildPeople();
+  buildAdds();
+  render();
+}());
+</script>
+</body>
+</html>

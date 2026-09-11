@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>하나만 바꾸어 보기</title>
+<style>
+:root{
+  --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+  --point:#12B76A; --point-soft:#D6F5E6;
+  --muted:#6B6B6B; --amber:#FFB800;
+  --r:18px; --r-sm:12px;
+  --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  background:var(--paper);
+  background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+  background-size:22px 22px;
+  color:var(--ink);
+  font-family:"Pretendard","Noto Sans KR",-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
+  font-size:17px; line-height:1.45; font-weight:600;
+  -webkit-text-size-adjust:100%;
+}
+main{max-width:900px;margin:0 auto;padding:16px 14px 28px}
+h1{font-size:clamp(24px,5.6vw,34px);font-weight:900;letter-spacing:-.035em;margin:0 0 6px}
+.lead{color:var(--muted);font-size:15px;margin:0 0 14px}
+
+.panel{
+  background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+  box-shadow:var(--hard);padding:14px;margin:0 0 14px;
+}
+.lab{font-size:12.5px;font-weight:900;letter-spacing:.04em;color:var(--muted);display:block;margin-bottom:8px}
+
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tab{
+  flex:1 1 88px;min-height:48px;min-width:88px;padding:10px 14px;
+  font:inherit;font-weight:900;font-size:17px;cursor:pointer;
+  background:var(--surface);color:var(--ink);
+  border:2.5px solid var(--ink);border-radius:var(--r-sm);box-shadow:var(--hard-sm);
+  transition:transform .1s,box-shadow .1s;
+}
+.tab[aria-pressed="true"]{background:var(--point);color:#fff}
+.tab[aria-pressed="true"]::after{content:"";display:block;height:3px;margin:6px 8px 0;background:#fff;border-radius:2px}
+.tab:active{transform:translate(3px,3px);box-shadow:none}
+
+.dial{background:var(--ink);color:var(--paper);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:14px}
+.dial .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.dial .nm{font-weight:900;font-size:17px}
+.dial .badge{font-weight:900;font-size:15px;background:var(--point);color:#fff;border-radius:8px;padding:3px 12px}
+.ends{display:flex;justify-content:space-between;font-size:12.5px;font-weight:800;color:#C9C4B8;margin-top:4px}
+input[type=range]{
+  -webkit-appearance:none;appearance:none;width:100%;min-height:48px;height:48px;
+  background:transparent;margin:0;cursor:pointer;
+}
+input[type=range]::-webkit-slider-runnable-track{height:12px;border-radius:999px;background:var(--point-soft);border:2.5px solid var(--paper)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;margin-top:-13px;border-radius:50%;background:var(--amber);border:3px solid var(--ink)}
+input[type=range]::-moz-range-track{height:12px;border-radius:999px;background:var(--point-soft);border:2.5px solid var(--paper)}
+input[type=range]::-moz-range-thumb{width:34px;height:34px;border-radius:50%;background:var(--amber);border:3px solid var(--ink)}
+
+.stage{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr);gap:14px;align-items:start}
+@media (max-width:560px){.stage{grid-template-columns:minmax(0,1fr)}}
+.shot{border:3px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;background:#fff;line-height:0}
+.shot canvas{width:100%;height:auto;display:block}
+
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar{
+  display:grid;grid-template-columns:48px minmax(0,1fr) 46px;gap:8px;align-items:center;
+  border:2.5px solid var(--ink);border-radius:var(--r-sm);padding:7px 9px;background:var(--paper);min-height:48px;
+}
+.bar[data-top="1"]{background:var(--point-soft);border-width:4px}
+.bar .bn{font-weight:900;font-size:16px}
+.bar .bt{display:block;height:14px;border:2.5px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden}
+.bar .bt i{display:block;height:100%;width:0;background:var(--point);transition:width .18s}
+.bar .bv{font-weight:900;font-size:16px;text-align:right;font-variant-numeric:tabular-nums}
+.win{grid-column:1/-1;font-size:12.5px;font-weight:900;color:var(--ink)}
+.bar .win{display:none}
+.bar[data-top="1"] .win{display:block}
+
+.btn{
+  margin-top:14px;min-height:48px;padding:11px 20px;font:inherit;font-weight:900;font-size:16px;cursor:pointer;
+  background:var(--amber);color:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+  box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s;
+}
+.btn:active{transform:translate(3px,3px);box-shadow:none}
+
+.obs{background:var(--ink);color:var(--paper);border:3px solid var(--ink);border-radius:var(--r);padding:14px 16px;box-shadow:var(--hard)}
+.obs p{margin:0;font-size:15px;font-weight:700}
+.obs p+p{margin-top:6px;color:var(--amber)}
+
+:focus-visible{outline:3px solid var(--point);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+  <h1>하나만 바꾸어 보기</h1>
+  <p class="lead">나머지 조건은 기준 그대로</p>
+
+  <section class="panel">
+    <span class="lab">바꿀 조건</span>
+    <div class="tabs" role="group" aria-label="바꿀 조건 고르기">
+      <button class="tab" type="button" data-c="dist" aria-pressed="true">거리</button>
+      <button class="tab" type="button" data-c="bg" aria-pressed="false">배경</button>
+      <button class="tab" type="button" data-c="light" aria-pressed="false">밝기</button>
+    </div>
+
+    <div class="dial">
+      <div class="row"><span class="nm" id="cname">거리</span><span class="badge" id="clv">0단계</span></div>
+      <input id="rng" type="range" min="0" max="3" step="1" value="0" aria-label="바꾼 조건의 단계">
+      <div class="ends"><span>기준</span><span>많이</span></div>
+    </div>
+
+    <div class="stage">
+      <div class="shot"><canvas id="cv" width="192" height="192" role="img" aria-label="책상 위 물건 사진"></canvas></div>
+      <div class="bars" id="bars">
+        <div class="bar" data-k="ball"><span class="bn">공</span><span class="bt"><i></i></span><span class="bv"></span><span class="win">가장 비슷</span></div>
+        <div class="bar" data-k="box"><span class="bn">상자</span><span class="bt"><i></i></span><span class="bv"></span><span class="win">가장 비슷</span></div>
+        <div class="bar" data-k="cup"><span class="bn">컵</span><span class="bt"><i></i></span><span class="bv"></span><span class="win">가장 비슷</span></div>
+      </div>
+    </div>
+
+    <button class="btn" type="button" id="reset">처음으로</button>
+  </section>
+
+  <section class="obs">
+    <p>무엇을 바꾸니 결과가 달라졌나요?</p>
+    <p>같은 조건으로 한 번 더 해 보세요</p>
+  </section>
+</main>
+
+<script>
+(function(){
+  'use strict';
+  var W = 192, G = 16, CELL = W / G, SCALE = 10, NEAR = 5;
+  var KINDS = ['ball', 'box', 'cup'];
+  var NAME = { dist: '거리', bg: '배경', light: '밝기' };
+
+  var cv = document.getElementById('cv');
+  var ctx = cv.getContext('2d', { willReadFrequently: true });
+  var off = document.createElement('canvas');
+  off.width = W; off.height = W;
+  var octx = off.getContext('2d', { willReadFrequently: true });
+
+  var rng = document.getElementById('rng');
+  var cname = document.getElementById('cname');
+  var clv = document.getElementById('clv');
+  var tabs = [].slice.call(document.querySelectorAll('.tab'));
+  var rows = {};
+  [].forEach.call(document.querySelectorAll('.bar'), function (el) {
+    rows[el.getAttribute('data-k')] = {
+      el: el,
+      fill: el.querySelector('.bt i'),
+      val: el.querySelector('.bv'),
+      tag: el.querySelector('.win')
+    };
+  });
+
+  var cond = 'dist', lvl = 0, tpl = {};
+
+  function path(c, kind) {
+    c.beginPath();
+    if (kind === 'ball') {
+      c.arc(0, 0, 58, 0, Math.PI * 2);
+    } else if (kind === 'box') {
+      c.moveTo(-54, -54); c.lineTo(54, -54); c.lineTo(54, 54); c.lineTo(-54, 54); c.closePath();
+    } else {
+      c.moveTo(-50, -56); c.lineTo(50, -56); c.lineTo(33, 58); c.lineTo(-33, 58); c.closePath();
+    }
+  }
+
+  function render(c, kind, which, n) {
+    var bg = which === 'bg' ? n : 0;
+    var di = which === 'dist' ? n : 0;
+    var li = which === 'light' ? n : 0;
+    c.setTransform(1, 0, 0, 1, 0, 0);
+    c.fillStyle = '#FFFFFF';
+    c.fillRect(0, 0, W, W);
+    if (bg > 0) {
+      c.save();
+      c.strokeStyle = 'rgba(20,20,20,' + (0.13 * bg) + ')';
+      c.lineWidth = 10;
+      for (var x = -W; x < W * 2; x += 24) {
+        c.beginPath(); c.moveTo(x, 0); c.lineTo(x - W, W); c.stroke();
+      }
+      c.restore();
+    }
+    var s = 1 - di * 0.18;
+    c.save();
+    c.translate(W / 2, W / 2);
+    c.scale(s, s);
+    path(c, kind);
+    c.fillStyle = '#D6F5E6';
+    c.fill();
+    c.lineWidth = 3 / s;
+    c.strokeStyle = '#141414';
+    c.stroke();
+    c.restore();
+    if (li > 0) {
+      c.fillStyle = 'rgba(10,10,10,' + (0.11 * li) + ')';
+      c.fillRect(0, 0, W, W);
+    }
+  }
+
+  function feat(c) {
+    var d = c.getImageData(0, 0, W, W).data;
+    var out = new Float64Array(G * G);
+    for (var gy = 0; gy < G; gy++) {
+      for (var gx = 0; gx < G; gx++) {
+        var sum = 0;
+        for (var y = gy * CELL; y < (gy + 1) * CELL; y++) {
+          for (var x = gx * CELL; x < (gx + 1) * CELL; x++) {
+            var i = (y * W + x) * 4;
+            sum += (d[i] * 0.299 + d[i + 1] * 0.587 + d[i + 2] * 0.114) / 255;
+          }
+        }
+        out[gy * G + gx] = sum / (CELL * CELL);
+      }
+    }
+    return out;
+  }
+
+  function gap(a, b) {
+    var s = 0;
+    for (var i = 0; i < a.length; i++) { var d = a[i] - b[i]; s += d * d; }
+    return Math.sqrt(s / a.length);
+  }
+
+  function update() {
+    render(ctx, 'ball', cond, lvl);
+    var f = feat(ctx);
+    var got = KINDS.map(function (k) {
+      return { k: k, v: Math.round(100 * Math.exp(-gap(f, tpl[k]) * SCALE)) };
+    });
+    got.forEach(function (g) {
+      var r = rows[g.k];
+      r.fill.style.width = g.v + '%';
+      r.val.textContent = g.v;
+    });
+    var sorted = got.slice().sort(function (a, b) { return b.v - a.v; });
+    var close = (sorted[0].v - sorted[1].v) < NEAR;
+    got.forEach(function (g) {
+      var r = rows[g.k];
+      var isTop = g.k === sorted[0].k;
+      r.el.setAttribute('data-top', isTop ? '1' : '0');
+      if (isTop) { r.tag.textContent = close ? '아슬아슬' : '가장 비슷'; }
+    });
+  }
+
+  function setLevel(n) {
+    lvl = n;
+    if (rng.value !== String(n)) { rng.value = String(n); }
+    clv.textContent = n + '단계';
+    update();
+  }
+
+  function setCond(c) {
+    cond = c;
+    cname.textContent = NAME[c];
+    tabs.forEach(function (t) {
+      t.setAttribute('aria-pressed', t.getAttribute('data-c') === c ? 'true' : 'false');
+    });
+    setLevel(0);
+  }
+
+  tabs.forEach(function (t) {
+    t.addEventListener('click', function () { setCond(t.getAttribute('data-c')); });
+  });
+  rng.addEventListener('input', function () { setLevel(Number(rng.value) || 0); });
+  document.getElementById('reset').addEventListener('click', function () { setCond('dist'); });
+
+  KINDS.forEach(function (k) {
+    render(octx, k, 'none', 0);
+    tpl[k] = feat(octx);
+  });
+  setCond('dist');
+})();
+</script>
+</body>
+</html>

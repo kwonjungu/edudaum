@@ -1,0 +1,48 @@
+name: 감사
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: 의존성
+        run: |
+          npm install --no-audit --no-fund
+          npx --yes puppeteer@23 browsers install chrome
+
+      - name: 문법 검사
+        run: python _tools/jscheck.py
+
+      - name: 공통기준 감사
+        run: python _tools/audit.py
+
+      - name: 헤드리스 검사
+        env:
+          EDUDAUM_BROWSER: chrome
+        run: node _tools/headless.mjs
+
+      - name: 감사 결과 올리기
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: 감사결과
+          path: |
+            _tools/_감사결과.json
+            _tools/_헤드리스결과.json
+            _tools/_shot/
+          if-no-files-found: ignore

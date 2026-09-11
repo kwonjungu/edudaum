@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>몇 칸으로 끊을까 — 에듀다움 B23</title>
+<style>
+  :root{
+    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+    --point:#7C3AED; --point-soft:#EDE7FF;
+    --muted:#5A5A5A;
+    --r:18px; --r-sm:12px;
+    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
+    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+    background-size:22px 22px;background-position:-11px -11px}
+  .wrap{max-width:760px;margin:0 auto;padding:14px 14px 44px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+  .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);
+    font-weight:800;font-size:14px;background:var(--surface);border:2.5px solid var(--ink);
+    border-radius:999px;padding:9px 15px;box-shadow:var(--hard-sm);min-height:44px}
+  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;
+    border:2.5px solid var(--ink);border-radius:999px;padding:8px 14px;box-shadow:var(--hard-sm)}
+  h1{font-size:clamp(25px,5.6vw,38px);font-weight:900;letter-spacing:-.035em;line-height:1.05}
+  .lead{font-size:15px;color:var(--muted);font-weight:700;margin-top:7px}
+  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+    box-shadow:var(--hard);padding:15px 13px;margin-top:14px}
+  h2{font-size:14.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:10px;color:var(--muted)}
+  button{font-family:inherit;cursor:pointer;color:var(--ink)}
+  .btn{display:inline-flex;align-items:center;justify-content:center;
+    border:2.5px solid var(--ink);background:var(--surface);font-size:15px;font-weight:900;
+    padding:10px 16px;border-radius:var(--r-sm);min-height:44px;box-shadow:var(--hard-sm);
+    transition:transform .1s,box-shadow .1s}
+  .btn.on{background:var(--point);color:#fff}
+  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+
+  #view{width:100%;height:auto;display:block;border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    background:var(--surface)}
+  .caps{display:flex;justify-content:space-around;font-size:12.5px;font-weight:800;
+    color:var(--muted);margin-top:7px}
+  .readout{display:inline-flex;align-items:center;gap:9px;font-size:15px;font-weight:900;
+    background:var(--ink);color:var(--paper);border-radius:999px;padding:7px 16px}
+  .readout b{color:#C4B5FD;font-variant-numeric:tabular-nums}
+  .sl{width:100%;height:44px;margin-top:12px;-webkit-appearance:none;appearance:none;background:transparent}
+  .sl:focus{outline:none}
+  .sl::-webkit-slider-runnable-track{height:16px;border:2.5px solid var(--ink);border-radius:999px;
+    background:var(--point-soft)}
+  .sl::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;margin-top:-11px;
+    border:3px solid var(--ink);border-radius:50%;background:var(--point);box-shadow:var(--hard-sm)}
+  .sl::-moz-range-track{height:16px;border:2.5px solid var(--ink);border-radius:999px;
+    background:var(--point-soft)}
+  .sl::-moz-range-thumb{width:30px;height:30px;border:3px solid var(--ink);border-radius:50%;
+    background:var(--point)}
+  .ends{display:flex;justify-content:space-between;font-size:12.5px;font-weight:800;color:var(--muted)}
+  .tools{display:flex;gap:8px;flex-wrap:wrap}
+  .note{font-size:13px;font-weight:700;color:var(--muted);margin-top:9px}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="back" href="../">전체 목록</a>
+    <span class="tag">B23</span>
+  </nav>
+  <header>
+    <h1>몇 칸으로 끊을까</h1>
+    <p class="lead">칸과 단계를 바꾸면 되돌린 그림이 달라져요</p>
+  </header>
+
+  <section aria-labelledby="h-v">
+    <h2 id="h-v">처음 그림과 되돌린 그림</h2>
+    <canvas id="view" width="640" height="330" role="img"
+            aria-label="왼쪽은 처음 그림, 오른쪽은 칸마다 밝기를 숫자로 끊어 적어 되돌린 그림"></canvas>
+    <p class="caps"><span>처음 그림</span><span>되돌린 그림</span></p>
+  </section>
+
+  <section aria-labelledby="h-n">
+    <h2 id="h-n">칸 수</h2>
+    <p class="readout" id="out">5 × 5 칸 · 숫자 <b>25</b>개</p>
+    <input class="sl" id="grid" type="range" min="2" max="16" step="1" aria-label="한 줄의 칸 수">
+    <p class="ends"><span>2</span><span>16</span></p>
+  </section>
+
+  <section aria-labelledby="h-s">
+    <h2 id="h-s">단계 수</h2>
+    <div class="tools" id="steps">
+      <button class="btn" type="button" data-s="2">2단계</button>
+      <button class="btn" type="button" data-s="4">4단계</button>
+      <button class="btn on" type="button" data-s="10">10단계</button>
+      <button class="btn" id="reset" type="button">다시 하기</button>
+    </div>
+    <p class="note">0은 가장 밝고 마지막 수는 가장 어두워요</p>
+  </section>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var N = 5, L = 10;
+  var cv = document.getElementById('view');
+  var ctx = cv.getContext('2d');
+  var out = document.getElementById('out');
+  var sl = document.getElementById('grid');
+
+  // 하트 모양 밝기 (0 밝음 ~ 1 어두움)
+  function bright(x, y){
+    var a = x * x + y * y - 1;
+    var inside = (a * a * a - x * x * y * y * y) < 0;
+    if (!inside) return 0.04;
+    var g = (1 - (x + 1.25) / 2.5) * 0.45 + (1 - (y + 1.25) / 2.5) * 0.55;
+    var v = 0.34 + 0.62 * g;
+    return v < 0 ? 0 : (v > 1 ? 1 : v);
+  }
+  function level(v){
+    var k = Math.floor(v * L);
+    if (k > L - 1) k = L - 1;
+    if (k < 0) k = 0;
+    return k;
+  }
+  function gray(k){
+    var t = (L === 1) ? 0 : k / (L - 1);
+    var g = Math.round(255 - t * 235);
+    return 'rgb(' + g + ',' + g + ',' + g + ')';
+  }
+
+  // 화면 좌표 -> 하트 좌표
+  function toX(px, size){ return (px / size) * 2.5 - 1.25; }
+  function toY(py, size){ return 1.06 - (py / size) * 2.5; }
+
+  function draw(){
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var cssW = cv.clientWidth || 640;
+    var gap = 14;
+    var side = Math.floor((cssW - gap * 3) / 2);
+    if (side < 80) side = 80;
+    var cssH = side + gap * 2;
+    cv.width = Math.round(cssW * dpr);
+    cv.height = Math.round(cssH * dpr);
+    cv.style.height = cssH + 'px';
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, cssW, cssH);
+
+    var x0 = gap, x1 = gap * 2 + side, y0 = gap;
+
+    // 왼쪽: 이어지는 밝기
+    var step = 2;
+    for (var py = 0; py < side; py += step){
+      for (var px = 0; px < side; px += step){
+        var v = bright(toX(px + step / 2, side), toY(py + step / 2, side));
+        ctx.fillStyle = smooth(v);
+        ctx.fillRect(x0 + px, y0 + py, step, step);
+      }
+    }
+    ctx.strokeStyle = '#141414'; ctx.lineWidth = 2;
+    ctx.strokeRect(x0 + 1, y0 + 1, side - 2, side - 2);
+
+    // 오른쪽: 칸마다 넓은 쪽 단계로 끊어 되돌리기
+    var cell = side / N;
+    ctx.font = '700 ' + Math.max(8, Math.min(15, cell * 0.42)) + 'px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    for (var r = 0; r < N; r++){
+      for (var c = 0; c < N; c++){
+        var k = cellLevel(r, c, side, cell);
+        ctx.fillStyle = gray(k);
+        ctx.fillRect(x1 + c * cell, y0 + r * cell, cell + 0.6, cell + 0.6);
+        if (N <= 6){
+          ctx.fillStyle = ((L > 1 ? k / (L - 1) : 0) > 0.55) ? '#FFFFFF' : '#141414';
+          ctx.fillText(String(k), x1 + (c + 0.5) * cell, y0 + (r + 0.5) * cell);
+        }
+      }
+    }
+    ctx.strokeStyle = '#141414'; ctx.lineWidth = 1;
+    for (var i = 1; i < N; i++){
+      ctx.beginPath();
+      ctx.moveTo(x1 + i * cell, y0); ctx.lineTo(x1 + i * cell, y0 + side);
+      ctx.moveTo(x1, y0 + i * cell); ctx.lineTo(x1 + side, y0 + i * cell);
+      ctx.stroke();
+    }
+    ctx.strokeStyle = '#141414'; ctx.lineWidth = 2;
+    ctx.strokeRect(x1 + 1, y0 + 1, side - 2, side - 2);
+  }
+
+  function smooth(v){
+    var g = Math.round(255 - v * 235);
+    return 'rgb(' + g + ',' + g + ',' + g + ')';
+  }
+
+  // 칸 안을 4x4로 살펴 가장 넓은 단계를 고른다
+  function cellLevel(r, c, side, cell){
+    var tally = [], i;
+    for (i = 0; i < L; i++) tally.push(0);
+    for (var sy = 0; sy < 4; sy++){
+      for (var sx = 0; sx < 4; sx++){
+        var px = (c + (sx + 0.5) / 4) * cell;
+        var py = (r + (sy + 0.5) / 4) * cell;
+        tally[level(bright(toX(px, side), toY(py, side)))]++;
+      }
+    }
+    var best = 0;
+    for (i = 1; i < L; i++) if (tally[i] > tally[best]) best = i;
+    return best;
+  }
+
+  function render(){
+    out.innerHTML = N + ' × ' + N + ' 칸 · 숫자 <b>' + (N * N) + '</b>개';
+    sl.setAttribute('aria-valuetext', N + '칸');
+    var bs = document.querySelectorAll('#steps [data-s]');
+    for (var i = 0; i < bs.length; i++){
+      var on = (parseInt(bs[i].getAttribute('data-s'), 10) === L);
+      bs[i].className = on ? 'btn on' : 'btn';
+      bs[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+    }
+    draw();
+  }
+
+  sl.addEventListener('input', function(){
+    N = parseInt(sl.value, 10);
+    render();
+  });
+
+  document.getElementById('steps').addEventListener('click', function(e){
+    var b = e.target.closest ? e.target.closest('[data-s]') : null;
+    if (!b) return;
+    L = parseInt(b.getAttribute('data-s'), 10);
+    render();
+  });
+
+  document.getElementById('reset').addEventListener('click', function(){
+    N = 5; L = 10; sl.value = '5';
+    render();
+  });
+
+  var tid = 0;
+  window.addEventListener('resize', function(){
+    clearTimeout(tid);
+    tid = setTimeout(draw, 120);
+  });
+
+  sl.value = '5';
+  render();
+})();
+</script>
+</body>
+</html>
