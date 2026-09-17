@@ -56,6 +56,12 @@
   .track{fill:var(--point-soft);stroke:var(--ink);stroke-width:2}
   .fill{fill:var(--point)}
 
+  .chips{display:flex;flex-wrap:wrap;gap:3px;margin:3px 0 0 calc(1.4em + 8px);min-height:12px}
+  .chips i{width:12px;height:12px;border:1.5px solid var(--ink);border-radius:3px;display:block}
+  .chips i.in{animation:drop .18s ease-out}
+  @keyframes drop{0%{transform:translateY(-7px) scale(.5);opacity:0}100%{transform:none;opacity:1}}
+  .bar .nm{transition:font-size .15s,color .15s}
+  .bar .nm.big{font-size:25px;color:var(--point)}
   .meta{margin-top:8px;font-size:13.5px;font-weight:800;font-family:'Courier New',monospace}
   .practice{margin-top:7px;display:inline-flex;font-size:12.5px;font-weight:900;color:var(--ink);
     background:var(--point-soft);border:2px solid var(--ink);border-radius:999px;padding:5px 11px}
@@ -107,16 +113,18 @@
     </div>
 
     <div class="bars">
-      <div class="bar"><span class="nm">가</span>
+      <div class="bar"><span class="nm" id="nmA">가</span>
         <svg viewBox="0 0 100 14" preserveAspectRatio="none" role="img" aria-label="가 쪽으로 기운 정도">
           <rect class="track" x="1" y="1" width="98" height="12" rx="3"></rect>
           <rect class="fill" id="barA" x="2" y="2" width="0" height="10" rx="2"></rect>
         </svg></div>
-      <div class="bar"><span class="nm">나</span>
+      <div class="chips" id="chipA" aria-hidden="true"></div>
+      <div class="bar"><span class="nm" id="nmB">나</span>
         <svg viewBox="0 0 100 14" preserveAspectRatio="none" role="img" aria-label="나 쪽으로 기운 정도">
           <rect class="track" x="1" y="1" width="98" height="12" rx="3"></rect>
           <rect class="fill" id="barB" x="2" y="2" width="0" height="10" rx="2"></rect>
         </svg></div>
+      <div class="chips" id="chipB" aria-hidden="true"></div>
     </div>
 
     <p class="meta" id="meta">가 0장 · 나 0장</p>
@@ -140,6 +148,7 @@
   var cntEl = $('cnt'), shakeBtn = $('shake');
   var cam = $('cam'), pad = $('pad');
   var barA = $('barA'), barB = $('barB'), metaEl = $('meta'), practiceEl = $('practice');
+  var nmA = $('nmA'), nmB = $('nmB'), chipA = $('chipA'), chipB = $('chipB');
 
   /* 위 칸: 흔들림 세기 (B11과 같은 규칙) */
   var count = 0, lastShake = 0, prev = null, latest = null, hasNew = false;
@@ -238,6 +247,16 @@
   function setBars(a, b){
     barA.setAttribute('width', (a * 96).toFixed(1));
     barB.setAttribute('width', (b * 96).toFixed(1));
+    nmA.classList.toggle('big', a >= 0.8);
+    nmB.classList.toggle('big', b >= 0.8);
+  }
+
+  // 담은 예시를 평균색 칩으로 쌓는다. 담자마자 눈에 보여야 가르치는 맛이 난다.
+  function chip(cls, f){
+    var el = document.createElement('i');
+    el.style.background = 'rgb(' + Math.round(f[0]*255) + ',' + Math.round(f[1]*255) + ',' + Math.round(f[2]*255) + ')';
+    el.className = 'in';
+    (cls === '가' ? chipA : chipB).appendChild(el);
   }
 
   function classify(){
@@ -266,6 +285,7 @@
     if (nOf(cls) >= MAX) return;
     var f = feat(); if (!f) return;
     samples.push({ cls:cls, feat:f });
+    chip(cls, f);
     if (source === 'pad') clearPad();   // 지우지 않으면 다음 그림을 그릴 수 없다
     renderMeta();
   }
@@ -274,7 +294,9 @@
 
   $('reset').addEventListener('click', function(){
     samples = []; count = 0; prev = null; latest = null; hasNew = false;
-    cntEl.textContent = '0'; setBars(0, 0); renderMeta();
+    cntEl.textContent = '0'; setBars(0, 0);
+    chipA.textContent = ''; chipB.textContent = '';
+    renderMeta();
     if (source === 'pad') clearPad();
   });
 
