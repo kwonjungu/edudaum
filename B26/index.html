@@ -46,6 +46,10 @@
   .slot .row{display:flex;align-items:center;justify-content:center;gap:4px;
     font-size:11.5px;font-weight:800;color:var(--muted);font-family:'Courier New',monospace}
   .slot .row b{font-family:inherit;font-size:14px;color:var(--ink)}
+  .slot .row svg{flex:none}
+  .slot.changed{border-color:var(--point);border-width:3.5px;animation:jump .4s ease-out}
+  @keyframes jump{0%{transform:translateY(0)}30%{transform:translateY(-6px)}100%{transform:translateY(0)}}
+  .score.pulse{animation:jump .4s ease-out}
 
   .view{position:relative;width:100%;aspect-ratio:4/3;max-height:170px;background:var(--ink);
     border:2.5px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;display:flex}
@@ -158,7 +162,10 @@
       var d = document.createElement('div');
       d.className = 'slot';
       d.innerHTML = '<span class="nm"></span><canvas width="24" height="24"></canvas>' +
-        '<span class="row">지난 <b>·</b></span><span class="row">이번 <b>·</b></span>';
+        '<span class="row">지난 <b>·</b></span>' +
+        '<span class="row">이번 <b>·</b>' +
+        '<svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" hidden>' +
+        '<circle cx="6" cy="6" r="4.5" stroke="#141414" stroke-width="2"></circle></svg></span>';
       d.querySelector('.nm').textContent = nm;
       $('slots').appendChild(d);
       slotEls.push(d);
@@ -234,6 +241,16 @@
       var bs = el.querySelectorAll('.row b');
       bs[0].textContent = t && t.prev ? t.prev : '·';
       bs[1].textContent = t && t.cur ? t.cur : '·';
+
+      // 맞았는지는 채운 원과 빈 원으로 가른다. 색으로만 가르지 않는다.
+      var mark = el.querySelector('.row svg');
+      var judged = !!(t && t.cur && t.cur !== '·');
+      mark.hidden = !judged;
+      if (judged){
+        var ok = (t.cur === t.cls);
+        mark.firstChild.setAttribute('fill', ok ? '#2563EB' : 'none');
+      }
+      el.classList.toggle('changed', !!(t && t.changed));
     });
     $('grab').hidden = locked;
     $('lock').hidden = !locked;
@@ -253,7 +270,10 @@
     if (!done){ $('score').textContent = '· / 3'; return; }
     var n = 0;
     test.forEach(function(t){ if (t.cur === t.cls) n++; });
-    $('score').textContent = n + ' / 3';
+    var el = $('score');
+    el.textContent = n + ' / 3';
+    el.classList.remove('pulse');
+    if (n === 3){ void el.offsetWidth; el.classList.add('pulse'); }
   }
 
   function chip(i, f){
@@ -290,7 +310,10 @@
     test.forEach(function(t){
       t.prev = t.cur;
       t.cur = judge(t.feat);
+      t.changed = (t.prev !== null && t.prev !== t.cur);
     });
+    // 애니메이션을 다시 태우려면 클래스를 한 번 떼야 한다
+    slotEls.forEach(function(el){ el.classList.remove('changed'); void el.offsetWidth; });
     renderSlots();
     renderScore();
   });
@@ -301,7 +324,9 @@
     slotEls.forEach(function(el){
       var c = el.querySelector('canvas');
       c.getContext('2d').clearRect(0, 0, S, S);
+      el.classList.remove('changed');
     });
+    $('score').classList.remove('pulse');
     if (source === 'pad') clearPad();
     renderSlots();
     renderScore();
