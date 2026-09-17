@@ -68,6 +68,14 @@
 
     .flip{animation:flip .26s ease-out}
   @keyframes flip{0%{transform:rotate(-2.5deg) scale(.97)}100%{transform:none}}
+  .guess{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:7px}
+  .gb{font-family:inherit;cursor:pointer;color:var(--ink);font-size:13px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    min-height:46px;padding:5px 6px;box-shadow:var(--hard-sm);line-height:1.2}
+  .gb[aria-pressed="true"]{background:var(--point);color:#fff;border-width:3.5px}
+  .gb:disabled{opacity:.42;cursor:default;box-shadow:none}
+  .say{margin-top:7px;font-size:13.5px;font-weight:900;min-height:1.4em}
+  .say.dim{color:var(--muted);font-weight:700;font-size:12.5px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -86,7 +94,8 @@
   <section aria-labelledby="h-t">
     <h2 id="h-t">표</h2>
     <div class="tbl" id="table" role="group" aria-labelledby="h-t"></div>
-    <p class="ask">세로로 보면 달라지나요</p>
+    <div class="guess" id="guess" role="group" aria-label="✕가 가장 많은 기준 짚기"></div>
+    <p class="say dim" id="say">아홉 칸을 모두 채워요</p>
   </section>
 
   <section aria-labelledby="h-a">
@@ -95,6 +104,7 @@
       <button class="btn main" id="flip" type="button" aria-pressed="false">세로로 보기</button>
       <button class="btn sub" id="reset" type="button">다시 하기</button>
     </div>
+    <p class="note">세로로 보면 달라지나요</p>
     <p class="note">문제는 모둠에서 정해요</p>
   </section>
 </div>
@@ -188,7 +198,66 @@
     var rowLabels = vertical ? CAND : CRIT;
     t.setAttribute('aria-label', rowLabels[r] + ' ' + headLabels[c] + ' 지금 ' + (v ? DISPLAY[v] : '빈칸'));
     document.getElementById('cnt-' + r).textContent = String(rowCount(r));
+    renderGuess();
   });
+
+  var guess = null;          // 짚은 기준. 판마다 한 번, 무르지 못한다.
+  var gEls = [];
+  (function buildGuess(){
+    for (var i = 0; i < CRIT.length; i++){
+      var b = document.createElement('button');
+      b.className = 'gb'; b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+      b.textContent = CRIT[i];
+      b.setAttribute('aria-label', CRIT[i] + '에 ✕가 가장 많다고 짚기');
+      (function(k){ b.addEventListener('click', function(){
+        if (guess !== null || !allFilled()) return;
+        guess = k; renderGuess();
+      }); })(i);
+      document.getElementById('guess').appendChild(b);
+      gEls.push(b);
+    }
+  })();
+
+  function allFilled(){
+    for (var c = 0; c < 3; c++) for (var d = 0; d < 3; d++) if (!grid[c][d]) return false;
+    return true;
+  }
+  function xCount(c){
+    var n = 0;
+    for (var d = 0; d < 3; d++) if (grid[c][d] === 'X') n++;
+    return n;
+  }
+  function mostX(){
+    var best = 0, bn = xCount(0), tie = false;
+    for (var c = 1; c < 3; c++){
+      var n = xCount(c);
+      if (n > bn){ bn = n; best = c; tie = false; }
+      else if (n === bn) tie = true;
+    }
+    return { c:best, n:bn, tie:tie };
+  }
+
+  function renderGuess(){
+    var ok = allFilled();
+    for (var i = 0; i < 3; i++){
+      gEls[i].setAttribute('aria-pressed', guess === i ? 'true' : 'false');
+      gEls[i].disabled = !ok || guess !== null;
+    }
+    flipBtn.disabled = (guess === null);
+
+    var s = document.getElementById('say');
+    if (!ok){ s.textContent = '아홉 칸을 모두 채워요'; s.className = 'say dim'; }
+    else if (guess === null){ s.textContent = '✕가 가장 많을 기준을 짚어요'; s.className = 'say dim'; }
+    else if (!vertical){ s.textContent = '세로로 보기를 눌러요'; s.className = 'say dim'; }
+    else {
+      var m = mostX();
+      if (m.n === 0) s.textContent = '✕가 한 칸도 없어요';
+      else if (m.tie) s.textContent = '가장 많은 기준이 갈렸어요';
+      else if (m.c === guess) s.textContent = '짚은 기준에 ✕가 가장 많아요';
+      else s.textContent = '다른 기준에 ✕가 더 많아요';
+      s.className = 'say';
+    }
+  }
 
   flipBtn.addEventListener('click', function(){
     vertical = !vertical;
@@ -197,14 +266,18 @@
     // 세우는 순간을 몸으로 느끼게 한다. 글자는 늘리지 않는다.
     var t = document.getElementById('table');
     t.classList.remove('flip'); void t.offsetWidth; t.classList.add('flip');
+    renderGuess();
   });
 
   resetBtn.addEventListener('click', function(){
     grid = [['', '', ''], ['', '', ''], ['', '', '']];
-    render();
+    guess = null; vertical = false;
+    flipBtn.setAttribute('aria-pressed', 'false');
+    render(); renderGuess();
   });
 
   render();
+  renderGuess();
 })();
 </script>
 </body>
