@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>가르쳐 보기 — 에듀다움 B15</title>
+<style>
+  :root{
+    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+    --point:#00A39B; --point-soft:#CFF0ED; --muted:#5E5E5E;
+    --r:18px; --r-sm:12px;
+    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
+    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+    background-size:22px 22px;background-position:-11px -11px}
+  .wrap{max-width:640px;margin:0 auto;padding:12px 14px 28px}
+
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
+    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
+  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
+    border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
+
+  h1{font-size:clamp(23px,5.6vw,32px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:15px;color:var(--muted);margin-top:5px;font-weight:700}
+
+  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+    box-shadow:var(--hard);padding:12px;margin-top:11px}
+  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted)}
+
+  .top{display:flex;align-items:center;gap:14px}
+  .cnt{font-family:'Courier New',monospace;font-size:clamp(34px,9vw,48px);font-weight:900;
+    line-height:1;color:var(--point)}
+  .cnt.pop{animation:pop .13s ease-out}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.18)}100%{transform:scale(1)}}
+  .empty{font-size:13.5px;font-weight:800;color:var(--muted);flex:1}
+
+  .view{position:relative;width:100%;aspect-ratio:4/3;max-height:200px;background:var(--ink);
+    border:2.5px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;display:flex}
+  #cam{width:100%;height:100%;object-fit:cover;display:block}
+  #pad{width:100%;height:100%;display:block;background:#fff;touch-action:none;cursor:crosshair}
+  [hidden]{display:none!important}
+  .priv{position:absolute;left:7px;bottom:7px;right:7px;font-size:11.5px;font-weight:900;
+    color:var(--paper);background:rgba(20,20,20,.82);border-radius:999px;padding:4px 10px;text-align:center}
+
+  .bars{margin-top:9px;display:grid;gap:6px}
+  .bar{display:flex;align-items:center;gap:8px}
+  .bar .nm{width:1.4em;font-weight:900;font-size:16px}
+  .bar svg{flex:1;height:18px;display:block}
+  .track{fill:var(--point-soft);stroke:var(--ink);stroke-width:2}
+  .fill{fill:var(--point)}
+
+  .meta{margin-top:8px;font-size:13.5px;font-weight:800;font-family:'Courier New',monospace}
+  .practice{margin-top:7px;display:inline-flex;font-size:12.5px;font-weight:900;color:var(--ink);
+    background:var(--point-soft);border:2px solid var(--ink);border-radius:999px;padding:5px 11px}
+
+  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    min-height:44px;padding:9px 16px;box-shadow:var(--hard-sm);flex:1 1 92px;
+    transition:transform .1s,box-shadow .1s}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point)}
+  .btn:disabled{opacity:.42;cursor:default;box-shadow:none}
+
+  .note{margin-top:8px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .note b{font-weight:900;color:var(--ink)}
+
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="back" href="../">← 전체 목록</a>
+    <span class="tag">B15</span>
+  </nav>
+
+  <header>
+    <h1>가르쳐 보기</h1>
+    <p class="lead">어느 쪽이 배우고 있나요</p>
+  </header>
+
+  <section aria-labelledby="h-t">
+    <h2 id="h-t">흔들면 세는 칸</h2>
+    <div class="top">
+      <b class="cnt" id="cnt" aria-live="off">0</b>
+      <span class="empty">여기엔 담기 칸이 없어요</span>
+      <button class="btn" id="shake" type="button" hidden>흔들기</button>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-l">
+    <h2 id="h-l">예시로 배우는 칸</h2>
+    <div class="view">
+      <video id="cam" playsinline muted hidden></video>
+      <canvas id="pad" width="320" height="240" hidden></canvas>
+      <span class="priv">손과 물건만 비춰요 · 화면에만 보이고 저장되지 않아요</span>
+    </div>
+
+    <div class="bars">
+      <div class="bar"><span class="nm">가</span>
+        <svg viewBox="0 0 100 14" preserveAspectRatio="none" role="img" aria-label="가 쪽으로 기운 정도">
+          <rect class="track" x="1" y="1" width="98" height="12" rx="3"></rect>
+          <rect class="fill" id="barA" x="2" y="2" width="0" height="10" rx="2"></rect>
+        </svg></div>
+      <div class="bar"><span class="nm">나</span>
+        <svg viewBox="0 0 100 14" preserveAspectRatio="none" role="img" aria-label="나 쪽으로 기운 정도">
+          <rect class="track" x="1" y="1" width="98" height="12" rx="3"></rect>
+          <rect class="fill" id="barB" x="2" y="2" width="0" height="10" rx="2"></rect>
+        </svg></div>
+    </div>
+
+    <p class="meta" id="meta">가 0장 · 나 0장</p>
+    <p class="practice" id="practice" hidden>연습 모드 · 손으로 그려 담아요</p>
+
+    <div class="acts">
+      <button class="btn main" id="addA" type="button">가 담기</button>
+      <button class="btn main" id="addB" type="button">나 담기</button>
+      <button class="btn" id="reset" type="button">다시 하기</button>
+    </div>
+
+    <p class="note">예시를 더 담으면 달라지나요</p>
+    <p class="note"><b>카드 여덟 장은 종이에서 나눠요</b></p>
+  </section>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+  var cntEl = $('cnt'), shakeBtn = $('shake');
+  var cam = $('cam'), pad = $('pad');
+  var barA = $('barA'), barB = $('barB'), metaEl = $('meta'), practiceEl = $('practice');
+
+  /* 위 칸: 흔들림 세기 (B11과 같은 규칙) */
+  var count = 0, lastShake = 0, prev = null, latest = null, hasNew = false;
+  var sawMotion = false, sensorAttached = false, waitTimer = null, permissionAsked = false;
+
+  function pop(){ cntEl.classList.remove('pop'); void cntEl.offsetWidth; cntEl.classList.add('pop'); }
+  function bump(){ lastShake = Date.now(); count = Math.min(count + 1, 99); cntEl.textContent = String(count); pop(); }
+
+  function onMotion(e){
+    var a = e.accelerationIncludingGravity;
+    if (!a || a.x === null || a.x === undefined) return;
+    latest = { x:a.x, y:a.y, z:a.z }; hasNew = true;
+    if (!sawMotion){ sawMotion = true; shakeBtn.hidden = true; }
+  }
+  setInterval(function(){
+    if (!hasNew) return;
+    hasNew = false;
+    if (prev){
+      var d = Math.abs(latest.x - prev.x) + Math.abs(latest.y - prev.y) + Math.abs(latest.z - prev.z);
+      if (d > 16 && Date.now() - lastShake > 250) bump();
+    }
+    prev = latest;
+  }, 50);
+
+  function attachSensor(){
+    if (sensorAttached) return;
+    window.addEventListener('devicemotion', onMotion);
+    sensorAttached = true;
+    if (waitTimer) clearTimeout(waitTimer);
+    waitTimer = setTimeout(function(){ if (!sawMotion) shakeBtn.hidden = false; }, 1500);
+  }
+  function detachSensor(){
+    if (!sensorAttached) return;
+    window.removeEventListener('devicemotion', onMotion);
+    sensorAttached = false;
+    if (waitTimer){ clearTimeout(waitTimer); waitTimer = null; }
+  }
+  shakeBtn.addEventListener('click', function(){
+    if (!sensorAttached && typeof DeviceMotionEvent !== 'undefined' &&
+        typeof DeviceMotionEvent.requestPermission === 'function' && !permissionAsked){
+      permissionAsked = true;
+      DeviceMotionEvent.requestPermission().then(function(r){
+        if (r === 'granted') attachSensor();
+      }).catch(function(){});
+      return;
+    }
+    bump();
+  });
+  if (typeof DeviceMotionEvent === 'undefined') shakeBtn.hidden = false;
+  else if (typeof DeviceMotionEvent.requestPermission === 'function') shakeBtn.hidden = false;
+  else attachSensor();
+
+  /* 아래 칸: 24x24 특징 스무 개와 가까운 셋 */
+  var S = 24, N = S * S;
+  var work = document.createElement('canvas'); work.width = S; work.height = S;
+  var wctx = work.getContext('2d', { willReadFrequently:true });
+  var W = [1,1,1,1]; for (var wi = 0; wi < 16; wi++) W.push(0.6);
+
+  var samples = [];
+  var MAX = 20;
+  var source = null;
+
+  function feat(){
+    if (!source) return null;
+    if (source === 'cam'){
+      var vw = cam.videoWidth, vh = cam.videoHeight;
+      if (!vw || !vh) return null;
+      var side = Math.min(vw, vh);
+      wctx.drawImage(cam, (vw - side) / 2, (vh - side) / 2, side, side, 0, 0, S, S);
+    } else {
+      wctx.drawImage(pad, 0, 0, pad.width, pad.height, 0, 0, S, S);
+    }
+    var d = wctx.getImageData(0, 0, S, S).data;
+    var r = 0, g = 0, b = 0, lum = 0, cell = [], k;
+    for (k = 0; k < 16; k++) cell.push(0);
+    for (var y = 0; y < S; y++) for (var x = 0; x < S; x++){
+      var p = (y * S + x) * 4;
+      r += d[p]; g += d[p+1]; b += d[p+2];
+      var L = d[p] * 0.299 + d[p+1] * 0.587 + d[p+2] * 0.114;
+      lum += L;
+      cell[((y / 6) | 0) * 4 + ((x / 6) | 0)] += L;
+    }
+    var f = [r / N / 255, g / N / 255, b / N / 255, lum / N / 255];
+    for (k = 0; k < 16; k++) f.push(cell[k] / 36 / 255);
+    return f;
+  }
+
+  function dist(a, b){
+    var s = 0;
+    for (var i = 0; i < 20; i++){ var t = a[i] - b[i]; s += W[i] * t * t; }
+    return Math.sqrt(s);
+  }
+
+  function nOf(c){ var n = 0; for (var i = 0; i < samples.length; i++) if (samples[i].cls === c) n++; return n; }
+
+  function setBars(a, b){
+    barA.setAttribute('width', (a * 96).toFixed(1));
+    barB.setAttribute('width', (b * 96).toFixed(1));
+  }
+
+  function classify(){
+    if (nOf('가') === 0 || nOf('나') === 0) return;
+    var q = feat(); if (!q) return;
+    var ds = samples.map(function(s){ return { cls:s.cls, d:dist(q, s.feat) }; });
+    ds.sort(function(p, r){ return p.d - r.d; });
+    var sa = 0, sb = 0;
+    for (var i = 0; i < Math.min(3, ds.length); i++){
+      var sim = 1 / (ds[i].d + 0.001);
+      if (ds[i].cls === '가') sa += sim; else sb += sim;
+    }
+    var tot = sa + sb || 1;
+    setBars(sa / tot, sb / tot);
+  }
+  setInterval(classify, 300);
+
+  function renderMeta(){
+    metaEl.textContent = '가 ' + nOf('가') + '장 · 나 ' + nOf('나') + '장';
+    // 비출 것이 정해지기 전에는 눌러도 담기지 않는다. 흐리게 둔다.
+    $('addA').disabled = !source || nOf('가') >= MAX;
+    $('addB').disabled = !source || nOf('나') >= MAX;
+  }
+
+  function add(cls){
+    if (nOf(cls) >= MAX) return;
+    var f = feat(); if (!f) return;
+    samples.push({ cls:cls, feat:f });
+    if (source === 'pad') clearPad();   // 지우지 않으면 다음 그림을 그릴 수 없다
+    renderMeta();
+  }
+  $('addA').addEventListener('click', function(){ add('가'); });
+  $('addB').addEventListener('click', function(){ add('나'); });
+
+  $('reset').addEventListener('click', function(){
+    samples = []; count = 0; prev = null; latest = null; hasNew = false;
+    cntEl.textContent = '0'; setBars(0, 0); renderMeta();
+    if (source === 'pad') clearPad();
+  });
+
+  /* 그리기 칸 */
+  var pctx = pad.getContext('2d'), drawing = false;
+  function clearPad(){ pctx.fillStyle = '#fff'; pctx.fillRect(0, 0, pad.width, pad.height); }
+  function at(e){
+    var r = pad.getBoundingClientRect();
+    return { x:(e.clientX - r.left) * pad.width / r.width, y:(e.clientY - r.top) * pad.height / r.height };
+  }
+  pad.addEventListener('pointerdown', function(e){
+    drawing = true; pad.setPointerCapture(e.pointerId);
+    var p = at(e); pctx.beginPath(); pctx.moveTo(p.x, p.y);
+  });
+  pad.addEventListener('pointermove', function(e){
+    if (!drawing) return;
+    var p = at(e);
+    pctx.strokeStyle = '#141414'; pctx.lineWidth = 16; pctx.lineCap = 'round'; pctx.lineJoin = 'round';
+    pctx.lineTo(p.x, p.y); pctx.stroke();
+  });
+  pad.addEventListener('pointerup', function(){ drawing = false; });
+  pad.addEventListener('pointercancel', function(){ drawing = false; });
+
+  function usePad(){
+    source = 'pad'; cam.hidden = true; pad.hidden = false;
+    practiceEl.hidden = false;
+    clearPad(); renderMeta();
+  }
+
+  /* 카메라 */
+  var stream = null;
+  function stopCam(){
+    if (!stream) return;
+    stream.getTracks().forEach(function(t){ t.stop(); });
+    stream = null;
+  }
+  function startCam(){
+    if (source === 'pad' || stream) return;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ usePad(); return; }
+    navigator.mediaDevices.getUserMedia({ video:{ facingMode:'environment' }, audio:false })
+      .then(function(s){
+        stream = s; cam.srcObject = s; cam.hidden = false; pad.hidden = true;
+        source = 'cam'; practiceEl.hidden = true;
+        renderMeta();
+        return cam.play();
+      })
+      .catch(function(){ usePad(); });
+  }
+  startCam();
+
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden){ detachSensor(); stopCam(); }
+    else { if (sawMotion) attachSensor(); startCam(); }
+  });
+  window.addEventListener('pagehide', function(){ detachSensor(); stopCam(); });
+
+  renderMeta();
+})();
+</script>
+</body>
+</html>
