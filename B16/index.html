@@ -23,63 +23,72 @@ body{
   font-size:17px; line-height:1.45; font-weight:600;
   -webkit-text-size-adjust:100%;
 }
-main{max-width:900px;margin:0 auto;padding:16px 14px 28px}
-h1{font-size:clamp(24px,5.6vw,34px);font-weight:900;letter-spacing:-.035em;margin:0 0 6px}
-.lead{color:var(--muted);font-size:15px;margin:0 0 14px}
+main{max-width:900px;margin:0 auto;padding:14px 14px 24px}
+h1{font-size:clamp(23px,5.4vw,32px);font-weight:900;letter-spacing:-.035em;margin:0 0 5px}
+.lead{color:var(--muted);font-size:14px;margin:0 0 11px}
 
-.panel{
+section{
   background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
-  box-shadow:var(--hard);padding:14px;margin:0 0 14px;
+  box-shadow:var(--hard);padding:11px;margin:0 0 10px;
 }
-.boxes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px}
-.box{border:2.5px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);padding:10px}
-.box h2{font-size:15px;font-weight:900;margin:0 0 8px}
-.slot{display:flex;flex-wrap:wrap;gap:8px;min-height:88px;align-content:flex-start}
+h2{font-size:13px;font-weight:900;margin:0 0 7px;color:var(--muted)}
+
+.boxes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}
+.box{border:2.5px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);padding:7px}
+.box h3{font-size:13px;font-weight:900;margin:0 0 6px}
+.slot{display:flex;flex-wrap:wrap;gap:6px;min-height:62px;align-content:flex-start}
 
 .card{
-  width:76px;min-height:76px;padding:4px;cursor:pointer;
+  width:58px;min-height:58px;padding:3px;cursor:pointer;
   background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
   box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s;
 }
-.card:active{transform:translate(3px,3px);box-shadow:none}
-.card svg,.chip svg{display:block;width:100%;height:auto}
+.card:active:not(:disabled){transform:translate(3px,3px);box-shadow:none}
+.card:disabled{cursor:default;opacity:.7}
+.card svg{display:block;width:100%;height:auto}
+.card.placed{border-width:3.5px;box-shadow:0 0 0 3px var(--amber) inset,var(--hard-sm)}
+.card.placed.enter{animation:popin .22s ease-out}
+@keyframes popin{0%{transform:scale(.55)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
 
-.rule{
-  display:flex;align-items:center;flex-wrap:wrap;gap:10px;
-  background:var(--ink);color:var(--paper);border-radius:var(--r-sm);padding:12px 14px;margin:0 0 12px;
+.note{font-size:12.5px;font-weight:700;color:var(--muted);margin-top:7px}
+
+.newgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.newcard{border:2.5px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);
+  padding:6px;text-align:center}
+.newcard .pic{width:100%}
+.newcard .pic svg{display:block;width:100%;height:auto;max-height:46px}
+.gpick{display:flex;gap:4px;margin-top:5px}
+.gbtn{
+  flex:1 1 0;font-family:inherit;cursor:pointer;color:var(--ink);font-size:12.5px;font-weight:900;
+  background:var(--surface);border:2.5px solid var(--ink);border-radius:9px;
+  min-height:44px;padding:2px;box-shadow:2px 2px 0 var(--ink);
+  transition:transform .1s,box-shadow .1s,background .1s;
 }
-.rule .lab{font-size:13px;font-weight:900;color:#C9C4B8}
-.rule .val{font-weight:900;font-size:17px;background:var(--point);color:#fff;border-radius:8px;padding:4px 14px}
+.gbtn[aria-pressed="true"]{background:var(--point);color:#fff}
+.gbtn:disabled{opacity:.5;cursor:default}
+.rv-tag{display:block;margin-top:5px;font-size:11.5px;font-weight:900;color:var(--point)}
 
-.tests{display:flex;flex-wrap:wrap;gap:10px}
-.chip{
-  width:96px;border:2.5px solid var(--ink);border-radius:var(--r-sm);background:var(--paper);
-  padding:6px;text-align:center;
-}
-.chip.chg{border-width:4px;background:var(--point-soft)}
-.chip .go{display:block;font-size:14px;font-weight:900;margin-top:4px}
-.chip .mk{display:none;font-size:12px;font-weight:900;color:var(--point)}
-.chip.chg .mk{display:block}
+.msg{margin-top:9px;font-size:14px;font-weight:900;min-height:20px}
+.msg.dim{color:var(--muted);font-weight:700}
 
+.acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
 .btn{
-  margin-top:12px;min-height:48px;padding:11px 20px;font:inherit;font-weight:900;font-size:16px;cursor:pointer;
-  background:var(--amber);color:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-sm);
-  box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s;
+  font-family:inherit;cursor:pointer;color:var(--ink);font-size:14.5px;font-weight:900;
+  background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+  min-height:46px;padding:8px 12px;box-shadow:var(--hard-sm);flex:1 1 92px;
+  transition:transform .1s,box-shadow .1s;
 }
-.btn:active{transform:translate(3px,3px);box-shadow:none}
-
-.obs{background:var(--ink);color:var(--paper);border:3px solid var(--ink);border-radius:var(--r);padding:14px 16px;box-shadow:var(--hard)}
-.obs p{margin:0;font-size:15px;font-weight:700}
-.obs p+p{margin-top:6px;color:var(--amber)}
-
-.lab2{font-size:12.5px;font-weight:900;letter-spacing:.04em;color:var(--muted);display:block;margin-bottom:8px}
+.btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn.main{background:var(--amber)}
+.btn:disabled{opacity:.45;cursor:default;box-shadow:none}
 
 :focus-visible{outline:3px solid var(--point);outline-offset:3px}
-@media (max-width:520px){.boxes{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){.newgrid{grid-template-columns:repeat(3,1fr)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* 쪽 위 차시 표시 */
-.topnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 11px}
 .topnav a{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);
   font-weight:800;font-size:14px;background:var(--surface);border:2.5px solid var(--ink);
   border-radius:999px;padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
@@ -92,140 +101,298 @@ h1{font-size:clamp(24px,5.6vw,34px);font-weight:900;letter-spacing:-.035em;margi
 <main>
   <nav class="topnav"><a href="../">← 전체 목록</a><b>3~4</b></nav>
   <h1>예시를 옮겨 보기</h1>
-  <p class="lead">카드를 누르면 옆 상자로 가요</p>
+  <p class="lead">카드를 옮기고 새 카드를 짚어요</p>
 
-  <section class="panel">
-    <span class="lab2">예시 카드</span>
+  <section aria-labelledby="h-ex">
+    <h2 id="h-ex">예시 카드</h2>
     <div class="boxes">
-      <div class="box"><h2>1상자</h2><div class="slot" id="s1"></div></div>
-      <div class="box"><h2>2상자</h2><div class="slot" id="s2"></div></div>
+      <div class="box"><h3>1상자</h3><div class="slot" id="s1"></div></div>
+      <div class="box"><h3>2상자</h3><div class="slot" id="s2"></div></div>
     </div>
-
-    <div id="pool" hidden>
-      <button class="card" type="button" data-id="a" data-fill="y" data-size="b" data-shape="c">
-        <svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="26" fill="#3D5AFE" stroke="#141414" stroke-width="3"/></svg>
-      </button>
-      <button class="card" type="button" data-id="b" data-fill="y" data-size="b" data-shape="q">
-        <svg viewBox="0 0 72 72" aria-hidden="true"><rect x="10" y="10" width="52" height="52" rx="5" fill="#3D5AFE" stroke="#141414" stroke-width="3"/></svg>
-      </button>
-      <button class="card" type="button" data-id="c" data-fill="n" data-size="b" data-shape="t">
-        <svg viewBox="0 0 72 72" aria-hidden="true"><polygon points="36,10 62,60 10,60" fill="#FFFFFF" stroke="#141414" stroke-width="3"/></svg>
-      </button>
-      <button class="card" type="button" data-id="d" data-fill="n" data-size="s" data-shape="c">
-        <svg viewBox="0 0 72 72" aria-hidden="true"><circle cx="36" cy="36" r="15" fill="#FFFFFF" stroke="#141414" stroke-width="3"/></svg>
-      </button>
-    </div>
-
-    <button class="btn" type="button" id="reset">처음으로</button>
+    <p class="note" id="exNote">카드를 눌러 옆 상자로 옮겨요</p>
   </section>
 
-  <section class="panel">
-    <div class="rule"><span class="lab">찾은 규칙</span><span class="val" id="rule"></span></div>
-    <span class="lab2">새 카드</span>
-    <div class="tests">
-      <div class="chip" data-fill="y" data-size="s" data-shape="t">
-        <svg viewBox="0 0 72 72" aria-hidden="true"><polygon points="36,22 51,52 21,52" fill="#3D5AFE" stroke="#141414" stroke-width="3"/></svg>
-        <span class="go"></span><span class="mk">바뀜</span>
-      </div>
-      <div class="chip" data-fill="n" data-size="b" data-shape="q">
-        <svg viewBox="0 0 72 72" aria-hidden="true"><rect x="10" y="10" width="52" height="52" rx="5" fill="#FFFFFF" stroke="#141414" stroke-width="3"/></svg>
-        <span class="go"></span><span class="mk">바뀜</span>
-      </div>
-      <div class="chip" data-fill="n" data-size="s" data-shape="t">
-        <svg viewBox="0 0 72 72" aria-hidden="true"><polygon points="36,22 51,52 21,52" fill="#FFFFFF" stroke="#141414" stroke-width="3"/></svg>
-        <span class="go"></span><span class="mk">바뀜</span>
-      </div>
+  <section aria-labelledby="h-new">
+    <h2 id="h-new">새 카드</h2>
+    <div class="newgrid" id="newCards"></div>
+    <p class="msg dim" id="msg" role="status" aria-live="polite">세 장 모두 짚어요</p>
+    <div class="acts">
+      <button class="btn main" id="confirmBtn" type="button" disabled>확인하기</button>
+      <button class="btn" id="resetBtn" type="button">다시 하기</button>
+      <button class="btn" id="nextBtn" type="button">다음 판</button>
     </div>
-  </section>
-
-  <section class="obs">
-    <p>무엇을 옮기니 규칙이 달라졌나요?</p>
-    <p>한쪽에만 모으면 어떻게 되나요?</p>
   </section>
 </main>
 
 <script>
 (function () {
   'use strict';
+
   var FEATS = [['fill', '칠하기'], ['size', '크기'], ['shape', '모양']];
-  var WORD = {
-    y: '칠한', n: '칠하지 않은',
-    b: '큰', s: '작은',
-    c: '동그라미', q: '네모', t: '세모'
-  };
-  var START = { a: 1, b: 1, c: 2, d: 2 };
+  var WORD = { y: '칠한', n: '칠하지 않은', b: '큰', s: '작은', c: '동그라미', q: '네모', t: '세모' };
+
+  var POOL = [];
+  ['y', 'n'].forEach(function (fill) {
+    ['b', 's'].forEach(function (size) {
+      ['c', 'q', 't'].forEach(function (shape) {
+        POOL.push({ fill: fill, size: size, shape: shape });
+      });
+    });
+  });
 
   var s1 = document.getElementById('s1');
   var s2 = document.getElementById('s2');
-  var ruleEl = document.getElementById('rule');
-  var cards = [].slice.call(document.querySelectorAll('#pool .card'));
-  var chips = [].slice.call(document.querySelectorAll('.chip'));
-  var prev = {};
+  var newWrap = document.getElementById('newCards');
+  var msgEl = document.getElementById('msg');
+  var exNote = document.getElementById('exNote');
+  var confirmBtn = document.getElementById('confirmBtn');
+  var resetBtn = document.getElementById('resetBtn');
+  var nextBtn = document.getElementById('nextBtn');
 
-  function tell(card) {
-    var where = card.parentNode === s1 ? '1상자' : '2상자';
-    card.setAttribute('aria-label',
-      WORD[card.dataset.fill] + ' ' + WORD[card.dataset.size] + ' ' +
-      WORD[card.dataset.shape] + ', 지금 ' + where + ', 눌러서 옮기기');
+  var reduceMotion = false;
+  try { reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+  var examples, initBoxes, newCards, locked, confirmed, revealing, lastSig, gen;
+  gen = 0; lastSig = null;
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
   }
 
-  function setOf(slot, f) {
+  function shapeSvg(c) {
+    var s = c.size === 'b' ? 1 : 0.6;
+    var fc = c.fill === 'y' ? '#3D5AFE' : '#FFFFFF';
+    if (c.shape === 'c') {
+      return '<circle cx="36" cy="36" r="' + (26 * s) + '" fill="' + fc + '" stroke="#141414" stroke-width="3"/>';
+    }
+    if (c.shape === 'q') {
+      var side = 52 * s, off = 36 - side / 2, rx = 5 * s;
+      return '<rect x="' + off + '" y="' + off + '" width="' + side + '" height="' + side + '" rx="' + rx + '" fill="' + fc + '" stroke="#141414" stroke-width="3"/>';
+    }
+    var dx = 26 * s, topY = 36 - dx, botY = 36 + dx * 0.92;
+    return '<polygon points="36,' + topY + ' ' + (36 + dx) + ',' + botY + ' ' + (36 - dx) + ',' + botY +
+      '" fill="' + fc + '" stroke="#141414" stroke-width="3"/>';
+  }
+  function cardSvg(c) { return '<svg viewBox="0 0 72 72" aria-hidden="true">' + shapeSvg(c) + '</svg>'; }
+  function label(c) { return WORD[c.fill] + ' ' + WORD[c.size] + ' ' + WORD[c.shape]; }
+
+  function setOf(box, f) {
     var out = [];
-    [].forEach.call(slot.querySelectorAll('.card'), function (c) {
-      if (out.indexOf(c.dataset[f]) < 0) { out.push(c.dataset[f]); }
+    examples.forEach(function (c) {
+      if (c.box === box && out.indexOf(c[f]) < 0) { out.push(c[f]); }
     });
     return out;
   }
 
   function findRule() {
-    if (!s1.querySelector('.card') || !s2.querySelector('.card')) { return { kind: 'empty' }; }
+    var has1 = examples.some(function (c) { return c.box === 1; });
+    var has2 = examples.some(function (c) { return c.box === 2; });
+    if (!has1 || !has2) { return { kind: 'empty' }; }
     for (var i = 0; i < FEATS.length; i++) {
       var f = FEATS[i][0];
-      var v1 = setOf(s1, f), v2 = setOf(s2, f);
+      var v1 = setOf(1, f), v2 = setOf(2, f);
       var overlap = v1.some(function (v) { return v2.indexOf(v) >= 0; });
-      if (!overlap) { return { kind: 'ok', f: f, name: FEATS[i][1], v1: v1, v2: v2 }; }
+      if (!overlap) { return { kind: 'ok', f: f, v1: v1, v2: v2 }; }
     }
     return { kind: 'none' };
   }
 
-  function update() {
-    var r = findRule();
-    ruleEl.textContent = r.kind === 'ok' ? r.name
-      : (r.kind === 'empty' ? '한쪽이 비었어요' : '못 찾음');
-    chips.forEach(function (chip, i) {
-      var go = '알 수 없음';
-      if (r.kind === 'ok') {
-        var v = chip.dataset[r.f];
-        if (r.v1.indexOf(v) >= 0) { go = '1상자'; }
-        else if (r.v2.indexOf(v) >= 0) { go = '2상자'; }
+  function actualBox(card, rule) {
+    if (rule.kind !== 'ok') { return 0; }
+    var v = card[rule.f];
+    if (rule.v1.indexOf(v) >= 0) { return 1; }
+    if (rule.v2.indexOf(v) >= 0) { return 2; }
+    return 0;
+  }
+
+  // 예시 넷에서 규칙이 서고, 새 카드는 그 규칙 안에서만 뽑는다.
+  // 규칙 밖의 카드를 처음부터 섞으면 절반이 '어디에도 안 맞아요'가 되어 게임이 안 선다.
+  // 학생이 예시를 옮겨 규칙이 바뀌었을 때만 규칙 밖이 나오고, 그것이 이 차시의 알맹이다.
+  function ruleOf(ex) {
+    var box = function (n, f) {
+      var out = [];
+      ex.forEach(function (c) { if (c.box === n && out.indexOf(c[f]) < 0) out.push(c[f]); });
+      return out;
+    };
+    if (!ex.some(function (c) { return c.box === 1; })) { return null; }
+    if (!ex.some(function (c) { return c.box === 2; })) { return null; }
+    for (var i = 0; i < FEATS.length; i++) {
+      var f = FEATS[i][0];
+      var v1 = box(1, f), v2 = box(2, f);
+      var overlap = v1.some(function (v) { return v2.indexOf(v) >= 0; });
+      if (!overlap) { return { f: f, v1: v1, v2: v2 }; }
+    }
+    return null;
+  }
+
+  function makeRound() {
+    for (var t = 0; t < 60; t++) {
+      var pool = shuffle(POOL);
+      var ex = pool.slice(0, 4).map(function (c) {
+        return { fill: c.fill, size: c.size, shape: c.shape, box: Math.random() < 0.5 ? 1 : 2 };
+      });
+      var rule = ruleOf(ex);
+      if (!rule) { continue; }
+      var rest = pool.slice(4).filter(function (c) {
+        return rule.v1.indexOf(c[rule.f]) >= 0 || rule.v2.indexOf(c[rule.f]) >= 0;
+      });
+      if (rest.length < 3) { continue; }
+      var nw = rest.slice(0, 3).map(function (c) {
+        return { fill: c.fill, size: c.size, shape: c.shape, guess: null, actual: null, revealed: false };
+      });
+      return { ex: ex, nw: nw };
+    }
+    // 예순 번을 뽑아도 못 찾으면 예시 둘씩 갈라 규칙이 서게 만든다
+    var p2 = shuffle(POOL);
+    var f0 = FEATS[0][0];
+    var sorted = p2.slice().sort(function (a, b) { return String(a[f0]) < String(b[f0]) ? -1 : 1; });
+    var ex2 = [sorted[0], sorted[1], sorted[sorted.length - 2], sorted[sorted.length - 1]]
+      .map(function (c, i) { return { fill: c.fill, size: c.size, shape: c.shape, box: i < 2 ? 1 : 2 }; });
+    var nw2 = p2.slice(0, 3).map(function (c) {
+      return { fill: c.fill, size: c.size, shape: c.shape, guess: null, actual: null, revealed: false };
+    });
+    return { ex: ex2, nw: nw2 };
+  }
+
+  function sigOf(r) {
+    return r.ex.map(function (c) { return c.fill + c.size + c.shape + c.box; }).join('|') +
+      '#' + r.nw.map(function (c) { return c.fill + c.size + c.shape; }).join('|');
+  }
+
+  function newRound() {
+    gen++;
+    var r;
+    do { r = makeRound(); } while (lastSig !== null && sigOf(r) === lastSig);
+    lastSig = sigOf(r);
+    examples = r.ex;
+    initBoxes = examples.map(function (c) { return c.box; });
+    newCards = r.nw;
+    locked = false; confirmed = false; revealing = false;
+    render();
+  }
+
+  function restartRound() {
+    gen++;
+    examples.forEach(function (c, i) { c.box = initBoxes[i]; });
+    newCards.forEach(function (c) { c.guess = null; c.actual = null; c.revealed = false; });
+    locked = false; confirmed = false; revealing = false;
+    render();
+  }
+
+  function moveExample(i) {
+    if (locked || confirmed) { return; }
+    examples[i].box = examples[i].box === 1 ? 2 : 1;
+    render();
+  }
+
+  function pickGuess(i, box) {
+    if (confirmed) { return; }
+    newCards[i].guess = box;
+    if (!locked) { locked = true; }
+    render();
+  }
+
+  function confirmRound() {
+    if (confirmed) { return; }
+    if (newCards.some(function (c) { return c.guess === null; })) { return; }
+    confirmed = true; revealing = true;
+    var myGen = gen;
+    var rule = findRule();
+    newCards.forEach(function (c) { c.actual = actualBox(c, rule); });
+    var misses = newCards.filter(function (c) { return c.actual !== c.guess; }).length;
+    render();
+    step(0);
+    function step(idx) {
+      if (idx >= newCards.length) {
+        if (myGen !== gen) { return; }
+        revealing = false;
+        var msg = misses === 0 ? '셋 다 짚은 대로 갔어요'
+          : (misses === 1 ? '한 장이 달리 갔어요' : (misses === 2 ? '두 장이 달리 갔어요' : '세 장이 달리 갔어요'));
+        msgEl.textContent = msg;
+        msgEl.className = 'msg';
+        render();
+        return;
       }
-      chip.querySelector('.go').textContent = go;
-      var changed = prev[i] !== undefined && prev[i] !== go;
-      if (changed) { chip.classList.add('chg'); } else { chip.classList.remove('chg'); }
-      prev[i] = go;
-    });
+      var delay = reduceMotion ? 0 : 260;
+      setTimeout(function () {
+        if (myGen !== gen) { return; }
+        newCards[idx].revealed = true;
+        render();
+        step(idx + 1);
+      }, delay);
+    }
   }
 
-  function place(card, n) {
-    (n === 1 ? s1 : s2).appendChild(card);
-    tell(card);
+  function render() {
+    s1.innerHTML = ''; s2.innerHTML = '';
+    examples.forEach(function (c, i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'card';
+      b.innerHTML = cardSvg(c);
+      b.disabled = locked || confirmed;
+      b.setAttribute('aria-label', label(c) + ', 지금 ' + c.box + '상자, 눌러서 옮기기');
+      b.addEventListener('click', function () { moveExample(i); });
+      (c.box === 1 ? s1 : s2).appendChild(b);
+    });
+    newCards.forEach(function (c) {
+      if (c.revealed && c.actual !== 0) {
+        var placed = document.createElement('div');
+        placed.className = 'card placed enter';
+        placed.innerHTML = cardSvg(c);
+        placed.setAttribute('role', 'img');
+        placed.setAttribute('aria-label', '새 카드, ' + label(c) + ', ' + c.actual + '상자로 감');
+        (c.actual === 1 ? s1 : s2).appendChild(placed);
+      }
+    });
+    exNote.textContent = (locked || confirmed) ? '카드는 잠겼어요' : '카드를 눌러 옆 상자로 옮겨요';
+
+    newWrap.innerHTML = '';
+    newCards.forEach(function (c, i) {
+      if (c.revealed && c.actual !== 0) { return; }
+      var wrap = document.createElement('div');
+      wrap.className = 'newcard';
+      var pic = document.createElement('div'); pic.className = 'pic'; pic.innerHTML = cardSvg(c);
+      wrap.appendChild(pic);
+      var grp = document.createElement('div'); grp.className = 'gpick';
+      [1, 2].forEach(function (box) {
+        var gb = document.createElement('button');
+        gb.type = 'button'; gb.className = 'gbtn';
+        gb.textContent = box + '상자';
+        gb.setAttribute('aria-pressed', c.guess === box ? 'true' : 'false');
+        gb.disabled = confirmed;
+        gb.addEventListener('click', function () { pickGuess(i, box); });
+        grp.appendChild(gb);
+      });
+      wrap.appendChild(grp);
+      if (c.revealed && c.actual === 0) {
+        var tag = document.createElement('span');
+        tag.className = 'rv-tag';
+        tag.textContent = '어디에도 안 맞아요';
+        wrap.appendChild(tag);
+      }
+      newWrap.appendChild(wrap);
+    });
+
+    confirmBtn.disabled = confirmed || newCards.some(function (c) { return c.guess === null; });
+    resetBtn.disabled = revealing;
+    nextBtn.disabled = revealing;
+    if (!confirmed) {
+      var allGuessed = newCards.every(function (c) { return c.guess !== null; });
+      msgEl.textContent = allGuessed ? '확인하기를 눌러요' : '세 장 모두 짚어요';
+      msgEl.className = 'msg dim';
+    }
   }
 
-  cards.forEach(function (card) {
-    card.addEventListener('click', function () {
-      place(card, card.parentNode === s1 ? 2 : 1);
-      update();
-    });
-  });
+  confirmBtn.addEventListener('click', confirmRound);
+  resetBtn.addEventListener('click', restartRound);
+  nextBtn.addEventListener('click', newRound);
 
-  document.getElementById('reset').addEventListener('click', function () {
-    prev = {};
-    cards.forEach(function (c) { place(c, START[c.dataset.id]); });
-    update();
-  });
-
-  cards.forEach(function (c) { place(c, START[c.dataset.id]); });
-  update();
+  newRound();
 })();
 </script>
 </body>

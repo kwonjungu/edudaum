@@ -23,77 +23,82 @@ body{
   font-size:17px; line-height:1.45; font-weight:600;
   -webkit-text-size-adjust:100%;
 }
-main{max-width:900px;margin:0 auto;padding:16px 14px 28px}
-h1{font-size:clamp(24px,5.6vw,34px);font-weight:900;letter-spacing:-.035em;margin:0 0 6px}
-.lead{color:var(--muted);font-size:15px;margin:0 0 14px}
+main{max-width:900px;margin:0 auto;padding:14px 14px 24px}
+h1{font-size:clamp(23px,5.4vw,32px);font-weight:900;letter-spacing:-.035em;margin:0 0 5px}
+.lead{color:var(--muted);font-size:14px;margin:0 0 11px}
 
-.panel{
+section{
   background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
-  box-shadow:var(--hard);padding:14px;margin:0 0 14px;
+  box-shadow:var(--hard);padding:12px;margin:0 0 10px;
 }
-.lab{font-size:12.5px;font-weight:900;letter-spacing:.04em;color:var(--muted);display:block;margin-bottom:8px}
+.lab{font-size:12.5px;font-weight:900;letter-spacing:.04em;color:var(--muted);display:block;margin-bottom:7px}
 
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.tabs{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:7px}
 .tab{
-  flex:1 1 88px;min-height:48px;min-width:88px;padding:10px 14px;
-  font:inherit;font-weight:900;font-size:17px;cursor:pointer;
+  flex:1 1 84px;min-height:46px;min-width:84px;padding:9px 12px;
+  font:inherit;font-weight:900;font-size:16px;cursor:pointer;
   background:var(--surface);color:var(--ink);
   border:2.5px solid var(--ink);border-radius:var(--r-sm);box-shadow:var(--hard-sm);
   transition:transform .1s,box-shadow .1s;
 }
 .tab[aria-pressed="true"]{background:var(--point);color:#fff}
-.tab[aria-pressed="true"]::after{content:"";display:block;height:3px;margin:6px 8px 0;background:#fff;border-radius:2px}
-.tab:active{transform:translate(3px,3px);box-shadow:none}
+.tab:active:not(:disabled){transform:translate(3px,3px);box-shadow:none}
+.hint{font-size:12px;font-weight:700;color:var(--muted);margin:0 0 10px}
 
-.dial{background:var(--ink);color:var(--paper);border-radius:var(--r-sm);padding:12px 14px;margin-bottom:14px}
+.dial{background:var(--ink);color:var(--paper);border-radius:var(--r-sm);padding:10px 12px;margin-bottom:10px}
 .dial .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-.dial .nm{font-weight:900;font-size:17px}
-.dial .badge{font-weight:900;font-size:15px;background:var(--point);color:#fff;border-radius:8px;padding:3px 12px}
-.ends{display:flex;justify-content:space-between;font-size:12.5px;font-weight:800;color:#C9C4B8;margin-top:4px}
+.dial .nm{font-weight:900;font-size:16px}
+.dial .badge{font-weight:900;font-size:14px;background:var(--point);color:#fff;border-radius:8px;padding:3px 11px}
+.ends{display:flex;justify-content:space-between;font-size:12px;font-weight:800;color:#C9C4B8;margin-top:3px}
 input[type=range]{
-  -webkit-appearance:none;appearance:none;width:100%;min-height:48px;height:48px;
+  -webkit-appearance:none;appearance:none;width:100%;min-height:46px;height:46px;
   background:transparent;margin:0;cursor:pointer;
 }
-input[type=range]::-webkit-slider-runnable-track{height:12px;border-radius:999px;background:var(--point-soft);border:2.5px solid var(--paper)}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;margin-top:-13px;border-radius:50%;background:var(--amber);border:3px solid var(--ink)}
-input[type=range]::-moz-range-track{height:12px;border-radius:999px;background:var(--point-soft);border:2.5px solid var(--paper)}
-input[type=range]::-moz-range-thumb{width:34px;height:34px;border-radius:50%;background:var(--amber);border:3px solid var(--ink)}
+input[type=range]:disabled{cursor:default;opacity:.5}
+input[type=range]::-webkit-slider-runnable-track{height:11px;border-radius:999px;background:var(--point-soft);border:2.5px solid var(--paper)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;height:32px;margin-top:-12px;border-radius:50%;background:var(--amber);border:3px solid var(--ink)}
+input[type=range]::-moz-range-track{height:11px;border-radius:999px;background:var(--point-soft);border:2.5px solid var(--paper)}
+input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;background:var(--amber);border:3px solid var(--ink)}
 
-.stage{display:grid;grid-template-columns:minmax(0,200px) minmax(0,1fr);gap:14px;align-items:start}
-@media (max-width:560px){.stage{grid-template-columns:minmax(0,1fr)}}
+.stage{display:grid;grid-template-columns:minmax(0,118px) minmax(0,1fr);gap:9px;align-items:start}
+@media (max-width:360px){.stage{grid-template-columns:minmax(0,1fr)}}
 .shot{border:3px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;background:#fff;line-height:0}
 .shot canvas{width:100%;height:auto;display:block}
 
-.bars{display:flex;flex-direction:column;gap:8px}
+.bars{display:flex;flex-direction:column;gap:6px}
 .bar{
-  display:grid;grid-template-columns:48px minmax(0,1fr) 46px;gap:8px;align-items:center;
-  border:2.5px solid var(--ink);border-radius:var(--r-sm);padding:7px 9px;background:var(--paper);min-height:48px;
+  display:grid;grid-template-columns:42px minmax(0,1fr) 40px;gap:7px;align-items:center;
+  border:2.5px solid var(--ink);border-radius:var(--r-sm);padding:6px 8px;background:var(--paper);min-height:44px;
 }
 .bar[data-top="1"]{background:var(--point-soft);border-width:4px}
-.bar .bn{font-weight:900;font-size:16px}
-.bar .bt{display:block;height:14px;border:2.5px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden}
+.bar .bn{font-weight:900;font-size:14.5px}
+.bar .bt{display:block;height:12px;border:2.5px solid var(--ink);border-radius:999px;background:#fff;overflow:hidden}
 .bar .bt i{display:block;height:100%;width:0;background:var(--point);transition:width .18s}
-.bar .bv{font-weight:900;font-size:16px;text-align:right;font-variant-numeric:tabular-nums}
-.win{grid-column:1/-1;font-size:12.5px;font-weight:900;color:var(--ink)}
+.bar .bv{font-weight:900;font-size:14.5px;text-align:right;font-variant-numeric:tabular-nums}
+.win{grid-column:1/-1;font-size:11.5px;font-weight:900;color:var(--ink)}
 .bar .win{display:none}
 .bar[data-top="1"] .win{display:block}
 
+.acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
 .btn{
-  margin-top:14px;min-height:48px;padding:11px 20px;font:inherit;font-weight:900;font-size:16px;cursor:pointer;
-  background:var(--amber);color:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-sm);
-  box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s;
+  font-family:inherit;cursor:pointer;color:var(--ink);font-size:14.5px;font-weight:900;
+  background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+  min-height:46px;padding:8px 12px;box-shadow:var(--hard-sm);flex:1 1 92px;
+  transition:transform .1s,box-shadow .1s;
 }
-.btn:active{transform:translate(3px,3px);box-shadow:none}
+.btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+.btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+.btn.main{background:var(--amber)}
+.btn:disabled{opacity:.45;cursor:default;box-shadow:none}
 
-.obs{background:var(--ink);color:var(--paper);border:3px solid var(--ink);border-radius:var(--r);padding:14px 16px;box-shadow:var(--hard)}
-.obs p{margin:0;font-size:15px;font-weight:700}
-.obs p+p{margin-top:6px;color:var(--amber)}
+.msg{margin-top:9px;font-size:14px;font-weight:900;min-height:20px}
+.msg.dim{color:var(--muted);font-weight:700}
 
 :focus-visible{outline:3px solid var(--point);outline-offset:3px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* 쪽 위 차시 표시 */
-.topnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 11px}
 .topnav a{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);
   font-weight:800;font-size:14px;background:var(--surface);border:2.5px solid var(--ink);
   border-radius:999px;padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
@@ -106,19 +111,20 @@ input[type=range]::-moz-range-thumb{width:34px;height:34px;border-radius:50%;bac
 <main>
   <nav class="topnav"><a href="../">← 전체 목록</a><b>5~6</b></nav>
   <h1>하나만 바꾸어 보기</h1>
-  <p class="lead">나머지 조건은 기준 그대로</p>
+  <p class="lead">못 알아보는 사진을 알아보게 만들어요</p>
 
-  <section class="panel">
-    <span class="lab">바꿀 조건</span>
+  <section aria-labelledby="h-pick">
+    <h2 id="h-pick" class="lab">바꿀 조건</h2>
     <div class="tabs" role="group" aria-label="바꿀 조건 고르기">
-      <button class="tab" type="button" data-c="dist" aria-pressed="true">거리</button>
+      <button class="tab" type="button" data-c="dist" aria-pressed="false">거리</button>
       <button class="tab" type="button" data-c="bg" aria-pressed="false">배경</button>
       <button class="tab" type="button" data-c="light" aria-pressed="false">밝기</button>
     </div>
+    <p class="hint">고른 것 하나만 움직여요. 나머지는 그대로예요</p>
 
     <div class="dial">
-      <div class="row"><span class="nm" id="cname">거리</span><span class="badge" id="clv">0단계</span></div>
-      <input id="rng" type="range" min="0" max="3" step="1" value="0" aria-label="바꾼 조건의 단계">
+      <div class="row"><span class="nm" id="cname">고르지 않음</span><span class="badge" id="clv">-</span></div>
+      <input id="rng" type="range" min="0" max="3" step="1" value="0" aria-label="고른 조건의 단계" disabled>
       <div class="ends"><span>기준</span><span>많이</span></div>
     </div>
 
@@ -131,12 +137,12 @@ input[type=range]::-moz-range-thumb{width:34px;height:34px;border-radius:50%;bac
       </div>
     </div>
 
-    <button class="btn" type="button" id="reset">처음으로</button>
-  </section>
-
-  <section class="obs">
-    <p>무엇을 바꾸니 결과가 달라졌나요?</p>
-    <p>같은 조건으로 한 번 더 해 보세요</p>
+    <p class="msg dim" id="msg" role="status" aria-live="polite">조건을 하나 골라요</p>
+    <div class="acts">
+      <button class="btn main" id="confirmBtn" type="button" disabled>확인하기</button>
+      <button class="btn" id="resetBtn" type="button">다시 하기</button>
+      <button class="btn" id="nextBtn" type="button">다음 판</button>
+    </div>
   </section>
 </main>
 
@@ -146,6 +152,7 @@ input[type=range]::-moz-range-thumb{width:34px;height:34px;border-radius:50%;bac
   var W = 192, G = 16, CELL = W / G, SCALE = 10, NEAR = 5;
   var KINDS = ['ball', 'box', 'cup'];
   var NAME = { dist: '거리', bg: '배경', light: '밝기' };
+  var AXES = ['dist', 'bg', 'light'];
 
   var cv = document.getElementById('cv');
   var ctx = cv.getContext('2d', { willReadFrequently: true });
@@ -156,34 +163,31 @@ input[type=range]::-moz-range-thumb{width:34px;height:34px;border-radius:50%;bac
   var rng = document.getElementById('rng');
   var cname = document.getElementById('cname');
   var clv = document.getElementById('clv');
+  var msgEl = document.getElementById('msg');
   var tabs = [].slice.call(document.querySelectorAll('.tab'));
+  var confirmBtn = document.getElementById('confirmBtn');
+  var resetBtn = document.getElementById('resetBtn');
+  var nextBtn = document.getElementById('nextBtn');
   var rows = {};
   [].forEach.call(document.querySelectorAll('.bar'), function (el) {
     rows[el.getAttribute('data-k')] = {
-      el: el,
-      fill: el.querySelector('.bt i'),
-      val: el.querySelector('.bv'),
-      tag: el.querySelector('.win')
+      el: el, fill: el.querySelector('.bt i'), val: el.querySelector('.bv'), tag: el.querySelector('.win')
     };
   });
 
-  var cond = 'dist', lvl = 0, tpl = {};
+  var tpl = {};
+  var start = { dist: 0, bg: 0, light: 0 };
+  var activeAxis = null, sliderVal = 0, confirmed = false, lastSig = null;
 
   function path(c, kind) {
     c.beginPath();
-    if (kind === 'ball') {
-      c.arc(0, 0, 58, 0, Math.PI * 2);
-    } else if (kind === 'box') {
-      c.moveTo(-54, -54); c.lineTo(54, -54); c.lineTo(54, 54); c.lineTo(-54, 54); c.closePath();
-    } else {
-      c.moveTo(-50, -56); c.lineTo(50, -56); c.lineTo(33, 58); c.lineTo(-33, 58); c.closePath();
-    }
+    if (kind === 'ball') { c.arc(0, 0, 58, 0, Math.PI * 2); }
+    else if (kind === 'box') { c.moveTo(-54, -54); c.lineTo(54, -54); c.lineTo(54, 54); c.lineTo(-54, 54); c.closePath(); }
+    else { c.moveTo(-50, -56); c.lineTo(50, -56); c.lineTo(33, 58); c.lineTo(-33, 58); c.closePath(); }
   }
 
-  function render(c, kind, which, n) {
-    var bg = which === 'bg' ? n : 0;
-    var di = which === 'dist' ? n : 0;
-    var li = which === 'light' ? n : 0;
+  function render(c, kind, L) {
+    var bg = L.bg, di = L.dist, li = L.light;
     c.setTransform(1, 0, 0, 1, 0, 0);
     c.fillStyle = '#FFFFFF';
     c.fillRect(0, 0, W, W);
@@ -191,9 +195,7 @@ input[type=range]::-moz-range-thumb{width:34px;height:34px;border-radius:50%;bac
       c.save();
       c.strokeStyle = 'rgba(20,20,20,' + (0.13 * bg) + ')';
       c.lineWidth = 10;
-      for (var x = -W; x < W * 2; x += 24) {
-        c.beginPath(); c.moveTo(x, 0); c.lineTo(x - W, W); c.stroke();
-      }
+      for (var x = -W; x < W * 2; x += 24) { c.beginPath(); c.moveTo(x, 0); c.lineTo(x - W, W); c.stroke(); }
       c.restore();
     }
     var s = 1 - di * 0.18;
@@ -237,12 +239,97 @@ input[type=range]::-moz-range-thumb{width:34px;height:34px;border-radius:50%;bac
     return Math.sqrt(s / a.length);
   }
 
-  function update() {
-    render(ctx, 'ball', cond, lvl);
+  function scoreAt(L) {
+    render(ctx, 'ball', L);
     var f = feat(ctx);
-    var got = KINDS.map(function (k) {
-      return { k: k, v: Math.round(100 * Math.exp(-gap(f, tpl[k]) * SCALE)) };
+    return KINDS.map(function (k) { return { k: k, v: Math.round(100 * Math.exp(-gap(f, tpl[k]) * SCALE)) }; });
+  }
+
+  function isClear(scores) {
+    var sorted = scores.slice().sort(function (a, b) { return b.v - a.v; });
+    return sorted[0].k === 'ball' && (sorted[0].v - sorted[1].v) >= NEAR;
+  }
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function bump(lvl) { return lvl === 'bg' ? (2 + Math.floor(Math.random() * 2)) : (1 + Math.floor(Math.random() * 3)); }
+
+  function makeStart() {
+    var s = { dist: 0, bg: 0, light: 0 };
+    var hard = Math.random() < 0.25;
+    var axes = shuffle(AXES);
+    if (!hard) { s[axes[0]] = bump(axes[0]); }
+    else { s[axes[0]] = bump(axes[0]); s[axes[1]] = bump(axes[1]); }
+    var tries = 0;
+    while (isClear(scoreAt(s)) && tries < 10) {
+      var used = AXES.filter(function (k) { return s[k] > 0; });
+      var k = used.length ? used[Math.floor(Math.random() * used.length)] : 'dist';
+      s[k] = Math.min(3, s[k] + 1);
+      tries++;
+    }
+    return s;
+  }
+
+  function currentLevels() {
+    var L = { dist: start.dist, bg: start.bg, light: start.light };
+    if (activeAxis) { L[activeAxis] = sliderVal; }
+    return L;
+  }
+
+  function drawPreview() { render(ctx, 'ball', currentLevels()); }
+
+  function clearBars() {
+    KINDS.forEach(function (k) {
+      var r = rows[k];
+      r.fill.style.width = '0%';
+      r.val.textContent = '';
+      r.el.setAttribute('data-top', '0');
     });
+  }
+
+  function renderUI() {
+    tabs.forEach(function (t) {
+      var ax = t.getAttribute('data-c');
+      t.setAttribute('aria-pressed', activeAxis === ax ? 'true' : 'false');
+      t.disabled = confirmed;
+    });
+    cname.textContent = activeAxis ? NAME[activeAxis] : '고르지 않음';
+    clv.textContent = activeAxis ? (sliderVal + '단계') : '-';
+    rng.disabled = !activeAxis || confirmed;
+    rng.value = String(activeAxis ? sliderVal : 0);
+    confirmBtn.disabled = confirmed || !activeAxis;
+    if (!confirmed) {
+      msgEl.textContent = activeAxis ? '확인하기를 눌러요' : '조건을 하나 골라요';
+      msgEl.className = 'msg dim';
+    }
+  }
+
+  function pickAxis(ax) {
+    if (confirmed) { return; }
+    activeAxis = ax;
+    sliderVal = start[ax];
+    renderUI();
+    drawPreview();
+  }
+
+  function moveSlider() {
+    if (!activeAxis || confirmed) { return; }
+    sliderVal = Number(rng.value) || 0;
+    renderUI();
+    drawPreview();
+  }
+
+  function confirmRound() {
+    if (confirmed || !activeAxis) { return; }
+    confirmed = true;
+    var got = scoreAt(currentLevels());
     got.forEach(function (g) {
       var r = rows[g.k];
       r.fill.style.width = g.v + '%';
@@ -256,35 +343,42 @@ input[type=range]::-moz-range-thumb{width:34px;height:34px;border-radius:50%;bac
       r.el.setAttribute('data-top', isTop ? '1' : '0');
       if (isTop) { r.tag.textContent = close ? '아슬아슬' : '가장 비슷'; }
     });
+    var clear = sorted[0].k === 'ball' && !close;
+    msgEl.textContent = clear ? '공이 뚜렷하게 앞서요' : '한 가지로는 모자라요';
+    msgEl.className = 'msg';
+    renderUI();
   }
 
-  function setLevel(n) {
-    lvl = n;
-    if (rng.value !== String(n)) { rng.value = String(n); }
-    clv.textContent = n + '단계';
-    update();
+  function restartRound() {
+    activeAxis = null; sliderVal = 0; confirmed = false;
+    clearBars();
+    renderUI();
+    drawPreview();
   }
 
-  function setCond(c) {
-    cond = c;
-    cname.textContent = NAME[c];
-    tabs.forEach(function (t) {
-      t.setAttribute('aria-pressed', t.getAttribute('data-c') === c ? 'true' : 'false');
-    });
-    setLevel(0);
+  function newRound() {
+    var s, sig, tries = 0;
+    do {
+      s = makeStart();
+      sig = s.dist + ',' + s.bg + ',' + s.light;
+      tries++;
+    } while (lastSig !== null && sig === lastSig && tries < 10);
+    lastSig = sig;
+    start = s;
+    restartRound();
   }
 
-  tabs.forEach(function (t) {
-    t.addEventListener('click', function () { setCond(t.getAttribute('data-c')); });
-  });
-  rng.addEventListener('input', function () { setLevel(Number(rng.value) || 0); });
-  document.getElementById('reset').addEventListener('click', function () { setCond('dist'); });
+  tabs.forEach(function (t) { t.addEventListener('click', function () { pickAxis(t.getAttribute('data-c')); }); });
+  rng.addEventListener('input', moveSlider);
+  confirmBtn.addEventListener('click', confirmRound);
+  resetBtn.addEventListener('click', restartRound);
+  nextBtn.addEventListener('click', newRound);
 
   KINDS.forEach(function (k) {
-    render(octx, k, 'none', 0);
+    render(octx, k, { dist: 0, bg: 0, light: 0 });
     tpl[k] = feat(octx);
   });
-  setCond('dist');
+  newRound();
 })();
 </script>
 </body>

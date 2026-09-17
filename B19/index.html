@@ -17,9 +17,9 @@
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
     background-image:radial-gradient(var(--ink) .5px,transparent .5px);
     background-size:22px 22px;background-position:-11px -11px}
-  .wrap{max-width:640px;margin:0 auto;padding:14px 14px 32px}
+  .wrap{max-width:640px;margin:0 auto;padding:12px 14px 28px}
 
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
   .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
     font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
     padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
@@ -27,54 +27,57 @@
   .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(24px,5.8vw,34px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
-  .lead{font-size:15px;color:var(--muted);margin-top:6px;font-weight:700}
+  h1{font-size:clamp(23px,5.6vw,32px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:14px;color:var(--muted);margin-top:5px;font-weight:700}
 
   section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
-    box-shadow:var(--hard);padding:13px 12px;margin-top:12px}
-  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
+    box-shadow:var(--hard);padding:11px 11px;margin-top:10px}
+  h2{font-size:13px;font-weight:900;letter-spacing:-.02em;margin-bottom:7px;color:var(--muted)}
 
-  .front{font-size:14.5px;font-weight:800;color:var(--muted)}
-  #result{margin-top:3px;font-size:clamp(22px,6vw,30px);font-weight:900;color:var(--point);
-    line-height:1.15}
+  .front{font-size:14px;font-weight:800;color:var(--muted)}
+  #result{margin-top:2px;font-size:clamp(20px,5.6vw,27px);font-weight:900;color:var(--point);line-height:1.15}
+  #result.pop{animation:pick .18s ease-out}
+  @keyframes pick{0%{transform:scale(1)}45%{transform:scale(1.14)}100%{transform:scale(1)}}
 
-  .barrow{display:flex;align-items:center;gap:8px;margin-top:9px}
-  .barname{flex:0 0 88px;font-size:13.5px;font-weight:900}
-  .barcount{width:20px;text-align:right;font-family:'Courier New',monospace;font-weight:900;font-size:15px}
-  .bar{flex:1 1 auto;height:18px;display:block}
+  .barrow{display:flex;align-items:center;gap:7px;margin-top:8px}
+  .barname{flex:0 0 86px;font-size:13px;font-weight:900}
+  .barcount{width:18px;text-align:right;font-family:'Courier New',monospace;font-weight:900;font-size:14px}
+  .bar{flex:1 1 auto;height:16px;display:block}
   .track{fill:var(--paper);stroke:var(--ink);stroke-width:2}
-  .fill{fill:var(--point)}
+  .fill{fill:var(--point);transition:width .18s}
 
-  .ask{margin-top:10px;font-size:13.5px;font-weight:800;color:var(--muted)}
+  .ask{margin-top:9px;font-size:13px;font-weight:800;color:var(--muted)}
+  .ask.done{color:var(--ink)}
 
-  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
-  .card{position:relative;font-family:inherit;cursor:pointer;color:var(--ink);font-size:14.5px;
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:7px}
+  .card{position:relative;font-family:inherit;cursor:pointer;color:var(--ink);font-size:13.5px;
     font-weight:900;text-align:left;background:var(--surface);border:2.5px solid var(--ink);
-    border-radius:var(--r-sm);min-height:44px;padding:10px 26px 10px 10px;box-shadow:var(--hard-sm);
-    transition:transform .1s,box-shadow .1s}
-  .card:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .card:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+    border-radius:var(--r-sm);min-height:44px;padding:9px 24px 9px 9px;box-shadow:var(--hard-sm);
+    transition:transform .1s,box-shadow .1s,opacity .15s}
+  .card:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .card:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .card[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px;box-shadow:var(--hard)}
-  .mark{position:absolute;top:7px;right:7px;width:15px;height:15px;opacity:0}
+  .card.removed{opacity:.45;text-decoration:line-through}
+  .mark{position:absolute;top:6px;right:6px;width:14px;height:14px;opacity:0}
   .card[aria-pressed="true"] .mark{opacity:1}
+  .card:disabled{cursor:default}
 
-  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;
+  .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
     background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
-    min-height:44px;padding:10px 18px;box-shadow:var(--hard-sm);
-    transition:transform .1s,box-shadow .1s}
-  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .btn.sub{flex:1 1 120px}
+    min-height:44px;padding:9px 15px;box-shadow:var(--hard-sm);
+    transition:transform .1s,box-shadow .1s;flex:1 1 96px}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point);color:#fff}
+  .btn:disabled{opacity:.45;cursor:default;box-shadow:none}
 
-  .note{margin-top:9px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .note{margin-top:8px;font-size:12px;font-weight:700;color:var(--muted)}
 
   button, a{outline-offset:3px}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
 
   @media(max-width:380px){.cards{grid-template-columns:1fr}}
-  .pick-pop{animation:pick .18s ease-out}
-  @keyframes pick{0%{transform:scale(1)}45%{transform:scale(1.14)}100%{transform:scale(1)}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -87,13 +90,13 @@
 
   <header>
     <h1>이어질 말 세기</h1>
-    <p class="lead">한 장을 빼면 달라지나요</p>
+    <p class="lead">한 장만 빼서 뒤집어요</p>
   </header>
 
   <section aria-labelledby="h-r">
     <h2 id="h-r">고른 말</h2>
     <p class="front">학교 끝나고 나는</p>
-    <p id="result" aria-live="polite">아직 없어요</p>
+    <p id="result" aria-live="polite"></p>
 
     <div class="barrow">
       <span class="barname">집에 간다</span>
@@ -120,48 +123,17 @@
       </svg>
     </div>
 
-    <p class="ask">늘 하나로 골라지나요</p>
+    <p class="ask" id="ask" role="status" aria-live="polite">뺄 카드를 짚어요</p>
   </section>
 
   <section aria-labelledby="h-c">
     <h2 id="h-c">예문 카드</h2>
-    <div class="cards" role="group" aria-labelledby="h-c">
-      <button class="card" type="button" data-i="0" aria-pressed="false">
-        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        <span>일찍 집에 간다</span>
-      </button>
-      <button class="card" type="button" data-i="1" aria-pressed="false">
-        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        <span>혼자 집에 간다</span>
-      </button>
-      <button class="card" type="button" data-i="2" aria-pressed="false">
-        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        <span>얼른 집에 간다</span>
-      </button>
-      <button class="card" type="button" data-i="3" aria-pressed="false">
-        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        <span>곧 운동장에 간다</span>
-      </button>
-      <button class="card" type="button" data-i="4" aria-pressed="false">
-        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        <span>또 운동장에 간다</span>
-      </button>
-      <button class="card" type="button" data-i="5" aria-pressed="false">
-        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        <span>바로 학원에 간다</span>
-      </button>
-      <button class="card" type="button" data-i="6" aria-pressed="false">
-        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        <span>곧장 학원에 간다</span>
-      </button>
-      <button class="card" type="button" data-i="7" aria-pressed="false">
-        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
-        <span>다시 학원에 간다</span>
-      </button>
-    </div>
+    <div class="cards" id="cards" role="group" aria-labelledby="h-c"></div>
 
     <div class="acts">
-      <button class="btn sub" id="resetBtn" type="button">다시 하기</button>
+      <button class="btn main" id="confirmBtn" type="button" disabled>확인하기</button>
+      <button class="btn" id="resetBtn" type="button">다시 하기</button>
+      <button class="btn" id="nextBtn" type="button">다음 판</button>
     </div>
     <p class="note">챗봇은 공용 기기로 해요</p>
   </section>
@@ -172,71 +144,150 @@
   'use strict';
 
   var WORDS = ['집에 간다', '운동장에 간다', '학원에 간다'];
-  var GROUP = [0, 0, 0, 1, 1, 2, 2, 2];
+  var ADV = ['일찍', '혼자', '얼른', '곧', '또', '바로', '곧장', '다시'];
+  var EASY = [4, 3, 1];
+  var HARD_SETS = [[4, 2, 2], [5, 2, 1], [5, 3, 0], [6, 1, 1]];
   var MAXW = 196;
 
-  var pressed = [false, false, false, false, false, false, false, false];
-  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var cardsBox = document.getElementById('cards');
   var resultEl = document.getElementById('result');
-  var lastWord = null;
-
-  // 고른 말이 바뀌는 그 순간만 한 번 뛴다. 되풀이해 뛰지 않는다.
-  function say(t){
-    if (t === lastWord) return;
-    lastWord = t;
-    resultEl.textContent = t;
-    resultEl.classList.remove('pick-pop'); void resultEl.offsetWidth;
-    resultEl.classList.add('pick-pop');
-  }
+  var askEl = document.getElementById('ask');
   var countEls = [document.getElementById('c0'), document.getElementById('c1'), document.getElementById('c2')];
   var fillEls = [document.getElementById('f0'), document.getElementById('f1'), document.getElementById('f2')];
+  var confirmBtn = document.getElementById('confirmBtn');
   var resetBtn = document.getElementById('resetBtn');
+  var nextBtn = document.getElementById('nextBtn');
 
-  function counts(){
+  var cards, counts0, winner0, unchangeable, selected, confirmed, lastSig;
+  lastSig = null;
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
+  }
+
+  function marginOf(counts) {
+    var s = counts.slice().sort(function (a, b) { return b - a; });
+    return s[0] - s[1];
+  }
+
+  function winnerOf(counts) {
+    var max = Math.max(counts[0], counts[1], counts[2]);
+    var ties = 0, idx = -1;
+    for (var i = 0; i < 3; i++) { if (counts[i] === max) { ties++; idx = i; } }
+    return ties > 1 ? -1 : idx;
+  }
+
+  function makeRound() {
+    var hard = Math.random() < (1 / 3);
+    var multiset = hard ? HARD_SETS[Math.floor(Math.random() * HARD_SETS.length)] : EASY;
+    var order = shuffle([0, 1, 2]);
+    var counts = [0, 0, 0];
+    order.forEach(function (wi, i) { counts[wi] = multiset[i]; });
+    var deck = [];
+    for (var g = 0; g < 3; g++) {
+      var advs = shuffle(ADV).slice(0, counts[g]);
+      advs.forEach(function (a) { deck.push({ adv: a, wordIdx: g, removed: false }); });
+    }
+    deck = shuffle(deck);
+    return { cards: deck, counts: counts };
+  }
+
+  function sigOf(r) {
+    return r.counts.join(',') + '#' + r.cards.map(function (c) { return c.adv + c.wordIdx; }).join(',');
+  }
+
+  function liveCounts() {
     var c = [0, 0, 0];
-    for (var i = 0; i < 8; i++) if (pressed[i]) c[GROUP[i]]++;
+    cards.forEach(function (cd) { if (!cd.removed) { c[cd.wordIdx]++; } });
     return c;
   }
 
-  function renderBars(c){
+  function labelOf(counts) {
+    var w = winnerOf(counts);
+    return w < 0 ? '갈렸어요' : WORDS[w];
+  }
+
+  function renderBars(counts) {
     for (var g = 0; g < 3; g++) {
-      countEls[g].textContent = String(c[g]);
-      var w = (c[g] / 3) * MAXW;
-      fillEls[g].setAttribute('width', w.toFixed(2));
+      countEls[g].textContent = String(counts[g]);
+      fillEls[g].setAttribute('width', ((counts[g] / 8) * MAXW).toFixed(2));
     }
   }
 
-  function renderResult(c){
-    var max = Math.max(c[0], c[1], c[2]);
-    if (max === 0) { say('아직 없어요'); return; }
-    var winners = 0, idx = -1;
-    for (var g = 0; g < 3; g++) if (c[g] === max) { winners++; idx = g; }
-    say(winners > 1 ? '갈렸어요' : WORDS[idx]);
-  }
-
-  function renderAll(){
-    var c = counts();
-    renderBars(c);
-    renderResult(c);
-  }
-
-  cards.forEach(function(btn, i){
-    btn.addEventListener('click', function(){
-      pressed[i] = !pressed[i];
-      btn.setAttribute('aria-pressed', pressed[i] ? 'true' : 'false');
-      renderAll();
+  function renderCards() {
+    cardsBox.innerHTML = '';
+    cards.forEach(function (cd, i) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'card' + (cd.removed ? ' removed' : '');
+      b.setAttribute('aria-pressed', selected === i ? 'true' : 'false');
+      b.disabled = confirmed;
+      var mark = '<svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" ' +
+        'fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      b.innerHTML = mark + '<span>' + cd.adv + ' ' + WORDS[cd.wordIdx] + '</span>';
+      b.addEventListener('click', function () { pick(i); });
+      cardsBox.appendChild(b);
     });
-  });
+  }
 
-  resetBtn.addEventListener('click', function(){
-    for (var i = 0; i < 8; i++) {
-      pressed[i] = false;
-      cards[i].setAttribute('aria-pressed', 'false');
-    }
-    renderAll();
-  });
+  function pick(i) {
+    if (confirmed) { return; }
+    selected = i;
+    renderCards();
+    confirmBtn.disabled = false;
+    askEl.textContent = '확인하기를 눌러요';
+  }
 
-  renderAll();
+  function confirmRound() {
+    if (confirmed || selected === null) { return; }
+    confirmed = true;
+    cards[selected].removed = true;
+    var after = liveCounts();
+    renderBars(after);
+    var newLabel = labelOf(after);
+    var origLabel = WORDS[winner0];
+    var changed = newLabel !== origLabel;
+    resultEl.textContent = newLabel;
+    resultEl.classList.remove('pop'); void resultEl.offsetWidth; resultEl.classList.add('pop');
+    var msg = changed ? '고른 말이 바뀌었어요' : (unchangeable ? '어떤 장을 빼도 그대로예요' : '그대로예요');
+    askEl.textContent = msg;
+    askEl.className = 'ask done';
+    renderCards();
+    confirmBtn.disabled = true;
+  }
+
+  function restartRound() {
+    cards.forEach(function (cd) { cd.removed = false; });
+    selected = null; confirmed = false;
+    renderBars(counts0);
+    resultEl.textContent = WORDS[winner0];
+    askEl.textContent = '뺄 카드를 짚어요';
+    askEl.className = 'ask';
+    confirmBtn.disabled = true;
+    renderCards();
+  }
+
+  function newRound() {
+    var r, sig, tries = 0;
+    do { r = makeRound(); sig = sigOf(r); tries++; } while (lastSig !== null && sig === lastSig && tries < 10);
+    lastSig = sig;
+    cards = r.cards;
+    counts0 = r.counts;
+    winner0 = winnerOf(counts0);
+    unchangeable = marginOf(counts0) >= 2;
+    restartRound();
+  }
+
+  confirmBtn.addEventListener('click', confirmRound);
+  resetBtn.addEventListener('click', restartRound);
+  nextBtn.addEventListener('click', newRound);
+
+  newRound();
 })();
 </script>
 </body>
