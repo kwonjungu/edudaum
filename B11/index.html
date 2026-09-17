@@ -40,7 +40,13 @@
   .vbox{background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
     display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px}
   .vbox b{font-family:'Courier New',monospace;font-size:clamp(38px,10vw,56px);font-weight:900;
-    line-height:1;color:var(--point)}
+    line-height:1;color:var(--point);display:block}
+  .vbox b.pop{animation:pop .13s ease-out}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.18)}100%{transform:scale(1)}}
+  .of{margin-top:4px;font-size:15px;font-weight:900;color:var(--muted);font-family:'Courier New',monospace}
+  .of[hidden]{display:none}
+  .panel.hit{animation:hit .5s ease-out}
+  @keyframes hit{0%{background:var(--point)}100%{background:var(--ink)}}
   .panel{background:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-sm);
     padding:10px;display:flex;align-items:center;justify-content:center}
   #grid{width:100%;max-width:150px;height:auto;display:block}
@@ -99,7 +105,7 @@
   <section aria-labelledby="h-c">
     <h2 id="h-c">주머니</h2>
     <div class="stage">
-      <p class="vbox"><b id="num" aria-live="polite">0</b></p>
+      <p class="vbox"><b id="num" aria-live="polite">0</b><span class="of" id="of" hidden></span></p>
       <div class="panel">
         <svg id="grid" viewBox="0 0 100 100" role="img" aria-label="주머니 값을 점으로 보여 줌"></svg>
       </div>
@@ -128,6 +134,8 @@
   'use strict';
 
   var numEl = document.getElementById('num');
+  var ofEl = document.getElementById('of');
+  var panelEl = document.querySelector('.panel');
   var gridEl = document.getElementById('grid');
   var practiceEl = document.getElementById('practice');
   var shakeBtn = document.getElementById('shake');
@@ -171,6 +179,20 @@
 
   function renderCount(){
     numEl.textContent = String(count);
+    ofEl.hidden = (goal === null);
+    if (goal !== null) ofEl.textContent = '/ ' + goal;
+  }
+
+  function pop(){
+    numEl.classList.remove('pop');
+    void numEl.offsetWidth;
+    numEl.classList.add('pop');
+  }
+
+  function flash(){
+    panelEl.classList.remove('hit');
+    void panelEl.offsetWidth;
+    panelEl.classList.add('hit');
   }
 
   function renderGrid(){
@@ -195,9 +217,13 @@
 
   function bump(){
     lastShake = Date.now();
+    var before = count;
     count = Math.min(count + 1, 99);
     renderCount();
     renderGrid();
+    pop();
+    // 목표를 처음 넘는 그 한 번만 번쩍인다
+    if (goal !== null && before < goal && count >= goal) flash();
   }
 
   function onDeviceMotion(e){
@@ -293,6 +319,7 @@
         var on = (parseInt(b.getAttribute('data-goal'), 10) === goal);
         b.setAttribute('aria-pressed', on ? 'true' : 'false');
       });
+      renderCount();
       renderGrid();
     });
   });
