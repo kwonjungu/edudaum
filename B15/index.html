@@ -17,9 +17,9 @@
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
     background-image:radial-gradient(var(--ink) .5px,transparent .5px);
     background-size:22px 22px;background-position:-11px -11px}
-  .wrap{max-width:640px;margin:0 auto;padding:12px 14px 28px}
+  .wrap{max-width:640px;margin:0 auto;padding:8px 14px 16px}
 
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px}
   .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
     font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
     padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
@@ -31,8 +31,8 @@
   .lead{font-size:15px;color:var(--muted);margin-top:5px;font-weight:700}
 
   section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
-    box-shadow:var(--hard);padding:12px;margin-top:11px}
-  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted)}
+    box-shadow:var(--hard);padding:9px;margin-top:8px}
+  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:6px;color:var(--muted)}
 
   .top{display:flex;align-items:center;gap:14px}
   .cnt{font-family:'Courier New',monospace;font-size:clamp(34px,9vw,48px);font-weight:900;
@@ -41,7 +41,7 @@
   @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.18)}100%{transform:scale(1)}}
   .empty{font-size:13.5px;font-weight:800;color:var(--muted);flex:1}
 
-  .view{position:relative;width:100%;aspect-ratio:4/3;max-height:200px;background:var(--ink);
+  .view{position:relative;width:100%;aspect-ratio:4/3;max-height:135px;background:var(--ink);
     border:2.5px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;display:flex}
   #cam{width:100%;height:100%;object-fit:cover;display:block}
   #pad{width:100%;height:100%;display:block;background:#fff;touch-action:none;cursor:crosshair}
@@ -49,24 +49,33 @@
   .priv{position:absolute;left:7px;bottom:7px;right:7px;font-size:11.5px;font-weight:900;
     color:var(--paper);background:rgba(20,20,20,.82);border-radius:999px;padding:4px 10px;text-align:center}
 
-  .bars{margin-top:9px;display:grid;gap:6px}
+  .bars{margin-top:6px;display:grid;gap:4px}
   .bar{display:flex;align-items:center;gap:8px}
   .bar .nm{width:1.4em;font-weight:900;font-size:16px}
-  .bar svg{flex:1;height:18px;display:block}
+  .bar svg{flex:1;height:16px;display:block}
   .track{fill:var(--point-soft);stroke:var(--ink);stroke-width:2}
   .fill{fill:var(--point)}
 
-  .chips{display:flex;flex-wrap:wrap;gap:3px;margin:3px 0 0 calc(1.4em + 8px);min-height:12px}
-  .chips i{width:12px;height:12px;border:1.5px solid var(--ink);border-radius:3px;display:block}
+  .chips{display:flex;flex-wrap:wrap;gap:3px;margin:2px 0 0 calc(1.4em + 8px);min-height:10px}
+  .chips i{width:10px;height:10px;border:1.5px solid var(--ink);border-radius:3px;display:block}
   .chips i.in{animation:drop .18s ease-out}
   @keyframes drop{0%{transform:translateY(-7px) scale(.5);opacity:0}100%{transform:none;opacity:1}}
   .bar .nm{transition:font-size .15s,color .15s}
   .bar .nm.big{font-size:25px;color:var(--point)}
-  .meta{margin-top:8px;font-size:13.5px;font-weight:800;font-family:'Courier New',monospace}
-  .practice{margin-top:7px;display:inline-flex;font-size:12.5px;font-weight:900;color:var(--ink);
-    background:var(--point-soft);border:2px solid var(--ink);border-radius:999px;padding:5px 11px}
+  .meta{margin-top:5px;font-size:13.5px;font-weight:800;font-family:'Courier New',monospace}
+  .practice{margin-top:5px;display:inline-flex;font-size:12.5px;font-weight:900;color:var(--ink);
+    background:var(--point-soft);border:2px solid var(--ink);border-radius:999px;padding:4px 10px}
 
-  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+  .peg{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:6px}
+  .pbtn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:13.5px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    min-height:44px;padding:8px 13px;box-shadow:var(--hard-sm)}
+  .pbtn.sel{background:var(--point);color:#fff}
+  .pbtn:disabled{opacity:.55;cursor:default}
+  .lockmsg{font-size:12.5px;font-weight:800;color:var(--muted)}
+  .reveal{margin-top:5px;font-size:13.5px;font-weight:900}
+
+  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
   .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;
     background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
     min-height:44px;padding:9px 16px;box-shadow:var(--hard-sm);flex:1 1 92px;
@@ -97,15 +106,25 @@
 
   <section aria-labelledby="h-t">
     <h2 id="h-t">흔들면 세는 칸</h2>
+    <div class="peg" role="group" aria-label="흔들면 세는 칸 걸기">
+      <button class="pbtn" id="pegT1" type="button">가르칠 수 있어요</button>
+      <button class="pbtn" id="pegT2" type="button">가르칠 수 없어요</button>
+    </div>
+    <p class="lockmsg" id="lockT">두 칸을 걸면 만질 수 있어요</p>
     <div class="top">
       <b class="cnt" id="cnt" aria-live="off">0</b>
       <span class="empty">여기엔 담기 칸이 없어요</span>
-      <button class="btn" id="shake" type="button" hidden>흔들기</button>
+      <button class="btn" id="shake" type="button" hidden disabled>흔들기</button>
     </div>
+    <p class="reveal" id="sayTop" hidden></p>
   </section>
 
   <section aria-labelledby="h-l">
     <h2 id="h-l">예시로 배우는 칸</h2>
+    <div class="peg" role="group" aria-label="예시로 배우는 칸 걸기">
+      <button class="pbtn" id="pegB1" type="button">가르칠 수 있어요</button>
+      <button class="pbtn" id="pegB2" type="button">가르칠 수 없어요</button>
+    </div>
     <div class="view">
       <video id="cam" playsinline muted hidden></video>
       <canvas id="pad" width="320" height="240" hidden></canvas>
@@ -129,6 +148,7 @@
 
     <p class="meta" id="meta">가 0장 · 나 0장</p>
     <p class="practice" id="practice" hidden>연습 모드 · 손으로 그려 담아요</p>
+    <p class="reveal" id="sayBottom" hidden></p>
 
     <div class="acts">
       <button class="btn main" id="addA" type="button">가 담기</button>
@@ -150,12 +170,51 @@
   var barA = $('barA'), barB = $('barB'), metaEl = $('meta'), practiceEl = $('practice');
   var nmA = $('nmA'), nmB = $('nmB'), chipA = $('chipA'), chipB = $('chipB');
 
-  /* 위 칸: 흔들림 세기 (B11과 같은 규칙) */
+  /* 두 칸을 만지기 전에 거는 자리. 판마다(=다시 하기 전까지) 한 번뿐이다. */
+  var pegTop = null, pegBottom = null;
+  var revealedTop = false, revealedBottom = false;
+  function unlocked(){ return pegTop !== null && pegBottom !== null; }
+
+  $('pegT1').addEventListener('click', function(){
+    if (pegTop !== null) return; pegTop = 'yes'; renderPeg();
+  });
+  $('pegT2').addEventListener('click', function(){
+    if (pegTop !== null) return; pegTop = 'no'; renderPeg();
+  });
+  $('pegB1').addEventListener('click', function(){
+    if (pegBottom !== null) return; pegBottom = 'yes'; renderPeg();
+  });
+  $('pegB2').addEventListener('click', function(){
+    if (pegBottom !== null) return; pegBottom = 'no'; renderPeg();
+  });
+
+  function renderPeg(){
+    $('pegT1').classList.toggle('sel', pegTop === 'yes');
+    $('pegT2').classList.toggle('sel', pegTop === 'no');
+    $('pegT1').disabled = pegTop !== null; $('pegT2').disabled = pegTop !== null;
+    $('pegB1').classList.toggle('sel', pegBottom === 'yes');
+    $('pegB2').classList.toggle('sel', pegBottom === 'no');
+    $('pegB1').disabled = pegBottom !== null; $('pegB2').disabled = pegBottom !== null;
+    $('lockT').hidden = unlocked();
+    shakeBtn.disabled = !unlocked();
+    renderMeta();
+  }
+
+  /* 위 칸: 흔들림 세기 (B11과 같은 규칙). 두 칸을 걸기 전에는 세지 않는다. */
   var count = 0, lastShake = 0, prev = null, latest = null, hasNew = false;
   var sawMotion = false, sensorAttached = false, waitTimer = null, permissionAsked = false;
 
   function pop(){ cntEl.classList.remove('pop'); void cntEl.offsetWidth; cntEl.classList.add('pop'); }
-  function bump(){ lastShake = Date.now(); count = Math.min(count + 1, 99); cntEl.textContent = String(count); pop(); }
+  function bump(){
+    if (!unlocked()) return;
+    lastShake = Date.now(); count = Math.min(count + 1, 99); cntEl.textContent = String(count); pop();
+    if (!revealedTop && count > 10){
+      revealedTop = true;
+      var el = $('sayTop');
+      el.hidden = false;
+      el.textContent = (pegTop === 'no') ? '건 대로였어요' : '달랐어요';
+    }
+  }
 
   function onMotion(e){
     var a = e.accelerationIncludingGravity;
@@ -277,17 +336,24 @@
 
   function renderMeta(){
     metaEl.textContent = '가 ' + nOf('가') + '장 · 나 ' + nOf('나') + '장';
-    // 비출 것이 정해지기 전에는 눌러도 담기지 않는다. 흐리게 둔다.
-    $('addA').disabled = !source || nOf('가') >= MAX;
-    $('addB').disabled = !source || nOf('나') >= MAX;
+    // 두 칸을 걸기 전, 또는 비출 것이 정해지기 전에는 눌러도 담기지 않는다.
+    $('addA').disabled = !unlocked() || !source || nOf('가') >= MAX;
+    $('addB').disabled = !unlocked() || !source || nOf('나') >= MAX;
   }
 
   function add(cls){
+    if (!unlocked()) return;
     if (nOf(cls) >= MAX) return;
     var f = feat(); if (!f) return;
     samples.push({ cls:cls, feat:f });
     chip(cls, f);
     if (source === 'pad') clearPad();   // 지우지 않으면 다음 그림을 그릴 수 없다
+    if (!revealedBottom && nOf('가') >= 1 && nOf('나') >= 1){
+      revealedBottom = true;
+      var el = $('sayBottom');
+      el.hidden = false;
+      el.textContent = (pegBottom === 'yes') ? '건 대로였어요' : '달랐어요';
+    }
     renderMeta();
   }
   $('addA').addEventListener('click', function(){ add('가'); });
@@ -297,7 +363,10 @@
     samples = []; count = 0; prev = null; latest = null; hasNew = false;
     cntEl.textContent = '0'; setBars(0, 0);
     chipA.textContent = ''; chipB.textContent = '';
-    renderMeta();
+    pegTop = null; pegBottom = null; revealedTop = false; revealedBottom = false;
+    $('sayTop').hidden = true; $('sayTop').textContent = '';
+    $('sayBottom').hidden = true; $('sayBottom').textContent = '';
+    renderPeg();
     if (source === 'pad') clearPad();
   });
 
