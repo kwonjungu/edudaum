@@ -73,6 +73,8 @@
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
 
   @media(max-width:380px){.cards{grid-template-columns:1fr}}
+  .pick-pop{animation:pick .18s ease-out}
+  @keyframes pick{0%{transform:scale(1)}45%{transform:scale(1.14)}100%{transform:scale(1)}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -176,6 +178,16 @@
   var pressed = [false, false, false, false, false, false, false, false];
   var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
   var resultEl = document.getElementById('result');
+  var lastWord = null;
+
+  // 고른 말이 바뀌는 그 순간만 한 번 뛴다. 되풀이해 뛰지 않는다.
+  function say(t){
+    if (t === lastWord) return;
+    lastWord = t;
+    resultEl.textContent = t;
+    resultEl.classList.remove('pick-pop'); void resultEl.offsetWidth;
+    resultEl.classList.add('pick-pop');
+  }
   var countEls = [document.getElementById('c0'), document.getElementById('c1'), document.getElementById('c2')];
   var fillEls = [document.getElementById('f0'), document.getElementById('f1'), document.getElementById('f2')];
   var resetBtn = document.getElementById('resetBtn');
@@ -196,10 +208,10 @@
 
   function renderResult(c){
     var max = Math.max(c[0], c[1], c[2]);
-    if (max === 0) { resultEl.textContent = '아직 없어요'; return; }
+    if (max === 0) { say('아직 없어요'); return; }
     var winners = 0, idx = -1;
     for (var g = 0; g < 3; g++) if (c[g] === max) { winners++; idx = g; }
-    resultEl.textContent = winners > 1 ? '갈렸어요' : WORDS[idx];
+    say(winners > 1 ? '갈렸어요' : WORDS[idx]);
   }
 
   function renderAll(){

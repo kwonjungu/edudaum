@@ -79,6 +79,7 @@
   @media(max-width:420px){
     .stage{grid-template-columns:1fr}
   }
+  .wait0{outline:3px solid var(--point);outline-offset:4px;border-radius:6px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -212,6 +213,11 @@
   function lap(){
     var activeOrder = order.slice();
     var activeWait = Number(waitInput.value) * 1000;
+
+    // 0초면 첫 그림이 보이지도 않고 지나간다. 그 줄에 테두리를 둘러
+    // 무엇이 건너뛰어지는지 눈에 띄게 한다. 0초를 벗어나면 사라진다.
+    var l2 = document.getElementById('line2');
+    if (l2) l2.classList.toggle('wait0', activeWait === 0);
 
     showLine(2);
     setLed(activeOrder[0]);

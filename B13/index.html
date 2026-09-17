@@ -81,6 +81,8 @@
   button, a{outline-offset:3px}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
 
+  .pop{animation:pop .17s ease-out}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.15)}100%{transform:scale(1)}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -236,8 +238,15 @@
     }
   }
 
+  var lastIdx = -1;
   function renderRun(idx, elapsed, idle){
     timeEl.textContent = remaining.toFixed(1);
+    // 칸이 넘어가는 그 순간만 한 번 뛴다. 소리는 내지 않는다(교실에서 여럿이 쓴다).
+    if (!idle && idx !== lastIdx){
+      lastIdx = idx;
+      timeEl.classList.remove('pop'); void timeEl.offsetWidth; timeEl.classList.add('pop');
+    }
+    if (idle) lastIdx = -1;
     if (idx !== lastIdx) {
       cellEl.textContent = NAMES[idx];
       segs.forEach(function(s, k){ s.classList.toggle('active', !idle && k === idx); });

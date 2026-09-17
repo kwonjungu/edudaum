@@ -84,6 +84,10 @@
   button, a{outline-offset:3px}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
 
+  .pop{animation:pop .17s ease-out}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.15)}100%{transform:scale(1)}}
+  .shake{animation:shake .3s ease-out}
+  @keyframes shake{0%,100%{transform:translateX(0)}30%{transform:translateX(-4px)}65%{transform:translateX(4px)}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -210,7 +214,11 @@
   }
 
   function renderCounts(){
-    cnt1.textContent = '아니요 ' + countNo(current) + '개';
+    var txt = '아니요 ' + countNo(current) + '개';
+    if (cnt1.textContent !== txt){
+      cnt1.textContent = txt;
+      cnt1.classList.remove('pop'); void cnt1.offsetWidth; cnt1.classList.add('pop');
+    }
     cnt0.textContent = (frozen === null) ? '–' : ('아니요 ' + countNo(frozen) + '개');
   }
 
