@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>아홉과 열 — 에듀다움 B08</title>
+<title>아홉과 열 — 에듀다움</title>
 <style>
   :root{
     --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
-    --point:#DB2777; --point-soft:#FBDCEB; --muted:#5E5E5E;
+    --point:#DB2777; --point-soft:#FBD5E8; --muted:#5E5E5E;
     --r:18px; --r-sm:12px;
     --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
   }
@@ -18,84 +18,66 @@
     background-image:radial-gradient(var(--ink) .5px,transparent .5px);
     background-size:22px 22px;background-position:-11px -11px}
   .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px}
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
   .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
     font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
-    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
-  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
   .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(21px,5.0vw,27px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
-  .lead{font-size:15px;color:var(--muted);margin-top:6px;font-weight:700}
+  h1{font-size:clamp(21px,5vw,27px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:14px;color:var(--muted);margin-top:3px;font-weight:700}
 
   section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
-    box-shadow:var(--hard);padding:13px 12px;margin-top:12px}
-  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
+    box-shadow:var(--hard);padding:10px;margin-top:9px}
+  h2{font-size:13px;font-weight:900;margin-bottom:6px;color:var(--muted)}
 
-  .stage{display:grid;grid-template-columns:132px minmax(0,1fr);gap:10px;align-items:stretch}
-  .panel{background:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-sm);
-    padding:10px;display:flex;align-items:center;justify-content:center}
-  #grid{width:100%;max-width:126px;height:auto;display:block}
-  .dot{fill:#3A3630;transition:fill .08s}
+  /* 규칙 한 줄 — 판마다 바뀐다 */
+  .rule{font-size:clamp(16px,4.3vw,21px);font-weight:900;letter-spacing:-.02em;
+    background:var(--point-soft);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    padding:9px 11px;text-align:center}
+  .rule em{font-style:normal;text-decoration:underline;text-underline-offset:4px;
+    text-decoration-thickness:3px}
 
-  .vbox{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
-    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);padding:10px}
-  .vbox .lbl{font-size:12.5px;font-weight:800;color:var(--muted)}
-  .vbox b{font-family:'Courier New',monospace;font-size:clamp(34px,9vw,46px);font-weight:900;
-    line-height:1;color:var(--point)}
+  /* 띠 0~15 */
+  .strip{display:grid;grid-template-columns:repeat(8,1fr);gap:3px}
+  .c{position:relative;font-family:inherit;cursor:pointer;background:var(--surface);
+    color:var(--ink);border:2.5px solid var(--ink);border-radius:8px;min-height:46px;
+    padding:2px 0 12px;display:flex;align-items:center;justify-content:center}
+  .c .no{position:absolute;left:0;right:0;bottom:1px;font-size:9.5px;font-weight:900;color:var(--muted)}
+  .c svg{width:17px;height:17px;display:block}
+  .c.mark{background:var(--point-soft)}
+  .c.guess{border-width:4px}
+  .c.edge{box-shadow:inset 0 0 0 3px var(--point)}
+  .c.pick{animation:pk .2s ease-out}
+  @keyframes pk{0%{transform:scale(1)}45%{transform:scale(1.16)}100%{transform:scale(1)}}
 
-  .ask{margin-top:10px;font-size:13.5px;font-weight:800;color:var(--muted)}
+  .row{display:flex;align-items:center;gap:10px;margin-top:8px}
+  .led{width:74px;height:74px;flex:none;background:var(--ink);border:2.5px solid var(--ink);
+    border-radius:var(--r-sm);padding:6px}
+  .led svg{width:100%;height:100%;display:block}
+  .vb{flex:1}
+  .vb .lb{display:block;font-size:12px;font-weight:900;color:var(--muted)}
+  .vb b{font-family:'Courier New',monospace;font-size:clamp(34px,9vw,46px);font-weight:900;
+    line-height:1;color:var(--point);display:block}
 
-  .cellset{display:flex;gap:3px;justify-content:space-between}
-  .cell{flex:1 1 0;min-width:0;position:relative;display:flex;align-items:center;justify-content:center;
-    border:2px solid var(--ink);border-radius:6px;background:var(--paper);
-    aspect-ratio:1/1.35;padding:2px 1px;transition:background .12s,border-width .12s}
-  .cell svg{width:64%;height:auto;display:block}
-  .cell .n{position:absolute;top:-17px;left:50%;transform:translateX(-50%);font-family:'Courier New',monospace;
-    font-size:11px;font-weight:900;color:var(--ink);background:var(--point-soft);border:2px solid var(--ink);
-    border-radius:5px;padding:0 4px;white-space:nowrap}
-  .cell.now{border-width:3px;background:var(--point-soft)}
-  .cell.now::after{content:'';position:absolute;top:-7px;left:50%;transform:translateX(-50%);
-    border-left:5px solid transparent;border-right:5px solid transparent;border-bottom:6px solid var(--ink)}
+  .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    min-height:46px;padding:8px 12px;box-shadow:var(--hard-sm);flex:1 1 76px;
+    transition:transform .1s,box-shadow .1s}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point);color:#fff}
+  .btn:disabled{opacity:.4;cursor:default;box-shadow:none}
 
-  .dial .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-  .dial label{font-size:15px;font-weight:900}
-  .dial .val{font-family:'Courier New',monospace;font-weight:900;font-size:16px;background:var(--point);
-    color:#fff;border:2.5px solid var(--ink);border-radius:9px;padding:2px 12px;white-space:nowrap}
-  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;min-height:44px;
-    background:transparent;display:block;margin-top:6px}
-  input[type=range]::-webkit-slider-runnable-track{height:14px;border-radius:999px;
-    background:var(--point-soft);border:2.5px solid var(--ink)}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;margin-top:-13px;
-    border-radius:50%;background:var(--point);border:3px solid var(--ink);cursor:pointer}
-  input[type=range]::-moz-range-track{height:14px;border-radius:999px;background:var(--point-soft);
-    border:2.5px solid var(--ink)}
-  input[type=range]::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:var(--point);
-    border:3px solid var(--ink);cursor:pointer}
-  input[type=range]:focus-visible{outline:3px solid var(--point);outline-offset:2px}
+  .say{margin-top:7px;font-size:13.5px;font-weight:900}
+  .say.dim{color:var(--muted);font-weight:700}
+  .note{margin-top:5px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  [hidden]{display:none!important}
 
-  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-family:inherit;
-    cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;background:var(--surface);
-    border:2.5px solid var(--ink);border-radius:var(--r-sm);min-height:44px;min-width:44px;
-    padding:10px 16px;box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s;flex:1 1 94px}
-  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .btn.main{background:var(--point-soft)}
-
-  .note{margin-top:9px;font-size:12.5px;font-weight:700;color:var(--muted)}
-
-  button, a{outline-offset:3px}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
-
-  @media(max-width:420px){
-    .stage{grid-template-columns:1fr}
-  }
-  .pop{animation:pop .17s ease-out}
-  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.15)}100%{transform:scale(1)}}
-  .shake{animation:shake .3s ease-out}
-  @keyframes shake{0%,100%{transform:translateX(0)}30%{transform:translateX(-4px)}65%{transform:translateX(4px)}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -108,44 +90,27 @@
 
   <header>
     <h1>아홉과 열</h1>
-    <p class="lead">한 번 더 누르면 달라져요</p>
+    <p class="lead">어디서 갈릴지 먼저 짚어요</p>
   </header>
 
-  <section aria-labelledby="h-led">
-    <h2 id="h-led">지금 값</h2>
-    <div class="stage">
-      <div class="panel">
-        <svg id="grid" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg>
-      </div>
-      <p class="vbox"><span class="lbl">누른 횟수</span><b id="num" aria-live="polite">0</b></p>
-    </div>
-    <p class="ask">갈라지는 자리가 어디인가요</p>
+  <section aria-labelledby="h-r">
+    <h2 id="h-r">이번 규칙</h2>
+    <p class="rule" id="rule"></p>
+    <div class="strip" id="strip" style="margin-top:8px"></div>
+    <p class="say dim" id="say">띠에서 한 칸 짚어요</p>
   </section>
 
-  <section aria-labelledby="h-strip">
-    <h2 id="h-strip">0~15</h2>
-    <div class="cellset" id="cellset" role="img" aria-label="0부터 15까지 칸마다 하트나 가위표를 보여 줌"></div>
-  </section>
-
-  <section class="dial" aria-labelledby="h-th">
-    <h2 id="h-th">기준값</h2>
+  <section aria-labelledby="h-t">
+    <h2 id="h-t">시험</h2>
     <div class="row">
-      <label for="th">기준값</label>
-      <span class="val" id="thv">10</span>
+      <div class="led"><svg id="grid" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 화면"></svg></div>
+      <p class="vb"><span class="lb">누른 횟수</span><b id="num">0</b></p>
     </div>
-    <input type="range" id="th" min="1" max="15" step="1" value="10">
-
     <div class="acts">
-      <button class="btn" id="left" type="button">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5 7 12l8 7" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        왼쪽</button>
-      <button class="btn main" id="right" type="button">
-        오른쪽
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 5l8 7-8 7" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <button class="btn" id="reset" type="button">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4h4" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        다시 시작</button>
+      <button class="btn" id="left" type="button">왼쪽</button>
+      <button class="btn main" id="right" type="button">오른쪽</button>
+      <button class="btn" id="reset" type="button">다시 시작</button>
+      <button class="btn" id="next" type="button">다음 판</button>
     </div>
     <p class="note">마이크로비트로 다시 시험해요</p>
   </section>
@@ -154,162 +119,111 @@
 <script>
 (function(){
   'use strict';
-
-  var gridEl = document.getElementById('grid');
-  var numEl = document.getElementById('num');
-  var cellsetEl = document.getElementById('cellset');
-  var thInput = document.getElementById('th');
-  var thv = document.getElementById('thv');
-  var leftBtn = document.getElementById('left');
-  var rightBtn = document.getElementById('right');
-  var resetBtn = document.getElementById('reset');
-
+  var $ = function(id){ return document.getElementById(id); };
   var NS = 'http://www.w3.org/2000/svg';
-  var OFF = '#3A3630';
-  var ON = '#DB2777';
+  var MAXV = 15;
 
-  var HEART = [
-    0,1,0,1,0,
-    1,1,1,1,1,
-    1,1,1,1,1,
-    0,1,1,1,0,
-    0,0,1,0,0
-  ];
-  var CROSS = [
-    1,0,0,0,1,
-    0,1,0,1,0,
-    0,0,1,0,0,
-    0,1,0,1,0,
-    1,0,0,0,1
-  ];
+  var HEART = [0,1,0,1,0, 1,1,1,1,1, 1,1,1,1,1, 0,1,1,1,0, 0,0,1,0,0];
+  var CROSS = [1,0,0,0,1, 0,1,0,1,0, 0,0,1,0,0, 0,1,0,1,0, 1,0,0,0,1];
 
-  var value = 0;
-  var threshold = 10;
-  var shown = null; // null | 'heart' | 'cross' — 오른쪽을 눌러야만 바뀐다
+  var n = 10, ge = true;     // 이번 판의 기준값과 규칙
+  var edge = 10;             // 실제로 갈리는 자리
+  var value = 0;             // 누른 횟수
+  var shown = null;          // 지금 LED
+  var guess = null;          // 짚은 칸
+  var tried = [];            // 시험한 칸의 결과
+  var found = false;         // 갈린 자리가 드러났나
 
-  // ── 5x5 LED
-  var cells = [];
-  (function buildGrid(){
-    for (var r = 0; r < 5; r++) {
-      for (var c = 0; c < 5; c++) {
-        var el = document.createElementNS(NS, 'rect');
-        el.setAttribute('x', (c * 21.25).toFixed(2));
-        el.setAttribute('y', (r * 21.25).toFixed(2));
-        el.setAttribute('width', '15');
-        el.setAttribute('height', '15');
-        el.setAttribute('rx', '3');
-        el.setAttribute('class', 'dot');
-        el.setAttribute('fill', OFF);
-        gridEl.appendChild(el);
-        cells.push(el);
-      }
+  var leds = [], cells = [];
+
+  (function build(){
+    for (var i = 0; i < 25; i++){
+      var r = document.createElementNS(NS, 'rect');
+      r.setAttribute('x', (i % 5) * 20 + 2); r.setAttribute('y', ((i / 5) | 0) * 20 + 2);
+      r.setAttribute('width', 16); r.setAttribute('height', 16); r.setAttribute('rx', 3);
+      r.setAttribute('fill', '#3A3630');
+      $('grid').appendChild(r); leds.push(r);
+    }
+    for (var v = 0; v <= MAXV; v++){
+      var b = document.createElement('button');
+      b.className = 'c'; b.type = 'button';
+      b.innerHTML = '<span class="ico"></span><span class="no">' + v + '</span>';
+      (function(k){ b.addEventListener('click', function(){ pick(k); }); })(v);
+      $('strip').appendChild(b); cells.push(b);
     }
   })();
 
-  function renderLed(){
-    var pic = shown === 'heart' ? HEART : (shown === 'cross' ? CROSS : null);
-    for (var i = 0; i < 25; i++) cells[i].setAttribute('fill', (pic && pic[i]) ? ON : OFF);
+  function icon(kind){
+    if (!kind) return '';
+    return kind === 'heart'
+      ? '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 17S2 12 2 7a4 4 0 018-1 4 4 0 018 1c0 5-8 10-8 10z" fill="#DB2777" stroke="#141414" stroke-width="1.6"/></svg>'
+      : '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="#141414" stroke-width="3" stroke-linecap="round"/></svg>';
   }
 
-  function renderNum(){
-    numEl.textContent = String(value);
+  function newRound(){
+    n = 3 + Math.floor(Math.random() * 11);       // 3~13
+    ge = Math.random() < 0.5;
+    edge = ge ? n : n + 1;
+    value = 0; shown = null; guess = null; found = false;
+    tried = [];
+    for (var i = 0; i <= MAXV; i++) tried.push(null);
+    $('rule').innerHTML = ge
+      ? '값이 <em>' + n + '과 같거나 크면</em> 하트'
+      : '값이 <em>' + n + '보다 크면</em> 하트';
+    render();
   }
 
-  // ── 0~15 띠: 열여섯 칸을 한 번만 만들고, 아이콘 표시·강조만 다시 그린다
-  function heartIcon(){
-    var p = document.createElementNS(NS, 'path');
-    p.setAttribute('d', 'M12 20 3.6 12.6a5 5 0 1 1 7.6-6.4l.8.9.8-.9a5 5 0 1 1 7.6 6.4L12 20Z');
-    p.setAttribute('fill', 'var(--point)');
-    return p;
-  }
-  function crossIcon(){
-    var g = document.createElementNS(NS, 'g');
-    var l1 = document.createElementNS(NS, 'line');
-    l1.setAttribute('x1', '5'); l1.setAttribute('y1', '5');
-    l1.setAttribute('x2', '19'); l1.setAttribute('y2', '19');
-    var l2 = document.createElementNS(NS, 'line');
-    l2.setAttribute('x1', '19'); l2.setAttribute('y1', '5');
-    l2.setAttribute('x2', '5'); l2.setAttribute('y2', '19');
-    [l1, l2].forEach(function(l){
-      l.setAttribute('stroke', 'var(--ink)');
-      l.setAttribute('stroke-width', '3');
-      l.setAttribute('stroke-linecap', 'round');
-      g.appendChild(l);
-    });
-    return g;
+  // 짚기는 판마다 한 번. 시험을 시작하기 전에만 짚을 수 있다.
+  function pick(v){
+    if (guess !== null || tried.some(function(x){ return x !== null; })) return;
+    guess = v;
+    cells[v].classList.remove('pick'); void cells[v].offsetWidth; cells[v].classList.add('pick');
+    render();
   }
 
-  var strip = [];
-  (function buildStrip(){
-    for (var i = 0; i <= 15; i++) {
-      var cell = document.createElement('div');
-      cell.className = 'cell';
-      var svg = document.createElementNS(NS, 'svg');
-      svg.setAttribute('viewBox', '0 0 24 24');
-      svg.setAttribute('aria-hidden', 'true');
-      var heart = heartIcon();
-      var cross = crossIcon();
-      svg.appendChild(heart);
-      svg.appendChild(cross);
-      var n = document.createElement('span');
-      n.className = 'n';
-      cell.appendChild(svg);
-      cell.appendChild(n);
-      cell.setAttribute('aria-hidden', 'true');
-      cellsetEl.appendChild(cell);
-      strip.push({ root: cell, heart: heart, cross: cross, n: n });
-    }
-  })();
-
-  function renderStrip(){
-    for (var i = 0; i <= 15; i++) {
-      var s = strip[i];
-      var isHeart = i >= threshold;
-      s.heart.style.display = isHeart ? '' : 'none';
-      s.cross.style.display = isHeart ? 'none' : '';
-      var now = (i === value);
-      s.root.classList.toggle('now', now);
-      s.n.textContent = now ? String(i) : '';
-    }
-  }
-
-  function left(){
-    value = Math.min(value + 1, 15);
-    renderNum();
-    renderStrip();
-  }
-
-  function right(){
-    var was = shown;
-    shown = (value >= threshold) ? 'heart' : 'cross';
-    if (was !== null && was !== shown){
-      var g = document.getElementById('grid');
-      g.classList.remove('pop'); void g.offsetWidth; g.classList.add('pop');
-    }
-    renderLed();
-  }
-
-  function resetAll(){
-    value = 0;
-    shown = null;
-    renderNum();
-    renderLed();
-    renderStrip();
-  }
-
-  leftBtn.addEventListener('click', left);
-  rightBtn.addEventListener('click', right);
-  resetBtn.addEventListener('click', resetAll);
-
-  thInput.addEventListener('input', function(){
-    threshold = Number(thInput.value);
-    thv.textContent = String(threshold);
-    renderStrip(); // 기준값을 밀어도 LED는 그대로 둔다
+  $('left').addEventListener('click', function(){
+    if (value >= MAXV) return;
+    value += 1; render();
   });
+  $('right').addEventListener('click', function(){
+    if (guess === null) return;                  // 짚기 전에는 시험하지 않는다
+    shown = (ge ? value >= n : value > n) ? 'heart' : 'cross';
+    tried[value] = shown;
+    // 경계 양쪽을 둘 다 시험하면 갈린 자리가 드러난다
+    if (tried[edge - 1] === 'cross' && tried[edge] === 'heart') found = true;
+    render();
+  });
+  $('reset').addEventListener('click', function(){
+    value = 0; shown = null; render();
+  });
+  $('next').addEventListener('click', newRound);
 
-  renderNum();
-  renderLed();
-  renderStrip();
+  function render(){
+    $('num').textContent = String(value);
+    var pic = shown === 'heart' ? HEART : (shown === 'cross' ? CROSS : null);
+    for (var i = 0; i < 25; i++) leds[i].setAttribute('fill', pic && pic[i] ? '#DB2777' : '#3A3630');
+
+    for (var v = 0; v <= MAXV; v++){
+      var c = cells[v];
+      c.querySelector('.ico').innerHTML = icon(tried[v]);
+      c.classList.toggle('mark', tried[v] !== null);
+      c.classList.toggle('guess', guess === v);
+      c.classList.toggle('edge', found && v === edge);
+      c.setAttribute('aria-label', v + (guess === v ? ' 짚음' : '') +
+        (tried[v] ? (tried[v] === 'heart' ? ' 하트' : ' 가위표') : ''));
+    }
+
+    var s = $('say');
+    if (guess === null){ s.textContent = '띠에서 한 칸 짚어요'; s.className = 'say dim'; }
+    else if (!found){ s.textContent = '눌러서 시험해요'; s.className = 'say dim'; }
+    else if (guess === edge){ s.textContent = '짚은 자리에서 갈렸어요'; s.className = 'say'; }
+    else { s.textContent = Math.abs(guess - edge) + '칸 옆에서 갈렸어요'; s.className = 'say'; }
+
+    $('left').disabled = value >= MAXV;
+    $('right').disabled = guess === null;
+  }
+
+  newRound();
 })();
 </script>
 </body>
