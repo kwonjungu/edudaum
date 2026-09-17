@@ -26,8 +26,10 @@ body{
 main{max-width:920px;margin:0 auto;padding:16px 14px 28px}
 h1{
   font-size:clamp(24px,5.6vw,34px); font-weight:900; letter-spacing:-.035em;
-  margin:0 0 12px;
+  margin:0 0 4px;
 }
+.lead{font-size:15px;color:var(--muted);margin:0 0 12px;font-weight:700}
+
 .stage{
   display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px;
   align-items:start; margin:0;
@@ -38,54 +40,53 @@ h1{
   background:var(--surface); border:3px solid var(--ink);
   border-radius:var(--r); box-shadow:var(--hard); padding:12px;
 }
+.face + .face{margin-top:14px}
+.face h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin:0 0 8px;color:var(--muted)}
 .scene svg{display:block;width:100%;height:auto}
 
 .lamp{fill:#EFEAE0;stroke:var(--ink);stroke-width:3}
 .lamp.on.red{fill:var(--red)}
 .lamp.on.green{fill:var(--green)}
-.ring{fill:none;stroke:var(--ink);stroke-width:0;}
+.ring{fill:none;stroke:var(--ink);stroke-width:0}
 .lamp.on + .ring{stroke-width:6}
 .band{fill:#E8E2D6;stroke:var(--ink);stroke-width:3}
 .stripe{fill:var(--surface)}
-.fig{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round}
-.fig circle{fill:var(--point)}
-#walker{transition:transform .18s linear}
+.walker{fill:var(--point);stroke:var(--ink);stroke-width:2.5;transition:cx .32s linear}
 .svgtxt{font:700 15px "Pretendard","Malgun Gothic",sans-serif;fill:var(--ink)}
 
-.cmds{list-style:none;margin:0 0 12px;padding:0;counter-reset:c}
-.cmds li{
-  counter-increment:c; position:relative;
-  border:2.5px solid var(--ink); border-radius:var(--r-sm);
-  background:var(--paper); padding:10px 12px 10px 42px; margin:0 0 8px;
+.who{font-size:15px;font-weight:800;margin:0 0 8px}
+.who b{color:var(--point);font-size:19px}
+
+/* 초 선택 띠 */
+.strip{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin:0 0 8px}
+.c{
+  font-family:inherit;cursor:pointer;background:var(--surface);color:var(--ink);
+  border:2.5px solid var(--ink);border-radius:9px;min-height:44px;
+  font-weight:800;font-size:14px;
+  transition:transform .1s,box-shadow .1s,background .12s;
 }
-.cmds li::before{
-  content:counter(c); position:absolute; left:8px; top:8px;
-  width:24px; height:24px; border:2.5px solid var(--ink); border-radius:50%;
-  background:var(--surface); text-align:center; line-height:20px; font-weight:900; font-size:14px;
-}
-.cmds li.live{background:var(--point-soft)}
-#sec{
-  display:inline-block; min-width:2.2em; text-align:center; font-weight:900;
-  border-bottom:3px solid var(--ink);
-}
-#range{
-  display:block; width:100%; margin:8px 0 0;
-  min-height:48px; height:48px; accent-color:var(--point); cursor:pointer;
-}
+.c:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
+.c.pick{background:var(--point);color:#fff;animation:pk .2s ease-out}
+.c:disabled{opacity:.55;cursor:not-allowed}
+.c:disabled.pick{opacity:1}
+@keyframes pk{0%{transform:scale(1)}45%{transform:scale(1.18)}100%{transform:scale(1)}}
+
+.pickline{font-size:13.5px;font-weight:800;color:var(--muted);min-height:20px}
+.pickline b{color:var(--point)}
+
 .row{display:flex;flex-wrap:wrap;gap:8px}
-button{
+button.act{
   font:inherit; font-weight:800; color:var(--ink); cursor:pointer;
   min-height:48px; min-width:88px; padding:10px 18px;
   border:3px solid var(--ink); border-radius:999px;
   background:var(--surface); box-shadow:var(--hard-sm);
   transition:transform .1s ease, box-shadow .1s ease;
 }
-button.main{background:var(--point)}
-button:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-button:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+button.act.main{background:var(--point)}
+button.act:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+button.act:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 :focus-visible{outline:3px solid var(--point);outline-offset:3px}
-input[type=range]:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
 
 .out{
   margin:12px 0 0; min-height:52px; display:flex; align-items:center;
@@ -94,10 +95,6 @@ input[type=range]:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
   font-weight:900; font-size:19px;
 }
 .out:empty{background:var(--surface)}
-.ask{
-  margin:14px 0 0; padding:10px 14px; font-weight:800;
-  border:2.5px dashed var(--ink); border-radius:var(--r-sm); background:var(--point-soft);
-}
 @media (prefers-reduced-motion:reduce){
   *{animation:none !important;transition:none !important}
 }
@@ -116,144 +113,217 @@ input[type=range]:focus-visible{outline:3px solid var(--ink);outline-offset:4px}
 <main>
   <nav class="topnav"><a href="../">← 전체 목록</a><b>1~2</b></nav>
   <h1>신호등 명령 바꾸기</h1>
+  <p class="lead">가장 짧은 초록불을 짚어요</p>
 
   <section class="stage">
-    <div class="face scene">
-      <svg viewBox="0 0 320 232" role="img" aria-label="보행자 신호등과 횡단보도">
-        <rect x="10" y="6" width="64" height="112" rx="12" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
-        <circle id="lampR" class="lamp red" cx="42" cy="38" r="19"/>
-        <circle class="ring" cx="42" cy="38" r="25"/>
-        <circle id="lampG" class="lamp green" cx="42" cy="86" r="19"/>
-        <circle class="ring" cx="42" cy="86" r="25"/>
-        <text class="svgtxt" x="84" y="44">빨강</text>
-        <text class="svgtxt" x="84" y="92">초록</text>
-        <rect x="36" y="118" width="12" height="50" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
-        <rect class="band" x="8" y="168" width="304" height="52" rx="8"/>
-        <g class="stripe" aria-hidden="true">
-          <rect x="16" y="174" width="12" height="40"/><rect x="40" y="174" width="12" height="40"/>
-          <rect x="64" y="174" width="12" height="40"/><rect x="88" y="174" width="12" height="40"/>
-          <rect x="112" y="174" width="12" height="40"/><rect x="136" y="174" width="12" height="40"/>
-          <rect x="160" y="174" width="12" height="40"/><rect x="184" y="174" width="12" height="40"/>
-          <rect x="208" y="174" width="12" height="40"/><rect x="232" y="174" width="12" height="40"/>
-          <rect x="256" y="174" width="12" height="40"/><rect x="280" y="174" width="12" height="40"/>
-        </g>
-        <g id="walker" transform="translate(12,0)">
-          <g class="fig">
-            <circle cx="10" cy="128" r="9"/>
-            <path d="M10 137 L10 152"/>
-            <path d="M10 141 L1 148 M10 141 L19 146"/>
-            <path d="M10 152 L2 167 M10 152 L18 167"/>
-          </g>
-        </g>
-      </svg>
+    <div class="face">
+      <h2>이번 판</h2>
+      <p class="who">이번엔 <b id="nText">3</b>명이 건너요</p>
+      <div class="strip" id="strip" role="group" aria-label="초록불 초 수"></div>
+      <p class="pickline" id="pickline">초를 짚어요</p>
     </div>
 
     <div class="face">
-      <ol class="cmds">
-        <li>빨간불 30초 켜기</li>
-        <li class="live">
-          <label for="range">초록불 <output id="sec" for="range">20</output>초 켜기</label>
-          <input id="range" type="range" min="3" max="20" step="1" value="20">
-        </li>
-        <li>끝나기 5초 전 깜빡</li>
-      </ol>
+      <h2>건너기</h2>
+      <div class="scene">
+        <svg viewBox="0 0 320 232" role="img" aria-label="보행자 신호등과 횡단보도">
+          <rect x="10" y="6" width="64" height="112" rx="12" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
+          <circle id="lampR" class="lamp red" cx="42" cy="38" r="19"/>
+          <circle class="ring" cx="42" cy="38" r="25"/>
+          <circle id="lampG" class="lamp green" cx="42" cy="86" r="19"/>
+          <circle class="ring" cx="42" cy="86" r="25"/>
+          <text class="svgtxt" x="84" y="44">빨강</text>
+          <text class="svgtxt" x="84" y="92">초록</text>
+          <rect x="36" y="118" width="12" height="50" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
+          <rect class="band" x="8" y="168" width="304" height="52" rx="8"/>
+          <g class="stripe" aria-hidden="true">
+            <rect x="16" y="174" width="12" height="40"/><rect x="40" y="174" width="12" height="40"/>
+            <rect x="64" y="174" width="12" height="40"/><rect x="88" y="174" width="12" height="40"/>
+            <rect x="112" y="174" width="12" height="40"/><rect x="136" y="174" width="12" height="40"/>
+            <rect x="160" y="174" width="12" height="40"/><rect x="184" y="174" width="12" height="40"/>
+            <rect x="208" y="174" width="12" height="40"/><rect x="232" y="174" width="12" height="40"/>
+            <rect x="256" y="174" width="12" height="40"/><rect x="280" y="174" width="12" height="40"/>
+          </g>
+          <g id="walkers"></g>
+        </svg>
+      </div>
       <div class="row">
-        <button id="run" class="main" type="button">실행</button>
-        <button id="reset" type="button">다시 하기</button>
+        <button class="act main" id="run" type="button">건너 보기</button>
+        <button class="act" id="reset" type="button">다시 하기</button>
+        <button class="act" id="next" type="button">다음 판</button>
       </div>
       <p id="out" class="out" role="status" aria-live="polite"></p>
     </div>
   </section>
-
-  <p class="ask">무엇이 그대로인가요?</p>
 </main>
 
 <script>
 (function () {
   'use strict';
 
-  var CELLS = 12;      // 다 건너는 데 드는 칸 수
-  var STEPPX = 23;     // 한 칸의 가로 길이
-  var TICK = 220;      // 명령 속 1초를 화면에서 돌리는 시간
+  var NS = 'http://www.w3.org/2000/svg';
+  var SEC_MIN = 5, SEC_MAX = 20;
+  var N_MIN = 3, N_MAX = 8;
+  var TICK = 220;
+  var STARTX = 22, ENDX = 296;
 
-  var range = document.getElementById('range');
-  var secOut = document.getElementById('sec');
+  var stripEl = document.getElementById('strip');
+  var pickline = document.getElementById('pickline');
+  var nText = document.getElementById('nText');
   var runBtn = document.getElementById('run');
   var resetBtn = document.getElementById('reset');
+  var nextBtn = document.getElementById('next');
   var out = document.getElementById('out');
   var lampR = document.getElementById('lampR');
   var lampG = document.getElementById('lampG');
-  var walker = document.getElementById('walker');
+  var walkersG = document.getElementById('walkers');
 
+  var cells = [];
+  var walkerEls = [];
+
+  var N = 0, prevN = null;
+  var pickedSec = null;
   var timer = null;
   var t = 0;
-  var step = 0;
+  var running = false;
+
+  (function buildStrip() {
+    for (var s = SEC_MIN; s <= SEC_MAX; s++) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'c';
+      b.textContent = String(s);
+      b.setAttribute('aria-label', s + '초');
+      (function (sec) {
+        b.addEventListener('click', function () { pickSec(sec); });
+      })(s);
+      stripEl.appendChild(b);
+      cells.push(b);
+    }
+  })();
+
+  (function buildWalkers() {
+    for (var i = 0; i < N_MAX; i++) {
+      var g = document.createElementNS(NS, 'g');
+      var c = document.createElementNS(NS, 'circle');
+      c.setAttribute('class', 'walker');
+      c.setAttribute('r', '6');
+      c.setAttribute('cx', String(STARTX));
+      c.setAttribute('cy', String(178 + i * 6));
+      g.appendChild(c);
+      walkersG.appendChild(g);
+      walkerEls.push(c);
+    }
+  })();
 
   function lamps(mode) {
     lampR.classList.toggle('on', mode === 'red');
     lampG.classList.toggle('on', mode === 'green');
   }
 
-  function place() {
-    walker.setAttribute('transform', 'translate(' + (12 + step * STEPPX) + ',0)');
-  }
-
-  function lock(on) {
-    runBtn.disabled = on;
-    range.disabled = on;
-  }
-
   function halt() {
     if (timer !== null) { clearInterval(timer); timer = null; }
+    running = false;
+  }
+
+  function pickN() {
+    var v;
+    do { v = N_MIN + Math.floor(Math.random() * (N_MAX - N_MIN + 1)); } while (v === prevN);
+    prevN = v;
+    return v;
+  }
+
+  function updateWalkers(crossedCount) {
+    for (var i = 0; i < N_MAX; i++) {
+      var el = walkerEls[i];
+      if (i >= N) { el.setAttribute('display', 'none'); continue; }
+      el.setAttribute('display', '');
+      el.setAttribute('cx', String(i < crossedCount ? ENDX : STARTX));
+    }
+  }
+
+  function render() {
+    for (var i = 0; i < cells.length; i++) {
+      var sec = SEC_MIN + i;
+      cells[i].classList.toggle('pick', pickedSec === sec);
+      cells[i].disabled = pickedSec !== null;
+    }
+    pickline.innerHTML = pickedSec === null
+      ? '초를 짚어요'
+      : '<b>' + pickedSec + '초</b>를 짚었어요';
+    runBtn.disabled = running || pickedSec === null;
+    resetBtn.disabled = running;
+    nextBtn.disabled = running;
+  }
+
+  function pickSec(sec) {
+    if (running || pickedSec !== null) { return; }
+    pickedSec = sec;
+    render();
+  }
+
+  function tick() {
+    t += 1;
+    var crossedCount = Math.min(N, Math.floor(t / 2));
+    updateWalkers(crossedCount);
+    var blink = (t > pickedSec - 5) && (t % 2 === 1);
+    lamps(blink ? 'off' : 'green');
+    if (t >= pickedSec) { finish(); }
   }
 
   function finish() {
     halt();
-    lock(false);
     lamps('red');
-    var left = CELLS - step;
-    out.textContent = left <= 0 ? '다 건넜어요' : left + '칸 남기고 멈췄어요';
-  }
-
-  function tick() {
-    var g = parseInt(range.value, 10);
-    t += 1;
-    if (t > g) { finish(); return; }
-    if (step < CELLS) { step += 1; place(); }
-    var blink = (t > g - 5) && (t % 2 === 1);
-    lamps(blink ? 'off' : 'green');
-    if (step >= CELLS) { finish(); }
+    var minSec = N * 2;
+    var crossedFinal = Math.min(N, Math.floor(pickedSec / 2));
+    if (crossedFinal >= N) {
+      var leftover = pickedSec - minSec;
+      out.textContent = leftover <= 0 ? '모두 건넜어요' : (leftover + '초가 남았어요');
+    } else {
+      out.textContent = (N - crossedFinal) + '명이 남았어요';
+    }
+    render();
   }
 
   function run() {
-    if (timer !== null) { return; }
+    if (running || pickedSec === null) { return; }
+    running = true;
     t = 0;
-    step = 0;
     out.textContent = '';
-    place();
+    updateWalkers(0);
     lamps('green');
-    lock(true);
+    render();
     timer = setInterval(tick, TICK);
   }
 
-  function reset() {
+  function resetRun() {
+    if (running) { return; }
     halt();
-    lock(false);
     t = 0;
-    step = 0;
-    range.value = '20';
-    secOut.textContent = '20';
     out.textContent = '';
-    place();
+    updateWalkers(0);
     lamps('red');
+    render();
   }
 
-  range.addEventListener('input', function () { secOut.textContent = range.value; });
+  function newRound() {
+    halt();
+    N = pickN();
+    nText.textContent = String(N);
+    pickedSec = null;
+    t = 0;
+    out.textContent = '';
+    updateWalkers(0);
+    lamps('red');
+    render();
+  }
+
   runBtn.addEventListener('click', run);
-  resetBtn.addEventListener('click', reset);
+  resetBtn.addEventListener('click', resetRun);
+  nextBtn.addEventListener('click', newRound);
   window.addEventListener('pagehide', halt);
 
-  reset();
+  newRound();
 })();
 </script>
 </body>

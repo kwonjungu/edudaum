@@ -23,10 +23,21 @@ body{
   font-size:17px; line-height:1.45; font-weight:600;
   -webkit-text-size-adjust:100%;
 }
-main{max-width:900px;margin:0 auto;padding:16px 14px 28px}
-h1{font-size:clamp(24px,5.6vw,34px);font-weight:900;letter-spacing:-.035em;margin:0 0 12px}
+main{max-width:900px;margin:0 auto;padding:10px 14px 20px}
+h1{font-size:clamp(24px,5.6vw,34px);font-weight:900;letter-spacing:-.035em;margin:0 0 4px}
+.lead{font-size:15px;color:var(--muted);margin:0 0 12px;font-weight:700}
 
-.row{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+.face{
+  background:var(--surface); border:3px solid var(--ink);
+  border-radius:var(--r); box-shadow:var(--hard); padding:9px; margin:0 0 9px;
+}
+.face h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin:0 0 8px;color:var(--muted)}
+
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 4px}
+.chip{display:inline-block;font-weight:800;font-size:14px;background:var(--point-soft);
+  border:2px solid var(--ink);border-radius:999px;padding:4px 12px}
+
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 4px}
 button{
   font:inherit; font-weight:800; color:var(--ink); cursor:pointer;
   min-height:48px; min-width:96px; padding:10px 16px;
@@ -35,7 +46,7 @@ button{
   transition:transform .1s ease, box-shadow .1s ease;
 }
 button.main{background:var(--point)}
-button.alt{background:var(--point-soft)}
+button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
 button:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
 button:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
 button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
@@ -44,11 +55,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 .wrap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:14px;align-items:start}
 @media (max-width:719px){ .wrap{grid-template-columns:minmax(0,1fr)} }
 
-.face{
-  background:var(--surface); border:3px solid var(--ink);
-  border-radius:var(--r); box-shadow:var(--hard); padding:12px;
-}
-.face svg{display:block;width:100%;height:auto}
+.diagram svg{display:block;width:100%;max-width:262px;margin:0 auto;height:auto}
 
 .shape{fill:var(--surface);stroke:var(--ink);stroke-width:3}
 .node.lit .shape{fill:var(--point-soft);stroke-width:5}
@@ -58,19 +65,15 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 .edge.lit{stroke:var(--point);stroke-width:7}
 
 .rec{
-  display:flex; align-items:center; gap:8px; min-height:52px;
+  display:flex; align-items:center; gap:8px; min-height:44px;
   border:2.5px solid var(--ink); border-radius:var(--r-sm);
   background:var(--paper); padding:8px 12px; margin:0 0 8px;
   font-weight:800;
 }
-.rec b{
-  flex:0 0 auto; background:var(--ink); color:var(--paper);
-  border-radius:999px; padding:3px 12px; font-size:15px;
-}
-.rec span{color:var(--ink)}
 .rec span:empty::before{content:"—";color:var(--muted)}
+.say{font-size:13.5px;font-weight:900;color:var(--point);min-height:20px}
 .ask{
-  margin:14px 0 0; padding:10px 14px; font-weight:800;
+  margin:10px 0 0; padding:10px 14px; font-weight:800;
   border:2.5px dashed var(--ink); border-radius:var(--r-sm); background:var(--point-soft);
 }
 @media (prefers-reduced-motion:reduce){
@@ -91,17 +94,17 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 <main>
   <nav class="topnav"><a href="../">← 전체 목록</a><b>9~10</b></nav>
   <h1>도서관 순서도 시험</h1>
+  <p class="lead">이 책이 어느 끝으로 갈지 짚어요</p>
+
+  <section class="face">
+    <h2>이번 책</h2>
+    <div class="chips" id="chips"></div>
+  </section>
 
   <section>
-    <div class="row">
-      <button id="swap" type="button">갈래 바꾸기</button>
-      <button id="runY" class="main" type="button">빌릴 수 있음</button>
-      <button id="runN" class="alt" type="button">빌릴 수 없음</button>
-      <button id="reset" type="button">다시 하기</button>
-    </div>
-
     <div class="wrap">
-      <div class="face">
+      <div class="face diagram">
+        <h2>순서도</h2>
         <svg viewBox="0 0 360 392" role="img" aria-label="도서관 대출 순서도">
           <defs>
             <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -129,8 +132,8 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
             <polygon class="shape" points="180,116 252,148 180,180 108,148"/>
             <text class="cap" x="180" y="154" text-anchor="middle">빌릴 수 있나?</text>
           </g>
-          <text id="labL" class="yn" x="102" y="140" text-anchor="end">아니요</text>
-          <text id="labR" class="yn" x="258" y="140" text-anchor="start">예</text>
+          <text class="yn" x="102" y="140" text-anchor="end">아니요</text>
+          <text class="yn" x="258" y="140" text-anchor="start">예</text>
 
           <g id="nLog" class="node">
             <rect class="shape" x="20" y="210" width="116" height="42" rx="4"/>
@@ -151,10 +154,20 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
         </svg>
       </div>
 
-      <div>
-        <p class="rec"><b>있음</b><span id="recY"></span></p>
-        <p class="rec"><b>없음</b><span id="recN"></span></p>
-        <p class="ask">두 줄이 바뀌었나요?</p>
+      <div class="face">
+        <h2>어느 끝일까요</h2>
+        <div class="row">
+          <button id="guessHand" type="button" aria-pressed="false">책 건네기</button>
+          <button id="guessBook" type="button" aria-pressed="false">예약 안내</button>
+        </div>
+        <div class="row">
+          <button id="run" class="main" type="button">굴려 보기</button>
+          <button id="reset" type="button">다시 하기</button>
+          <button id="next" type="button">다음 판</button>
+        </div>
+        <p class="rec"><span id="recEl"></span></p>
+        <p class="say" id="say" role="status" aria-live="polite"></p>
+        <p class="ask">두 끝 가운데 하나를 짚어요</p>
       </div>
     </div>
   </section>
@@ -166,21 +179,33 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 
   var STEP = 380;
 
-  var swapBtn = document.getElementById('swap');
-  var runYBtn = document.getElementById('runY');
-  var runNBtn = document.getElementById('runN');
+  var BOOKS = [
+    { traits: ['그림책', '빌린 적 없음'], avail: true },
+    { traits: ['과학책', '서가에 있음'], avail: true },
+    { traits: ['위인전', '어제 반납됨'], avail: true },
+    { traits: ['동화책', '다른 친구가 빌림'], avail: false },
+    { traits: ['만화책', '아직 안 돌아옴'], avail: false },
+    { traits: ['백과사전', '지금 대출 중'], avail: false }
+  ];
+
+  var chipsEl = document.getElementById('chips');
+  var guessHandBtn = document.getElementById('guessHand');
+  var guessBookBtn = document.getElementById('guessBook');
+  var runBtn = document.getElementById('run');
   var resetBtn = document.getElementById('reset');
-  var labL = document.getElementById('labL');
-  var labR = document.getElementById('labR');
-  var recY = document.getElementById('recY');
-  var recN = document.getElementById('recN');
+  var nextBtn = document.getElementById('next');
+  var recEl = document.getElementById('recEl');
+  var sayEl = document.getElementById('say');
 
   var LEFT = ['nStart', 'e0', 'nCheck', 'e1', 'nAsk', 'eL', 'nLog', 'eL2', 'nHand', 'eLE', 'nEnd'];
   var RIGHT = ['nStart', 'e0', 'nCheck', 'e1', 'nAsk', 'eR', 'nBook', 'eRE', 'nEnd'];
   var ALL = ['nStart', 'nCheck', 'nAsk', 'nLog', 'nHand', 'nBook', 'nEnd',
              'e0', 'e1', 'eL', 'eR', 'eL2', 'eLE', 'eRE'];
 
-  var swapped = true;
+  var bookIdx = -1, swapped = false;
+  var prevBookIdx = null, prevSwapped = null;
+  var guess = null;
+  var running = false;
   var timer = null;
 
   var calm = window.matchMedia
@@ -193,80 +218,116 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
     }
   }
 
-  function labels() {
-    labL.textContent = swapped ? '아니요' : '예';
-    labR.textContent = swapped ? '예' : '아니요';
+  function pickRound() {
+    var bi, sw;
+    do {
+      bi = Math.floor(Math.random() * BOOKS.length);
+      sw = Math.random() < (1 / 3);
+    } while (bi === prevBookIdx && sw === prevSwapped);
+    prevBookIdx = bi; prevSwapped = sw;
+    return { bi: bi, sw: sw };
+  }
+
+  function loadBook() {
+    var book = BOOKS[bookIdx];
+    chipsEl.innerHTML = '';
+    for (var i = 0; i < book.traits.length; i++) {
+      var c = document.createElement('span');
+      c.className = 'chip';
+      c.textContent = book.traits[i];
+      chipsEl.appendChild(c);
+    }
   }
 
   function lock(on) {
-    swapBtn.disabled = on;
-    runYBtn.disabled = on;
-    runNBtn.disabled = on;
+    runBtn.disabled = on || guess === null;
     resetBtn.disabled = on;
+    nextBtn.disabled = on;
+    guessHandBtn.disabled = on || guess !== null;
+    guessBookBtn.disabled = on || guess !== null;
   }
 
   function halt() {
     if (timer !== null) { clearInterval(timer); timer = null; }
+    running = false;
   }
 
-  function write(canBorrow, takeLeft) {
-    var slot = canBorrow ? recY : recN;
-    slot.textContent = '→ ' + (takeLeft ? '책 건네기' : '예약 안내');
+  function setGuess(label) {
+    if (running || guess !== null) { return; }
+    guess = label;
+    guessHandBtn.setAttribute('aria-pressed', String(label === '책 건네기'));
+    guessBookBtn.setAttribute('aria-pressed', String(label === '예약 안내'));
+    lock(false);
   }
 
-  function walk(canBorrow) {
-    if (timer !== null) { return; }
-    var takeLeft = swapped ? !canBorrow : canBorrow;
+  function walk() {
+    if (running || guess === null) { return; }
+    var book = BOOKS[bookIdx];
+    var takeLeft = swapped ? !book.avail : book.avail;
+    var reached = takeLeft ? '책 건네기' : '예약 안내';
     var path = takeLeft ? LEFT : RIGHT;
     clearLit();
+    recEl.textContent = '';
+    sayEl.textContent = '';
+
+    function finishWalk() {
+      recEl.textContent = '→ ' + reached;
+      sayEl.textContent = reached === guess ? '짚은 곳에 닿았어요' : '다른 끝으로 갔어요';
+      running = false;
+      lock(false);
+    }
 
     if (calm) {
       for (var i = 0; i < path.length; i += 1) {
         document.getElementById(path[i]).classList.add('lit');
       }
-      write(canBorrow, takeLeft);
+      finishWalk();
       return;
     }
 
     var k = 0;
+    running = true;
     lock(true);
     timer = setInterval(function () {
       document.getElementById(path[k]).classList.add('lit');
       k += 1;
       if (k >= path.length) {
         halt();
-        lock(false);
-        write(canBorrow, takeLeft);
+        finishWalk();
       }
     }, STEP);
   }
 
-  function swap() {
-    if (timer !== null) { return; }
-    swapped = !swapped;
-    labels();
-    clearLit();
-    recY.textContent = '';
-    recN.textContent = '';
-  }
-
-  function reset() {
+  function resetRun() {
+    if (running) { return; }
     halt();
-    lock(false);
-    swapped = true;
-    labels();
     clearLit();
-    recY.textContent = '';
-    recN.textContent = '';
+    recEl.textContent = '';
+    sayEl.textContent = '';
   }
 
-  swapBtn.addEventListener('click', swap);
-  runYBtn.addEventListener('click', function () { walk(true); });
-  runNBtn.addEventListener('click', function () { walk(false); });
-  resetBtn.addEventListener('click', reset);
+  function newRound() {
+    halt();
+    var r = pickRound();
+    bookIdx = r.bi; swapped = r.sw;
+    guess = null;
+    loadBook();
+    guessHandBtn.setAttribute('aria-pressed', 'false');
+    guessBookBtn.setAttribute('aria-pressed', 'false');
+    clearLit();
+    recEl.textContent = '';
+    sayEl.textContent = '';
+    lock(false);
+  }
+
+  guessHandBtn.addEventListener('click', function () { setGuess('책 건네기'); });
+  guessBookBtn.addEventListener('click', function () { setGuess('예약 안내'); });
+  runBtn.addEventListener('click', walk);
+  resetBtn.addEventListener('click', resetRun);
+  nextBtn.addEventListener('click', newRound);
   window.addEventListener('pagehide', halt);
 
-  reset();
+  newRound();
 })();
 </script>
 </body>

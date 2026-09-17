@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>반복 횟수 체험 · 에듀다움 B09</title>
+<title>몇 번 나타날까요 — 에듀다움 B09</title>
 <style>
   :root{
     --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
-    --point:#3D5AFE; --point-soft:#E4E8FF;
-    --amber:#FFB800; --muted:#5E5E5E;
+    --point:#3D5AFE; --point-soft:#E4E8FF; --muted:#5E5E5E;
     --r:18px; --r-sm:12px;
     --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
   }
@@ -17,90 +16,54 @@
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
     background-image:radial-gradient(var(--ink) .5px,transparent .5px);
     background-size:22px 22px;background-position:-11px -11px}
-  .wrap{max-width:760px;margin:0 auto;padding:16px 16px 44px}
+  .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px}
 
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
-  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;font-size:14px;
-    background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;padding:9px 16px;min-height:44px;
-    box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
-  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .back:focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
+    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
   .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(26px,6.4vw,40px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
-  .lead{font-size:15.5px;color:var(--muted);margin-top:9px;font-weight:700}
+  h1{font-size:clamp(21px,5vw,27px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:14px;color:var(--muted);margin-top:3px;font-weight:700}
 
-  section{margin-top:18px}
-  .hint{display:flex;align-items:center;gap:9px;background:var(--surface);border:2.5px solid var(--ink);
-    border-radius:var(--r-sm);box-shadow:var(--hard-sm);padding:11px 14px;font-size:14px;font-weight:700;margin-bottom:16px}
-  .hint svg{flex-shrink:0}
+  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+    box-shadow:var(--hard);padding:10px;margin-top:9px}
+  h2{font-size:13px;font-weight:900;margin-bottom:6px;color:var(--muted)}
 
-  .stage{display:grid;grid-template-columns:minmax(0,1fr) 152px;gap:14px;align-items:stretch}
-  .panel{background:var(--ink);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);
-    padding:16px;display:flex;align-items:center;justify-content:center}
-  #led{width:100%;max-width:210px;height:auto;display:block}
-  .px{fill:#333030;transition:fill .1s}
+  .blkline{padding:7px 11px;border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    background:var(--point-soft);font-weight:900;font-size:14.5px;margin-top:5px}
+  .blkline.in1{margin-left:18px;background:var(--surface)}
+  .blkline.in2{margin-left:36px;background:var(--surface)}
+
+  .stage{display:flex;justify-content:center;margin-top:9px}
+  .panel{background:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    padding:9px;display:inline-flex}
+  #led{width:120px;height:120px;display:block}
+  .px{fill:#333030}
   .px.on{fill:var(--point)}
 
-  .cmp{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);
-    padding:12px 12px 10px;display:flex;flex-direction:column}
-  #blk{width:100%;height:190px;display:block;flex:0 0 auto}
-  .bk{fill:var(--point-soft);stroke:var(--ink);stroke-width:1.6}
-  .fr{fill:var(--point);fill-opacity:.16;stroke:var(--ink);stroke-width:2}
-  .cmprow{display:flex;align-items:center;justify-content:space-between;gap:6px;font-size:12.5px;font-weight:800;
-    border-top:2px solid var(--ink);padding-top:6px;margin-top:7px}
-  .cmprow b{font-family:'Courier New',monospace;font-size:17px;font-weight:900}
+  .strip{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:2px}
+  .c{font-family:inherit;cursor:pointer;background:var(--surface);color:var(--ink);
+    border:2.5px solid var(--ink);border-radius:9px;min-height:44px;font-weight:900;font-size:14px}
+  .c[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px}
+  .c:disabled{opacity:.45;cursor:default}
 
-  .dial{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);
-    padding:14px 16px 10px;margin-top:16px}
-  .dial .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-  .dial label{font-size:15px;font-weight:900}
-  .dial .val{font-family:'Courier New',monospace;font-weight:900;font-size:17px;background:var(--point);color:#fff;
-    border:2.5px solid var(--ink);border-radius:9px;padding:2px 13px}
-  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;min-height:44px;background:transparent;
-    display:block;margin-top:2px}
-  input[type=range]::-webkit-slider-runnable-track{height:14px;border-radius:999px;background:var(--point-soft);
-    border:2.5px solid var(--ink)}
-  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;margin-top:-13px;border-radius:50%;
-    background:var(--amber);border:3px solid var(--ink);cursor:pointer}
-  input[type=range]::-moz-range-track{height:14px;border-radius:999px;background:var(--point-soft);border:2.5px solid var(--ink)}
-  input[type=range]::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:var(--amber);border:3px solid var(--ink);cursor:pointer}
-  input[type=range]:focus-visible{outline:3px solid var(--point);outline-offset:2px}
-  input[type=range]:disabled::-webkit-slider-thumb{background:#D9D4C7}
-
-  .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-family:inherit;
-    font-size:16px;font-weight:900;color:var(--ink);background:var(--surface);border:2.5px solid var(--ink);
-    border-radius:var(--r-sm);box-shadow:var(--hard-sm);padding:12px 22px;min-height:48px;min-width:44px;
+  .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    min-height:46px;padding:8px 12px;box-shadow:var(--hard-sm);flex:1 1 96px;
     transition:transform .1s,box-shadow .1s}
-  .btn.main{background:var(--amber);flex:1 1 190px}
-  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .btn:focus-visible{outline:3px solid var(--point);outline-offset:3px}
-  .btn[disabled]{background:#E7E2D5;color:#8A8578;cursor:default;box-shadow:none;transform:none}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point-soft)}
+  .btn:disabled{opacity:.45;cursor:default;box-shadow:none}
 
-  .score{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--ink);color:var(--paper);
-    border-radius:var(--r);padding:14px 20px;margin-top:16px;font-size:15px;font-weight:800}
-  .score b{font-family:'Courier New',monospace;font-size:30px;font-weight:900;color:var(--amber)}
+  .say{margin-top:8px;font-size:13.5px;font-weight:900}
+  .say.dim{color:var(--muted);font-weight:700}
 
-  .ask{display:flex;align-items:center;gap:9px;margin-top:14px;font-size:14.5px;font-weight:800}
-  .ask svg{flex-shrink:0}
-
-  footer{text-align:center;margin-top:28px}
-  footer a{display:inline-flex;align-items:center;text-decoration:none;font-weight:900;font-size:14px;color:var(--ink);
-    background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;padding:11px 20px;min-height:44px;
-    box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
-  footer a:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  footer a:focus-visible{outline:3px solid var(--point);outline-offset:3px}
-
-  @media(max-width:560px){
-    .wrap{padding:14px 13px 40px}
-    .stage{grid-template-columns:1fr}
-    #blk{height:118px}
-    .panel{padding:14px}
-    .btn.main{flex:1 1 100%}
-  }
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -113,164 +76,208 @@
 
   <header>
     <h1>몇 번 나타날까요</h1>
-    <p class="lead">반복 횟수를 정하고 하트를 세어 보세요</p>
+    <p class="lead">몇 번 나타날지 짚어요</p>
   </header>
 
-  <section>
-    <p class="hint">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="var(--ink)" stroke-width="2.2"/><path d="M12 8v5" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="16.4" r="1.3" fill="var(--ink)"/></svg>
-      <span>기기로 옮기기 전에 먼저 예상해 보세요</span>
-    </p>
-
-    <div class="stage">
-      <div class="panel">
-        <svg id="led" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg>
-      </div>
-      <div class="cmp">
-        <svg id="blk" viewBox="0 0 120 188" preserveAspectRatio="xMidYMax meet" aria-hidden="true"></svg>
-        <div class="cmprow"><span>늘어선 블록</span><b id="n1">9</b></div>
-        <div class="cmprow"><span>반복 블록</span><b>4</b></div>
-      </div>
-    </div>
-
-    <div class="dial">
-      <div class="row">
-        <label for="cnt">반복 횟수</label>
-        <span class="val" id="nv">3</span>
-      </div>
-      <input type="range" id="cnt" min="1" max="8" step="1" value="3">
-    </div>
-
-    <div class="acts">
-      <button class="btn main" id="go" type="button">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 5l12 7-12 7V5Z" fill="var(--ink)" stroke="var(--ink)" stroke-width="2.2" stroke-linejoin="round"/></svg>
-        해 보기</button>
-      <button class="btn" id="reset" type="button">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4h4" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        다시 하기</button>
-    </div>
-
-    <p class="score"><span>하트가 나타난 수</span><b id="num" aria-live="polite">0</b></p>
-
-    <p class="ask">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="var(--point)" stroke-width="2.6"/><path d="m16 16 5 5" stroke="var(--point)" stroke-width="2.6" stroke-linecap="round"/></svg>
-      <span>블록 수가 줄어도 결과는 같나요</span>
-    </p>
+  <section aria-labelledby="h-b">
+    <h2 id="h-b">이번 반복</h2>
+    <div id="code"></div>
+    <div class="stage"><div class="panel"><svg id="led" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg></div></div>
   </section>
 
-  <footer><a href="../">← 전체 목록</a></footer>
+  <section aria-labelledby="h-g">
+    <h2 id="h-g">몇 번 나타날까요</h2>
+    <div class="strip" id="strip"></div>
+    <p class="say dim" id="say">띠에서 수를 짚어요</p>
+    <div class="acts">
+      <button class="btn main" id="go" type="button" disabled>돌려 보기</button>
+      <button class="btn" id="replay" type="button" disabled>다시 보기</button>
+      <button class="btn" id="next" type="button">다음 판</button>
+    </div>
+  </section>
 </div>
 
 <script>
-const NS = 'http://www.w3.org/2000/svg';
-const $ = id => document.getElementById(id);
+(function () {
+  'use strict';
+  var NS = 'http://www.w3.org/2000/svg';
+  var $ = function (id) { return document.getElementById(id); };
+  var HEART = [[0,1,0,1,0],[1,1,1,1,1],[1,1,1,1,1],[0,1,1,1,0],[0,0,1,0,0]];
 
-/* 하트 도안 (마이크로비트 기본 하트와 같은 5x5 배치) */
-const HEART = [[0,1,0,1,0],[1,1,1,1,1],[1,1,1,1,1],[0,1,1,1,0],[0,0,1,0,0]];
+  var codeEl = $('code');
+  var stripEl = $('strip');
+  var goBtn = $('go');
+  var replayBtn = $('replay');
+  var nextBtn = $('next');
+  var sayEl = $('say');
 
-/* 5x5 격자 만들기 */
-const cells = [];
-(function buildLed(){
-  const led = $('led');
-  for (let r = 0; r < 5; r++) {
-    for (let c = 0; c < 5; c++) {
-      const el = document.createElementNS(NS, 'rect');
-      el.setAttribute('x', (c * 21.25).toFixed(2));
-      el.setAttribute('y', (r * 21.25).toFixed(2));
-      el.setAttribute('width', '15');
-      el.setAttribute('height', '15');
-      el.setAttribute('rx', '3');
-      el.setAttribute('class', 'px');
-      led.appendChild(el);
-      cells.push(el);
+  var cells = [];
+  (function buildLed() {
+    var led = $('led');
+    for (var r = 0; r < 5; r++) {
+      for (var c = 0; c < 5; c++) {
+        var el = document.createElementNS(NS, 'rect');
+        el.setAttribute('x', (c * 21.25).toFixed(2));
+        el.setAttribute('y', (r * 21.25).toFixed(2));
+        el.setAttribute('width', '15');
+        el.setAttribute('height', '15');
+        el.setAttribute('rx', '3');
+        el.setAttribute('class', 'px');
+        led.appendChild(el);
+        cells.push(el);
+      }
+    }
+  })();
+
+  function drawHeart(on) {
+    for (var i = 0; i < cells.length; i++) {
+      var lit = on && HEART[(i / 5) | 0][i % 5] === 1;
+      cells[i].classList.toggle('on', lit);
     }
   }
+
+  var buttons = [];
+  (function buildStrip() {
+    for (var v = 1; v <= 20; v += 1) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'c'; b.textContent = String(v);
+      b.setAttribute('data-v', String(v));
+      b.setAttribute('aria-pressed', 'false');
+      stripEl.appendChild(b);
+      buttons.push(b);
+    }
+  })();
+
+  var n = 3, m = 3, nested = false, total = 9;
+  var guess = null;
+  var ran = false;
+  var timer = null;
+  var lastKey = '';
+
+  function clearTimer() { if (timer) { clearTimeout(timer); timer = null; } }
+
+  function draw() {
+    var nn = 2 + Math.floor(Math.random() * 4);   // 2~5
+    var mm = 1 + Math.floor(Math.random() * 4);   // 1~4
+    var nest = Math.random() < (1 / 3);
+    return { n: nn, m: mm, nested: nest, key: nn + ',' + mm + ',' + nest };
+  }
+
+  function renderCode() {
+    codeEl.innerHTML = '';
+    var outer = document.createElement('div');
+    outer.className = 'blkline';
+    outer.textContent = n + '번 반복하기';
+    codeEl.appendChild(outer);
+    if (nested) {
+      var mid = document.createElement('div');
+      mid.className = 'blkline in1';
+      mid.textContent = m + '번 반복하기';
+      codeEl.appendChild(mid);
+      var inner = document.createElement('div');
+      inner.className = 'blkline in2';
+      inner.textContent = '하트 보여주기';
+      codeEl.appendChild(inner);
+    } else {
+      var line = document.createElement('div');
+      line.className = 'blkline in1';
+      line.textContent = '하트 ' + m + '번 보여주기';
+      codeEl.appendChild(line);
+    }
+  }
+
+  function newRound() {
+    clearTimer();
+    var r = draw();
+    var tries = 0;
+    while (r.key === lastKey && tries < 8) { r = draw(); tries += 1; }
+    lastKey = r.key;
+
+    n = r.n; m = r.m; nested = r.nested; total = n * m;
+    guess = null; ran = false;
+    renderCode();
+    drawHeart(false);
+
+    for (var i = 0; i < buttons.length; i += 1) {
+      buttons[i].disabled = false;
+      buttons[i].setAttribute('aria-pressed', 'false');
+    }
+    goBtn.disabled = true;
+    replayBtn.disabled = true;
+    sayEl.textContent = '띠에서 수를 짚어요';
+    sayEl.className = 'say dim';
+  }
+
+  function pickGuess(v) {
+    if (guess !== null || ran) { return; }
+    guess = v;
+    for (var i = 0; i < buttons.length; i += 1) {
+      var b = buttons[i];
+      b.disabled = true;
+      b.setAttribute('aria-pressed', Number(b.getAttribute('data-v')) === v ? 'true' : 'false');
+    }
+    goBtn.disabled = false;
+    sayEl.textContent = '돌려 보기를 눌러요';
+    sayEl.className = 'say dim';
+  }
+
+  function finish() {
+    var diff = total - guess;
+    if (diff === 0) {
+      sayEl.textContent = '짚은 대로 나타났어요';
+    } else if (diff > 0) {
+      sayEl.textContent = diff + '번 더 나타났어요';
+    } else {
+      sayEl.textContent = (-diff) + '번 덜 나타났어요';
+    }
+    sayEl.className = 'say';
+    ran = true;
+    goBtn.disabled = true;
+    replayBtn.disabled = false;
+  }
+
+  function play(onFinish) {
+    clearTimer();
+    var done = 0;
+    drawHeart(false);
+    var step = function () {
+      if (done >= total) { timer = null; if (onFinish) { onFinish(); } return; }
+      drawHeart(true);
+      done += 1;
+      timer = setTimeout(function () {
+        drawHeart(false);
+        timer = setTimeout(step, 160);
+      }, 300);
+    };
+    step();
+  }
+
+  function run() {
+    if (timer !== null || guess === null || ran) { return; }
+    goBtn.disabled = true;
+    play(finish);
+  }
+
+  function replay() {
+    if (timer !== null || !ran) { return; }
+    replayBtn.disabled = true;
+    play(function () { replayBtn.disabled = false; });
+  }
+
+  stripEl.addEventListener('click', function (ev) {
+    var btn = ev.target.closest ? ev.target.closest('.c') : null;
+    if (!btn) { return; }
+    pickGuess(Number(btn.getAttribute('data-v')));
+  });
+
+  goBtn.addEventListener('click', run);
+  replayBtn.addEventListener('click', replay);
+  nextBtn.addEventListener('click', newRound);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) { clearTimer(); } });
+  window.addEventListener('pagehide', clearTimer);
+
+  newRound();
 })();
-
-function drawHeart(on){
-  for (let i = 0; i < cells.length; i++) {
-    const lit = on && HEART[(i / 5) | 0][i % 5] === 1;
-    cells[i].classList.toggle('on', lit);
-  }
-}
-
-/* 블록 견줌 그림: 왼쪽은 늘어선 블록, 오른쪽은 반복 블록 하나로 묶은 것 */
-function addRect(svg, x, y, w, h, cls){
-  const el = document.createElementNS(NS, 'rect');
-  el.setAttribute('x', x); el.setAttribute('y', y);
-  el.setAttribute('width', w); el.setAttribute('height', h);
-  el.setAttribute('rx', '2.5'); el.setAttribute('class', cls);
-  svg.appendChild(el);
-}
-function drawBlocks(n){
-  const svg = $('blk');
-  while (svg.firstChild) svg.removeChild(svg.firstChild);
-  const H = 5.6, G = 2.0, BASE = 186;
-  const total = n * 3;                       /* 묶음 3개짜리를 n번 늘어놓은 것 */
-  for (let i = 0; i < total; i++) {
-    addRect(svg, 7, BASE - (i + 1) * (H + G), 42, H, 'bk');
-  }
-  const fh = 3 * (H + G) + 8;
-  addRect(svg, 69, BASE - fh, 44, fh, 'fr');
-  for (let i = 0; i < 3; i++) {
-    addRect(svg, 74, BASE - 4 - (i + 1) * (H + G), 34, H, 'bk');
-  }
-  $('n1').textContent = String(total);
-}
-
-/* 실행 */
-let timer = null;
-let running = false;
-
-function clearTimer(){
-  if (timer) { clearTimeout(timer); timer = null; }
-}
-function lock(on){
-  running = on;
-  $('go').disabled = on;
-  $('cnt').disabled = on;
-}
-function setNum(v){ $('num').textContent = String(v); }
-
-function play(){
-  if (running) return;
-  clearTimer();
-  const n = Number($('cnt').value);
-  let done = 0;
-  setNum(0);
-  drawHeart(false);
-  lock(true);
-  const step = function(){
-    if (done >= n) { timer = null; lock(false); return; }
-    drawHeart(true);
-    done += 1;
-    setNum(done);
-    timer = setTimeout(function(){
-      drawHeart(false);
-      timer = setTimeout(step, 230);
-    }, 420);
-  };
-  step();
-}
-
-function reset(){
-  clearTimer();
-  lock(false);
-  drawHeart(false);
-  setNum(0);
-}
-
-$('cnt').addEventListener('input', function(){
-  const n = Number($('cnt').value);
-  $('nv').textContent = String(n);
-  drawBlocks(n);
-});
-$('go').addEventListener('click', play);
-$('reset').addEventListener('click', reset);
-
-drawBlocks(Number($('cnt').value));
-drawHeart(false);
-setNum(0);
 </script>
 </body>
 </html>

@@ -3,12 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>처음 값 체험 · 에듀다움 B10</title>
+<title>다시 시작하면 — 에듀다움 B10</title>
 <style>
   :root{
     --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
-    --point:#7C3AED; --point-soft:#EDE7FF;
-    --amber:#FFB800; --muted:#5E5E5E;
+    --point:#7C3AED; --point-soft:#EDE7FF; --amber:#FFB800; --muted:#5E5E5E;
     --r:18px; --r-sm:12px;
     --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
   }
@@ -17,85 +16,60 @@
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
     background-image:radial-gradient(var(--ink) .5px,transparent .5px);
     background-size:22px 22px;background-position:-11px -11px}
-  .wrap{max-width:760px;margin:0 auto;padding:16px 16px 44px}
+  .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px}
 
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:16px}
-  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;font-size:14px;
-    background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;padding:9px 16px;min-height:44px;
-    box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
-  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .back:focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
+    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
   .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(25px,6.2vw,38px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
-  .lead{font-size:15.5px;color:var(--muted);margin-top:9px;font-weight:700}
+  h1{font-size:clamp(21px,5vw,27px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:14px;color:var(--muted);margin-top:3px;font-weight:700}
 
-  section{margin-top:18px}
+  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+    box-shadow:var(--hard);padding:10px;margin-top:9px}
+  h2{font-size:13px;font-weight:900;margin-bottom:6px;color:var(--muted)}
 
-  .stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;align-items:stretch}
-  .panel{background:var(--ink);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);
-    padding:16px;display:flex;align-items:center;justify-content:center}
-  #led{width:100%;max-width:190px;height:auto;display:block}
-  .px{fill:#333030;transition:fill .08s}
+  .stage{display:grid;grid-template-columns:118px minmax(0,1fr);gap:9px;align-items:stretch}
+  .panel{background:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    padding:9px;display:flex;align-items:center;justify-content:center}
+  #led{width:100%;max-width:140px;height:auto;display:block}
+  .px{fill:#333030}
   .px.on{fill:var(--point)}
+  .vbox{background:var(--paper);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+  .vbox span{font-size:12px;font-weight:900}
+  .vbox b{font-family:'Courier New',monospace;font-size:clamp(30px,9vw,42px);font-weight:900;
+    color:var(--point);line-height:1}
 
-  .vbox{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);
-    padding:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
-  .vbox span{font-size:14px;font-weight:900}
-  .vbox b{font-family:'Courier New',monospace;font-size:clamp(42px,12vw,62px);font-weight:900;line-height:1;
-    color:var(--point);transition:transform .15s}
-  .vbox b.flash{transform:scale(1.16)}
-
-  .acts{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
-  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;cursor:pointer;font-family:inherit;
-    font-size:16px;font-weight:900;color:var(--ink);background:var(--surface);border:2.5px solid var(--ink);
-    border-radius:var(--r-sm);box-shadow:var(--hard-sm);padding:12px 20px;min-height:48px;min-width:44px;
-    transition:transform .1s,box-shadow .1s}
-  .btn.main{background:var(--amber);flex:1 1 100%;font-size:18px;min-height:60px}
-  .btn.sub{flex:1 1 130px}
-  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .btn:focus-visible{outline:3px solid var(--point);outline-offset:3px}
-
-  .code{margin-top:16px;display:grid;gap:10px}
-  .card{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);padding:12px 14px}
-  .card .when{font-size:12px;font-weight:900;letter-spacing:.04em;color:var(--muted)}
-  .card .line{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:800;margin-top:5px}
-  .card .line::before{content:"";width:8px;height:19px;flex:0 0 auto;border:2px solid var(--ink);
-    border-radius:3px;background:var(--point)}
-  .card.off{border-style:dashed;box-shadow:none;color:var(--muted);
+  .code{margin-top:9px;display:grid;gap:6px}
+  .card{background:var(--paper);border:2.5px solid var(--ink);border-radius:var(--r-sm);padding:8px 10px}
+  .card .when{font-size:11px;font-weight:900;letter-spacing:.03em;color:var(--muted)}
+  .card .line{font-size:14px;font-weight:800;margin-top:3px}
+  .card.cover .line{color:var(--muted);letter-spacing:.3em}
+  .card.off{border-style:dashed;color:var(--muted);
     background:repeating-linear-gradient(135deg,var(--surface) 0 9px,#EFEADC 9px 18px)}
-  .card.off .line::before{background:transparent;border-style:dashed}
-  .cardtop{display:flex;align-items:center;justify-content:space-between;gap:10px}
 
-  .sw{display:inline-flex;align-items:center;gap:9px;cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:900;
-    color:var(--ink);background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
-    box-shadow:var(--hard-sm);padding:8px 15px 8px 11px;min-height:44px;transition:transform .1s,box-shadow .1s}
-  .sw:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .sw:active{transform:translate(2px,2px);box-shadow:none}
-  .sw:focus-visible{outline:3px solid var(--point);outline-offset:3px}
-  .sw .tr{stroke:var(--ink);stroke-width:2.5;fill:#DDD8CA}
-  .sw .kn{fill:var(--surface);stroke:var(--ink);stroke-width:2.5;transform:translateX(0);transition:transform .15s}
-  .sw[aria-checked="true"] .tr{fill:var(--point)}
-  .sw[aria-checked="true"] .kn{transform:translateX(19px)}
+  .guess{display:flex;gap:7px;flex-wrap:wrap;margin-top:2px}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    min-height:46px;padding:8px 12px;box-shadow:var(--hard-sm);flex:1 1 96px;
+    transition:transform .1s,box-shadow .1s}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--amber)}
+  .btn[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px}
+  .btn:disabled{opacity:.45;cursor:default;box-shadow:none}
 
-  .ask{display:flex;align-items:center;gap:9px;margin-top:16px;font-size:14.5px;font-weight:800}
-  .ask svg{flex-shrink:0}
+  .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
 
-  footer{text-align:center;margin-top:28px}
-  footer a{display:inline-flex;align-items:center;text-decoration:none;font-weight:900;font-size:14px;color:var(--ink);
-    background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;padding:11px 20px;min-height:44px;
-    box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
-  footer a:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  footer a:focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  .say{margin-top:8px;font-size:13.5px;font-weight:900}
+  .say.dim{color:var(--muted);font-weight:700}
 
-  @media(max-width:520px){
-    .wrap{padding:14px 13px 40px}
-    .stage{grid-template-columns:1fr}
-    .panel{padding:14px}
-    .cardtop{flex-wrap:wrap}
-  }
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  @media(max-width:420px){ .stage{grid-template-columns:1fr} }
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -107,164 +81,217 @@
   </nav>
 
   <header>
-    <h1>다시 시작하면 어떻게 될까</h1>
-    <p class="lead">흔들어 값을 올린 뒤 다시 시작해 보세요</p>
+    <h1>다시 시작하면</h1>
+    <p class="lead">값이 몇일지 짚어요</p>
   </header>
 
-  <section>
+  <section aria-labelledby="h-v">
+    <h2 id="h-v">걸음</h2>
     <div class="stage">
-      <div class="panel">
-        <svg id="led" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg>
-      </div>
-      <p class="vbox"><span>걸음</span><b id="num" aria-live="polite">0</b></p>
+      <div class="panel"><svg id="led" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg></div>
+      <p class="vbox"><span>걸음</span><b id="num">0</b></p>
     </div>
-
-    <div class="acts">
-      <button class="btn main" id="shake" type="button">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="8" y="3" width="8" height="18" rx="2" stroke="var(--ink)" stroke-width="2.4"/><path d="M4 8v8M20 8v8" stroke="var(--ink)" stroke-width="2.6" stroke-linecap="round"/></svg>
-        흔들기</button>
-      <button class="btn sub" id="restart" type="button">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4h4" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        다시 시작</button>
-      <button class="btn sub" id="home" type="button">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 11 12 4l8 7v8a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1v-8Z" stroke="var(--ink)" stroke-width="2.3" stroke-linejoin="round"/></svg>
-        처음으로</button>
-    </div>
-
     <div class="code">
-      <div class="card" id="c1">
-        <div class="cardtop">
-          <span class="when">처음에</span>
-          <button class="sw" id="sw" type="button" role="switch" aria-checked="true">
-            <svg width="44" height="24" viewBox="0 0 44 24" aria-hidden="true"><rect class="tr" x="1.5" y="1.5" width="41" height="21" rx="10.5"/><circle class="kn" cx="12" cy="12" r="7.5"/></svg>
-            처음 값 0</button>
-        </div>
-        <p class="line">걸음 0으로 정하기</p>
-      </div>
-      <div class="card">
-        <span class="when">흔들면</span>
-        <p class="line">걸음 1만큼 바꾸기</p>
-        <p class="line">걸음 보이기</p>
-      </div>
+      <div class="card cover" id="c1"><span class="when">처음에</span><p class="line" id="c1line">? ? ?</p></div>
+      <div class="card"><span class="when">흔들면</span><p class="line">걸음 1만큼 바꾸기</p></div>
     </div>
-
-    <p class="ask">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="var(--point)" stroke-width="2.6"/><path d="m16 16 5 5" stroke="var(--point)" stroke-width="2.6" stroke-linecap="round"/></svg>
-      <span>처음 값을 빼면 무엇이 달라지나요</span>
-    </p>
+    <div class="acts">
+      <button class="btn main" id="shake" type="button">흔들기</button>
+    </div>
   </section>
 
-  <footer><a href="../">← 전체 목록</a></footer>
+  <section aria-labelledby="h-g">
+    <h2 id="h-g">다시 시작하면 값이 몇일까요</h2>
+    <div class="guess" id="guess">
+      <button class="btn" type="button" data-g="zero">0</button>
+      <button class="btn" type="button" data-g="same" id="sameBtn">지금 값</button>
+    </div>
+    <p class="say dim" id="say">먼저 흔들어 값을 올려요</p>
+    <div class="acts">
+      <button class="btn" id="restart" type="button" disabled>다시 시작</button>
+      <button class="btn" id="next" type="button">다음 판</button>
+    </div>
+  </section>
 </div>
 
 <script>
-const NS = 'http://www.w3.org/2000/svg';
-const $ = id => document.getElementById(id);
+(function () {
+  'use strict';
+  var NS = 'http://www.w3.org/2000/svg';
+  var $ = function (id) { return document.getElementById(id); };
 
-/* 3x5 숫자 도안 — 마이크로비트가 수를 보여 줄 때와 같은 크기 */
-const GLYPH = {
-  '0':'111101101101111', '1':'010110010010111', '2':'111001111100111',
-  '3':'111001111001111', '4':'101101111001001', '5':'111100111001111',
-  '6':'111100111101111', '7':'111001001001001', '8':'111101111101111',
-  '9':'111101111001111'
-};
+  var GLYPH = {
+    '0':'111101101101111', '1':'010110010010111', '2':'111001111100111',
+    '3':'111001111001111', '4':'101101111001001', '5':'111100111001111',
+    '6':'111100111101111', '7':'111001001001001', '8':'111101111101111',
+    '9':'111101111001111'
+  };
 
-const cells = [];
-(function buildLed(){
-  const led = $('led');
-  for (let r = 0; r < 5; r++) {
-    for (let c = 0; c < 5; c++) {
-      const el = document.createElementNS(NS, 'rect');
-      el.setAttribute('x', (c * 21.25).toFixed(2));
-      el.setAttribute('y', (r * 21.25).toFixed(2));
-      el.setAttribute('width', '15');
-      el.setAttribute('height', '15');
-      el.setAttribute('rx', '3');
-      el.setAttribute('class', 'px');
-      led.appendChild(el);
-      cells.push(el);
+  var numEl = $('num');
+  var c1El = $('c1');
+  var c1lineEl = $('c1line');
+  var shakeBtn = $('shake');
+  var guessWrap = $('guess');
+  var guessBtns = Array.prototype.slice.call(guessWrap.querySelectorAll('.btn'));
+  var sameBtn = $('sameBtn');
+  var restartBtn = $('restart');
+  var nextBtn = $('next');
+  var sayEl = $('say');
+
+  var cells = [];
+  (function buildLed() {
+    var led = $('led');
+    for (var r = 0; r < 5; r++) {
+      for (var c = 0; c < 5; c++) {
+        var el = document.createElementNS(NS, 'rect');
+        el.setAttribute('x', (c * 21.25).toFixed(2));
+        el.setAttribute('y', (r * 21.25).toFixed(2));
+        el.setAttribute('width', '15');
+        el.setAttribute('height', '15');
+        el.setAttribute('rx', '3');
+        el.setAttribute('class', 'px');
+        led.appendChild(el);
+        cells.push(el);
+      }
+    }
+  })();
+
+  function paint(ch) {
+    var g = ch === null ? null : GLYPH[ch];
+    for (var i = 0; i < cells.length; i++) {
+      var r = (i / 5) | 0, c = i % 5;
+      var lit = false;
+      if (g && c >= 1 && c <= 3) { lit = g.charAt(r * 3 + (c - 1)) === '1'; }
+      cells[i].classList.toggle('on', lit);
     }
   }
-})();
 
-function paint(ch){
-  const g = ch === null ? null : GLYPH[ch];
-  for (let i = 0; i < cells.length; i++) {
-    const r = (i / 5) | 0, c = i % 5;
-    let lit = false;
-    if (g && c >= 1 && c <= 3) lit = g.charAt(r * 3 + (c - 1)) === '1';
-    cells[i].classList.toggle('on', lit);
+  var count = 0;
+  var hasInit = true;
+  var guess = null;
+  var locked = false;
+  var seq = null;
+  var lastKey = '';
+
+  function clearSeq() { if (seq) { clearTimeout(seq); seq = null; } }
+
+  function show(v) {
+    clearSeq();
+    var s = String(v);
+    var i = 0;
+    var next = function () {
+      paint(s.charAt(i));
+      i += 1;
+      if (i >= s.length) { seq = null; return; }
+      seq = setTimeout(function () {
+        paint(null);
+        seq = setTimeout(next, 150);
+      }, 620);
+    };
+    next();
   }
-}
 
-let count = 0;
-let initOn = true;
-let seq = null;
+  function setNum() { numEl.textContent = String(count); }
 
-function clearSeq(){
-  if (seq) { clearTimeout(seq); seq = null; }
-}
+  function draw() {
+    return Math.random() < 0.5;
+  }
 
-/* 한 자리씩 차례로 보여 준다. 실물은 글자가 옆으로 흘러가며 보인다 */
-function show(v){
-  clearSeq();
-  const s = String(v);
-  let i = 0;
-  const next = function(){
-    paint(s.charAt(i));
-    i += 1;
-    if (i >= s.length) { seq = null; return; }
-    seq = setTimeout(function(){
-      paint(null);
-      seq = setTimeout(next, 150);
-    }, 620);
-  };
-  next();
-}
+  function newRound() {
+    clearSeq();
+    var h = draw();
+    var tries = 0;
+    while (h === lastKey && tries < 5) { h = draw(); tries += 1; }
+    lastKey = h;
 
-function setNum(){
-  const b = $('num');
-  b.textContent = String(count);
-  b.classList.add('flash');
-  setTimeout(function(){ b.classList.remove('flash'); }, 160);
-}
+    hasInit = h;
+    count = 0;
+    guess = null;
+    locked = false;
 
-function shake(){
-  count += 1;
-  setNum();
-  show(count);
-}
+    paint(null);
+    setNum();
+    c1El.className = 'card cover';
+    c1lineEl.textContent = '? ? ?';
 
-/* 다시 시작하면 화면이 지워진다. 코드에 있는 대로 흔들어야 수가 보인다 */
-function restart(){
-  clearSeq();
-  paint(null);
-  if (initOn) count = 0;
-  setNum();
-}
+    for (var i = 0; i < guessBtns.length; i += 1) {
+      guessBtns[i].disabled = true;
+      guessBtns[i].setAttribute('aria-pressed', 'false');
+    }
+    sameBtn.textContent = '지금 값';
+    shakeBtn.disabled = false;
+    restartBtn.disabled = true;
+    sayEl.textContent = '먼저 흔들어 값을 올려요';
+    sayEl.className = 'say dim';
+  }
 
-function home(){
-  clearSeq();
-  count = 0;
-  initOn = true;
-  $('sw').setAttribute('aria-checked', 'true');
-  $('c1').classList.remove('off');
-  paint(null);
-  setNum();
-}
+  function shake() {
+    if (locked) { return; }
+    count += 1;
+    setNum();
+    show(count);
+    sameBtn.textContent = '지금 값 ' + count;
+    if (count === 1) {
+      for (var i = 0; i < guessBtns.length; i += 1) { guessBtns[i].disabled = false; }
+      sayEl.textContent = '다시 시작하면 값이 몇일지 짚어요';
+      sayEl.className = 'say dim';
+    }
+  }
 
-function toggleInit(){
-  initOn = !initOn;
-  $('sw').setAttribute('aria-checked', initOn ? 'true' : 'false');
-  $('c1').classList.toggle('off', !initOn);
-}
+  function pickGuess(g) {
+    if (locked || guess !== null || count < 1) { return; }
+    guess = g;
+    locked = true;
+    for (var i = 0; i < guessBtns.length; i += 1) {
+      var b = guessBtns[i];
+      b.disabled = true;
+      b.setAttribute('aria-pressed', b.getAttribute('data-g') === g ? 'true' : 'false');
+    }
+    shakeBtn.disabled = true;
+    restartBtn.disabled = false;
+    sayEl.textContent = '다시 시작을 눌러요';
+    sayEl.className = 'say dim';
+  }
 
-$('shake').addEventListener('click', shake);
-$('restart').addEventListener('click', restart);
-$('home').addEventListener('click', home);
-$('sw').addEventListener('click', toggleInit);
+  function restart() {
+    if (!locked || restartBtn.disabled) { return; }
+    clearSeq();
+    paint(null);
 
-paint(null);
+    var guessValue = guess === 'zero' ? 0 : count;
+    if (hasInit) {
+      c1El.className = 'card';
+      c1lineEl.textContent = '걸음 0으로 정하기';
+      count = 0;
+    } else {
+      c1El.className = 'card off';
+      c1lineEl.textContent = '(이 블록 없음)';
+    }
+    setNum();
+
+    if (guessValue === count) {
+      sayEl.textContent = '짚은 대로 나왔어요';
+    } else {
+      sayEl.textContent = '실제로는 ' + count + '이었어요';
+    }
+    sayEl.className = 'say';
+    restartBtn.disabled = true;
+  }
+
+  guessWrap.addEventListener('click', function (ev) {
+    var btn = ev.target.closest ? ev.target.closest('.btn') : null;
+    if (!btn) { return; }
+    pickGuess(btn.getAttribute('data-g'));
+  });
+
+  shakeBtn.addEventListener('click', shake);
+  restartBtn.addEventListener('click', restart);
+  nextBtn.addEventListener('click', newRound);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) { clearSeq(); } });
+  window.addEventListener('pagehide', clearSeq);
+
+  newRound();
+})();
 </script>
 </body>
 </html>
