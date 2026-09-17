@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>한 가지만 고쳐 다시 — 에듀다움 B26</title>
+<style>
+  :root{
+    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+    --point:#2563EB; --point-soft:#D8E4FF; --muted:#5E5E5E;
+    --r:18px; --r-sm:12px;
+    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
+    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+    background-size:22px 22px;background-position:-11px -11px}
+  .wrap{max-width:640px;margin:0 auto;padding:12px 14px 28px}
+
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
+    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
+  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
+    border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
+
+  h1{font-size:clamp(22px,5.4vw,31px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:15px;color:var(--muted);margin-top:5px;font-weight:700}
+
+  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+    box-shadow:var(--hard);padding:12px;margin-top:11px}
+  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted);
+    display:flex;align-items:center;gap:7px}
+  h2 svg{flex:none}
+
+  .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .slot{border:2.5px solid var(--ink);border-radius:var(--r-sm);padding:7px;text-align:center;
+    background:var(--surface)}
+  .slot.next{background:var(--point-soft);border-width:3.5px}
+  .slot .nm{font-weight:900;font-size:15px}
+  .slot canvas{width:100%;max-width:56px;aspect-ratio:1;image-rendering:pixelated;
+    border:2px solid var(--ink);border-radius:6px;background:#EEE;display:block;margin:4px auto}
+  .slot .row{display:flex;align-items:center;justify-content:center;gap:4px;
+    font-size:11.5px;font-weight:800;color:var(--muted);font-family:'Courier New',monospace}
+  .slot .row b{font-family:inherit;font-size:14px;color:var(--ink)}
+
+  .view{position:relative;width:100%;aspect-ratio:4/3;max-height:170px;background:var(--ink);
+    border:2.5px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;display:flex}
+  #cam{width:100%;height:100%;object-fit:cover;display:block}
+  #pad{width:100%;height:100%;display:block;background:#fff;touch-action:none;cursor:crosshair}
+  [hidden]{display:none!important}
+  .priv{position:absolute;left:7px;bottom:7px;right:7px;font-size:11.5px;font-weight:900;
+    color:var(--paper);background:rgba(20,20,20,.82);border-radius:999px;padding:4px 10px;text-align:center}
+
+  .chips{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px;min-height:12px}
+  .chips i{width:12px;height:12px;border:1.5px solid var(--ink);border-radius:3px;display:block}
+  .lrow{display:flex;align-items:center;gap:8px;margin-top:7px}
+  .lrow .nm{width:1.4em;font-weight:900;font-size:16px}
+
+  .score{font-family:'Courier New',monospace;font-size:clamp(30px,8vw,42px);font-weight:900;
+    line-height:1;color:var(--point);text-align:center;margin:2px 0 4px}
+
+  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    min-height:44px;padding:9px 14px;box-shadow:var(--hard-sm);flex:1 1 92px;
+    transition:transform .1s,box-shadow .1s}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point);color:#fff}
+  .btn:disabled{opacity:.42;cursor:default;box-shadow:none}
+
+  .practice{margin-top:7px;display:inline-flex;font-size:12.5px;font-weight:900;color:var(--ink);
+    background:var(--point-soft);border:2px solid var(--ink);border-radius:999px;padding:5px 11px}
+  .note{margin-top:8px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .note b{font-weight:900;color:var(--ink)}
+
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="back" href="../">← 전체 목록</a>
+    <span class="tag">B26</span>
+  </nav>
+
+  <header>
+    <h1>한 가지만 고쳐 다시</h1>
+    <p class="lead">시험 세 장은 그대로 둬요</p>
+  </header>
+
+  <section aria-labelledby="h-t">
+    <h2 id="h-t">
+      <svg id="lock" width="13" height="15" viewBox="0 0 13 15" aria-hidden="true" hidden>
+        <path d="M3 6V4a3.5 3.5 0 017 0v2" fill="none" stroke="#141414" stroke-width="2"/>
+        <rect x="1" y="6" width="11" height="8" rx="2" fill="#2563EB" stroke="#141414" stroke-width="2"/>
+      </svg>
+      시험 칸
+    </h2>
+    <div class="slots" id="slots"></div>
+    <div class="acts">
+      <button class="btn main" id="grab" type="button">시험 담기</button>
+    </div>
+    <p class="note" id="locked" hidden><b>잠겼어요 · 이 세 장으로만 봐요</b></p>
+  </section>
+
+  <section aria-labelledby="h-l">
+    <h2 id="h-l">학습 칸</h2>
+    <div class="view">
+      <video id="cam" playsinline muted hidden></video>
+      <canvas id="pad" width="320" height="240" hidden></canvas>
+      <span class="priv">손과 물건만 비춰요 · 화면에만 보이고 저장되지 않아요</span>
+    </div>
+    <div id="learnRows"></div>
+    <p class="practice" id="practice" hidden>연습 모드 · 손으로 그려 담아요</p>
+    <div class="acts" id="addBtns"></div>
+    <p class="note" id="needTest">시험 세 장을 먼저 담아요</p>
+  </section>
+
+  <section aria-labelledby="h-s">
+    <h2 id="h-s">맞힌 수</h2>
+    <p class="score" id="score">· / 3</p>
+    <div class="acts">
+      <button class="btn main" id="retest" type="button">다시 시험</button>
+      <button class="btn" id="reset" type="button">다시 하기</button>
+    </div>
+    <p class="note" id="needLearn" hidden>학습 칸을 먼저 담아요</p>
+    <p class="note">어느 이름을 더 담았나요</p>
+    <p class="note"><b>엔트리로 다시 시험해요</b></p>
+  </section>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+  var NAMES = ['가', '나', '다'];
+  var MAX = 15, S = 24, N = S * S;
+
+  var cam = $('cam'), pad = $('pad'), practiceEl = $('practice');
+  var work = document.createElement('canvas'); work.width = S; work.height = S;
+  var wctx = work.getContext('2d', { willReadFrequently:true });
+  var W = [1,1,1,1]; for (var wi = 0; wi < 16; wi++) W.push(0.6);
+
+  var test = [];                      // {cls, feat, prev, cur} — 담으면 얼어붙는다
+  var learn = { '가':[], '나':[], '다':[] };   // 시험 칸의 특징은 여기에 절대 들어오지 않는다
+  var source = null;
+  var slotEls = [], chipEls = [], addEls = [];
+
+  /* 화면 만들기 */
+  (function build(){
+    NAMES.forEach(function(nm, i){
+      var d = document.createElement('div');
+      d.className = 'slot';
+      d.innerHTML = '<span class="nm"></span><canvas width="24" height="24"></canvas>' +
+        '<span class="row">지난 <b>·</b></span><span class="row">이번 <b>·</b></span>';
+      d.querySelector('.nm').textContent = nm;
+      $('slots').appendChild(d);
+      slotEls.push(d);
+
+      var r = document.createElement('div');
+      r.className = 'lrow';
+      r.innerHTML = '<span class="nm"></span><span class="chips"></span>';
+      r.querySelector('.nm').textContent = nm;
+      $('learnRows').appendChild(r);
+      chipEls.push(r.querySelector('.chips'));
+
+      var b = document.createElement('button');
+      b.className = 'btn'; b.type = 'button'; b.textContent = nm + ' 담기';
+      b.addEventListener('click', function(){ addLearn(nm); });
+      $('addBtns').appendChild(b);
+      addEls.push(b);
+    });
+  })();
+
+  /* 특징 스무 개 */
+  function feat(){
+    if (!source) return null;
+    if (source === 'cam'){
+      var vw = cam.videoWidth, vh = cam.videoHeight;
+      if (!vw || !vh) return null;
+      var side = Math.min(vw, vh);
+      wctx.drawImage(cam, (vw - side) / 2, (vh - side) / 2, side, side, 0, 0, S, S);
+    } else {
+      wctx.drawImage(pad, 0, 0, pad.width, pad.height, 0, 0, S, S);
+    }
+    var d = wctx.getImageData(0, 0, S, S).data;
+    var r = 0, g = 0, b = 0, lum = 0, cell = [], k;
+    for (k = 0; k < 16; k++) cell.push(0);
+    for (var y = 0; y < S; y++) for (var x = 0; x < S; x++){
+      var p = (y * S + x) * 4;
+      r += d[p]; g += d[p+1]; b += d[p+2];
+      var L = d[p] * 0.299 + d[p+1] * 0.587 + d[p+2] * 0.114;
+      lum += L;
+      cell[((y / 6) | 0) * 4 + ((x / 6) | 0)] += L;
+    }
+    var f = [r / N / 255, g / N / 255, b / N / 255, lum / N / 255];
+    for (k = 0; k < 16; k++) f.push(cell[k] / 36 / 255);
+    return f;
+  }
+
+  function dist(a, b){
+    var s = 0;
+    for (var i = 0; i < 20; i++){ var t = a[i] - b[i]; s += W[i] * t * t; }
+    return Math.sqrt(s);
+  }
+
+  // 학습 칸에 담긴 것만 본다. 시험 배열은 여기에 들어오지 않는다.
+  function judge(f){
+    var all = [];
+    NAMES.forEach(function(nm){
+      learn[nm].forEach(function(s){ all.push({ cls:nm, d:dist(f, s) }); });
+    });
+    if (all.length === 0) return '·';
+    all.sort(function(p, q){ return p.d - q.d; });
+    var sum = { '가':0, '나':0, '다':0 };
+    for (var i = 0; i < Math.min(3, all.length); i++) sum[all[i].cls] += 1 / (all[i].d + 0.001);
+    var best = '가';
+    NAMES.forEach(function(nm){ if (sum[nm] > sum[best]) best = nm; });
+    return best;
+  }
+
+  /* 그리기 */
+  function renderSlots(){
+    var locked = (test.length === 3);
+    slotEls.forEach(function(el, i){
+      var t = test[i];
+      el.classList.toggle('next', !locked && i === test.length);
+      var bs = el.querySelectorAll('.row b');
+      bs[0].textContent = t && t.prev ? t.prev : '·';
+      bs[1].textContent = t && t.cur ? t.cur : '·';
+    });
+    $('grab').hidden = locked;
+    $('lock').hidden = !locked;
+    $('locked').hidden = !locked;
+    $('needTest').hidden = locked;
+    addEls.forEach(function(b, i){
+      b.disabled = !locked || !source || learn[NAMES[i]].length >= MAX;
+    });
+    $('grab').disabled = !source;
+    var total = learn['가'].length + learn['나'].length + learn['다'].length;
+    $('retest').disabled = !locked || total === 0;
+    $('needLearn').hidden = !(locked && total === 0);
+  }
+
+  function renderScore(){
+    var done = test.length === 3 && test[0].cur;
+    if (!done){ $('score').textContent = '· / 3'; return; }
+    var n = 0;
+    test.forEach(function(t){ if (t.cur === t.cls) n++; });
+    $('score').textContent = n + ' / 3';
+  }
+
+  function chip(i, f){
+    var el = document.createElement('i');
+    el.style.background = 'rgb(' + Math.round(f[0]*255) + ',' + Math.round(f[1]*255) + ',' + Math.round(f[2]*255) + ')';
+    chipEls[i].appendChild(el);
+  }
+
+  /* 담기 */
+  $('grab').addEventListener('click', function(){
+    if (test.length >= 3) return;
+    var f = feat(); if (!f) return;
+    var i = test.length;
+    test.push({ cls:NAMES[i], feat:f, prev:null, cur:null });
+    var c = slotEls[i].querySelector('canvas');
+    c.getContext('2d').drawImage(work, 0, 0);
+    renderSlots();
+    if (source === 'pad') clearPad();
+  });
+
+  function addLearn(nm){
+    if (test.length < 3) return;
+    if (learn[nm].length >= MAX) return;
+    var f = feat(); if (!f) return;
+    learn[nm].push(f);
+    chip(NAMES.indexOf(nm), f);
+    if (source === 'pad') clearPad();
+    renderSlots();
+  }
+
+  // 누를 때만 판정이 바뀐다. 실시간으로 바뀌면 무엇 때문에 달라졌는지 가릴 수 없다.
+  $('retest').addEventListener('click', function(){
+    if (test.length < 3) return;
+    test.forEach(function(t){
+      t.prev = t.cur;
+      t.cur = judge(t.feat);
+    });
+    renderSlots();
+    renderScore();
+  });
+
+  $('reset').addEventListener('click', function(){
+    test = [];
+    NAMES.forEach(function(nm, i){ learn[nm] = []; chipEls[i].textContent = ''; });
+    slotEls.forEach(function(el){
+      var c = el.querySelector('canvas');
+      c.getContext('2d').clearRect(0, 0, S, S);
+    });
+    if (source === 'pad') clearPad();
+    renderSlots();
+    renderScore();
+  });
+
+  /* 그리기 칸 */
+  var pctx = pad.getContext('2d'), drawing = false;
+  function clearPad(){ pctx.fillStyle = '#fff'; pctx.fillRect(0, 0, pad.width, pad.height); }
+  function at(e){
+    var r = pad.getBoundingClientRect();
+    return { x:(e.clientX - r.left) * pad.width / r.width, y:(e.clientY - r.top) * pad.height / r.height };
+  }
+  pad.addEventListener('pointerdown', function(e){
+    drawing = true; pad.setPointerCapture(e.pointerId);
+    var p = at(e); pctx.beginPath(); pctx.moveTo(p.x, p.y);
+  });
+  pad.addEventListener('pointermove', function(e){
+    if (!drawing) return;
+    var p = at(e);
+    pctx.strokeStyle = '#141414'; pctx.lineWidth = 16; pctx.lineCap = 'round'; pctx.lineJoin = 'round';
+    pctx.lineTo(p.x, p.y); pctx.stroke();
+  });
+  pad.addEventListener('pointerup', function(){ drawing = false; });
+  pad.addEventListener('pointercancel', function(){ drawing = false; });
+
+  function usePad(){
+    source = 'pad'; cam.hidden = true; pad.hidden = false;
+    practiceEl.hidden = false;
+    clearPad(); renderSlots();
+  }
+
+  /* 카메라 */
+  var stream = null;
+  function stopCam(){
+    if (!stream) return;
+    stream.getTracks().forEach(function(t){ t.stop(); });
+    stream = null;
+    if (source === 'cam'){ source = null; renderSlots(); }  // 비출 것이 없는 동안은 담기를 막는다
+  }
+  function startCam(){
+    if (source === 'pad' || stream) return;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ usePad(); return; }
+    navigator.mediaDevices.getUserMedia({ video:{ facingMode:'environment' }, audio:false })
+      .then(function(s){
+        stream = s; cam.srcObject = s; cam.hidden = false; pad.hidden = true;
+        source = 'cam'; practiceEl.hidden = true;
+        renderSlots();
+        return cam.play();
+      })
+      .catch(function(){ usePad(); });
+  }
+  startCam();
+
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) stopCam();
+    else startCam();
+  });
+  window.addEventListener('pagehide', stopCam);
+
+  renderSlots();
+  renderScore();
+})();
+</script>
+</body>
+</html>
