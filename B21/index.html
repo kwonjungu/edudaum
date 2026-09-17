@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>남은 후보 세기 — 에듀다움 B21</title>
+<title>질문 하나에 몇 마리 — 에듀다움 B21</title>
 <style>
   :root{
     --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
@@ -25,44 +25,46 @@
     border-radius:999px;padding:9px 15px;box-shadow:var(--hard-sm);min-height:44px}
   .tag{font-weight:900;font-size:14px;background:var(--point);color:var(--ink);
     border:2.5px solid var(--ink);border-radius:999px;padding:8px 14px;box-shadow:var(--hard-sm)}
-  h1{font-size:clamp(25px,5.6vw,38px);font-weight:900;letter-spacing:-.035em;line-height:1.05}
-  .lead{font-size:15px;color:var(--muted);font-weight:700;margin-top:7px}
+  h1{font-size:clamp(23px,5.2vw,34px);font-weight:900;letter-spacing:-.035em;line-height:1.06}
+  .lead{font-size:15px;color:var(--muted);font-weight:700;margin-top:6px}
   section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
-    box-shadow:var(--hard);padding:15px 13px;margin-top:14px}
-  h2{font-size:14.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:10px;color:var(--muted)}
+    box-shadow:var(--hard);padding:13px;margin-top:12px}
+  h2{font-size:14px;font-weight:900;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
   button{font-family:inherit;cursor:pointer;color:var(--ink)}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    border:2.5px solid var(--ink);background:var(--point);font-size:15px;font-weight:900;
-    padding:10px 18px;border-radius:var(--r-sm);min-height:44px;box-shadow:var(--hard-sm);
+    border:2.5px solid var(--ink);background:var(--surface);font-size:14.5px;font-weight:900;
+    padding:9px 15px;border-radius:var(--r-sm);min-height:44px;box-shadow:var(--hard-sm);
     transition:transform .1s,box-shadow .1s}
-  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .btn[disabled]{background:var(--paper);color:var(--muted);box-shadow:none;transform:none;cursor:default}
+  .btn.main{background:var(--point)}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn:disabled{opacity:.42;cursor:default;box-shadow:none;transform:none}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
 
-  .readout{display:inline-flex;align-items:center;gap:10px;font-size:15px;font-weight:900;
-    background:var(--ink);color:var(--paper);border-radius:999px;padding:7px 16px}
-  .readout b{color:var(--point);font-size:18px}
+  .readout{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:900;
+    background:var(--ink);color:var(--paper);border-radius:999px;padding:7px 15px}
+  .readout b{color:var(--point)}
 
   .pool{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
   .an{font-size:13.5px;font-weight:800;border:2px solid var(--ink);border-radius:999px;
-    padding:5px 10px;background:var(--point-soft)}
+    padding:6px 11px;background:var(--point-soft)}
   .an.gone{background:var(--paper);color:var(--muted);text-decoration:line-through;opacity:.55}
+  .an.found{background:var(--point);border-width:3px}
 
   .qs{display:grid;gap:8px}
-  .q{display:flex;align-items:center;justify-content:space-between;gap:10px;width:100%;
-    text-align:left;border:2.5px solid var(--ink);background:var(--surface);border-radius:var(--r-sm);
-    padding:8px 12px;min-height:54px;box-shadow:var(--hard-sm);
+  .q{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+    border:2.5px solid var(--ink);background:var(--surface);border-radius:var(--r-sm);
+    padding:10px 13px;min-height:48px;box-shadow:var(--hard-sm);font-size:15px;font-weight:800;
     transition:transform .1s,box-shadow .1s}
-  .q:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .q:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .q[disabled]{background:var(--paper);box-shadow:none;transform:none;cursor:default;opacity:.6}
-  .q .qt{flex:1;min-width:0;font-size:15px;font-weight:800;word-break:keep-all}
-  .q .sp{flex:0 0 auto;font-size:13px;font-weight:900;font-variant-numeric:tabular-nums;
-    background:var(--point-soft);border:2px solid var(--ink);border-radius:8px;padding:3px 8px}
+  .q:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .q:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .q:disabled{background:var(--paper);box-shadow:none;transform:none;opacity:.55}
+  .q .mk{width:18px;height:18px;flex:none;visibility:hidden}
+  .q.asked .mk{visibility:visible}
   .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
-  .note{font-size:13px;font-weight:700;color:var(--muted);margin-top:9px}
-  #tree{width:100%;height:auto;display:block;margin-top:4px}
+  .say{margin-top:9px;font-size:14px;font-weight:900}
+  .say.dim{color:var(--muted);font-weight:700}
+  [hidden]{display:none!important}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -74,34 +76,31 @@
   </nav>
   <header>
     <h1>질문 하나에 몇 마리</h1>
-    <p class="lead">질문을 누르면 후보가 갈라져요</p>
+    <p class="lead">다섯 번 안에 하나만 남겨요</p>
   </header>
 
   <section aria-labelledby="h-pool">
     <h2 id="h-pool">남은 후보</h2>
-    <p class="readout" id="out">남은 후보 <b>16</b> · 질문 <b>0</b></p>
+    <p class="readout" id="out">남은 후보 <b id="cnt">0</b> · 질문 <b id="qn">0</b>/5</p>
     <div class="pool" id="pool"></div>
   </section>
 
   <section aria-labelledby="h-q">
     <h2 id="h-q">질문 고르기</h2>
     <div class="qs" id="qs"></div>
-    <p class="note" id="note">옆 숫자는 예 쪽과 아니요 쪽 수예요</p>
+    <p class="say dim" id="say">질문을 하나 골라요</p>
     <div class="tools">
-      <button class="btn" id="undo" type="button" disabled>되돌리기</button>
       <button class="btn" id="again" type="button">다시 하기</button>
+      <button class="btn main" id="next" type="button">다음 판</button>
     </div>
-  </section>
-
-  <section aria-labelledby="h-tree">
-    <h2 id="h-tree">가지 그림</h2>
-    <svg id="tree" viewBox="0 0 320 60" role="img" aria-label="질문마다 갈라진 가지 그림"></svg>
   </section>
 </div>
 
 <script>
 (function(){
   'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+
   // 속성: 날개 / 물속 / 다리넷 / 다리여섯 / 사람이 기름
   var A = [
     ['개',    0,0,1,0,1], ['고양이', 0,0,1,0,1], ['소',   0,0,1,0,1],
@@ -112,156 +111,128 @@
     ['문어',  0,1,0,0,0]
   ];
   var Q = [
-    {t:'날개가 있어요?',    s:'날개',   i:1},
-    {t:'물속에서 살아요?',  s:'물속',   i:2},
-    {t:'다리가 넷이에요?',  s:'다리넷', i:3},
-    {t:'다리가 여섯이에요?',s:'다리여섯',i:4},
-    {t:'사람이 길러요?',    s:'기르기', i:5}
+    {t:'날개가 있어요?',    i:1},
+    {t:'물속에서 살아요?',  i:2},
+    {t:'다리가 넷이에요?',  i:3},
+    {t:'다리가 여섯이에요?',i:4},
+    {t:'사람이 길러요?',    i:5}
   ];
+  var MAXQ = 5;
 
-  var pool, target, steps, history;
-  var poolBox = document.getElementById('pool');
-  var qsBox   = document.getElementById('qs');
-  var out     = document.getElementById('out');
-  var note    = document.getElementById('note');
-  var undoBtn = document.getElementById('undo');
-  var tree    = document.getElementById('tree');
+  var subset, target, pool, askedSet, qn, locked, prevSig;
 
-  function start(){
-    pool = [];
-    for (var i = 0; i < A.length; i++) pool.push(i);
-    target = pool[Math.floor(Math.random() * pool.length)];
-    steps = [];
-    history = [];
+  var poolBox = $('pool'), qsBox = $('qs'), say = $('say');
+  var cnt = $('cnt'), qnEl = $('qn');
+  var qBtns = [];
+
+  (function build(){
+    for (var k = 0; k < Q.length; k++){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'q';
+      b.innerHTML = '<svg class="mk" viewBox="0 0 20 20" aria-hidden="true">' +
+        '<path d="M3 10.5 8 15.5 17 4.5" fill="none" stroke="#141414" stroke-width="3"' +
+        ' stroke-linecap="round" stroke-linejoin="round"/></svg><span></span>';
+      b.querySelector('span').textContent = Q[k].t;
+      (function(idx){ b.addEventListener('click', function(){ ask(idx); }); })(k);
+      qsBox.appendChild(b);
+      qBtns.push(b);
+    }
+  })();
+
+  function shuffle(arr){
+    for (var i = arr.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+
+  function pickRound(){
+    var size = 8 + Math.floor(Math.random() * 5); // 8~12
+    var idx = shuffle([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]).slice(0, size);
+    idx.sort(function(a, b){ return a - b; });
+    var tg = idx[Math.floor(Math.random() * idx.length)];
+    return { subset: idx, target: tg, sig: idx.join(',') + '|' + tg };
+  }
+
+  function newRound(){
+    var r;
+    do { r = pickRound(); } while (r.sig === prevSig);
+    prevSig = r.sig;
+    subset = r.subset; target = r.target;
+    startRound();
+  }
+
+  function startRound(){
+    pool = subset.slice();
+    askedSet = {};
+    qn = 0;
+    locked = false;
     buildPool();
     render();
   }
 
   function buildPool(){
-    var html = '';
-    for (var i = 0; i < A.length; i++) html += '<span class="an" id="a' + i + '">' + A[i][0] + '</span>';
-    poolBox.innerHTML = html;
+    poolBox.textContent = '';
+    for (var i = 0; i < subset.length; i++){
+      var idx = subset[i];
+      var s = document.createElement('span');
+      s.className = 'an';
+      s.id = 'a' + idx;
+      s.textContent = A[idx][0];
+      poolBox.appendChild(s);
+    }
   }
 
-  function split(qi){
-    var yes = 0;
-    for (var i = 0; i < pool.length; i++) if (A[pool[i]][Q[qi].i]) yes++;
-    return [yes, pool.length - yes];
-  }
+  function inPool(idx){ return pool.indexOf(idx) >= 0; }
 
   function ask(qi){
-    history.push({pool:pool.slice(), steps:steps.slice()});
-    var sp = split(qi);
-    var ans = A[target][Q[qi].i] ? 1 : 0;
+    if (locked || askedSet[qi] || qn >= MAXQ) return;
+    askedSet[qi] = true;
+    var attr = Q[qi].i;
+    var ans = A[target][attr] ? 1 : 0;
     var next = [];
     for (var i = 0; i < pool.length; i++){
-      if ((A[pool[i]][Q[qi].i] ? 1 : 0) === ans) next.push(pool[i]);
+      if ((A[pool[i]][attr] ? 1 : 0) === ans) next.push(pool[i]);
     }
-    steps.push({q:qi, ans:ans, yes:sp[0], no:sp[1], left:next.length});
     pool = next;
+    qn += 1;
+    if (pool.length <= 1 || qn >= MAXQ) locked = true;
     render();
-  }
-
-  function done(){
-    if (pool.length <= 1) return true;
-    for (var i = 0; i < Q.length; i++){
-      var sp = split(i);
-      if (sp[0] > 0 && sp[1] > 0) return false;
-    }
-    return true;
-  }
-
-  function part(cls, text){
-    var s = document.createElement('span');
-    s.className = cls;
-    s.textContent = text;
-    return s;
   }
 
   function render(){
-    for (var i = 0; i < A.length; i++){
-      var el = document.getElementById('a' + i);
-      el.className = (pool.indexOf(i) >= 0) ? 'an' : 'an gone';
+    for (var i = 0; i < subset.length; i++){
+      var idx = subset[i];
+      var el = document.getElementById('a' + idx);
+      var found = locked && pool.length === 1 && idx === target;
+      el.className = inPool(idx) ? (found ? 'an found' : 'an') : 'an gone';
     }
-    out.innerHTML = '남은 후보 <b>' + pool.length + '</b> · 질문 <b>' + steps.length + '</b>';
+    cnt.textContent = String(pool.length);
+    qnEl.textContent = String(qn);
 
-    qsBox.textContent = '';
-    var fin = done();
     for (var k = 0; k < Q.length; k++){
-      var sp = split(k);
-      var dead = fin || sp[0] === 0 || sp[1] === 0;
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'q';
-      b.setAttribute('data-q', String(k));
-      if (dead) b.disabled = true;
-      b.setAttribute('aria-label', Q[k].t + ' 예 ' + sp[0] + ', 아니요 ' + sp[1]);
-      b.appendChild(part('qt', Q[k].t));
-      b.appendChild(part('sp', sp[0] + ' / ' + sp[1]));
-      qsBox.appendChild(b);
+      qBtns[k].disabled = locked || !!askedSet[k];
+      qBtns[k].classList.toggle('asked', !!askedSet[k]);
     }
 
-    if (pool.length === 1) note.textContent = '한 마리만 남았어요 · ' + A[pool[0]][0];
-    else if (fin) note.textContent = '더 갈라 줄 질문이 없어요';
-    else note.textContent = '옆 숫자는 예 쪽과 아니요 쪽 수예요';
-
-    undoBtn.disabled = (history.length === 0);
-    drawTree();
-  }
-
-  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;'); }
-
-  function drawTree(){
-    var n = steps.length;
-    var pad = 6, rowH = 74;
-    var h = n ? pad + n * rowH : 46;
-    tree.setAttribute('viewBox', '0 0 320 ' + h);
-    if (!n){
-      tree.innerHTML = box(130, 9, 60, '16', 'p')
-        + '<text x="160" y="42" text-anchor="middle" font-size="11.5" font-weight="800"'
-        + ' fill="#5A5A5A">아직 안 갈렸어요</text>';
-      return;
+    if (!locked){
+      say.textContent = '질문을 하나 골라요';
+      say.className = 'say dim';
+    } else if (pool.length === 1){
+      say.textContent = '한 마리만 남았어요';
+      say.className = 'say';
+    } else {
+      say.textContent = pool.length + '마리가 남았어요';
+      say.className = 'say';
     }
-    var s = '', left = 16;
-    for (var i = 0; i < n; i++){
-      var st = steps[i];
-      var y = pad + i * rowH;
-      s += box(6, y + 22, 54, String(left), 'p');
-      s += '<path d="M62 ' + (y + 36) + ' L138 ' + (y + 18)
-         + ' M62 ' + (y + 36) + ' L138 ' + (y + 54) + '" stroke="#141414" stroke-width="2" fill="none"/>';
-      s += box(140, y + 4, 84, '예 ' + st.yes, st.ans === 1 ? 'on' : 'off')
-         + box(140, y + 40, 84, '아니요 ' + st.no, st.ans === 0 ? 'on' : 'off');
-      s += '<text x="232" y="' + (y + 40) + '" font-size="12" font-weight="800"'
-         + ' fill="#5A5A5A">' + esc(Q[st.q].s) + '</text>';
-      left = st.left;
-    }
-    tree.innerHTML = s;
   }
 
-  function box(x, y, w, label, kind){
-    var fill = (kind === 'on') ? '#F59E0B' : (kind === 'p') ? '#FFF0C7' : '#FFFFFF';
-    return '<rect x="' + x + '" y="' + y + '" width="' + w + '" height="28" rx="8" fill="'
-      + fill + '" stroke="#141414" stroke-width="' + (kind === 'on' ? 3 : 2) + '"/>'
-      + '<text x="' + (x + w / 2) + '" y="' + (y + 19) + '" text-anchor="middle" font-size="13"'
-      + ' font-weight="900" fill="#141414">' + esc(label) + '</text>';
-  }
+  $('again').addEventListener('click', startRound);
+  $('next').addEventListener('click', newRound);
 
-  qsBox.addEventListener('click', function(e){
-    var b = e.target.closest ? e.target.closest('.q') : null;
-    if (!b || b.disabled) return;
-    ask(parseInt(b.getAttribute('data-q'), 10));
-  });
-
-  undoBtn.addEventListener('click', function(){
-    if (!history.length) return;
-    var h = history.pop();
-    pool = h.pool; steps = h.steps;
-    render();
-  });
-
-  document.getElementById('again').addEventListener('click', start);
-
-  start();
+  newRound();
 })();
 </script>
 </body>

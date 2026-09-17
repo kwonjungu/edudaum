@@ -25,41 +25,35 @@
     border-radius:999px;padding:9px 15px;box-shadow:var(--hard-sm);min-height:44px}
   .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;
     border:2.5px solid var(--ink);border-radius:999px;padding:8px 14px;box-shadow:var(--hard-sm)}
-  h1{font-size:clamp(25px,5.6vw,38px);font-weight:900;letter-spacing:-.035em;line-height:1.05}
-  .lead{font-size:15px;color:var(--muted);font-weight:700;margin-top:7px}
+  h1{font-size:clamp(23px,5.2vw,34px);font-weight:900;letter-spacing:-.035em;line-height:1.06}
+  .lead{font-size:15px;color:var(--muted);font-weight:700;margin-top:6px}
   section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
-    box-shadow:var(--hard);padding:15px 13px;margin-top:14px}
-  h2{font-size:14.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:10px;color:var(--muted)}
+    box-shadow:var(--hard);padding:13px;margin-top:12px}
+  h2{font-size:14px;font-weight:900;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
   button{font-family:inherit;cursor:pointer;color:var(--ink)}
   .btn{display:inline-flex;align-items:center;justify-content:center;
-    border:2.5px solid var(--ink);background:var(--surface);font-size:15px;font-weight:900;
-    padding:10px 16px;border-radius:var(--r-sm);min-height:44px;box-shadow:var(--hard-sm);
+    border:2.5px solid var(--ink);background:var(--surface);font-size:14px;font-weight:900;
+    padding:9px 12px;border-radius:var(--r-sm);min-height:44px;box-shadow:var(--hard-sm);
     transition:transform .1s,box-shadow .1s}
   .btn.on{background:var(--point);color:#fff}
-  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point);color:#fff}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn:disabled{opacity:.42;cursor:default;box-shadow:none;transform:none}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
 
-  #view{width:100%;height:auto;display:block;border:2.5px solid var(--ink);border-radius:var(--r-sm);
-    background:var(--surface)}
-  .caps{display:flex;justify-content:space-around;font-size:12.5px;font-weight:800;
-    color:var(--muted);margin-top:7px}
-  .readout{display:inline-flex;align-items:center;gap:9px;font-size:15px;font-weight:900;
-    background:var(--ink);color:var(--paper);border-radius:999px;padding:7px 16px}
-  .readout b{color:#C4B5FD;font-variant-numeric:tabular-nums}
-  .sl{width:100%;height:44px;margin-top:12px;-webkit-appearance:none;appearance:none;background:transparent}
-  .sl:focus{outline:none}
-  .sl::-webkit-slider-runnable-track{height:16px;border:2.5px solid var(--ink);border-radius:999px;
-    background:var(--point-soft)}
-  .sl::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;margin-top:-11px;
-    border:3px solid var(--ink);border-radius:50%;background:var(--point);box-shadow:var(--hard-sm)}
-  .sl::-moz-range-track{height:16px;border:2.5px solid var(--ink);border-radius:999px;
-    background:var(--point-soft)}
-  .sl::-moz-range-thumb{width:30px;height:30px;border:3px solid var(--ink);border-radius:50%;
-    background:var(--point)}
-  .ends{display:flex;justify-content:space-between;font-size:12.5px;font-weight:800;color:var(--muted)}
-  .tools{display:flex;gap:8px;flex-wrap:wrap}
-  .note{font-size:13px;font-weight:700;color:var(--muted);margin-top:9px}
+  .pics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .pic{display:flex;flex-direction:column;gap:5px}
+  .pic svg{width:100%;height:auto;display:block;border:2.5px solid var(--ink);
+    border-radius:var(--r-sm);background:var(--surface)}
+  .pic .cap{font-size:12px;font-weight:900;color:var(--muted);text-align:center}
+  .status{margin-top:9px;font-size:13px;font-weight:800;color:var(--muted)}
+
+  .grids{display:flex;gap:7px;flex-wrap:wrap}
+  .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+  .say{margin-top:9px;font-size:14px;font-weight:900}
+  .say.dim{color:var(--muted);font-weight:700}
+  [hidden]{display:none!important}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -71,181 +65,228 @@
   </nav>
   <header>
     <h1>몇 칸으로 끊을까</h1>
-    <p class="lead">칸과 단계를 바꾸면 되돌린 그림이 달라져요</p>
+    <p class="lead">2초만 보여 주고 가려요</p>
   </header>
 
-  <section aria-labelledby="h-v">
-    <h2 id="h-v">처음 그림과 되돌린 그림</h2>
-    <canvas id="view" width="640" height="330" role="img"
-            aria-label="왼쪽은 처음 그림, 오른쪽은 칸마다 밝기를 숫자로 끊어 적어 되돌린 그림"></canvas>
-    <p class="caps"><span>처음 그림</span><span>되돌린 그림</span></p>
+  <section aria-labelledby="h-p">
+    <h2 id="h-p">그림</h2>
+    <div class="pics">
+      <div class="pic">
+        <svg id="orig" viewBox="0 0 100 100" role="img" aria-label="처음 그림"></svg>
+        <p class="cap">처음 그림</p>
+      </div>
+      <div class="pic">
+        <svg id="rec" viewBox="0 0 100 100" role="img" aria-label="되돌린 그림"></svg>
+        <p class="cap">되돌린 그림</p>
+      </div>
+    </div>
+    <p class="status" id="status">보여 주는 중이에요</p>
   </section>
 
   <section aria-labelledby="h-n">
-    <h2 id="h-n">칸 수</h2>
-    <p class="readout" id="out">5 × 5 칸 · 숫자 <b>25</b>개</p>
-    <input class="sl" id="grid" type="range" min="2" max="16" step="1" aria-label="한 줄의 칸 수">
-    <p class="ends"><span>2</span><span>16</span></p>
-  </section>
-
-  <section aria-labelledby="h-s">
-    <h2 id="h-s">단계 수</h2>
-    <div class="tools" id="steps">
-      <button class="btn" type="button" data-s="2">2단계</button>
-      <button class="btn" type="button" data-s="4">4단계</button>
-      <button class="btn on" type="button" data-s="10">10단계</button>
-      <button class="btn" id="reset" type="button">다시 하기</button>
+    <h2 id="h-n">칸 수 고르기</h2>
+    <div class="grids" id="grids"></div>
+    <div class="tools">
+      <button class="btn main" id="ok" type="button" disabled>이제 알겠어요</button>
+      <button class="btn" id="again" type="button">다시 하기</button>
+      <button class="btn" id="next" type="button">다음 판</button>
     </div>
-    <p class="note">0은 가장 밝고 마지막 수는 가장 어두워요</p>
+    <p class="say dim" id="say">칸 수를 눌러 봐요</p>
   </section>
 </div>
 
 <script>
 (function(){
   'use strict';
-  var N = 5, L = 10;
-  var cv = document.getElementById('view');
-  var ctx = cv.getContext('2d');
-  var out = document.getElementById('out');
-  var sl = document.getElementById('grid');
+  var $ = function(id){ return document.getElementById(id); };
+  var GRIDS = [4, 6, 8, 12, 16];
+  var FLASH_MS = 2000;
 
-  // 하트 모양 밝기 (0 밝음 ~ 1 어두움)
-  function bright(x, y){
-    var a = x * x + y * y - 1;
-    var inside = (a * a * a - x * x * y * y * y) < 0;
-    if (!inside) return 0.04;
-    var g = (1 - (x + 1.25) / 2.5) * 0.45 + (1 - (y + 1.25) / 2.5) * 0.55;
-    var v = 0.34 + 0.62 * g;
-    return v < 0 ? 0 : (v > 1 ? 1 : v);
-  }
-  function level(v){
-    var k = Math.floor(v * L);
-    if (k > L - 1) k = L - 1;
-    if (k < 0) k = 0;
-    return k;
-  }
-  function gray(k){
-    var t = (L === 1) ? 0 : k / (L - 1);
-    var g = Math.round(255 - t * 235);
-    return 'rgb(' + g + ',' + g + ',' + g + ')';
-  }
+  var SHAPES = [
+    function heart(x, y){
+      var X = x * 1.15, Y = (y - 0.15) * 1.15;
+      return (X * X + Y * Y - 1) * (X * X + Y * Y - 1) * (X * X + Y * Y - 1) - X * X * Y * Y * Y < 0;
+    },
+    function cross(x, y){
+      return (Math.abs(x) <= 0.28 && Math.abs(y) <= 0.85) || (Math.abs(y) <= 0.28 && Math.abs(x) <= 0.85);
+    },
+    function house(x, y){
+      var body = Math.abs(x) <= 0.55 && y <= 0.1 && y >= -0.85;
+      var roofY = 0.85 - (0.75 / 0.62) * Math.abs(x);
+      var roof = Math.abs(x) <= 0.62 && y >= 0.1 && y <= roofY;
+      return body || roof;
+    },
+    function arrow(x, y){
+      var shaft = Math.abs(x) <= 0.18 && y <= 0.05 && y >= -0.85;
+      var headY = 0.85 - (0.8 / 0.5) * Math.abs(x);
+      var head = Math.abs(x) <= 0.5 && y >= 0.05 && y <= headY;
+      return shaft || head;
+    },
+    function tree(x, y){
+      var canY = 0.85 - (0.9 / 0.7) * Math.abs(x);
+      var canopy = Math.abs(x) <= 0.7 && y >= -0.05 && y <= canY;
+      var trunk = Math.abs(x) <= 0.13 && y <= -0.05 && y >= -0.85;
+      return canopy || trunk;
+    }
+  ];
 
-  // 화면 좌표 -> 하트 좌표
-  function toX(px, size){ return (px / size) * 2.5 - 1.25; }
-  function toY(py, size){ return 1.06 - (py / size) * 2.5; }
+  var shapeIdx, prevShapeIdx;
+  var flashing = true, flashTimer = null, gridN = null, confirmed = false;
 
-  function draw(){
-    var dpr = Math.min(window.devicePixelRatio || 1, 2);
-    var cssW = cv.clientWidth || 640;
-    var gap = 14;
-    var side = Math.floor((cssW - gap * 3) / 2);
-    if (side < 80) side = 80;
-    var cssH = side + gap * 2;
-    cv.width = Math.round(cssW * dpr);
-    cv.height = Math.round(cssH * dpr);
-    cv.style.height = cssH + 'px';
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, cssW, cssH);
+  var origSvg = $('orig'), recSvg = $('rec');
+  var status = $('status'), say = $('say');
+  var gridsBox = $('grids'), okBtn = $('ok'), gridBtns = [];
 
-    var x0 = gap, x1 = gap * 2 + side, y0 = gap;
+  (function build(){
+    for (var i = 0; i < GRIDS.length; i++){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn';
+      b.textContent = GRIDS[i] + '칸';
+      (function(n){ b.addEventListener('click', function(){ chooseGrid(n); }); })(GRIDS[i]);
+      gridsBox.appendChild(b);
+      gridBtns.push(b);
+    }
+  })();
 
-    // 왼쪽: 이어지는 밝기
-    var step = 2;
-    for (var py = 0; py < side; py += step){
-      for (var px = 0; px < side; px += step){
-        var v = bright(toX(px + step / 2, side), toY(py + step / 2, side));
-        ctx.fillStyle = smooth(v);
-        ctx.fillRect(x0 + px, y0 + py, step, step);
+  function fraction(fn, cx0, cy0, cw){
+    var sub = 4, hit = 0;
+    for (var i = 0; i < sub; i++){
+      for (var j = 0; j < sub; j++){
+        var px = cx0 + (i + 0.5) / sub * cw;
+        var py = cy0 + (j + 0.5) / sub * cw;
+        if (fn(px, py)) hit++;
       }
     }
-    ctx.strokeStyle = '#141414'; ctx.lineWidth = 2;
-    ctx.strokeRect(x0 + 1, y0 + 1, side - 2, side - 2);
-
-    // 오른쪽: 칸마다 넓은 쪽 단계로 끊어 되돌리기
-    var cell = side / N;
-    ctx.font = '700 ' + Math.max(8, Math.min(15, cell * 0.42)) + 'px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    for (var r = 0; r < N; r++){
-      for (var c = 0; c < N; c++){
-        var k = cellLevel(r, c, side, cell);
-        ctx.fillStyle = gray(k);
-        ctx.fillRect(x1 + c * cell, y0 + r * cell, cell + 0.6, cell + 0.6);
-        if (N <= 6){
-          ctx.fillStyle = ((L > 1 ? k / (L - 1) : 0) > 0.55) ? '#FFFFFF' : '#141414';
-          ctx.fillText(String(k), x1 + (c + 0.5) * cell, y0 + (r + 0.5) * cell);
-        }
-      }
-    }
-    ctx.strokeStyle = '#141414'; ctx.lineWidth = 1;
-    for (var i = 1; i < N; i++){
-      ctx.beginPath();
-      ctx.moveTo(x1 + i * cell, y0); ctx.lineTo(x1 + i * cell, y0 + side);
-      ctx.moveTo(x1, y0 + i * cell); ctx.lineTo(x1 + side, y0 + i * cell);
-      ctx.stroke();
-    }
-    ctx.strokeStyle = '#141414'; ctx.lineWidth = 2;
-    ctx.strokeRect(x1 + 1, y0 + 1, side - 2, side - 2);
+    return hit / (sub * sub);
   }
 
-  function smooth(v){
-    var g = Math.round(255 - v * 235);
-    return 'rgb(' + g + ',' + g + ',' + g + ')';
-  }
-
-  // 칸 안을 4x4로 살펴 가장 넓은 단계를 고른다
-  function cellLevel(r, c, side, cell){
-    var tally = [], i;
-    for (i = 0; i < L; i++) tally.push(0);
-    for (var sy = 0; sy < 4; sy++){
-      for (var sx = 0; sx < 4; sx++){
-        var px = (c + (sx + 0.5) / 4) * cell;
-        var py = (r + (sy + 0.5) / 4) * cell;
-        tally[level(bright(toX(px, side), toY(py, side)))]++;
+  function drawGrid(svg, fn, n){
+    var cell = 2 / n, s = '';
+    for (var r = 0; r < n; r++){
+      for (var c = 0; c < n; c++){
+        var x0 = -1 + c * cell, y1 = 1 - r * cell, y0 = y1 - cell;
+        var f = fraction(fn, x0, y0, cell);
+        var px = c * (100 / n), py = r * (100 / n), sz = 100 / n;
+        var g = Math.round(255 - f * 235);
+        s += '<rect x="' + px.toFixed(2) + '" y="' + py.toFixed(2) + '" width="' + (sz + 0.4).toFixed(2) +
+          '" height="' + (sz + 0.4).toFixed(2) + '" fill="rgb(' + g + ',' + g + ',' + g + ')"/>';
       }
     }
-    var best = 0;
-    for (i = 1; i < L; i++) if (tally[i] > tally[best]) best = i;
-    return best;
+    svg.innerHTML = s;
+  }
+
+  function coverSvg(svg, label){
+    svg.innerHTML = '<defs><pattern id="hatchB23" width="9" height="9" patternUnits="userSpaceOnUse"' +
+      ' patternTransform="rotate(45)"><rect width="9" height="9" fill="#EDE7FF"/>' +
+      '<path d="M0 0 V9" stroke="#141414" stroke-width="1.6"/></pattern></defs>' +
+      '<rect x="0" y="0" width="100" height="100" fill="url(#hatchB23)" stroke="#141414" stroke-width="2"/>' +
+      '<text x="50" y="53" text-anchor="middle" font-size="9" font-weight="900" fill="#141414">' + label + '</text>';
+  }
+
+  function emptySvg(svg, label){
+    svg.innerHTML = '<rect x="0" y="0" width="100" height="100" fill="#FFFFFF" stroke="#141414" stroke-width="2"/>' +
+      '<text x="50" y="53" text-anchor="middle" font-size="8" font-weight="800" fill="#5A5A5A">' + label + '</text>';
+  }
+
+  function clearFlash(){
+    if (flashTimer !== null){ clearTimeout(flashTimer); flashTimer = null; }
+  }
+
+  function endFlash(){
+    clearFlash();
+    flashing = false;
+    render();
+  }
+
+  function startFlash(){
+    clearFlash();
+    flashing = true;
+    flashTimer = setTimeout(endFlash, FLASH_MS);
+    render();
+  }
+
+  function newShape(){
+    var i;
+    do { i = Math.floor(Math.random() * SHAPES.length); } while (i === prevShapeIdx);
+    prevShapeIdx = i;
+    shapeIdx = i;
+  }
+
+  function newRound(){
+    newShape();
+    gridN = null; confirmed = false;
+    startFlash();
+  }
+
+  function sameRound(){
+    gridN = null; confirmed = false;
+    startFlash();
+  }
+
+  function chooseGrid(n){
+    if (flashing || confirmed) return;
+    gridN = n;
+    render();
+  }
+
+  function confirm(){
+    if (flashing || confirmed || gridN === null) return;
+    confirmed = true;
+    render();
   }
 
   function render(){
-    out.innerHTML = N + ' × ' + N + ' 칸 · 숫자 <b>' + (N * N) + '</b>개';
-    sl.setAttribute('aria-valuetext', N + '칸');
-    var bs = document.querySelectorAll('#steps [data-s]');
-    for (var i = 0; i < bs.length; i++){
-      var on = (parseInt(bs[i].getAttribute('data-s'), 10) === L);
-      bs[i].className = on ? 'btn on' : 'btn';
-      bs[i].setAttribute('aria-pressed', on ? 'true' : 'false');
+    var fn = SHAPES[shapeIdx];
+    if (flashing){
+      drawGrid(origSvg, fn, 28);
+      emptySvg(recSvg, '가려져 있어요');
+      status.textContent = '보여 주는 중이에요';
+    } else if (!confirmed){
+      coverSvg(origSvg, '가려짐');
+      if (gridN === null){ emptySvg(recSvg, '칸 수를 골라요'); }
+      else { drawGrid(recSvg, fn, gridN); }
+      status.textContent = '가려졌어요';
+    } else {
+      drawGrid(origSvg, fn, 28);
+      drawGrid(recSvg, fn, gridN);
+      status.textContent = '나란히 놓았어요';
     }
-    draw();
+
+    for (var i = 0; i < gridBtns.length; i++){
+      gridBtns[i].disabled = flashing || confirmed;
+      gridBtns[i].classList.toggle('on', gridN === GRIDS[i]);
+    }
+    okBtn.disabled = flashing || confirmed || gridN === null;
+
+    if (confirmed){
+      say.textContent = gridN + '칸으로 알아봤어요 · 숫자 ' + (gridN * gridN) + '개';
+      say.className = 'say';
+    } else if (flashing){
+      say.textContent = '눈에 담아 둬요';
+      say.className = 'say dim';
+    } else if (gridN === null){
+      say.textContent = '칸 수를 눌러 봐요';
+      say.className = 'say dim';
+    } else {
+      say.textContent = '이제 알겠으면 눌러요';
+      say.className = 'say dim';
+    }
   }
 
-  sl.addEventListener('input', function(){
-    N = parseInt(sl.value, 10);
-    render();
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden){
+      clearFlash();
+    } else if (flashing && flashTimer === null){
+      endFlash();
+    }
   });
 
-  document.getElementById('steps').addEventListener('click', function(e){
-    var b = e.target.closest ? e.target.closest('[data-s]') : null;
-    if (!b) return;
-    L = parseInt(b.getAttribute('data-s'), 10);
-    render();
-  });
+  okBtn.addEventListener('click', confirm);
+  $('again').addEventListener('click', sameRound);
+  $('next').addEventListener('click', newRound);
 
-  document.getElementById('reset').addEventListener('click', function(){
-    N = 5; L = 10; sl.value = '5';
-    render();
-  });
-
-  var tid = 0;
-  window.addEventListener('resize', function(){
-    clearTimeout(tid);
-    tid = setTimeout(draw, 120);
-  });
-
-  sl.value = '5';
-  render();
+  newRound();
 })();
 </script>
 </body>

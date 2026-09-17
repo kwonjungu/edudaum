@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>온도 규칙 확인 순서 — 에듀다움 B22</title>
+<title>온도를 움직이면 — 에듀다움 B22</title>
 <style>
   :root{
     --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
-    --point:#F59E0B; --point-soft:#FFF0C7; --point-mid:#FBCF77;
+    --point:#F59E0B; --point-soft:#FFF0C7;
     --muted:#5A5A5A;
     --r:18px; --r-sm:12px;
     --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
@@ -25,54 +25,52 @@
     border-radius:999px;padding:9px 15px;box-shadow:var(--hard-sm);min-height:44px}
   .tag{font-weight:900;font-size:14px;background:var(--point);color:var(--ink);
     border:2.5px solid var(--ink);border-radius:999px;padding:8px 14px;box-shadow:var(--hard-sm)}
-  h1{font-size:clamp(25px,5.6vw,38px);font-weight:900;letter-spacing:-.035em;line-height:1.05}
-  .lead{font-size:15px;color:var(--muted);font-weight:700;margin-top:7px}
+  h1{font-size:clamp(23px,5.2vw,34px);font-weight:900;letter-spacing:-.035em;line-height:1.06}
+  .lead{font-size:15px;color:var(--muted);font-weight:700;margin-top:6px}
   section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
-    box-shadow:var(--hard);padding:15px 13px;margin-top:14px}
-  h2{font-size:14.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:10px;color:var(--muted)}
+    box-shadow:var(--hard);padding:11px;margin-top:10px}
+  h2{font-size:14px;font-weight:900;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
   button{font-family:inherit;cursor:pointer;color:var(--ink)}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    border:2.5px solid var(--ink);background:var(--point);font-size:15px;font-weight:900;
-    padding:10px 18px;border-radius:var(--r-sm);min-height:44px;box-shadow:var(--hard-sm);
+    border:2.5px solid var(--ink);background:var(--surface);font-size:14.5px;font-weight:900;
+    padding:9px 15px;border-radius:var(--r-sm);min-height:44px;box-shadow:var(--hard-sm);
     transition:transform .1s,box-shadow .1s}
-  .btn.ghost{background:var(--surface)}
-  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point)}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn:disabled{opacity:.42;cursor:default;box-shadow:none;transform:none}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
 
-  /* 온도 조절 */
-  .big{font-size:clamp(34px,9vw,54px);font-weight:900;letter-spacing:-.04em;
-    font-variant-numeric:tabular-nums;line-height:1}
+  .big{font-size:clamp(28px,7vw,38px);font-weight:900;letter-spacing:-.04em;
+    font-variant-numeric:tabular-nums;line-height:1;margin-bottom:8px}
   .big small{font-size:.42em;font-weight:800;color:var(--muted);margin-left:4px}
-  .say{display:inline-flex;align-items:center;gap:9px;margin-top:10px;font-size:16px;font-weight:900;
-    background:var(--ink);color:var(--paper);border-radius:999px;padding:8px 16px}
-  .say b{color:var(--point)}
-  .sl{width:100%;height:44px;margin-top:12px;-webkit-appearance:none;appearance:none;background:transparent}
-  .sl:focus{outline:none}
-  .sl::-webkit-slider-runnable-track{height:16px;border:2.5px solid var(--ink);border-radius:999px;
-    background:var(--point-soft)}
-  .sl::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;margin-top:-11px;
-    border:3px solid var(--ink);border-radius:50%;background:var(--point);box-shadow:var(--hard-sm)}
-  .sl::-moz-range-track{height:16px;border:2.5px solid var(--ink);border-radius:999px;
-    background:var(--point-soft)}
-  .sl::-moz-range-thumb{width:30px;height:30px;border:3px solid var(--ink);border-radius:50%;
-    background:var(--point)}
-  .ends{display:flex;justify-content:space-between;font-size:12.5px;font-weight:800;color:var(--muted)}
 
-  /* 규칙표 */
-  .rows{display:grid;gap:8px}
+  .rows{display:grid;gap:6px;margin-top:2px}
   .row{display:flex;align-items:center;gap:9px;border:2.5px solid var(--ink);
-    border-radius:var(--r-sm);background:var(--surface);padding:8px 10px;min-height:50px}
+    border-radius:var(--r-sm);background:var(--surface);padding:6px 10px;min-height:44px}
   .row.hit{background:var(--point-soft);border-width:3.5px;border-color:var(--point)}
-  .row .n{flex:0 0 28px;height:28px;display:grid;place-items:center;font-weight:900;font-size:14px;
+  .row .n{flex:0 0 26px;height:26px;display:grid;place-items:center;font-weight:900;font-size:13px;
     background:var(--ink);color:var(--paper);border-radius:8px}
-  .row .cd{flex:0 0 auto;font-size:14.5px;font-weight:900}
-  .row .ms{flex:1;min-width:0;font-size:14px;font-weight:700;color:var(--muted);word-break:keep-all}
-  .row .mk{flex:0 0 auto;width:20px;height:20px;visibility:hidden}
+  .row .cd{flex:0 0 auto;font-size:14px;font-weight:900}
+  .row .mk{flex:0 0 auto;width:18px;height:18px;visibility:hidden;margin-left:auto}
   .row.hit .mk{visibility:visible}
-  .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
-  .note{font-size:13px;font-weight:700;color:var(--muted);margin-top:9px}
-  #band{width:100%;height:auto;display:block}
+
+  .opts{display:grid;gap:6px}
+  .opt{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
+    border:2.5px solid var(--ink);background:var(--surface);border-radius:var(--r-sm);
+    padding:8px 13px;min-height:44px;box-shadow:var(--hard-sm);font-size:14.5px;font-weight:800;
+    transition:transform .1s,box-shadow .1s}
+  .opt:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .opt:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .opt:disabled{opacity:.55}
+  .opt.pick{background:var(--point-soft);border-width:3.5px}
+  .opt.hit{background:var(--point);border-width:3.5px}
+
+  .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .say{margin-top:9px;font-size:14px;font-weight:900}
+  .say.dim{color:var(--muted);font-weight:700}
+  .note{font-size:12.5px;font-weight:700;color:var(--muted);margin-top:9px}
+  [hidden]{display:none!important}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -84,144 +82,160 @@
   </nav>
   <header>
     <h1>온도를 움직이면</h1>
-    <p class="lead">먼저 걸린 규칙 하나만 알려요</p>
+    <p class="lead">이 온도에서 뭐라고 할지 짚어요</p>
   </header>
 
   <section aria-labelledby="h-t">
-    <h2 id="h-t">넣어 보는 온도</h2>
+    <h2 id="h-t">이번 온도 · 확인 순서</h2>
     <p class="big"><span id="tv">20</span><small>도</small></p>
-    <p class="say" id="say">해당하는 규칙 없음</p>
-    <input class="sl" id="temp" type="range" min="-5" max="40" step="0.5"
-           aria-label="넣어 보는 온도" aria-valuetext="20도">
-    <p class="ends"><span>-5</span><span>40</span></p>
-  </section>
-
-  <section aria-labelledby="h-r">
-    <h2 id="h-r">확인 순서</h2>
     <div class="rows" id="rows"></div>
-    <div class="tools">
-      <button class="btn" id="swap" type="button">순서 바꾸기</button>
-      <button class="btn ghost" id="reset" type="button">다시 하기</button>
-    </div>
     <p class="note">잰 값은 온도계로 직접 읽어요</p>
   </section>
 
-  <section aria-labelledby="h-b">
-    <h2 id="h-b">온도별 결과</h2>
-    <svg id="band" viewBox="0 0 320 78" role="img" aria-label="온도 구간마다 걸리는 규칙"></svg>
+  <section aria-labelledby="h-o">
+    <h2 id="h-o">알릴 말 고르기</h2>
+    <div class="opts" id="opts"></div>
+    <div class="tools">
+      <button class="btn main" id="check" type="button" disabled>확인하기</button>
+      <button class="btn" id="reset" type="button">다시 하기</button>
+      <button class="btn" id="next" type="button">다음 판</button>
+    </div>
+    <p class="say dim" id="say">알릴 말을 하나 짚어요</p>
   </section>
 </div>
 
 <script>
 (function(){
   'use strict';
+  var $ = function(id){ return document.getElementById(id); };
   var RULES = [
     {cd:'30도 이상', ms:'그늘에서 쉬면서 활동하세요', f:function(t){ return t >= 30; }},
     {cd:'25도 이상', ms:'물통을 챙기세요',           f:function(t){ return t >= 25; }},
     {cd:'5도 이하',  ms:'장갑을 챙기세요',           f:function(t){ return t <= 5;  }}
   ];
-  var START = [0,1,2];
-  var order = START.slice();
-  var temp = 20;
-
+  var OPTS = ['그늘에서 쉬면서 활동하세요', '물통을 챙기세요', '장갑을 챙기세요', '해당하는 규칙 없음'];
   var NUM = ['①','②','③'];
-  var rowsBox = document.getElementById('rows');
-  var say = document.getElementById('say');
-  var tv = document.getElementById('tv');
-  var sl = document.getElementById('temp');
-  var band = document.getElementById('band');
+  var BOUND = [5, 25, 30];
 
-  var CHECK = '<svg class="mk" viewBox="0 0 20 20" aria-hidden="true" focusable="false">'
-    + '<path d="M3 10.5 8 15.5 17 4.5" fill="none" stroke="#141414" stroke-width="3"'
-    + ' stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  var order, temp, picked, confirmed, prevSig;
+  var rowsBox = $('rows'), optsBox = $('opts'), say = $('say'), tv = $('tv');
+  var checkBtn = $('check'), resetBtn = $('reset');
+  var optBtns = [];
+
+  (function build(){
+    for (var i = 0; i < OPTS.length; i++){
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'opt';
+      b.textContent = OPTS[i];
+      (function(idx){ b.addEventListener('click', function(){ pick(idx); }); })(i);
+      optsBox.appendChild(b);
+      optBtns.push(b);
+    }
+  })();
 
   function fire(ord, t){
     for (var i = 0; i < ord.length; i++){ if (RULES[ord[i]].f(t)) return ord[i]; }
     return -1;
   }
 
-  function drawRows(){
-    var hit = fire(order, temp);
-    var html = '';
-    for (var i = 0; i < order.length; i++){
-      var r = RULES[order[i]];
-      var on = (order[i] === hit);
-      html += '<div class="row' + (on ? ' hit' : '') + '">'
-            + '<span class="n" aria-hidden="true">' + NUM[i] + '</span>'
-            + '<span class="cd">' + r.cd + '</span>'
-            + '<span class="ms">' + r.ms + '</span>' + CHECK + '</div>';
+  function shuffled(a){
+    var b = a.slice();
+    for (var i = b.length - 1; i > 0; i--){
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = b[i]; b[i] = b[j]; b[j] = t;
     }
-    rowsBox.innerHTML = html;
-    say.textContent = (hit < 0) ? '해당하는 규칙 없음' : RULES[hit].ms;
+    return b;
   }
 
-  var TINT = ['#F59E0B', '#FBCF77', '#FFF0C7'];
+  function randTemp(){
+    if (Math.random() < 0.3){
+      return BOUND[Math.floor(Math.random() * BOUND.length)];
+    }
+    var steps = Math.round((40 - (-5)) / 0.5);
+    return -5 + Math.round(Math.random() * steps) * 0.5;
+  }
 
-  function drawBand(){
-    var x0 = 12, x1 = 308, w = x1 - x0, lo = -5, hi = 40;
-    function px(t){ return x0 + (t - lo) / (hi - lo) * w; }
-    var s = '';
-    var seg = null, segs = [];
-    for (var t = lo; t <= hi + 0.001; t += 0.5){
-      var f = fire(order, Math.round(t * 2) / 2);
-      if (!seg || seg.f !== f){ seg = {f:f, a:t, b:t}; segs.push(seg); }
-      else seg.b = t;
+  function pickRound(){
+    var ord = [0, 1, 2];
+    if (Math.random() < 1 / 3){
+      do { ord = shuffled([0, 1, 2]); } while (ord[0] === 0 && ord[1] === 1);
     }
-    for (var i = 0; i < segs.length; i++){
-      var g = segs[i];
-      var xa = px(g.a), xb = px(i + 1 < segs.length ? segs[i + 1].a : hi + 0.5);
-      if (xb > x1) xb = x1;
-      var fillC = (g.f < 0) ? 'url(#hatch)' : TINT[order.indexOf(g.f)];
-      s += '<rect x="' + xa.toFixed(1) + '" y="14" width="' + Math.max(0, xb - xa).toFixed(1)
-         + '" height="30" fill="' + fillC + '" stroke="#141414" stroke-width="2"/>';
-      var mid = (xa + xb) / 2;
-      if (g.f >= 0 && xb - xa > 16){
-        s += '<text x="' + mid.toFixed(1) + '" y="34" text-anchor="middle" font-size="13"'
-           + ' font-weight="900" fill="#141414">' + NUM[order.indexOf(g.f)] + '</text>';
-      }
-    }
-    // 눈금
-    [-5, 5, 25, 30, 40].forEach(function(t){
-      var x = px(t);
-      s += '<path d="M' + x.toFixed(1) + ' 44 V51" stroke="#141414" stroke-width="2"/>'
-         + '<text x="' + x.toFixed(1) + '" y="64" text-anchor="middle" font-size="11.5"'
-         + ' font-weight="800" fill="#5A5A5A">' + t + '</text>';
-    });
-    // 지금 온도 표시
-    var mx = px(temp);
-    s += '<path d="M' + mx.toFixed(1) + ' 12 l-7 -10 h14 Z" fill="#141414"/>'
-       + '<path d="M' + mx.toFixed(1) + ' 12 V44" stroke="#141414" stroke-width="2.5"/>';
-    band.innerHTML = '<defs><pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse"'
-      + ' patternTransform="rotate(45)"><rect width="7" height="7" fill="#FBF7EC"/>'
-      + '<path d="M0 0 V7" stroke="#141414" stroke-width="2"/></pattern></defs>' + s;
+    var t = randTemp();
+    return { order: ord, temp: t, sig: ord.join('') + '|' + t };
+  }
+
+  function newRound(){
+    var r;
+    do { r = pickRound(); } while (r.sig === prevSig);
+    prevSig = r.sig;
+    order = r.order; temp = r.temp;
+    picked = null; confirmed = false;
+    render();
+  }
+
+  function pick(i){
+    if (confirmed) return;
+    picked = i;
+    render();
+  }
+
+  function confirm(){
+    if (confirmed || picked === null) return;
+    confirmed = true;
+    render();
   }
 
   function render(){
     tv.textContent = (temp % 1 === 0) ? String(temp) : temp.toFixed(1);
-    sl.setAttribute('aria-valuetext', tv.textContent + '도');
-    drawRows();
-    drawBand();
+
+    var actual = fire(order, temp);
+    var showHit = confirmed;
+    var html = '';
+    rowsBox.textContent = '';
+    for (var i = 0; i < order.length; i++){
+      var r = RULES[order[i]];
+      var on = showHit && order[i] === actual;
+      var row = document.createElement('div');
+      row.className = 'row' + (on ? ' hit' : '');
+      row.innerHTML = '<span class="n" aria-hidden="true">' + NUM[i] + '</span>' +
+        '<span class="cd">' + r.cd + '</span>' +
+        '<svg class="mk" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10.5 8 15.5 17 4.5"' +
+        ' fill="none" stroke="#141414" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      rowsBox.appendChild(row);
+    }
+
+    for (var k = 0; k < optBtns.length; k++){
+      optBtns[k].disabled = confirmed;
+      optBtns[k].classList.toggle('pick', !confirmed && picked === k);
+      var isActualOpt = (actual === -1) ? (k === 3) : (OPTS[k] === RULES[actual].ms);
+      optBtns[k].classList.toggle('hit', confirmed && isActualOpt);
+    }
+
+    checkBtn.disabled = confirmed || picked === null;
+    resetBtn.disabled = confirmed || picked === null;
+
+    if (confirmed){
+      var pickedIsActual = (actual === -1) ? (picked === 3) : (OPTS[picked] === RULES[actual].ms);
+      say.textContent = pickedIsActual ? '짚은 대로 나왔어요' : '다른 줄이 먼저 걸렸어요';
+      say.className = 'say';
+    } else if (picked === null){
+      say.textContent = '알릴 말을 하나 짚어요';
+      say.className = 'say dim';
+    } else {
+      say.textContent = '확인하기를 눌러요';
+      say.className = 'say dim';
+    }
   }
 
-  sl.addEventListener('input', function(){
-    temp = parseFloat(sl.value);
-    render();
+  checkBtn.addEventListener('click', confirm);
+  resetBtn.addEventListener('click', function(){
+    if (confirmed) return;
+    picked = null; render();
   });
+  $('next').addEventListener('click', newRound);
 
-  document.getElementById('swap').addEventListener('click', function(){
-    var t = order[0]; order[0] = order[1]; order[1] = t;
-    render();
-  });
-
-  document.getElementById('reset').addEventListener('click', function(){
-    order = START.slice();
-    temp = 20;
-    sl.value = '20';
-    render();
-  });
-
-  sl.value = '20';
-  render();
+  newRound();
 })();
 </script>
 </body>

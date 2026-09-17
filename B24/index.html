@@ -31,8 +31,8 @@
   .lead{font-size:14px;color:var(--muted);margin-top:3px;font-weight:700}
 
   section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
-    box-shadow:var(--hard);padding:8px;margin-top:7px}
-  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:7px;color:var(--muted);
+    box-shadow:var(--hard);padding:7px;margin-top:6px}
+  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:5px;color:var(--muted);
     display:flex;align-items:center;gap:6px}
   h2 svg{flex:none}
 
@@ -49,7 +49,7 @@
   .item[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px}
   .item.diff{box-shadow:inset 6px 0 0 var(--point), var(--hard-sm)}
 
-  .stepper{display:flex;gap:8px;margin-top:8px}
+  .stepper{display:flex;gap:6px;margin-top:6px}
   .big{font-family:inherit;cursor:pointer;color:var(--ink);font-size:23px;font-weight:900;
     background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
     min-height:48px;flex:1;box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s}
@@ -57,7 +57,7 @@
   .big:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .big:disabled{opacity:.42;cursor:default;box-shadow:none}
 
-  .sum{margin-top:7px;font-family:'Courier New',monospace;font-weight:900;font-size:15px}
+  .sum{margin-top:4px;font-family:'Courier New',monospace;font-weight:900;font-size:14px}
 
   .bars{display:grid;gap:3px;margin-top:1px}
   .bar{display:flex;align-items:center;gap:7px}
@@ -67,7 +67,7 @@
   .fill{fill:var(--point)}
   .bar .bv{width:2.4em;text-align:right;font-family:'Courier New',monospace;font-weight:900;font-size:13px}
 
-  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
   .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
     background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
     min-height:44px;padding:9px 13px;box-shadow:var(--hard-sm);flex:1 1 92px;
@@ -77,8 +77,10 @@
   .btn.main{background:var(--point);color:#fff}
   .btn:disabled{opacity:.42;cursor:default;box-shadow:none}
 
-  .note{margin-top:5px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .note{margin-top:4px;font-size:12.5px;font-weight:700;color:var(--muted)}
   .note b{font-weight:900;color:var(--ink)}
+  .say{margin-top:4px;font-size:14px;font-weight:900}
+  .say.dim{color:var(--muted);font-weight:700}
   [hidden]{display:none!important}
 
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
@@ -120,7 +122,9 @@
 
   <section aria-labelledby="h-g">
     <h2 id="h-g">가르기</h2>
+    <p class="note" id="goal" hidden><b>두 기준의 예 묶음 사람 수를 똑같이 만들어라</b></p>
     <div class="bars" id="bars"></div>
+    <p class="say dim" id="goalSay" hidden></p>
     <div class="acts">
       <button class="btn main" id="lockBtn" type="button">자료표 잠그기</button>
       <button class="btn" id="swapBtn" type="button" hidden>기준 바꾸기</button>
@@ -193,6 +197,15 @@
   function diff(i){
     return split[1][i] !== null && split[2][i] !== null && split[1][i] !== split[2][i];
   }
+  function allAssigned(k){
+    for (var i = 0; i < 7; i++) if (split[k][i] === null) return false;
+    return true;
+  }
+  function goalText(){
+    if (!allAssigned(1) || !allAssigned(2)) return '두 기준을 다 갈라요';
+    var a = groupSum(1, 'Y'), b = groupSum(2, 'Y');
+    return (a === b) ? '두 기준이 똑같아졌어요' : (Math.abs(a - b) + '명 차이예요');
+  }
 
   // 한 항목을 누른다. 잠그기 전에는 고르는 일, 잠근 뒤에는 예와 아니요를 오가는 일.
   function tap(i){
@@ -253,6 +266,11 @@
     $('lockBtn').disabled = (t === 0);
     $('swapBtn').hidden = !locked;
     $('why').hidden = locked || t > 0;
+
+    $('goal').hidden = !locked;
+    var goalSay = $('goalSay');
+    goalSay.hidden = !locked;
+    if (locked){ goalSay.textContent = goalText(); }
   }
 
   render();
