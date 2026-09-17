@@ -186,6 +186,7 @@
   var setIdx = -1, prevSetIdx = null;
   var guess = null;
   var running = false;
+  var ran = false;       // 확인을 눌렀나. 그 뒤로는 짚기가 잠긴다.
 
   var runBtn = document.getElementById('run');
   var resetBtn = document.getElementById('reset');
@@ -227,7 +228,7 @@
     runBtn.disabled = on || guess === null;
     resetBtn.disabled = on;
     nextBtn.disabled = on;
-    for (var i = 0; i < 5; i++) { pickBtns[i].disabled = on || guess !== null; }
+    for (var i = 0; i < 5; i++) { pickBtns[i].disabled = on || ran; }
   }
 
   function loadSet() {
@@ -243,7 +244,7 @@
   }
 
   function pick(i) {
-    if (running || guess !== null) { return; }
+    if (running || ran) { return; }
     guess = i;
     document.getElementById('row-' + i).classList.add('guess');
     pickBtns[i - 1].setAttribute('aria-pressed', 'true');
@@ -253,7 +254,7 @@
 
   function run() {
     if (running || guess === null) { return; }
-    running = true;
+    running = true; ran = true;
     lockAll(true);
     clearMarks();
 
@@ -293,11 +294,13 @@
   }
 
   function resetRun() {
+    ran = false;
     if (running) { return; }
     clearMarks();
   }
 
   function newRound() {
+    ran = false;
     running = false;
     setIdx = pickSetIdx();
     guess = null;

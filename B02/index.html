@@ -201,7 +201,7 @@
     renderGuess();
   });
 
-  var guess = null;          // 짚은 기준. 판마다 한 번, 무르지 못한다.
+  var guess = null;          // 짚은 기준. 세우기 전까지 바꿀 수 있다.
   var gEls = [];
   (function buildGuess(){
     for (var i = 0; i < CRIT.length; i++){
@@ -210,7 +210,7 @@
       b.textContent = CRIT[i];
       b.setAttribute('aria-label', CRIT[i] + '에 ✕가 가장 많다고 짚기');
       (function(k){ b.addEventListener('click', function(){
-        if (guess !== null || !allFilled()) return;
+        if (vertical || !allFilled()) return;   // 세우기 전까지 바꿀 수 있다
         guess = k; renderGuess();
       }); })(i);
       document.getElementById('guess').appendChild(b);
@@ -241,7 +241,7 @@
     var ok = allFilled();
     for (var i = 0; i < 3; i++){
       gEls[i].setAttribute('aria-pressed', guess === i ? 'true' : 'false');
-      gEls[i].disabled = !ok || guess !== null;
+      gEls[i].disabled = !ok || vertical;
     }
     flipBtn.disabled = (guess === null);
 

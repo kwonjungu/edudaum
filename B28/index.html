@@ -181,13 +181,13 @@
       render(); return;
     }
     if (where === null) return;                // 넣을 곳을 고른 뒤에 짚는다
-    if (guess !== null) return;                // 짚기는 한 번. 무르지 못한다.
+    // 넣어 보기 전까지는 바꿀 수 있다.
     if (i >= 0 && chosen.indexOf(i) < 0) return;
     guess = i;
     render();
   }
   function tapWhere(i){
-    if (done || chosen.length < 3 || guess !== null) return;
+    if (done || chosen.length < 3) return;
     where = (where === i) ? null : i;
     render();
   }
@@ -222,11 +222,11 @@
     var noneEl = pEls[PEOPLE.length];
     noneEl.setAttribute('aria-pressed', guess === -1 ? 'true' : 'false');
     noneEl.classList.toggle('guess', guess === -1);
-    noneEl.disabled = done || chosen.length < 3 || where === null || guess !== null;
+    noneEl.disabled = done || chosen.length < 3 || where === null;
 
     WHERES.forEach(function(w, i){
       wEls[i].setAttribute('aria-pressed', where === i ? 'true' : 'false');
-      wEls[i].disabled = done || chosen.length < 3 || guess !== null;
+      wEls[i].disabled = done || chosen.length < 3;
     });
 
 

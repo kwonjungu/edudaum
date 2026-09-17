@@ -206,6 +206,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   var prevBookIdx = null, prevSwapped = null;
   var guess = null;
   var running = false;
+  var ran = false;       // 확인을 눌렀나. 그 뒤로는 짚기가 잠긴다.
   var timer = null;
 
   var calm = window.matchMedia
@@ -243,8 +244,8 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
     runBtn.disabled = on || guess === null;
     resetBtn.disabled = on;
     nextBtn.disabled = on;
-    guessHandBtn.disabled = on || guess !== null;
-    guessBookBtn.disabled = on || guess !== null;
+    guessHandBtn.disabled = on || ran;
+    guessBookBtn.disabled = on || ran;
   }
 
   function halt() {
@@ -253,7 +254,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   }
 
   function setGuess(label) {
-    if (running || guess !== null) { return; }
+    if (running || ran) { return; }
     guess = label;
     guessHandBtn.setAttribute('aria-pressed', String(label === '책 건네기'));
     guessBookBtn.setAttribute('aria-pressed', String(label === '예약 안내'));
@@ -286,7 +287,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
     }
 
     var k = 0;
-    running = true;
+    running = true; ran = true;
     lock(true);
     timer = setInterval(function () {
       document.getElementById(path[k]).classList.add('lit');
@@ -299,6 +300,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   }
 
   function resetRun() {
+    ran = false;
     if (running) { return; }
     halt();
     clearLit();
@@ -307,6 +309,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   }
 
   function newRound() {
+    ran = false;
     halt();
     var r = pickRound();
     bookIdx = r.bi; swapped = r.sw;

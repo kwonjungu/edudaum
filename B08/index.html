@@ -50,6 +50,7 @@
   .c.mark{background:var(--point-soft)}
   .c.guess{border-width:4px}
   .c.edge{box-shadow:inset 0 0 0 3px var(--point)}
+  .c:disabled{cursor:default}
   .c.pick{animation:pk .2s ease-out}
   @keyframes pk{0%{transform:scale(1)}45%{transform:scale(1.16)}100%{transform:scale(1)}}
 
@@ -175,7 +176,7 @@
 
   // 짚기는 판마다 한 번. 시험을 시작하기 전에만 짚을 수 있다.
   function pick(v){
-    if (guess !== null || tried.some(function(x){ return x !== null; })) return;
+    if (tried.some(function(x){ return x !== null; })) return;
     guess = v;
     cells[v].classList.remove('pick'); void cells[v].offsetWidth; cells[v].classList.add('pick');
     render();
@@ -199,6 +200,7 @@
   $('next').addEventListener('click', newRound);
 
   function render(){
+    var tested = tried.some(function(x){ return x !== null; });
     $('num').textContent = String(value);
     var pic = shown === 'heart' ? HEART : (shown === 'cross' ? CROSS : null);
     for (var i = 0; i < 25; i++) leds[i].setAttribute('fill', pic && pic[i] ? '#DB2777' : '#3A3630');
@@ -209,6 +211,8 @@
       c.classList.toggle('mark', tried[v] !== null);
       c.classList.toggle('guess', guess === v);
       c.classList.toggle('edge', found && v === edge);
+      // 시험을 시작하면 띠를 잠근다. 눌러도 조용히 안 먹으면 고장인 줄 안다.
+      c.disabled = tested;
       c.setAttribute('aria-label', v + (guess === v ? ' 짚음' : '') +
         (tried[v] ? (tried[v] === 'heart' ? ' 하트' : ' 가위표') : ''));
     }

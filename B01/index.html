@@ -186,6 +186,7 @@ button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   var timer = null;
   var t = 0;
   var running = false;
+  var ran = false;       // 확인을 눌렀나. 그 뒤로는 짚기가 잠긴다.
 
   (function buildStrip() {
     for (var s = SEC_MIN; s <= SEC_MAX; s++) {
@@ -246,7 +247,7 @@ button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
     for (var i = 0; i < cells.length; i++) {
       var sec = SEC_MIN + i;
       cells[i].classList.toggle('pick', pickedSec === sec);
-      cells[i].disabled = pickedSec !== null;
+      cells[i].disabled = ran;   // 확인 전까지는 바꿀 수 있다
     }
     pickline.innerHTML = pickedSec === null
       ? '초를 짚어요'
@@ -257,7 +258,7 @@ button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   }
 
   function pickSec(sec) {
-    if (running || pickedSec !== null) { return; }
+    if (running || ran) { return; }   // 건너 보기 전까지는 바꿀 수 있다
     pickedSec = sec;
     render();
   }
@@ -287,7 +288,7 @@ button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 
   function run() {
     if (running || pickedSec === null) { return; }
-    running = true;
+    running = true; ran = true;
     t = 0;
     out.textContent = '';
     updateWalkers(0);
@@ -297,6 +298,7 @@ button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   }
 
   function resetRun() {
+    ran = false;
     if (running) { return; }
     halt();
     t = 0;
@@ -307,6 +309,7 @@ button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   }
 
   function newRound() {
+    ran = false;
     halt();
     N = pickN();
     nText.textContent = String(N);
