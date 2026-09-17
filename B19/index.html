@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>이어질 말 세기 — 에듀다움 B19</title>
+<style>
+  :root{
+    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+    --point:#1D4ED8; --point-soft:#CBDCFC; --muted:#5E5E5E;
+    --r:18px; --r-sm:12px;
+    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
+    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+    background-size:22px 22px;background-position:-11px -11px}
+  .wrap{max-width:640px;margin:0 auto;padding:14px 14px 32px}
+
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
+    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
+  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
+    border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
+
+  h1{font-size:clamp(24px,5.8vw,34px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:15px;color:var(--muted);margin-top:6px;font-weight:700}
+
+  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+    box-shadow:var(--hard);padding:13px 12px;margin-top:12px}
+  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
+
+  .front{font-size:14.5px;font-weight:800;color:var(--muted)}
+  #result{margin-top:3px;font-size:clamp(22px,6vw,30px);font-weight:900;color:var(--point);
+    line-height:1.15}
+
+  .barrow{display:flex;align-items:center;gap:8px;margin-top:9px}
+  .barname{flex:0 0 88px;font-size:13.5px;font-weight:900}
+  .barcount{width:20px;text-align:right;font-family:'Courier New',monospace;font-weight:900;font-size:15px}
+  .bar{flex:1 1 auto;height:18px;display:block}
+  .track{fill:var(--paper);stroke:var(--ink);stroke-width:2}
+  .fill{fill:var(--point)}
+
+  .ask{margin-top:10px;font-size:13.5px;font-weight:800;color:var(--muted)}
+
+  .cards{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+  .card{position:relative;font-family:inherit;cursor:pointer;color:var(--ink);font-size:14.5px;
+    font-weight:900;text-align:left;background:var(--surface);border:2.5px solid var(--ink);
+    border-radius:var(--r-sm);min-height:44px;padding:10px 26px 10px 10px;box-shadow:var(--hard-sm);
+    transition:transform .1s,box-shadow .1s}
+  .card:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .card:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .card[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px;box-shadow:var(--hard)}
+  .mark{position:absolute;top:7px;right:7px;width:15px;height:15px;opacity:0}
+  .card[aria-pressed="true"] .mark{opacity:1}
+
+  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    min-height:44px;padding:10px 18px;box-shadow:var(--hard-sm);
+    transition:transform .1s,box-shadow .1s}
+  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.sub{flex:1 1 120px}
+
+  .note{margin-top:9px;font-size:12.5px;font-weight:700;color:var(--muted)}
+
+  button, a{outline-offset:3px}
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+
+  @media(max-width:380px){.cards{grid-template-columns:1fr}}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="back" href="../">← 전체 목록</a>
+    <span class="tag">9~10</span>
+  </nav>
+
+  <header>
+    <h1>이어질 말 세기</h1>
+    <p class="lead">한 장을 빼면 달라지나요</p>
+  </header>
+
+  <section aria-labelledby="h-r">
+    <h2 id="h-r">고른 말</h2>
+    <p class="front">학교 끝나고 나는</p>
+    <p id="result" aria-live="polite">아직 없어요</p>
+
+    <div class="barrow">
+      <span class="barname">집에 간다</span>
+      <span class="barcount" id="c0">0</span>
+      <svg class="bar" viewBox="0 0 200 18" role="img" aria-label="집에 간다 막대">
+        <rect class="track" x="0" y="2" width="200" height="14" rx="4"></rect>
+        <rect class="fill" id="f0" x="0" y="2" width="0" height="14" rx="4"></rect>
+      </svg>
+    </div>
+    <div class="barrow">
+      <span class="barname">운동장에 간다</span>
+      <span class="barcount" id="c1">0</span>
+      <svg class="bar" viewBox="0 0 200 18" role="img" aria-label="운동장에 간다 막대">
+        <rect class="track" x="0" y="2" width="200" height="14" rx="4"></rect>
+        <rect class="fill" id="f1" x="0" y="2" width="0" height="14" rx="4"></rect>
+      </svg>
+    </div>
+    <div class="barrow">
+      <span class="barname">학원에 간다</span>
+      <span class="barcount" id="c2">0</span>
+      <svg class="bar" viewBox="0 0 200 18" role="img" aria-label="학원에 간다 막대">
+        <rect class="track" x="0" y="2" width="200" height="14" rx="4"></rect>
+        <rect class="fill" id="f2" x="0" y="2" width="0" height="14" rx="4"></rect>
+      </svg>
+    </div>
+
+    <p class="ask">늘 하나로 골라지나요</p>
+  </section>
+
+  <section aria-labelledby="h-c">
+    <h2 id="h-c">예문 카드</h2>
+    <div class="cards" role="group" aria-labelledby="h-c">
+      <button class="card" type="button" data-i="0" aria-pressed="false">
+        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span>일찍 집에 간다</span>
+      </button>
+      <button class="card" type="button" data-i="1" aria-pressed="false">
+        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span>혼자 집에 간다</span>
+      </button>
+      <button class="card" type="button" data-i="2" aria-pressed="false">
+        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span>얼른 집에 간다</span>
+      </button>
+      <button class="card" type="button" data-i="3" aria-pressed="false">
+        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span>곧 운동장에 간다</span>
+      </button>
+      <button class="card" type="button" data-i="4" aria-pressed="false">
+        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span>또 운동장에 간다</span>
+      </button>
+      <button class="card" type="button" data-i="5" aria-pressed="false">
+        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span>바로 학원에 간다</span>
+      </button>
+      <button class="card" type="button" data-i="6" aria-pressed="false">
+        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span>곧장 학원에 간다</span>
+      </button>
+      <button class="card" type="button" data-i="7" aria-pressed="false">
+        <svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        <span>다시 학원에 간다</span>
+      </button>
+    </div>
+
+    <div class="acts">
+      <button class="btn sub" id="resetBtn" type="button">다시 하기</button>
+    </div>
+    <p class="note">챗봇은 공용 기기로 해요</p>
+  </section>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var WORDS = ['집에 간다', '운동장에 간다', '학원에 간다'];
+  var GROUP = [0, 0, 0, 1, 1, 2, 2, 2];
+  var MAXW = 196;
+
+  var pressed = [false, false, false, false, false, false, false, false];
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.card'));
+  var resultEl = document.getElementById('result');
+  var countEls = [document.getElementById('c0'), document.getElementById('c1'), document.getElementById('c2')];
+  var fillEls = [document.getElementById('f0'), document.getElementById('f1'), document.getElementById('f2')];
+  var resetBtn = document.getElementById('resetBtn');
+
+  function counts(){
+    var c = [0, 0, 0];
+    for (var i = 0; i < 8; i++) if (pressed[i]) c[GROUP[i]]++;
+    return c;
+  }
+
+  function renderBars(c){
+    for (var g = 0; g < 3; g++) {
+      countEls[g].textContent = String(c[g]);
+      var w = (c[g] / 3) * MAXW;
+      fillEls[g].setAttribute('width', w.toFixed(2));
+    }
+  }
+
+  function renderResult(c){
+    var max = Math.max(c[0], c[1], c[2]);
+    if (max === 0) { resultEl.textContent = '아직 없어요'; return; }
+    var winners = 0, idx = -1;
+    for (var g = 0; g < 3; g++) if (c[g] === max) { winners++; idx = g; }
+    resultEl.textContent = winners > 1 ? '갈렸어요' : WORDS[idx];
+  }
+
+  function renderAll(){
+    var c = counts();
+    renderBars(c);
+    renderResult(c);
+  }
+
+  cards.forEach(function(btn, i){
+    btn.addEventListener('click', function(){
+      pressed[i] = !pressed[i];
+      btn.setAttribute('aria-pressed', pressed[i] ? 'true' : 'false');
+      renderAll();
+    });
+  });
+
+  resetBtn.addEventListener('click', function(){
+    for (var i = 0; i < 8; i++) {
+      pressed[i] = false;
+      cards[i].setAttribute('aria-pressed', 'false');
+    }
+    renderAll();
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>

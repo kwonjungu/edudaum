@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>적힌 대로만 — 에듀다움 B04</title>
+<style>
+  :root{
+    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+    --point:#E11D48; --point-soft:#FBD9E0; --muted:#5E5E5E;
+    --r:18px; --r-sm:12px;
+    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
+    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+    background-size:22px 22px;background-position:-11px -11px}
+  .wrap{max-width:640px;margin:0 auto;padding:14px 14px 32px}
+
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
+    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
+  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
+    border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
+
+  h1{font-size:clamp(24px,5.8vw,34px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:15px;color:var(--muted);margin-top:6px;font-weight:700}
+
+  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+    box-shadow:var(--hard);padding:10px 12px;margin-top:8px}
+  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:6px;color:var(--muted)}
+
+  .steps{list-style:none;display:flex;flex-direction:column;gap:4px}
+  .step{display:flex;align-items:center;gap:8px;min-height:32px;padding:4px 8px;
+    border:2px solid var(--ink);border-radius:var(--r-sm);background:var(--surface);
+    transition:background .15s,border-color .15s}
+  .step.row-fix{min-height:44px}
+  .step.current{background:var(--point-soft);border-color:var(--point)}
+  .step.stopped{background:var(--point-soft);border-color:var(--point);border-width:3px}
+  .stepno{flex:0 0 auto;width:20px;height:20px;border-radius:50%;background:var(--ink);color:var(--paper);
+    font-size:12px;font-weight:900;display:flex;align-items:center;justify-content:center}
+  .stext{flex:1 1 auto;font-size:14.5px;font-weight:700}
+  .fix{flex:0 0 auto;font-family:inherit;cursor:pointer;color:var(--ink);font-size:13px;font-weight:900;
+    background:var(--surface);border:2px solid var(--ink);border-radius:999px;
+    min-height:44px;min-width:44px;padding:7px 12px;box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s}
+  .fix:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .fix:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+  .fix[aria-pressed="true"]{background:var(--point);color:#fff}
+  .fix:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:var(--hard-sm)}
+
+  .status{margin-top:8px;font-size:13.5px;font-weight:900;color:var(--point)}
+  .status[hidden]{display:none}
+
+  .scene{background:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    display:flex;align-items:center;justify-content:center;padding:5px}
+  #stagesvg{width:100%;max-width:150px;height:auto;display:block}
+  #stagesvg [hidden]{display:none}
+
+  .ask{margin-top:7px;font-size:13.5px;font-weight:800;color:var(--muted)}
+
+  .acts{display:flex;gap:8px;flex-wrap:wrap}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    min-height:44px;padding:10px 18px;box-shadow:var(--hard-sm);
+    transition:transform .1s,box-shadow .1s}
+  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point);color:#fff;flex:1 1 140px}
+  .btn.sub{flex:1 1 120px}
+  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:var(--hard-sm)}
+
+  .note{margin-top:9px;font-size:12.5px;font-weight:700;color:var(--muted)}
+
+  button, a{outline-offset:3px}
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="back" href="../">← 전체 목록</a>
+    <span class="tag">7~8</span>
+  </nav>
+
+  <header>
+    <h1>적힌 대로만</h1>
+    <p class="lead">적히지 않은 일은 안 해요</p>
+  </header>
+
+  <section aria-labelledby="h-s">
+    <h2 id="h-s">단계</h2>
+    <ol class="steps" id="steps">
+      <li class="step row-fix" id="row-1">
+        <span class="stepno">1</span>
+        <span class="stext" id="txt-1">필통을 챙긴다</span>
+        <button class="fix" id="fix-1" type="button" aria-pressed="false">고쳐 쓰기</button>
+      </li>
+      <li class="step" id="row-2">
+        <span class="stepno">2</span>
+        <span class="stext" id="txt-2">필통을 연다</span>
+      </li>
+      <li class="step row-fix" id="row-3">
+        <span class="stepno">3</span>
+        <span class="stext" id="txt-3">연필을 정리한다</span>
+        <button class="fix" id="fix-3" type="button" aria-pressed="false">고쳐 쓰기</button>
+      </li>
+      <li class="step" id="row-4">
+        <span class="stepno">4</span>
+        <span class="stext" id="txt-4">필통을 닫는다</span>
+      </li>
+      <li class="step" id="row-5">
+        <span class="stepno">5</span>
+        <span class="stext" id="txt-5">자리에 앉는다</span>
+      </li>
+    </ol>
+    <p class="status" id="status" hidden></p>
+  </section>
+
+  <section aria-labelledby="h-p">
+    <h2 id="h-p">그림</h2>
+    <div class="scene">
+      <svg id="stagesvg" viewBox="0 0 200 120" role="img" aria-label="책상과 필통 그림">
+        <rect x="8" y="86" width="184" height="10" fill="#C9C2B4" stroke="#141414" stroke-width="2"/>
+        <rect x="20" y="96" width="10" height="20" fill="#C9C2B4" stroke="#141414" stroke-width="2"/>
+        <rect x="170" y="96" width="10" height="20" fill="#C9C2B4" stroke="#141414" stroke-width="2"/>
+        <g id="v-sit" hidden>
+          <circle cx="100" cy="26" r="11" fill="#E11D48" stroke="#141414" stroke-width="2.5"/>
+        </g>
+        <g id="v-case-closed" hidden>
+          <rect x="72" y="60" width="56" height="22" rx="6" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
+          <rect x="72" y="60" width="56" height="9" rx="4" fill="#E11D48" stroke="#141414" stroke-width="2"/>
+        </g>
+        <g id="v-case-open" hidden>
+          <rect x="72" y="68" width="56" height="16" rx="4" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
+          <rect x="68" y="50" width="56" height="9" rx="4" fill="#E11D48" stroke="#141414" stroke-width="2" transform="rotate(-16 96 55)"/>
+        </g>
+        <g id="v-pencil" hidden>
+          <rect x="118" y="38" width="8" height="44" rx="3" fill="#F5D77A" stroke="#141414" stroke-width="2" transform="rotate(20 122 60)"/>
+        </g>
+      </svg>
+    </div>
+    <p class="ask">어느 줄에서 멈췄나요</p>
+  </section>
+
+  <section aria-labelledby="h-a">
+    <h2 id="h-a">해보기</h2>
+    <div class="acts">
+      <button class="btn main" id="run" type="button">해 보기</button>
+      <button class="btn sub" id="reset" type="button">처음으로</button>
+    </div>
+    <p class="note">내 절차는 짝과 해 봐요</p>
+  </section>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var VAGUE = { 1: true, 3: true };
+  var TEXT = {
+    1: { plain: '필통을 챙긴다', fixed: '필통을 책상에 올린다' },
+    2: { plain: '필통을 연다' },
+    3: { plain: '연필을 정리한다', fixed: '연필 한 자루를 꺼낸다' },
+    4: { plain: '필통을 닫는다' },
+    5: { plain: '자리에 앉는다' }
+  };
+
+  var fixed = { 1: false, 3: false };
+  var running = false;
+
+  var runBtn = document.getElementById('run');
+  var resetBtn = document.getElementById('reset');
+  var fix1 = document.getElementById('fix-1');
+  var fix3 = document.getElementById('fix-3');
+  var statusEl = document.getElementById('status');
+
+  var vCaseClosed = document.getElementById('v-case-closed');
+  var vCaseOpen = document.getElementById('v-case-open');
+  var vPencil = document.getElementById('v-pencil');
+  var vSit = document.getElementById('v-sit');
+
+  var reduced = false;
+  try {
+    reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  } catch (e) { reduced = false; }
+
+  function stepText(i){
+    if (VAGUE[i] && fixed[i]) return TEXT[i].fixed;
+    return TEXT[i].plain;
+  }
+
+  function renderStepText(i){
+    document.getElementById('txt-' + i).textContent = stepText(i);
+  }
+
+  function setVisual(level){
+    vCaseClosed.hidden = !(level >= 1 && (level < 2 || level >= 4));
+    vCaseOpen.hidden = !(level >= 2 && level < 4);
+    vPencil.hidden = !(level >= 3);
+    vSit.hidden = !(level >= 5);
+  }
+
+  function clearMarks(){
+    for (var i = 1; i <= 5; i++) {
+      var row = document.getElementById('row-' + i);
+      row.classList.remove('current', 'stopped');
+    }
+    statusEl.hidden = true;
+    statusEl.textContent = '';
+  }
+
+  function lockButtons(on){
+    runBtn.disabled = on;
+    resetBtn.disabled = on;
+    fix1.disabled = on;
+    fix3.disabled = on;
+  }
+
+  function run(){
+    if (running) return;
+    running = true;
+    lockButtons(true);
+    clearMarks();
+    setVisual(0);
+
+    var i = 1;
+
+    function loopStep(){
+      if (i > 5) {
+        statusEl.textContent = '끝까지 갔어요';
+        statusEl.hidden = false;
+        running = false;
+        lockButtons(false);
+        return;
+      }
+      var row = document.getElementById('row-' + i);
+      row.classList.add('current');
+
+      if (VAGUE[i] && !fixed[i]) {
+        row.classList.remove('current');
+        row.classList.add('stopped');
+        statusEl.textContent = '무엇을 할지 적혀 있지 않아요';
+        statusEl.hidden = false;
+        running = false;
+        lockButtons(false);
+        return;
+      }
+
+      setVisual(i);
+
+      if (reduced) {
+        row.classList.remove('current');
+        i += 1;
+        loopStep();
+      } else {
+        setTimeout(function(){
+          row.classList.remove('current');
+          i += 1;
+          loopStep();
+        }, 600);
+      }
+    }
+    loopStep();
+  }
+
+  function resetAll(){
+    if (running) return;
+    fixed[1] = false;
+    fixed[3] = false;
+    renderStepText(1);
+    renderStepText(3);
+    fix1.setAttribute('aria-pressed', 'false');
+    fix3.setAttribute('aria-pressed', 'false');
+    clearMarks();
+    setVisual(0);
+  }
+
+  function toggleFix(i){
+    if (running) return;
+    fixed[i] = !fixed[i];
+    renderStepText(i);
+    document.getElementById('fix-' + i).setAttribute('aria-pressed', fixed[i] ? 'true' : 'false');
+    clearMarks();
+  }
+
+  runBtn.addEventListener('click', run);
+  resetBtn.addEventListener('click', resetAll);
+  fix1.addEventListener('click', function(){ toggleFix(1); });
+  fix3.addEventListener('click', function(){ toggleFix(3); });
+
+  setVisual(0);
+})();
+</script>
+</body>
+</html>

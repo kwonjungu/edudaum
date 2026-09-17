@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기다리지 않으면 — 에듀다움 B07</title>
+<style>
+  :root{
+    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+    --point:#0EA5E9; --point-soft:#DCF3FC; --muted:#5E5E5E;
+    --r:18px; --r-sm:12px;
+    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
+    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+    background-size:22px 22px;background-position:-11px -11px}
+  .wrap{max-width:640px;margin:0 auto;padding:14px 14px 32px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
+    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
+  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
+    border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
+
+  h1{font-size:clamp(24px,5.8vw,34px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:15px;color:var(--muted);margin-top:6px;font-weight:700}
+
+  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+    box-shadow:var(--hard);padding:13px 12px;margin-top:12px}
+  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
+
+  .stage{display:grid;grid-template-columns:132px minmax(0,1fr);gap:10px;align-items:stretch}
+  .panel{background:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    padding:10px;display:flex;align-items:center;justify-content:center}
+  #grid{width:100%;max-width:150px;height:auto;display:block}
+  .dot{fill:#3A3630;transition:fill .08s}
+
+  .steps{list-style:none;display:flex;flex-direction:column;gap:6px;justify-content:center}
+  .steps li{font-size:13.5px;font-weight:800;color:var(--muted);background:var(--paper);
+    border:2px solid var(--ink);border-radius:9px;padding:7px 10px;transition:background .12s,color .12s}
+  .steps li.on{background:var(--point);color:#fff;border-width:2.5px}
+
+  .ask{margin-top:10px;font-size:13.5px;font-weight:800;color:var(--muted)}
+
+  .dial .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .dial label{font-size:15px;font-weight:900}
+  .dial .val{font-family:'Courier New',monospace;font-weight:900;font-size:16px;background:var(--point);
+    color:#fff;border:2.5px solid var(--ink);border-radius:9px;padding:2px 12px;white-space:nowrap}
+  input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:44px;min-height:44px;
+    background:transparent;display:block;margin-top:6px}
+  input[type=range]::-webkit-slider-runnable-track{height:14px;border-radius:999px;
+    background:var(--point-soft);border:2.5px solid var(--ink)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:34px;height:34px;margin-top:-13px;
+    border-radius:50%;background:var(--point);border:3px solid var(--ink);cursor:pointer}
+  input[type=range]::-moz-range-track{height:14px;border-radius:999px;background:var(--point-soft);
+    border:2.5px solid var(--ink)}
+  input[type=range]::-moz-range-thumb{width:30px;height:30px;border-radius:50%;background:var(--point);
+    border:3px solid var(--ink);cursor:pointer}
+  input[type=range]:focus-visible{outline:3px solid var(--point);outline-offset:2px}
+
+  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-family:inherit;
+    cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;background:var(--surface);
+    border:2.5px solid var(--ink);border-radius:var(--r-sm);min-height:44px;min-width:44px;
+    padding:10px 16px;box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s;flex:1 1 140px}
+  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point-soft)}
+
+  .note{margin-top:9px;font-size:12.5px;font-weight:700;color:var(--muted)}
+
+  button, a{outline-offset:3px}
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+
+  @media(max-width:420px){
+    .stage{grid-template-columns:1fr}
+  }
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="back" href="../">← 전체 목록</a>
+    <span class="tag">13~14</span>
+  </nav>
+
+  <header>
+    <h1>기다리지 않으면</h1>
+    <p class="lead">첫 그림이 보이나요</p>
+  </header>
+
+  <section aria-labelledby="h-v">
+    <h2 id="h-v">그림</h2>
+    <div class="stage">
+      <div class="panel">
+        <svg id="grid" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg>
+      </div>
+      <ol class="steps" id="steps" aria-label="블록 넉 줄">
+        <li data-n="1">시작할 때</li>
+        <li data-n="2" id="line2">하트</li>
+        <li data-n="3">잠시 기다리기</li>
+        <li data-n="4" id="line4">웃는 얼굴</li>
+      </ol>
+    </div>
+    <p class="ask">0초로 두면 어떻게 되나요</p>
+  </section>
+
+  <section class="dial" aria-labelledby="h-w">
+    <h2 id="h-w">기다리는 시간</h2>
+    <div class="row">
+      <label for="wait">기다리는 시간</label>
+      <span class="val" id="wv">0.0초</span>
+    </div>
+    <input type="range" id="wait" min="0" max="2" step="0.1" value="0">
+
+    <div class="acts">
+      <button class="btn main" id="swap" type="button">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h13m0 0-4-4m4 4-4 4" stroke="var(--ink)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 16H7m0 0 4-4m-4 4 4 4" stroke="var(--ink)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        자리 바꾸기</button>
+      <button class="btn" id="replay" type="button">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12a8 8 0 1 0 2.6-5.9M4 4v4h4" stroke="var(--ink)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        다시 보기</button>
+    </div>
+    <p class="note">마이크로비트로 옮겨 봐요</p>
+  </section>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var gridEl = document.getElementById('grid');
+  var waitInput = document.getElementById('wait');
+  var wv = document.getElementById('wv');
+  var swapBtn = document.getElementById('swap');
+  var replayBtn = document.getElementById('replay');
+  var lineEls = {
+    1: document.querySelector('.steps li[data-n="1"]'),
+    2: document.getElementById('line2'),
+    3: document.querySelector('.steps li[data-n="3"]'),
+    4: document.getElementById('line4')
+  };
+
+  var NS = 'http://www.w3.org/2000/svg';
+  var OFF = '#3A3630';
+  var ON = '#0EA5E9';
+
+  var HEART = [
+    0,1,0,1,0,
+    1,1,1,1,1,
+    1,1,1,1,1,
+    0,1,1,1,0,
+    0,0,1,0,0
+  ];
+  var SMILE = [
+    0,1,0,1,0,
+    0,1,0,1,0,
+    0,0,0,0,0,
+    1,0,0,0,1,
+    0,1,1,1,0
+  ];
+  var IMAGES = { heart: HEART, smile: SMILE };
+  var LABEL = { heart: '하트', smile: '웃는 얼굴' };
+
+  var order = ['heart', 'smile'];
+  var timer = null;
+
+  var cells = [];
+  (function buildGrid(){
+    for (var r = 0; r < 5; r++) {
+      for (var c = 0; c < 5; c++) {
+        var el = document.createElementNS(NS, 'rect');
+        el.setAttribute('x', (c * 21.25).toFixed(2));
+        el.setAttribute('y', (r * 21.25).toFixed(2));
+        el.setAttribute('width', '15');
+        el.setAttribute('height', '15');
+        el.setAttribute('rx', '3');
+        el.setAttribute('class', 'dot');
+        el.setAttribute('fill', OFF);
+        gridEl.appendChild(el);
+        cells.push(el);
+      }
+    }
+  })();
+
+  function setLed(key){
+    var pic = IMAGES[key];
+    for (var i = 0; i < 25; i++) cells[i].setAttribute('fill', pic[i] ? ON : OFF);
+  }
+
+  function showLine(n){
+    for (var k = 1; k <= 4; k++) lineEls[k].classList.toggle('on', k === n);
+  }
+
+  function renderLabels(){
+    lineEls[2].textContent = LABEL[order[0]];
+    lineEls[4].textContent = LABEL[order[1]];
+  }
+
+  function clearTimer(){
+    if (timer) { clearTimeout(timer); timer = null; }
+  }
+
+  // 돌기(): 줄2 표시 → 기다림 → 줄4 표시 → 0.8초 → 되풀이
+  // 기다림 값과 차례는 이 바퀴가 시작할 때 한 번만 읽는다. 막대를 미는 동안에도
+  // 지금 바퀴는 그대로 돌고, 다음 바퀴부터 새 값이 반영된다.
+  function lap(){
+    var activeOrder = order.slice();
+    var activeWait = Number(waitInput.value) * 1000;
+
+    showLine(2);
+    setLed(activeOrder[0]);
+
+    clearTimer();
+    timer = setTimeout(function(){
+      showLine(3);
+      clearTimer();
+      timer = setTimeout(function(){
+        showLine(4);
+        setLed(activeOrder[1]);
+        clearTimer();
+        timer = setTimeout(lap, 800);
+      }, activeWait);
+    }, 0);
+  }
+
+  function boot(){
+    clearTimer();
+    showLine(1);
+    setLed(order[0]);
+    timer = setTimeout(lap, 400);
+  }
+
+  waitInput.addEventListener('input', function(){
+    wv.textContent = Number(waitInput.value).toFixed(1) + '초';
+  });
+
+  swapBtn.addEventListener('click', function(){
+    order.reverse();
+    renderLabels();
+  });
+
+  replayBtn.addEventListener('click', boot);
+
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) {
+      clearTimer();
+    } else {
+      boot();
+    }
+  });
+  window.addEventListener('pagehide', clearTimer);
+
+  renderLabels();
+  wv.textContent = Number(waitInput.value).toFixed(1) + '초';
+  boot();
+})();
+</script>
+</body>
+</html>

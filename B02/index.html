@@ -128,32 +128,48 @@
     return n;
   }
 
+  function makeCell(tag, cls, text){
+    var el = document.createElement(tag);
+    el.className = cls;
+    if (text) el.textContent = text;
+    return el;
+  }
+
   function render(){
     var headLabels = vertical ? CRIT : CAND;
     var rowLabels = vertical ? CAND : CRIT;
-    var parts = [];
-    var r, c, crit, cand, v, lab;
+    var r, c, crit, cand, v, lab, mark, cnt;
 
-    parts.push('<div class="cell corner" aria-hidden="true"></div>');
+    tableEl.textContent = '';
+
+    tableEl.appendChild(makeCell('div', 'cell corner'));
     for (c = 0; c < 3; c++) {
-      parts.push('<div class="cell head">' + headLabels[c] + '</div>');
+      tableEl.appendChild(makeCell('div', 'cell head', headLabels[c]));
     }
-    parts.push('<div class="cell corner" aria-hidden="true">○ 수</div>');
+    tableEl.appendChild(makeCell('div', 'cell corner', '○ 수'));
 
     for (r = 0; r < 3; r++) {
-      parts.push('<div class="cell rowlabel">' + rowLabels[r] + '</div>');
+      tableEl.appendChild(makeCell('div', 'cell rowlabel', rowLabels[r]));
       for (c = 0; c < 3; c++) {
         crit = vertical ? c : r;
         cand = vertical ? r : c;
         v = grid[crit][cand];
         lab = rowLabels[r] + ' ' + headLabels[c] + ' 지금 ' + (v ? DISPLAY[v] : '빈칸');
-        parts.push('<button type="button" class="cell mark" data-crit="' + crit +
-          '" data-cand="' + cand + '" data-row="' + r + '" data-col="' + c +
-          '" aria-label="' + lab + '">' + (v ? DISPLAY[v] : '') + '</button>');
+        mark = document.createElement('button');
+        mark.type = 'button';
+        mark.className = 'cell mark';
+        mark.setAttribute('data-crit', String(crit));
+        mark.setAttribute('data-cand', String(cand));
+        mark.setAttribute('data-row', String(r));
+        mark.setAttribute('data-col', String(c));
+        mark.setAttribute('aria-label', lab);
+        mark.textContent = v ? DISPLAY[v] : '';
+        tableEl.appendChild(mark);
       }
-      parts.push('<div class="cell count" id="cnt-' + r + '">' + rowCount(r) + '</div>');
+      cnt = makeCell('div', 'cell count', String(rowCount(r)));
+      cnt.id = 'cnt-' + r;
+      tableEl.appendChild(cnt);
     }
-    tableEl.innerHTML = parts.join('');
   }
 
   tableEl.addEventListener('click', function(e){

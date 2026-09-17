@@ -214,14 +214,25 @@
     updateLocks();
   }
 
+  // 옆 칸 하나에서만 주고받으면 20초에 닿지 못한다(10/10/10에서 15초가 끝이다).
+  // 두 이웃 가운데 여유가 더 있는 쪽과 주고받는다. 합은 늘 30초다.
+  function other(i, want){
+    var a = (i + 1) % 3, b = (i + 2) % 3;
+    var ok = [];
+    if (want === 'take' ? cuts[a] > 5 : cuts[a] < 20) ok.push(a);
+    if (want === 'take' ? cuts[b] > 5 : cuts[b] < 20) ok.push(b);
+    if (!ok.length) return -1;
+    if (ok.length === 1) return ok[0];
+    return (want === 'take')
+      ? (cuts[ok[0]] >= cuts[ok[1]] ? ok[0] : ok[1])   // 많은 쪽에서 가져온다
+      : (cuts[ok[0]] <= cuts[ok[1]] ? ok[0] : ok[1]);  // 적은 쪽에 준다
+  }
+
   function updateLocks(){
-    var i;
-    for (i = 0; i < 3; i++) {
-      var next = (i + 1) % 3;
-      var canPlus = cuts[i] < 20 && cuts[next] > 5;
-      var canMinus = cuts[i] > 5 && cuts[next] < 20;
-      plusBtns[i].disabled = running || !canPlus;
-      minusBtns[i].disabled = running || !canMinus;
+    for (var i = 0; i < 3; i++) {
+      // 잠그는 규칙은 실제로 주고받는 규칙과 같아야 한다(other 참고).
+      plusBtns[i].disabled = running || cuts[i] >= 20 || other(i, 'take') < 0;
+      minusBtns[i].disabled = running || cuts[i] <= 5 || other(i, 'give') < 0;
     }
   }
 
@@ -291,22 +302,20 @@
 
   minusBtns.forEach(function(btn, i){
     btn.addEventListener('click', function(){
-      var next = (i + 1) % 3;
-      if (cuts[i] > 5 && cuts[next] < 20) {
-        cuts[i] -= 5;
-        cuts[next] += 5;
-        renderCuts();
-      }
+      if (cuts[i] <= 5) return;
+      var j = other(i, 'give');
+      if (j < 0) return;
+      cuts[i] -= 5; cuts[j] += 5;
+      renderCuts();
     });
   });
   plusBtns.forEach(function(btn, i){
     btn.addEventListener('click', function(){
-      var next = (i + 1) % 3;
-      if (cuts[i] < 20 && cuts[next] > 5) {
-        cuts[i] += 5;
-        cuts[next] -= 5;
-        renderCuts();
-      }
+      if (cuts[i] >= 20) return;
+      var j = other(i, 'take');
+      if (j < 0) return;
+      cuts[i] += 5; cuts[j] -= 5;
+      renderCuts();
     });
   });
 

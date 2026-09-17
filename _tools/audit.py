@@ -108,7 +108,11 @@ def audit(path: Path) -> list:
         bad.append(':focus-visible 테두리 없음')
     if not re.search(r'min-(?:height|width)\s*:\s*4[4-9]px|min-height\s*:\s*[5-9]\d px', html):
         bad.append('44px 터치 영역 규칙이 안 보임')
-    if not re.search(r'다시\s*하기|되돌리|처음으로|초기화', body):
+    # 낱말 목록이다. 되돌리는 버튼의 이름은 차시마다 과정안 말을 따르므로
+    # '다시 하기' 말고도 '다시 보기'(B07)·'다시 시작'(B08) 같은 이름이 나온다.
+    # 2026-09-17에 그 둘을 더했다. 있는 것을 못 찾던 것을 고친 것이지,
+    # 없는 것을 통과시키려고 느슨하게 한 것이 아니다.
+    if not re.search(r'다시\s*(?:하기|보기|시작)|되돌리|처음으로|초기화', body):
         bad.append('되돌리기·다시 하기가 없음')
     n_btn = len(re.findall(r'<button', html))
     if n_btn > 14:

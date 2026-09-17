@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>다시 판정하기 — 에듀다움 B14</title>
+<style>
+  :root{
+    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+    --point:#0D9488; --point-soft:#CCFBF1; --muted:#5E5E5E;
+    --r:18px; --r-sm:12px;
+    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
+    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+    background-size:22px 22px;background-position:-11px -11px}
+  .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px}
+
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
+    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
+  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
+    border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
+
+  h1{font-size:clamp(21px,5.0vw,27px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:15px;color:var(--muted);margin-top:6px;font-weight:700}
+
+  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+    box-shadow:var(--hard);padding:13px 12px;margin-top:12px}
+  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
+
+  .thead{display:flex;align-items:center;gap:8px;padding:0 2px 6px;font-size:11.5px;
+    font-weight:900;color:var(--muted)}
+  .thead span{flex:0 0 auto}
+  .thead span:first-child{flex:1 1 140px}
+  .thead .th-f{width:40px;text-align:center}
+  .thead .th-n{width:98px;text-align:center}
+
+  .rows{display:flex;flex-direction:column;gap:7px}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:7px 8px 7px 9px;
+    border:2px solid var(--ink);border-left:5px solid transparent;border-radius:var(--r-sm);
+    background:var(--surface)}
+  .row.diff{border-left-color:var(--point)}
+  .iname{flex:1 1 130px;font-size:14px;font-weight:800}
+  .badge{flex:0 0 40px;text-align:center;font-weight:900;font-size:13px;color:var(--muted);
+    font-family:'Courier New',monospace}
+  .yn2{flex:0 0 auto;display:flex;gap:6px}
+  .yn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:13.5px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    min-width:44px;min-height:44px;padding:6px 10px;box-shadow:var(--hard-sm);
+    transition:transform .1s,box-shadow .1s;position:relative}
+  .yn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .yn:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
+  .yn[aria-pressed="true"]{background:var(--point);border-width:3.5px;color:#fff;box-shadow:var(--hard-sm)}
+  .yn[aria-pressed="true"]::before{content:"";display:inline-block;width:7px;height:7px;
+    border-radius:50%;background:#fff;margin-right:6px;vertical-align:middle}
+
+  .counts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .cbox{border:2.5px solid var(--ink);border-radius:var(--r-sm);padding:10px;text-align:center}
+  .clabel{display:block;font-size:11.5px;font-weight:900;color:var(--muted);margin-bottom:4px}
+  .cbox b{font-family:'Courier New',monospace;font-size:17px;font-weight:900;color:var(--point)}
+
+  .acts{display:flex;gap:8px;flex-wrap:wrap}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    min-height:44px;padding:10px 16px;box-shadow:var(--hard-sm);
+    transition:transform .1s,box-shadow .1s}
+  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point);color:#fff;flex:1 1 140px}
+  .btn.sub{flex:1 1 110px}
+  .btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;transform:none}
+
+  .reason{margin-top:8px;font-size:13px;font-weight:800;color:var(--muted)}
+  .reason[hidden]{display:none}
+  .ask{margin-top:9px;font-size:13.5px;font-weight:800;color:var(--muted)}
+  .note{margin-top:5px;font-size:12.5px;font-weight:700;color:var(--muted)}
+
+  button, a{outline-offset:3px}
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="back" href="../">← 전체 목록</a>
+    <span class="tag">31~32</span>
+  </nav>
+
+  <header>
+    <h1>다시 판정하기</h1>
+    <p class="lead">고치기 전 판정을 남겨요</p>
+  </header>
+
+  <section aria-labelledby="h-r">
+    <h2 id="h-r">항목</h2>
+    <div class="thead" aria-hidden="true">
+      <span></span><span class="th-f">처음</span><span class="th-n">지금</span>
+    </div>
+    <div class="rows" id="rows">
+      <div class="row" data-i="0">
+        <span class="iname">실제 이름이 없나</span>
+        <span class="badge" id="f0">–</span>
+        <div class="yn2" role="group" aria-label="실제 이름이 없나">
+          <button class="yn" type="button" data-i="0" data-v="Y" aria-pressed="false">예</button>
+          <button class="yn" type="button" data-i="0" data-v="N" aria-pressed="false">아니요</button>
+        </div>
+      </div>
+      <div class="row" data-i="1">
+        <span class="iname">학교와 반이 없나</span>
+        <span class="badge" id="f1">–</span>
+        <div class="yn2" role="group" aria-label="학교와 반이 없나">
+          <button class="yn" type="button" data-i="1" data-v="Y" aria-pressed="false">예</button>
+          <button class="yn" type="button" data-i="1" data-v="N" aria-pressed="false">아니요</button>
+        </div>
+      </div>
+      <div class="row" data-i="2">
+        <span class="iname">쓰는 방법이 적혀 있나</span>
+        <span class="badge" id="f2">–</span>
+        <div class="yn2" role="group" aria-label="쓰는 방법이 적혀 있나">
+          <button class="yn" type="button" data-i="2" data-v="Y" aria-pressed="false">예</button>
+          <button class="yn" type="button" data-i="2" data-v="N" aria-pressed="false">아니요</button>
+        </div>
+      </div>
+      <div class="row" data-i="3">
+        <span class="iname">알 수 없는 것을 적었나</span>
+        <span class="badge" id="f3">–</span>
+        <div class="yn2" role="group" aria-label="알 수 없는 것을 적었나">
+          <button class="yn" type="button" data-i="3" data-v="Y" aria-pressed="false">예</button>
+          <button class="yn" type="button" data-i="3" data-v="N" aria-pressed="false">아니요</button>
+        </div>
+      </div>
+      <div class="row" data-i="4">
+        <span class="iname">가져온 자료를 적었나</span>
+        <span class="badge" id="f4">–</span>
+        <div class="yn2" role="group" aria-label="가져온 자료를 적었나">
+          <button class="yn" type="button" data-i="4" data-v="Y" aria-pressed="false">예</button>
+          <button class="yn" type="button" data-i="4" data-v="N" aria-pressed="false">아니요</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-c">
+    <h2 id="h-c">개수</h2>
+    <div class="counts">
+      <div class="cbox"><span class="clabel">처음</span><b id="cnt0">–</b></div>
+      <div class="cbox"><span class="clabel">지금</span><b id="cnt1">아니요 0개</b></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="h-a">
+    <h2 id="h-a">담기</h2>
+    <div class="acts">
+      <button class="btn main" id="freeze" type="button" disabled>판정 담기</button>
+      <button class="btn sub" id="reset" type="button">다시 하기</button>
+    </div>
+    <p class="reason" id="reason" aria-live="polite">다섯 줄을 모두 표시해요</p>
+    <p class="ask">어느 줄이 달라졌나요</p>
+    <p class="note">고치는 일은 작품에서 해요</p>
+  </section>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  var current = [null, null, null, null, null];
+  var frozen = null;
+
+  var rows = Array.prototype.slice.call(document.querySelectorAll('.row'));
+  var freezeBtn = document.getElementById('freeze');
+  var resetBtn = document.getElementById('reset');
+  var reasonEl = document.getElementById('reason');
+  var cnt0 = document.getElementById('cnt0');
+  var cnt1 = document.getElementById('cnt1');
+
+  function countNo(arr){
+    var n = 0;
+    for (var i = 0; i < arr.length; i++) { if (arr[i] === 'N') n++; }
+    return n;
+  }
+
+  function allFilled(){
+    for (var i = 0; i < current.length; i++) { if (current[i] === null) return false; }
+    return true;
+  }
+
+  function renderRow(i){
+    var row = rows[i];
+    var badge = document.getElementById('f' + i);
+    var yBtn = row.querySelector('[data-v="Y"]');
+    var nBtn = row.querySelector('[data-v="N"]');
+    yBtn.setAttribute('aria-pressed', current[i] === 'Y' ? 'true' : 'false');
+    nBtn.setAttribute('aria-pressed', current[i] === 'N' ? 'true' : 'false');
+    if (frozen === null) {
+      badge.textContent = '–';
+      row.classList.remove('diff');
+    } else {
+      badge.textContent = (frozen[i] === 'Y') ? '예' : '아니요';
+      row.classList.toggle('diff', frozen[i] !== current[i]);
+    }
+  }
+
+  function renderCounts(){
+    cnt1.textContent = '아니요 ' + countNo(current) + '개';
+    cnt0.textContent = (frozen === null) ? '–' : ('아니요 ' + countNo(frozen) + '개');
+  }
+
+  function renderFreeze(){
+    var filled = allFilled();
+    freezeBtn.disabled = !(filled && frozen === null);
+    reasonEl.hidden = filled;
+  }
+
+  function renderAll(){
+    for (var i = 0; i < 5; i++) renderRow(i);
+    renderCounts();
+    renderFreeze();
+  }
+
+  rows.forEach(function(row){
+    var i = parseInt(row.getAttribute('data-i'), 10);
+    var btns = row.querySelectorAll('.yn');
+    Array.prototype.forEach.call(btns, function(btn){
+      btn.addEventListener('click', function(){
+        current[i] = btn.getAttribute('data-v');
+        renderRow(i);
+        renderCounts();
+        renderFreeze();
+      });
+    });
+  });
+
+  freezeBtn.addEventListener('click', function(){
+    if (allFilled() && frozen === null) {
+      frozen = current.slice();
+      renderAll();
+    }
+  });
+
+  resetBtn.addEventListener('click', function(){
+    frozen = null;
+    current = [null, null, null, null, null];
+    renderAll();
+  });
+
+  renderAll();
+})();
+</script>
+</body>
+</html>

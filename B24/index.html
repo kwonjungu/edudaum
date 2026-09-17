@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기준만 바꾸면 — 에듀다움</title>
+<style>
+  :root{
+    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+    --point:#9333EA; --point-soft:#EADCFB; --muted:#5E5E5E;
+    --r:18px; --r-sm:12px;
+    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
+    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+    background-size:22px 22px;background-position:-11px -11px}
+  .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px}
+
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
+    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
+  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
+    border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
+
+  h1{font-size:clamp(21px,5.0vw,27px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:14px;color:var(--muted);margin-top:3px;font-weight:700}
+
+  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+    box-shadow:var(--hard);padding:8px;margin-top:7px}
+  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:7px;color:var(--muted);
+    display:flex;align-items:center;gap:6px}
+  h2 svg{flex:none}
+
+  /* 항목 줄 — 두 단계가 함께 쓴다 */
+  .items{display:grid;gap:3px}
+  .item{display:flex;align-items:center;gap:8px;width:100%;font-family:inherit;cursor:pointer;
+    color:var(--ink);background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    min-height:44px;padding:6px 11px;box-shadow:var(--hard-sm);text-align:left;
+    transition:transform .1s,box-shadow .1s}
+  .item:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .item .nm{flex:1;font-weight:900;font-size:15px}
+  .item .n{font-family:'Courier New',monospace;font-weight:900;font-size:17px;min-width:1.9em;text-align:right}
+  .item .gr{font-weight:900;font-size:13px;min-width:3.1em;text-align:right;color:var(--muted)}
+  .item[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px}
+  .item.diff{box-shadow:inset 6px 0 0 var(--point), var(--hard-sm)}
+
+  .stepper{display:flex;gap:8px;margin-top:8px}
+  .big{font-family:inherit;cursor:pointer;color:var(--ink);font-size:23px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    min-height:48px;flex:1;box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s}
+  .big:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .big:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .big:disabled{opacity:.42;cursor:default;box-shadow:none}
+
+  .sum{margin-top:7px;font-family:'Courier New',monospace;font-weight:900;font-size:15px}
+
+  .bars{display:grid;gap:3px;margin-top:1px}
+  .bar{display:flex;align-items:center;gap:7px}
+  .bar .bn{width:5.2em;font-size:12.5px;font-weight:900}
+  .bar svg{flex:1;height:13px;display:block}
+  .track{fill:var(--point-soft);stroke:var(--ink);stroke-width:2}
+  .fill{fill:var(--point)}
+  .bar .bv{width:2.4em;text-align:right;font-family:'Courier New',monospace;font-weight:900;font-size:13px}
+
+  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    min-height:44px;padding:9px 13px;box-shadow:var(--hard-sm);flex:1 1 92px;
+    transition:transform .1s,box-shadow .1s}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point);color:#fff}
+  .btn:disabled{opacity:.42;cursor:default;box-shadow:none}
+
+  .note{margin-top:5px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .note b{font-weight:900;color:var(--ink)}
+  [hidden]{display:none!important}
+
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="back" href="../">← 전체 목록</a>
+    <span class="tag">19~20</span>
+  </nav>
+
+  <header>
+    <h1>기준만 바꾸면</h1>
+    <p class="lead">자료표는 그대로 둬요</p>
+  </header>
+
+  <section aria-labelledby="h-t">
+    <h2 id="h-t">
+      <svg id="lock" width="13" height="15" viewBox="0 0 13 15" aria-hidden="true" hidden>
+        <path d="M3 6V4a3.5 3.5 0 017 0v2" fill="none" stroke="#141414" stroke-width="2"/>
+        <rect x="1" y="6" width="11" height="8" rx="2" fill="#9333EA" stroke="#141414" stroke-width="2"/>
+      </svg>
+      <span id="stageName">자료표</span>
+    </h2>
+    <div class="items" id="items"></div>
+
+    <div class="stepper" id="stepper">
+      <button class="big" id="minus" type="button" aria-label="고른 항목의 사람 수 줄이기">−</button>
+      <button class="big" id="plus" type="button" aria-label="고른 항목의 사람 수 늘리기">+</button>
+    </div>
+    <p class="sum" id="sum">합계 0명</p>
+  </section>
+
+  <section aria-labelledby="h-g">
+    <h2 id="h-g">가르기</h2>
+    <div class="bars" id="bars"></div>
+    <div class="acts">
+      <button class="btn main" id="lockBtn" type="button">자료표 잠그기</button>
+      <button class="btn" id="swapBtn" type="button" hidden>기준 바꾸기</button>
+      <button class="btn" id="resetBtn" type="button">다시 하기</button>
+    </div>
+    <p class="note" id="why">사람 수를 먼저 넣어요</p>
+    <p class="note">달라진 항목이 있나요</p>
+    <p class="note"><b>수는 교실에서 세어 와요</b></p>
+  </section>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+  var NAMES = ['걸어서', '자전거', '킥보드', '버스', '자동차', '지하철', '그 밖에'];
+  var MAXN = 30;
+
+  var counts = [0, 0, 0, 0, 0, 0, 0];
+  var split = { 1:[null,null,null,null,null,null,null], 2:[null,null,null,null,null,null,null] };
+  var which = 1;
+  var locked = false;
+  var sel = 0;                 // 고른 항목. 두 단계가 함께 쓴다.
+  var itemEls = [], nEls = [], grEls = [];
+  var fills = [], vals = [];
+
+  var BARS = [
+    { k:1, v:'Y', nm:'첫째 예' }, { k:1, v:'N', nm:'첫째 아니요' },
+    { k:2, v:'Y', nm:'둘째 예' }, { k:2, v:'N', nm:'둘째 아니요' }
+  ];
+
+  (function build(){
+    NAMES.forEach(function(nm, i){
+      var b = document.createElement('button');
+      b.className = 'item'; b.type = 'button';
+      b.innerHTML = '<span class="nm"></span><span class="gr"></span><span class="n">0</span>';
+      b.querySelector('.nm').textContent = nm;
+      b.addEventListener('click', function(){ tap(i); });
+      $('items').appendChild(b);
+      itemEls.push(b);
+      nEls.push(b.querySelector('.n'));
+      grEls.push(b.querySelector('.gr'));
+    });
+    BARS.forEach(function(p){
+      var d = document.createElement('div');
+      d.className = 'bar';
+      d.innerHTML = '<span class="bn"></span>' +
+        '<svg viewBox="0 0 100 11" preserveAspectRatio="none" role="img">' +
+        '<rect class="track" x="1" y="1" width="98" height="9" rx="3"></rect>' +
+        '<rect class="fill" x="2" y="2" width="0" height="7" rx="2"></rect></svg>' +
+        '<span class="bv">0명</span>';
+      d.querySelector('.bn').textContent = p.nm;
+      d.querySelector('svg').setAttribute('aria-label', p.nm + ' 사람 수');
+      $('bars').appendChild(d);
+      fills.push(d.querySelector('.fill'));
+      vals.push(d.querySelector('.bv'));
+    });
+  })();
+
+  function total(){
+    var t = 0;
+    for (var i = 0; i < 7; i++) t += counts[i];
+    return t;
+  }
+  function groupSum(k, v){
+    var t = 0;
+    for (var i = 0; i < 7; i++) if (split[k][i] === v) t += counts[i];
+    return t;
+  }
+  function diff(i){
+    return split[1][i] !== null && split[2][i] !== null && split[1][i] !== split[2][i];
+  }
+
+  // 한 항목을 누른다. 잠그기 전에는 고르는 일, 잠근 뒤에는 예와 아니요를 오가는 일.
+  function tap(i){
+    if (!locked){ sel = i; }
+    else { split[which][i] = (split[which][i] === 'Y') ? 'N' : 'Y'; }
+    render();
+  }
+  function step(d){
+    if (locked) return;
+    counts[sel] = Math.max(0, Math.min(MAXN, counts[sel] + d));
+    render();
+  }
+  $('plus').addEventListener('click', function(){ step(1); });
+  $('minus').addEventListener('click', function(){ step(-1); });
+
+  $('lockBtn').addEventListener('click', function(){
+    if (locked || total() === 0) return;
+    locked = true;
+    render();
+  });
+  $('swapBtn').addEventListener('click', function(){
+    which = (which === 1) ? 2 : 1;
+    render();
+  });
+  $('resetBtn').addEventListener('click', function(){
+    counts = [0, 0, 0, 0, 0, 0, 0];
+    split = { 1:[null,null,null,null,null,null,null], 2:[null,null,null,null,null,null,null] };
+    which = 1; locked = false; sel = 0;
+    render();
+  });
+
+  function render(){
+    var t = total();
+    for (var i = 0; i < 7; i++){
+      nEls[i].textContent = String(counts[i]);
+      var g = split[which][i];
+      grEls[i].textContent = locked ? (g === 'Y' ? '예' : (g === 'N' ? '아니요' : '·')) : '';
+      itemEls[i].setAttribute('aria-pressed', (!locked && i === sel) ? 'true' : 'false');
+      itemEls[i].classList.toggle('diff', diff(i));
+      itemEls[i].setAttribute('aria-label',
+        NAMES[i] + ' ' + counts[i] + '명' + (locked && g ? ' ' + (g === 'Y' ? '예' : '아니요') : ''));
+    }
+    BARS.forEach(function(p, j){
+      var v = groupSum(p.k, p.v);
+      vals[j].textContent = v + '명';
+      fills[j].setAttribute('width', (t ? Math.min(v / t, 1) * 96 : 0).toFixed(1));
+    });
+
+    $('stageName').textContent = locked ? (which === 1 ? '첫째 기준' : '둘째 기준') : '자료표';
+    $('lock').hidden = !locked;
+    $('stepper').hidden = locked;
+    $('sum').textContent = '합계 ' + t + '명';
+    $('plus').disabled = locked || counts[sel] >= MAXN;
+    $('minus').disabled = locked || counts[sel] <= 0;
+    $('lockBtn').hidden = locked;
+    $('lockBtn').disabled = (t === 0);
+    $('swapBtn').hidden = !locked;
+    $('why').hidden = locked || t > 0;
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
