@@ -17,9 +17,9 @@
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
     background-image:radial-gradient(var(--ink) .5px,transparent .5px);
     background-size:22px 22px;background-position:-11px -11px}
-  .wrap{max-width:640px;margin:0 auto;padding:14px 14px 32px}
+  .wrap{max-width:640px;margin:0 auto;padding:12px 14px 26px}
 
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
   .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
     font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
     padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
@@ -27,58 +27,62 @@
   .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(24px,5.8vw,34px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
-  .lead{font-size:15px;color:var(--muted);margin-top:6px;font-weight:700}
+  h1{font-size:clamp(23px,5.6vw,32px);font-weight:900;letter-spacing:-.035em;line-height:1.07}
+  .lead{font-size:14.5px;color:var(--muted);margin-top:5px;font-weight:700}
 
   section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
-    box-shadow:var(--hard);padding:13px 12px;margin-top:12px}
-  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
+    box-shadow:var(--hard);padding:12px 12px;margin-top:11px}
+  h2{font-size:13px;font-weight:900;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted)}
 
   .timebox{display:flex;flex-direction:column;align-items:center;text-align:center}
-  #time{font-family:'Courier New',monospace;font-size:clamp(40px,11vw,58px);font-weight:900;
+  #time{font-family:'Courier New',monospace;font-size:clamp(36px,10vw,50px);font-weight:900;
     line-height:1;color:var(--point)}
-  .unit{font-size:14px;font-weight:800;color:var(--muted);margin-left:4px}
-  #cellname{margin-top:4px;font-size:16px;font-weight:900}
+  .unit{font-size:13px;font-weight:800;color:var(--muted);margin-left:4px}
+  #cellname{margin-top:3px;font-size:15px;font-weight:900}
 
-  #belt{width:100%;height:auto;display:block;margin-top:10px}
+  #belt{width:100%;height:auto;display:block;margin-top:8px}
   .seg{fill:var(--surface);stroke:var(--ink);stroke-width:2}
   .seg.active{fill:var(--point)}
   .divider{fill:var(--ink)}
   .pointer{fill:var(--ink);opacity:0}
 
-  .ask{margin-top:9px;font-size:13.5px;font-weight:800;color:var(--muted)}
+  .say{display:block;width:100%;margin-top:9px;font-size:15px;padding:0 12px;background:var(--point-soft)}
+  .end{margin-top:8px;font-size:13.5px;font-weight:900;background:var(--ink);color:var(--paper);
+    border-radius:999px;padding:6px 12px;display:inline-flex}
+  .end[hidden]{display:none}
 
-  .row{display:flex;align-items:center;gap:8px;justify-content:space-between;
-    padding:8px 0;border-top:2px solid var(--ink)}
+  .rows{display:flex;flex-direction:column}
+  .row{display:flex;flex-wrap:wrap;align-items:center;gap:6px;
+    padding:7px 0 7px 8px;border-top:2px solid var(--ink);border-left:4px solid transparent}
   .row:first-of-type{border-top:none}
-  .rowname{font-size:14.5px;font-weight:900;flex:1 1 auto;min-width:0}
-  .rowval{font-family:'Courier New',monospace;font-size:16px;font-weight:900;white-space:nowrap}
+  .row.filled{border-left-color:var(--point)}
+  .rowname{font-size:13.5px;font-weight:900;flex:1 1 118px;min-width:0;line-height:1.3}
+  .rowname .cnt{display:block;font-size:11.5px;font-weight:800;color:var(--muted)}
+  .rowval{font-family:'Courier New',monospace;font-size:15px;font-weight:900;white-space:nowrap}
   .rowbtns{display:flex;gap:6px}
 
-  .mini{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
+  .mini{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:900;
     background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
-    min-width:44px;min-height:44px;padding:8px 10px;box-shadow:var(--hard-sm);
+    min-width:44px;min-height:44px;padding:6px 9px;box-shadow:var(--hard-sm);
     transition:transform .1s,box-shadow .1s}
   .mini:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
   .mini:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .mini:disabled{opacity:.35;cursor:not-allowed;box-shadow:none;transform:none}
 
-  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;
+  .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14.5px;font-weight:900;
     background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
-    min-height:44px;padding:10px 18px;box-shadow:var(--hard-sm);
+    min-height:44px;padding:9px 14px;box-shadow:var(--hard-sm);
     transition:transform .1s,box-shadow .1s}
-  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .btn.main{background:var(--point-soft);flex:1 1 160px}
-  .btn.sub{flex:1 1 120px}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;transform:none}
+  .btn.main{background:var(--point-soft);flex:1 1 130px}
+  .btn.sub{flex:1 1 96px}
 
-  .end{margin-top:9px;font-size:14px;font-weight:900;background:var(--ink);color:var(--paper);
-    border-radius:999px;padding:7px 13px;display:inline-flex}
-  .end[hidden]{display:none}
-  .note{margin-top:9px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .note{margin-top:9px;font-size:12px;font-weight:700;color:var(--muted)}
 
-  button, a{outline-offset:3px}
+  button{outline-offset:3px}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
 
   .pop{animation:pop .17s ease-out}
@@ -95,7 +99,7 @@
 
   <header>
     <h1>삼십 초 나누기</h1>
-    <p class="lead">어디에 시간을 더 줄까요</p>
+    <p class="lead">세 칸을 다 말하고 끝내요</p>
   </header>
 
   <section aria-labelledby="h-t">
@@ -105,41 +109,44 @@
       <p id="cellname" aria-live="polite">누가 편해지나</p>
     </div>
     <svg id="belt" viewBox="0 0 300 56" role="img" aria-label="30초 띠에서 지금 자리를 보여 줌"></svg>
-    <p class="ask">어느 칸이 모자랐나요</p>
-    <p class="end" id="endMsg" hidden>삼십 초가 지났어요</p>
+    <button class="btn say" id="sayBtn" type="button" disabled>다 말했어요</button>
+    <p class="end" id="endMsg" hidden></p>
   </section>
 
   <section aria-labelledby="h-c">
     <h2 id="h-c">시간 나누기</h2>
 
-    <div class="row">
-      <span class="rowname">누가 편해지나</span>
-      <span class="rowval" id="v0">10초</span>
-      <span class="rowbtns">
-        <button class="mini" type="button" data-i="0" data-op="minus" aria-label="누가 편해지나 −5초">−5초</button>
-        <button class="mini" type="button" data-i="0" data-op="plus" aria-label="누가 편해지나 +5초">+5초</button>
-      </span>
-    </div>
-    <div class="row">
-      <span class="rowname">목표 앞뒤 보이기</span>
-      <span class="rowval" id="v1">10초</span>
-      <span class="rowbtns">
-        <button class="mini" type="button" data-i="1" data-op="minus" aria-label="목표 앞뒤 보이기 −5초">−5초</button>
-        <button class="mini" type="button" data-i="1" data-op="plus" aria-label="목표 앞뒤 보이기 +5초">+5초</button>
-      </span>
-    </div>
-    <div class="row">
-      <span class="rowname">무엇을 고쳤나</span>
-      <span class="rowval" id="v2">10초</span>
-      <span class="rowbtns">
-        <button class="mini" type="button" data-i="2" data-op="minus" aria-label="무엇을 고쳤나 −5초">−5초</button>
-        <button class="mini" type="button" data-i="2" data-op="plus" aria-label="무엇을 고쳤나 +5초">+5초</button>
-      </span>
+    <div class="rows" id="rows">
+      <div class="row" data-i="0">
+        <span class="rowname">누가 편해지나<b class="cnt" id="cnt0"></b></span>
+        <span class="rowval" id="v0">10초</span>
+        <span class="rowbtns">
+          <button class="mini" type="button" data-i="0" data-op="minus" aria-label="누가 편해지나 −5초">−5초</button>
+          <button class="mini" type="button" data-i="0" data-op="plus" aria-label="누가 편해지나 +5초">+5초</button>
+        </span>
+      </div>
+      <div class="row" data-i="1">
+        <span class="rowname">목표 앞뒤 보이기<b class="cnt" id="cnt1"></b></span>
+        <span class="rowval" id="v1">10초</span>
+        <span class="rowbtns">
+          <button class="mini" type="button" data-i="1" data-op="minus" aria-label="목표 앞뒤 보이기 −5초">−5초</button>
+          <button class="mini" type="button" data-i="1" data-op="plus" aria-label="목표 앞뒤 보이기 +5초">+5초</button>
+        </span>
+      </div>
+      <div class="row" data-i="2">
+        <span class="rowname">무엇을 고쳤나<b class="cnt" id="cnt2"></b></span>
+        <span class="rowval" id="v2">10초</span>
+        <span class="rowbtns">
+          <button class="mini" type="button" data-i="2" data-op="minus" aria-label="무엇을 고쳤나 −5초">−5초</button>
+          <button class="mini" type="button" data-i="2" data-op="plus" aria-label="무엇을 고쳤나 +5초">+5초</button>
+        </span>
+      </div>
     </div>
 
     <div class="acts">
       <button class="btn main" id="startBtn" type="button">연습 시작</button>
-      <button class="btn sub" id="resetBtn" type="button">처음으로</button>
+      <button class="btn sub" id="againBtn" type="button">다시 하기</button>
+      <button class="btn sub" id="nextBtn" type="button">다음 판</button>
     </div>
     <p class="note">발표는 모둠 앞에서 해요</p>
   </section>
@@ -154,18 +161,26 @@
   var W = 300, H = 56, TOP = 8, SEGH = 32;
 
   var cuts = [10, 10, 10];
+  var counts = [0, 0, 0];       // 이번 판의 칸마다 마디 수
+  var prevCounts = null;
+  var filled = [false, false, false];
   var running = false;
   var remaining = 30.0;
   var lastIdx = -1;
+  var curIdx = 0;
   var timerId = null;
 
   var timeEl = document.getElementById('time');
   var cellEl = document.getElementById('cellname');
   var beltEl = document.getElementById('belt');
   var endEl = document.getElementById('endMsg');
+  var sayBtn = document.getElementById('sayBtn');
   var startBtn = document.getElementById('startBtn');
-  var resetBtn = document.getElementById('resetBtn');
+  var againBtn = document.getElementById('againBtn');
+  var nextBtn = document.getElementById('nextBtn');
   var valEls = [document.getElementById('v0'), document.getElementById('v1'), document.getElementById('v2')];
+  var cntEls = [document.getElementById('cnt0'), document.getElementById('cnt1'), document.getElementById('cnt2')];
+  var rowEls = Array.prototype.slice.call(document.querySelectorAll('.row'));
   var minusBtns = Array.prototype.slice.call(document.querySelectorAll('.mini[data-op="minus"]'));
   var plusBtns = Array.prototype.slice.call(document.querySelectorAll('.mini[data-op="plus"]'));
 
@@ -197,8 +212,18 @@
     beltEl.appendChild(pointer);
   })();
 
-  function cum(){
-    return [cuts[0], cuts[0] + cuts[1], 30];
+  function cum(){ return [cuts[0], cuts[0] + cuts[1], 30]; }
+
+  function sameCounts(a, b){
+    return a[0] === b[0] && a[1] === b[1] && a[2] === b[2];
+  }
+
+  function pickCounts(){
+    var c;
+    do { c = [2 + Math.floor(Math.random()*4), 2 + Math.floor(Math.random()*4), 2 + Math.floor(Math.random()*4)]; }
+    while (prevCounts && sameCounts(c, prevCounts));
+    prevCounts = c;
+    return c;
   }
 
   function renderCuts(){
@@ -216,6 +241,14 @@
     updateLocks();
   }
 
+  function renderCounts(){
+    for (var i = 0; i < 3; i++) cntEls[i].textContent = counts[i] + '마디';
+  }
+
+  function renderRows(){
+    for (var i = 0; i < 3; i++) rowEls[i].classList.toggle('filled', filled[i]);
+  }
+
   // 옆 칸 하나에서만 주고받으면 20초에 닿지 못한다(10/10/10에서 15초가 끝이다).
   // 두 이웃 가운데 여유가 더 있는 쪽과 주고받는다. 합은 늘 30초다.
   function other(i, want){
@@ -226,38 +259,43 @@
     if (!ok.length) return -1;
     if (ok.length === 1) return ok[0];
     return (want === 'take')
-      ? (cuts[ok[0]] >= cuts[ok[1]] ? ok[0] : ok[1])   // 많은 쪽에서 가져온다
-      : (cuts[ok[0]] <= cuts[ok[1]] ? ok[0] : ok[1]);  // 적은 쪽에 준다
+      ? (cuts[ok[0]] >= cuts[ok[1]] ? ok[0] : ok[1])
+      : (cuts[ok[0]] <= cuts[ok[1]] ? ok[0] : ok[1]);
   }
 
   function updateLocks(){
     for (var i = 0; i < 3; i++) {
-      // 잠그는 규칙은 실제로 주고받는 규칙과 같아야 한다(other 참고).
       plusBtns[i].disabled = running || cuts[i] >= 20 || other(i, 'take') < 0;
       minusBtns[i].disabled = running || cuts[i] <= 5 || other(i, 'give') < 0;
     }
   }
 
-  var lastIdx = -1;
+  function updateSayBtn(){
+    sayBtn.disabled = !running || filled[curIdx];
+  }
+
   function renderRun(idx, elapsed, idle){
     timeEl.textContent = remaining.toFixed(1);
-    // 칸이 넘어가는 그 순간만 한 번 뛴다. 소리는 내지 않는다(교실에서 여럿이 쓴다).
     if (!idle && idx !== lastIdx){
       lastIdx = idx;
       timeEl.classList.remove('pop'); void timeEl.offsetWidth; timeEl.classList.add('pop');
     }
     if (idle) lastIdx = -1;
-    if (idx !== lastIdx) {
-      cellEl.textContent = NAMES[idx];
-      segs.forEach(function(s, k){ s.classList.toggle('active', !idle && k === idx); });
-      lastIdx = idx;
-    }
+    curIdx = idle ? 0 : idx;
+    cellEl.textContent = NAMES[curIdx];
+    segs.forEach(function(s, k){ s.classList.toggle('active', !idle && k === idx); });
     pointer.setAttribute('opacity', idle ? 0 : 1);
     if (!idle) pointer.setAttribute('x', (((elapsed / 30) * W) - 2).toFixed(2));
+    updateSayBtn();
   }
 
-  function hideEnd(){ endEl.hidden = true; }
-  function showEnd(){ endEl.hidden = false; }
+  function hideEnd(){ endEl.hidden = true; endEl.textContent = ''; }
+
+  function showEnd(){
+    var missing = filled.filter(function(f){ return !f; }).length;
+    endEl.textContent = missing === 0 ? '세 칸을 다 말했어요' : ('모자란 칸 ' + missing + '곳');
+    endEl.hidden = false;
+  }
 
   function tick(){
     remaining = Math.max(0, remaining - 0.1);
@@ -274,6 +312,8 @@
     running = true;
     remaining = 30.0;
     lastIdx = -1;
+    filled = [false, false, false];
+    renderRows();
     updateLocks();
     startBtn.textContent = '멈추기';
     renderRun(0, 0, false);
@@ -281,15 +321,16 @@
   }
 
   function finish(){
-    clearInterval(timerId);
+    if (timerId !== null) { clearInterval(timerId); timerId = null; }
     running = false;
     updateLocks();
+    updateSayBtn();
     startBtn.textContent = '연습 시작';
     showEnd();
   }
 
   function stopToIdle(){
-    if (timerId) clearInterval(timerId);
+    if (timerId !== null) { clearInterval(timerId); timerId = null; }
     running = false;
     remaining = 30.0;
     lastIdx = -1;
@@ -299,15 +340,37 @@
     renderRun(0, 0, true);
   }
 
+  function markSaid(){
+    if (!running || filled[curIdx]) return;
+    filled[curIdx] = true;
+    renderRows();
+    updateSayBtn();
+  }
+
+  function newRound(){
+    stopToIdle();
+    counts = pickCounts();
+    renderCounts();
+    cuts = [10, 10, 10];
+    filled = [false, false, false];
+    renderRows();
+    renderCuts();
+  }
+
+  function retryRound(){
+    // 같은 판(같은 마디 수)을 시간만 고쳐 잡아 한 번 더 한다.
+    stopToIdle();
+    filled = [false, false, false];
+    renderRows();
+    renderCuts();
+  }
+
   startBtn.addEventListener('click', function(){
     if (running) stopToIdle(); else startPractice();
   });
-
-  resetBtn.addEventListener('click', function(){
-    stopToIdle();
-    cuts = [10, 10, 10];
-    renderCuts();
-  });
+  sayBtn.addEventListener('click', markSaid);
+  againBtn.addEventListener('click', retryRound);
+  nextBtn.addEventListener('click', newRound);
 
   minusBtns.forEach(function(btn, i){
     btn.addEventListener('click', function(){
@@ -335,6 +398,9 @@
     if (running) stopToIdle();
   });
 
+  counts = pickCounts();
+  renderCounts();
+  renderRows();
   renderCuts();
   renderRun(0, 0, true);
 })();
