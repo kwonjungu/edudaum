@@ -187,13 +187,14 @@
     if (waitTimer){ clearTimeout(waitTimer); waitTimer = null; }
   }
   shakeBtn.addEventListener('click', function(){
+    // 권한을 묻더라도 이 누름은 먹는다. 첫 누름이 삼켜지면 아이는 고장인 줄 안다.
+    // iOS 사파리와 헤드리스 엣지가 requestPermission을 내놓는다.
     if (!sensorAttached && typeof DeviceMotionEvent !== 'undefined' &&
         typeof DeviceMotionEvent.requestPermission === 'function' && !permissionAsked){
       permissionAsked = true;
       DeviceMotionEvent.requestPermission().then(function(r){
         if (r === 'granted') attachSensor();
       }).catch(function(){});
-      return;
     }
     bump();
   });

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>흔들면 세는 주머니 — 에듀다움 B11</title>
+<title>흔들면 세는 주머니 — 에듀다움</title>
 <style>
   :root{
     --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
@@ -17,75 +17,64 @@
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
     background-image:radial-gradient(var(--ink) .5px,transparent .5px);
     background-size:22px 22px;background-position:-11px -11px}
-  .wrap{max-width:640px;margin:0 auto;padding:14px 14px 32px}
+  .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px}
 
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
   .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
     font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
-    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
-  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
   .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(24px,5.8vw,34px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
-  .lead{font-size:15px;color:var(--muted);margin-top:6px;font-weight:700}
-  .safe{display:inline-flex;align-items:center;gap:7px;margin-top:9px;font-size:13.5px;font-weight:900;
-    background:var(--ink);color:var(--paper);border-radius:999px;padding:7px 13px}
+  h1{font-size:clamp(21px,5vw,28px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:14px;color:var(--muted);margin-top:3px;font-weight:700}
+  .safe{display:inline-flex;margin-top:6px;font-size:12.5px;font-weight:900;
+    background:var(--ink);color:var(--paper);border-radius:999px;padding:6px 12px}
 
   section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
-    box-shadow:var(--hard);padding:13px 12px;margin-top:12px}
-  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
+    box-shadow:var(--hard);padding:10px;margin-top:9px}
+  h2{font-size:13px;font-weight:900;margin-bottom:6px;color:var(--muted)}
 
-  .stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:stretch}
-  .vbox{background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
-    display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10px}
-  .vbox b{font-family:'Courier New',monospace;font-size:clamp(38px,10vw,56px);font-weight:900;
+  /* 목표 */
+  .goal{display:flex;align-items:baseline;justify-content:center;gap:8px;
+    background:var(--point-soft);border:2.5px solid var(--ink);border-radius:var(--r-sm);padding:7px}
+  .goal span{font-size:13px;font-weight:900;color:var(--muted)}
+  .goal b{font-family:'Courier New',monospace;font-size:30px;font-weight:900;line-height:1}
+
+  /* 지금 값 + 격자 */
+  .stage{display:flex;align-items:center;gap:12px;margin-top:8px}
+  .vbox{flex:1;text-align:center}
+  .vbox b{font-family:'Courier New',monospace;font-size:clamp(46px,13vw,66px);font-weight:900;
     line-height:1;color:var(--point);display:block}
   .vbox b.pop{animation:pop .13s ease-out}
   @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.18)}100%{transform:scale(1)}}
-  .of{margin-top:4px;font-size:15px;font-weight:900;color:var(--muted);font-family:'Courier New',monospace}
-  .of[hidden]{display:none}
-  .panel.hit{animation:hit .5s ease-out}
-  @keyframes hit{0%{background:var(--point)}100%{background:var(--ink)}}
   .panel{background:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-sm);
-    padding:10px;display:flex;align-items:center;justify-content:center}
-  #grid{width:100%;max-width:150px;height:auto;display:block}
-  .dot{fill:#3A3630;transition:fill .08s}
+    padding:7px;flex:none}
+  #grid{width:96px;height:96px;display:block}
+  .dot{fill:#3A3630}
+  .panel.hit{animation:hit .55s ease-out}
+  @keyframes hit{0%{background:var(--point)}100%{background:var(--ink)}}
 
-  .ask{margin-top:10px;font-size:13.5px;font-weight:800;color:var(--muted)}
-  .practice{margin-top:8px;display:inline-flex;font-size:13px;font-weight:900;color:var(--ink);
-    background:var(--point-soft);border:2px solid var(--ink);border-radius:999px;padding:6px 12px}
-  .practice[hidden]{display:none}
+  .say{margin-top:8px;font-size:15px;font-weight:900;min-height:1.5em}
+  .say.dim{color:var(--muted);font-weight:700;font-size:13.5px}
+  .say.over{color:var(--muted)}
 
-  .goals{display:flex;gap:8px;flex-wrap:wrap}
-  .goal{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;
-    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
-    min-width:44px;min-height:44px;padding:8px 16px;box-shadow:var(--hard-sm);
-    transition:transform .1s,box-shadow .1s}
-  .goal:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .goal:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .goal[aria-pressed="true"]{background:var(--point);border-width:3.5px;box-shadow:var(--hard)}
-  .goal[aria-pressed="true"]::before{content:"";display:inline-block;width:8px;height:8px;
-    border-radius:50%;background:var(--ink);margin-right:7px;vertical-align:middle}
-
-  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
   .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;
     background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
-    min-height:44px;padding:10px 18px;box-shadow:var(--hard-sm);
+    min-height:48px;padding:9px 14px;box-shadow:var(--hard-sm);flex:1 1 100px;
     transition:transform .1s,box-shadow .1s}
-  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .btn.main{background:var(--point);flex:1 1 160px}
-  .btn.sub{flex:1 1 120px}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point)}
+  .btn:disabled{opacity:.4;cursor:default;box-shadow:none}
 
-  .note{margin-top:9px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .practice{margin-top:7px;display:inline-flex;font-size:12.5px;font-weight:900;color:var(--ink);
+    background:var(--point-soft);border:2px solid var(--ink);border-radius:999px;padding:5px 11px}
+  .note{margin-top:6px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  [hidden]{display:none!important}
 
-  button, a{outline-offset:3px}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
-
-  @media(max-width:420px){
-    .stage{grid-template-columns:1fr}
-  }
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -98,33 +87,32 @@
 
   <header>
     <h1>흔들면 세는 주머니</h1>
-    <p class="lead">무엇을 셀 때 올라가나요</p>
+    <p class="lead">목표에 딱 맞춰 멈춰요</p>
     <p class="safe">두 손으로 잡고 흔들어요</p>
   </header>
 
-  <section aria-labelledby="h-c">
-    <h2 id="h-c">주머니</h2>
+  <section aria-labelledby="h-g">
+    <h2 id="h-g">이번 목표</h2>
+    <p class="goal"><span>목표</span><b id="goal">12</b></p>
     <div class="stage">
-      <p class="vbox"><b id="num" aria-live="polite">0</b><span class="of" id="of" hidden></span></p>
-      <div class="panel">
+      <p class="vbox"><b id="num" aria-live="off">0</b></p>
+      <div class="panel" id="panel">
         <svg id="grid" viewBox="0 0 100 100" role="img" aria-label="주머니 값을 점으로 보여 줌"></svg>
       </div>
     </div>
-    <p class="ask">걷지 않고 흔들어도 올라갔나요</p>
+    <p class="say dim" id="say">흔들어서 목표에 멈춰요</p>
     <p class="practice" id="practice" hidden>연습 모드 · 버튼을 눌러 세요</p>
   </section>
 
-  <section aria-labelledby="h-g">
-    <h2 id="h-g">목표 횟수</h2>
-    <div class="goals" role="group" aria-labelledby="h-g">
-      <button class="goal" type="button" data-goal="10" aria-pressed="false">10</button>
-      <button class="goal" type="button" data-goal="20" aria-pressed="false">20</button>
-      <button class="goal" type="button" data-goal="30" aria-pressed="false">30</button>
-    </div>
+  <section aria-labelledby="h-a">
+    <h2 id="h-a">손</h2>
     <div class="acts">
       <button class="btn main" id="shake" type="button">흔들기</button>
-      <button class="btn sub" id="reset" type="button">다시 하기</button>
+      <button class="btn" id="stop" type="button">멈추기</button>
+      <button class="btn" id="again" type="button">다시 하기</button>
+      <button class="btn" id="next" type="button">다음 판</button>
     </div>
+    <p class="note">걷지 않고 흔들어도 올라가나요</p>
     <p class="note">마이크로비트로 다시 만들어요</p>
   </section>
 </div>
@@ -132,210 +120,139 @@
 <script>
 (function(){
   'use strict';
-
-  var numEl = document.getElementById('num');
-  var ofEl = document.getElementById('of');
-  var panelEl = document.querySelector('.panel');
-  var gridEl = document.getElementById('grid');
-  var practiceEl = document.getElementById('practice');
-  var shakeBtn = document.getElementById('shake');
-  var resetBtn = document.getElementById('reset');
-  var goalButtons = Array.prototype.slice.call(document.querySelectorAll('.goal'));
-
+  var $ = function(id){ return document.getElementById(id); };
   var NS = 'http://www.w3.org/2000/svg';
-  var OFF = '#3A3630';
-  var ON = '#FF7A00';
-  var CENTER = 12;
+  var CENTER = 12, CAP = 99;
 
+  var goal = 12;
   var count = 0;
-  var goal = null;
-  var lastShake = 0;
-  var prev = null;
-  var latest = null;
-  var hasNew = false;
-  var practice = true;
-  var permissionAsked = false;
-  var sensorAttached = false;
-  var sawMotion = false;
-  var waitTimer = null;
+  var done = false;      // 멈췄거나 넘겨서 이 판이 끝났나
+  var over = false;      // 목표를 넘겼나
+  var lastGoal = 0;
+
+  var lastShake = 0, prev = null, latest = null, hasNew = false;
+  var sawMotion = false, sensorAttached = false, waitTimer = null, permissionAsked = false;
 
   var cells = [];
-  (function buildGrid(){
-    for (var r = 0; r < 5; r++) {
-      for (var c = 0; c < 5; c++) {
-        var el = document.createElementNS(NS, 'rect');
-        el.setAttribute('x', (c * 21.25).toFixed(2));
-        el.setAttribute('y', (r * 21.25).toFixed(2));
-        el.setAttribute('width', '15');
-        el.setAttribute('height', '15');
-        el.setAttribute('rx', '3');
-        el.setAttribute('class', 'dot');
-        el.setAttribute('fill', OFF);
-        gridEl.appendChild(el);
-        cells.push(el);
-      }
+  (function build(){
+    for (var r = 0; r < 5; r++) for (var c = 0; c < 5; c++){
+      var e = document.createElementNS(NS, 'rect');
+      e.setAttribute('x', (c * 21.25).toFixed(2)); e.setAttribute('y', (r * 21.25).toFixed(2));
+      e.setAttribute('width', 15); e.setAttribute('height', 15); e.setAttribute('rx', 3);
+      e.setAttribute('class', 'dot'); e.setAttribute('fill', '#3A3630');
+      $('grid').appendChild(e); cells.push(e);
     }
   })();
 
-  function renderCount(){
-    numEl.textContent = String(count);
-    ofEl.hidden = (goal === null);
-    if (goal !== null) ofEl.textContent = '/ ' + goal;
-  }
+  function render(){
+    $('num').textContent = String(count);
+    $('goal').textContent = String(goal);
 
-  function pop(){
-    numEl.classList.remove('pop');
-    void numEl.offsetWidth;
-    numEl.classList.add('pop');
-  }
-
-  function flash(){
-    panelEl.classList.remove('hit');
-    void panelEl.offsetWidth;
-    panelEl.classList.add('hit');
-  }
-
-  function renderGrid(){
-    var filled = new Array(25);
-    var i;
-    if (goal === null) {
-      var n = Math.min(count, 25);
-      for (i = 0; i < 25; i++) filled[i] = (i < n);
-    } else if (count < goal) {
-      for (i = 0; i < 25; i++) filled[i] = (i === CENTER);
-    } else {
-      for (i = 0; i < 25; i++) filled[i] = true;
+    // 격자는 과정안 활동5 그대로다. 목표 아래는 가운데 한 점, 목표 이상은 전체.
+    for (var i = 0; i < 25; i++){
+      var on = (count < goal) ? (i === CENTER) : true;
+      cells[i].setAttribute('fill', on ? '#FF7A00' : '#3A3630');
     }
-    for (i = 0; i < 25; i++) {
-      cells[i].setAttribute('fill', filled[i] ? ON : OFF);
-    }
+
+    var s = $('say');
+    if (!done){ s.textContent = '흔들어서 목표에 멈춰요'; s.className = 'say dim'; }
+    else if (count === goal){ s.textContent = '목표에 딱 멈췄어요'; s.className = 'say'; }
+    else if (over){ s.textContent = (count - goal) + '번 더 흔들렸어요'; s.className = 'say over'; }
+    else { s.textContent = (goal - count) + '번 모자라요'; s.className = 'say over'; }
+
+    $('shake').disabled = done;
+    $('stop').disabled = done || count === 0;
   }
 
-  function updatePractice(){
-    practiceEl.hidden = !practice;
+  function newRound(){
+    var g;
+    do { g = 8 + Math.floor(Math.random() * 18); } while (g === lastGoal);   // 8~25
+    lastGoal = g; goal = g;
+    count = 0; done = false; over = false; prev = null; latest = null; hasNew = false;
+    render();
   }
 
   function bump(){
+    if (done) return;
     lastShake = Date.now();
-    var before = count;
-    count = Math.min(count + 1, 99);
-    renderCount();
-    renderGrid();
-    pop();
-    // 목표를 처음 넘는 그 한 번만 번쩍인다
-    if (goal !== null && before < goal && count >= goal) flash();
+    count = Math.min(count + 1, CAP);
+    var n = $('num');
+    n.classList.remove('pop'); void n.offsetWidth; n.classList.add('pop');
+    // 목표를 넘기는 그 순간 판이 끝난다. 되돌릴 수 없다.
+    if (count > goal){
+      done = true; over = true;
+    } else if (count === goal){
+      var p = $('panel');
+      p.classList.remove('hit'); void p.offsetWidth; p.classList.add('hit');
+    }
+    render();
   }
 
-  function onDeviceMotion(e){
+  $('stop').addEventListener('click', function(){
+    if (done || count === 0) return;
+    done = true; over = false;
+    render();
+  });
+  // 같은 목표로 한 번 더. 넘겼을 때 다시 해 볼 길을 열어 둔다.
+  $('again').addEventListener('click', function(){
+    count = 0; done = false; over = false; prev = null; latest = null; hasNew = false;
+    render();
+  });
+  $('next').addEventListener('click', newRound);
+
+  /* 흔들림 — 임계 16, 잠금 250ms, 50ms 틱 */
+  function onMotion(e){
     var a = e.accelerationIncludingGravity;
     if (!a || a.x === null || a.x === undefined) return;
-    latest = { x: a.x, y: a.y, z: a.z };
-    hasNew = true;
-    if (!sawMotion) {
-      sawMotion = true;
-      practice = false;
-      updatePractice();
-    }
+    latest = { x:a.x, y:a.y, z:a.z }; hasNew = true;
+    if (!sawMotion){ sawMotion = true; $('practice').hidden = true; }
   }
-
-  function tick(){
+  setInterval(function(){
     if (!hasNew) return;
     hasNew = false;
-    var a = latest;
-    if (prev) {
-      var d = Math.abs(a.x - prev.x) + Math.abs(a.y - prev.y) + Math.abs(a.z - prev.z);
+    if (prev){
+      var d = Math.abs(latest.x - prev.x) + Math.abs(latest.y - prev.y) + Math.abs(latest.z - prev.z);
       if (d > 16 && Date.now() - lastShake > 250) bump();
     }
-    prev = a;
-  }
-  setInterval(tick, 50);
+    prev = latest;
+  }, 50);
 
   function attachSensor(){
     if (sensorAttached) return;
-    window.addEventListener('devicemotion', onDeviceMotion);
+    window.addEventListener('devicemotion', onMotion);
     sensorAttached = true;
-    // 붙였다고 흔들 수 있는 것은 아니다. 표본이 실제로 올 때까지 연습 모드로 둔다.
     if (waitTimer) clearTimeout(waitTimer);
-    waitTimer = setTimeout(function(){
-      if (!sawMotion) { practice = true; updatePractice(); }
-    }, 1500);
+    waitTimer = setTimeout(function(){ if (!sawMotion) $('practice').hidden = false; }, 1500);
   }
-
   function detachSensor(){
     if (!sensorAttached) return;
-    window.removeEventListener('devicemotion', onDeviceMotion);
+    window.removeEventListener('devicemotion', onMotion);
     sensorAttached = false;
-    if (waitTimer) { clearTimeout(waitTimer); waitTimer = null; }
+    if (waitTimer){ clearTimeout(waitTimer); waitTimer = null; }
   }
-
-  function initSensor(){
-    if (typeof DeviceMotionEvent === 'undefined') {
-      practice = true;
-      updatePractice();
-      return;
-    }
-    if (typeof DeviceMotionEvent.requestPermission === 'function') {
-      practice = true;
-      updatePractice();
-    } else {
-      attachSensor();
-    }
-  }
-
-  shakeBtn.addEventListener('click', function(){
+  $('shake').addEventListener('click', function(){
+    // 권한을 묻더라도 이 누름은 먹는다. 첫 누름이 삼켜지면 아이는 고장인 줄 안다.
+    // iOS 사파리와 헤드리스 엣지가 requestPermission을 내놓는다.
     if (!sensorAttached && typeof DeviceMotionEvent !== 'undefined' &&
-        typeof DeviceMotionEvent.requestPermission === 'function' && !permissionAsked) {
+        typeof DeviceMotionEvent.requestPermission === 'function' && !permissionAsked){
       permissionAsked = true;
-      DeviceMotionEvent.requestPermission().then(function(res){
-        if (res === 'granted') {
-          attachSensor();
-        } else {
-          practice = true;
-          updatePractice();
-        }
-      }).catch(function(){
-        practice = true;
-        updatePractice();
-      });
-      return;
+      DeviceMotionEvent.requestPermission().then(function(r){
+        if (r === 'granted') attachSensor();
+      }).catch(function(){});
     }
     bump();
   });
-
-  resetBtn.addEventListener('click', function(){
-    count = 0;
-    prev = null;
-    latest = null;
-    hasNew = false;
-    renderCount();
-    renderGrid();
-  });
-
-  goalButtons.forEach(function(btn){
-    btn.addEventListener('click', function(){
-      var v = parseInt(btn.getAttribute('data-goal'), 10);
-      goal = (goal === v) ? null : v;
-      goalButtons.forEach(function(b){
-        var on = (parseInt(b.getAttribute('data-goal'), 10) === goal);
-        b.setAttribute('aria-pressed', on ? 'true' : 'false');
-      });
-      renderCount();
-      renderGrid();
-    });
-  });
+  if (typeof DeviceMotionEvent === 'undefined') $('practice').hidden = false;
+  else if (typeof DeviceMotionEvent.requestPermission === 'function') $('practice').hidden = false;
+  else attachSensor();
 
   document.addEventListener('visibilitychange', function(){
-    if (document.hidden) {
-      detachSensor();
-    } else if (sawMotion || !practice) {
-      attachSensor();
-    }
+    if (document.hidden) detachSensor();
+    else if (sawMotion) attachSensor();
   });
   window.addEventListener('pagehide', detachSensor);
 
-  renderCount();
-  renderGrid();
-  initSensor();
+  newRound();
 })();
 </script>
 </body>

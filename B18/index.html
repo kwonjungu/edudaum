@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>소리를 수로 — 에듀다움 B18</title>
+<title>소리를 수로 — 에듀다움</title>
 <style>
   :root{
     --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
@@ -17,75 +17,62 @@
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
     background-image:radial-gradient(var(--ink) .5px,transparent .5px);
     background-size:22px 22px;background-position:-11px -11px}
-  .wrap{max-width:640px;margin:0 auto;padding:12px 14px 28px}
+  .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px}
 
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
   .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
     font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
-    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
-  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
   .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(23px,5.6vw,32px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
-  .lead{font-size:15px;color:var(--muted);margin-top:5px;font-weight:700}
+  h1{font-size:clamp(21px,5vw,28px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:14px;color:var(--muted);margin-top:3px;font-weight:700}
 
   section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
-    box-shadow:var(--hard);padding:12px;margin-top:11px}
-  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted)}
+    box-shadow:var(--hard);padding:10px;margin-top:9px}
+  h2{font-size:13px;font-weight:900;margin-bottom:6px;color:var(--muted)}
 
-  .now{display:flex;align-items:center;justify-content:center;gap:16px}
-  .val{font-family:'Courier New',monospace;font-size:clamp(46px,13vw,68px);font-weight:900;
-    line-height:1;color:var(--point);min-width:2.4em;text-align:right}
-  .hit{font-size:clamp(34px,10vw,52px);font-weight:900;line-height:1;
-    border:3px solid var(--ink);border-radius:var(--r-sm);background:var(--point-soft);
-    min-width:1.7em;text-align:center;padding:6px 10px}
+  .duo{display:flex;align-items:flex-start;justify-content:center;gap:14px}
+  .box{display:block;border:3px solid var(--ink);border-radius:var(--r-sm);min-width:2.1em;
+    text-align:center;padding:4px 11px;font-size:clamp(28px,8vw,40px);font-weight:900;line-height:1.15}
+  .box.want{background:var(--point-soft)}
+  .box.now{background:var(--surface)}
+  .box.same{background:var(--point);color:#fff}
+  .box.pulse{animation:pulse .17s ease-out}
+  @keyframes pulse{0%{transform:scale(1)}45%{transform:scale(1.15)}100%{transform:scale(1)}}
+  .cap{display:block;font-size:11.5px;font-weight:900;color:var(--muted);text-align:center;margin-top:2px}
 
-  .line{margin-top:10px;width:100%;height:46px;display:block}
+  .line{margin-top:8px;width:100%;height:42px;display:block}
   .rail{fill:none;stroke:var(--ink);stroke-width:2.5}
   .tick{stroke:var(--ink);stroke-width:2.5}
   .tick.on{stroke:var(--point);stroke-width:6}
   .tlab{font-size:9px;font-weight:900;fill:var(--muted);text-anchor:middle}
   .tlab.on{fill:var(--point);font-size:11px}
+  .band{fill:var(--point-soft)}
   .mark{fill:var(--point);stroke:var(--ink);stroke-width:1.5}
-  .hit.pulse{animation:pulse .16s ease-out}
-  @keyframes pulse{0%{transform:scale(1)}45%{transform:scale(1.16)}100%{transform:scale(1)}}
-  .slot b.pop{animation:pulse .16s ease-out}
-  input[type=range]{width:100%;margin-top:11px;min-height:44px;accent-color:var(--point)}
+
+  .val{margin-top:3px;text-align:center;font-family:'Courier New',monospace;
+    font-size:22px;font-weight:900;color:var(--point)}
+
+  input[type=range]{width:100%;margin-top:7px;min-height:44px;accent-color:var(--point)}
   input[type=range][hidden]{display:none}
 
-  .priv{margin-top:8px;font-size:12.5px;font-weight:900;color:var(--muted)}
-  .practice{margin-top:7px;display:inline-flex;font-size:12.5px;font-weight:900;color:var(--ink);
-    background:var(--point-soft);border:2px solid var(--ink);border-radius:999px;padding:5px 11px}
-  [hidden]{display:none!important}
+  .say{margin-top:6px;font-size:14.5px;font-weight:900;text-align:center;min-height:1.5em}
+  .say.dim{color:var(--muted);font-weight:700;font-size:13px}
 
-  table{width:100%;border-collapse:collapse;font-weight:800}
-  th{font-size:12.5px;color:var(--muted);text-align:left;padding:0 8px 5px}
-  th:last-child,td:last-child{text-align:right}
-  td{padding:7px 8px;border-top:2px solid var(--ink);font-family:'Courier New',monospace;font-size:17px}
-  tr.on td{background:var(--point-soft)}
-  tr.on td:first-child{box-shadow:inset 6px 0 0 var(--point)}
-  .ch{font-family:inherit;font-size:19px;font-weight:900}
-
-  .keep{display:grid;grid-template-columns:1fr 1fr;gap:9px}
-  .slot{border:2.5px solid var(--ink);border-radius:var(--r-sm);padding:8px;text-align:center}
-  .slot span{display:block;font-size:12px;font-weight:900;color:var(--muted)}
-  .slot b{display:block;font-family:'Courier New',monospace;font-size:30px;font-weight:900;
-    line-height:1.2;color:var(--ink)}
-  .slot b.none{color:var(--point-soft)}
-
-  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
-  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;
+  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
     background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
-    min-height:44px;padding:9px 16px;box-shadow:var(--hard-sm);flex:1 1 110px;
-    transition:transform .1s,box-shadow .1s}
-  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+    min-height:46px;padding:9px 13px;box-shadow:var(--hard-sm);flex:1 1 96px}
   .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .btn.main{background:var(--point);color:#fff}
-  .btn:disabled{opacity:.42;cursor:default;box-shadow:none}
+  .btn:disabled{opacity:.4;cursor:default;box-shadow:none}
 
-  .note{margin-top:8px;font-size:12.5px;font-weight:700;color:var(--muted)}
-  .note b{font-weight:900;color:var(--ink)}
+  .practice{margin-top:6px;display:inline-flex;font-size:12.5px;font-weight:900;color:var(--ink);
+    background:var(--point-soft);border:2px solid var(--ink);border-radius:999px;padding:5px 11px}
+  .note{margin-top:5px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  [hidden]{display:none!important}
 
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
@@ -100,47 +87,40 @@
 
   <header>
     <h1>소리를 수로</h1>
-    <p class="lead">같은 소리를 두 번 내 보세요</p>
+    <p class="lead">이 글자가 걸리게 소리를 내요</p>
   </header>
 
   <section aria-labelledby="h-n">
-    <h2 id="h-n">지금</h2>
-    <div class="now">
-      <b class="val" id="val" aria-live="off">0</b>
-      <span class="hit" id="hit">가</span>
+    <h2 id="h-n">맞출 글자</h2>
+    <div class="duo">
+      <p><b class="box want" id="want">다</b><span class="cap">맞출 글자</span></p>
+      <p><b class="box now" id="now">가</b><span class="cap">지금 걸린 글자</span></p>
     </div>
-    <svg class="line" viewBox="0 0 100 24" preserveAspectRatio="none" role="img" aria-label="지금 수가 규칙표 네 값 가운데 어디에 있는지">
-      <line class="rail" x1="3" y1="15" x2="97" y2="15"></line>
+
+    <svg class="line" viewBox="0 0 100 22" preserveAspectRatio="none" role="img"
+         aria-label="지금 수가 규칙표 네 값 가운데 어디에 있는지">
+      <rect class="band" id="band" x="0" y="8" width="0" height="7" rx="2"></rect>
+      <line class="rail" x1="3" y1="14" x2="97" y2="14"></line>
       <g id="ticks"></g>
       <polygon class="mark" id="mark" points="0,0 0,0 0,0"></polygon>
     </svg>
+    <p class="val" id="val">0</p>
     <input type="range" id="slide" min="0" max="99" step="1" aria-label="지금 수" hidden>
-    <p class="practice" id="practice" hidden>연습 모드 · 막대로 수를 옮겨요</p>
-    <p class="note" id="same" hidden>막대는 두 번 같아요</p>
-    <p class="priv">목소리는 저장되지 않아요</p>
-  </section>
 
-  <section aria-labelledby="h-r">
-    <h2 id="h-r">규칙표</h2>
-    <table>
-      <thead><tr><th>수</th><th>글자</th><th>차이</th></tr></thead>
-      <tbody id="rows"></tbody>
-    </table>
+    <p class="say dim" id="say">소리를 내 보세요</p>
+    <p class="practice" id="practice" hidden>연습 모드 · 막대로 수를 옮겨요</p>
   </section>
 
   <section aria-labelledby="h-k">
     <h2 id="h-k">담은 수</h2>
-    <div class="keep">
-      <p class="slot"><span>첫 번째</span><b class="none" id="k1">·</b></p>
-      <p class="slot"><span>두 번째</span><b class="none" id="k2">·</b></p>
-    </div>
     <div class="acts">
       <button class="btn main" id="keep" type="button">담기</button>
+      <button class="btn" id="next" type="button">다음 글자</button>
       <button class="btn" id="reset" type="button">다시 하기</button>
     </div>
-    <p class="note" id="full" hidden>두 칸이 찼어요</p>
-    <p class="note">두 수가 같았나요</p>
-    <p class="note"><b>받아쓰기는 공용 기기로 해요</b></p>
+    <p class="note" id="kept">첫 번째 · 두 번째 ·</p>
+    <p class="note">같은 글자를 두 번 담아 견줘요</p>
+    <p class="note">목소리는 저장되지 않아요</p>
   </section>
 </div>
 
@@ -148,34 +128,27 @@
 (function(){
   'use strict';
   var $ = function(id){ return document.getElementById(id); };
-  var valEl = $('val'), hitEl = $('hit'), rowsEl = $('rows');
-  var slide = $('slide'), practiceEl = $('practice');
-  var k1 = $('k1'), k2 = $('k2'), keepBtn = $('keep');
-
+  var NS = 'http://www.w3.org/2000/svg';
   var TABLE = [{ n:10, c:'가' }, { n:35, c:'나' }, { n:60, c:'다' }, { n:85, c:'라' }];
-  var value = 0;
-  var slots = [null, null];
-  var trs = [], diffs = [];
-  var ticks = [], tlabs = [], lastHit = -1;
   var X0 = 3, X1 = 97;
+
+  var value = 0;
+  var want = 2;
+  var lastWant = -1;
+  var slots = [null, null];
+  var lastHit = -1;
+
+  var ticks = [], tlabs = [];
   function px(v){ return X0 + (X1 - X0) * (v / 99); }
 
   (function build(){
     for (var i = 0; i < TABLE.length; i++){
-      var tr = document.createElement('tr');
-      var a = document.createElement('td'); a.textContent = String(TABLE[i].n);
-      var b = document.createElement('td'); b.className = 'ch'; b.textContent = TABLE[i].c;
-      var d = document.createElement('td'); d.textContent = '0';
-      tr.appendChild(a); tr.appendChild(b); tr.appendChild(d);
-      rowsEl.appendChild(tr);
-      trs.push(tr); diffs.push(d);
-
       var x = px(TABLE[i].n);
-      var ln = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      var ln = document.createElementNS(NS, 'line');
       ln.setAttribute('class', 'tick');
       ln.setAttribute('x1', x); ln.setAttribute('y1', '8');
-      ln.setAttribute('x2', x); ln.setAttribute('y2', '22');
-      var tx = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      ln.setAttribute('x2', x); ln.setAttribute('y2', '21');
+      var tx = document.createElementNS(NS, 'text');
       tx.setAttribute('class', 'tlab'); tx.setAttribute('x', x); tx.setAttribute('y', '6');
       tx.textContent = TABLE[i].c;
       $('ticks').appendChild(ln); $('ticks').appendChild(tx);
@@ -193,60 +166,72 @@
     return best;
   }
 
+  // 맞출 글자가 걸리는 수의 구간. 이웃과의 한가운데가 경계다.
+  function bandOf(i){
+    var lo = (i === 0) ? 0 : (TABLE[i - 1].n + TABLE[i].n) / 2;
+    var hi = (i === TABLE.length - 1) ? 99 : (TABLE[i].n + TABLE[i + 1].n) / 2;
+    return [lo, hi];
+  }
+
   function render(){
-    valEl.textContent = String(value);
+    $('val').textContent = String(value);
     var b = pick(value);
     for (var i = 0; i < TABLE.length; i++){
-      diffs[i].textContent = String(Math.abs(value - TABLE[i].n));
-      trs[i].classList.toggle('on', i === b);
       ticks[i].classList.toggle('on', i === b);
       tlabs[i].classList.toggle('on', i === b);
     }
-    hitEl.textContent = TABLE[b].c;
+    $('want').textContent = TABLE[want].c;
+    var nowEl = $('now');
+    nowEl.textContent = TABLE[b].c;
+    nowEl.className = 'box ' + (b === want ? 'same' : 'now');
+
+    var bd = bandOf(want);
+    $('band').setAttribute('x', px(bd[0]).toFixed(1));
+    $('band').setAttribute('width', (px(bd[1]) - px(bd[0])).toFixed(1));
+
     var x = px(value);
-    $('mark').setAttribute('points', (x - 3.2) + ',13 ' + (x + 3.2) + ',13 ' + x + ',19');
-    // 걸린 줄이 바뀌는 그 순간만 글자가 한 번 뛴다
+    $('mark').setAttribute('points', (x - 3.2) + ',12 ' + (x + 3.2) + ',12 ' + x + ',18');
+
     if (b !== lastHit){
       lastHit = b;
-      hitEl.classList.remove('pulse'); void hitEl.offsetWidth; hitEl.classList.add('pulse');
+      nowEl.classList.remove('pulse'); void nowEl.offsetWidth; nowEl.classList.add('pulse');
     }
+
+    var s = $('say');
+    if (b === want){ s.textContent = '이 글자가 걸렸어요'; s.className = 'say'; }
+    else if (b < want){ s.textContent = '더 크게 내 보세요'; s.className = 'say dim'; }
+    else { s.textContent = '더 작게 내 보세요'; s.className = 'say dim'; }
+
+    $('kept').textContent = '첫 번째 ' + (slots[0] === null ? '·' : slots[0]) +
+      ' · 두 번째 ' + (slots[1] === null ? '·' : slots[1]);
+    $('keep').disabled = (slots[1] !== null);
   }
 
-  function renderSlots(){
-    var els = [k1, k2];
-    for (var i = 0; i < 2; i++){
-      var has = slots[i] !== null;
-      var was = els[i].textContent;
-      els[i].textContent = has ? String(slots[i]) : '·';
-      els[i].classList.toggle('none', !has);
-      if (has && was === '·'){ void els[i].offsetWidth; els[i].classList.add('pop'); }
-      if (!has) els[i].classList.remove('pop');
-    }
-    keepBtn.disabled = (slots[1] !== null);
-    $('full').hidden = !keepBtn.disabled;
+  function newWord(){
+    var w;
+    do { w = Math.floor(Math.random() * TABLE.length); } while (w === lastWant);
+    lastWant = w; want = w;
+    render();
   }
 
-  keepBtn.addEventListener('click', function(){
+  $('keep').addEventListener('click', function(){
     if (slots[0] === null) slots[0] = value;
     else if (slots[1] === null) slots[1] = value;
-    renderSlots();
+    render();
   });
-  $('reset').addEventListener('click', function(){
-    slots = [null, null];
-    renderSlots();
-  });
+  $('next').addEventListener('click', newWord);
+  $('reset').addEventListener('click', function(){ slots = [null, null]; render(); });
 
-  /* 연습 모드 — 막대로 수를 옮긴다 */
+  /* 연습 모드 */
   function usePractice(){
-    if (!slide.hidden) return;
+    if (!$('slide').hidden) return;
     stopMic();
-    slide.hidden = false;
-    practiceEl.hidden = false;
-    $('same').hidden = false;
-    slide.value = String(value);
+    $('slide').hidden = false;
+    $('practice').hidden = false;
+    $('slide').value = String(value);
   }
-  slide.addEventListener('input', function(){
-    value = parseInt(slide.value, 10) || 0;
+  $('slide').addEventListener('input', function(){
+    value = parseInt(this.value, 10) || 0;
     render();
   });
 
@@ -274,7 +259,7 @@
   }
 
   function startMic(){
-    if (!slide.hidden) return;
+    if (!$('slide').hidden) return;
     var AC = window.AudioContext || window.webkitAudioContext;
     if (!AC || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ usePractice(); return; }
     navigator.mediaDevices.getUserMedia({
@@ -298,12 +283,12 @@
 
   document.addEventListener('visibilitychange', function(){
     if (document.hidden) stopMic();
-    else if (slide.hidden) startMic();
+    else if ($('slide').hidden) startMic();
   });
   window.addEventListener('pagehide', stopMic);
 
+  newWord();
   render();
-  renderSlots();
   startMic();
 })();
 </script>
