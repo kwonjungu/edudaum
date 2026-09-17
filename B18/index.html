@@ -41,6 +41,16 @@
     border:3px solid var(--ink);border-radius:var(--r-sm);background:var(--point-soft);
     min-width:1.7em;text-align:center;padding:6px 10px}
 
+  .line{margin-top:10px;width:100%;height:46px;display:block}
+  .rail{fill:none;stroke:var(--ink);stroke-width:2.5}
+  .tick{stroke:var(--ink);stroke-width:2.5}
+  .tick.on{stroke:var(--point);stroke-width:6}
+  .tlab{font-size:9px;font-weight:900;fill:var(--muted);text-anchor:middle}
+  .tlab.on{fill:var(--point);font-size:11px}
+  .mark{fill:var(--point);stroke:var(--ink);stroke-width:1.5}
+  .hit.pulse{animation:pulse .16s ease-out}
+  @keyframes pulse{0%{transform:scale(1)}45%{transform:scale(1.16)}100%{transform:scale(1)}}
+  .slot b.pop{animation:pulse .16s ease-out}
   input[type=range]{width:100%;margin-top:11px;min-height:44px;accent-color:var(--point)}
   input[type=range][hidden]{display:none}
 
@@ -99,6 +109,11 @@
       <b class="val" id="val" aria-live="off">0</b>
       <span class="hit" id="hit">가</span>
     </div>
+    <svg class="line" viewBox="0 0 100 24" preserveAspectRatio="none" role="img" aria-label="지금 수가 규칙표 네 값 가운데 어디에 있는지">
+      <line class="rail" x1="3" y1="15" x2="97" y2="15"></line>
+      <g id="ticks"></g>
+      <polygon class="mark" id="mark" points="0,0 0,0 0,0"></polygon>
+    </svg>
     <input type="range" id="slide" min="0" max="99" step="1" aria-label="지금 수" hidden>
     <p class="practice" id="practice" hidden>연습 모드 · 막대로 수를 옮겨요</p>
     <p class="note" id="same" hidden>막대는 두 번 같아요</p>
@@ -141,6 +156,9 @@
   var value = 0;
   var slots = [null, null];
   var trs = [], diffs = [];
+  var ticks = [], tlabs = [], lastHit = -1;
+  var X0 = 3, X1 = 97;
+  function px(v){ return X0 + (X1 - X0) * (v / 99); }
 
   (function build(){
     for (var i = 0; i < TABLE.length; i++){
@@ -151,6 +169,17 @@
       tr.appendChild(a); tr.appendChild(b); tr.appendChild(d);
       rowsEl.appendChild(tr);
       trs.push(tr); diffs.push(d);
+
+      var x = px(TABLE[i].n);
+      var ln = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+      ln.setAttribute('class', 'tick');
+      ln.setAttribute('x1', x); ln.setAttribute('y1', '8');
+      ln.setAttribute('x2', x); ln.setAttribute('y2', '22');
+      var tx = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      tx.setAttribute('class', 'tlab'); tx.setAttribute('x', x); tx.setAttribute('y', '6');
+      tx.textContent = TABLE[i].c;
+      $('ticks').appendChild(ln); $('ticks').appendChild(tx);
+      ticks.push(ln); tlabs.push(tx);
     }
   })();
 
@@ -170,16 +199,28 @@
     for (var i = 0; i < TABLE.length; i++){
       diffs[i].textContent = String(Math.abs(value - TABLE[i].n));
       trs[i].classList.toggle('on', i === b);
+      ticks[i].classList.toggle('on', i === b);
+      tlabs[i].classList.toggle('on', i === b);
     }
     hitEl.textContent = TABLE[b].c;
+    var x = px(value);
+    $('mark').setAttribute('points', (x - 3.2) + ',13 ' + (x + 3.2) + ',13 ' + x + ',19');
+    // 걸린 줄이 바뀌는 그 순간만 글자가 한 번 뛴다
+    if (b !== lastHit){
+      lastHit = b;
+      hitEl.classList.remove('pulse'); void hitEl.offsetWidth; hitEl.classList.add('pulse');
+    }
   }
 
   function renderSlots(){
     var els = [k1, k2];
     for (var i = 0; i < 2; i++){
       var has = slots[i] !== null;
+      var was = els[i].textContent;
       els[i].textContent = has ? String(slots[i]) : '·';
       els[i].classList.toggle('none', !has);
+      if (has && was === '·'){ void els[i].offsetWidth; els[i].classList.add('pop'); }
+      if (!has) els[i].classList.remove('pop');
     }
     keepBtn.disabled = (slots[1] !== null);
     $('full').hidden = !keepBtn.disabled;
