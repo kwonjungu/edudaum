@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>같은 조건으로 — 에듀다움</title>
+<style>
+  :root{
+    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+    --point:#B45309; --point-soft:#F6E3C6; --muted:#5E5E5E;
+    --r:18px; --r-sm:12px;
+    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
+    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+    background-size:22px 22px;background-position:-11px -11px}
+  .wrap{max-width:640px;margin:0 auto;padding:12px 14px 28px}
+
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
+    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
+  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
+    border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
+
+  h1{font-size:clamp(23px,5.6vw,32px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:15px;color:var(--muted);margin-top:5px;font-weight:700}
+
+  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+    box-shadow:var(--hard);padding:12px;margin-top:11px}
+  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted)}
+
+  .view{position:relative;width:100%;aspect-ratio:4/3;max-height:170px;background:var(--ink);
+    border:2.5px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;display:flex}
+  #cam{width:100%;height:100%;object-fit:cover;display:block}
+  #pad{width:100%;height:100%;display:block;background:#fff;touch-action:none;cursor:crosshair}
+  [hidden]{display:none!important}
+  .priv{position:absolute;left:7px;bottom:7px;right:7px;font-size:11.5px;font-weight:900;
+    color:var(--paper);background:rgba(20,20,20,.82);border-radius:999px;padding:4px 10px;text-align:center}
+
+  .pick{display:flex;align-items:center;gap:7px;margin-top:8px;flex-wrap:wrap}
+  .pick .lb{font-size:13px;font-weight:900;color:var(--muted);width:2.6em}
+  .opt{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    min-height:44px;padding:8px 14px;box-shadow:var(--hard-sm);
+    transition:transform .1s,box-shadow .1s}
+  .opt:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .opt[aria-pressed="true"]{background:var(--point);color:#fff;border-width:3.5px}
+  .opt[aria-pressed="true"]::before{content:"";display:inline-block;width:8px;height:8px;
+    border-radius:50%;background:var(--paper);margin-right:6px;vertical-align:middle}
+
+  .bars{display:grid;gap:5px}
+  .bar{display:flex;align-items:center;gap:7px}
+  .bar .nm{width:7.6em;font-size:12.5px;font-weight:900}
+  .bar svg{flex:1;height:16px;display:block}
+  .track{fill:var(--point-soft);stroke:var(--ink);stroke-width:2}
+  .fill{fill:var(--point)}
+  .bar .n{width:1.8em;text-align:right;font-family:'Courier New',monospace;font-weight:900;font-size:14px}
+
+  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    min-height:44px;padding:9px 14px;box-shadow:var(--hard-sm);flex:1 1 92px;
+    transition:transform .1s,box-shadow .1s}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point);color:#fff}
+  .btn:disabled{opacity:.42;cursor:default;box-shadow:none}
+
+  .practice{margin-top:7px;display:inline-flex;font-size:12.5px;font-weight:900;color:var(--ink);
+    background:var(--point-soft);border:2px solid var(--ink);border-radius:999px;padding:5px 11px}
+  .note{margin-top:8px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .note b{font-weight:900;color:var(--ink)}
+
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="back" href="../">← 전체 목록</a>
+    <span class="tag">27~30</span>
+  </nav>
+
+  <header>
+    <h1>같은 조건으로</h1>
+    <p class="lead">몇 장이 섞였나요</p>
+  </header>
+
+  <section aria-labelledby="h-v">
+    <h2 id="h-v">지금 조건</h2>
+    <div class="view">
+      <video id="cam" playsinline muted hidden></video>
+      <canvas id="pad" width="320" height="240" hidden></canvas>
+      <span class="priv">손과 물건만 비춰요 · 화면에만 보이고 저장되지 않아요</span>
+    </div>
+    <div class="pick" role="group" aria-label="각도">
+      <span class="lb">각도</span>
+      <button class="opt" type="button" id="oTop" aria-pressed="false">위에서</button>
+      <button class="opt" type="button" id="oSide" aria-pressed="false">옆에서</button>
+    </div>
+    <div class="pick" role="group" aria-label="배경">
+      <span class="lb">배경</span>
+      <button class="opt" type="button" id="oWhite" aria-pressed="false">흰 종이</button>
+      <button class="opt" type="button" id="oFloor" aria-pressed="false">교실 바닥</button>
+    </div>
+    <p class="practice" id="practice" hidden>연습 모드 · 손으로 그려 담아요</p>
+  </section>
+
+  <section aria-labelledby="h-b">
+    <h2 id="h-b">담은 장수</h2>
+    <div class="bars" id="bars"></div>
+    <div class="acts">
+      <button class="btn main" id="grab" type="button">담기</button>
+      <button class="btn" id="undo" type="button">한 장 빼기</button>
+      <button class="btn" id="reset" type="button">다시 하기</button>
+    </div>
+    <p class="note" id="why">조건을 먼저 골라요</p>
+    <p class="note">한 조건에 모였나요</p>
+    <p class="note"><b>진짜 자료는 따로 모아요</b></p>
+  </section>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+  var cam = $('cam'), pad = $('pad'), practiceEl = $('practice');
+  var MAX = 20, S = 24;
+
+  var work = document.createElement('canvas'); work.width = S; work.height = S;
+  var wctx = work.getContext('2d', { willReadFrequently:true });
+
+  var angle = null;   // '위' | '옆'
+  var back = null;    // '흰' | '바닥'
+  var kept = [];      // {angle, back}
+  var source = null;
+
+  var PAIRS = [
+    { a:'위', b:'흰',   nm:'위에서 · 흰 종이' },
+    { a:'위', b:'바닥', nm:'위에서 · 교실 바닥' },
+    { a:'옆', b:'흰',   nm:'옆에서 · 흰 종이' },
+    { a:'옆', b:'바닥', nm:'옆에서 · 교실 바닥' }
+  ];
+  var fills = [], nums = [];
+
+  (function build(){
+    PAIRS.forEach(function(p, i){
+      var d = document.createElement('div');
+      d.className = 'bar';
+      d.innerHTML = '<span class="nm"></span>' +
+        '<svg viewBox="0 0 100 12" preserveAspectRatio="none" role="img">' +
+        '<rect class="track" x="1" y="1" width="98" height="10" rx="3"></rect>' +
+        '<rect class="fill" x="2" y="2" width="0" height="8" rx="2"></rect></svg>' +
+        '<span class="n">0</span>';
+      d.querySelector('.nm').textContent = p.nm;
+      d.querySelector('svg').setAttribute('aria-label', p.nm + ' 장수');
+      $('bars').appendChild(d);
+      fills.push(d.querySelector('.fill'));
+      nums.push(d.querySelector('.n'));
+    });
+  })();
+
+  function count(a, b){
+    var n = 0;
+    for (var i = 0; i < kept.length; i++) if (kept[i].angle === a && kept[i].back === b) n++;
+    return n;
+  }
+
+  function render(){
+    PAIRS.forEach(function(p, i){
+      var n = count(p.a, p.b);
+      nums[i].textContent = String(n);
+      fills[i].setAttribute('width', (Math.min(n, MAX) / MAX * 96).toFixed(1));
+    });
+    var ready = (angle !== null && back !== null && !!source);
+    var full = kept.length >= MAX;
+    $('grab').disabled = !ready || full;
+    $('undo').disabled = kept.length === 0;
+    $('why').hidden = ready;
+    if (full){ $('why').hidden = false; $('why').textContent = '스무 장이 찼어요'; }
+    else $('why').textContent = '조건을 먼저 골라요';
+  }
+
+  function setPressed(){
+    $('oTop').setAttribute('aria-pressed', angle === '위' ? 'true' : 'false');
+    $('oSide').setAttribute('aria-pressed', angle === '옆' ? 'true' : 'false');
+    $('oWhite').setAttribute('aria-pressed', back === '흰' ? 'true' : 'false');
+    $('oFloor').setAttribute('aria-pressed', back === '바닥' ? 'true' : 'false');
+  }
+  function pickAngle(v){ angle = v; setPressed(); render(); }
+  function pickBack(v){ back = v; setPressed(); render(); }
+  $('oTop').addEventListener('click', function(){ pickAngle('위'); });
+  $('oSide').addEventListener('click', function(){ pickAngle('옆'); });
+  $('oWhite').addEventListener('click', function(){ pickBack('흰'); });
+  $('oFloor').addEventListener('click', function(){ pickBack('바닥'); });
+
+  function snap(){
+    if (!source) return false;
+    if (source === 'cam'){
+      var vw = cam.videoWidth, vh = cam.videoHeight;
+      if (!vw || !vh) return false;
+      var side = Math.min(vw, vh);
+      wctx.drawImage(cam, (vw - side) / 2, (vh - side) / 2, side, side, 0, 0, S, S);
+    } else {
+      wctx.drawImage(pad, 0, 0, pad.width, pad.height, 0, 0, S, S);
+    }
+    return true;
+  }
+
+  $('grab').addEventListener('click', function(){
+    if (angle === null || back === null) return;
+    if (kept.length >= MAX) return;
+    if (!snap()) return;
+    kept.push({ angle:angle, back:back });
+    if (source === 'pad') clearPad();
+    render();
+  });
+  $('undo').addEventListener('click', function(){ kept.pop(); render(); });
+  $('reset').addEventListener('click', function(){
+    kept = []; angle = null; back = null;
+    setPressed();
+    if (source === 'pad') clearPad();
+    render();
+  });
+
+  /* 그리기 칸 */
+  var pctx = pad.getContext('2d'), drawing = false;
+  function clearPad(){ pctx.fillStyle = '#fff'; pctx.fillRect(0, 0, pad.width, pad.height); }
+  function at(e){
+    var r = pad.getBoundingClientRect();
+    return { x:(e.clientX - r.left) * pad.width / r.width, y:(e.clientY - r.top) * pad.height / r.height };
+  }
+  pad.addEventListener('pointerdown', function(e){
+    drawing = true; pad.setPointerCapture(e.pointerId);
+    var p = at(e); pctx.beginPath(); pctx.moveTo(p.x, p.y);
+  });
+  pad.addEventListener('pointermove', function(e){
+    if (!drawing) return;
+    var p = at(e);
+    pctx.strokeStyle = '#141414'; pctx.lineWidth = 16; pctx.lineCap = 'round'; pctx.lineJoin = 'round';
+    pctx.lineTo(p.x, p.y); pctx.stroke();
+  });
+  pad.addEventListener('pointerup', function(){ drawing = false; });
+  pad.addEventListener('pointercancel', function(){ drawing = false; });
+
+  function usePad(){
+    source = 'pad'; cam.hidden = true; pad.hidden = false;
+    practiceEl.hidden = false;
+    clearPad(); render();
+  }
+
+  /* 카메라 */
+  var stream = null;
+  function stopCam(){
+    if (!stream) return;
+    stream.getTracks().forEach(function(t){ t.stop(); });
+    stream = null;
+    if (source === 'cam'){ source = null; render(); }
+  }
+  function startCam(){
+    if (source === 'pad' || stream) return;
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ usePad(); return; }
+    navigator.mediaDevices.getUserMedia({ video:{ facingMode:'environment' }, audio:false })
+      .then(function(s){
+        stream = s; cam.srcObject = s; cam.hidden = false; pad.hidden = true;
+        source = 'cam'; practiceEl.hidden = true;
+        render();
+        return cam.play();
+      })
+      .catch(function(){ usePad(); });
+  }
+  startCam();
+
+  document.addEventListener('visibilitychange', function(){
+    if (document.hidden) stopCam();
+    else startCam();
+  });
+  window.addEventListener('pagehide', stopCam);
+
+  setPressed();
+  render();
+})();
+</script>
+</body>
+</html>

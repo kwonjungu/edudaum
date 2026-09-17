@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>어디서 달라졌나 — 에듀다움</title>
+<style>
+  :root{
+    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
+    --point:#4F46E5; --point-soft:#DCDAFB; --muted:#5E5E5E;
+    --r:18px; --r-sm:12px;
+    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
+    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
+    background-size:22px 22px;background-position:-11px -11px}
+  .wrap{max-width:640px;margin:0 auto;padding:12px 14px 28px}
+
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
+    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
+  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
+    border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
+
+  h1{font-size:clamp(23px,5.6vw,32px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:15px;color:var(--muted);margin-top:5px;font-weight:700}
+  .only{display:inline-flex;align-items:center;gap:7px;margin-top:9px;font-size:13px;font-weight:900;
+    background:var(--ink);color:var(--paper);border-radius:999px;padding:7px 13px}
+
+  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+    box-shadow:var(--hard);padding:12px;margin-top:11px}
+  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted)}
+
+  .board{display:block;width:100%;max-width:260px;margin:0 auto;height:auto}
+  .cellbg{fill:var(--surface);stroke:var(--ink);stroke-width:1.5}
+  .goal{fill:var(--point-soft)}
+  .item{fill:var(--point);stroke:var(--ink);stroke-width:2}
+  .bot{fill:#fff;stroke:var(--ink);stroke-width:2.5}
+  .botdir{fill:var(--point);stroke:var(--ink);stroke-width:2}
+
+  .rows{display:grid;gap:5px}
+  .row{display:flex;align-items:center;gap:6px}
+  .row .no{width:1.3em;font-family:'Courier New',monospace;font-weight:900;font-size:14px;color:var(--muted)}
+  .row .cmds{display:flex;gap:4px;flex:1}
+  .row.done{background:var(--point-soft);border-radius:8px}
+  .row.done .no{color:var(--ink)}
+  .cmd{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+    min-height:44px;padding:6px 14px;flex:1;text-align:left;box-shadow:var(--hard-sm)}
+  .cmd.set{background:var(--point);color:#fff;border-width:3px}
+  .cmd.empty{color:var(--muted)}
+
+  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;
+    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    min-height:44px;padding:9px 14px;box-shadow:var(--hard-sm);flex:1 1 92px;
+    transition:transform .1s,box-shadow .1s}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point);color:#fff}
+  .btn:disabled{opacity:.42;cursor:default;box-shadow:none}
+
+  .note{margin-top:8px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .note b{font-weight:900;color:var(--ink)}
+  [hidden]{display:none!important}
+
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="nav">
+    <a class="back" href="../">← 전체 목록</a>
+    <span class="tag">5~6</span>
+  </nav>
+
+  <header>
+    <h1>어디서 달라졌나</h1>
+    <p class="lead">한 줄씩 되감아 봐요</p>
+    <p class="only">교사 준비용</p>
+  </header>
+
+  <section aria-labelledby="h-b">
+    <h2 id="h-b">놀이판</h2>
+    <svg class="board" viewBox="0 0 100 100" role="img" aria-label="네 칸씩 놀이판과 말의 자리">
+      <g id="cells"></g>
+      <circle class="item" id="item" cx="0" cy="0" r="5"></circle>
+      <g id="bot">
+        <circle class="bot" cx="0" cy="0" r="8"></circle>
+        <polygon class="botdir" points="0,-7 4,1 -4,1"></polygon>
+      </g>
+    </svg>
+    <p class="note" id="stop" hidden><b>판을 벗어나 멈췄어요</b></p>
+  </section>
+
+  <section aria-labelledby="h-c">
+    <h2 id="h-c">명령</h2>
+    <div class="rows" id="rows"></div>
+    <div class="acts">
+      <button class="btn main" id="fwd" type="button">한 줄 더</button>
+      <button class="btn" id="back" type="button">한 줄 뒤로</button>
+      <button class="btn" id="reset" type="button">처음으로</button>
+    </div>
+    <p class="note"><b>수업 중에는 종이와 몸으로 해요</b></p>
+  </section>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+  var NS = 'http://www.w3.org/2000/svg';
+  var CMDS = ['앞으로', '오른쪽', '왼쪽', '집기'];
+  var N = 4, CELL = 25, HALF = 12.5;
+  var START = { x:0, y:3, dir:0 };
+  var ITEM = { x:2, y:1 };
+
+  var lines = ['', '', '', '', '', ''];   // 교사가 고른다. 미리 채우지 않는다.
+  var n = 0;                              // 실행한 줄 수
+  var rowEls = [], btnEls = [];
+
+  (function board(){
+    for (var r = 0; r < N; r++) for (var c = 0; c < N; c++){
+      var e = document.createElementNS(NS, 'rect');
+      e.setAttribute('x', c * CELL); e.setAttribute('y', r * CELL);
+      e.setAttribute('width', CELL); e.setAttribute('height', CELL);
+      e.setAttribute('class', (c === 3 && r === 0) ? 'cellbg goal' : 'cellbg');
+      $('cells').appendChild(e);
+    }
+    $('item').setAttribute('cx', ITEM.x * CELL + HALF);
+    $('item').setAttribute('cy', ITEM.y * CELL + HALF);
+  })();
+
+  (function rows(){
+    for (var i = 0; i < 6; i++){
+      var d = document.createElement('div');
+      d.className = 'row';
+      var no = document.createElement('span');
+      no.className = 'no'; no.textContent = String(i + 1);
+      var box = document.createElement('span');
+      box.className = 'cmds';
+      // 줄마다 단추 하나. 누를 때마다 빈칸과 명령 넷을 돈다.
+      var b = document.createElement('button');
+      b.className = 'cmd'; b.type = 'button';
+      (function(idx){
+        b.addEventListener('click', function(){
+          var k = CMDS.indexOf(lines[idx]);
+          lines[idx] = (k + 1 < CMDS.length) ? CMDS[k + 1] : '';
+          if (n > idx) n = idx;          // 고친 줄보다 뒤는 되감는다
+          render();
+        });
+      })(i);
+      box.appendChild(b);
+      d.appendChild(no); d.appendChild(box);
+      $('rows').appendChild(d);
+      rowEls.push(d); btnEls.push(b);
+    }
+  })();
+
+  // 되감기는 늘 처음부터 다시 센다
+  function walk(){
+    var s = { x:START.x, y:START.y, dir:START.dir, held:false, stopped:false };
+    for (var i = 0; i < n; i++){
+      var c = lines[i];
+      if (!c) continue;
+      if (c === '앞으로'){
+        var nx = s.x + [0, 1, 0, -1][s.dir];
+        var ny = s.y + [-1, 0, 1, 0][s.dir];
+        if (nx < 0 || nx >= N || ny < 0 || ny >= N){ s.stopped = true; break; }
+        s.x = nx; s.y = ny;
+      } else if (c === '오른쪽'){ s.dir = (s.dir + 1) % 4; }
+      else if (c === '왼쪽'){ s.dir = (s.dir + 3) % 4; }
+      else if (c === '집기'){ if (s.x === ITEM.x && s.y === ITEM.y) s.held = true; }
+    }
+    return s;
+  }
+
+  function render(){
+    var s = walk();
+    $('bot').setAttribute('transform',
+      'translate(' + (s.x * CELL + HALF) + ',' + (s.y * CELL + HALF) + ') rotate(' + (s.dir * 90) + ')');
+    $('item').hidden = s.held;
+    $('stop').hidden = !s.stopped;
+
+    for (var i = 0; i < 6; i++){
+      rowEls[i].classList.toggle('done', i < n);
+      var b = btnEls[i], has = !!lines[i];
+      b.textContent = has ? lines[i] : '비어 있음';
+      b.classList.toggle('set', has);
+      b.classList.toggle('empty', !has);
+      b.setAttribute('aria-label', (i + 1) + '번 ' + (has ? lines[i] : '비어 있음'));
+    }
+    $('fwd').disabled = (n >= 6) || s.stopped;
+    $('back').disabled = (n === 0);
+  }
+
+  $('fwd').addEventListener('click', function(){ if (n < 6){ n++; render(); } });
+  $('back').addEventListener('click', function(){ if (n > 0){ n--; render(); } });
+  $('reset').addEventListener('click', function(){ n = 0; render(); });
+
+  render();
+})();
+</script>
+</body>
+</html>
