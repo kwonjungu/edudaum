@@ -42,6 +42,9 @@
   .item{fill:var(--point);stroke:var(--ink);stroke-width:2}
   .bot{fill:#fff;stroke:var(--ink);stroke-width:2.5}
   .botdir{fill:var(--point);stroke:var(--ink);stroke-width:2}
+  .trail{fill:var(--point);opacity:.22}
+  #bot{transition:transform .18s ease-out}
+  @media(prefers-reduced-motion:reduce){#bot{transition:none}}
 
   .rows{display:grid;gap:5px}
   .row{display:flex;align-items:center;gap:6px}
@@ -90,6 +93,7 @@
     <h2 id="h-b">놀이판</h2>
     <svg class="board" viewBox="0 0 100 100" role="img" aria-label="네 칸씩 놀이판과 말의 자리">
       <g id="cells"></g>
+      <g id="trail"></g>
       <circle class="item" id="item" cx="0" cy="0" r="5"></circle>
       <g id="bot">
         <circle class="bot" cx="0" cy="0" r="8"></circle>
@@ -165,7 +169,8 @@
 
   // 되감기는 늘 처음부터 다시 센다
   function walk(){
-    var s = { x:START.x, y:START.y, dir:START.dir, held:false, stopped:false };
+    var s = { x:START.x, y:START.y, dir:START.dir, held:false, stopped:false, path:[] };
+    s.path.push({ x:s.x, y:s.y });
     for (var i = 0; i < n; i++){
       var c = lines[i];
       if (!c) continue;
@@ -174,6 +179,7 @@
         var ny = s.y + [-1, 0, 1, 0][s.dir];
         if (nx < 0 || nx >= N || ny < 0 || ny >= N){ s.stopped = true; break; }
         s.x = nx; s.y = ny;
+        s.path.push({ x:nx, y:ny });
       } else if (c === '오른쪽'){ s.dir = (s.dir + 1) % 4; }
       else if (c === '왼쪽'){ s.dir = (s.dir + 3) % 4; }
       else if (c === '집기'){ if (s.x === ITEM.x && s.y === ITEM.y) s.held = true; }
@@ -185,6 +191,17 @@
     var s = walk();
     $('bot').setAttribute('transform',
       'translate(' + (s.x * CELL + HALF) + ',' + (s.y * CELL + HALF) + ') rotate(' + (s.dir * 90) + ')');
+    // 지나온 칸을 옅게 남긴다. 되감을 때 어디를 거쳐 왔는지 보인다.
+    var t = $('trail');
+    while (t.firstChild) t.removeChild(t.firstChild);
+    for (var j = 0; j < s.path.length - 1; j++){
+      var dot = document.createElementNS(NS, 'circle');
+      dot.setAttribute('class', 'trail');
+      dot.setAttribute('cx', s.path[j].x * CELL + HALF);
+      dot.setAttribute('cy', s.path[j].y * CELL + HALF);
+      dot.setAttribute('r', '3.5');
+      t.appendChild(dot);
+    }
     $('item').hidden = s.held;
     $('stop').hidden = !s.stopped;
 

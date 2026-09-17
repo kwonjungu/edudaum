@@ -59,6 +59,9 @@
   .bar svg{flex:1;height:16px;display:block}
   .track{fill:var(--point-soft);stroke:var(--ink);stroke-width:2}
   .fill{fill:var(--point)}
+  .bar.top .nm{font-weight:900;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+  .bar.hit{animation:jump .34s ease-out}
+  @keyframes jump{0%{transform:translateX(0)}35%{transform:translateX(5px)}100%{transform:translateX(0)}}
   .bar .n{width:1.8em;text-align:right;font-family:'Courier New',monospace;font-weight:900;font-size:14px}
 
   .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
@@ -147,7 +150,7 @@
     { a:'옆', b:'흰',   nm:'옆에서 · 흰 종이' },
     { a:'옆', b:'바닥', nm:'옆에서 · 교실 바닥' }
   ];
-  var fills = [], nums = [];
+  var fills = [], nums = [], barEls = [];
 
   (function build(){
     PAIRS.forEach(function(p, i){
@@ -163,6 +166,7 @@
       $('bars').appendChild(d);
       fills.push(d.querySelector('.fill'));
       nums.push(d.querySelector('.n'));
+      barEls.push(d);
     });
   })();
 
@@ -173,10 +177,13 @@
   }
 
   function render(){
+    var best = 0;
+    PAIRS.forEach(function(p, i){ best = Math.max(best, count(p.a, p.b)); });
     PAIRS.forEach(function(p, i){
       var n = count(p.a, p.b);
       nums[i].textContent = String(n);
       fills[i].setAttribute('width', (Math.min(n, MAX) / MAX * 96).toFixed(1));
+      barEls[i].classList.toggle('top', n > 0 && n === best);
     });
     var ready = (angle !== null && back !== null && !!source);
     var full = kept.length >= MAX;
@@ -220,6 +227,12 @@
     kept.push({ angle:angle, back:back });
     if (source === 'pad') clearPad();
     render();
+    // 방금 담긴 줄만 한 번 튕긴다
+    for (var i = 0; i < PAIRS.length; i++){
+      if (PAIRS[i].a === angle && PAIRS[i].b === back){
+        barEls[i].classList.remove('hit'); void barEls[i].offsetWidth; barEls[i].classList.add('hit');
+      }
+    }
   });
   $('undo').addEventListener('click', function(){ kept.pop(); render(); });
   $('reset').addEventListener('click', function(){
