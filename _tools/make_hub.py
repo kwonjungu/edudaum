@@ -9,13 +9,14 @@
 from __future__ import annotations
 
 import re
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from blocks import LESSON, grade, label   # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / 'index.html'
-
-GRADE = {**{'B%02d' % i: 5 for i in range(1, 15)},
-         **{'B%02d' % i: 6 for i in range(15, 29)}}
 
 
 def strip(s: str) -> str:
@@ -32,6 +33,7 @@ def read(d: Path) -> dict | None:
         re.search(r'<h1[^>]*>[\s\S]*?</h1>\s*<p[^>]*>([\s\S]*?)</p>', h)
     point = re.search(r'--point\s*:\s*(#[0-9A-Fa-f]{3,6})', h)
     return {'id': d.name,
+            'lesson': label(d.name) if d.name in LESSON else d.name,
             'title': strip(title.group(1)) if title else d.name,
             'lead': strip(lead.group(1))[:40] if lead else '',
             'point': point.group(1) if point else '#F59E0B'}
@@ -69,13 +71,14 @@ background:var(--ink);color:var(--paper);padding:16px 18px;font-weight:700;font-
 
 def main() -> None:
     cards = [c for c in (read(d) for d in sorted(ROOT.glob('B*')) if d.is_dir()) if c]
+    cards = [c for c in cards if c['id'] in LESSON]
     if not cards:
         print('차시 폴더가 없습니다.')
         return
 
     body = []
     for g in (5, 6):
-        mine = [c for c in cards if GRADE.get(c['id']) == g]
+        mine = [c for c in cards if c['id'] in LESSON and grade(c['id']) == g]
         if not mine:
             continue
         body.append('<h2 class="gradelabel">%d학년</h2>\n<div class="grid">' % g)
@@ -83,7 +86,7 @@ def main() -> None:
             body.append(
                 '  <a class="card" href="%s/" style="--pt:%s">'
                 '<span class="num">%s</span><h2>%s</h2><p>%s</p></a>'
-                % (c['id'], c['point'], c['id'], c['title'], c['lead']))
+                % (c['id'], c['point'], c['lesson'], c['title'], c['lead']))
         body.append('</div>')
 
     html = ('<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n'
@@ -101,7 +104,7 @@ def main() -> None:
     OUT.write_text(html, encoding='utf-8')
     print('허브 %d개 카드 → index.html' % len(cards))
     for c in cards:
-        print('  %s %s' % (c['id'], c['title']))
+        print('  %-5s %-7s %s' % (c['id'], c['lesson'], c['title']))
 
 
 if __name__ == '__main__':
