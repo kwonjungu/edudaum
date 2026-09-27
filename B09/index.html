@@ -32,12 +32,15 @@
     box-shadow:var(--hard);padding:10px;margin-top:9px}
   h2{font-size:13px;font-weight:900;margin-bottom:6px;color:var(--muted)}
 
-  .blkline{padding:7px 11px;border:2.5px solid var(--ink);border-radius:var(--r-sm);
-    background:var(--point-soft);font-weight:900;font-size:14.5px;margin-top:5px}
+  .blkline{padding:4px 11px;border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    background:var(--point-soft);font-weight:900;font-size:14.5px;margin-top:4px}
   .blkline.in1{margin-left:18px;background:var(--surface)}
   .blkline.in2{margin-left:36px;background:var(--surface)}
 
-  .stage{display:flex;justify-content:center;margin-top:9px}
+  .top{display:flex;align-items:center;gap:10px}
+  #code{flex:1 1 auto;min-width:0}
+  .stage{display:flex;justify-content:center;flex:none}
+  @media(max-width:420px){ .top{flex-direction:column;align-items:stretch} .stage{margin-top:6px} }
   .panel{background:var(--ink);border:2.5px solid var(--ink);border-radius:var(--r-sm);
     padding:9px;display:inline-flex}
   #led{width:120px;height:120px;display:block}
@@ -70,7 +73,7 @@
 <body>
 <div class="wrap">
   <nav class="nav">
-    <a class="back" href="../">← 전체 목록</a>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">← 체험 목록</a><a class="back" href="../lessons/B09/">과정안</a></span>
     <span class="tag">17~18</span>
   </nav>
 
@@ -81,8 +84,10 @@
 
   <section aria-labelledby="h-b">
     <h2 id="h-b">이번 반복</h2>
-    <div id="code"></div>
-    <div class="stage"><div class="panel"><svg id="led" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg></div></div>
+    <div class="top">
+      <div id="code"></div>
+      <div class="stage"><div class="panel"><svg id="led" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg></div></div>
+    </div>
   </section>
 
   <section aria-labelledby="h-g">
@@ -163,26 +168,24 @@
     return { n: nn, m: mm, nested: nest, key: nn + ',' + mm + ',' + nest };
   }
 
+  // 블록 이름은 과정안 그대로다: [반복 ○회], 묶음(하트 보이고 지우기).
+  // 홑겹 판은 반복 안에 같은 묶음이 M줄 늘어서 있고(활동1의 늘어선 코드),
+  // 겹침 판은 그 M줄을 다시 [반복 M회]로 감쌌다(활동2의 묶기).
+  function line(cls, text) {
+    var el = document.createElement('div');
+    el.className = 'blkline' + (cls ? ' ' + cls : '');
+    el.textContent = text;
+    codeEl.appendChild(el);
+  }
+
   function renderCode() {
     codeEl.innerHTML = '';
-    var outer = document.createElement('div');
-    outer.className = 'blkline';
-    outer.textContent = n + '번 반복하기';
-    codeEl.appendChild(outer);
+    line('', '반복 ' + n + '회');
     if (nested) {
-      var mid = document.createElement('div');
-      mid.className = 'blkline in1';
-      mid.textContent = m + '번 반복하기';
-      codeEl.appendChild(mid);
-      var inner = document.createElement('div');
-      inner.className = 'blkline in2';
-      inner.textContent = '하트 보여주기';
-      codeEl.appendChild(inner);
+      line('in1', '반복 ' + m + '회');
+      line('in2', '하트 보이고 지우기');
     } else {
-      var line = document.createElement('div');
-      line.className = 'blkline in1';
-      line.textContent = '하트 ' + m + '번 보여주기';
-      codeEl.appendChild(line);
+      for (var i = 0; i < m; i += 1) { line('in1', '하트 보이고 지우기'); }
     }
   }
 

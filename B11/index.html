@@ -81,7 +81,7 @@
 <body>
 <div class="wrap">
   <nav class="nav">
-    <a class="back" href="../">← 전체 목록</a>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">← 체험 목록</a><a class="back" href="../lessons/B11/">과정안</a></span>
     <span class="tag">21~24</span>
   </nav>
 
@@ -148,7 +148,7 @@
     $('num').textContent = String(count);
     $('goal').textContent = String(goal);
 
-    // 격자는 과정안 활동5 그대로다. 목표 아래는 가운데 한 점, 목표 이상은 전체.
+    // 격자는 21차시 활동2 기능 카드 '목표 알림' 모양이다. 목표 아래는 가운데 한 점, 목표 이상은 전체.
     for (var i = 0; i < 25; i++){
       var on = (count < goal) ? (i === CENTER) : true;
       cells[i].setAttribute('fill', on ? '#FF7A00' : '#3A3630');

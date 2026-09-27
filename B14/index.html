@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>다시 판정하기 — 에듀다움 B14</title>
+<title>걸리는 곳 찾기 — 에듀다움 B14</title>
 <style>
   :root{
     --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
@@ -77,30 +77,30 @@
 <body>
 <div class="wrap">
   <nav class="nav">
-    <a class="back" href="../">← 전체 목록</a>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">← 체험 목록</a><a class="back" href="../lessons/B14/">과정안</a></span>
     <span class="tag">31~32</span>
   </nav>
 
   <header>
-    <h1>다시 판정하기</h1>
-    <p class="lead">걸리는 곳을 찾아 짚어요</p>
+    <h1>걸리는 곳 찾기</h1>
+    <p class="lead">예시 작품에서 점검표에 걸리는 곳을 짚어요</p>
   </header>
 
   <section aria-labelledby="h-s">
-    <h2 id="h-s">예시 안내기 화면</h2>
-    <svg id="scene" viewBox="0 0 300 140" role="img" aria-label="예시 안내기 화면"></svg>
+    <h2 id="h-s">예시 작품</h2>
+    <svg id="scene" viewBox="0 0 300 140" role="img" aria-label="예시 작품의 코드·화면·카드 다섯 곳"></svg>
     <p class="status" id="status">다섯 가운데 하나를 짚어요</p>
   </section>
 
   <section aria-labelledby="h-p">
-    <h2 id="h-p">어디가 걸렸나요</h2>
+    <h2 id="h-p">몇 번 항목에 걸리나요</h2>
     <div class="picks" id="picks"></div>
     <div class="acts">
       <button class="btn main" id="checkBtn" type="button" disabled>확인하기</button>
       <button class="btn sub" id="againBtn" type="button">다시 하기</button>
       <button class="btn sub" id="nextBtn" type="button">다음 판</button>
     </div>
-    <p class="note">고치는 일은 작품에서 해요</p>
+    <p class="note">고치는 일은 우리 작품에서 해요</p>
   </section>
 </div>
 
@@ -109,12 +109,16 @@
   'use strict';
 
   var NS = 'http://www.w3.org/2000/svg';
-  var LABELS = ['이름', '학교반', '사용법', '모름표시', '자료'];
-  var PICK_TEXT = ['이름이 있나', '학교반이 있나', '쓰는 법이 없나', '모름 표시 없나', '자료가 없나'];
-  // 바르게 채워졌을 때의 기본값. 0·1은 없어야 바른 것이고, 2~4는 있어야 바른 것이다.
-  var CORRECT = ['–', '–', '있음', '있음', '있음'];
-  // 어긋났을 때만 보이는 값. 실제 사람 이름을 쓰지 않는다.
-  var WRONG = ['ㅇㅇㅇ', 'OO초 4반', '–', '–', '–'];
+  // 과정안 32차시 점검표 다섯 항목. 줄 이름은 '어느 코드·화면·카드인지'(활동3)를 따른다.
+  var LABELS = ['코드 · 보내는 것', '코드 · 그룹 번호', '안내 화면', '설명 카드 · 그림', '설명 카드 · 소리'];
+  var PICK_TEXT = ['① 개인정보', '② 그룹 번호', '③ 친구 이름', '④ 그림 출처', '⑤ 소리 출처'];
+  // 바르게 된 값과 어긋난 값. 판마다 그 가운데 하나를 뽑는다. 실제 사람 이름을 쓰지 않는다.
+  var OK = [['수 1', '수 0', 'GOAL'], null, ['사용자1 · 12걸음', '사용자2 · 성공'],
+            ['LED로 직접 그림', '출처·BY 적음'], ['출처·BY 적음', '소리 없음']];
+  var BAD = [['이름 ㅇㅇㅇ', '전화번호', '지금 위치'], null, ['ㅇㅇㅇ · 12걸음', 'ㅇㅇ이 · 성공'],
+             ['출처 없음', 'ND 그림 · 바꿔 씀'], ['출처 없음', '허락 없이 쓴 노래']];
+  function any(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
+  var shownVals = ['', '', '', '', ''];
 
   var wrongIdx = -1, prevWrong = -1;
   var picked = null, confirmed = false, result = null;
@@ -175,6 +179,16 @@
 
   function newRound(){
     wrongIdx = pickWrong();
+    for (var i = 0; i < 5; i++) {
+      if (i === 1) {
+        // ② 배정받은 번호와 코드의 번호. 어긋난 판에서만 서로 다르다.
+        var g = 1 + Math.floor(Math.random() * 9), c = g;
+        if (i === wrongIdx) { do { c = 1 + Math.floor(Math.random() * 9); } while (c === g); }
+        shownVals[i] = '배정 ' + g + ' · 코드 ' + c;
+      } else {
+        shownVals[i] = any(i === wrongIdx ? BAD[i] : OK[i]);
+      }
+    }
     picked = null;
     confirmed = false;
     result = null;
@@ -206,7 +220,7 @@
 
   function render(){
     for (var i = 0; i < 5; i++) {
-      zoneEls[i].val.textContent = i === wrongIdx ? WRONG[i] : CORRECT[i];
+      zoneEls[i].val.textContent = shownVals[i];
       zoneEls[i].rect.classList.toggle('hit', confirmed && i === wrongIdx);
     }
     for (var j = 0; j < 5; j++) {

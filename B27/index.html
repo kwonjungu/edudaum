@@ -89,7 +89,7 @@
 <body>
 <div class="wrap">
   <nav class="nav">
-    <a class="back" href="../">← 전체 목록</a>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">← 체험 목록</a><a class="back" href="../lessons/B27/">과정안</a></span>
     <span class="tag">27~30</span>
   </nav>
 
@@ -158,7 +158,7 @@
   ];
   var fills = [], nums = [], barEls = [];
 
-  /* 판마다 새로 뽑는 주문. 직전 판과 같으면 다시 뽑는다. */
+  /* 판마다 새로 뽑는 수집 약속. 직전 판과 같으면 다시 뽑는다. */
   var CNTWORD = { 3:'세 장', 4:'네 장', 5:'다섯 장', 6:'여섯 장' };
   var order = null;
   function genOrder(){
@@ -172,7 +172,7 @@
     order = genOrder();
     // '바닥'은 받침이 있어 '으로'가 붙고 '종이'는 받침이 없어 '로'가 붙는다.
     var bg = (order.b === '흰') ? '흰 종이로' : '교실 바닥으로';
-    $('order').textContent = '주문 · ' + order.a + '에서 · ' + bg + ' ' + CNTWORD[order.n];
+    $('order').textContent = '약속 · ' + order.a + '에서 · ' + bg + ' ' + CNTWORD[order.n];
   }
   newOrder();
 
@@ -219,7 +219,7 @@
     if (!ready) msg = '조건을 먼저 골라요';
     else if (full && have < order.n) msg = '스무 장이 찼어요';
     else if (have >= order.n){
-      msg = '주문대로 담았어요';
+      msg = '약속대로 담았어요';
       if (other > 0) msg += ' · 다른 조건 ' + other + '장이 섞였어요';
     } else msg = (order.n - have) + '장 더 담아요';
     $('why').textContent = msg;

@@ -1,0 +1,292 @@
+{
+ "_설명": "차시에 연동되는 외부 도구 목록. match 낱말이(대소문자 구별 없이) 과정안 본문에 있으면 그 차시 쪽에 저절로 붙는다. 차시별로 더 걸 링크는 links.json에 적는다. 주소는 2026-09-27에 열리는 것을 확인했다(canva는 자동 확인이 막혀 있어 손으로 확인).",
+ "tools": [
+  {
+   "id": "makecode",
+   "name": "MakeCode (micro:bit)",
+   "url": "https://makecode.microbit.org/?lang=ko",
+   "group": "코딩",
+   "use": "마이크로비트 블록 코딩·시뮬레이터·무선(라디오)",
+   "account": "필요 없음",
+   "match": [
+    "MakeCode",
+    "메이크코드"
+   ],
+   "more": [
+    {
+     "name": "라디오 블록 설명",
+     "url": "https://makecode.microbit.org/reference/radio"
+    }
+   ]
+  },
+  {
+   "id": "microbit",
+   "name": "마이크로비트 V2",
+   "url": "https://microbit.org/projects/make-it-code-it/",
+   "group": "코딩",
+   "use": "LED·버튼·가속도·소리 센서, 무선 통신",
+   "account": "필요 없음",
+   "match": [
+    "마이크로비트"
+   ]
+  },
+  {
+   "id": "createai",
+   "name": "micro:bit CreateAI",
+   "url": "https://createai.microbit.org/",
+   "group": "인공지능",
+   "use": "움직임 데이터로 동작 모델 학습·시험, 움직임 그래프",
+   "account": "필요 없음(크롬·엣지)",
+   "match": [
+    "CreateAI"
+   ],
+   "more": [
+    {
+     "name": "CreateAI 사용 안내",
+     "url": "https://microbit.org/get-started/user-guide/microbit-createai/"
+    }
+   ]
+  },
+  {
+   "id": "entry",
+   "name": "엔트리",
+   "url": "https://playentry.org/ws/new",
+   "group": "코딩",
+   "use": "블록 코딩, 인공지능 블록, 데이터 분석(테이블·차트)",
+   "account": "학생 계정 없이 만들기 화면 사용 가능(저장은 교사 계정)",
+   "match": [
+    "엔트리"
+   ],
+   "more": [
+    {
+     "name": "엔트리 사용 설명서",
+     "url": "https://docs.playentry.org/user/"
+    }
+   ]
+  },
+  {
+   "id": "entry-image",
+   "name": "엔트리 이미지 분류 모델",
+   "url": "https://docs.playentry.org/user/block_model_image.html",
+   "group": "인공지능",
+   "use": "웹캠·사진으로 분류 모델 학습",
+   "account": "엔트리와 같음",
+   "match": [
+    "이미지 분류"
+   ]
+  },
+  {
+   "id": "entry-number",
+   "name": "엔트리 숫자 분류 모델",
+   "url": "https://docs.playentry.org/user/block_model_classification.html",
+   "group": "인공지능",
+   "use": "표의 숫자 자료로 분류 모델 학습",
+   "account": "엔트리와 같음",
+   "match": [
+    "숫자 분류"
+   ]
+  },
+  {
+   "id": "entry-stt",
+   "name": "엔트리 음성 인식",
+   "url": "https://docs.playentry.org/user/block_ai_stt.html",
+   "group": "인공지능",
+   "use": "말을 글자로 바꾸기",
+   "account": "엔트리와 같음",
+   "match": [
+    "음성 인식",
+    "받아쓰기"
+   ]
+  },
+  {
+   "id": "entry-video",
+   "name": "엔트리 비디오 감지(손·얼굴·사물)",
+   "url": "https://docs.playentry.org/user/block_ai_hand.html",
+   "group": "인공지능",
+   "use": "웹캠으로 손·사물 알아보기(얼굴 대신 손·물건)",
+   "account": "엔트리와 같음",
+   "match": [
+    "비디오 감지",
+    "손 인식"
+   ]
+  },
+  {
+   "id": "entry-translate",
+   "name": "엔트리 번역·읽어주기",
+   "url": "https://docs.playentry.org/user/block_ai_translate.html",
+   "group": "인공지능",
+   "use": "번역, 글을 소리로 읽기",
+   "account": "엔트리와 같음",
+   "match": [
+    "번역 블록",
+    "번역하기",
+    "번역 되돌리기",
+    "번역기",
+    "읽어주기"
+   ],
+   "more": [
+    {
+     "name": "읽어주기 블록",
+     "url": "https://docs.playentry.org/user/block_ai_tts.html"
+    }
+   ]
+  },
+  {
+   "id": "entry-weather",
+   "name": "엔트리 날씨 블록",
+   "url": "https://docs.playentry.org/user/block_extn_weather.html",
+   "group": "데이터",
+   "use": "오늘 기온·미세먼지 불러오기",
+   "account": "엔트리와 같음",
+   "match": [
+    "날씨 블록"
+   ]
+  },
+  {
+   "id": "entry-table",
+   "name": "엔트리 데이터 분석(테이블·차트)",
+   "url": "https://docs.playentry.org/user/block_table.html",
+   "group": "데이터",
+   "use": "기본 테이블·학급 자료 불러오기, 차트",
+   "account": "엔트리와 같음",
+   "match": [
+    "데이터 분석",
+    "기본 테이블",
+    "자료표 불러오기",
+    "차트"
+   ]
+  },
+  {
+   "id": "canva",
+   "name": "Canva",
+   "url": "https://www.canva.com/",
+   "group": "제작",
+   "use": "SW 지도, 공감 지도(화이트보드), 미션 포스터, 팀 소개판",
+   "account": "교사가 만든 수업(클래스) 안에서 사용",
+   "match": [
+    "Canva",
+    "캔바"
+   ]
+  },
+  {
+   "id": "kosis-edu",
+   "name": "KOSIS 통계놀이터",
+   "url": "https://kosis.kr/edu/",
+   "group": "데이터",
+   "use": "어린이용 공식 통계, 근거 데이터 찾기",
+   "account": "필요 없음",
+   "match": [
+    "통계놀이터"
+   ],
+   "more": [
+    {
+     "name": "비주얼 통계",
+     "url": "https://kosis.kr/edu/visualStats/index.do?menuId=M_05"
+    }
+   ]
+  },
+  {
+   "id": "kosis",
+   "name": "KOSIS 국가통계포털",
+   "url": "https://kosis.kr/",
+   "group": "데이터",
+   "use": "전국 통계와 우리 반 자료 견주기",
+   "account": "필요 없음",
+   "match": [
+    "KOSIS",
+    "국가통계포털"
+   ]
+  },
+  {
+   "id": "trends",
+   "name": "구글 트렌드",
+   "url": "https://trends.google.co.kr/",
+   "group": "데이터",
+   "use": "관심 변화(상대값) 보기 — 교사 화면 시연",
+   "account": "필요 없음",
+   "match": [
+    "구글 트렌드"
+   ]
+  },
+  {
+   "id": "kma",
+   "name": "기상자료개방포털",
+   "url": "https://data.kma.go.kr/",
+   "group": "데이터",
+   "use": "지난 날짜별 기온 기록 찾기",
+   "account": "조회는 필요 없음",
+   "match": [
+    "기상자료개방포털"
+   ]
+  },
+  {
+   "id": "wooriai",
+   "name": "우리아이AI",
+   "url": "https://wooriai.use.go.kr/",
+   "group": "인공지능",
+   "use": "학생용 생성형 AI(로그인 없음) — 개인정보 입력 금지, 학교망 접속 사전 확인",
+   "account": "필요 없음",
+   "match": [
+    "우리아이AI"
+   ]
+  },
+  {
+   "id": "oceans",
+   "name": "Code.org AI for Oceans",
+   "url": "https://code.org/oceans",
+   "group": "인공지능",
+   "use": "학습 데이터로 기준 가르치기, 치우침 보기",
+   "account": "필요 없음",
+   "match": [
+    "AI for Oceans",
+    "code.org/oceans"
+   ]
+  },
+  {
+   "id": "pixel",
+   "name": "Code.org 픽셀화 위젯",
+   "url": "https://code.org/pixelation",
+   "group": "데이터",
+   "use": "0·1 숫자표로 그림 되살리기(확장)",
+   "account": "필요 없음",
+   "match": [
+    "픽셀화",
+    "pixelation"
+   ]
+  },
+  {
+   "id": "howai",
+   "name": "Code.org How AI Works",
+   "url": "https://code.org/ai/how-ai-works",
+   "group": "인공지능",
+   "use": "인공지능이 판단하는 방법 영상(확장·가정 연계)",
+   "account": "필요 없음",
+   "match": [
+    "How AI"
+   ]
+  },
+  {
+   "id": "gform",
+   "name": "구글 폼",
+   "url": "https://www.google.com/forms/about/",
+   "group": "데이터",
+   "use": "이름 없는 학급 자료 모으기(교사 계정)",
+   "account": "교사 계정",
+   "match": [
+    "구글 폼"
+   ]
+  },
+  {
+   "id": "gongu",
+   "name": "공유마당(한국저작권위원회)",
+   "url": "https://gongu.copyright.or.kr/",
+   "group": "안전",
+   "use": "이용 허락된 그림·소리 찾기, 출처 밝히기",
+   "account": "필요 없음",
+   "match": [
+    "CCL",
+    "저작물"
+   ]
+  }
+ ]
+}

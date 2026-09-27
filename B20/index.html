@@ -81,7 +81,7 @@
 <body>
 <div class="wrap">
   <nav class="nav">
-    <a class="back" href="../">전체 목록</a>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">체험 목록</a><a class="back" href="../lessons/B20/">과정안</a></span>
     <span class="tag">11~12</span>
   </nav>
   <header>
@@ -235,7 +235,7 @@
       tile.className = 'card' + (changed ? ' diff' : '');
       tile.setAttribute('role', 'img');
       tile.setAttribute('aria-label', c.color + ' ' + c.shape + (c.edge ? ', 테두리 있음' : ', 테두리 없음')
-        + ', 상자 ' + now + (changed ? ', 달라짐' : ''));
+        + (now === '—' ? ', 규칙 없음' : ', 상자 ' + now) + (changed ? ', 달라짐' : ''));
       var idx = document.createElement('span'); idx.className = 'idx'; idx.textContent = String(c.n);
       var mark = document.createElement('span'); mark.innerHTML = MARK;
       var pic = document.createElement('span'); pic.innerHTML = shapeSvg(c);

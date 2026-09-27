@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>연동 도구 — 에듀다움</title>
+<style>
+:root{--ink:#141414;--paper:#FBF7EC;--surface:#fff;--amber:#FFB800;--muted:#5E5E5E;--line:#141414;
+--g5:#F59E0B;--g6:#3D5AFE;--soft:#F3EEDD;--r:16px;--hard:4px 4px 0 var(--ink);--hard-sm:2px 2px 0 var(--ink)}
+*{box-sizing:border-box}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--paper);color:var(--ink);font-size:16px;line-height:1.7;
+font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+a{color:inherit}
+.top{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:2.5px solid var(--ink)}
+.top .in{max-width:1120px;margin:0 auto;padding:8px 16px;display:flex;gap:6px 14px;align-items:center;flex-wrap:wrap}
+.brand{font-weight:900;font-size:18px;text-decoration:none;letter-spacing:-.02em;margin-right:6px;display:flex;align-items:center;gap:8px}
+.brand i{display:inline-block;width:14px;height:14px;border:2.5px solid var(--ink);border-radius:4px;background:var(--amber)}
+.top nav{display:flex;flex-wrap:wrap;gap:4px}
+.top nav a{text-decoration:none;font-weight:700;font-size:14.5px;padding:8px 10px;border-radius:10px;min-height:40px;display:inline-flex;align-items:center}
+.top nav a:hover{background:var(--soft)}
+.top nav a[aria-current]{background:var(--ink);color:var(--paper)}
+main{max-width:1120px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:clamp(26px,4.6vw,40px);line-height:1.25;font-weight:900;letter-spacing:-.03em;margin:8px 0 10px}
+h2{font-size:clamp(20px,3vw,26px);font-weight:900;letter-spacing:-.02em;margin:40px 0 12px;padding-top:4px}
+h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.lead{color:var(--muted);font-weight:600;margin:0 0 18px;font-size:17px}
+.kick{display:inline-block;border:2px solid var(--ink);background:var(--amber);border-radius:999px;padding:3px 12px;font-weight:800;font-size:13px}
+.chip{display:inline-block;border:2px solid var(--ink);border-radius:999px;padding:1px 10px;font-weight:800;font-size:12.5px;background:#fff;white-space:nowrap}
+.chip.g5{background:var(--g5)}.chip.g6{background:var(--g6);color:#fff}
+.box{background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);padding:18px 20px;margin:14px 0}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{display:block;text-decoration:none;background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);padding:16px;transition:transform .1s,box-shadow .1s}
+a.card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.card h3{margin:8px 0 4px;font-size:17px}
+.card p{margin:0;color:var(--muted);font-size:14.5px;font-weight:600}
+.btn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border:2.5px solid var(--ink);border-radius:12px;background:#fff;
+box-shadow:var(--hard-sm);font-weight:800;text-decoration:none;font-size:15px;cursor:pointer;font-family:inherit;color:var(--ink)}
+.btn.pri{background:var(--amber)}
+.btn:hover{transform:translate(-1px,-1px)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.tw{overflow-x:auto;margin:12px 0;border:2.5px solid var(--ink);border-radius:12px;background:#fff}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{border-bottom:1.5px solid #D9D2BE;padding:9px 10px;text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:800;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.muted{color:var(--muted)}
+.small{font-size:13.5px}
+.note{border-left:5px solid var(--amber);background:#fff;padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:15px}
+:focus-visible{outline:3px solid var(--g6);outline-offset:2px}
+footer{border-top:2.5px solid var(--ink);margin-top:40px}
+footer .in{max-width:1120px;margin:0 auto;padding:18px 16px;font-size:13.5px;color:var(--muted)}
+/* 64차시 지도 */
+.map{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:4px;margin:8px 0 18px}
+.map a{display:flex;align-items:center;justify-content:center;min-height:44px;border:2px solid var(--ink);border-radius:8px;text-decoration:none;font-weight:800;font-size:13px;background:#fff}
+.map a:hover{transform:translate(-1px,-1px);box-shadow:var(--hard-sm)}
+@media (max-width:720px){.map{grid-template-columns:repeat(8,minmax(0,1fr))}}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13.5px;font-weight:700}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border:2px solid var(--ink);border-radius:4px;display:inline-block}
+/* 과정안 */
+.flow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.flow a{text-decoration:none;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;background:#fff;font-weight:700;font-size:14px}
+.flow b{font-weight:900}
+.act h4{margin:14px 0 4px;font-size:16px;font-weight:900}
+.act h4:first-child{margin-top:0}
+.act ul{margin:0 0 6px;padding-left:20px}
+.act li{margin:2px 0}
+.act p{margin:4px 0}
+figure{margin:10px 0;max-width:560px}
+figure img{width:100%;height:auto;border:2px solid var(--ink);border-radius:10px;background:#fff}
+figcaption{font-size:13px;color:var(--muted);font-weight:600;margin-top:4px}
+.res div{margin:3px 0;font-size:14.5px}
+.res .k{display:inline-block;min-width:44px;font-weight:900;font-size:12px;border:1.5px solid var(--ink);border-radius:6px;padding:0 5px;margin-right:6px;background:var(--soft);text-align:center}
+.stage{font-weight:900;white-space:nowrap}
+.rowcard{border:2.5px solid var(--ink);border-radius:var(--r);background:#fff;margin:14px 0;overflow:hidden}
+.rowhead{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;background:var(--soft);border-bottom:2px solid var(--ink);padding:8px 14px;font-weight:900}
+.rowbody{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:0}
+.rowbody>div{padding:12px 16px}
+.rowbody>.res{border-left:2px dashed #CFC6AE;background:#FFFDF6}
+@media (max-width:760px){.rowbody{grid-template-columns:1fr}.rowbody>.res{border-left:0;border-top:2px dashed #CFC6AE}}
+.lv td:first-child{white-space:nowrap;font-weight:800}
+.toolgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.tool{display:block;border:2px solid var(--ink);border-radius:12px;padding:10px 12px;background:#fff;text-decoration:none}
+.tool b{display:block;font-size:15px}
+.tool span{display:block;font-size:13px;color:var(--muted);font-weight:600}
+.tool:hover{box-shadow:var(--hard-sm);transform:translate(-1px,-1px)}
+.mine form{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.mine input{min-height:44px;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;font:inherit;flex:1 1 180px;min-width:0}
+.mine li{display:flex;gap:8px;align-items:center;margin:6px 0;flex-wrap:wrap}
+.mine ul{list-style:none;padding:0;margin:8px 0 0}
+.x{min-height:36px;padding:2px 10px;border:2px solid var(--ink);border-radius:8px;background:#fff;cursor:pointer;font:inherit;font-weight:700}
+.pn{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:28px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
+.toc a{font-size:14px;font-weight:700;text-decoration:none;border-bottom:2px solid var(--amber)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{.top,footer,.btns,.mine,.pn{display:none}body{background:#fff}.box,.rowcard{box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="in"><a class="brand" href="../"><i></i>에듀다움</a><nav aria-label="누리집 메뉴"><a href="../">홈</a><a href="../plan/">계획서·성취기준</a><a href="../topics/">주제별 활동</a><a href="../lessons/">차시별 과정안</a><a href="../tools/" aria-current="page">연동 도구</a><a href="../play/">체험 게임</a></nav></div></header>
+<main>
+<span class="kick">연동 도구</span><h1>차시에 걸린 외부 도구</h1><p class="lead">모두 무료이며 학생 계정 없이 쓸 수 있게 골랐습니다. 칩을 누르면 그 도구를 쓰는 차시로 갑니다.</p><p class="note">도구를 더하거나 차시에 링크를 더 걸려면 <code>_data/tools.json</code>·<code>_data/links.json</code>을 고친 뒤 <code>python _tools/make_site.py</code>를 돌립니다. 교사 개인 링크는 차시 쪽 「내 수업 링크」에 걸 수 있습니다.</p><h2>코딩</h2><div class="grid"><div class="box"><h3 style="margin-top:0"><a href="https://makecode.microbit.org/?lang=ko" target="_blank" rel="noopener">MakeCode (micro:bit) ↗</a></h3><p class="small">마이크로비트 블록 코딩·시뮬레이터·무선(라디오)</p><p class="small muted">계정: 필요 없음 · <a href="https://makecode.microbit.org/reference/radio" target="_blank" rel="noopener">라디오 블록 설명 ↗</a></p><div><a class="chip" href="../lessons/B07/">5-13~14</a> <a class="chip" href="../lessons/B08/">5-15~16</a> <a class="chip" href="../lessons/B09/">5-17~18</a> <a class="chip" href="../lessons/B10/">5-19~20</a> <a class="chip" href="../lessons/B11/">5-21~24</a> <a class="chip" href="../lessons/B12/">5-25~28</a> <a class="chip" href="../lessons/B13/">5-29~30</a> <a class="chip" href="../lessons/B14/">5-31~32</a> <a class="chip" href="../lessons/B23/">6-17~18</a> <a class="chip" href="../lessons/B25/">6-21~24</a> <a class="chip" href="../lessons/B26/">6-25~26</a> <a class="chip" href="../lessons/B27/">6-27~30</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://microbit.org/projects/make-it-code-it/" target="_blank" rel="noopener">마이크로비트 V2 ↗</a></h3><p class="small">LED·버튼·가속도·소리 센서, 무선 통신</p><p class="small muted">계정: 필요 없음</p><div><a class="chip" href="../lessons/B01/">5-1~2</a> <a class="chip" href="../lessons/B02/">5-3~4</a> <a class="chip" href="../lessons/B06/">5-11~12</a> <a class="chip" href="../lessons/B07/">5-13~14</a> <a class="chip" href="../lessons/B08/">5-15~16</a> <a class="chip" href="../lessons/B09/">5-17~18</a> <a class="chip" href="../lessons/B10/">5-19~20</a> <a class="chip" href="../lessons/B11/">5-21~24</a> <a class="chip" href="../lessons/B12/">5-25~28</a> <a class="chip" href="../lessons/B13/">5-29~30</a> <a class="chip" href="../lessons/B14/">5-31~32</a> <a class="chip" href="../lessons/B15/">6-1~2</a> <a class="chip" href="../lessons/B23/">6-17~18</a> <a class="chip" href="../lessons/B25/">6-21~24</a> <a class="chip" href="../lessons/B26/">6-25~26</a> <a class="chip" href="../lessons/B27/">6-27~30</a> <a class="chip" href="../lessons/B28/">6-31~32</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://playentry.org/ws/new" target="_blank" rel="noopener">엔트리 ↗</a></h3><p class="small">블록 코딩, 인공지능 블록, 데이터 분석(테이블·차트)</p><p class="small muted">계정: 학생 계정 없이 만들기 화면 사용 가능(저장은 교사 계정) · <a href="https://docs.playentry.org/user/" target="_blank" rel="noopener">엔트리 사용 설명서 ↗</a></p><div><a class="chip" href="../lessons/B16/">6-3~4</a> <a class="chip" href="../lessons/B17/">6-5~6</a> <a class="chip" href="../lessons/B18/">6-7~8</a> <a class="chip" href="../lessons/B21/">6-13~14</a> <a class="chip" href="../lessons/B22/">6-15~16</a> <a class="chip" href="../lessons/B24/">6-19~20</a> <a class="chip" href="../lessons/B25/">6-21~24</a> <a class="chip" href="../lessons/B27/">6-27~30</a> <a class="chip" href="../lessons/B28/">6-31~32</a></div></div></div><h2>인공지능</h2><div class="grid"><div class="box"><h3 style="margin-top:0"><a href="https://createai.microbit.org/" target="_blank" rel="noopener">micro:bit CreateAI ↗</a></h3><p class="small">움직임 데이터로 동작 모델 학습·시험, 움직임 그래프</p><p class="small muted">계정: 필요 없음(크롬·엣지) · <a href="https://microbit.org/get-started/user-guide/microbit-createai/" target="_blank" rel="noopener">CreateAI 사용 안내 ↗</a></p><div><a class="chip" href="../lessons/B15/">6-1~2</a> <a class="chip" href="../lessons/B23/">6-17~18</a> <a class="chip" href="../lessons/B25/">6-21~24</a> <a class="chip" href="../lessons/B26/">6-25~26</a> <a class="chip" href="../lessons/B27/">6-27~30</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://docs.playentry.org/user/block_model_image.html" target="_blank" rel="noopener">엔트리 이미지 분류 모델 ↗</a></h3><p class="small">웹캠·사진으로 분류 모델 학습</p><p class="small muted">계정: 엔트리와 같음</p><div><a class="chip" href="../lessons/B16/">6-3~4</a> <a class="chip" href="../lessons/B25/">6-21~24</a> <a class="chip" href="../lessons/B27/">6-27~30</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://docs.playentry.org/user/block_model_classification.html" target="_blank" rel="noopener">엔트리 숫자 분류 모델 ↗</a></h3><p class="small">표의 숫자 자료로 분류 모델 학습</p><p class="small muted">계정: 엔트리와 같음</p><div><a class="chip" href="../lessons/B24/">6-19~20</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://docs.playentry.org/user/block_ai_stt.html" target="_blank" rel="noopener">엔트리 음성 인식 ↗</a></h3><p class="small">말을 글자로 바꾸기</p><p class="small muted">계정: 엔트리와 같음</p><div><a class="chip" href="../lessons/B17/">6-5~6</a> <a class="chip" href="../lessons/B18/">6-7~8</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://docs.playentry.org/user/block_ai_hand.html" target="_blank" rel="noopener">엔트리 비디오 감지(손·얼굴·사물) ↗</a></h3><p class="small">웹캠으로 손·사물 알아보기(얼굴 대신 손·물건)</p><p class="small muted">계정: 엔트리와 같음</p><div><a class="chip" href="../lessons/B17/">6-5~6</a> <a class="chip" href="../lessons/B22/">6-15~16</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://docs.playentry.org/user/block_ai_translate.html" target="_blank" rel="noopener">엔트리 번역·읽어주기 ↗</a></h3><p class="small">번역, 글을 소리로 읽기</p><p class="small muted">계정: 엔트리와 같음 · <a href="https://docs.playentry.org/user/block_ai_tts.html" target="_blank" rel="noopener">읽어주기 블록 ↗</a></p><div><a class="chip" href="../lessons/B18/">6-7~8</a> <a class="chip" href="../lessons/B22/">6-15~16</a> <a class="chip" href="../lessons/B27/">6-27~30</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://wooriai.use.go.kr/" target="_blank" rel="noopener">우리아이AI ↗</a></h3><p class="small">학생용 생성형 AI(로그인 없음) — 개인정보 입력 금지, 학교망 접속 사전 확인</p><p class="small muted">계정: 필요 없음</p><div><a class="chip" href="../lessons/B19/">6-9~10</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://code.org/oceans" target="_blank" rel="noopener">Code.org AI for Oceans ↗</a></h3><p class="small">학습 데이터로 기준 가르치기, 치우침 보기</p><p class="small muted">계정: 필요 없음</p><div><a class="chip" href="../lessons/B26/">6-25~26</a> <a class="chip" href="../lessons/B28/">6-31~32</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://code.org/ai/how-ai-works" target="_blank" rel="noopener">Code.org How AI Works ↗</a></h3><p class="small">인공지능이 판단하는 방법 영상(확장·가정 연계)</p><p class="small muted">계정: 필요 없음</p><div><a class="chip" href="../lessons/B21/">6-13~14</a></div></div></div><h2>데이터</h2><div class="grid"><div class="box"><h3 style="margin-top:0"><a href="https://docs.playentry.org/user/block_extn_weather.html" target="_blank" rel="noopener">엔트리 날씨 블록 ↗</a></h3><p class="small">오늘 기온·미세먼지 불러오기</p><p class="small muted">계정: 엔트리와 같음</p><div><a class="chip" href="../lessons/B22/">6-15~16</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://docs.playentry.org/user/block_table.html" target="_blank" rel="noopener">엔트리 데이터 분석(테이블·차트) ↗</a></h3><p class="small">기본 테이블·학급 자료 불러오기, 차트</p><p class="small muted">계정: 엔트리와 같음</p><div><a class="chip" href="../lessons/B24/">6-19~20</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://kosis.kr/edu/" target="_blank" rel="noopener">KOSIS 통계놀이터 ↗</a></h3><p class="small">어린이용 공식 통계, 근거 데이터 찾기</p><p class="small muted">계정: 필요 없음 · <a href="https://kosis.kr/edu/visualStats/index.do?menuId=M_05" target="_blank" rel="noopener">비주얼 통계 ↗</a></p><div><a class="chip" href="../lessons/B02/">5-3~4</a> <a class="chip" href="../lessons/B15/">6-1~2</a> <a class="chip" href="../lessons/B19/">6-9~10</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://kosis.kr/" target="_blank" rel="noopener">KOSIS 국가통계포털 ↗</a></h3><p class="small">전국 통계와 우리 반 자료 견주기</p><p class="small muted">계정: 필요 없음</p><div><a class="chip" href="../lessons/B02/">5-3~4</a> <a class="chip" href="../lessons/B15/">6-1~2</a> <a class="chip" href="../lessons/B19/">6-9~10</a> <a class="chip" href="../lessons/B24/">6-19~20</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://trends.google.co.kr/" target="_blank" rel="noopener">구글 트렌드 ↗</a></h3><p class="small">관심 변화(상대값) 보기 — 교사 화면 시연</p><p class="small muted">계정: 필요 없음</p><div><a class="chip" href="../lessons/B02/">5-3~4</a> <a class="chip" href="../lessons/B15/">6-1~2</a> <a class="chip" href="../lessons/B27/">6-27~30</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://data.kma.go.kr/" target="_blank" rel="noopener">기상자료개방포털 ↗</a></h3><p class="small">지난 날짜별 기온 기록 찾기</p><p class="small muted">계정: 조회는 필요 없음</p><div><a class="chip" href="../lessons/B22/">6-15~16</a></div></div><div class="box"><h3 style="margin-top:0"><a href="https://code.org/pixelation" target="_blank" rel="noopener">Code.org 픽셀화 위젯 ↗</a></h3><p class="small">0·1 숫자표로 그림 되살리기(확장)</p><p class="small muted">계정: 필요 없음</p><div><span class="small muted">직접 쓰는 차시 없음</span></div></div><div class="box"><h3 style="margin-top:0"><a href="https://www.google.com/forms/about/" target="_blank" rel="noopener">구글 폼 ↗</a></h3><p class="small">이름 없는 학급 자료 모으기(교사 계정)</p><p class="small muted">계정: 교사 계정</p><div><a class="chip" href="../lessons/B24/">6-19~20</a></div></div></div><h2>제작</h2><div class="grid"><div class="box"><h3 style="margin-top:0"><a href="https://www.canva.com/" target="_blank" rel="noopener">Canva ↗</a></h3><p class="small">SW 지도, 공감 지도(화이트보드), 미션 포스터, 팀 소개판</p><p class="small muted">계정: 교사가 만든 수업(클래스) 안에서 사용</p><div><a class="chip" href="../lessons/B01/">5-1~2</a> <a class="chip" href="../lessons/B02/">5-3~4</a> <a class="chip" href="../lessons/B15/">6-1~2</a></div></div></div><h2>안전</h2><div class="grid"><div class="box"><h3 style="margin-top:0"><a href="https://gongu.copyright.or.kr/" target="_blank" rel="noopener">공유마당(한국저작권위원회) ↗</a></h3><p class="small">이용 허락된 그림·소리 찾기, 출처 밝히기</p><p class="small muted">계정: 필요 없음</p><div><a class="chip" href="../lessons/B14/">5-31~32</a></div></div></div>
+</main>
+<footer><div class="in">경기 AI 융합교육 에듀다움 교사연구회 · 학교자율시간 SW·AI 교육과정 · 과정안 기준일 2026. 9. 27.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</div></footer>
+</body>
+</html>

@@ -74,6 +74,9 @@ h1{
 .pickline{font-size:13.5px;font-weight:800;color:var(--muted);min-height:20px}
 .pickline b{color:var(--point)}
 
+.cmd{margin:6px 0 0;padding:8px 10px;border:2.5px dashed var(--ink);border-radius:var(--r-sm);
+  font-size:15px;font-weight:800;background:var(--point-soft)}
+.cmd b{color:var(--ink);font-size:18px}
 .row{display:flex;flex-wrap:wrap;gap:8px}
 button.act{
   font:inherit; font-weight:800; color:var(--ink); cursor:pointer;
@@ -111,7 +114,7 @@ button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 </head>
 <body>
 <main>
-  <nav class="topnav"><a href="../">← 전체 목록</a><b>1~2</b></nav>
+  <nav class="topnav"><span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a href="../play/">← 체험 목록</a><a href="../lessons/B01/">과정안</a></span><b>1~2</b></nav>
   <h1>신호등 명령 바꾸기</h1>
   <p class="lead">가장 짧은 초록불을 짚어요</p>
 
@@ -121,6 +124,7 @@ button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
       <p class="who">이번엔 <b id="nText">3</b>명이 건너요</p>
       <div class="strip" id="strip" role="group" aria-label="초록불 초 수"></div>
       <p class="pickline" id="pickline">초를 짚어요</p>
+      <p class="cmd" aria-label="숨은 명령">버튼을 누르면 → 초록불 <b id="cmdSec">?</b>초 켜기</p>
     </div>
 
     <div class="face">
@@ -249,6 +253,7 @@ button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
       cells[i].classList.toggle('pick', pickedSec === sec);
       cells[i].disabled = ran;   // 확인 전까지는 바꿀 수 있다
     }
+    document.getElementById('cmdSec').textContent = pickedSec === null ? '?' : String(pickedSec);
     pickline.innerHTML = pickedSec === null
       ? '초를 짚어요'
       : '<b>' + pickedSec + '초</b>를 짚었어요';

@@ -1,0 +1,191 @@
+{
+ "_설명": "차시별로 더 걸어 둘 링크. extra=추가 링크(name·url·note), add=본문에 낱말이 없어도 붙일 도구 id, hide=자동으로 붙은 도구 가운데 숨길 id.",
+ "B01": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B02": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B03": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B04": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B05": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B06": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B07": {
+  "extra": [],
+  "hide": [],
+  "add": [
+   "makecode"
+  ]
+ },
+ "B08": {
+  "extra": [],
+  "hide": [],
+  "add": [
+   "makecode"
+  ]
+ },
+ "B09": {
+  "extra": [],
+  "hide": [],
+  "add": [
+   "makecode"
+  ]
+ },
+ "B10": {
+  "extra": [],
+  "hide": [],
+  "add": [
+   "makecode"
+  ]
+ },
+ "B11": {
+  "extra": [
+   {
+    "name": "MakeCode 라디오 블록",
+    "url": "https://makecode.microbit.org/reference/radio",
+    "note": "무선 만보기·무선 게임"
+   }
+  ],
+  "hide": [],
+  "add": []
+ },
+ "B12": {
+  "extra": [
+   {
+    "name": "MakeCode 라디오 블록",
+    "url": "https://makecode.microbit.org/reference/radio",
+    "note": "송신기·수신기"
+   }
+  ],
+  "hide": [],
+  "add": []
+ },
+ "B13": {
+  "extra": [],
+  "hide": [],
+  "add": [
+   "makecode"
+  ]
+ },
+ "B14": {
+  "extra": [
+   {
+    "name": "MakeCode 라디오 블록",
+    "url": "https://makecode.microbit.org/reference/radio",
+    "note": "엿듣기 실험(교사 기기)"
+   }
+  ],
+  "hide": [],
+  "add": []
+ },
+ "B15": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B16": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B17": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B18": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B19": {
+  "extra": [
+   {
+    "name": "비주얼 통계 — 지역별 초등학생 수",
+    "url": "https://kosis.kr/edu/visualStats/index.do?menuId=M_05",
+    "note": "활동2 주장 확인"
+   }
+  ],
+  "hide": [],
+  "add": []
+ },
+ "B20": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B21": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B22": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B23": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B24": {
+  "extra": [],
+  "hide": [
+   "microbit"
+  ],
+  "add": []
+ },
+ "B25": {
+  "extra": [
+   {
+    "name": "CreateAI 사용 안내",
+    "url": "https://microbit.org/get-started/user-guide/microbit-createai/",
+    "note": "무선 연결용 마이크로비트 준비"
+   }
+  ],
+  "hide": [],
+  "add": []
+ },
+ "B26": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ },
+ "B27": {
+  "extra": [
+   {
+    "name": "CreateAI 사용 안내",
+    "url": "https://microbit.org/get-started/user-guide/microbit-createai/",
+    "note": "동작형 도우미"
+   }
+  ],
+  "hide": [],
+  "add": []
+ },
+ "B28": {
+  "extra": [],
+  "hide": [],
+  "add": []
+ }
+}

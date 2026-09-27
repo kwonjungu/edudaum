@@ -85,7 +85,7 @@
 <body>
 <div class="wrap">
   <nav class="nav">
-    <a class="back" href="../">← 전체 목록</a>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">← 체험 목록</a><a class="back" href="../lessons/B08/">과정안</a></span>
     <span class="tag">15~16</span>
   </nav>
 
@@ -168,9 +168,11 @@
     value = 0; shown = null; guess = null; found = false;
     tried = [];
     for (var i = 0; i <= MAXV; i++) tried.push(null);
+    // 조사는 수를 읽는 소리에 맞춘다(4와, 10과). 규칙 칸 이름은 과정안 블록의 '횟수'다.
+    var wa = (n === 4 || n === 5 || n === 9 || n === 12) ? '와' : '과';
     $('rule').innerHTML = ge
-      ? '값이 <em>' + n + '과 같거나 크면</em> 하트'
-      : '값이 <em>' + n + '보다 크면</em> 하트';
+      ? '횟수가 <em>' + n + wa + ' 같거나 크면</em> 하트'
+      : '횟수가 <em>' + n + '보다 크면</em> 하트';
     render();
   }
 

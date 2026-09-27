@@ -5,7 +5,7 @@
   python _tools/run_all.py B07 B10    지정한 차시만
   python _tools/run_all.py --no-head  브라우저 검사는 건너뛴다
 
-셋 다 0건이어야 낼 수 있다. 하나라도 남으면 종료 코드가 1이다.
+셋 다(차시를 지정하지 않으면 누리집 점검까지 넷) 0건이어야 낼 수 있다. 하나라도 남으면 종료 코드가 1이다.
 """
 from __future__ import annotations
 
@@ -40,6 +40,8 @@ def main(argv: list) -> int:
              ('감사 (공통기준)', [sys.executable, '_tools/audit.py', *only])]
     if not skip_head:
         steps.append(('헤드리스 (Edge)', ['node', '_tools/headless.mjs', *only]))
+    if not only:
+        steps.append(('누리집 (site_check)', [sys.executable, '_tools/site_check.py']))
 
     lines = ['# 감사 보고', '']
     failed = 0

@@ -66,7 +66,7 @@
 <body>
 <div class="wrap">
   <nav class="nav">
-    <a class="back" href="../">← 전체 목록</a>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">← 체험 목록</a><a class="back" href="../lessons/B28/">과정안</a></span>
     <span class="tag">31~32</span>
   </nav>
 
@@ -92,7 +92,7 @@
       <button class="btn main" id="go" type="button" disabled>넣어 보기</button>
       <button class="btn" id="reset" type="button">다시 하기</button>
     </div>
-    <p class="note">사진은 교실에서 직접 찍어요</p>
+    <p class="note">우리 도우미를 왼손으로 써 봐요</p>
   </section>
 </div>
 
@@ -101,7 +101,7 @@
   'use strict';
   var $ = function(id){ return document.getElementById(id); };
 
-  // 31차시 활동1 구성표 그대로. 줄마다 학습 사진 장수.
+  // 31차시 활동2 가상 도우미 학습 사진 서른 장(오른손 스물네 장). 줄마다 장수.
   var BASE = [
     { key:'오른손밝', nm:'오른손 · 밝은 곳', n:24 },
     { key:'왼손밝',   nm:'왼손 · 밝은 곳',   n:4 },

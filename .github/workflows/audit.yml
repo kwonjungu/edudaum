@@ -31,6 +31,11 @@ jobs:
       - name: 공통기준 감사
         run: python _tools/audit.py
 
+      - name: 누리집 점검
+        run: |
+          pip install pymupdf
+          python _tools/site_check.py
+
       - name: 헤드리스 검사
         env:
           EDUDAUM_BROWSER: chrome

@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>6학년 31~32차시 빠진 사용자와 AI의 사회적 영향을 찾아 개인정보와 책임까지 담은 우리 도우미 모델 카드 만들기 — 에듀다움</title>
+<style>
+:root{--ink:#141414;--paper:#FBF7EC;--surface:#fff;--amber:#FFB800;--muted:#5E5E5E;--line:#141414;
+--g5:#F59E0B;--g6:#3D5AFE;--soft:#F3EEDD;--r:16px;--hard:4px 4px 0 var(--ink);--hard-sm:2px 2px 0 var(--ink)}
+*{box-sizing:border-box}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--paper);color:var(--ink);font-size:16px;line-height:1.7;
+font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+a{color:inherit}
+.top{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:2.5px solid var(--ink)}
+.top .in{max-width:1120px;margin:0 auto;padding:8px 16px;display:flex;gap:6px 14px;align-items:center;flex-wrap:wrap}
+.brand{font-weight:900;font-size:18px;text-decoration:none;letter-spacing:-.02em;margin-right:6px;display:flex;align-items:center;gap:8px}
+.brand i{display:inline-block;width:14px;height:14px;border:2.5px solid var(--ink);border-radius:4px;background:var(--amber)}
+.top nav{display:flex;flex-wrap:wrap;gap:4px}
+.top nav a{text-decoration:none;font-weight:700;font-size:14.5px;padding:8px 10px;border-radius:10px;min-height:40px;display:inline-flex;align-items:center}
+.top nav a:hover{background:var(--soft)}
+.top nav a[aria-current]{background:var(--ink);color:var(--paper)}
+main{max-width:1120px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:clamp(26px,4.6vw,40px);line-height:1.25;font-weight:900;letter-spacing:-.03em;margin:8px 0 10px}
+h2{font-size:clamp(20px,3vw,26px);font-weight:900;letter-spacing:-.02em;margin:40px 0 12px;padding-top:4px}
+h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.lead{color:var(--muted);font-weight:600;margin:0 0 18px;font-size:17px}
+.kick{display:inline-block;border:2px solid var(--ink);background:var(--amber);border-radius:999px;padding:3px 12px;font-weight:800;font-size:13px}
+.chip{display:inline-block;border:2px solid var(--ink);border-radius:999px;padding:1px 10px;font-weight:800;font-size:12.5px;background:#fff;white-space:nowrap}
+.chip.g5{background:var(--g5)}.chip.g6{background:var(--g6);color:#fff}
+.box{background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);padding:18px 20px;margin:14px 0}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{display:block;text-decoration:none;background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);padding:16px;transition:transform .1s,box-shadow .1s}
+a.card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.card h3{margin:8px 0 4px;font-size:17px}
+.card p{margin:0;color:var(--muted);font-size:14.5px;font-weight:600}
+.btn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border:2.5px solid var(--ink);border-radius:12px;background:#fff;
+box-shadow:var(--hard-sm);font-weight:800;text-decoration:none;font-size:15px;cursor:pointer;font-family:inherit;color:var(--ink)}
+.btn.pri{background:var(--amber)}
+.btn:hover{transform:translate(-1px,-1px)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.tw{overflow-x:auto;margin:12px 0;border:2.5px solid var(--ink);border-radius:12px;background:#fff}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{border-bottom:1.5px solid #D9D2BE;padding:9px 10px;text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:800;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.muted{color:var(--muted)}
+.small{font-size:13.5px}
+.note{border-left:5px solid var(--amber);background:#fff;padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:15px}
+:focus-visible{outline:3px solid var(--g6);outline-offset:2px}
+footer{border-top:2.5px solid var(--ink);margin-top:40px}
+footer .in{max-width:1120px;margin:0 auto;padding:18px 16px;font-size:13.5px;color:var(--muted)}
+/* 64차시 지도 */
+.map{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:4px;margin:8px 0 18px}
+.map a{display:flex;align-items:center;justify-content:center;min-height:44px;border:2px solid var(--ink);border-radius:8px;text-decoration:none;font-weight:800;font-size:13px;background:#fff}
+.map a:hover{transform:translate(-1px,-1px);box-shadow:var(--hard-sm)}
+@media (max-width:720px){.map{grid-template-columns:repeat(8,minmax(0,1fr))}}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13.5px;font-weight:700}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border:2px solid var(--ink);border-radius:4px;display:inline-block}
+/* 과정안 */
+.flow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.flow a{text-decoration:none;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;background:#fff;font-weight:700;font-size:14px}
+.flow b{font-weight:900}
+.act h4{margin:14px 0 4px;font-size:16px;font-weight:900}
+.act h4:first-child{margin-top:0}
+.act ul{margin:0 0 6px;padding-left:20px}
+.act li{margin:2px 0}
+.act p{margin:4px 0}
+figure{margin:10px 0;max-width:560px}
+figure img{width:100%;height:auto;border:2px solid var(--ink);border-radius:10px;background:#fff}
+figcaption{font-size:13px;color:var(--muted);font-weight:600;margin-top:4px}
+.res div{margin:3px 0;font-size:14.5px}
+.res .k{display:inline-block;min-width:44px;font-weight:900;font-size:12px;border:1.5px solid var(--ink);border-radius:6px;padding:0 5px;margin-right:6px;background:var(--soft);text-align:center}
+.stage{font-weight:900;white-space:nowrap}
+.rowcard{border:2.5px solid var(--ink);border-radius:var(--r);background:#fff;margin:14px 0;overflow:hidden}
+.rowhead{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;background:var(--soft);border-bottom:2px solid var(--ink);padding:8px 14px;font-weight:900}
+.rowbody{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:0}
+.rowbody>div{padding:12px 16px}
+.rowbody>.res{border-left:2px dashed #CFC6AE;background:#FFFDF6}
+@media (max-width:760px){.rowbody{grid-template-columns:1fr}.rowbody>.res{border-left:0;border-top:2px dashed #CFC6AE}}
+.lv td:first-child{white-space:nowrap;font-weight:800}
+.toolgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.tool{display:block;border:2px solid var(--ink);border-radius:12px;padding:10px 12px;background:#fff;text-decoration:none}
+.tool b{display:block;font-size:15px}
+.tool span{display:block;font-size:13px;color:var(--muted);font-weight:600}
+.tool:hover{box-shadow:var(--hard-sm);transform:translate(-1px,-1px)}
+.mine form{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.mine input{min-height:44px;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;font:inherit;flex:1 1 180px;min-width:0}
+.mine li{display:flex;gap:8px;align-items:center;margin:6px 0;flex-wrap:wrap}
+.mine ul{list-style:none;padding:0;margin:8px 0 0}
+.x{min-height:36px;padding:2px 10px;border:2px solid var(--ink);border-radius:8px;background:#fff;cursor:pointer;font:inherit;font-weight:700}
+.pn{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:28px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
+.toc a{font-size:14px;font-weight:700;text-decoration:none;border-bottom:2px solid var(--amber)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{.top,footer,.btns,.mine,.pn{display:none}body{background:#fff}.box,.rowcard{box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="in"><a class="brand" href="../../"><i></i>에듀다움</a><nav aria-label="누리집 메뉴"><a href="../../">홈</a><a href="../../plan/">계획서·성취기준</a><a href="../../topics/">주제별 활동</a><a href="../../lessons/" aria-current="page">차시별 과정안</a><a href="../../tools/">연동 도구</a><a href="../../play/">체험 게임</a></nav></div></header>
+<main>
+
+<p class="small"><a href="../">차시별 과정안</a> › <a href="../../topics/#ai5">인공지능과 올바른 사용</a></p>
+<div><span class="chip g6">6학년 31~32차시</span> <span class="chip">인공지능과 올바른 사용</span> <span class="chip">[6실인공지능05-02]</span></div>
+<h1>빠진 사용자와 AI의 사회적 영향을 찾아 개인정보와 책임까지 담은 우리 도우미 모델 카드 만들기</h1>
+<p class="lead">학습 문제 — 학습 데이터에 빠진 사람과 AI의 영향을 찾아, 모델 카드에 한계와 안내를 적어 봅시다.</p>
+<div class="btns"><a class="btn" href="../../assets/pdf/B28.pdf" target="_blank" rel="noopener">과정안 PDF</a><a class="btn" href="#game">체험 게임</a><a class="btn" href="#tools">연동 도구·링크</a></div>
+<div class="toc"><a href="#ov">개요</a><a href="#flow">교수학습 활동</a><a href="#eval">평가 계획</a><a href="#tools">연동 도구·링크</a><a href="#game">체험 게임</a></div>
+
+<h2 id="ov">개요</h2>
+<div class="tw"><table><tr><th>성취기준</th><td>[6실인공지능05-02] 인공지능이 사회에 미치는 영향과 학습 데이터의 치우침을 찾고, 토의를 거쳐 공정한 사용 안내를 정한다.<br>연계 성취기준: [6실05-05], [06자율-7]</td></tr><tr><th>핵심 역량</th><td>지식정보처리 역량, 공동체 역량</td></tr><tr><th>핵심 기능</th><td>① 인공지능이 만들어지는 과정 탐색하기<br>② 기준을 정해 AI를 가르쳐 보고 학습 데이터의 구성 살피기<br>③ 자료에 빠진 사용자와 AI가 생활에 주는 영향 찾기<br>④ 근거를 들어 판단하고 토론하기<br>⑤ 모델 카드에 한계·개인정보·실천 문장 담기</td></tr><tr><th>가치 태도</th><td>인공지능이 사회에 미치는 영향을 파악하는 자세<br>인공지능이 알려 준 결과를 근거를 들어 따져 보려는 자세</td></tr></table></div>
+
+<h2 id="flow">교수학습 활동</h2>
+<div class="flow"><a href="#r0"><b>31차시 도입</b> 동기 유발 · 학습문제 제시</a><a href="#r1"><b>31차시 전개</b> 활동1. AI for Oceans로 내 기준 가르치기 · 활동2. 왼손 실험으로 빠진 자료 찾기 · 활동3.</a><a href="#r2"><b>32차시 전개</b> 활동4. 사용자 카드로 세 모퉁이 안전 점검 회의 · 활동5. 우리 도우미 모델 카드 만들기</a><a href="#r3"><b>32차시 정리</b> 배운 내용 정리 · 스스로 점검할 날 정하기</a></div>
+<div class="rowcard" id="r0"><div class="rowhead"><span>31차시</span><span class="stage">도입</span><span class="chip">10분</span></div><div class="rowbody"><div class="act"><h4>동기 유발</h4><ul><li>우리 팀 도우미가 친구 손이나 동작을 못 알아봤던 일 떠올리기</li><li>도우미를 학교 전체가 쓰면 무엇이 달라질지 한마디씩 말하기</li><li>미션: 전달 전 ‘안전 점검 회의’를 열어 모두가 안심하고 쓸 수 있는지 확인하기</li></ul><figure><img src="../../assets/plan/B28_1.jpg" alt="도입 상황 그림 사진" loading="lazy"><figcaption>도입 상황 그림 사진</figcaption></figure><h4>학습문제 제시</h4><ul><li>학습 데이터에 빠진 사람과 AI의 영향을 찾아, 모델 카드에 한계와 안내를 적어 봅시다.</li></ul></div><div class="res"><div><span class="k">준비물</span>필기구</div><div><span class="k">자료</span>가상 사례 활동지</div><div><span class="k">유의점</span>활동지 배부와 자리 정돈 시간을 도입 시간에 포함한다.</div><div><span class="k">유의점</span>앞 차시 기록이 없는 학급은 활동지의 가상 도우미 사례로 바로 시작한다.</div><div><span class="k">유의점</span>사례에 나오는 학교·도우미·회의는 수업용 가상 설정임을 먼저 밝힌다.</div></div></div></div><div class="rowcard" id="r1"><div class="rowhead"><span>31차시</span><span class="stage">전개</span><span class="chip">30분</span></div><div class="rowbody"><div class="act"><h4>활동1. AI for Oceans로 내 기준 가르치기 (10분)</h4><ul><li>code.org/oceans를 한국어로 열고 앞 단계는 교사 시범으로 보기</li><li>뒷부분 단계에서 사람마다 뜻이 다를 수 있는 낱말 하나 고르기</li><li>내 기준대로 물고기마다 ‘맞다·아니다’를 스무 번 넘게 가르치기</li><li>학습 뒤 AI가 고른 물고기를 같은 낱말을 고른 짝과 견주기</li><li>결과가 다른 까닭을 가르친 사람의 기준과 자료로 한 줄 쓰기</li></ul><h4>활동2. 왼손 실험으로 빠진 자료 찾기 (8분)</h4><ul><li>가상 도우미의 학습 사진 서른 장 가운데 오른손 사진 수(스물네 장) 세기</li><li>우리 도우미를 왼손으로 써 보고 결과 적기(손목 코치는 왼손목에 차기)</li><li>자료에 누구와 어떤 상황이 빠졌는지 두 가지 적기</li></ul><figure><img src="../../assets/plan/B28_2.jpg" alt="가상 도우미의 학습 사진 구성표" loading="lazy"><figcaption>가상 도우미의 학습 사진 구성표</figcaption></figure><h4>활동3. 영향 카드 가르기 (12분)</h4><ul><li>영향 카드 여덟 장 읽기: 일자리·생활 변화·책임·개인정보</li><li>예: “가게에 무인 계산대가 늘면 일하던 사람은?”</li><li>예: “도우미가 틀리게 안내해 다치면 누가 책임지나?”</li><li>예: “학습에 쓴 친구 손 사진과 목소리는 언제 지우나?”</li><li>카드를 ‘좋아지는 점·걱정되는 점·더 알아볼 점’ 판에 놓기</li><li>네 영역 가운데 두 가지를 골라 우리 도우미에 생길 일 한 줄씩 쓰기</li></ul></div><div class="res"><div><span class="k">준비물</span>필기구, 학생 기기, 27~30차시 우리 팀 도우미, 영향 카드 8장과 가르기 판(모둠별)</div><div><span class="k">자료</span>가상 사례 활동지</div><div><span class="k">유의점</span>AI for Oceans 단계와 낱말은 수업 전에 확인한다.</div><div><span class="k">유의점</span>결과에는 정답이 없으며 기준이 다르면 결과가 달라짐을 짚는다.</div><div><span class="k">유의점</span>앞 차시 작품이 작동하지 않는 학생은 교사 기기의 예시 모델로 왼손 실험을 한다.</div><div><span class="k">유의점</span>영향 카드는 한쪽 답을 정해 두지 않고, 책임은 만든 사람·쓰는 사람·확인하는 어른으로 나누어 생각하게 한다.</div></div></div></div><div class="rowcard" id="r2"><div class="rowhead"><span>32차시</span><span class="stage">전개</span><span class="chip">32분</span></div><div class="rowbody"><div class="act"><h4>활동4. 사용자 카드로 세 모퉁이 안전 점검 회의 (14분)</h4><ul><li>사용자 카드 세 장을 뽑아 그 사람의 손·동작·쓰는 곳이 학습 데이터에 있는지 보기</li><li>자료에 없던 사용자와 상황을 한 줄로 적기</li><li>‘그대로 전달·고쳐서 전달·전달 미루기’ 가운데 하나를 골라 모퉁이로 가기</li><li>누가 불편을 겪는지와 학습 데이터의 어떤 점 때문인지 넣어 근거 말하기</li><li>생각이 바뀌면 자리를 옮기고 까닭을 한 줄로 쓰기</li></ul><figure><img src="../../assets/plan/B28_3.jpg" alt="사용자 점검표" loading="lazy"><figcaption>사용자 점검표</figcaption></figure><h4>활동5. 우리 도우미 모델 카드 만들기 (18분)</h4><ul><li>학습한 데이터: 누가 어떤 조건으로 몇 개 모았는지 쓰기</li><li>개인정보: 얼굴·목소리가 들어갔는지, 동의와 지우는 날 쓰기</li><li>잘하는 것과 틀리는 경우를 시험 기록과 왼손 실험 결과로 쓰기</li><li>쓰면 안 되는 상황과 쓰기 전에 알릴 안내 문장 두 개 쓰기</li><li>틀렸을 때 누가 확인하고 책임지는지 한 줄 쓰기</li><li>뒷면에 언제·무엇을·몇 번·확인 방법을 넣은 실천 문장 두 개 쓰기</li><li>모델 카드를 접어 도우미 몸체나 기기 옆에 꼬리표로 달기</li></ul><figure><img src="../../assets/plan/B28_4.jpg" alt="모델 카드 틀(앞면·뒷면)" loading="lazy"><figcaption>모델 카드 틀(앞면·뒷면)</figcaption></figure></div><div class="res"><div><span class="k">준비물</span>필기구, 색연필, 사용자 카드(모둠별 1세트), 모퉁이 표지 3장, 꼬리표 끈</div><div><span class="k">자료</span>사용자 점검표, 토론 기록표, 실천 문장 활동지, 모델 카드 틀, 27~30차시 기록표</div><div><span class="k">유의점</span>어느 쪽을 골랐는지가 아니라 근거의 내용을 보며, 모둠 결론을 하나로 모으게 하지 않는다.</div><div><span class="k">유의점</span>모델 카드는 모둠이 함께 채우되 실천 문장은 각자 쓰며, 구호는 실천 문장으로 인정하지 않는다.</div><div><span class="k">유의점</span>산출물 기록이 없는 학생은 가상 도우미의 사진 구성표로 같은 모델 카드를 쓴다.</div><div><span class="k">유의점</span>느린 학습자는 실천 문장 틀을 쓰고, 빠른 학습자는 안내 한 줄을 엔트리 [말하기]나 마이크로비트 글자로 넣는다.</div></div></div></div><div class="rowcard" id="r3"><div class="rowhead"><span>32차시</span><span class="stage">정리</span><span class="chip">8분</span></div><div class="rowbody"><div class="act"><h4>배운 내용 정리 (6분)</h4><ul><li>모델 카드를 단 도우미를 늘어놓고 갤러리 걷기로 돌아보기</li><li>닮고 싶은 안내 문장이나 개인정보 약속에 별 스티커 붙이기</li><li>한쪽 손이나 한 사람 기준에만 맞춰질 때 생기는 불편을 자료와 이어 쓰기</li><li>내가 정한 실천 문장 하나를 소리 내어 말하기</li></ul><h4>스스로 점검할 날 정하기 (2분)</h4><ul><li>실천 문장을 확인할 날짜를 각자 자기 달력에 적어 두기</li><li>약속한 날 도우미 학습 데이터를 지우는 차례 확인하기</li></ul></div><div class="res"><div><span class="k">준비물</span>별 스티커</div><div><span class="k">자료</span>실천 문장 활동지</div><div><span class="k">유의점</span>쓰기를 어려워하는 학생은 구술로 확인하고 지원한 사실을 적는다.</div><div><span class="k">유의점</span>점검 날짜는 학생이 스스로 정하게 하고 교사가 정해 주지 않는다.</div><div><span class="k">유의점</span>학습에 쓴 사진·녹화는 약속한 날에 교사가 확인하며 함께 지운다.</div><div><span class="k">유의점</span>모둠 기록이나 별 스티커 수로 개인 성취를 대신 판단하지 않는다.</div></div></div></div>
+
+<h2 id="eval">평가 계획</h2>
+<div class="box"><p><b>인공지능 소양 · 학습 데이터의 치우침과 사회적 영향의 확인</b></p><p>학습 데이터에 빠진 사람과 상황, AI가 생활에 주는 영향을 근거를 들어 찾고, 모델 카드에 한계·개인정보 보호·사용 안내와 점검할 수 있는 실천 문장을 정할 수 있는가?</p><div class="tw"><table class="lv"><tr><th>수준</th><th>평가 기준</th></tr><tr><td>매우 잘함</td><td>AI for Oceans에서 짝과 결과가 달라진 까닭을 가르친 사람의 기준과 자료로 설명하고, 치우친 까닭을 자료 구성의 숫자와 왼손 실험 결과를 들어 설명한다. 영향 카드에서 두 영역 이상을 골라 우리 도우미에 생길 일을 구체적으로 쓰고, 불편을 겪는 사람과 자료 구성을 담은 근거로 판단한다. 모델 카드에 틀리는 경우·쓰면 안 되는 상황·안내·개인정보(동의와 지우는 날)·책임을 쓰고, 점검 방법과 날짜가 있는 실천 문장 두 개를 쓴다.</td></tr><tr><td>잘함</td><td>기준에 따라 결과가 달라짐을 말하고 잘 알아보지 못한 사례를 학습 데이터와 이어 설명한다. 영향 카드에서 두 영역을 골라 한 줄씩 쓰고, 모델 카드에 빠진 사용자와 안내 문장, 개인정보 항목을 쓰며 점검 방법이 있는 실천 문장 두 개를 쓴다.</td></tr><tr><td>보통</td><td>치우친 까닭은 말하나 근거가 한 가지에 머물거나 자료 구성과 이어지지 않는다. 또는 영향을 한 영역만 쓰거나, 모델 카드의 개인정보·책임 칸이 비어 있거나, 실천 문장에 점검 방법이나 점검할 날이 빠져 있다.</td></tr><tr><td>노력요함</td><td>교사가 사례 지문과 자료 구성표, 영향 카드를 함께 짚어 준 뒤에도 잘 알아보지 못한 까닭을 자료와 이어 설명하거나, 빠진 사용자와 영향을 찾아 모델 카드에 쓰는 데 어려움이 있다.</td></tr><tr><td>미관찰</td><td>결석이나 미제출로 확인하지 못한 경우. 낮은 성취로 적지 않고 따로 기록한 뒤 보충 확인 시점을 정한다.</td></tr></table></div><p class="small"><b>평가 방법</b> 활동지 분석 · 산출물(모델 카드) 확인 · 구술 확인 · 관찰</p></div>
+
+<h2 id="tools">연동 도구·링크</h2>
+<p class="small muted">과정안에 나오는 도구가 저절로 걸립니다. 수업 전에 학교망에서 열리는지, 블록·메뉴 이름이 바뀌지 않았는지 확인하세요.</p>
+<div class="toolgrid"><a class="tool" href="https://microbit.org/projects/make-it-code-it/" target="_blank" rel="noopener"><b>마이크로비트 V2 ↗</b><span>LED·버튼·가속도·소리 센서, 무선 통신</span><span>계정: 필요 없음</span></a><a class="tool" href="https://playentry.org/ws/new" target="_blank" rel="noopener"><b>엔트리 ↗</b><span>블록 코딩, 인공지능 블록, 데이터 분석(테이블·차트)</span><span>계정: 학생 계정 없이 만들기 화면 사용 가능(저장은 교사 계정)</span></a><a class="tool" href="https://docs.playentry.org/user/" target="_blank" rel="noopener"><b>엔트리 사용 설명서 ↗</b><span>엔트리 안내</span></a><a class="tool" href="https://code.org/oceans" target="_blank" rel="noopener"><b>Code.org AI for Oceans ↗</b><span>학습 데이터로 기준 가르치기, 치우침 보기</span><span>계정: 필요 없음</span></a></div>
+<div class="box mine" data-code="B28">
+<h3 style="margin-top:0">내 수업 링크</h3>
+<p class="small muted">학급 패들렛, 엔트리 작품, 활동지 주소처럼 이 차시에 쓸 링크를 걸어 둡니다. 이 브라우저에만 저장되고 밖으로 보내지 않습니다. 학생 이름이 든 주소는 넣지 마세요.</p>
+<ul></ul>
+<form><label class="small" for="mn-B28">이름</label><input id="mn-B28" name="n" maxlength="40" required placeholder="예: 우리 반 패들렛">
+<label class="small" for="mu-B28">주소</label><input id="mu-B28" name="u" type="url" required placeholder="https://">
+<button class="btn" type="submit">걸어 두기</button></form>
+</div>
+<h2 id="game">체험 게임</h2><div class="box" style="border-left:10px solid #12B76A"><p class="small muted">수업 중 5~10분 체험</p><h3 style="margin-top:2px">빠진 사람 찾기</h3><p>넣어도 그대로일 사람을 짚어요</p><div class="btns"><a class="btn pri" href="../../B28/">체험 게임 열기</a></div></div>
+<div class="pn"><a class="btn" href="../B27/">← 6학년 27~30차시</a></div>
+
+</main>
+<footer><div class="in">경기 AI 융합교육 에듀다움 교사연구회 · 학교자율시간 SW·AI 교육과정 · 과정안 기준일 2026. 9. 27.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</div></footer>
+<script>
+(function(){
+  var box=document.querySelector('.mine'); if(!box) return;
+  var key='edudaum.links.'+box.dataset.code, ul=box.querySelector('ul'), f=box.querySelector('form');
+  function load(){try{return JSON.parse(localStorage.getItem(key)||'[]')}catch(_){return []}}
+  function save(a){try{localStorage.setItem(key,JSON.stringify(a))}catch(_){}}
+  function draw(){
+    var a=load(); ul.textContent='';
+    if(!a.length){var p=document.createElement('li');p.className='small muted';p.textContent='아직 걸어 둔 링크가 없습니다.';ul.appendChild(p);return}
+    a.forEach(function(x,i){
+      var li=document.createElement('li'),l=document.createElement('a'),b=document.createElement('button');
+      l.href=x.u;l.textContent=x.n+' ↗';l.target='_blank';l.rel='noopener';l.style.fontWeight='800';
+      b.type='button';b.className='x';b.textContent='빼기';b.setAttribute('aria-label',x.n+' 빼기');
+      b.onclick=function(){var z=load();z.splice(i,1);save(z);draw()};
+      li.appendChild(l);li.appendChild(b);ul.appendChild(li)});
+  }
+  f.addEventListener('submit',function(ev){
+    ev.preventDefault(); var n=f.n.value.trim(), u=f.u.value.trim();
+    if(!/^https:\/\//.test(u)){f.u.setCustomValidity('https:// 로 시작하는 주소만 걸 수 있어요');f.u.reportValidity();f.u.setCustomValidity('');return}
+    var a=load(); a.push({n:n,u:u}); save(a); f.reset(); draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

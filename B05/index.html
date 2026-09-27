@@ -92,7 +92,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 </head>
 <body>
 <main>
-  <nav class="topnav"><a href="../">← 전체 목록</a><b>9~10</b></nav>
+  <nav class="topnav"><span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a href="../play/">← 체험 목록</a><a href="../lessons/B05/">과정안</a></span><b>9~10</b></nav>
   <h1>도서관 순서도 시험</h1>
   <p class="lead">이 책이 어느 끝으로 갈지 짚어요</p>
 
@@ -126,14 +126,14 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
           </g>
           <g id="nCheck" class="node">
             <rect class="shape" x="114" y="56" width="132" height="42" rx="4"/>
-            <text class="cap" x="180" y="83" text-anchor="middle">상태 확인</text>
+            <text class="cap" x="180" y="83" text-anchor="middle">책 상태 확인</text>
           </g>
           <g id="nAsk" class="node">
             <polygon class="shape" points="180,116 252,148 180,180 108,148"/>
-            <text class="cap" x="180" y="154" text-anchor="middle">빌릴 수 있나?</text>
+            <text class="cap" x="180" y="154" text-anchor="middle">대출 가능인가?</text>
           </g>
-          <text class="yn" x="102" y="140" text-anchor="end">아니요</text>
-          <text class="yn" x="258" y="140" text-anchor="start">예</text>
+          <text class="yn" id="ynL" x="102" y="140" text-anchor="end">예</text>
+          <text class="yn" id="ynR" x="258" y="140" text-anchor="start">아니요</text>
 
           <g id="nLog" class="node">
             <rect class="shape" x="20" y="210" width="116" height="42" rx="4"/>
@@ -145,7 +145,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
           </g>
           <g id="nBook" class="node">
             <rect class="shape" x="224" y="210" width="116" height="42" rx="4"/>
-            <text class="cap" x="282" y="237" text-anchor="middle">예약 안내</text>
+            <text class="cap" x="282" y="237" text-anchor="middle" style="font-size:13.5px">예약 방법 안내</text>
           </g>
           <g id="nEnd" class="node">
             <ellipse class="shape" cx="180" cy="356" rx="46" ry="19"/>
@@ -158,7 +158,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
         <h2>어느 끝일까요</h2>
         <div class="row">
           <button id="guessHand" type="button" aria-pressed="false">책 건네기</button>
-          <button id="guessBook" type="button" aria-pressed="false">예약 안내</button>
+          <button id="guessBook" type="button" aria-pressed="false">예약 방법 안내</button>
         </div>
         <div class="row">
           <button id="run" class="main" type="button">굴려 보기</button>
@@ -180,8 +180,8 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   var STEP = 380;
 
   var BOOKS = [
-    { traits: ['그림책', '빌린 적 없음'], avail: true },
-    { traits: ['과학책', '서가에 있음'], avail: true },
+    { traits: ['그림책', '서가에 꽂혀 있음'], avail: true },
+    { traits: ['과학책', '빌린 사람 없음'], avail: true },
     { traits: ['위인전', '어제 반납됨'], avail: true },
     { traits: ['동화책', '다른 친구가 빌림'], avail: false },
     { traits: ['만화책', '아직 안 돌아옴'], avail: false },
@@ -257,7 +257,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
     if (running || ran) { return; }
     guess = label;
     guessHandBtn.setAttribute('aria-pressed', String(label === '책 건네기'));
-    guessBookBtn.setAttribute('aria-pressed', String(label === '예약 안내'));
+    guessBookBtn.setAttribute('aria-pressed', String(label === '예약 방법 안내'));
     lock(false);
   }
 
@@ -265,7 +265,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
     if (running || guess === null) { return; }
     var book = BOOKS[bookIdx];
     var takeLeft = swapped ? !book.avail : book.avail;
-    var reached = takeLeft ? '책 건네기' : '예약 안내';
+    var reached = takeLeft ? '책 건네기' : '예약 방법 안내';
     var path = takeLeft ? LEFT : RIGHT;
     clearLit();
     recEl.textContent = '';
@@ -315,6 +315,9 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
     bookIdx = r.bi; swapped = r.sw;
     guess = null;
     loadBook();
+    // 화살표대로만 걷는다. 뒤바뀐 판은 예·아니요 글자부터 뒤바뀌어 있다.
+    document.getElementById('ynL').textContent = swapped ? '아니요' : '예';
+    document.getElementById('ynR').textContent = swapped ? '예' : '아니요';
     guessHandBtn.setAttribute('aria-pressed', 'false');
     guessBookBtn.setAttribute('aria-pressed', 'false');
     clearLit();
@@ -324,7 +327,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   }
 
   guessHandBtn.addEventListener('click', function () { setGuess('책 건네기'); });
-  guessBookBtn.addEventListener('click', function () { setGuess('예약 안내'); });
+  guessBookBtn.addEventListener('click', function () { setGuess('예약 방법 안내'); });
   runBtn.addEventListener('click', walk);
   resetBtn.addEventListener('click', resetRun);
   nextBtn.addEventListener('click', newRound);

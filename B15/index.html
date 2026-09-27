@@ -40,6 +40,11 @@
   .cnt.pop{animation:pop .13s ease-out}
   @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.18)}100%{transform:scale(1)}}
   .empty{font-size:13.5px;font-weight:800;color:var(--muted);flex:1}
+  .empty .code{font-family:'Courier New',monospace;font-weight:900;color:var(--ink)}
+  .lamp{width:44px;height:44px;flex:0 0 44px;display:block}
+  .lamp circle{fill:#D9D9D9;stroke:var(--ink);stroke-width:3}
+  .lamp circle.on{fill:#E5484D}
+  #slide{width:100%;min-height:44px;margin-top:4px;accent-color:var(--point)}
 
   .view{position:relative;width:100%;aspect-ratio:4/3;max-height:135px;background:var(--ink);
     border:2.5px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;display:flex}
@@ -95,7 +100,7 @@
 <body>
 <div class="wrap">
   <nav class="nav">
-    <a class="back" href="../">← 전체 목록</a>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">← 체험 목록</a><a class="back" href="../lessons/B15/">과정안</a></span>
     <span class="tag">1~2</span>
   </nav>
 
@@ -105,17 +110,20 @@
   </header>
 
   <section aria-labelledby="h-t">
-    <h2 id="h-t">흔들면 세는 칸</h2>
-    <div class="peg" role="group" aria-label="흔들면 세는 칸 걸기">
+    <h2 id="h-t">소음 신호등 칸</h2>
+    <div class="peg" role="group" aria-label="소음 신호등 칸 걸기">
       <button class="pbtn" id="pegT1" type="button">가르칠 수 있어요</button>
       <button class="pbtn" id="pegT2" type="button">가르칠 수 없어요</button>
     </div>
     <p class="lockmsg" id="lockT">두 칸을 걸면 만질 수 있어요</p>
     <div class="top">
+      <svg class="lamp" viewBox="0 0 40 40" aria-hidden="true"><circle id="lampC" cx="20" cy="20" r="16"></circle></svg>
       <b class="cnt" id="cnt" aria-live="off">0</b>
-      <span class="empty">여기엔 담기 칸이 없어요</span>
-      <button class="btn" id="shake" type="button" hidden disabled>흔들기</button>
+      <span class="empty"><span class="code">소리 크기 &gt; 60 → 빨간불</span><br><b id="lampT">꺼짐</b> · 여기엔 담기 칸이 없어요</span>
     </div>
+    <input type="range" id="slide" min="0" max="99" step="1" aria-label="소리 크기" hidden>
+    <p class="practice" id="practiceT" hidden>연습 모드 · 막대로 소리를 옮겨요</p>
+    <p class="note">소리를 내 보세요 · 소리는 저장되지 않아요</p>
     <p class="reveal" id="sayTop" hidden></p>
   </section>
 
@@ -157,7 +165,7 @@
     </div>
 
     <p class="note">예시를 더 담으면 달라지나요</p>
-    <p class="note"><b>카드 여덟 장은 종이에서 나눠요</b></p>
+    <p class="note"><b>사례 카드는 손가락으로 판정해요</b></p>
   </section>
 </div>
 
@@ -165,7 +173,7 @@
 (function(){
   'use strict';
   var $ = function(id){ return document.getElementById(id); };
-  var cntEl = $('cnt'), shakeBtn = $('shake');
+  var cntEl = $('cnt');
   var cam = $('cam'), pad = $('pad');
   var barA = $('barA'), barB = $('barB'), metaEl = $('meta'), practiceEl = $('practice');
   var nmA = $('nmA'), nmB = $('nmB'), chipA = $('chipA'), chipB = $('chipB');
@@ -196,70 +204,89 @@
     $('pegB2').classList.toggle('sel', pegBottom === 'no');
     $('pegB1').disabled = pegBottom !== null; $('pegB2').disabled = pegBottom !== null;
     $('lockT').hidden = unlocked();
-    shakeBtn.disabled = !unlocked();
     renderMeta();
   }
 
-  /* 위 칸: 흔들림 세기 (B11과 같은 규칙). 두 칸을 걸기 전에는 세지 않는다. */
-  var count = 0, lastShake = 0, prev = null, latest = null, hasNew = false;
-  var sawMotion = false, sensorAttached = false, waitTimer = null, permissionAsked = false;
+  /* 위 칸: 소음 신호등. 기준 60은 고정이다 — 무엇을 해도 규칙이 달라지지 않는다.
+     지금 이 순간의 소리 크기만 본다. 어떤 표본도 담아 두지 않는다. */
+  var LIMIT = 60, level = 0, lampOn = false, flips = 0;
+  var slide = $('slide'), lampC = $('lampC'), lampT = $('lampT');
+  var practiceT = false;
 
   function pop(){ cntEl.classList.remove('pop'); void cntEl.offsetWidth; cntEl.classList.add('pop'); }
-  function bump(){
-    if (!unlocked()) return;
-    lastShake = Date.now(); count = Math.min(count + 1, 99); cntEl.textContent = String(count); pop();
-    if (!revealedTop && count > 10){
-      revealedTop = true;
-      var el = $('sayTop');
-      el.hidden = false;
-      el.textContent = (pegTop === 'no') ? '건 대로였어요' : '달랐어요';
+  function setLevel(v){
+    if (!unlocked()){ return; }        // 두 칸을 걸기 전에는 불이 움직이지 않는다
+    level = v;
+    cntEl.textContent = String(level);
+    var on = level > LIMIT;
+    if (on !== lampOn){
+      lampOn = on;
+      lampC.classList.toggle('on', on);
+      lampT.textContent = on ? '빨간불' : '꺼짐';
+      if (on){
+        pop(); flips++;
+        if (!revealedTop && flips >= 3){
+          revealedTop = true;
+          var el = $('sayTop');
+          el.hidden = false;
+          el.textContent = (pegTop === 'no') ? '건 대로였어요' : '달랐어요';
+        }
+      }
     }
+  }
+  function clearLamp(){
+    level = 0; lampOn = false; flips = 0;
+    cntEl.textContent = '0'; lampC.classList.remove('on'); lampT.textContent = '꺼짐';
   }
 
-  function onMotion(e){
-    var a = e.accelerationIncludingGravity;
-    if (!a || a.x === null || a.x === undefined) return;
-    latest = { x:a.x, y:a.y, z:a.z }; hasNew = true;
-    if (!sawMotion){ sawMotion = true; shakeBtn.hidden = true; }
+  function usePracticeT(){
+    if (practiceT) return;
+    practiceT = true;
+    stopMic();
+    slide.hidden = false; $('practiceT').hidden = false;
+    slide.value = String(level);
   }
-  setInterval(function(){
-    if (!hasNew) return;
-    hasNew = false;
-    if (prev){
-      var d = Math.abs(latest.x - prev.x) + Math.abs(latest.y - prev.y) + Math.abs(latest.z - prev.z);
-      if (d > 16 && Date.now() - lastShake > 250) bump();
-    }
-    prev = latest;
-  }, 50);
+  slide.addEventListener('input', function(){ setLevel(parseInt(this.value, 10) || 0); });
 
-  function attachSensor(){
-    if (sensorAttached) return;
-    window.addEventListener('devicemotion', onMotion);
-    sensorAttached = true;
-    if (waitTimer) clearTimeout(waitTimer);
-    waitTimer = setTimeout(function(){ if (!sawMotion) shakeBtn.hidden = false; }, 1500);
+  var mStream = null, actx = null, analyser = null, abuf = null, mTimer = null, smooth = 0;
+  function stopMic(){
+    if (mTimer){ clearInterval(mTimer); mTimer = null; }
+    if (mStream){ mStream.getTracks().forEach(function(t){ t.stop(); }); mStream = null; }
+    if (actx){ actx.close(); actx = null; }
+    analyser = null; abuf = null;
   }
-  function detachSensor(){
-    if (!sensorAttached) return;
-    window.removeEventListener('devicemotion', onMotion);
-    sensorAttached = false;
-    if (waitTimer){ clearTimeout(waitTimer); waitTimer = null; }
+  function micTick(){
+    if (!analyser) return;
+    analyser.getByteTimeDomainData(abuf);
+    var sq = 0;
+    for (var i = 0; i < abuf.length; i++){ var t = (abuf[i] - 128) / 128; sq += t * t; }
+    var rms = Math.sqrt(sq / abuf.length);
+    var db = 20 * Math.log(Math.max(rms, 1e-6)) / Math.LN10;
+    var v = Math.round((db + 60) / 50 * 99);
+    if (v < 0) v = 0; if (v > 99) v = 99;
+    smooth = Math.round(smooth * 0.4 + v * 0.6);
+    setLevel(smooth);
   }
-  shakeBtn.addEventListener('click', function(){
-    // 권한을 묻더라도 이 누름은 먹는다. 첫 누름이 삼켜지면 아이는 고장인 줄 안다.
-    // iOS 사파리와 헤드리스 엣지가 requestPermission을 내놓는다.
-    if (!sensorAttached && typeof DeviceMotionEvent !== 'undefined' &&
-        typeof DeviceMotionEvent.requestPermission === 'function' && !permissionAsked){
-      permissionAsked = true;
-      DeviceMotionEvent.requestPermission().then(function(r){
-        if (r === 'granted') attachSensor();
-      }).catch(function(){});
-    }
-    bump();
-  });
-  if (typeof DeviceMotionEvent === 'undefined') shakeBtn.hidden = false;
-  else if (typeof DeviceMotionEvent.requestPermission === 'function') shakeBtn.hidden = false;
-  else attachSensor();
+  function startMic(){
+    if (practiceT || mStream) return;
+    var AC = window.AudioContext || window.webkitAudioContext;
+    if (!AC || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ usePracticeT(); return; }
+    navigator.mediaDevices.getUserMedia({
+      // 자동 게인이 켜져 있으면 조용할 때 마이크가 저 혼자 키워 수가 제멋대로 움직인다(B18과 같다).
+      audio:{ autoGainControl:false, noiseSuppression:false, echoCancellation:false }, video:false
+    }).then(function(st){
+      if (document.hidden){ st.getTracks().forEach(function(t){ t.stop(); }); return; }
+      mStream = st;
+      actx = new AC();
+      if (actx.state === 'suspended') actx.resume();
+      analyser = actx.createAnalyser();
+      analyser.fftSize = 1024;
+      abuf = new Uint8Array(analyser.fftSize);
+      actx.createMediaStreamSource(st).connect(analyser);
+      st.getTracks()[0].addEventListener('ended', usePracticeT);
+      mTimer = setInterval(micTick, 100);
+    }).catch(function(){ usePracticeT(); });
+  }
 
   /* 아래 칸: 24x24 특징 스무 개와 가까운 셋 */
   var S = 24, N = S * S;
@@ -360,14 +387,14 @@
   $('addB').addEventListener('click', function(){ add('나'); });
 
   $('reset').addEventListener('click', function(){
-    samples = []; count = 0; prev = null; latest = null; hasNew = false;
-    cntEl.textContent = '0'; setBars(0, 0);
+    samples = []; clearLamp(); setBars(0, 0);
     chipA.textContent = ''; chipB.textContent = '';
     pegTop = null; pegBottom = null; revealedTop = false; revealedBottom = false;
     $('sayTop').hidden = true; $('sayTop').textContent = '';
     $('sayBottom').hidden = true; $('sayBottom').textContent = '';
     renderPeg();
     if (source === 'pad') clearPad();
+    slide.value = '0';
   });
 
   /* 그리기 칸 */
@@ -416,12 +443,13 @@
       .catch(function(){ usePad(); });
   }
   startCam();
+  startMic();
 
   document.addEventListener('visibilitychange', function(){
-    if (document.hidden){ detachSensor(); stopCam(); }
-    else { if (sawMotion) attachSensor(); startCam(); }
+    if (document.hidden){ stopMic(); stopCam(); }
+    else { startMic(); startCam(); }
   });
-  window.addEventListener('pagehide', function(){ detachSensor(); stopCam(); });
+  window.addEventListener('pagehide', function(){ stopMic(); stopCam(); });
 
   renderMeta();
 })();

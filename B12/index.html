@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>처음 보는 안내기 — 에듀다움 B12</title>
+<title>수신기에 무엇이 뜰까 — 에듀다움 B12</title>
 <style>
   :root{
     --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
@@ -38,42 +38,40 @@
   .lead{font-size:14.5px;color:var(--muted);margin-top:6px;font-weight:700}
 
   section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
-    box-shadow:var(--hard);padding:13px 14px;margin-top:12px}
+    box-shadow:var(--hard);padding:12px 13px;margin-top:12px}
   h2{font-size:13px;font-weight:900;letter-spacing:-.02em;text-align:center;color:var(--muted)}
 
-  .rule{margin-top:8px;font-size:clamp(15px,4vw,18px);font-weight:900;letter-spacing:-.02em;
-    background:var(--point-soft);border:2.5px solid var(--ink);border-radius:var(--r-sm);
-    padding:9px 11px;text-align:center}
+  /* 약속표 */
+  .deal{margin-top:8px;background:var(--point-soft);border:2.5px solid var(--ink);
+    border-radius:var(--r-sm);padding:7px 10px;text-align:center;font-weight:900;font-size:15px}
+  .deal .tool{display:block;font-size:12px;color:var(--muted);font-weight:800}
 
-  /* 기기 */
-  .dev{max-width:250px;margin:10px auto 0;background:var(--paper);
-    border:3px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard-sm);padding:10px}
-  .scr{background:var(--ink);color:var(--paper);border-radius:var(--r-sm);
-    min-height:64px;display:flex;align-items:center;justify-content:center;
-    flex-wrap:wrap;gap:6px 10px;padding:8px;text-align:center}
+  /* 송신기·수신기 코드 */
+  .codes{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}
+  .card{background:var(--paper);border:2.5px solid var(--ink);border-radius:var(--r-sm);padding:7px 9px}
+  .card .who{display:block;font-size:11.5px;font-weight:900;color:var(--muted)}
+  .blk{margin-top:4px;background:var(--surface);border:2px solid var(--ink);border-radius:8px;
+    padding:3px 7px;font-size:13.5px;font-weight:800;line-height:1.35}
+  .blk b{font-family:'Courier New',monospace;font-weight:900}
+
+  /* 수신 화면 */
+  .rx{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:10px}
+  .rx .lb{font-size:12px;font-weight:900;color:var(--muted)}
+  .scr{min-width:150px;min-height:52px;background:var(--ink);color:var(--paper);border-radius:var(--r-sm);
+    display:flex;align-items:center;justify-content:center;padding:6px 12px;font-weight:900;font-size:16px}
   .scr .dim{color:#9C978C;font-weight:800;font-size:13px}
-  .chip{font-weight:900;font-size:13px;letter-spacing:-.01em}
-  .chip b{font-family:'Courier New',monospace;font-size:15px}
 
-  .status{margin-top:9px;text-align:center;font-size:14px;font-weight:900}
+  .picks{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:9px}
+  .pk{flex:1 1 100px;max-width:170px}
+  .pk[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px}
+  .pk[aria-pressed="true"]:disabled{opacity:1}
+
+  .status{margin-top:9px;text-align:center;font-size:14px;font-weight:900;min-height:1.5em}
   .status.dim{color:var(--muted);font-weight:700}
 
-  .toggles{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:10px}
-  .tg{flex:1 1 108px;max-width:150px;display:inline-flex;align-items:center;justify-content:center;
-    gap:6px;font-family:inherit;cursor:pointer;border:2.5px solid var(--ink);border-radius:var(--r-sm);
-    background:var(--surface);color:var(--ink);font-weight:900;font-size:14px;min-height:46px;
-    padding:0 10px;box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s,background .1s}
-  .tg:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .tg:active:not(:disabled){transform:translate(2px,2px);box-shadow:1px 1px 0 var(--ink)}
-  .tg:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:var(--hard-sm)}
-  .tg .ck{opacity:0}
-  .tg.on{background:var(--point-soft);border-color:var(--point)}
-  .tg.on .ck{opacity:1}
-  .lim{text-align:center;font-size:12px;color:var(--muted);font-weight:700;margin-top:6px}
-
-  .row{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:12px}
+  .row{display:flex;flex-wrap:wrap;gap:9px;justify-content:center;margin-top:10px}
   button{font-family:inherit;cursor:pointer;border:2.5px solid var(--ink);border-radius:var(--r-sm);
-    background:var(--surface);color:var(--ink);font-weight:900;min-height:46px;
+    background:var(--surface);color:var(--ink);font-weight:900;font-size:15px;min-height:46px;padding:0 12px;
     box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s,background .1s}
   button:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
   button:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
@@ -81,11 +79,10 @@
   .go{flex:1 1 130px;max-width:180px;font-size:16px;background:var(--point);color:#fff}
   .sub{flex:0 0 auto;min-width:88px;font-size:14px;padding:0 14px}
 
-  .ask{background:var(--ink);color:var(--paper);text-align:center;
-    font-size:14.5px;font-weight:800}
-
+  .note{margin-top:9px;text-align:center;font-size:12.5px;font-weight:700;color:var(--muted)}
   .foot{margin-top:18px;text-align:center}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  @media (max-width:420px){ .codes{grid-template-columns:1fr} }
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -93,40 +90,45 @@
 <div class="wrap">
 
   <div class="nav">
-    <a class="back" href="../index.html">
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="#141414" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      전체 목록</a>
+      체험 목록</a><a class="back" href="../lessons/B12/">과정안</a></span>
     <span class="tag">25~28</span>
   </div>
 
   <span class="kicker">27차시 활동5 앞</span>
-  <h1>처음 보는 안내기</h1>
-  <p class="lead">두 개까지 켜서 물음에 답해요</p>
+  <h1>수신기에 무엇이 뜰까</h1>
+  <p class="lead">보내기 전에 수신 화면을 짚어요</p>
 
-  <section aria-labelledby="h-q">
-    <h2 id="h-q">이번 물음</h2>
-    <p class="rule" id="q"></p>
-    <div class="dev"><div class="scr" id="scr" role="status" aria-live="polite"></div></div>
-    <p class="status" id="status"></p>
-  </section>
-
-  <section aria-labelledby="h-t">
-    <h2 id="h-t">기기가 보여 줄 것</h2>
-    <div class="toggles" id="toggles"></div>
-    <p class="lim">두 개까지만 켜져요</p>
-    <div class="row">
-      <button class="go" id="check" type="button">확인하기</button>
-      <button class="sub" id="again" type="button">다시 하기</button>
-      <button class="sub" id="next" type="button">다음 판</button>
+  <section aria-labelledby="h-c">
+    <h2 id="h-c">통신 약속표와 코드</h2>
+    <p class="deal"><span class="tool" id="tool"></span><span id="deal"></span></p>
+    <div class="codes">
+      <div class="card"><span class="who">송신기</span><div id="tx"></div></div>
+      <div class="card"><span class="who">수신기</span><div id="rxcode"></div></div>
+    </div>
+    <div class="rx">
+      <span class="lb">수신 화면</span>
+      <div class="scr" id="scr" role="status" aria-live="polite"></div>
     </div>
   </section>
 
-  <section class="ask">무엇을 켜면 알 수 있을지 짚어요</section>
+  <section aria-labelledby="h-p">
+    <h2 id="h-p">A를 누르면 무엇이 뜰까요</h2>
+    <div class="picks" id="picks"></div>
+    <p class="status dim" id="status"></p>
+    <div class="row">
+      <button class="go" id="send" type="button" disabled>A 누르기</button>
+      <button class="sub" id="replay" type="button" disabled>다시 보기</button>
+      <button class="sub" id="next" type="button">다음 판</button>
+    </div>
+    <p class="note">기기로 다시 보내 봐요</p>
+  </section>
 
   <div class="foot">
-    <a class="back" href="../index.html">
+    <a class="back" href="../play/">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15 5l-7 7 7 7" stroke="#141414" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      전체 목록</a>
+      체험 목록</a>
   </div>
 
 </div>
@@ -134,135 +136,158 @@
 (function () {
   'use strict';
 
-  // 다섯 가지 표시 항목. 값은 판마다 새로 뽑는다.
-  var KEYS = ['cur', 'goal', 'left', 'over', 'time'];
-  var LABEL = { cur: '지금 수', goal: '목표', left: '남은 수', over: '목표를 넘었는지', time: '지난 시간' };
-
-  // 물음 다섯 개. combos는 "이 조합이면 답할 수 있다"의 여러 벌이다.
-  var QUESTIONS = [
-    { text: '지금 몇 번 흔들었나요', combos: [['cur'], ['left', 'goal']] },
-    { text: '목표까지 몇 번 남았나요', combos: [['left'], ['cur', 'goal']] },
-    { text: '목표를 넘겼나요', combos: [['over'], ['left'], ['cur', 'goal']] },
-    { text: '목표가 몇 번인가요', combos: [['goal'], ['cur', 'left']] },
-    { text: '흔든 지 얼마나 됐나요', combos: [['time']] }
+  // 과정안 25차시 도구 후보에서 가져온 무선 도구. 약속: 1 → one, 0 → zero.
+  var TOOLS = [
+    { name: '교실 소음 신호등', one: '빨간불', zero: '초록불' },
+    { name: '사용 중 알림판', one: '사용 중', zero: '비었어요' },
+    { name: '보건실 호출기', one: '와 주세요', zero: '괜찮아요' }
   ];
+  // 판의 갈래. ok가 반, 나머지는 코드 살펴보기 세 항목 가운데 앞의 둘에 걸리는 판이다.
+  //   group   : 수신기 그룹 번호가 다르다 → 아무것도 안 뜬다
+  //   missing : 보낸 수에 대한 [만약]이 없다 → 아무것도 안 뜬다
+  //   swap    : [만약]의 표시가 약속표와 뒤바뀌었다 → 다른 표시가 뜬다
+  var KINDS = ['ok', 'ok', 'ok', 'group', 'missing', 'swap'];
+  var NONE = 'none';
 
-  var qIdx = -1, cur = 0, goal = 0, left = 0, over = false, timeSec = 0;
-  var selected = [], confirmed = false, result = null;
+  var tool = null, num = 1, gTx = 1, gRx = 1, kind = 'ok', actual = NONE;
+  var guess = null, sent = false, timer = null, lastKey = '';
 
-  var qEl = document.getElementById('q');
-  var scrEl = document.getElementById('scr');
-  var statusEl = document.getElementById('status');
-  var togglesEl = document.getElementById('toggles');
-  var checkBtn = document.getElementById('check');
-  var againBtn = document.getElementById('again');
-  var nextBtn = document.getElementById('next');
+  var $ = function (id) { return document.getElementById(id); };
+  var scrEl = $('scr'), statusEl = $('status'), picksEl = $('picks');
+  var sendBtn = $('send'), replayBtn = $('replay'), nextBtn = $('next');
 
-  var tgBtns = {};
-  (function buildToggles() {
-    for (var i = 0; i < KEYS.length; i++) {
-      var k = KEYS[i];
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'tg'; b.setAttribute('data-k', k);
-      b.setAttribute('aria-pressed', 'false');
-      b.innerHTML = '<svg class="ck" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">'
-        + '<path d="M4 12.8l5 5L20 6.5" stroke="#141414" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-        + '<span>' + LABEL[k] + '</span>';
-      (function (key) { b.addEventListener('click', function () { toggle(key); }); })(k);
-      togglesEl.appendChild(b);
-      tgBtns[k] = b;
-    }
-  })();
-
-  function pickQuestion() {
-    var i;
-    do { i = Math.floor(Math.random() * QUESTIONS.length); } while (i === qIdx && QUESTIONS.length > 1);
-    qIdx = i;
-    return QUESTIONS[i];
+  function blk(text) {
+    var d = document.createElement('div');
+    d.className = 'blk';
+    d.textContent = text;
+    return d;
   }
 
-  function valueText(k) {
-    if (k === 'cur') return String(cur);
-    if (k === 'goal') return String(goal);
-    if (k === 'left') return String(left);
-    if (k === 'over') return over ? '예' : '아니요';
-    return timeSec + '초 전';
+  function clearTimer() { if (timer) { clearTimeout(timer); timer = null; } }
+
+  function draw() {
+    var t = Math.floor(Math.random() * TOOLS.length);
+    var n = Math.random() < 0.5 ? 1 : 0;
+    var k = KINDS[Math.floor(Math.random() * KINDS.length)];
+    return { t: t, n: n, k: k, key: t + ',' + n + ',' + k };
   }
+
+  function labelOf(v) { return v === 1 ? tool.one : tool.zero; }
 
   function newRound() {
-    var q = pickQuestion();
-    qEl.textContent = q.text;
-    goal = 6 + Math.floor(Math.random() * 9);          // 6~14
-    cur = Math.floor(Math.random() * (goal + 5));       // 0 ~ 목표+4, 넘길 수도 있다
-    left = goal - cur;
-    over = cur > goal;
-    timeSec = 3 + Math.floor(Math.random() * 88);       // 3~90
-    selected = [];
-    confirmed = false;
-    result = null;
-    render();
-  }
+    clearTimer();
+    var r = draw(), tries = 0;
+    while (r.key === lastKey && tries < 8) { r = draw(); tries += 1; }
+    lastKey = r.key;
 
-  function toggle(k) {
-    if (confirmed) return;
-    var i = selected.indexOf(k);
-    if (i >= 0) { selected.splice(i, 1); }
-    else {
-      if (selected.length >= 2) return;   // 제약: 두 개까지만
-      selected.push(k);
+    tool = TOOLS[r.t]; num = r.n; kind = r.k;
+    gTx = 1 + Math.floor(Math.random() * 9);                 // 1~9
+    gRx = gTx;
+    if (kind === 'group') {
+      do { gRx = 1 + Math.floor(Math.random() * 9); } while (gRx === gTx);
     }
-    render();
-  }
 
-  function doCheck() {
-    if (confirmed || selected.length === 0) return;
-    confirmed = true;
-    var q = QUESTIONS[qIdx];
-    result = q.combos.some(function (combo) {
-      return combo.every(function (k) { return selected.indexOf(k) >= 0; });
+    // 수신기 [만약] 줄: 1과 0 차례. missing이면 보낸 수의 줄이 빠진다.
+    var rules = [];
+    [1, 0].forEach(function (v) {
+      if (kind === 'missing' && v === num) return;
+      var shown = kind === 'swap' ? labelOf(1 - v) : labelOf(v);
+      rules.push({ v: v, shown: shown });
     });
+
+    actual = NONE;
+    if (gRx === gTx) {
+      rules.forEach(function (ru) { if (ru.v === num) actual = ru.shown; });
+    }
+
+    $('tool').textContent = tool.name;
+    $('deal').textContent = '1 → ' + tool.one + ' · 0 → ' + tool.zero;
+    var tx = $('tx'), rx = $('rxcode');
+    tx.innerHTML = ''; rx.innerHTML = '';
+    tx.appendChild(blk('라디오 그룹 ' + gTx));
+    tx.appendChild(blk('A 누르면: 수 ' + num + ' 전송'));
+    rx.appendChild(blk('라디오 그룹 ' + gRx));
+    rules.forEach(function (ru) {
+      rx.appendChild(blk('받은 수 = ' + ru.v + ' 이면 ' + ru.shown));
+    });
+
+    // 짚기 버튼: 약속표의 두 표시와 '안 뜸'
+    picksEl.innerHTML = '';
+    [tool.one, tool.zero, NONE].forEach(function (val) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'pk';
+      b.setAttribute('aria-pressed', 'false');
+      b.setAttribute('data-v', val);
+      b.textContent = val === NONE ? '안 뜸' : val;
+      picksEl.appendChild(b);
+    });
+
+    guess = null; sent = false;
     render();
   }
 
-  function doAgain() {
-    // 확인 전이면 고른 것만 지운다. 확인한 뒤에는 다음 판과 같다(무를 수 없어서).
-    if (!confirmed) { selected = []; render(); return; }
-    newRound();
+  function pick(val) {
+    if (guess !== null || sent) return;   // 짚기는 판마다 한 번
+    guess = val;
+    render();
   }
 
-  checkBtn.addEventListener('click', doCheck);
-  againBtn.addEventListener('click', doAgain);
-  nextBtn.addEventListener('click', newRound);
+  function showResult(done) {
+    clearTimer();
+    scrEl.innerHTML = '<span class="dim">받는 중</span>';
+    timer = setTimeout(function () {
+      timer = null;
+      if (actual === NONE) scrEl.innerHTML = '<span class="dim">(아무것도 없음)</span>';
+      else scrEl.textContent = actual;
+      if (done) done();
+    }, 450);
+  }
+
+  function send() {
+    if (guess === null || sent || timer) return;
+    sent = true;
+    render();
+    showResult(function () {
+      if (guess === actual) {
+        statusEl.textContent = actual === NONE ? '짚은 대로 아무것도 안 떴어요' : '짚은 대로 떴어요';
+      } else {
+        statusEl.textContent = actual === NONE ? '아무것도 안 떴어요' : '수신 화면에 ' + actual + ' 떴어요';
+      }
+      statusEl.className = 'status';
+      replayBtn.disabled = false;
+    });
+  }
+
+  function replay() {
+    if (!sent || timer) return;
+    replayBtn.disabled = true;
+    showResult(function () { replayBtn.disabled = false; });
+  }
 
   function render() {
-    if (!confirmed) {
-      scrEl.innerHTML = '<span class="dim">확인하면 여기 켜져요</span>';
-    } else {
-      var html = '';
-      for (var i = 0; i < selected.length; i++) {
-        var k = selected[i];
-        html += '<span class="chip">' + LABEL[k] + ' <b>' + valueText(k) + '</b></span>';
-      }
-      scrEl.innerHTML = html;
+    if (!sent) scrEl.innerHTML = '<span class="dim">?</span>';
+    var btns = picksEl.querySelectorAll('.pk');
+    for (var i = 0; i < btns.length; i++) {
+      var b = btns[i];
+      b.setAttribute('aria-pressed', b.getAttribute('data-v') === guess ? 'true' : 'false');
+      b.disabled = guess !== null;
     }
-
-    if (!confirmed) {
-      statusEl.textContent = selected.length === 0 ? '켤 것을 골라요' : '확인하면 켜져요';
+    sendBtn.disabled = guess === null || sent;
+    if (!sent) {
+      replayBtn.disabled = true;
+      statusEl.textContent = guess === null ? '무엇이 뜰지 먼저 짚어요' : 'A 누르기로 보내요';
       statusEl.className = 'status dim';
-    } else {
-      statusEl.textContent = result ? '이걸로 알 수 있어요' : '이걸로는 알 수 없어요';
-      statusEl.className = 'status';
     }
-
-    for (var j = 0; j < KEYS.length; j++) {
-      var k2 = KEYS[j], on = selected.indexOf(k2) >= 0, b = tgBtns[k2];
-      b.classList.toggle('on', on);
-      b.setAttribute('aria-pressed', on ? 'true' : 'false');
-      b.disabled = confirmed || (!on && selected.length >= 2);
-    }
-
-    checkBtn.disabled = confirmed || selected.length === 0;
   }
+
+  picksEl.addEventListener('click', function (ev) {
+    var b = ev.target.closest ? ev.target.closest('.pk') : null;
+    if (b) pick(b.getAttribute('data-v'));
+  });
+  sendBtn.addEventListener('click', send);
+  replayBtn.addEventListener('click', replay);
+  nextBtn.addEventListener('click', newRound);
+  window.addEventListener('pagehide', clearTimer);
 
   newRound();
 })();

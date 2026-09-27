@@ -40,7 +40,7 @@
   @keyframes pick{0%{transform:scale(1)}45%{transform:scale(1.14)}100%{transform:scale(1)}}
 
   .barrow{display:flex;align-items:center;gap:7px;margin-top:8px}
-  .barname{flex:0 0 86px;font-size:13px;font-weight:900}
+  .barname{flex:0 0 86px;word-break:keep-all;font-size:13px;font-weight:900}
   .barcount{width:18px;text-align:right;font-family:'Courier New',monospace;font-weight:900;font-size:14px}
   .bar{flex:1 1 auto;height:16px;display:block}
   .track{fill:var(--paper);stroke:var(--ink);stroke-width:2}
@@ -61,6 +61,7 @@
   .mark{position:absolute;top:6px;right:6px;width:14px;height:14px;opacity:0}
   .card[aria-pressed="true"] .mark{opacity:1}
   .card:disabled{cursor:default}
+  .card u{text-decoration:none;border-bottom:2.5px solid var(--point)}
 
   .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
   .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
@@ -84,7 +85,7 @@
 <body>
 <div class="wrap">
   <nav class="nav">
-    <a class="back" href="../">← 전체 목록</a>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">← 체험 목록</a><a class="back" href="../lessons/B19/">과정안</a></span>
     <span class="tag">9~10</span>
   </nav>
 
@@ -94,30 +95,30 @@
   </header>
 
   <section aria-labelledby="h-r">
-    <h2 id="h-r">고른 말</h2>
-    <p class="front">학교 끝나고 나는</p>
+    <h2 id="h-r">다음 말 표</h2>
+    <p class="front">학교 앞에는</p>
     <p id="result" aria-live="polite"></p>
 
     <div class="barrow">
-      <span class="barname">집에 간다</span>
+      <span class="barname">문구점이</span>
       <span class="barcount" id="c0">0</span>
-      <svg class="bar" viewBox="0 0 200 18" role="img" aria-label="집에 간다 막대">
+      <svg class="bar" viewBox="0 0 200 18" role="img" aria-label="문구점이 횟수 막대">
         <rect class="track" x="0" y="2" width="200" height="14" rx="4"></rect>
         <rect class="fill" id="f0" x="0" y="2" width="0" height="14" rx="4"></rect>
       </svg>
     </div>
     <div class="barrow">
-      <span class="barname">운동장에 간다</span>
+      <span class="barname">편의점이</span>
       <span class="barcount" id="c1">0</span>
-      <svg class="bar" viewBox="0 0 200 18" role="img" aria-label="운동장에 간다 막대">
+      <svg class="bar" viewBox="0 0 200 18" role="img" aria-label="편의점이 횟수 막대">
         <rect class="track" x="0" y="2" width="200" height="14" rx="4"></rect>
         <rect class="fill" id="f1" x="0" y="2" width="0" height="14" rx="4"></rect>
       </svg>
     </div>
     <div class="barrow">
-      <span class="barname">학원에 간다</span>
+      <span class="barname">횡단보도가</span>
       <span class="barcount" id="c2">0</span>
-      <svg class="bar" viewBox="0 0 200 18" role="img" aria-label="학원에 간다 막대">
+      <svg class="bar" viewBox="0 0 200 18" role="img" aria-label="횡단보도가 횟수 막대">
         <rect class="track" x="0" y="2" width="200" height="14" rx="4"></rect>
         <rect class="fill" id="f2" x="0" y="2" width="0" height="14" rx="4"></rect>
       </svg>
@@ -135,7 +136,7 @@
       <button class="btn" id="resetBtn" type="button">다시 하기</button>
       <button class="btn" id="nextBtn" type="button">다음 판</button>
     </div>
-    <p class="note">챗봇은 공용 기기로 해요</p>
+    <p class="note">챗봇 묻기는 모둠 기기로 해요</p>
   </section>
 </div>
 
@@ -143,8 +144,10 @@
 (function(){
   'use strict';
 
-  var WORDS = ['집에 간다', '운동장에 간다', '학원에 간다'];
-  var ADV = ['일찍', '혼자', '얼른', '곧', '또', '바로', '곧장', '다시'];
+  // 과정안 활동1의 앞말 ‘학교 앞에는’과 예문(‘학교 앞에는 문구점이 있습니다’)을 따른다.
+  var FRONT = '학교 앞에는';
+  var WORDS = ['문구점이', '편의점이', '횡단보도가'];
+  var ADV = ['있어요', '많아요', '생겼어요', '보여요', '두 개 있어요', '새로 생겼어요', '가까워요', '붐벼요'];
   var EASY = [4, 3, 1];
   var HARD_SETS = [[4, 2, 2], [5, 2, 1], [5, 3, 0], [6, 1, 1]];
   var MAXW = 196;
@@ -209,7 +212,7 @@
 
   function labelOf(counts) {
     var w = winnerOf(counts);
-    return w < 0 ? '갈렸어요' : WORDS[w];
+    return w < 0 ? '같아요 · 주사위' : WORDS[w];
   }
 
   function renderBars(counts) {
@@ -229,7 +232,7 @@
       b.disabled = confirmed;
       var mark = '<svg class="mark" viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10l4 4 8-8" ' +
         'fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
-      b.innerHTML = mark + '<span>' + cd.adv + ' ' + WORDS[cd.wordIdx] + '</span>';
+      b.innerHTML = mark + '<span>' + FRONT + ' <u>' + WORDS[cd.wordIdx] + '</u> ' + cd.adv + '</span>';
       b.addEventListener('click', function () { pick(i); });
       cardsBox.appendChild(b);
     });
@@ -251,10 +254,12 @@
     renderBars(after);
     var newLabel = labelOf(after);
     var origLabel = WORDS[winner0];
+    var tied = winnerOf(after) < 0;
     var changed = newLabel !== origLabel;
     resultEl.textContent = newLabel;
     resultEl.classList.remove('pop'); void resultEl.offsetWidth; resultEl.classList.add('pop');
-    var msg = changed ? '고른 말이 바뀌었어요' : (unchangeable ? '어떤 장을 빼도 그대로예요' : '그대로예요');
+    var msg = tied ? '같아졌어요 · 주사위로 골라요'
+      : (changed ? '고른 말이 바뀌었어요' : (unchangeable ? '어떤 장을 빼도 그대로예요' : '그대로예요'));
     askEl.textContent = msg;
     askEl.className = 'ask done';
     renderCards();

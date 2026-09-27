@@ -85,13 +85,13 @@
 <body>
 <div class="wrap">
   <nav class="nav">
-    <a class="back" href="../">← 전체 목록</a>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">← 체험 목록</a><a class="back" href="../lessons/B04/">과정안</a></span>
     <span class="tag">7~8</span>
   </nav>
 
   <header>
     <h1>적힌 대로만</h1>
-    <p class="lead">어느 줄에서 막힐지 짚어요</p>
+    <p class="lead">고지식한 로봇이 어느 줄에서 막힐까</p>
   </header>
 
   <section aria-labelledby="h-s">
@@ -120,7 +120,7 @@
       </li>
     </ol>
     <div class="scene">
-      <svg id="stagesvg" viewBox="0 0 200 120" role="img" aria-label="이번 절차에서 다루는 물건">
+      <svg id="stagesvg" viewBox="0 0 200 120" role="img" aria-label="이번 과제에서 다루는 물건">
         <rect x="8" y="86" width="184" height="10" fill="#C9C2B4" stroke="#141414" stroke-width="2"/>
         <rect x="20" y="96" width="10" height="20" fill="#C9C2B4" stroke="#141414" stroke-width="2"/>
         <rect x="170" y="96" width="10" height="20" fill="#C9C2B4" stroke="#141414" stroke-width="2"/>
@@ -130,16 +130,19 @@
           <rect x="118" y="38" width="8" height="44" rx="3" fill="#F5D77A" stroke="#141414" stroke-width="2" transform="rotate(20 122 60)"/>
         </g>
         <g id="icon-1" hidden>
-          <rect x="60" y="30" width="50" height="52" rx="4" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
-          <line x1="85" y1="30" x2="85" y2="82" stroke="#141414" stroke-width="2"/>
-          <rect x="118" y="52" width="30" height="30" rx="3" fill="#E11D48" stroke="#141414" stroke-width="2.5"/>
-          <line x1="123" y1="60" x2="143" y2="60" stroke="#141414" stroke-width="2"/>
-          <line x1="123" y1="68" x2="143" y2="68" stroke="#141414" stroke-width="2"/>
+          <rect x="40" y="62" width="22" height="22" rx="2" fill="#E11D48" stroke="#141414" stroke-width="2.5"/>
+          <rect x="64" y="62" width="22" height="22" rx="2" fill="#FFFFFF" stroke="#141414" stroke-width="2.5"/>
+          <rect x="88" y="62" width="22" height="22" rx="2" fill="#F5D77A" stroke="#141414" stroke-width="2.5"/>
+          <rect x="120" y="54" width="22" height="22" rx="2" fill="#FFFFFF" stroke="#141414" stroke-width="2.5" transform="rotate(-12 131 65)"/>
+          <rect x="146" y="60" width="22" height="22" rx="2" fill="#F5D77A" stroke="#141414" stroke-width="2.5" transform="rotate(10 157 71)"/>
         </g>
         <g id="icon-2" hidden>
-          <path d="M78 40 L100 26 L122 40 V82 H78 Z" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
-          <line x1="78" y1="52" x2="122" y2="52" stroke="#141414" stroke-width="2"/>
-          <rect x="88" y="60" width="24" height="14" rx="2" fill="#E11D48" stroke="#141414" stroke-width="2"/>
+          <path d="M58 84 L62 64 H80 L84 84 Z" fill="#FFFFFF" stroke="#141414" stroke-width="2.5"/>
+          <path d="M86 84 L90 64 H108 L112 84 Z" fill="#FFFFFF" stroke="#141414" stroke-width="2.5"/>
+          <path d="M114 84 L118 64 H136 L140 84 Z" fill="#FFFFFF" stroke="#141414" stroke-width="2.5"/>
+          <path d="M72 64 L76 44 H94 L98 64 Z" fill="#FFFFFF" stroke="#141414" stroke-width="2.5"/>
+          <path d="M100 64 L104 44 H122 L126 64 Z" fill="#FFFFFF" stroke="#141414" stroke-width="2.5"/>
+          <path d="M86 44 L90 24 H108 L112 44 Z" fill="#E11D48" stroke="#141414" stroke-width="2.5" stroke-dasharray="4 3"/>
         </g>
       </svg>
     </div>
@@ -154,7 +157,7 @@
       <button class="btn sub" id="reset" type="button">처음으로</button>
       <button class="btn sub" id="next" type="button">다음 판</button>
     </div>
-    <p class="note">내 절차는 짝과 해 봐요</p>
+    <p class="note">내 설명서는 옆 모둠이 시험해요</p>
   </section>
 </div>
 
@@ -164,20 +167,20 @@
 
   var SETS = [
     {
-      name: '필통에서 연필 꺼내기',
-      lines: ['필통을 책상에 올린다', '필통을 정리한다', '지퍼를 연다', '연필 한 자루를 꺼낸다', '지퍼를 닫는다'],
+      name: '필통 정리',
+      lines: ['지퍼를 연다', '필통을 잘 정리한다', '연필 세 자루를 넣는다', '지우개 한 개를 넣는다', '지퍼를 닫는다'],
       vague: 2,
       icon: 0
     },
     {
-      name: '사물함에서 책 꺼내기',
-      lines: ['사물함 앞에 선다', '사물함을 연다', '책을 챙긴다', '사물함을 닫는다', '책을 들고 자리로 간다'],
+      name: '색 블록 줄 세우기',
+      lines: ['블록 다섯 개를 책상에 놓는다', '빨간 블록을 맨 왼쪽에 둔다', '나머지 블록을 잘 늘어놓는다', '블록끼리 붙인다', '손을 뗀다'],
       vague: 3,
       icon: 1
     },
     {
-      name: '우유갑 정리하기',
-      lines: ['우유갑을 씻는다', '우유갑 물기를 턴다', '우유갑을 편다', '우유갑을 정리한다', '상자에 넣는다'],
+      name: '종이컵 탑 쌓기',
+      lines: ['종이컵 여섯 개를 꺼낸다', '세 개를 한 줄로 엎어 놓는다', '그 위에 두 개를 엎어 올린다', '남은 컵을 적당히 올린다', '손을 뗀다'],
       vague: 4,
       icon: 2
     }

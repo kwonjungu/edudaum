@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>몇 칸으로 끊을까 — 에듀다움 B23</title>
+<title>몇 지점으로 끊을까 — 에듀다움 B23</title>
 <style>
   :root{
     --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
@@ -42,7 +42,8 @@
   .btn:disabled{opacity:.42;cursor:default;box-shadow:none;transform:none}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
 
-  .pics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .pics{display:grid;grid-template-columns:1fr;gap:8px;max-width:560px;margin:0 auto}
+  .note{font-size:12.5px;font-weight:700;color:var(--muted);margin-top:6px}
   .pic{display:flex;flex-direction:column;gap:5px}
   .pic svg{width:100%;height:auto;display:block;border:2.5px solid var(--ink);
     border-radius:var(--r-sm);background:var(--surface)}
@@ -60,38 +61,39 @@
 <body>
 <div class="wrap">
   <nav class="nav">
-    <a class="back" href="../">전체 목록</a>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">체험 목록</a><a class="back" href="../lessons/B23/">과정안</a></span>
     <span class="tag">17~18</span>
   </nav>
   <header>
-    <h1>몇 칸으로 끊을까</h1>
+    <h1>몇 지점으로 끊을까</h1>
     <p class="lead">2초만 보여 주고 가려요</p>
   </header>
 
   <section aria-labelledby="h-p">
-    <h2 id="h-p">그림</h2>
+    <h2 id="h-p">움직임 그래프</h2>
     <div class="pics">
       <div class="pic">
-        <svg id="orig" viewBox="0 0 100 100" role="img" aria-label="처음 그림"></svg>
-        <p class="cap">처음 그림</p>
+        <svg id="orig" viewBox="0 0 200 70" role="img" aria-label="손 곡선"></svg>
+        <p class="cap">손 곡선</p>
       </div>
       <div class="pic">
-        <svg id="rec" viewBox="0 0 100 100" role="img" aria-label="되돌린 그림"></svg>
-        <p class="cap">되돌린 그림</p>
+        <svg id="rec" viewBox="0 0 200 70" role="img" aria-label="끊어 적은 막대"></svg>
+        <p class="cap">끊어 적은 막대</p>
       </div>
     </div>
     <p class="status" id="status">보여 주는 중이에요</p>
+    <p class="note">마이크로비트 그래프로 다시 해 봐요</p>
   </section>
 
   <section aria-labelledby="h-n">
-    <h2 id="h-n">칸 수 고르기</h2>
+    <h2 id="h-n">지점 수 고르기</h2>
     <div class="grids" id="grids"></div>
     <div class="tools">
       <button class="btn main" id="ok" type="button" disabled>이제 알겠어요</button>
       <button class="btn" id="again" type="button">다시 하기</button>
       <button class="btn" id="next" type="button">다음 판</button>
     </div>
-    <p class="say dim" id="say">칸 수를 눌러 봐요</p>
+    <p class="say dim" id="say">지점 수를 눌러 봐요</p>
   </section>
 </div>
 
@@ -99,106 +101,91 @@
 (function(){
   'use strict';
   var $ = function(id){ return document.getElementById(id); };
-  var GRIDS = [4, 6, 8, 12, 16];
+  var POINTS = [3, 5, 10, 20, 40];
   var FLASH_MS = 2000;
+  var W = 200, H = 70, PAD = 6;
 
+  /* 손목 움직임 곡선. t는 0~1, 값도 0~1. 이름은 화면에 적지 않는다. */
+  function sm(u){ u = Math.max(0, Math.min(1, u)); return u * u * (3 - 2 * u); }
   var SHAPES = [
-    function heart(x, y){
-      var X = x * 1.15, Y = (y - 0.15) * 1.15;
-      return (X * X + Y * Y - 1) * (X * X + Y * Y - 1) * (X * X + Y * Y - 1) - X * X * Y * Y * Y < 0;
-    },
-    function cross(x, y){
-      return (Math.abs(x) <= 0.28 && Math.abs(y) <= 0.85) || (Math.abs(y) <= 0.28 && Math.abs(x) <= 0.85);
-    },
-    function house(x, y){
-      var body = Math.abs(x) <= 0.55 && y <= 0.1 && y >= -0.85;
-      var roofY = 0.85 - (0.75 / 0.62) * Math.abs(x);
-      var roof = Math.abs(x) <= 0.62 && y >= 0.1 && y <= roofY;
-      return body || roof;
-    },
-    function arrow(x, y){
-      var shaft = Math.abs(x) <= 0.18 && y <= 0.05 && y >= -0.85;
-      var headY = 0.85 - (0.8 / 0.5) * Math.abs(x);
-      var head = Math.abs(x) <= 0.5 && y >= 0.05 && y <= headY;
-      return shaft || head;
-    },
-    function tree(x, y){
-      var canY = 0.85 - (0.9 / 0.7) * Math.abs(x);
-      var canopy = Math.abs(x) <= 0.7 && y >= -0.05 && y <= canY;
-      var trunk = Math.abs(x) <= 0.13 && y <= -0.05 && y >= -0.85;
-      return canopy || trunk;
-    }
+    function(t){ var v = Math.sin(Math.PI * t); return v * v; },            /* 한 번 들기 */
+    function(t){ var v = Math.sin(2 * Math.PI * t); return v * v; },        /* 두 번 들기 */
+    function(t){ return sm((t - 0.1) / 0.8); },                              /* 천천히 올리기 */
+    function(t){ return sm(t / 0.2) - sm((t - 0.8) / 0.2); },                /* 들었다 멈추기 */
+    function(t){ return 0.5 + 0.42 * Math.sin(2 * Math.PI * 6.5 * t); }     /* 빠르게 흔들기 */
   ];
 
   var shapeIdx, prevShapeIdx;
-  var flashing = true, flashTimer = null, gridN = null, confirmed = false;
+  var flashing = true, flashTimer = null, n = null, confirmed = false;
 
   var origSvg = $('orig'), recSvg = $('rec');
   var status = $('status'), say = $('say');
-  var gridsBox = $('grids'), okBtn = $('ok'), gridBtns = [];
+  var gridsBox = $('grids'), okBtn = $('ok'), btns = [];
 
   (function build(){
-    for (var i = 0; i < GRIDS.length; i++){
+    for (var i = 0; i < POINTS.length; i++){
       var b = document.createElement('button');
       b.type = 'button';
       b.className = 'btn';
-      b.textContent = GRIDS[i] + '칸';
-      (function(n){ b.addEventListener('click', function(){ chooseGrid(n); }); })(GRIDS[i]);
+      b.textContent = POINTS[i] + '지점';
+      (function(k){ b.addEventListener('click', function(){ choose(k); }); })(POINTS[i]);
       gridsBox.appendChild(b);
-      gridBtns.push(b);
+      btns.push(b);
     }
   })();
 
-  function fraction(fn, cx0, cy0, cw){
-    var sub = 4, hit = 0;
-    for (var i = 0; i < sub; i++){
-      for (var j = 0; j < sub; j++){
-        var px = cx0 + (i + 0.5) / sub * cw;
-        var py = cy0 + (j + 0.5) / sub * cw;
-        if (fn(px, py)) hit++;
-      }
-    }
-    return hit / (sub * sub);
+  function X(t){ return PAD + t * (W - 2 * PAD); }
+  function Y(v){ return H - PAD - v * (H - 2 * PAD); }
+
+  function frame(){
+    return '<rect x="0" y="0" width="' + W + '" height="' + H + '" fill="#FFFFFF"/>' +
+      '<line x1="' + PAD + '" y1="' + (H - PAD) + '" x2="' + (W - PAD) + '" y2="' + (H - PAD) +
+      '" stroke="#C9C2B0" stroke-width="1"/>';
   }
 
-  function drawGrid(svg, fn, n){
-    var cell = 2 / n, s = '';
-    for (var r = 0; r < n; r++){
-      for (var c = 0; c < n; c++){
-        var x0 = -1 + c * cell, y1 = 1 - r * cell, y0 = y1 - cell;
-        var f = fraction(fn, x0, y0, cell);
-        var px = c * (100 / n), py = r * (100 / n), sz = 100 / n;
-        var g = Math.round(255 - f * 235);
-        s += '<rect x="' + px.toFixed(2) + '" y="' + py.toFixed(2) + '" width="' + (sz + 0.4).toFixed(2) +
-          '" height="' + (sz + 0.4).toFixed(2) + '" fill="rgb(' + g + ',' + g + ',' + g + ')"/>';
-      }
+  function curvePath(fn, width){
+    var d = '';
+    for (var i = 0; i <= 200; i++){
+      var t = i / 200;
+      d += (i ? 'L' : 'M') + X(t).toFixed(1) + ' ' + Y(fn(t)).toFixed(1);
     }
-    svg.innerHTML = s;
+    return '<path d="' + d + '" fill="none" stroke="#141414" stroke-width="' + width +
+      '" stroke-linecap="round" stroke-linejoin="round"/>';
   }
 
-  function coverSvg(svg, label){
+  /* k개 지점에서 곡선 높이를 읽어 막대로 세운다. 10지점 이하면 숫자도 적는다. */
+  function bars(fn, k){
+    var s = '', slot = (W - 2 * PAD) / k, bw = Math.max(1.2, slot * 0.6);
+    for (var i = 0; i < k; i++){
+      var t = (i + 0.5) / k, v = fn(t);
+      var x = PAD + i * slot + (slot - bw) / 2, y = Y(v);
+      s += '<rect x="' + x.toFixed(2) + '" y="' + y.toFixed(2) + '" width="' + bw.toFixed(2) +
+        '" height="' + (H - PAD - y).toFixed(2) + '" fill="#7C3AED" fill-opacity=".55" stroke="#141414" stroke-width=".6"/>';
+      if (k <= 10){
+        s += '<text x="' + (x + bw / 2).toFixed(2) + '" y="' + Math.max(8, y - 2).toFixed(2) +
+          '" text-anchor="middle" font-size="7" font-weight="900" fill="#141414">' + Math.round(v * 99) + '</text>';
+      }
+    }
+    return s;
+  }
+
+  function cover(svg, label){
     svg.innerHTML = '<defs><pattern id="hatchB23" width="9" height="9" patternUnits="userSpaceOnUse"' +
       ' patternTransform="rotate(45)"><rect width="9" height="9" fill="#EDE7FF"/>' +
       '<path d="M0 0 V9" stroke="#141414" stroke-width="1.6"/></pattern></defs>' +
-      '<rect x="0" y="0" width="100" height="100" fill="url(#hatchB23)" stroke="#141414" stroke-width="2"/>' +
-      '<text x="50" y="53" text-anchor="middle" font-size="9" font-weight="900" fill="#141414">' + label + '</text>';
+      '<rect x="0" y="0" width="' + W + '" height="' + H + '" fill="url(#hatchB23)"/>' +
+      '<text x="' + (W / 2) + '" y="' + (H / 2 + 3) + '" text-anchor="middle" font-size="9" font-weight="900" fill="#141414">' + label + '</text>';
   }
 
-  function emptySvg(svg, label){
-    svg.innerHTML = '<rect x="0" y="0" width="100" height="100" fill="#FFFFFF" stroke="#141414" stroke-width="2"/>' +
-      '<text x="50" y="53" text-anchor="middle" font-size="8" font-weight="800" fill="#5A5A5A">' + label + '</text>';
+  function empty(svg, label){
+    svg.innerHTML = frame() +
+      '<text x="' + (W / 2) + '" y="' + (H / 2 + 3) + '" text-anchor="middle" font-size="8" font-weight="800" fill="#5A5A5A">' + label + '</text>';
   }
 
   function clearFlash(){
     if (flashTimer !== null){ clearTimeout(flashTimer); flashTimer = null; }
   }
-
-  function endFlash(){
-    clearFlash();
-    flashing = false;
-    render();
-  }
-
+  function endFlash(){ clearFlash(); flashing = false; render(); }
   function startFlash(){
     clearFlash();
     flashing = true;
@@ -213,25 +200,17 @@
     shapeIdx = i;
   }
 
-  function newRound(){
-    newShape();
-    gridN = null; confirmed = false;
-    startFlash();
-  }
+  function newRound(){ newShape(); n = null; confirmed = false; startFlash(); }
+  function sameRound(){ n = null; confirmed = false; startFlash(); }
 
-  function sameRound(){
-    gridN = null; confirmed = false;
-    startFlash();
-  }
-
-  function chooseGrid(n){
+  function choose(k){
     if (flashing || confirmed) return;
-    gridN = n;
+    n = k;
     render();
   }
 
   function confirm(){
-    if (flashing || confirmed || gridN === null) return;
+    if (flashing || confirmed || n === null) return;
     confirmed = true;
     render();
   }
@@ -239,34 +218,34 @@
   function render(){
     var fn = SHAPES[shapeIdx];
     if (flashing){
-      drawGrid(origSvg, fn, 28);
-      emptySvg(recSvg, '가려져 있어요');
+      origSvg.innerHTML = frame() + curvePath(fn, 2.4);
+      empty(recSvg, '가려져 있어요');
       status.textContent = '보여 주는 중이에요';
     } else if (!confirmed){
-      coverSvg(origSvg, '가려짐');
-      if (gridN === null){ emptySvg(recSvg, '칸 수를 골라요'); }
-      else { drawGrid(recSvg, fn, gridN); }
+      cover(origSvg, '가려짐');
+      if (n === null){ empty(recSvg, '지점 수를 골라요'); }
+      else { recSvg.innerHTML = frame() + bars(fn, n); }
       status.textContent = '가려졌어요';
     } else {
-      drawGrid(origSvg, fn, 28);
-      drawGrid(recSvg, fn, gridN);
-      status.textContent = '나란히 놓았어요';
+      origSvg.innerHTML = frame() + curvePath(fn, 2.4);
+      recSvg.innerHTML = frame() + bars(fn, n) + curvePath(fn, 1.4);
+      status.textContent = '겹쳐 놓았어요';
     }
 
-    for (var i = 0; i < gridBtns.length; i++){
-      gridBtns[i].disabled = flashing || confirmed;
-      gridBtns[i].classList.toggle('on', gridN === GRIDS[i]);
+    for (var i = 0; i < btns.length; i++){
+      btns[i].disabled = flashing || confirmed;
+      btns[i].classList.toggle('on', n === POINTS[i]);
     }
-    okBtn.disabled = flashing || confirmed || gridN === null;
+    okBtn.disabled = flashing || confirmed || n === null;
 
     if (confirmed){
-      say.textContent = gridN + '칸으로 알아봤어요 · 숫자 ' + (gridN * gridN) + '개';
+      say.textContent = n + '지점으로 알아봤어요 · 숫자 ' + n + '개';
       say.className = 'say';
     } else if (flashing){
       say.textContent = '눈에 담아 둬요';
       say.className = 'say dim';
-    } else if (gridN === null){
-      say.textContent = '칸 수를 눌러 봐요';
+    } else if (n === null){
+      say.textContent = '지점 수를 눌러 봐요';
       say.className = 'say dim';
     } else {
       say.textContent = '이제 알겠으면 눌러요';
@@ -275,11 +254,8 @@
   }
 
   document.addEventListener('visibilitychange', function(){
-    if (document.hidden){
-      clearFlash();
-    } else if (flashing && flashTimer === null){
-      endFlash();
-    }
+    if (document.hidden){ clearFlash(); }
+    else if (flashing && flashTimer === null){ endFlash(); }
   });
 
   okBtn.addEventListener('click', confirm);

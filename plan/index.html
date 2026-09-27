@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>계획서·성취기준 — 에듀다움</title>
+<style>
+:root{--ink:#141414;--paper:#FBF7EC;--surface:#fff;--amber:#FFB800;--muted:#5E5E5E;--line:#141414;
+--g5:#F59E0B;--g6:#3D5AFE;--soft:#F3EEDD;--r:16px;--hard:4px 4px 0 var(--ink);--hard-sm:2px 2px 0 var(--ink)}
+*{box-sizing:border-box}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--paper);color:var(--ink);font-size:16px;line-height:1.7;
+font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+a{color:inherit}
+.top{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:2.5px solid var(--ink)}
+.top .in{max-width:1120px;margin:0 auto;padding:8px 16px;display:flex;gap:6px 14px;align-items:center;flex-wrap:wrap}
+.brand{font-weight:900;font-size:18px;text-decoration:none;letter-spacing:-.02em;margin-right:6px;display:flex;align-items:center;gap:8px}
+.brand i{display:inline-block;width:14px;height:14px;border:2.5px solid var(--ink);border-radius:4px;background:var(--amber)}
+.top nav{display:flex;flex-wrap:wrap;gap:4px}
+.top nav a{text-decoration:none;font-weight:700;font-size:14.5px;padding:8px 10px;border-radius:10px;min-height:40px;display:inline-flex;align-items:center}
+.top nav a:hover{background:var(--soft)}
+.top nav a[aria-current]{background:var(--ink);color:var(--paper)}
+main{max-width:1120px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:clamp(26px,4.6vw,40px);line-height:1.25;font-weight:900;letter-spacing:-.03em;margin:8px 0 10px}
+h2{font-size:clamp(20px,3vw,26px);font-weight:900;letter-spacing:-.02em;margin:40px 0 12px;padding-top:4px}
+h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.lead{color:var(--muted);font-weight:600;margin:0 0 18px;font-size:17px}
+.kick{display:inline-block;border:2px solid var(--ink);background:var(--amber);border-radius:999px;padding:3px 12px;font-weight:800;font-size:13px}
+.chip{display:inline-block;border:2px solid var(--ink);border-radius:999px;padding:1px 10px;font-weight:800;font-size:12.5px;background:#fff;white-space:nowrap}
+.chip.g5{background:var(--g5)}.chip.g6{background:var(--g6);color:#fff}
+.box{background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);padding:18px 20px;margin:14px 0}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{display:block;text-decoration:none;background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);padding:16px;transition:transform .1s,box-shadow .1s}
+a.card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.card h3{margin:8px 0 4px;font-size:17px}
+.card p{margin:0;color:var(--muted);font-size:14.5px;font-weight:600}
+.btn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border:2.5px solid var(--ink);border-radius:12px;background:#fff;
+box-shadow:var(--hard-sm);font-weight:800;text-decoration:none;font-size:15px;cursor:pointer;font-family:inherit;color:var(--ink)}
+.btn.pri{background:var(--amber)}
+.btn:hover{transform:translate(-1px,-1px)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.tw{overflow-x:auto;margin:12px 0;border:2.5px solid var(--ink);border-radius:12px;background:#fff}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{border-bottom:1.5px solid #D9D2BE;padding:9px 10px;text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:800;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.muted{color:var(--muted)}
+.small{font-size:13.5px}
+.note{border-left:5px solid var(--amber);background:#fff;padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:15px}
+:focus-visible{outline:3px solid var(--g6);outline-offset:2px}
+footer{border-top:2.5px solid var(--ink);margin-top:40px}
+footer .in{max-width:1120px;margin:0 auto;padding:18px 16px;font-size:13.5px;color:var(--muted)}
+/* 64차시 지도 */
+.map{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:4px;margin:8px 0 18px}
+.map a{display:flex;align-items:center;justify-content:center;min-height:44px;border:2px solid var(--ink);border-radius:8px;text-decoration:none;font-weight:800;font-size:13px;background:#fff}
+.map a:hover{transform:translate(-1px,-1px);box-shadow:var(--hard-sm)}
+@media (max-width:720px){.map{grid-template-columns:repeat(8,minmax(0,1fr))}}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13.5px;font-weight:700}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border:2px solid var(--ink);border-radius:4px;display:inline-block}
+/* 과정안 */
+.flow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.flow a{text-decoration:none;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;background:#fff;font-weight:700;font-size:14px}
+.flow b{font-weight:900}
+.act h4{margin:14px 0 4px;font-size:16px;font-weight:900}
+.act h4:first-child{margin-top:0}
+.act ul{margin:0 0 6px;padding-left:20px}
+.act li{margin:2px 0}
+.act p{margin:4px 0}
+figure{margin:10px 0;max-width:560px}
+figure img{width:100%;height:auto;border:2px solid var(--ink);border-radius:10px;background:#fff}
+figcaption{font-size:13px;color:var(--muted);font-weight:600;margin-top:4px}
+.res div{margin:3px 0;font-size:14.5px}
+.res .k{display:inline-block;min-width:44px;font-weight:900;font-size:12px;border:1.5px solid var(--ink);border-radius:6px;padding:0 5px;margin-right:6px;background:var(--soft);text-align:center}
+.stage{font-weight:900;white-space:nowrap}
+.rowcard{border:2.5px solid var(--ink);border-radius:var(--r);background:#fff;margin:14px 0;overflow:hidden}
+.rowhead{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;background:var(--soft);border-bottom:2px solid var(--ink);padding:8px 14px;font-weight:900}
+.rowbody{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:0}
+.rowbody>div{padding:12px 16px}
+.rowbody>.res{border-left:2px dashed #CFC6AE;background:#FFFDF6}
+@media (max-width:760px){.rowbody{grid-template-columns:1fr}.rowbody>.res{border-left:0;border-top:2px dashed #CFC6AE}}
+.lv td:first-child{white-space:nowrap;font-weight:800}
+.toolgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.tool{display:block;border:2px solid var(--ink);border-radius:12px;padding:10px 12px;background:#fff;text-decoration:none}
+.tool b{display:block;font-size:15px}
+.tool span{display:block;font-size:13px;color:var(--muted);font-weight:600}
+.tool:hover{box-shadow:var(--hard-sm);transform:translate(-1px,-1px)}
+.mine form{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.mine input{min-height:44px;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;font:inherit;flex:1 1 180px;min-width:0}
+.mine li{display:flex;gap:8px;align-items:center;margin:6px 0;flex-wrap:wrap}
+.mine ul{list-style:none;padding:0;margin:8px 0 0}
+.x{min-height:36px;padding:2px 10px;border:2px solid var(--ink);border-radius:8px;background:#fff;cursor:pointer;font:inherit;font-weight:700}
+.pn{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:28px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
+.toc a{font-size:14px;font-weight:700;text-decoration:none;border-bottom:2px solid var(--amber)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{.top,footer,.btns,.mine,.pn{display:none}body{background:#fff}.box,.rowcard{box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="in"><a class="brand" href="../"><i></i>에듀다움</a><nav aria-label="누리집 메뉴"><a href="../">홈</a><a href="../plan/" aria-current="page">계획서·성취기준</a><a href="../topics/">주제별 활동</a><a href="../lessons/">차시별 과정안</a><a href="../tools/">연동 도구</a><a href="../play/">체험 게임</a></nav></div></header>
+<main>
+
+<span class="kick">1 · 계획서·성취기준</span>
+<h1>학교자율시간 연계 초등 SW·AI 융합 프로그램</h1>
+<p class="lead">연구 계획서와 고도화 심층 설계서의 요점을 옮겼습니다.</p>
+<div class="toc"><a href="#why">배경과 목표</a><a href="#run">운영 구조</a><a href="#course">과정 구성</a><a href="#std">성취기준</a><a href="#link">교과 연계</a><a href="#eval">평가·검증</a><a href="#safe">안전·개인정보</a><a href="#time">추진 일정</a></div>
+
+<h2 id="why">배경과 목표</h2>
+<div class="box">
+<p><b>연구 주제</b> 학교자율시간 연계 초등 SW·AI 융합 프로그램 개발 및 적용 <span class="muted small">(AI 활용 — AI·데이터 기반 교과 융합 수업모델 개발)</span></p>
+<ul>
+<li>2022 개정 교육과정은 초등 정보교육을 34시간 이상으로 늘렸으나, 실과 「디지털 사회와 인공지능」 17차시만으로는 SW·데이터·인공지능을 프로젝트로 넓히기 어렵고, 학교자율시간에 쓸 검증된 자료가 부족합니다.</li>
+<li>실과 정보 영역 [6실05-01]~[6실05-05]와 학교자율시간 정보 교육 [06자율-1]~[06자율-7]을 재구조화하여 5학년 32차시, 6학년 32차시(합 64차시)를 개발합니다.</li>
+<li>5학년은 SW 기초를 교과와 잇는 교과 융합 프로젝트, 6학년은 데이터와 AI로 학교·가정·지역 문제를 푸는 실생활 문제해결 프로젝트입니다.</li>
+<li>고가 장비 없이 학교 보유 기기, 무료 교육용 도구, 학교 주변에서 모을 수 있는 자료로 운영합니다.</li>
+</ul></div>
+
+<h2 id="run">운영 구조 (고도화안)</h2>
+<div class="tw"><table>
+<tr><th>구분</th><th>5학년</th><th>6학년</th></tr>
+<tr><td>과정</td><td>AI와 함께 배우는 SW 교과 융합 프로젝트</td><td>인공지능으로 해결하는 실생활 문제해결 프로젝트</td></tr>
+<tr><td>과정안</td><td>B01~B14 (14편, 32차시)</td><td>B15~B28 (14편, 32차시)</td></tr>
+<tr><td>주 도구</td><td>마이크로비트 V2 · MakeCode</td><td>엔트리 AI 블록 · micro:bit CreateAI</td></tr>
+<tr><td>수업 학급</td><td>2학급이 32차시 전체</td><td>2학급이 32차시 전체</td></tr>
+<tr><td>비교 학급</td><td>선택 1학급</td><td>선택 1학급</td></tr>
+<tr><td>편성</td><td colspan="2">주 2차시 블록 수업, 한 학기 약 16주. 한 차시 40분, 대부분 2차시(80분) 묶음, B11·B12·B25·B27은 4차시 묶음</td></tr>
+</table></div>
+<p class="note">연구 계획서의 1차 파일럿 → 2차 확대 적용 구조를, 고도화 과정에서 학년별 2학급 전체 운영으로 바꾸었습니다. 이야기 흐름과 누적 산출물을 한 학생 집단 안에서 볼 수 있게 하려는 것입니다.</p>
+
+<h2 id="course">과정 구성 — 영역과 차시</h2>
+<div class="tw"><table><tr><th>학년</th><th>영역</th><th>차시</th><th>과정안</th></tr><tr><td>5학년</td><td><a href="../topics/#sw1">생활 속 소프트웨어</a></td><td>1~4</td><td>2편</td></tr><tr><td>5학년</td><td><a href="../topics/#sw2">알고리즘</a></td><td>5~12</td><td>4편</td></tr><tr><td>5학년</td><td><a href="../topics/#sw3">프로그래밍</a></td><td>13~24</td><td>5편</td></tr><tr><td>5학년</td><td><a href="../topics/#sw4">협력과 공유</a></td><td>25~32</td><td>3편</td></tr><tr><td>6학년</td><td><a href="../topics/#ai1">인공지능과 우리 생활</a></td><td>1~6</td><td>3편</td></tr><tr><td>6학년</td><td><a href="../topics/#ai2">사람과 대화하는 인공지능</a></td><td>7~10</td><td>2편</td></tr><tr><td>6학년</td><td><a href="../topics/#ai3">규칙으로 판단하는 인공지능</a></td><td>11~16</td><td>3편</td></tr><tr><td>6학년</td><td><a href="../topics/#ai4">데이터로 학습하는 인공지능</a></td><td>17~26</td><td>4편</td></tr><tr><td>6학년</td><td><a href="../topics/#ai5">인공지능과 올바른 사용</a></td><td>27~32</td><td>2편</td></tr></table></div>
+
+<h2 id="std">성취기준</h2>
+<p class="small muted">학교자율시간 과목을 위해 연구회가 자체 개발한 성취기준입니다. [5실소프트웨어…]·[6실인공지능…]은 국가 실과 성취기준 코드가 아니며, ‘연계’ 칸이 2022 개정 실과·학교자율시간 정보 교육 성취기준입니다.</p>
+<div class="tw"><table><tr><th>학년</th><th>영역</th><th>자체 성취기준</th><th>연계</th><th>차시</th></tr><tr><td>5학년</td><td>생활 속 소프트웨어</td><td><b>[5실소프트웨어01-01]</b><br>생활 속에서 소프트웨어가 활용되는 사례를 찾아보고, 해결할 수 있는 문제를 발견한다.</td><td>[06자율-1] [6실05-01]</td><td><a href="../lessons/B01/">1~2</a> <a href="../lessons/B02/">3~4</a></td></tr><tr><td>5학년</td><td>알고리즘</td><td><b>[5실소프트웨어02-01]</b><br>놀이를 통해 알고리즘을 체험하고, 문제를 해결하는 절차를 다양한 방법으로 표현한다.</td><td>[06자율-2] [6실05-01]</td><td><a href="../lessons/B03/">5~6</a> <a href="../lessons/B04/">7~8</a> <a href="../lessons/B05/">9~10</a> <a href="../lessons/B06/">11~12</a></td></tr><tr><td>5학년</td><td>프로그래밍</td><td><b>[5실소프트웨어03-01]</b><br>예제 프로그램을 바꾸어 보며 순차·선택·반복 구조와 수를 세는 변수를 사용한 프로그램을 작성한다.</td><td>[6실05-02]</td><td><a href="../lessons/B07/">13~14</a> <a href="../lessons/B08/">15~16</a> <a href="../lessons/B09/">17~18</a> <a href="../lessons/B10/">19~20</a></td></tr><tr><td>5학년</td><td>프로그래밍</td><td><b>[5실소프트웨어03-02]</b><br>기존 프로그램을 바꾸어 나에게 필요한 프로그램을 만들고, 예상과 다른 실행 결과에서 오류를 찾아 고친다. 프로그램의 입력·출력을 무선 통신으로 다른 기기까지 넓힌다.</td><td>[06자율-3] [6실05-02]</td><td><a href="../lessons/B11/">21~24</a></td></tr><tr><td>5학년</td><td>협력과 공유</td><td><b>[5실소프트웨어04-01]</b><br>친구와 역할을 나누어 프로그램을 만들고, 서로의 코드를 검토해 고친다. 사용자 시험 기록을 근거로 작품을 설명하며 공유한다.</td><td>[06자율-4] [6실05-03]</td><td><a href="../lessons/B12/">25~28</a> <a href="../lessons/B13/">29~30</a></td></tr><tr><td>5학년</td><td>협력과 공유</td><td><b>[5실소프트웨어04-02]</b><br>무선으로 보낸 정보는 다른 사람도 받을 수 있음을 알고, 개인정보를 보내거나 공개하지 않는다. 작품에 사용한 자료의 출처와 이용 조건을 확인해 밝힌다.</td><td>[6실05-03]</td><td><a href="../lessons/B14/">31~32</a></td></tr><tr><td>6학년</td><td>인공지능과 우리 생활</td><td><b>[6실인공지능01-01]</b><br>생활 속 인공지능 사례를 찾아보고, 판별 기준에 따라 정해진 동작만 되풀이하는 기계와 인공지능을 구분한다.</td><td>[6실05-05]</td><td><a href="../lessons/B15/">1~2</a> <a href="../lessons/B16/">3~4</a> <a href="../lessons/B17/">5~6</a></td></tr><tr><td>6학년</td><td>사람과 대화하는 인공지능</td><td><b>[6실인공지능02-01]</b><br>대화형 인공지능을 체험하며 말과 글이 처리되는 단계를 설명하고, 챗봇의 답을 근거 자료로 확인한다.</td><td>[6실05-04]</td><td><a href="../lessons/B18/">7~8</a> <a href="../lessons/B19/">9~10</a></td></tr><tr><td>6학년</td><td>규칙으로 판단하는 인공지능</td><td><b>[6실인공지능03-01]</b><br>사람의 판단 지식을 규칙으로 옮기는 놀이와 프로그램 만들기로 규칙 기반 인공지능의 판단 과정을 체험한다.</td><td>[6실05-05]</td><td><a href="../lessons/B20/">11~12</a> <a href="../lessons/B21/">13~14</a> <a href="../lessons/B22/">15~16</a></td></tr><tr><td>6학년</td><td>데이터로 학습하는 인공지능</td><td><b>[6실인공지능04-01]</b><br>온도·움직임처럼 이어지며 변하는 값이 숫자 데이터로 바뀌는 과정을 알고, 인공지능에 쓰이는 데이터의 종류(수·글·이미지·소리)를 구분한다.</td><td>[06자율-5] [6실05-04]</td><td><a href="../lessons/B23/">17~18</a></td></tr><tr><td>6학년</td><td>데이터로 학습하는 인공지능</td><td><b>[6실인공지능04-02]</b><br>인공지능 모델이 학습 데이터의 공통점으로 새 데이터를 분류하는 과정을 체험하고, 학습 데이터의 양이 분류 결과에 영향을 줌을 안다.</td><td>[06자율-6] [6실05-04]</td><td><a href="../lessons/B24/">19~20</a> <a href="../lessons/B25/">21~24</a></td></tr><tr><td>6학년</td><td>데이터로 학습하는 인공지능</td><td><b>[6실인공지능04-03]</b><br>인공지능이 만들어지는 과정을 체험하고, 인공지능이 틀리는 원인을 데이터·모델·사용 조건에서 찾는다.</td><td>[6실05-05]</td><td><a href="../lessons/B26/">25~26</a></td></tr><tr><td>6학년</td><td>인공지능과 올바른 사용</td><td><b>[6실인공지능05-01]</b><br>인공지능으로 생활 속 문제를 해결하고, 결과를 친구들과 공유한다.</td><td>[6실05-05]</td><td><a href="../lessons/B27/">27~30</a></td></tr><tr><td>6학년</td><td>인공지능과 올바른 사용</td><td><b>[6실인공지능05-02]</b><br>인공지능이 사회에 미치는 영향과 학습 데이터의 치우침을 찾고, 토의를 거쳐 공정한 사용 안내를 정한다.</td><td>[06자율-7] [6실05-05]</td><td><a href="../lessons/B28/">31~32</a></td></tr></table></div>
+
+<h2 id="link">교과 연계</h2>
+<div class="grid">
+<div class="box"><h3>5학년</h3><p class="small">국어(설명하는 글쓰기·발표), 수학(규칙과 대응, 자료의 정리), 과학(온도와 열, 몸의 구조 — 센서·측정), 미술(디자인과 소통, 산출물 시각화), 실과(생활 속 문제 해결)</p></div>
+<div class="box"><h3>6학년</h3><p class="small">사회(정보사회와 미디어 리터러시), 과학(자료의 수집과 해석), 수학(자료와 가능성 — 평균, 그래프), 실과(인공지능과 로봇, 발명과 문제해결)</p></div>
+</div>
+
+<h2 id="eval">평가와 검증</h2>
+<div class="tw"><table>
+<tr><th>무엇을</th><th>어떻게</th></tr>
+<tr><td>수업 중 평가</td><td>과정안마다 매우 잘함·잘함·보통·노력요함·미관찰 5수준 기준. 미관찰은 낮은 성취로 적지 않고 보충 확인</td></tr>
+<tr><td>사전·사후 설문</td><td>학년별 구글 폼(5학년 42문항, 6학년 47문항), 비교 학급은 공통 22문항. 사후 문항 순서 무선화</td></tr>
+<tr><td>산출물 분석</td><td>미션 포스터·근거 카드·오류 도감·모델 카드 등을 공통 코딩 루브릭으로 분석</td></tr>
+<tr><td>내용타당도</td><td>전문가 CVR(Lawshe) 검토, 수정 이력 관리, 과정안 점검 하네스(H1~H10)</td></tr>
+</table></div>
+
+<h2 id="safe">안전·개인정보 원칙</h2>
+<ul>
+<li>사진·영상에 사람 얼굴을 넣지 않고 손·물건으로 대신합니다. 웹캠 자료는 저장하지 않고 수업 끝에 지웁니다.</li>
+<li>생성형 AI는 학생용 <b>우리아이AI</b>만 쓰며, 개인정보는 입력하지 않고 학생 계정은 만들지 않습니다.</li>
+<li>무선으로 보낸 정보는 다른 사람도 받을 수 있음을 실험으로 겪고, 교사가 정한 그룹 번호만 씁니다.</li>
+<li>작품에 쓴 그림·소리는 허락·출처·이용 조건(CCL)을 확인해 밝힙니다.</li>
+<li>설문은 이름 없이 반·번호로만 받으며, 연구 종료 후 기관 기준에 따라 보관·폐기합니다.</li>
+</ul>
+
+<h2 id="time">추진 일정 (2026)</h2>
+<div class="tw"><table>
+<tr><th>활동</th><th>6월</th><th>7월</th><th>8월</th><th>9월</th><th>10월</th><th>11월</th><th>12월</th><th>'27. 1월</th></tr>
+<tr><td>자료 조사·연구 기획</td><td>●</td><td>●</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>교육과정 분석·수업모델 설계</td><td></td><td>●</td><td>●</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>교수학습자료 협력 개발</td><td></td><td>●</td><td>●</td><td>●</td><td>●</td><td></td><td></td><td></td></tr>
+<tr><td>5·6학년 32차시 적용</td><td></td><td></td><td></td><td>●</td><td>●</td><td>●</td><td></td><td></td></tr>
+<tr><td>효과성 조사·결과 분석</td><td></td><td></td><td></td><td></td><td>●</td><td>●</td><td>●</td><td></td></tr>
+<tr><td>공개수업·참관 협의회(4회 이상)</td><td></td><td></td><td></td><td></td><td></td><td>●</td><td>●</td><td></td></tr>
+<tr><td>이슈페이퍼·결과보고서</td><td></td><td></td><td></td><td></td><td></td><td></td><td>●</td><td>●</td></tr>
+</table></div>
+
+</main>
+<footer><div class="in">경기 AI 융합교육 에듀다움 교사연구회 · 학교자율시간 SW·AI 교육과정 · 과정안 기준일 2026. 9. 27.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</div></footer>
+</body>
+</html>

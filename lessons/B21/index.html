@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>6학년 13~14차시 스무고개 대결로 남은 후보 수를 세고 질문 순서를 가지 그림 게임판으로 나타내기 — 에듀다움</title>
+<style>
+:root{--ink:#141414;--paper:#FBF7EC;--surface:#fff;--amber:#FFB800;--muted:#5E5E5E;--line:#141414;
+--g5:#F59E0B;--g6:#3D5AFE;--soft:#F3EEDD;--r:16px;--hard:4px 4px 0 var(--ink);--hard-sm:2px 2px 0 var(--ink)}
+*{box-sizing:border-box}
+html{scroll-padding-top:72px}
+body{margin:0;background:var(--paper);color:var(--ink);font-size:16px;line-height:1.7;
+font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+a{color:inherit}
+.top{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:2.5px solid var(--ink)}
+.top .in{max-width:1120px;margin:0 auto;padding:8px 16px;display:flex;gap:6px 14px;align-items:center;flex-wrap:wrap}
+.brand{font-weight:900;font-size:18px;text-decoration:none;letter-spacing:-.02em;margin-right:6px;display:flex;align-items:center;gap:8px}
+.brand i{display:inline-block;width:14px;height:14px;border:2.5px solid var(--ink);border-radius:4px;background:var(--amber)}
+.top nav{display:flex;flex-wrap:wrap;gap:4px}
+.top nav a{text-decoration:none;font-weight:700;font-size:14.5px;padding:8px 10px;border-radius:10px;min-height:40px;display:inline-flex;align-items:center}
+.top nav a:hover{background:var(--soft)}
+.top nav a[aria-current]{background:var(--ink);color:var(--paper)}
+main{max-width:1120px;margin:0 auto;padding:24px 16px 64px}
+h1{font-size:clamp(26px,4.6vw,40px);line-height:1.25;font-weight:900;letter-spacing:-.03em;margin:8px 0 10px}
+h2{font-size:clamp(20px,3vw,26px);font-weight:900;letter-spacing:-.02em;margin:40px 0 12px;padding-top:4px}
+h3{font-size:18px;font-weight:800;margin:24px 0 8px}
+.lead{color:var(--muted);font-weight:600;margin:0 0 18px;font-size:17px}
+.kick{display:inline-block;border:2px solid var(--ink);background:var(--amber);border-radius:999px;padding:3px 12px;font-weight:800;font-size:13px}
+.chip{display:inline-block;border:2px solid var(--ink);border-radius:999px;padding:1px 10px;font-weight:800;font-size:12.5px;background:#fff;white-space:nowrap}
+.chip.g5{background:var(--g5)}.chip.g6{background:var(--g6);color:#fff}
+.box{background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);padding:18px 20px;margin:14px 0}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
+.card{display:block;text-decoration:none;background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);padding:16px;transition:transform .1s,box-shadow .1s}
+a.card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.card h3{margin:8px 0 4px;font-size:17px}
+.card p{margin:0;color:var(--muted);font-size:14.5px;font-weight:600}
+.btn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border:2.5px solid var(--ink);border-radius:12px;background:#fff;
+box-shadow:var(--hard-sm);font-weight:800;text-decoration:none;font-size:15px;cursor:pointer;font-family:inherit;color:var(--ink)}
+.btn.pri{background:var(--amber)}
+.btn:hover{transform:translate(-1px,-1px)}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
+.tw{overflow-x:auto;margin:12px 0;border:2.5px solid var(--ink);border-radius:12px;background:#fff}
+table{border-collapse:collapse;width:100%;font-size:15px}
+th,td{border-bottom:1.5px solid #D9D2BE;padding:9px 10px;text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:800;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.muted{color:var(--muted)}
+.small{font-size:13.5px}
+.note{border-left:5px solid var(--amber);background:#fff;padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:15px}
+:focus-visible{outline:3px solid var(--g6);outline-offset:2px}
+footer{border-top:2.5px solid var(--ink);margin-top:40px}
+footer .in{max-width:1120px;margin:0 auto;padding:18px 16px;font-size:13.5px;color:var(--muted)}
+/* 64차시 지도 */
+.map{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:4px;margin:8px 0 18px}
+.map a{display:flex;align-items:center;justify-content:center;min-height:44px;border:2px solid var(--ink);border-radius:8px;text-decoration:none;font-weight:800;font-size:13px;background:#fff}
+.map a:hover{transform:translate(-1px,-1px);box-shadow:var(--hard-sm)}
+@media (max-width:720px){.map{grid-template-columns:repeat(8,minmax(0,1fr))}}
+.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13.5px;font-weight:700}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:14px;height:14px;border:2px solid var(--ink);border-radius:4px;display:inline-block}
+/* 과정안 */
+.flow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.flow a{text-decoration:none;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;background:#fff;font-weight:700;font-size:14px}
+.flow b{font-weight:900}
+.act h4{margin:14px 0 4px;font-size:16px;font-weight:900}
+.act h4:first-child{margin-top:0}
+.act ul{margin:0 0 6px;padding-left:20px}
+.act li{margin:2px 0}
+.act p{margin:4px 0}
+figure{margin:10px 0;max-width:560px}
+figure img{width:100%;height:auto;border:2px solid var(--ink);border-radius:10px;background:#fff}
+figcaption{font-size:13px;color:var(--muted);font-weight:600;margin-top:4px}
+.res div{margin:3px 0;font-size:14.5px}
+.res .k{display:inline-block;min-width:44px;font-weight:900;font-size:12px;border:1.5px solid var(--ink);border-radius:6px;padding:0 5px;margin-right:6px;background:var(--soft);text-align:center}
+.stage{font-weight:900;white-space:nowrap}
+.rowcard{border:2.5px solid var(--ink);border-radius:var(--r);background:#fff;margin:14px 0;overflow:hidden}
+.rowhead{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;background:var(--soft);border-bottom:2px solid var(--ink);padding:8px 14px;font-weight:900}
+.rowbody{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:0}
+.rowbody>div{padding:12px 16px}
+.rowbody>.res{border-left:2px dashed #CFC6AE;background:#FFFDF6}
+@media (max-width:760px){.rowbody{grid-template-columns:1fr}.rowbody>.res{border-left:0;border-top:2px dashed #CFC6AE}}
+.lv td:first-child{white-space:nowrap;font-weight:800}
+.toolgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.tool{display:block;border:2px solid var(--ink);border-radius:12px;padding:10px 12px;background:#fff;text-decoration:none}
+.tool b{display:block;font-size:15px}
+.tool span{display:block;font-size:13px;color:var(--muted);font-weight:600}
+.tool:hover{box-shadow:var(--hard-sm);transform:translate(-1px,-1px)}
+.mine form{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.mine input{min-height:44px;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;font:inherit;flex:1 1 180px;min-width:0}
+.mine li{display:flex;gap:8px;align-items:center;margin:6px 0;flex-wrap:wrap}
+.mine ul{list-style:none;padding:0;margin:8px 0 0}
+.x{min-height:36px;padding:2px 10px;border:2px solid var(--ink);border-radius:8px;background:#fff;cursor:pointer;font:inherit;font-weight:700}
+.pn{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:28px}
+.toc{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
+.toc a{font-size:14px;font-weight:700;text-decoration:none;border-bottom:2px solid var(--amber)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+@media print{.top,footer,.btns,.mine,.pn{display:none}body{background:#fff}.box,.rowcard{box-shadow:none}}
+</style>
+</head>
+<body>
+<header class="top"><div class="in"><a class="brand" href="../../"><i></i>에듀다움</a><nav aria-label="누리집 메뉴"><a href="../../">홈</a><a href="../../plan/">계획서·성취기준</a><a href="../../topics/">주제별 활동</a><a href="../../lessons/" aria-current="page">차시별 과정안</a><a href="../../tools/">연동 도구</a><a href="../../play/">체험 게임</a></nav></div></header>
+<main>
+
+<p class="small"><a href="../">차시별 과정안</a> › <a href="../../topics/#ai3">규칙으로 판단하는 인공지능</a></p>
+<div><span class="chip g6">6학년 13~14차시</span> <span class="chip">규칙으로 판단하는 인공지능</span> <span class="chip">[6실인공지능03-01]</span></div>
+<h1>스무고개 대결로 남은 후보 수를 세고 질문 순서를 가지 그림 게임판으로 나타내기</h1>
+<p class="lead">학습 문제 — 스무고개 대결로 남은 후보 수를 세며 동물을 찾고, 질문 순서를 가지 그림으로 나타내 봅시다.</p>
+<div class="btns"><a class="btn" href="../../assets/pdf/B21.pdf" target="_blank" rel="noopener">과정안 PDF</a><a class="btn" href="#game">체험 게임</a><a class="btn" href="#tools">연동 도구·링크</a></div>
+<div class="toc"><a href="#ov">개요</a><a href="#flow">교수학습 활동</a><a href="#eval">평가 계획</a><a href="#tools">연동 도구·링크</a><a href="#game">체험 게임</a></div>
+
+<h2 id="ov">개요</h2>
+<div class="tw"><table><tr><th>성취기준</th><td>[6실인공지능03-01] 사람의 판단 지식을 규칙으로 옮기는 놀이와 프로그램 만들기로 규칙 기반 인공지능의 판단 과정을 체험한다.<br>연계 성취기준: [6실05-05]</td></tr><tr><th>핵심 역량</th><td>지식정보처리 역량, 창의적 사고 역량</td></tr><tr><th>핵심 기능</th><td>① 일상생활의 문제를 해결하기 위한 알고리즘 구상하기<br>② 후보의 속성을 표로 나타내기<br>③ 스무고개 대결에서 질문마다 남은 후보 수를 세어 기록하기<br>④ 질문 순서를 가지 그림 게임판으로 표현하기<br>⑤ 새 후보로 시험하고 통하지 않는 곳 고치기</td></tr><tr><th>가치 태도</th><td>생활 속에서 컴퓨터를 활용해 해결 가능한 문제를 탐색해 보려는 자세<br>통하지 않는 곳을 찾아 끝까지 고쳐 보려는 자세</td></tr></table></div>
+
+<h2 id="flow">교수학습 활동</h2>
+<div class="flow"><a href="#r0"><b>13차시 도입</b> 동기 유발 · 학습문제 제시</a><a href="#r1"><b>13차시 전개</b> 활동1. 후보 열여섯 장 속성표 채우기 · 활동2. 짝과 스무고개 대결</a><a href="#r2"><b>14차시 전개</b> 활동3. 가지 그림 게임판 만들고 짝이 따라가기 · 활동4. 새 카드 여덟 장으로 시험하기</a><a href="#r3"><b>14차시 정리</b> 배운 내용 정리 및 의뢰 해결 보고 · 다음 의뢰 예고</a></div>
+<div class="rowcard" id="r0"><div class="rowhead"><span>13차시</span><span class="stage">도입</span><span class="chip">8분</span></div><div class="rowbody"><div class="act"><h4>동기 유발</h4><ul><li>칠판에 붙인 동물 카드 열여섯 장 소리 내어 읽기</li><li>교사가 정한 동물을 맞히는 학급 스무고개 한 판 하기</li><li>친구들이 말한 첫 질문을 칠판에 그대로 적어 두기</li><li>병설유치원 선생님의 의뢰 듣기: 동생들과 함께할 동물 맞히기 게임판 만들기</li><li>오늘 미션: 질문으로 답을 빨리 좁히는 방법 찾기</li></ul><figure><img src="../../assets/plan/B21_1.jpg" alt="도입 상황 그림" loading="lazy"><figcaption>도입 상황 그림</figcaption></figure><h4>학습문제 제시</h4><ul><li>스무고개 대결로 남은 후보 수를 세며 동물을 찾고, 질문 순서를 가지 그림으로 나타내 봅시다.</li></ul></div><div class="res"><div><span class="k">준비물</span>필기구</div><div><span class="k">자료</span>스무고개 활동지, 동물 카드 열여섯 장, [도입] 상황 그림</div><div><span class="k">유의점</span>규칙 기반 6차시 중 이 시간은 질문 순서와 가지 그림(결정 트리 표현)을 다룬다.</div><div><span class="k">유의점</span>첫 질문의 좋고 나쁨을 이 자리에서 판정하지 않는다.</div><div><span class="k">유의점</span>학급 스무고개는 예·아니요로만 답하고 다섯 질문 안에 끝낸다.</div><div><span class="k">유의점</span>카드 게시와 활동지 배부 시간을 도입 시간에 포함한다.</div></div></div></div><div class="rowcard" id="r1"><div class="rowhead"><span>13차시</span><span class="stage">전개</span><span class="chip">32분</span></div><div class="rowbody"><div class="act"><h4>활동1. 후보 열여섯 장 속성표 채우기 (12분)</h4><ul><li>오늘 찾을 동물이 열여섯 장 안에만 있음을 확인하기</li><li>날개가 있는지, 물속에서 사는지 칸에 표시하기</li><li>다리가 넷인지 여섯인지, 사람이 많이 기르는지 칸에 표시하기</li><li>판정이 갈리는 칸은 학급 약속을 정해 아래에 적기</li><li>‘예’가 여덟 마리쯤인 칸을 찾아 동그라미 치기</li></ul><figure><img src="../../assets/plan/B21_2.jpg" alt="속성표 보기" loading="lazy"><figcaption>속성표 보기</figcaption></figure><h4>활동2. 짝과 스무고개 대결 (20분)</h4><ul><li>각자 후보 한 마리를 정해 종이에 적어 엎어 두기</li><li>번갈아 한 질문씩 묻고 받은 답 적기</li><li>질문을 한 번 할 때마다 남은 후보 수를 숫자로 적기</li><li>먼저 맞힌 사람이 1판을 이기고, 쓴 질문 수를 짝과 견주기</li><li>2판은 남은 후보를 반씩 나누는 질문만 골라 다시 대결하기</li><li>도전: 네 번 안에 반드시 맞히는 질문 순서 찾기</li></ul></div><div class="res"><div><span class="k">준비물</span>필기구</div><div><span class="k">자료</span>스무고개 활동지, 동물 카드 축소판(짝별), 속성표 보기</div><div><span class="k">유의점</span>이기고 지는 것보다 질문 수가 줄어든 까닭을 찾는 데 초점을 둔다.</div><div><span class="k">유의점</span>짝을 지을 수 없는 학생은 교사가 답하는 사람이 되어 준다.</div><div><span class="k">유의점</span>남은 후보 수를 세기 어려운 학생은 축소판 카드를 뒤집어 가며 세게 한다.</div></div></div></div><div class="rowcard" id="r2"><div class="rowhead"><span>14차시</span><span class="stage">전개</span><span class="chip">33분</span></div><div class="rowbody"><div class="act"><h4>활동3. 가지 그림 게임판 만들고 짝이 따라가기 (18분)</h4><ul><li>2판의 질문 순서를 8절지에 동생용 가지 그림 게임판으로 옮기기</li><li>갈림마다 질문을 쓰고 두 가지에 ‘예’와 ‘아니요’ 적기</li><li>가지 끝에 남는 후보 이름 빠짐없이 적기</li><li>짝의 게임판만 보고 정해진 동물을 말판으로 따라가기</li><li>막힌 지점을 짝에게 표시해 주고 그 자리에서 고치기</li><li>재료 창고의 병뚜껑에 동물 그림을 붙여 말 만들기</li></ul><figure><img src="../../assets/plan/B21_3.jpg" alt="가지 그림 보기" loading="lazy"><figcaption>가지 그림 보기</figcaption></figure><h4>활동4. 새 카드 여덟 장으로 시험하기 (15분)</h4><ul><li>새 후보 카드를 한 장씩 자기 게임판에 넣어 따라가기</li><li>끝까지 감·막힘·엉뚱한 끝 가운데 하나를 골라 적기</li><li>막히거나 엉뚱한 끝으로 간 후보 하나 고르기</li><li>질문을 더 정확한 말로 바꾸거나 갈림을 하나 더 넣기</li><li>고친 뒤 앞의 카드 두 장을 다시 따라가 결과 적기</li><li>게임판에 2.0 표시를 하고 고친 곳에 색 테이프 붙이기</li></ul></div><div class="res"><div><span class="k">준비물</span>필기구, 8절지, 병뚜껑 말, 색 테이프</div><div><span class="k">자료</span>가지 그림 활동지와 보기, 새 후보 카드 여덟 장, Code.org ‘How AI Makes Decisions’(확장)</div><div><span class="k">유의점</span>그림 솜씨와 글씨체는 보지 않고 갈림과 예·아니요 표시만 본다.</div><div><span class="k">유의점</span>짝이 따라가는 동안 그린 사람은 말로 설명하지 않고, 고치기 전에 결과부터 적게 한다.</div><div><span class="k">유의점</span>빨리 끝낸 학생은 엔트리 묻고 대답 기다리기·만일 블록으로 첫 두 갈림을 옮겨 보게 한다.</div><div><span class="k">유의점</span>Code.org 자료는 영어 화면이 많아 빠른 학습자 확장이나 가정 연계로만 쓴다.</div></div></div></div><div class="rowcard" id="r3"><div class="rowhead"><span>14차시</span><span class="stage">정리</span><span class="chip">7분</span></div><div class="rowbody"><div class="act"><h4>배운 내용 정리 및 의뢰 해결 보고 (5분)</h4><ul><li>옆 모둠과 게임판을 바꾸어 동물 한 마리를 따라가 보고 별 스티커 붙이기</li><li>후보를 반씩 나누는 질문이 질문 수를 줄이는 까닭을 내 기록의 숫자를 들어 쓰기</li><li>새 자료가 들어와 게임판이 통하지 않을 때 할 일 말하기</li><li>별을 많이 받은 게임판을 유치원 동생들에게 전달할 묶음으로 모으기</li></ul><h4>다음 의뢰 예고 (2분)</h4><ul><li>체육 선생님의 의뢰 알기: 잰 온도를 규칙표로 판단하는 기온 알리미 만들기</li><li>활동지 두 장을 함께 정리해 제출하기</li></ul></div><div class="res"><div><span class="k">자료</span>가지 그림 활동지, 별 스티커</div><div><span class="k">유의점</span>프로그램이 스스로 생각해서 규칙을 고친다고 말하지 않는다.</div><div><span class="k">유의점</span>쓰기가 어려운 학생은 기록표의 숫자를 짚으며 말로 확인한다.</div><div><span class="k">유의점</span>결석·미제출 학생은 보충 확인 시점을 정한다.</div></div></div></div>
+
+<h2 id="eval">평가 계획</h2>
+<div class="box"><p><b>컴퓨팅 사고력 · 질문 순서의 표현과 시험을 통한 수정</b></p><p>후보를 반씩 나누는 질문의 쓸모를 남은 후보 수로 설명하고, 질문 순서를 가지 그림으로 나타내 고칠 수 있는가?</p><div class="tw"><table class="lv"><tr><th>수준</th><th>평가 기준</th></tr><tr><td>매우 잘함</td><td>질문마다 남은 후보 수를 빠짐없이 적고 두 판의 질문 수 차이를 자기 숫자를 들어 설명한다. 짝이 같은 끝에 도착하는 가지 그림 게임판을 만들고, 새 카드 여덟 장을 모두 시험해 고친 뒤 다시 따라간 결과까지 적는다.</td></tr><tr><td>잘함</td><td>남은 후보 수를 적어 두 판의 질문 수 차이를 밝히고, 짝이 따라갈 수 있는 가지 그림 게임판을 만들며, 통하지 않는 곳을 한 곳 이상 고쳐 다시 따라간 결과를 적는다.</td></tr><tr><td>보통</td><td>남은 후보 수 기록이나 예·아니요 표시 가운데 일부가 빠져 짝이 한 지점에서 막히고, 고친 뒤 다시 따라가 확인하지 못한다.</td></tr><tr><td>노력요함</td><td>교사가 남은 후보를 함께 세어 주고 갈림 하나를 짚어 준 뒤에도 질문에 따른 후보 수 변화를 적거나 가지 그림의 갈림을 만드는 데 어려움이 있다.</td></tr><tr><td>미관찰</td><td>결석이나 미제출로 확인하지 못한 경우. 낮은 성취로 적지 않고 따로 기록한 뒤 보충 확인 시점을 정한다.</td></tr></table></div><p class="small"><b>평가 방법</b> 활동지 분석 · 산출물(게임판) 분석 · 구술 확인 · 관찰</p></div>
+
+<h2 id="tools">연동 도구·링크</h2>
+<p class="small muted">과정안에 나오는 도구가 저절로 걸립니다. 수업 전에 학교망에서 열리는지, 블록·메뉴 이름이 바뀌지 않았는지 확인하세요.</p>
+<div class="toolgrid"><a class="tool" href="https://playentry.org/ws/new" target="_blank" rel="noopener"><b>엔트리 ↗</b><span>블록 코딩, 인공지능 블록, 데이터 분석(테이블·차트)</span><span>계정: 학생 계정 없이 만들기 화면 사용 가능(저장은 교사 계정)</span></a><a class="tool" href="https://docs.playentry.org/user/" target="_blank" rel="noopener"><b>엔트리 사용 설명서 ↗</b><span>엔트리 안내</span></a><a class="tool" href="https://code.org/ai/how-ai-works" target="_blank" rel="noopener"><b>Code.org How AI Works ↗</b><span>인공지능이 판단하는 방법 영상(확장·가정 연계)</span><span>계정: 필요 없음</span></a></div>
+<div class="box mine" data-code="B21">
+<h3 style="margin-top:0">내 수업 링크</h3>
+<p class="small muted">학급 패들렛, 엔트리 작품, 활동지 주소처럼 이 차시에 쓸 링크를 걸어 둡니다. 이 브라우저에만 저장되고 밖으로 보내지 않습니다. 학생 이름이 든 주소는 넣지 마세요.</p>
+<ul></ul>
+<form><label class="small" for="mn-B21">이름</label><input id="mn-B21" name="n" maxlength="40" required placeholder="예: 우리 반 패들렛">
+<label class="small" for="mu-B21">주소</label><input id="mu-B21" name="u" type="url" required placeholder="https://">
+<button class="btn" type="submit">걸어 두기</button></form>
+</div>
+<h2 id="game">체험 게임</h2><div class="box" style="border-left:10px solid #F59E0B"><p class="small muted">수업 중 5~10분 체험</p><h3 style="margin-top:2px">질문 하나에 몇 마리</h3><p>다섯 번 안에 하나만 남겨요</p><div class="btns"><a class="btn pri" href="../../B21/">체험 게임 열기</a></div></div>
+<div class="pn"><a class="btn" href="../B20/">← 6학년 11~12차시</a><a class="btn" href="../B22/">6학년 15~16차시 →</a></div>
+
+</main>
+<footer><div class="in">경기 AI 융합교육 에듀다움 교사연구회 · 학교자율시간 SW·AI 교육과정 · 과정안 기준일 2026. 9. 27.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</div></footer>
+<script>
+(function(){
+  var box=document.querySelector('.mine'); if(!box) return;
+  var key='edudaum.links.'+box.dataset.code, ul=box.querySelector('ul'), f=box.querySelector('form');
+  function load(){try{return JSON.parse(localStorage.getItem(key)||'[]')}catch(_){return []}}
+  function save(a){try{localStorage.setItem(key,JSON.stringify(a))}catch(_){}}
+  function draw(){
+    var a=load(); ul.textContent='';
+    if(!a.length){var p=document.createElement('li');p.className='small muted';p.textContent='아직 걸어 둔 링크가 없습니다.';ul.appendChild(p);return}
+    a.forEach(function(x,i){
+      var li=document.createElement('li'),l=document.createElement('a'),b=document.createElement('button');
+      l.href=x.u;l.textContent=x.n+' ↗';l.target='_blank';l.rel='noopener';l.style.fontWeight='800';
+      b.type='button';b.className='x';b.textContent='빼기';b.setAttribute('aria-label',x.n+' 빼기');
+      b.onclick=function(){var z=load();z.splice(i,1);save(z);draw()};
+      li.appendChild(l);li.appendChild(b);ul.appendChild(li)});
+  }
+  f.addEventListener('submit',function(ev){
+    ev.preventDefault(); var n=f.n.value.trim(), u=f.u.value.trim();
+    if(!/^https:\/\//.test(u)){f.u.setCustomValidity('https:// 로 시작하는 주소만 걸 수 있어요');f.u.reportValidity();f.u.setCustomValidity('');return}
+    var a=load(); a.push({n:n,u:u}); save(a); f.reset(); draw();
+  });
+  draw();
+})();
+</script>
+</body>
+</html>

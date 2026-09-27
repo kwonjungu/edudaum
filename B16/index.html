@@ -61,7 +61,7 @@ h2{font-size:13px;font-weight:900;margin:0 0 7px;color:var(--muted)}
 .gbtn{
   flex:1 1 0;font-family:inherit;cursor:pointer;color:var(--ink);font-size:12.5px;font-weight:900;
   background:var(--surface);border:2.5px solid var(--ink);border-radius:9px;
-  min-height:44px;padding:2px;box-shadow:2px 2px 0 var(--ink);
+  min-height:44px;padding:2px;box-shadow:2px 2px 0 var(--ink);word-break:keep-all;line-height:1.15;
   transition:transform .1s,box-shadow .1s,background .1s;
 }
 .gbtn[aria-pressed="true"]{background:var(--point);color:#fff}
@@ -99,15 +99,15 @@ h2{font-size:13px;font-weight:900;margin:0 0 7px;color:var(--muted)}
 </head>
 <body>
 <main>
-  <nav class="topnav"><a href="../">← 전체 목록</a><b>3~4</b></nav>
+  <nav class="topnav"><span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a href="../play/">← 체험 목록</a><a href="../lessons/B16/">과정안</a></span><b>3~4</b></nav>
   <h1>예시를 옮겨 보기</h1>
   <p class="lead">카드를 옮기고 새 카드를 짚어요</p>
 
   <section aria-labelledby="h-ex">
     <h2 id="h-ex">예시 카드</h2>
     <div class="boxes">
-      <div class="box"><h3>1상자</h3><div class="slot" id="s1"></div></div>
-      <div class="box"><h3>2상자</h3><div class="slot" id="s2"></div></div>
+      <div class="box"><h3>가 상자</h3><div class="slot" id="s1"></div></div>
+      <div class="box"><h3>나 상자</h3><div class="slot" id="s2"></div></div>
     </div>
     <p class="note" id="exNote">카드를 눌러 옆 상자로 옮겨요</p>
   </section>
@@ -128,6 +128,8 @@ h2{font-size:13px;font-weight:900;margin:0 0 7px;color:var(--muted)}
 (function () {
   'use strict';
 
+  // 과정안(3~4차시)의 클래스 이름 그대로: ‘가 상자’, ‘나 상자’
+  var BOXN = { 1: '가 상자', 2: '나 상자' };
   var FEATS = [['fill', '칠하기'], ['size', '크기'], ['shape', '모양']];
   var WORD = { y: '칠한', n: '칠하지 않은', b: '큰', s: '작은', c: '동그라미', q: '네모', t: '세모' };
 
@@ -335,7 +337,7 @@ h2{font-size:13px;font-weight:900;margin:0 0 7px;color:var(--muted)}
       b.type = 'button'; b.className = 'card';
       b.innerHTML = cardSvg(c);
       b.disabled = locked || confirmed;
-      b.setAttribute('aria-label', label(c) + ', 지금 ' + c.box + '상자, 눌러서 옮기기');
+      b.setAttribute('aria-label', label(c) + ', 지금 ' + BOXN[c.box] + ', 눌러서 옮기기');
       b.addEventListener('click', function () { moveExample(i); });
       (c.box === 1 ? s1 : s2).appendChild(b);
     });
@@ -345,7 +347,7 @@ h2{font-size:13px;font-weight:900;margin:0 0 7px;color:var(--muted)}
         placed.className = 'card placed enter';
         placed.innerHTML = cardSvg(c);
         placed.setAttribute('role', 'img');
-        placed.setAttribute('aria-label', '새 카드, ' + label(c) + ', ' + c.actual + '상자로 감');
+        placed.setAttribute('aria-label', '새 카드, ' + label(c) + ', ' + BOXN[c.actual] + '로 감');
         (c.actual === 1 ? s1 : s2).appendChild(placed);
       }
     });
@@ -362,7 +364,7 @@ h2{font-size:13px;font-weight:900;margin:0 0 7px;color:var(--muted)}
       [1, 2].forEach(function (box) {
         var gb = document.createElement('button');
         gb.type = 'button'; gb.className = 'gbtn';
-        gb.textContent = box + '상자';
+        gb.textContent = BOXN[box];
         gb.setAttribute('aria-pressed', c.guess === box ? 'true' : 'false');
         gb.disabled = confirmed;
         gb.addEventListener('click', function () { pickGuess(i, box); });

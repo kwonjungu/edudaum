@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>온도를 움직이면 — 에듀다움 B22</title>
+<title>날씨 카드를 넣으면 — 에듀다움 B22</title>
 <style>
   :root{
     --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
@@ -52,6 +52,7 @@
   .row .n{flex:0 0 26px;height:26px;display:grid;place-items:center;font-weight:900;font-size:13px;
     background:var(--ink);color:var(--paper);border-radius:8px}
   .row .cd{flex:0 0 auto;font-size:14px;font-weight:900}
+  .row .to{flex:0 0 auto;font-size:14px;font-weight:700;color:var(--muted)}
   .row .mk{flex:0 0 auto;width:18px;height:18px;visibility:hidden;margin-left:auto}
   .row.hit .mk{visibility:visible}
 
@@ -66,6 +67,9 @@
   .opt.pick{background:var(--point-soft);border-width:3.5px}
   .opt.hit{background:var(--point);border-width:3.5px}
 
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+  .chip{font-size:14px;font-weight:900;border:2.5px solid var(--ink);border-radius:999px;padding:4px 11px;background:var(--surface)}
+  .chip.on{background:var(--point-soft)}
   .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
   .say{margin-top:9px;font-size:14px;font-weight:900}
   .say.dim{color:var(--muted);font-weight:700}
@@ -77,30 +81,31 @@
 <body>
 <div class="wrap">
   <nav class="nav">
-    <a class="back" href="../">전체 목록</a>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">체험 목록</a><a class="back" href="../lessons/B22/">과정안</a></span>
     <span class="tag">15~16</span>
   </nav>
   <header>
-    <h1>온도를 움직이면</h1>
-    <p class="lead">이 온도에서 뭐라고 할지 짚어요</p>
+    <h1>날씨 카드를 넣으면</h1>
+    <p class="lead">이 카드에서 뭐라고 할지 짚어요</p>
   </header>
 
   <section aria-labelledby="h-t">
-    <h2 id="h-t">이번 온도 · 확인 순서</h2>
+    <h2 id="h-t">이번 날씨 카드 · 확인 순서</h2>
     <p class="big"><span id="tv">20</span><small>도</small></p>
+    <p class="chips"><span class="chip" id="rain">비 안 옴</span><span class="chip" id="dust">미세먼지 보통</span></p>
     <div class="rows" id="rows"></div>
-    <p class="note">잰 값은 온도계로 직접 읽어요</p>
+    <p class="note">엔트리 도우미에도 넣어 봐요</p>
   </section>
 
   <section aria-labelledby="h-o">
-    <h2 id="h-o">알릴 말 고르기</h2>
+    <h2 id="h-o">결론 고르기</h2>
     <div class="opts" id="opts"></div>
     <div class="tools">
       <button class="btn main" id="check" type="button" disabled>확인하기</button>
       <button class="btn" id="reset" type="button">다시 하기</button>
       <button class="btn" id="next" type="button">다음 판</button>
     </div>
-    <p class="say dim" id="say">알릴 말을 하나 짚어요</p>
+    <p class="say dim" id="say">결론을 하나 짚어요</p>
   </section>
 </div>
 
@@ -109,15 +114,18 @@
   'use strict';
   var $ = function(id){ return document.getElementById(id); };
   var RULES = [
-    {cd:'30도 이상', ms:'그늘에서 쉬면서 활동하세요', f:function(t){ return t >= 30; }},
-    {cd:'25도 이상', ms:'물통을 챙기세요',           f:function(t){ return t >= 25; }},
-    {cd:'5도 이하',  ms:'장갑을 챙기세요',           f:function(t){ return t <= 5;  }}
+    {cd:'비가 오면',        ms:'강당 수업',     f:function(c){ return c.rain; }},
+    {cd:'미세먼지 나쁨이면', ms:'실내 수업',     f:function(c){ return c.dust === 2; }},
+    {cd:'33도 이상이면',    ms:'실내 수업',     f:function(c){ return c.t >= 33; }},
+    {cd:'28도 이상이면',    ms:'그늘에서 짧게', f:function(c){ return c.t >= 28; }}
   ];
-  var OPTS = ['그늘에서 쉬면서 활동하세요', '물통을 챙기세요', '장갑을 챙기세요', '해당하는 규칙 없음'];
-  var NUM = ['①','②','③'];
-  var BOUND = [5, 25, 30];
+  var OPTS = ['강당 수업', '실내 수업', '그늘에서 짧게', '운동장 수업'];
+  var NUM = ['①','②','③','④'];
+  var BOUND = [28, 33];
+  var DUST = ['좋음', '보통', '나쁨'];
+  var BASE = [0, 1, 2, 3], TEMP_FIRST = [2, 3, 0, 1];
 
-  var order, temp, picked, confirmed, prevSig;
+  var order, card, picked, confirmed, prevSig;
   var rowsBox = $('rows'), optsBox = $('opts'), say = $('say'), tv = $('tv');
   var checkBtn = $('check'), resetBtn = $('reset');
   var optBtns = [];
@@ -134,42 +142,33 @@
     }
   })();
 
-  function fire(ord, t){
-    for (var i = 0; i < ord.length; i++){ if (RULES[ord[i]].f(t)) return ord[i]; }
+  function fire(ord, c){
+    for (var i = 0; i < ord.length; i++){ if (RULES[ord[i]].f(c)) return ord[i]; }
     return -1;
   }
 
-  function shuffled(a){
-    var b = a.slice();
-    for (var i = b.length - 1; i > 0; i--){
-      var j = Math.floor(Math.random() * (i + 1));
-      var t = b[i]; b[i] = b[j]; b[j] = t;
-    }
-    return b;
-  }
-
   function randTemp(){
-    if (Math.random() < 0.3){
-      return BOUND[Math.floor(Math.random() * BOUND.length)];
-    }
-    var steps = Math.round((40 - (-5)) / 0.5);
-    return -5 + Math.round(Math.random() * steps) * 0.5;
+    if (Math.random() < 0.3) return BOUND[Math.floor(Math.random() * BOUND.length)];
+    return 15 + Math.floor(Math.random() * 23);   /* 15~37도 */
   }
 
   function pickRound(){
-    var ord = [0, 1, 2];
-    if (Math.random() < 1 / 3){
-      do { ord = shuffled([0, 1, 2]); } while (ord[0] === 0 && ord[1] === 1);
+    var ord = (Math.random() < 1 / 3) ? TEMP_FIRST : BASE;
+    var c;
+    if (Math.random() < 0.15){
+      c = { t: 30, rain: true, dust: 1 };          /* 비 오는 30도 카드 */
+    } else {
+      var d = Math.random();
+      c = { t: randTemp(), rain: Math.random() < 0.35, dust: d < 0.25 ? 2 : (d < 0.6 ? 1 : 0) };
     }
-    var t = randTemp();
-    return { order: ord, temp: t, sig: ord.join('') + '|' + t };
+    return { order: ord, card: c, sig: ord.join('') + '|' + c.t + c.rain + c.dust };
   }
 
   function newRound(){
     var r;
     do { r = pickRound(); } while (r.sig === prevSig);
     prevSig = r.sig;
-    order = r.order; temp = r.temp;
+    order = r.order; card = r.card;
     picked = null; confirmed = false;
     render();
   }
@@ -187,19 +186,25 @@
   }
 
   function render(){
-    tv.textContent = (temp % 1 === 0) ? String(temp) : temp.toFixed(1);
+    tv.textContent = String(card.t);
+    var rainEl = $('rain'), dustEl = $('dust');
+    rainEl.textContent = card.rain ? '비 옴' : '비 안 옴';
+    rainEl.classList.toggle('on', card.rain);
+    dustEl.textContent = '미세먼지 ' + DUST[card.dust];
+    dustEl.classList.toggle('on', card.dust === 2);
 
-    var actual = fire(order, temp);
+    var actual = fire(order, card);
     var showHit = confirmed;
-    var html = '';
     rowsBox.textContent = '';
-    for (var i = 0; i < order.length; i++){
-      var r = RULES[order[i]];
-      var on = showHit && order[i] === actual;
+    for (var i = 0; i <= order.length; i++){
+      var last = (i === order.length);
+      var r = last ? {cd:'그 밖에', ms:'운동장 수업'} : RULES[order[i]];
+      var on = showHit && (last ? actual === -1 : order[i] === actual);
       var row = document.createElement('div');
       row.className = 'row' + (on ? ' hit' : '');
-      row.innerHTML = '<span class="n" aria-hidden="true">' + NUM[i] + '</span>' +
+      row.innerHTML = '<span class="n" aria-hidden="true">' + (last ? '-' : NUM[i]) + '</span>' +
         '<span class="cd">' + r.cd + '</span>' +
+        '<span class="to">→ ' + r.ms + '</span>' +
         '<svg class="mk" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10.5 8 15.5 17 4.5"' +
         ' fill="none" stroke="#141414" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
       rowsBox.appendChild(row);
@@ -220,7 +225,7 @@
       say.textContent = pickedIsActual ? '짚은 대로 나왔어요' : '다른 줄이 먼저 걸렸어요';
       say.className = 'say';
     } else if (picked === null){
-      say.textContent = '알릴 말을 하나 짚어요';
+      say.textContent = '결론을 하나 짚어요';
       say.className = 'say dim';
     } else {
       say.textContent = '확인하기를 눌러요';

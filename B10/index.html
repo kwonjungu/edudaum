@@ -76,7 +76,7 @@
 <body>
 <div class="wrap">
   <nav class="nav">
-    <a class="back" href="../">← 전체 목록</a>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">← 체험 목록</a><a class="back" href="../lessons/B10/">과정안</a></span>
     <span class="tag">19~20</span>
   </nav>
 
@@ -86,14 +86,14 @@
   </header>
 
   <section aria-labelledby="h-v">
-    <h2 id="h-v">걸음</h2>
+    <h2 id="h-v">흔든수</h2>
     <div class="stage">
       <div class="panel"><svg id="led" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg></div>
-      <p class="vbox"><span>걸음</span><b id="num">0</b></p>
+      <p class="vbox"><span>흔든수</span><b id="num">0</b></p>
     </div>
     <div class="code">
-      <div class="card cover" id="c1"><span class="when">처음에</span><p class="line" id="c1line">? ? ?</p></div>
-      <div class="card"><span class="when">흔들면</span><p class="line">걸음 1만큼 바꾸기</p></div>
+      <div class="card cover" id="c1"><span class="when">시작하면</span><p class="line" id="c1line">? ? ?</p></div>
+      <div class="card"><span class="when">흔들림 감지하면</span><p class="line">흔든수를 1만큼 바꾸기</p></div>
     </div>
     <div class="acts">
       <button class="btn main" id="shake" type="button">흔들기</button>
@@ -261,7 +261,7 @@
     var guessValue = guess === 'zero' ? 0 : count;
     if (hasInit) {
       c1El.className = 'card';
-      c1lineEl.textContent = '걸음 0으로 정하기';
+      c1lineEl.textContent = '흔든수를 0으로 정하기';
       count = 0;
     } else {
       c1El.className = 'card off';

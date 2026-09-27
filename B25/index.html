@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>같은 시험지로 견주기 — 에듀다움 B25</title>
+<title>같은 시험 데이터로 견주기 — 에듀다움 B25</title>
 <style>
   :root{
     --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
@@ -35,12 +35,12 @@
     box-shadow:var(--hard);padding:4px 6px;margin-top:3px}
   h2{font-size:12px;font-weight:900;letter-spacing:-.02em;margin-bottom:2px}
   h2:not(:first-child){margin-top:3px}
-  .cond{display:grid;grid-template-columns:36px 1fr auto auto;align-items:center;gap:5px;
+  .cond{display:grid;grid-template-columns:48px 1fr auto auto;align-items:center;gap:5px;
     border:2.5px solid var(--ink);border-radius:var(--r-sm);padding:2px 5px;margin-top:2px;
     background:var(--paper)}
   .cond.chg{background:var(--point-soft)}
   .cond.lock{opacity:.55}
-  .cl{font-size:12px;font-weight:900}
+  .cl{font-size:12px;font-weight:900;white-space:nowrap}
   .cv{font-size:12.5px;font-weight:800;font-variant-numeric:tabular-nums}
   .keep{font-size:10.5px;font-weight:800;color:var(--muted);white-space:nowrap}
   button{font-family:inherit;cursor:pointer;color:var(--ink)}
@@ -100,21 +100,17 @@
       <path d="M28.5 18v-6M32 18v-8M35.5 18v-6"/>
     </g>
   </symbol>
-  <symbol id="h-fist" viewBox="0 0 44 44">
+  <symbol id="h-back" viewBox="0 0 44 44">
     <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="16" y="16" width="19" height="19" rx="6"/>
-      <path d="M21 16v-4M26 16v-5M31 16v-4"/>
-      <path d="M16 26h9"/>
-      <path d="M12 16c-4 5-4 13 0 18"/>
-      <path d="M12 16h4M12 34h4"/>
+      <rect x="7" y="16" width="18" height="18" rx="5"/>
+      <rect x="17" y="10" width="18" height="18" rx="5"/>
+      <path d="M8 39h26M30 36l4 3-4 3"/>
     </g>
   </symbol>
-  <symbol id="h-lock" viewBox="0 0 44 44">
+  <symbol id="h-shake" viewBox="0 0 44 44">
     <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M9 28v-6l4-4 4 4v6"/>
-      <path d="M17 28V16l4-4 4 4v12"/>
-      <path d="M25 28v-6l4-4 4 4v6"/>
-      <rect x="7" y="28" width="30" height="8" rx="3"/>
+      <rect x="14" y="6" width="16" height="20" rx="5"/>
+      <path d="M10 30l-2 4M22 32v5M34 30l2 4"/>
     </g>
   </symbol>
   <symbol id="mk-o" viewBox="0 0 20 20">
@@ -127,37 +123,37 @@
 
 <div class="wrap">
   <nav class="nav">
-    <a class="back" href="../index.html">
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">
       <svg width="13" height="13" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L6 10l6 6"/></svg>
-      전체 목록</a>
+      체험 목록</a><a class="back" href="../lessons/B25/">과정안</a></span>
     <span class="tag">21~24</span>
   </nav>
 
   <section>
-    <h1>같은 시험지로 견주기</h1>
-    <p class="lead">아홉 장을 다 맞게 만들어요.</p>
+    <h1>같은 시험 데이터로 견주기</h1>
+    <p class="lead">아홉 번을 다 알아보게 만들어요.</p>
     <div class="card">
-      <h2>학습 묶음</h2>
-      <div class="cond" id="r-bg"><span class="cl">배경</span><span class="cv" id="v-bg">흰 종이</span><button class="mini" id="b-bg" disabled>바꾸기</button></div>
-      <div class="cond" id="r-ang"><span class="cl">각도</span><span class="cv" id="v-ang">위</span><button class="mini" id="b-ang" disabled>바꾸기</button></div>
-      <div class="cond" id="r-cnt"><span class="cl">장수</span><span class="cv" id="v-cnt">넉넉함</span><button class="mini" id="b-cnt" disabled>바꾸기</button></div>
+      <h2>학습 데이터</h2>
+      <div class="cond" id="r-bg"><span class="cl">샘플 수</span><span class="cv" id="v-bg">3개</span><button class="mini" id="b-bg" disabled>바꾸기</button></div>
+      <div class="cond" id="r-ang"><span class="cl">빠르기</span><span class="cv" id="v-ang">보통</span><button class="mini" id="b-ang" disabled>바꾸기</button></div>
+      <div class="cond" id="r-cnt"><span class="cl">착용 손</span><span class="cv" id="v-cnt">오른손</span><button class="mini" id="b-cnt" disabled>바꾸기</button></div>
     </div>
     <button class="btn" id="run">시험하기</button>
     <p class="hint" id="hint">시험하기를 누르세요</p>
     <div class="gwrap" id="gwrap" hidden>
-      <div class="gstrip" id="gstrip" role="group" aria-label="몇 장 맞을지 짚어요"></div>
+      <div class="gstrip" id="gstrip" role="group" aria-label="몇 번 알아볼지 짚어요"></div>
     </div>
     <button class="btn" id="retest" disabled>다시 시험</button>
   </section>
 
   <section>
     <div class="card">
-      <h2>시험 자료 9장</h2>
+      <h2>시험 데이터 9번</h2>
       <div id="grid"></div>
-      <p class="cap">수업용 자료 · 왼쪽 1회차 · 오른쪽 2회차</p>
+      <p class="cap">연습용 기록 · 왼쪽 1회차 · 오른쪽 2회차</p><p class="cap">CreateAI로 다시 해 봐요</p>
       <h2>맞힌 수</h2>
       <table class="sc">
-        <thead><tr><th></th><th>손바닥</th><th>주먹</th><th>깍지</th><th>모두</th></tr></thead>
+        <thead><tr><th></th><th>손바닥</th><th>손등</th><th>물 털기</th><th>모두</th></tr></thead>
         <tbody id="scb"></tbody>
       </table>
       <p class="hint" id="hint2"></p>
@@ -173,59 +169,65 @@
 (function () {
   'use strict';
 
-  var NAME = ['손바닥', '주먹', '깍지'];
-  var SYM = ['h-palm', 'h-fist', 'h-lock'];
-  var BG = { w: '흰 종이', d: '책상' };
-  var ANG = { t: '위', s: '옆' };
-  function otherBg(x) { return x === 'w' ? 'd' : 'w'; }
-  function otherAng(x) { return x === 't' ? 's' : 't'; }
+  var NAME = ['손바닥 문지르기', '손등 문지르기', '물 털기'];
+  var SYM = ['h-palm', 'h-back', 'h-shake'];
+  var HAND = { r: '오른손', l: '왼손' };
+  var SPD = { n: '보통', f: '빠르게' };
 
-  /* 판마다 학습 묶음의 시작 상태와 시험 자료 9장의 짜임이 template 하나로 정해진다.
-     넷에 하나쯤은 조건 하나로는 아홉 장을 다 맞힐 수 없게 지어 두었다(아래 T5·T6). */
-  function mk(bg0, ang0, cnt0, arr) {
-    return {
-      bg0: bg0, ang0: ang0, cnt0: cnt0,
-      cards: arr.map(function (c) { return { n: c[0], bg: c[1], ang: c[2] }; })
-    };
+  /* 판마다 시험 데이터 9번(동작마다 셋)을 그 자리에서 뽑는다.
+     학습 데이터의 시작은 과정안 그대로 샘플 3개·오른손·보통이다.
+     샘플 3개로는 두 문지르기가 서로 헷갈리고, 또렷하게 한 시도만 알아본다.
+     셋에 한 판꼴로 빠르게 하거나 왼손에 찬 시도가 하나 섞인다. 그 판은 한 가지만 바꿔서는
+     아홉 번을 다 알아볼 수 없다. */
+  function makeBoard() {
+    var cards = [];
+    for (var a = 0; a < 3; a++) {
+      for (var k = 0; k < 3; k++) {
+        cards.push({ n: a, hand: 'r', spd: 'n', clear: a < 2 && Math.random() < 0.35 });
+      }
+    }
+    if (Math.random() < 1 / 3) {
+      var j = Math.floor(Math.random() * 9);
+      if (Math.random() < 0.5) { cards[j].spd = 'f'; } else { cards[j].hand = 'l'; }
+    }
+    return { cards: cards };
   }
-  function allSame(bg0, ang0) {
-    var out = [];
-    for (var c = 0; c < 3; c++) { for (var k = 0; k < 3; k++) { out.push([c, bg0, ang0]); } }
-    return out;
-  }
-  var TEMPLATES = [
-    mk('w', 't', [10, 10, 10], [[0,'w','t'],[0,'w','t'],[0,'d','t'], [1,'w','t'],[1,'d','t'],[1,'w','t'], [2,'w','t'],[2,'w','t'],[2,'d','t']]),
-    mk('w', 't', [10, 10, 10], [[0,'w','t'],[0,'w','t'],[0,'w','s'], [1,'w','t'],[1,'w','s'],[1,'w','t'], [2,'w','t'],[2,'w','t'],[2,'w','s']]),
-    mk('w', 't', [10, 4, 10], allSame('w', 't')),
-    mk('d', 's', [2, 10, 4], allSame('d', 's')),
-    mk('w', 't', [10, 10, 10], [[0,'w','t'],[0,'w','t'],[0,'d','t'], [1,'w','t'],[1,'d','s'],[1,'w','t'], [2,'w','t'],[2,'w','t'],[2,'d','t']]),
-    mk('w', 't', [10, 10, 10], [[0,'w','t'],[0,'w','t'],[0,'w','s'], [1,'w','t'],[1,'d','s'],[1,'w','t'], [2,'w','t'],[2,'w','t'],[2,'w','s']]),
-    mk('d', 's', [10, 10, 10], [[0,'d','s'],[0,'d','s'],[0,'w','s'], [1,'d','s'],[1,'w','s'],[1,'d','s'], [2,'d','s'],[2,'d','s'],[2,'w','s']]),
-    mk('d', 't', [10, 10, 10], [[0,'d','t'],[0,'d','t'],[0,'d','s'], [1,'d','t'],[1,'d','s'],[1,'d','t'], [2,'d','t'],[2,'d','t'],[2,'d','s']])
-  ];
 
   var st, lastSig = '';
   var gcells = [];
 
-  function sig(t) { return t.bg0 + t.ang0 + t.cnt0.join(','); }
-
-  /* 시작 상태(배경·각도·장수)가 직전 판과 같으면 다시 뽑는다. */
-  function pickIdx() {
-    var i = Math.floor(Math.random() * TEMPLATES.length);
-    return sig(TEMPLATES[i]) === lastSig ? pickIdx() : i;
+  function sig(t) {
+    return t.cards.map(function (c) { return c.n + c.hand + c.spd + (c.clear ? 1 : 0); }).join('');
   }
 
-  function fresh(idx) {
-    var t = TEMPLATES[idx];
+  function firstScore(t) {
+    var n = 0;
+    for (var i = 0; i < t.cards.length; i++) {
+      var c = t.cards[i];
+      if (c.hand === 'r' && c.spd === 'n' && (c.n === 2 || c.clear)) { n++; }
+    }
+    return n;
+  }
+
+  /* 직전 판과 같거나 1회차에 두 번도 안 빗나가는 판이면 다시 뽑는다. */
+  function pickBoard() {
+    var t;
+    do { t = makeBoard(); } while (sig(t) === lastSig || firstScore(t) > 7);
+    return t;
+  }
+
+  function fresh(t) {
     return {
-      idx: idx, tmpl: t, bg: [t.bg0], ang: [t.ang0], cnt: t.cnt0.slice(),
+      tmpl: t, smp: 3, spd: ['n'], hand: ['r'],
       changed: null, round: 0, marks: [null, null], guess: null
     };
   }
 
-  /* 학습 묶음이 그 장의 배경과 각도를 담고 있고, 그 이름의 장수가 넉넉해야 알아본다. */
+  /* 학습 데이터에 그 시도의 빠르기와 착용 손이 있어야 하고,
+     샘플이 8개이거나 헷갈리지 않는 시도여야 알아본다. */
   function judge(t) {
-    return st.bg.indexOf(t.bg) >= 0 && st.ang.indexOf(t.ang) >= 0 && st.cnt[t.n] >= 8;
+    return st.spd.indexOf(t.spd) >= 0 && st.hand.indexOf(t.hand) >= 0 &&
+      (st.smp >= 8 || t.n === 2 || t.clear);
   }
 
   function $(id) { return document.getElementById(id); }
@@ -239,12 +241,12 @@
     for (var i = 0; i < cards.length; i++) {
       var t = cards[i];
       var tile = document.createElement('div');
-      tile.className = 'tile' + (t.bg === 'd' ? ' bgd' : '') + (t.ang === 's' ? ' angs' : '');
+      tile.className = 'tile' + (t.hand === 'l' ? ' bgd' : '') + (t.spd === 'f' ? ' angs' : '');
       tile.setAttribute('data-i', String(i));
-      tile.setAttribute('aria-label', NAME[t.n] + ' ' + BG[t.bg] + ' ' + ANG[t.ang]);
+      tile.setAttribute('aria-label', NAME[t.n] + ' ' + HAND[t.hand] + ' ' + SPD[t.spd]);
       tile.innerHTML =
         '<svg class="hand" aria-hidden="true"><use href="#' + SYM[t.n] + '"></use></svg>' +
-        '<span class="tl">' + BG[t.bg] + ' ' + ANG[t.ang] + '</span>' +
+        '<span class="tl">' + HAND[t.hand] + ' ' + SPD[t.spd] + '</span>' +
         '<span class="marks"><i class="m" data-m="' + i + '-0"></i>' +
         '<i class="m" data-m="' + i + '-1"></i></span>';
       row.appendChild(tile);
@@ -297,16 +299,10 @@
     }
   }
 
-  function cntLabel(cnt) {
-    var lack = [];
-    for (var c = 0; c < 3; c++) { if (cnt[c] < 8) { lack.push(NAME[c]); } }
-    return lack.length ? lack.join('·') + ' 적음' : '넉넉함';
-  }
-
   function paintCond() {
-    $('v-bg').textContent = st.bg.map(function (k) { return BG[k]; }).join('·');
-    $('v-ang').textContent = st.ang.map(function (k) { return ANG[k]; }).join('·');
-    $('v-cnt').textContent = cntLabel(st.cnt);
+    $('v-bg').textContent = st.smp + '개';
+    $('v-ang').textContent = st.spd.map(function (k) { return SPD[k]; }).join('·');
+    $('v-cnt').textContent = st.hand.map(function (k) { return HAND[k]; }).join('·');
     var keys = ['bg', 'ang', 'cnt'];
     for (var i = 0; i < keys.length; i++) {
       var k = keys[i];
@@ -342,7 +338,7 @@
     var h = $('hint');
     if (st.round === 0) { h.textContent = '시험하기를 누르세요'; }
     else if (st.round === 1 && !st.changed) { h.textContent = '조건 하나만 바꾸세요'; }
-    else if (st.round === 1 && st.guess === null) { h.textContent = '몇 장 맞을지 짚어요'; }
+    else if (st.round === 1 && st.guess === null) { h.textContent = '몇 번 알아볼지 짚어요'; }
     else if (st.round === 1) { h.textContent = '다시 시험을 누르세요'; }
     else { h.textContent = ''; }
     $('run').disabled = st.round !== 0;
@@ -363,9 +359,9 @@
   function change(k) {
     if (st.round !== 1 || st.changed) { return; }
     st.changed = k;
-    if (k === 'bg') { st.bg = [st.tmpl.bg0, otherBg(st.tmpl.bg0)]; }
-    if (k === 'ang') { st.ang = [st.tmpl.ang0, otherAng(st.tmpl.ang0)]; }
-    if (k === 'cnt') { st.cnt = [10, 10, 10]; }
+    if (k === 'bg') { st.smp = 8; }
+    if (k === 'ang') { st.spd = ['n', 'f']; }
+    if (k === 'cnt') { st.hand = ['r', 'l']; }
     render();
   }
 
@@ -384,28 +380,27 @@
     st.round = 2;
     var score2 = res.filter(function (x) { return x; }).length;
     var g = st.guess, msg;
-    if (score2 === 9) { msg = '아홉 장을 다 맞혔어요'; }
-    else if (g === score2) { msg = '짚은 대로였어요'; }
-    else if (score2 > g) { msg = (score2 - g) + '장 더 맞았어요'; }
-    else { msg = (g - score2) + '장 덜 맞았어요'; }
+    if (g === score2) { msg = score2 === 9 ? '짚은 대로 아홉 번을 다 알아봤어요' : '짚은 대로였어요'; }
+    else if (score2 > g) { msg = (score2 - g) + '번 더 알아봤어요'; }
+    else { msg = (g - score2) + '번 덜 알아봤어요'; }
     $('hint2').textContent = msg;
     render();
   }
 
-  function startRound(idx) {
-    st = fresh(idx);
+  function startRound(t) {
+    st = fresh(t);
     buildGrid();
     $('hint2').textContent = '';
     render();
   }
-  function nextRound() { lastSig = sig(st.tmpl); startRound(pickIdx()); }
-  function resetRound() { startRound(st.idx); }
+  function nextRound() { lastSig = sig(st.tmpl); startRound(pickBoard()); }
+  function resetRound() { startRound(st.tmpl); }
 
   (function buildGuessStrip() {
     for (var v = 0; v <= 9; v++) {
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'g'; b.textContent = String(v);
-      b.setAttribute('aria-label', v + '장'); b.setAttribute('aria-pressed', 'false');
+      b.setAttribute('aria-label', v + '번'); b.setAttribute('aria-pressed', 'false');
       (function (k) { b.addEventListener('click', function () { pickGuess(k); }); })(v);
       $('gstrip').appendChild(b);
       gcells.push(b);
@@ -420,7 +415,7 @@
   $('b-ang').addEventListener('click', function () { change('ang'); });
   $('b-cnt').addEventListener('click', function () { change('cnt'); });
 
-  startRound(pickIdx());
+  startRound(pickBoard());
 }());
 </script>
 </body>
