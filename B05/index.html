@@ -5,49 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>도서관 순서도 시험</title>
 <style>
-:root{
-  --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
-  --point:#12B76A; --point-soft:#D6F5E6;
-  --muted:#6B6B6B;
-  --r:18px; --r-sm:12px;
-  --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+:root{--line:#DDDDDD;--line-strong:#C1C1C1;
+  --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
+  --point:#FF385C; --point-soft:#FFF0F3;
+  --muted:#6A6A6A;
+  --r:14px; --r-sm:8px;
+  --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
 }
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
   background:var(--paper);
-  background-image:radial-gradient(var(--ink) .5px,transparent .5px);
-  background-size:22px 22px;
+  
+  
   color:var(--ink);
   font-family:"Pretendard","Noto Sans KR",-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
   font-size:17px; line-height:1.45; font-weight:600;
   -webkit-text-size-adjust:100%;
 }
 main{max-width:900px;margin:0 auto;padding:10px 14px 20px}
-h1{font-size:clamp(24px,5.6vw,34px);font-weight:900;letter-spacing:-.035em;margin:0 0 4px}
+h1{font-size:clamp(24px,5.6vw,34px);font-weight:700;letter-spacing:-.035em;margin:0 0 4px}
 .lead{font-size:15px;color:var(--muted);margin:0 0 12px;font-weight:700}
 
 .face{
-  background:var(--surface); border:3px solid var(--ink);
+  background:var(--surface); border:1px solid var(--line);
   border-radius:var(--r); box-shadow:var(--hard); padding:9px; margin:0 0 9px;
 }
-.face h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin:0 0 8px;color:var(--muted)}
+.face h2{font-size:13.5px;font-weight:700;letter-spacing:-.02em;margin:0 0 8px;color:var(--muted)}
 
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 4px}
-.chip{display:inline-block;font-weight:800;font-size:14px;background:var(--point-soft);
-  border:2px solid var(--ink);border-radius:999px;padding:4px 12px}
+.chip{display:inline-block;font-weight:600;font-size:14px;background:var(--point-soft);
+  border:1px solid var(--line);border-radius:999px;padding:4px 12px}
 
 .row{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 4px}
 button{
-  font:inherit; font-weight:800; color:var(--ink); cursor:pointer;
+  font:inherit; font-weight:600; color:var(--ink); cursor:pointer;
   min-height:48px; min-width:96px; padding:10px 16px;
-  border:3px solid var(--ink); border-radius:999px;
+  border:1px solid var(--ink); border-radius:999px;
   background:var(--surface); box-shadow:var(--hard-sm);
   transition:transform .1s ease, box-shadow .1s ease;
 }
 button.main{background:var(--point)}
 button[aria-pressed="true"]{background:var(--ink);color:var(--paper)}
-button:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+button:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
 button:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
 button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 :focus-visible{outline:3px solid var(--ink);outline-offset:3px}
@@ -66,15 +66,15 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 
 .rec{
   display:flex; align-items:center; gap:8px; min-height:44px;
-  border:2.5px solid var(--ink); border-radius:var(--r-sm);
+  border:1px solid var(--line); border-radius:var(--r-sm);
   background:var(--paper); padding:8px 12px; margin:0 0 8px;
-  font-weight:800;
+  font-weight:600;
 }
 .rec span:empty::before{content:"—";color:var(--muted)}
-.say{font-size:13.5px;font-weight:900;color:var(--point);min-height:20px}
+.say{font-size:13.5px;font-weight:700;color:var(--point);min-height:20px}
 .ask{
-  margin:10px 0 0; padding:10px 14px; font-weight:800;
-  border:2.5px dashed var(--ink); border-radius:var(--r-sm); background:var(--point-soft);
+  margin:10px 0 0; padding:10px 14px; font-weight:600;
+  border:1.5px dashed var(--line-strong); border-radius:var(--r-sm); background:var(--point-soft);
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none !important;transition:none !important}
@@ -83,11 +83,13 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 /* 쪽 위 차시 표시 */
 .topnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}
 .topnav a{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);
-  font-weight:800;font-size:14px;background:var(--surface);border:2.5px solid var(--ink);
+  font-weight:600;font-size:14px;background:var(--surface);border:1px solid var(--ink);
   border-radius:999px;padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
-.topnav b{font-weight:900;font-size:14px;background:var(--point);color:#fff;
-  border:2.5px solid var(--ink);border-radius:999px;padding:6px 14px;
+.topnav b{font-weight:700;font-size:14px;background:var(--point);color:#fff;
+  border:1px solid var(--line);border-radius:999px;padding:6px 14px;
   box-shadow:var(--hard-sm);white-space:nowrap}
+
+/* 에듀다움 통일 테마 2026-09-27 */
 </style>
 </head>
 <body>
@@ -108,7 +110,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
         <svg viewBox="0 0 360 392" role="img" aria-label="도서관 대출 순서도">
           <defs>
             <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M0 0 L10 5 L0 10 z" fill="#141414"/>
+              <path d="M0 0 L10 5 L0 10 z" fill="#222222"/>
             </marker>
           </defs>
 

@@ -5,81 +5,81 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>기준만 바꾸면 — 에듀다움</title>
 <style>
-  :root{
-    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
-    --point:#9333EA; --point-soft:#EADCFB; --muted:#5E5E5E;
-    --r:18px; --r-sm:12px;
-    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  :root{--line:#DDDDDD;--line-strong:#C1C1C1;
+    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
+    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A;
+    --r:14px; --r-sm:8px;
+    --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
-    background-size:22px 22px;background-position:-11px -11px}
+    
+    background-position:-11px -11px}
   .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px}
 
   .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
-    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:600;
+    font-size:14px;background:var(--surface);border:1px solid var(--ink);border-radius:999px;
     padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
-  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
+  .back:hover{transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
+  .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;border:1px solid var(--line);
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(21px,5.0vw,27px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  h1{font-size:clamp(21px,5.0vw,27px);font-weight:700;letter-spacing:-.035em;line-height:1.08}
   .lead{font-size:14px;color:var(--muted);margin-top:3px;font-weight:700}
 
-  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+  section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:7px;margin-top:6px}
-  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:5px;color:var(--muted);
+  h2{font-size:13.5px;font-weight:700;letter-spacing:-.02em;margin-bottom:5px;color:var(--muted);
     display:flex;align-items:center;gap:6px}
   h2 svg{flex:none}
 
   /* 항목 줄 — 두 단계가 함께 쓴다 */
   .items{display:grid;gap:3px}
   .item{display:flex;align-items:center;gap:8px;width:100%;font-family:inherit;cursor:pointer;
-    color:var(--ink);background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
     min-height:44px;padding:6px 11px;box-shadow:var(--hard-sm);text-align:left;
     transition:transform .1s,box-shadow .1s}
-  .item:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .item .nm{flex:1;font-weight:900;font-size:15px}
-  .item .n{font-family:'Courier New',monospace;font-weight:900;font-size:17px;min-width:1.9em;text-align:right}
-  .item .gr{font-weight:900;font-size:13px;min-width:3.1em;text-align:right;color:var(--muted)}
+  .item:hover{transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
+  .item .nm{flex:1;font-weight:700;font-size:15px}
+  .item .n{font-family:'Courier New',monospace;font-weight:700;font-size:17px;min-width:1.9em;text-align:right}
+  .item .gr{font-weight:700;font-size:13px;min-width:3.1em;text-align:right;color:var(--muted)}
   .item[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px}
   .item.diff{box-shadow:inset 6px 0 0 var(--point), var(--hard-sm)}
 
   .stepper{display:flex;gap:6px;margin-top:6px}
-  .big{font-family:inherit;cursor:pointer;color:var(--ink);font-size:23px;font-weight:900;
-    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+  .big{font-family:inherit;cursor:pointer;color:var(--ink);font-size:23px;font-weight:700;
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
     min-height:48px;flex:1;box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s}
-  .big:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .big:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
   .big:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .big:disabled{opacity:.42;cursor:default;box-shadow:none}
 
-  .sum{margin-top:4px;font-family:'Courier New',monospace;font-weight:900;font-size:14px}
+  .sum{margin-top:4px;font-family:'Courier New',monospace;font-weight:700;font-size:14px}
 
   .bars{display:grid;gap:3px;margin-top:1px}
   .bar{display:flex;align-items:center;gap:7px}
-  .bar .bn{width:5.2em;font-size:12.5px;font-weight:900}
+  .bar .bn{width:5.2em;font-size:12.5px;font-weight:700}
   .bar svg{flex:1;height:13px;display:block}
   .track{fill:var(--point-soft);stroke:var(--ink);stroke-width:2}
   .fill{fill:var(--point)}
-  .bar .bv{width:2.4em;text-align:right;font-family:'Courier New',monospace;font-weight:900;font-size:13px}
+  .bar .bv{width:2.4em;text-align:right;font-family:'Courier New',monospace;font-weight:700;font-size:13px}
 
   .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
-  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
-    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:700;
+    background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
     min-height:44px;padding:9px 13px;box-shadow:var(--hard-sm);flex:1 1 92px;
     transition:transform .1s,box-shadow .1s}
-  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
   .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .btn.main{background:var(--point);color:#fff}
   .btn:disabled{opacity:.42;cursor:default;box-shadow:none}
 
   .note{margin-top:4px;font-size:12.5px;font-weight:700;color:var(--muted)}
-  .note b{font-weight:900;color:var(--ink)}
-  .say{margin-top:4px;font-size:14px;font-weight:900}
+  .note b{font-weight:700;color:var(--ink)}
+  .say{margin-top:4px;font-size:14px;font-weight:700}
   .say.dim{color:var(--muted);font-weight:700}
   [hidden]{display:none!important}
 
@@ -89,6 +89,9 @@
   .shake{animation:shake .3s ease-out}
   @keyframes shake{0%,100%{transform:translateX(0)}30%{transform:translateX(-4px)}65%{transform:translateX(4px)}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* 에듀다움 통일 테마 2026-09-27 */
+.btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
 </head>
 <body>
@@ -106,8 +109,8 @@
   <section aria-labelledby="h-t">
     <h2 id="h-t">
       <svg id="lock" width="13" height="15" viewBox="0 0 13 15" aria-hidden="true" hidden>
-        <path d="M3 6V4a3.5 3.5 0 017 0v2" fill="none" stroke="#141414" stroke-width="2"/>
-        <rect x="1" y="6" width="11" height="8" rx="2" fill="#9333EA" stroke="#141414" stroke-width="2"/>
+        <path d="M3 6V4a3.5 3.5 0 017 0v2" fill="none" stroke="#222222" stroke-width="2"/>
+        <rect x="1" y="6" width="11" height="8" rx="2" fill="#9333EA" stroke="#222222" stroke-width="2"/>
       </svg>
       <span id="stageName">자료표</span>
     </h2>

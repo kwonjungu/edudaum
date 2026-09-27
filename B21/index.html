@@ -5,67 +5,70 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>질문 하나에 몇 마리 — 에듀다움 B21</title>
 <style>
-  :root{
-    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
-    --point:#F59E0B; --point-soft:#FFF0C7;
-    --muted:#5A5A5A;
-    --r:18px; --r-sm:12px;
-    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  :root{--line:#DDDDDD;--line-strong:#C1C1C1;
+    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
+    --point:#FF385C; --point-soft:#FFF0F3;
+    --muted:#6A6A6A;
+    --r:14px; --r-sm:8px;
+    --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
-    background-size:22px 22px;background-position:-11px -11px}
+    
+    background-position:-11px -11px}
   .wrap{max-width:760px;margin:0 auto;padding:14px 14px 44px}
   .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
   .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);
-    font-weight:800;font-size:14px;background:var(--surface);border:2.5px solid var(--ink);
+    font-weight:600;font-size:14px;background:var(--surface);border:1px solid var(--ink);
     border-radius:999px;padding:9px 15px;box-shadow:var(--hard-sm);min-height:44px}
-  .tag{font-weight:900;font-size:14px;background:var(--point);color:var(--ink);
-    border:2.5px solid var(--ink);border-radius:999px;padding:8px 14px;box-shadow:var(--hard-sm)}
-  h1{font-size:clamp(23px,5.2vw,34px);font-weight:900;letter-spacing:-.035em;line-height:1.06}
+  .tag{font-weight:700;font-size:14px;background:var(--point);color:var(--ink);
+    border:1px solid var(--line);border-radius:999px;padding:8px 14px;box-shadow:var(--hard-sm)}
+  h1{font-size:clamp(23px,5.2vw,34px);font-weight:700;letter-spacing:-.035em;line-height:1.06}
   .lead{font-size:15px;color:var(--muted);font-weight:700;margin-top:6px}
-  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+  section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:13px;margin-top:12px}
-  h2{font-size:14px;font-weight:900;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
+  h2{font-size:14px;font-weight:700;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
   button{font-family:inherit;cursor:pointer;color:var(--ink)}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    border:2.5px solid var(--ink);background:var(--surface);font-size:14.5px;font-weight:900;
+    border:1px solid var(--ink);background:var(--surface);font-size:14.5px;font-weight:700;
     padding:9px 15px;border-radius:var(--r-sm);min-height:44px;box-shadow:var(--hard-sm);
     transition:transform .1s,box-shadow .1s}
   .btn.main{background:var(--point)}
-  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
   .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .btn:disabled{opacity:.42;cursor:default;box-shadow:none;transform:none}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
 
-  .readout{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:900;
+  .readout{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:700;
     background:var(--ink);color:var(--paper);border-radius:999px;padding:7px 15px}
   .readout b{color:var(--point)}
 
   .pool{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
-  .an{font-size:13.5px;font-weight:800;border:2px solid var(--ink);border-radius:999px;
+  .an{font-size:13.5px;font-weight:600;border:1px solid var(--line);border-radius:999px;
     padding:6px 11px;background:var(--point-soft)}
   .an.gone{background:var(--paper);color:var(--muted);text-decoration:line-through;opacity:.55}
   .an.found{background:var(--point);border-width:3px}
 
   .qs{display:grid;gap:8px}
   .q{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
-    border:2.5px solid var(--ink);background:var(--surface);border-radius:var(--r-sm);
-    padding:10px 13px;min-height:48px;box-shadow:var(--hard-sm);font-size:15px;font-weight:800;
+    border:1px solid var(--line);background:var(--surface);border-radius:var(--r-sm);
+    padding:10px 13px;min-height:48px;box-shadow:var(--hard-sm);font-size:15px;font-weight:600;
     transition:transform .1s,box-shadow .1s}
-  .q:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .q:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
   .q:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .q:disabled{background:var(--paper);box-shadow:none;transform:none;opacity:.55}
   .q .mk{width:18px;height:18px;flex:none;visibility:hidden}
   .q.asked .mk{visibility:visible}
   .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
-  .say{margin-top:9px;font-size:14px;font-weight:900}
+  .say{margin-top:9px;font-size:14px;font-weight:700}
   .say.dim{color:var(--muted);font-weight:700}
   [hidden]{display:none!important}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* 에듀다움 통일 테마 2026-09-27 */
+.btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
 </head>
 <body>
@@ -131,7 +134,7 @@
       b.type = 'button';
       b.className = 'q';
       b.innerHTML = '<svg class="mk" viewBox="0 0 20 20" aria-hidden="true">' +
-        '<path d="M3 10.5 8 15.5 17 4.5" fill="none" stroke="#141414" stroke-width="3"' +
+        '<path d="M3 10.5 8 15.5 17 4.5" fill="none" stroke="#222222" stroke-width="3"' +
         ' stroke-linecap="round" stroke-linejoin="round"/></svg><span></span>';
       b.querySelector('span').textContent = Q[k].t;
       (function(idx){ b.addEventListener('click', function(){ ask(idx); }); })(k);

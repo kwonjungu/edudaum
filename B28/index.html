@@ -5,62 +5,65 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>빠진 사람 찾기 — 에듀다움</title>
 <style>
-  :root{
-    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
-    --point:#12B76A; --point-soft:#D6F5E6; --muted:#5E5E5E;
-    --r:18px; --r-sm:12px;
-    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  :root{--line:#DDDDDD;--line-strong:#C1C1C1;
+    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
+    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A;
+    --r:14px; --r-sm:8px;
+    --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.45;
-    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
-    background-size:22px 22px;background-position:-11px -11px}
+    
+    background-position:-11px -11px}
   .wrap{max-width:640px;margin:0 auto;padding:9px 14px 18px}
 
   .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
-  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
-    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:600;
+    font-size:14px;background:var(--surface);border:1px solid var(--ink);border-radius:999px;
     padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
-  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
+  .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;border:1px solid var(--line);
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(20px,4.8vw,26px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  h1{font-size:clamp(20px,4.8vw,26px);font-weight:700;letter-spacing:-.035em;line-height:1.08}
   .lead{font-size:13.5px;color:var(--muted);margin-top:2px;font-weight:700}
 
-  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+  section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:8px 9px;margin-top:7px}
-  h2{font-size:12.5px;font-weight:900;margin-bottom:5px;color:var(--muted)}
+  h2{font-size:12.5px;font-weight:700;margin-bottom:5px;color:var(--muted)}
 
   .rows{display:grid;gap:3px}
   .pick{display:flex;align-items:center;gap:7px;width:100%;font-family:inherit;cursor:pointer;
-    color:var(--ink);background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+    color:var(--ink);background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
     min-height:44px;padding:4px 9px;box-shadow:var(--hard-sm);text-align:left}
-  .pick .nm{flex:1;font-weight:900;font-size:14px}
-  .pick .n{font-family:'Courier New',monospace;font-weight:900;font-size:14px;min-width:2.6em;
+  .pick .nm{flex:1;font-weight:700;font-size:14px}
+  .pick .n{font-family:'Courier New',monospace;font-weight:700;font-size:14px;min-width:2.6em;
     text-align:right;color:var(--muted)}
-  .pick .vd{font-weight:900;font-size:12.5px;min-width:6.4em;text-align:right}
+  .pick .vd{font-weight:700;font-size:12.5px;min-width:6.4em;text-align:right}
   .pick[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px}
   .pick:disabled{opacity:.45;cursor:default;box-shadow:none}
   .pick.guess{box-shadow:inset 6px 0 0 var(--point), var(--hard-sm)}
 
 
   .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
-  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
-    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:700;
+    background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
     min-height:44px;padding:8px 12px;box-shadow:var(--hard-sm);flex:1 1 90px}
   .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .btn.main{background:var(--point);color:#fff}
   .btn:disabled{opacity:.4;cursor:default;box-shadow:none}
 
-  .say{margin-top:6px;font-size:13.5px;font-weight:900;min-height:1.4em}
+  .say{margin-top:6px;font-size:13.5px;font-weight:700;min-height:1.4em}
   .say.dim{color:var(--muted);font-weight:700;font-size:12.5px}
   .note{margin-top:4px;font-size:12px;font-weight:700;color:var(--muted)}
   [hidden]{display:none!important}
 
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* 에듀다움 통일 테마 2026-09-27 */
+.btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
 </head>
 <body>

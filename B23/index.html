@@ -5,39 +5,39 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>몇 지점으로 끊을까 — 에듀다움 B23</title>
 <style>
-  :root{
-    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
-    --point:#7C3AED; --point-soft:#EDE7FF;
-    --muted:#5A5A5A;
-    --r:18px; --r-sm:12px;
-    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  :root{--line:#DDDDDD;--line-strong:#C1C1C1;
+    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
+    --point:#FF385C; --point-soft:#FFF0F3;
+    --muted:#6A6A6A;
+    --r:14px; --r-sm:8px;
+    --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
-    background-size:22px 22px;background-position:-11px -11px}
+    
+    background-position:-11px -11px}
   .wrap{max-width:760px;margin:0 auto;padding:14px 14px 44px}
   .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
   .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);
-    font-weight:800;font-size:14px;background:var(--surface);border:2.5px solid var(--ink);
+    font-weight:600;font-size:14px;background:var(--surface);border:1px solid var(--ink);
     border-radius:999px;padding:9px 15px;box-shadow:var(--hard-sm);min-height:44px}
-  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;
-    border:2.5px solid var(--ink);border-radius:999px;padding:8px 14px;box-shadow:var(--hard-sm)}
-  h1{font-size:clamp(23px,5.2vw,34px);font-weight:900;letter-spacing:-.035em;line-height:1.06}
+  .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;
+    border:1px solid var(--line);border-radius:999px;padding:8px 14px;box-shadow:var(--hard-sm)}
+  h1{font-size:clamp(23px,5.2vw,34px);font-weight:700;letter-spacing:-.035em;line-height:1.06}
   .lead{font-size:15px;color:var(--muted);font-weight:700;margin-top:6px}
-  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+  section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:13px;margin-top:12px}
-  h2{font-size:14px;font-weight:900;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
+  h2{font-size:14px;font-weight:700;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
   button{font-family:inherit;cursor:pointer;color:var(--ink)}
   .btn{display:inline-flex;align-items:center;justify-content:center;
-    border:2.5px solid var(--ink);background:var(--surface);font-size:14px;font-weight:900;
+    border:1px solid var(--ink);background:var(--surface);font-size:14px;font-weight:700;
     padding:9px 12px;border-radius:var(--r-sm);min-height:44px;box-shadow:var(--hard-sm);
     transition:transform .1s,box-shadow .1s}
   .btn.on{background:var(--point);color:#fff}
   .btn.main{background:var(--point);color:#fff}
-  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
   .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .btn:disabled{opacity:.42;cursor:default;box-shadow:none;transform:none}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
@@ -45,17 +45,20 @@
   .pics{display:grid;grid-template-columns:1fr;gap:8px;max-width:560px;margin:0 auto}
   .note{font-size:12.5px;font-weight:700;color:var(--muted);margin-top:6px}
   .pic{display:flex;flex-direction:column;gap:5px}
-  .pic svg{width:100%;height:auto;display:block;border:2.5px solid var(--ink);
+  .pic svg{width:100%;height:auto;display:block;border:1px solid var(--line);
     border-radius:var(--r-sm);background:var(--surface)}
-  .pic .cap{font-size:12px;font-weight:900;color:var(--muted);text-align:center}
-  .status{margin-top:9px;font-size:13px;font-weight:800;color:var(--muted)}
+  .pic .cap{font-size:12px;font-weight:700;color:var(--muted);text-align:center}
+  .status{margin-top:9px;font-size:13px;font-weight:600;color:var(--muted)}
 
   .grids{display:flex;gap:7px;flex-wrap:wrap}
   .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
-  .say{margin-top:9px;font-size:14px;font-weight:900}
+  .say{margin-top:9px;font-size:14px;font-weight:700}
   .say.dim{color:var(--muted);font-weight:700}
   [hidden]{display:none!important}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* 에듀다움 통일 테마 2026-09-27 */
+.btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
 </head>
 <body>
@@ -149,7 +152,7 @@
       var t = i / 200;
       d += (i ? 'L' : 'M') + X(t).toFixed(1) + ' ' + Y(fn(t)).toFixed(1);
     }
-    return '<path d="' + d + '" fill="none" stroke="#141414" stroke-width="' + width +
+    return '<path d="' + d + '" fill="none" stroke="#222222" stroke-width="' + width +
       '" stroke-linecap="round" stroke-linejoin="round"/>';
   }
 
@@ -160,10 +163,10 @@
       var t = (i + 0.5) / k, v = fn(t);
       var x = PAD + i * slot + (slot - bw) / 2, y = Y(v);
       s += '<rect x="' + x.toFixed(2) + '" y="' + y.toFixed(2) + '" width="' + bw.toFixed(2) +
-        '" height="' + (H - PAD - y).toFixed(2) + '" fill="#7C3AED" fill-opacity=".55" stroke="#141414" stroke-width=".6"/>';
+        '" height="' + (H - PAD - y).toFixed(2) + '" fill="#7C3AED" fill-opacity=".55" stroke="#222222" stroke-width=".6"/>';
       if (k <= 10){
         s += '<text x="' + (x + bw / 2).toFixed(2) + '" y="' + Math.max(8, y - 2).toFixed(2) +
-          '" text-anchor="middle" font-size="7" font-weight="900" fill="#141414">' + Math.round(v * 99) + '</text>';
+          '" text-anchor="middle" font-size="7" font-weight="900" fill="#222222">' + Math.round(v * 99) + '</text>';
       }
     }
     return s;
@@ -172,9 +175,9 @@
   function cover(svg, label){
     svg.innerHTML = '<defs><pattern id="hatchB23" width="9" height="9" patternUnits="userSpaceOnUse"' +
       ' patternTransform="rotate(45)"><rect width="9" height="9" fill="#EDE7FF"/>' +
-      '<path d="M0 0 V9" stroke="#141414" stroke-width="1.6"/></pattern></defs>' +
+      '<path d="M0 0 V9" stroke="#222222" stroke-width="1.6"/></pattern></defs>' +
       '<rect x="0" y="0" width="' + W + '" height="' + H + '" fill="url(#hatchB23)"/>' +
-      '<text x="' + (W / 2) + '" y="' + (H / 2 + 3) + '" text-anchor="middle" font-size="9" font-weight="900" fill="#141414">' + label + '</text>';
+      '<text x="' + (W / 2) + '" y="' + (H / 2 + 3) + '" text-anchor="middle" font-size="9" font-weight="900" fill="#222222">' + label + '</text>';
   }
 
   function empty(svg, label){

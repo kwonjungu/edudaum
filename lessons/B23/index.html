@@ -4,111 +4,160 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>6학년 17~18차시 온도계와 마이크로비트 센서로 이어지는 값을 숫자로 끊어 적고 데이터 유형 가르기 — 에듀다움</title>
-<style>
-:root{--ink:#141414;--paper:#FBF7EC;--surface:#fff;--amber:#FFB800;--muted:#5E5E5E;--line:#141414;
---g5:#F59E0B;--g6:#3D5AFE;--soft:#F3EEDD;--r:16px;--hard:4px 4px 0 var(--ink);--hard-sm:2px 2px 0 var(--ink)}
+<style>/* 에듀다움 디자인 토큰 — _공통기준.md 6-3 (2026. 9. 27. 통일안). make_site.py가 쪽마다 안에 넣는다. */
+:root{--canvas:#fff;--ink:#222;--body:#3f3f3f;--muted:#6a6a6a;--muted-soft:#929292;
+--primary:#ff385c;--primary-active:#e00b41;--primary-disabled:#ffd1da;--primary-soft:#fff0f3;
+--soft:#f7f7f7;--strong:#f2f2f2;--line:#ddd;--line-soft:#ebebeb;--line-strong:#c1c1c1;
+--r-sm:8px;--r-md:14px;--r-xl:32px;--r-full:9999px;
+--shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0;
+--font:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',-apple-system,system-ui,Roboto,'Helvetica Neue',sans-serif}
 *{box-sizing:border-box}
-html{scroll-padding-top:72px}
-body{margin:0;background:var(--paper);color:var(--ink);font-size:16px;line-height:1.7;
-font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
+[hidden]{display:none!important}
+html{scroll-padding-top:96px}
+body{margin:0;background:var(--canvas);color:var(--ink);font:400 16px/1.5 var(--font);word-break:keep-all;overflow-wrap:anywhere}
 a{color:inherit}
-.top{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:2.5px solid var(--ink)}
-.top .in{max-width:1120px;margin:0 auto;padding:8px 16px;display:flex;gap:6px 14px;align-items:center;flex-wrap:wrap}
-.brand{font-weight:900;font-size:18px;text-decoration:none;letter-spacing:-.02em;margin-right:6px;display:flex;align-items:center;gap:8px}
-.brand i{display:inline-block;width:14px;height:14px;border:2.5px solid var(--ink);border-radius:4px;background:var(--amber)}
-.top nav{display:flex;flex-wrap:wrap;gap:4px}
-.top nav a{text-decoration:none;font-weight:700;font-size:14.5px;padding:8px 10px;border-radius:10px;min-height:40px;display:inline-flex;align-items:center}
-.top nav a:hover{background:var(--soft)}
-.top nav a[aria-current]{background:var(--ink);color:var(--paper)}
-main{max-width:1120px;margin:0 auto;padding:24px 16px 64px}
-h1{font-size:clamp(26px,4.6vw,40px);line-height:1.25;font-weight:900;letter-spacing:-.03em;margin:8px 0 10px}
-h2{font-size:clamp(20px,3vw,26px);font-weight:900;letter-spacing:-.02em;margin:40px 0 12px;padding-top:4px}
-h3{font-size:18px;font-weight:800;margin:24px 0 8px}
-.lead{color:var(--muted);font-weight:600;margin:0 0 18px;font-size:17px}
-.kick{display:inline-block;border:2px solid var(--ink);background:var(--amber);border-radius:999px;padding:3px 12px;font-weight:800;font-size:13px}
-.chip{display:inline-block;border:2px solid var(--ink);border-radius:999px;padding:1px 10px;font-weight:800;font-size:12.5px;background:#fff;white-space:nowrap}
-.chip.g5{background:var(--g5)}.chip.g6{background:var(--g6);color:#fff}
-.box{background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);padding:18px 20px;margin:14px 0}
-.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-.card{display:block;text-decoration:none;background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);padding:16px;transition:transform .1s,box-shadow .1s}
-a.card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
-.card h3{margin:8px 0 4px;font-size:17px}
-.card p{margin:0;color:var(--muted);font-size:14.5px;font-weight:600}
-.btn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border:2.5px solid var(--ink);border-radius:12px;background:#fff;
-box-shadow:var(--hard-sm);font-weight:800;text-decoration:none;font-size:15px;cursor:pointer;font-family:inherit;color:var(--ink)}
-.btn.pri{background:var(--amber)}
-.btn:hover{transform:translate(-1px,-1px)}
-.btns{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
-.tw{overflow-x:auto;margin:12px 0;border:2.5px solid var(--ink);border-radius:12px;background:#fff}
-table{border-collapse:collapse;width:100%;font-size:15px}
-th,td{border-bottom:1.5px solid #D9D2BE;padding:9px 10px;text-align:left;vertical-align:top}
-th{background:var(--soft);font-weight:800;white-space:nowrap}
+/* 윗줄 */
+.top{position:sticky;top:0;z-index:10;background:var(--canvas);border-bottom:1px solid var(--line)}
+.top .in{max-width:1280px;margin:0 auto;padding:0 24px;min-height:80px;display:flex;align-items:center;gap:16px}
+.brand{font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--primary);text-decoration:none;display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.brand svg{width:30px;height:30px}
+.tabs{flex:1;display:flex;justify-content:center;gap:8px}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--muted);font-weight:600;font-size:15px;padding:10px 14px 8px;border-bottom:2px solid transparent;min-height:44px;white-space:nowrap}
+.tab svg{width:28px;height:28px}
+.tab:hover{color:var(--ink)}
+.tab[aria-current]{color:var(--ink);border-bottom-color:var(--ink)}
+.util{display:flex;gap:4px;flex:0 0 auto}
+.util a{text-decoration:none;font-weight:500;font-size:14px;padding:10px 12px;border-radius:var(--r-full);min-height:44px;display:inline-flex;align-items:center;white-space:nowrap}
+.util a:hover,.util a[aria-current]{background:var(--soft)}
+@media (max-width:980px){.top .in{flex-wrap:wrap;min-height:0;padding:10px 16px;gap:4px}.tabs{order:3;flex-basis:100%;justify-content:flex-start;overflow-x:auto}.util{margin-left:auto}}
+@media (max-width:560px){.tab{padding:8px 6px;font-size:13.5px}.tab svg{width:22px;height:22px}.util a{padding:8px;font-size:13px}}
+main{max-width:1280px;margin:0 auto;padding:32px 24px 64px}
+@media (max-width:560px){main{padding:24px 16px 48px}}
+h1{font-size:28px;line-height:1.43;font-weight:700;margin:8px 0}
+h2{font-size:22px;line-height:1.3;font-weight:600;letter-spacing:-.02em;margin:64px 0 16px}
+h3{font-size:16px;font-weight:600;margin:20px 0 6px;line-height:1.35}
+.lead{color:var(--muted);font-size:16px;margin:0 0 24px;max-width:780px}
+.kick{display:inline-block;color:var(--primary);font-weight:600;font-size:14px}
+.chip{display:inline-block;border:1px solid var(--line);border-radius:var(--r-full);padding:2px 10px;font-weight:500;font-size:12.5px;background:var(--canvas);white-space:nowrap;text-decoration:none;color:var(--ink)}
+a.chip:hover{border-color:var(--ink)}
+.chip.g5,.chip.g6{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip.pri{background:var(--primary);border-color:var(--primary);color:#fff}
+.box{background:var(--canvas);border:1px solid var(--line);border-radius:var(--r-md);padding:24px;margin:16px 0}
+.grid{display:grid;gap:24px 16px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.card{display:block;text-decoration:none;color:inherit;background:var(--canvas);border-radius:var(--r-md)}
+.card .ph{aspect-ratio:3/2;border-radius:var(--r-md);overflow:hidden;background:var(--soft);position:relative}
+.card .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s}
+.card:hover .ph img{transform:scale(1.03)}
+.card .badge{position:absolute;left:12px;top:12px;background:#fff;border-radius:var(--r-full);padding:4px 10px;font-size:11.5px;font-weight:600;box-shadow:var(--shadow)}
+.card .meta{padding:10px 2px 0}
+.card h3{margin:0 0 2px;font-size:16px;font-weight:600}
+.card p{margin:0;color:var(--muted);font-size:14px;line-height:1.43}
+.card.plain{border:1px solid var(--line);padding:20px;transition:box-shadow .15s}
+.card.plain:hover{box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;gap:6px;min-height:48px;padding:12px 22px;border:1px solid var(--ink);border-radius:var(--r-sm);background:var(--canvas);font:500 16px/1.25 var(--font);text-decoration:none;cursor:pointer;color:var(--ink)}
+.btn:hover{background:var(--soft)}
+.btn.pri{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn.pri:hover,.btn.pri:active{background:var(--primary-active);border-color:var(--primary-active)}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:var(--r-md)}
+table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.5}
+th,td{border-bottom:1px solid var(--line-soft);padding:12px 14px;text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap}
 tr:last-child td{border-bottom:0}
 .muted{color:var(--muted)}
-.small{font-size:13.5px}
-.note{border-left:5px solid var(--amber);background:#fff;padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:15px}
-:focus-visible{outline:3px solid var(--g6);outline-offset:2px}
-footer{border-top:2.5px solid var(--ink);margin-top:40px}
-footer .in{max-width:1120px;margin:0 auto;padding:18px 16px;font-size:13.5px;color:var(--muted)}
+.small{font-size:14px}
+.note{background:var(--soft);padding:16px 20px;border-radius:var(--r-md);margin:16px 0;font-size:14px;color:var(--body)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+footer{border-top:1px solid var(--line)}
+footer .in{max-width:1280px;margin:0 auto;padding:32px 24px 48px;font-size:13px;color:var(--muted);line-height:1.6}
+footer b{color:var(--ink);font-weight:500;font-size:14px}
+/* 홈 */
+.hero{padding:16px 0 8px;text-align:center}
+.hero .lead{margin:0 auto 28px}
+.search{display:flex;align-items:center;max-width:860px;margin:0 auto;border:1px solid var(--line);border-radius:var(--r-full);box-shadow:var(--shadow);background:#fff;min-height:66px;padding:6px 8px 6px 0}
+.search label{display:flex;flex-direction:column;justify-content:center;padding:6px 24px;flex:1;min-width:0;border-right:1px solid var(--line);cursor:text;text-align:left}
+.search label:last-of-type{border-right:0}
+.search span{font-size:12px;font-weight:600}
+.search select,.search input{border:0;outline:0;background:transparent;font:400 14px/1.4 var(--font);color:var(--ink);padding:2px 0;min-height:24px;width:100%}
+.search input::placeholder{color:var(--muted)}
+.orb{flex:0 0 48px;width:48px;height:48px;border-radius:50%;background:var(--primary);border:0;display:grid;place-items:center;cursor:pointer}
+.orb:hover{background:var(--primary-active)}
+.orb svg{width:18px;height:18px}
+@media (max-width:700px){.search{flex-wrap:wrap;border-radius:var(--r-md);padding:8px}.search label{flex-basis:100%;border-right:0;border-bottom:1px solid var(--line);padding:8px 12px}.search label:last-of-type{border-bottom:0}.orb{margin:6px auto 0;flex-basis:100%;border-radius:var(--r-sm)}}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;margin:32px 0 8px}
+.cats a{flex:0 0 auto;border:1px solid var(--line);border-radius:var(--r-full);padding:8px 16px;font-size:14px;font-weight:500;text-decoration:none;min-height:40px;display:inline-flex;align-items:center}
+.cats a:hover{border-color:var(--ink)}
 /* 64차시 지도 */
-.map{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:4px;margin:8px 0 18px}
-.map a{display:flex;align-items:center;justify-content:center;min-height:44px;border:2px solid var(--ink);border-radius:8px;text-decoration:none;font-weight:800;font-size:13px;background:#fff}
-.map a:hover{transform:translate(-1px,-1px);box-shadow:var(--hard-sm)}
-@media (max-width:720px){.map{grid-template-columns:repeat(8,minmax(0,1fr))}}
-.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13.5px;font-weight:700}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.legend i{width:14px;height:14px;border:2px solid var(--ink);border-radius:4px;display:inline-block}
+.map{display:flex;flex-wrap:wrap;gap:16px 24px;margin:8px 0 24px}
+.map .grp{display:flex;flex-direction:column;gap:6px}
+.map .grp b{font-size:12.5px;font-weight:600;color:var(--muted)}
+.map .cells{display:flex;flex-wrap:wrap;gap:4px}
+.map a{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;text-decoration:none;font-size:13.5px;font-weight:500;background:#fff}
+.map a:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+@media (max-width:560px){.map a{width:44px;height:44px}}
 /* 과정안 */
-.flow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-.flow a{text-decoration:none;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;background:#fff;font-weight:700;font-size:14px}
-.flow b{font-weight:900}
-.act h4{margin:14px 0 4px;font-size:16px;font-weight:900}
+.flow{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.flow a{text-decoration:none;border:1px solid var(--line);border-radius:var(--r-full);padding:8px 14px;background:#fff;font-size:13.5px;min-height:40px;display:inline-flex;align-items:center}
+.flow a:hover{border-color:var(--ink)}
+.flow b{font-weight:600;margin-right:4px}
+.act h4{margin:18px 0 6px;font-size:16px;font-weight:600}
 .act h4:first-child{margin-top:0}
-.act ul{margin:0 0 6px;padding-left:20px}
-.act li{margin:2px 0}
-.act p{margin:4px 0}
-figure{margin:10px 0;max-width:560px}
-figure img{width:100%;height:auto;border:2px solid var(--ink);border-radius:10px;background:#fff}
-figcaption{font-size:13px;color:var(--muted);font-weight:600;margin-top:4px}
-.res div{margin:3px 0;font-size:14.5px}
-.res .k{display:inline-block;min-width:44px;font-weight:900;font-size:12px;border:1.5px solid var(--ink);border-radius:6px;padding:0 5px;margin-right:6px;background:var(--soft);text-align:center}
-.stage{font-weight:900;white-space:nowrap}
-.rowcard{border:2.5px solid var(--ink);border-radius:var(--r);background:#fff;margin:14px 0;overflow:hidden}
-.rowhead{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;background:var(--soft);border-bottom:2px solid var(--ink);padding:8px 14px;font-weight:900}
-.rowbody{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:0}
-.rowbody>div{padding:12px 16px}
-.rowbody>.res{border-left:2px dashed #CFC6AE;background:#FFFDF6}
-@media (max-width:760px){.rowbody{grid-template-columns:1fr}.rowbody>.res{border-left:0;border-top:2px dashed #CFC6AE}}
-.lv td:first-child{white-space:nowrap;font-weight:800}
-.toolgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
-.tool{display:block;border:2px solid var(--ink);border-radius:12px;padding:10px 12px;background:#fff;text-decoration:none}
-.tool b{display:block;font-size:15px}
-.tool span{display:block;font-size:13px;color:var(--muted);font-weight:600}
-.tool:hover{box-shadow:var(--hard-sm);transform:translate(-1px,-1px)}
-.mine form{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.mine input{min-height:44px;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;font:inherit;flex:1 1 180px;min-width:0}
+.act ul{margin:0 0 8px;padding-left:20px}
+.act li{margin:3px 0;color:var(--body)}
+.act p{margin:4px 0;color:var(--body)}
+figure{margin:12px 0;max-width:560px}
+figure img{width:100%;height:auto;border-radius:var(--r-md);background:var(--soft);display:block}
+figcaption{font-size:13px;color:var(--muted);margin-top:6px}
+.res div{margin:6px 0;font-size:14px;color:var(--body)}
+.res .k{display:inline-block;font-weight:600;font-size:12px;border-radius:var(--r-full);padding:1px 8px;margin-right:6px;background:#fff;border:1px solid var(--line);color:var(--ink)}
+.stage{font-weight:600}
+.rowcard{border:1px solid var(--line);border-radius:var(--r-md);background:#fff;margin:16px 0;overflow:hidden}
+.rowhead{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;border-bottom:1px solid var(--line-soft);padding:14px 20px;font-weight:600}
+.rowbody{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr)}
+.rowbody>div{padding:20px}
+.rowbody>.res{border-left:1px solid var(--line-soft);background:var(--soft)}
+@media (max-width:760px){.rowbody{grid-template-columns:1fr}.rowbody>.res{border-left:0;border-top:1px solid var(--line-soft)}}
+.lv td:first-child{white-space:nowrap;font-weight:600}
+.toolgrid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.tool{display:block;border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;background:#fff;text-decoration:none;transition:box-shadow .15s}
+.tool b{display:block;font-size:15px;font-weight:600}
+.tool span{display:block;font-size:13px;color:var(--muted)}
+.tool:hover{box-shadow:var(--shadow)}
+.mine form{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;align-items:flex-end}
+.mine .f{display:flex;flex-direction:column;gap:4px;flex:1 1 200px;min-width:0}
+.mine label{font-size:13px;font-weight:500;color:var(--muted)}
+.mine input{min-height:48px;border:1px solid var(--line);border-radius:var(--r-sm);padding:12px;font:inherit}
+.mine input:focus{outline:0;border:2px solid var(--ink);padding:11px}
 .mine li{display:flex;gap:8px;align-items:center;margin:6px 0;flex-wrap:wrap}
 .mine ul{list-style:none;padding:0;margin:8px 0 0}
-.x{min-height:36px;padding:2px 10px;border:2px solid var(--ink);border-radius:8px;background:#fff;cursor:pointer;font:inherit;font-weight:700}
-.pn{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:28px}
-.toc{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
-.toc a{font-size:14px;font-weight:700;text-decoration:none;border-bottom:2px solid var(--amber)}
+.x{min-height:36px;padding:4px 12px;border:1px solid var(--line);border-radius:var(--r-full);background:#fff;cursor:pointer;font:inherit;font-size:13px}
+.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
+.toc{display:flex;flex-wrap:wrap;gap:8px 18px;margin:8px 0 4px}
+.toc a{font-size:14px;font-weight:500}
+.side{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:40px;align-items:start}
+.side .rail{position:sticky;top:104px}
+.rail .box{box-shadow:var(--shadow);margin-top:0}
+@media (max-width:980px){.side{grid-template-columns:1fr}.side .rail{position:static}}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 24px;align-items:center}
+.filters button{border:1px solid var(--line);background:#fff;border-radius:var(--r-full);padding:8px 16px;font:500 14px var(--font);cursor:pointer;min-height:40px;color:var(--ink)}
+.filters button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.filters input{border:1px solid var(--line);border-radius:var(--r-full);padding:8px 16px;font:inherit;font-size:14px;min-height:40px;flex:1 1 200px;min-width:0}
+.count{font-size:14px;color:var(--muted);margin-left:auto}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-@media print{.top,footer,.btns,.mine,.pn{display:none}body{background:#fff}.box,.rowcard{box-shadow:none}}
+@media print{.top,footer,.btns,.mine,.pn,.rail{display:none}.side{display:block}}
 </style>
 </head>
 <body>
-<header class="top"><div class="in"><a class="brand" href="../../"><i></i>에듀다움</a><nav aria-label="누리집 메뉴"><a href="../../">홈</a><a href="../../plan/">계획서·성취기준</a><a href="../../topics/">주제별 활동</a><a href="../../lessons/" aria-current="page">차시별 과정안</a><a href="../../tools/">연동 도구</a><a href="../../play/">체험 게임</a></nav></div></header>
+<header class="top"><div class="in"><a class="brand" href="../../"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3c7.2 0 13 5.8 13 13s-5.8 13-13 13S3 23.2 3 16 8.8 3 16 3zm0 6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13z"/><circle cx="16" cy="16" r="2.6" fill="currentColor"/></svg>에듀다움</a><nav class="tabs" aria-label="누리집 메뉴"><a class="tab" href="../../plan/"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h10l6 6v18H9z"/><path d="M19 4v6h6"/><path d="M13 16h8M13 20h8M13 24h5"/></svg><span>계획서·성취기준</span></a><a class="tab" href="../../topics/"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><rect x="18" y="5" width="9" height="9" rx="2"/><rect x="5" y="18" width="9" height="9" rx="2"/><circle cx="22.5" cy="22.5" r="4.5"/></svg><span>주제별 활동</span></a><a class="tab" href="../../lessons/" aria-current="page"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="7" width="22" height="20" rx="3"/><path d="M5 13h22M11 4v6M21 4v6"/><path d="M10 18h3M15 18h3M20 18h2M10 22h3M15 22h3"/></svg><span>차시별 과정안</span></a></nav><nav class="util" aria-label="바로가기"><a href="../../tools/">연동 도구</a><a href="../../play/">체험 게임</a></nav></div></header>
 <main>
 
 <p class="small"><a href="../">차시별 과정안</a> › <a href="../../topics/#ai4">데이터로 학습하는 인공지능</a></p>
-<div><span class="chip g6">6학년 17~18차시</span> <span class="chip">데이터로 학습하는 인공지능</span> <span class="chip">[6실인공지능04-01]</span></div>
 <h1>온도계와 마이크로비트 센서로 이어지는 값을 숫자로 끊어 적고 데이터 유형 가르기</h1>
 <p class="lead">학습 문제 — 같은 것을 이어지는 값과 끊어 적은 값으로 나타내고, 숫자로 바꾸어 봅시다.</p>
-<div class="btns"><a class="btn" href="../../assets/pdf/B23.pdf" target="_blank" rel="noopener">과정안 PDF</a><a class="btn" href="#game">체험 게임</a><a class="btn" href="#tools">연동 도구·링크</a></div>
 <div class="toc"><a href="#ov">개요</a><a href="#flow">교수학습 활동</a><a href="#eval">평가 계획</a><a href="#tools">연동 도구·링크</a><a href="#game">체험 게임</a></div>
+<div class="side"><div>
 
-<h2 id="ov">개요</h2>
+<h2 id="ov" style="margin-top:32px">개요</h2>
 <div class="tw"><table><tr><th>성취기준</th><td>[6실인공지능04-01] 온도·움직임처럼 이어지며 변하는 값이 숫자 데이터로 바뀌는 과정을 알고, 인공지능에 쓰이는 데이터의 종류(수·글·이미지·소리)를 구분한다.<br>연계 성취기준: [6실05-04], [06자율-5]</td></tr><tr><th>핵심 역량</th><td>지식정보처리 역량, 창의적 사고 역량</td></tr><tr><th>핵심 기능</th><td>① 데이터 간에 공통되는 유형이나 형태 탐색하기<br>② 온도계 눈금과 숫자 표시로 같은 값 나타내기<br>③ 센서 값을 정해진 간격의 숫자로 끊어 기록하기<br>④ 기록 간격에 따라 놓치는 변화 설명하기<br>⑤ 데이터를 수·글·이미지·소리로 가르기</td></tr><tr><th>가치 태도</th><td>생활 속의 여러 가지 데이터가 갖는 의미를 파악하는 자세<br>끊어 적을 때 무엇이 사라지는지 끝까지 따져 보려는 자세</td></tr></table></div>
 
 <h2 id="flow">교수학습 활동</h2>
@@ -125,15 +174,16 @@ figcaption{font-size:13px;color:var(--muted);font-weight:600;margin-top:4px}
 <h3 style="margin-top:0">내 수업 링크</h3>
 <p class="small muted">학급 패들렛, 엔트리 작품, 활동지 주소처럼 이 차시에 쓸 링크를 걸어 둡니다. 이 브라우저에만 저장되고 밖으로 보내지 않습니다. 학생 이름이 든 주소는 넣지 마세요.</p>
 <ul></ul>
-<form><label class="small" for="mn-B23">이름</label><input id="mn-B23" name="n" maxlength="40" required placeholder="예: 우리 반 패들렛">
-<label class="small" for="mu-B23">주소</label><input id="mu-B23" name="u" type="url" required placeholder="https://">
-<button class="btn" type="submit">걸어 두기</button></form>
+<form><div class="f"><label for="mn-B23">이름</label><input id="mn-B23" name="n" maxlength="40" required placeholder="예: 우리 반 패들렛"></div>
+<div class="f"><label for="mu-B23">주소</label><input id="mu-B23" name="u" type="url" required placeholder="https://"></div>
+<button class="btn pri" type="submit">걸어 두기</button></form>
 </div>
-<h2 id="game">체험 게임</h2><div class="box" style="border-left:10px solid #7C3AED"><p class="small muted">수업 중 5~10분 체험</p><h3 style="margin-top:2px">몇 지점으로 끊을까</h3><p>2초만 보여 주고 가려요</p><div class="btns"><a class="btn pri" href="../../B23/">체험 게임 열기</a></div></div>
+<h2 id="game">체험 게임</h2><div class="box"><p class="small muted" style="margin:0">수업 중 5~10분 체험</p><h3 style="margin-top:4px">몇 지점으로 끊을까</h3><p class="muted">2초만 보여 주고 가려요</p><div class="btns"><a class="btn" href="../../B23/">체험 게임 열기</a></div></div>
+</div><aside class="rail"><div class="box"><p style="margin:0"><span class="chip g6">6학년 17~18차시</span></p><p style="font-size:20px;font-weight:600;margin:10px 0 4px;line-height:1.3">온도계와 마이크로비트 센서로 이어지는 값을 숫자로 끊어 적고 데이터 유형 가르기</p><p class="small muted" style="margin:0 0 16px">데이터로 학습하는 인공지능 · [6실인공지능04-01]</p><a class="btn pri" style="width:100%;justify-content:center" href="../../assets/pdf/B23.pdf" target="_blank" rel="noopener">과정안 PDF 열기</a><a class="btn" style="width:100%;justify-content:center;margin-top:10px" href="../../B23/">체험 게임: 몇 지점으로 끊을까</a><p class="small" style="margin:16px 0 6px;font-weight:600">연동 도구</p><div style="display:flex;flex-wrap:wrap;gap:6px"><a class="chip" href="https://makecode.microbit.org/?lang=ko" target="_blank" rel="noopener">MakeCode (micro:bit) ↗</a> <a class="chip" href="https://microbit.org/projects/make-it-code-it/" target="_blank" rel="noopener">마이크로비트 V2 ↗</a> <a class="chip" href="https://createai.microbit.org/" target="_blank" rel="noopener">micro:bit CreateAI ↗</a></div><p class="small muted" style="margin:14px 0 0">도입 8분 · 전개 32분 · 전개 33분 · 정리 7분</p></div></aside></div>
 <div class="pn"><a class="btn" href="../B22/">← 6학년 15~16차시</a><a class="btn" href="../B24/">6학년 19~20차시 →</a></div>
 
 </main>
-<footer><div class="in">경기 AI 융합교육 에듀다움 교사연구회 · 학교자율시간 SW·AI 교육과정 · 과정안 기준일 2026. 9. 27.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</div></footer>
+<footer><div class="in"><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 27.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</div></footer>
 <script>
 (function(){
   var box=document.querySelector('.mine'); if(!box) return;

@@ -5,85 +5,88 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>같은 조건으로 — 에듀다움</title>
 <style>
-  :root{
-    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
-    --point:#B45309; --point-soft:#F6E3C6; --muted:#5E5E5E;
-    --r:18px; --r-sm:12px;
-    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  :root{--line:#DDDDDD;--line-strong:#C1C1C1;
+    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
+    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A;
+    --r:14px; --r-sm:8px;
+    --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
-    background-size:22px 22px;background-position:-11px -11px}
+    
+    background-position:-11px -11px}
   .wrap{max-width:640px;margin:0 auto;padding:7px 14px 14px}
 
   .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px}
-  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
-    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:600;
+    font-size:14px;background:var(--surface);border:1px solid var(--ink);border-radius:999px;
     padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
-  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
+  .back:hover{transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
+  .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;border:1px solid var(--line);
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(20px,4.8vw,27px);font-weight:900;letter-spacing:-.035em;line-height:1.05}
+  h1{font-size:clamp(20px,4.8vw,27px);font-weight:700;letter-spacing:-.035em;line-height:1.05}
   .lead{font-size:14px;color:var(--muted);margin-top:3px;font-weight:700}
 
-  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+  section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:8px;margin-top:7px}
-  h2{font-size:13px;font-weight:900;letter-spacing:-.02em;margin-bottom:5px;color:var(--muted)}
+  h2{font-size:13px;font-weight:700;letter-spacing:-.02em;margin-bottom:5px;color:var(--muted)}
 
   .view{position:relative;width:100%;aspect-ratio:4/3;max-height:105px;background:var(--ink);
-    border:2.5px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;display:flex}
+    border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;display:flex}
   #cam{width:100%;height:100%;object-fit:cover;display:block}
   #pad{width:100%;height:100%;display:block;background:#fff;touch-action:none;cursor:crosshair}
   [hidden]{display:none!important}
-  .priv{position:absolute;left:7px;bottom:7px;right:7px;font-size:11px;font-weight:900;
+  .priv{position:absolute;left:7px;bottom:7px;right:7px;font-size:11px;font-weight:700;
     color:var(--paper);background:rgba(20,20,20,.82);border-radius:999px;padding:3px 9px;text-align:center}
 
-  .order{font-size:14px;font-weight:900;background:var(--point-soft);border:2.5px solid var(--ink);
+  .order{font-size:14px;font-weight:700;background:var(--point-soft);border:1px solid var(--line);
     border-radius:var(--r-sm);padding:6px 9px;margin-bottom:6px}
 
   .pick{display:flex;align-items:center;gap:6px;margin-top:5px;flex-wrap:wrap}
-  .pick .lb{font-size:12.5px;font-weight:900;color:var(--muted);width:2.6em}
-  .opt{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:900;
-    background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+  .pick .lb{font-size:12.5px;font-weight:700;color:var(--muted);width:2.6em}
+  .opt{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;
+    background:var(--surface);border:1px solid var(--ink);border-radius:999px;
     min-height:44px;padding:7px 13px;box-shadow:var(--hard-sm);
     transition:transform .1s,box-shadow .1s}
-  .opt:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .opt:hover{transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
   .opt[aria-pressed="true"]{background:var(--point);color:#fff;border-width:3.5px}
   .opt[aria-pressed="true"]::before{content:"";display:inline-block;width:8px;height:8px;
     border-radius:50%;background:var(--paper);margin-right:6px;vertical-align:middle}
 
   .bars{display:grid;gap:4px}
   .bar{display:flex;align-items:center;gap:7px}
-  .bar .nm{width:7.6em;font-size:12px;font-weight:900}
+  .bar .nm{width:7.6em;font-size:12px;font-weight:700}
   .bar svg{flex:1;height:14px;display:block}
   .track{fill:var(--point-soft);stroke:var(--ink);stroke-width:2}
   .fill{fill:var(--point)}
-  .bar.target .nm{font-weight:900;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
+  .bar.target .nm{font-weight:700;color:var(--ink);text-decoration:underline;text-underline-offset:3px}
   .bar.hit{animation:jump .34s ease-out}
   @keyframes jump{0%{transform:translateX(0)}35%{transform:translateX(5px)}100%{transform:translateX(0)}}
-  .bar .n{width:2.6em;text-align:right;font-family:'Courier New',monospace;font-weight:900;font-size:13px}
+  .bar .n{width:2.6em;text-align:right;font-family:'Courier New',monospace;font-weight:700;font-size:13px}
 
   .acts{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
-  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:900;
-    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:700;
+    background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
     min-height:44px;padding:8px 12px;box-shadow:var(--hard-sm);flex:1 1 92px;
     transition:transform .1s,box-shadow .1s}
-  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
   .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .btn.main{background:var(--point);color:#fff}
   .btn:disabled{opacity:.42;cursor:default;box-shadow:none}
 
-  .practice{margin-top:4px;display:inline-flex;font-size:12px;font-weight:900;color:var(--ink);
-    background:var(--point-soft);border:2px solid var(--ink);border-radius:999px;padding:4px 9px}
+  .practice{margin-top:4px;display:inline-flex;font-size:12px;font-weight:700;color:var(--ink);
+    background:var(--point-soft);border:1px solid var(--line);border-radius:999px;padding:4px 9px}
   .note{margin-top:4px;font-size:12px;font-weight:700;color:var(--muted)}
-  .note b{font-weight:900;color:var(--ink)}
+  .note b{font-weight:700;color:var(--ink)}
 
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* 에듀다움 통일 테마 2026-09-27 */
+.btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
 </head>
 <body>
@@ -288,7 +291,7 @@
   pad.addEventListener('pointermove', function(e){
     if (!drawing) return;
     var p = at(e);
-    pctx.strokeStyle = '#141414'; pctx.lineWidth = 16; pctx.lineCap = 'round'; pctx.lineJoin = 'round';
+    pctx.strokeStyle = '#222222'; pctx.lineWidth = 16; pctx.lineCap = 'round'; pctx.lineJoin = 'round';
     pctx.lineTo(p.x, p.y); pctx.stroke();
   });
   pad.addEventListener('pointerup', function(){ drawing = false; });

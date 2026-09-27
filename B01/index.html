@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>신호등 명령 바꾸기</title>
 <style>
-:root{
-  --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
-  --point:#F59E0B; --point-soft:#FFF0C7;
-  --muted:#6B6B6B; --red:#E5484D; --green:#12B76A;
-  --r:18px; --r-sm:12px;
-  --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+:root{--line:#DDDDDD;--line-strong:#C1C1C1;
+  --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
+  --point:#FF385C; --point-soft:#FFF0F3;
+  --muted:#6A6A6A; --red:#E5484D; --green:#12B76A;
+  --r:14px; --r-sm:8px;
+  --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
 }
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
   background:var(--paper);
-  background-image:radial-gradient(var(--ink) .5px,transparent .5px);
-  background-size:22px 22px;
+  
+  
   color:var(--ink);
   font-family:"Pretendard","Noto Sans KR",-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
   font-size:17px; line-height:1.45; font-weight:600;
@@ -25,7 +25,7 @@ body{
 }
 main{max-width:920px;margin:0 auto;padding:16px 14px 28px}
 h1{
-  font-size:clamp(24px,5.6vw,34px); font-weight:900; letter-spacing:-.035em;
+  font-size:clamp(24px,5.6vw,34px); font-weight:700; letter-spacing:-.035em;
   margin:0 0 4px;
 }
 .lead{font-size:15px;color:var(--muted);margin:0 0 12px;font-weight:700}
@@ -37,11 +37,11 @@ h1{
 @media (max-width:719px){ .stage{grid-template-columns:minmax(0,1fr)} }
 
 .face{
-  background:var(--surface); border:3px solid var(--ink);
+  background:var(--surface); border:1px solid var(--line);
   border-radius:var(--r); box-shadow:var(--hard); padding:12px;
 }
 .face + .face{margin-top:14px}
-.face h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin:0 0 8px;color:var(--muted)}
+.face h2{font-size:13.5px;font-weight:700;letter-spacing:-.02em;margin:0 0 8px;color:var(--muted)}
 .scene svg{display:block;width:100%;height:auto}
 
 .lamp{fill:#EFEAE0;stroke:var(--ink);stroke-width:3}
@@ -54,48 +54,48 @@ h1{
 .walker{fill:var(--point);stroke:var(--ink);stroke-width:2.5;transition:cx .32s linear}
 .svgtxt{font:700 15px "Pretendard","Malgun Gothic",sans-serif;fill:var(--ink)}
 
-.who{font-size:15px;font-weight:800;margin:0 0 8px}
+.who{font-size:15px;font-weight:600;margin:0 0 8px}
 .who b{color:var(--point);font-size:19px}
 
 /* 초 선택 띠 */
 .strip{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin:0 0 8px}
 .c{
   font-family:inherit;cursor:pointer;background:var(--surface);color:var(--ink);
-  border:2.5px solid var(--ink);border-radius:9px;min-height:44px;
-  font-weight:800;font-size:14px;
+  border:1px solid var(--line);border-radius:9px;min-height:44px;
+  font-weight:600;font-size:14px;
   transition:transform .1s,box-shadow .1s,background .12s;
 }
-.c:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:3px 3px 0 var(--ink)}
+.c:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:0 1px 2px rgba(0,0,0,.08)}
 .c.pick{background:var(--point);color:#fff;animation:pk .2s ease-out}
 .c:disabled{opacity:.55;cursor:not-allowed}
 .c:disabled.pick{opacity:1}
 @keyframes pk{0%{transform:scale(1)}45%{transform:scale(1.18)}100%{transform:scale(1)}}
 
-.pickline{font-size:13.5px;font-weight:800;color:var(--muted);min-height:20px}
+.pickline{font-size:13.5px;font-weight:600;color:var(--muted);min-height:20px}
 .pickline b{color:var(--point)}
 
-.cmd{margin:6px 0 0;padding:8px 10px;border:2.5px dashed var(--ink);border-radius:var(--r-sm);
-  font-size:15px;font-weight:800;background:var(--point-soft)}
+.cmd{margin:6px 0 0;padding:8px 10px;border:1.5px dashed var(--line-strong);border-radius:var(--r-sm);
+  font-size:15px;font-weight:600;background:var(--point-soft)}
 .cmd b{color:var(--ink);font-size:18px}
 .row{display:flex;flex-wrap:wrap;gap:8px}
 button.act{
-  font:inherit; font-weight:800; color:var(--ink); cursor:pointer;
+  font:inherit; font-weight:600; color:var(--ink); cursor:pointer;
   min-height:48px; min-width:88px; padding:10px 18px;
-  border:3px solid var(--ink); border-radius:999px;
+  border:1px solid var(--ink); border-radius:999px;
   background:var(--surface); box-shadow:var(--hard-sm);
   transition:transform .1s ease, box-shadow .1s ease;
 }
 button.act.main{background:var(--point)}
-button.act:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+button.act:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
 button.act:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
 button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 :focus-visible{outline:3px solid var(--point);outline-offset:3px}
 
 .out{
   margin:12px 0 0; min-height:52px; display:flex; align-items:center;
-  border:3px solid var(--ink); border-radius:var(--r-sm);
+  border:1px solid var(--line); border-radius:var(--r-sm);
   background:var(--ink); color:var(--paper); padding:10px 14px;
-  font-weight:900; font-size:19px;
+  font-weight:700; font-size:19px;
 }
 .out:empty{background:var(--surface)}
 @media (prefers-reduced-motion:reduce){
@@ -105,11 +105,13 @@ button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 /* 쪽 위 차시 표시 */
 .topnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}
 .topnav a{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);
-  font-weight:800;font-size:14px;background:var(--surface);border:2.5px solid var(--ink);
+  font-weight:600;font-size:14px;background:var(--surface);border:1px solid var(--ink);
   border-radius:999px;padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
-.topnav b{font-weight:900;font-size:14px;background:var(--point);color:#fff;
-  border:2.5px solid var(--ink);border-radius:999px;padding:6px 14px;
+.topnav b{font-weight:700;font-size:14px;background:var(--point);color:#fff;
+  border:1px solid var(--line);border-radius:999px;padding:6px 14px;
   box-shadow:var(--hard-sm);white-space:nowrap}
+
+/* 에듀다움 통일 테마 2026-09-27 */
 </style>
 </head>
 <body>
@@ -131,14 +133,14 @@ button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
       <h2>건너기</h2>
       <div class="scene">
         <svg viewBox="0 0 320 232" role="img" aria-label="보행자 신호등과 횡단보도">
-          <rect x="10" y="6" width="64" height="112" rx="12" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
+          <rect x="10" y="6" width="64" height="112" rx="12" fill="#FFFFFF" stroke="#222222" stroke-width="3"/>
           <circle id="lampR" class="lamp red" cx="42" cy="38" r="19"/>
           <circle class="ring" cx="42" cy="38" r="25"/>
           <circle id="lampG" class="lamp green" cx="42" cy="86" r="19"/>
           <circle class="ring" cx="42" cy="86" r="25"/>
           <text class="svgtxt" x="84" y="44">빨강</text>
           <text class="svgtxt" x="84" y="92">초록</text>
-          <rect x="36" y="118" width="12" height="50" fill="#FFFFFF" stroke="#141414" stroke-width="3"/>
+          <rect x="36" y="118" width="12" height="50" fill="#FFFFFF" stroke="#222222" stroke-width="3"/>
           <rect class="band" x="8" y="168" width="304" height="52" rx="8"/>
           <g class="stripe" aria-hidden="true">
             <rect x="16" y="174" width="12" height="40"/><rect x="40" y="174" width="12" height="40"/>

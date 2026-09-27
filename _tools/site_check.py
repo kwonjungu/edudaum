@@ -12,6 +12,7 @@
   S5 도구 링크 : 바깥 링크는 https, tools.json·links.json 주소는 모두 https
   S6 게임 짝   : 체험 게임이 있는 차시는 차시 쪽에서 게임으로, 게임 쪽에서 차시 쪽으로 이어진다
   S7 규격      : lang="ko", viewport, 바깥 스크립트·스타일 없음
+  S9 게임 테마  : 통일 테마 표시가 있고, 하드 그림자·크림 바탕·굵은 먹 테두리가 없다(초점 테두리는 둔다)
   S8 공개용 PDF: 개발자 칸이 연구회 이름이고 문서 정보의 작성자가 비어 있다(creator는 한글 프로그램 이름이라 둔다), 드라이브 원본 링크 없음
 """
 from __future__ import annotations
@@ -122,6 +123,21 @@ def main(argv):
     for f in pages():
         if 'drive.google.com' in f.read_text(encoding='utf-8'):
             bad.append(('S8', f.relative_to(ROOT).as_posix(), '드라이브 원본 링크'))
+    # S9 게임 통일 테마
+    for c in LESSON:
+        g = ROOT / c / 'index.html'
+        if not g.exists():
+            continue
+        h = g.read_text(encoding='utf-8')
+        if '에듀다움 통일 테마' not in h:
+            bad.append(('S9', c, '통일 테마 없음 — python _tools/apply_theme.py %s' % c))
+        for pat, name in ((r'\dpx \dpx 0 var\(--ink\)', '하드 그림자'), (r'#FBF7EC|#141414', '옛 크림·먹색'),
+                          (r'(?:2|2\.5|3)px (?:solid|dashed) var\(--ink\)(?![^{]*outline)', '굵은 먹 테두리')):
+            for m in re.finditer(pat, h):
+                line = h[h.rfind('\n', 0, m.start()) + 1:h.find('\n', m.end())]
+                if 'outline' in line:
+                    continue
+                bad.append(('S9', c, '%s: %s' % (name, m.group(0))))
     # S5
     for name in ('tools.json', 'links.json'):
         for u in re.findall(r'"url":\s*"([^"]+)"', (ROOT / '_data' / name).read_text(encoding='utf-8')):

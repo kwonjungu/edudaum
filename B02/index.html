@@ -5,57 +5,57 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>가로로 세로로 — 에듀다움 B02</title>
 <style>
-  :root{
-    --ink:#141414; --paper:#FBF7EC; --surface:#FFFFFF;
-    --point:#059669; --point-soft:#D3F1E6; --muted:#5E5E5E;
-    --r:18px; --r-sm:12px;
-    --hard:5px 5px 0 var(--ink); --hard-sm:3px 3px 0 var(--ink);
+  :root{--line:#DDDDDD;--line-strong:#C1C1C1;
+    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
+    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A;
+    --r:14px; --r-sm:8px;
+    --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    background-image:radial-gradient(var(--ink) .5px,transparent .5px);
-    background-size:22px 22px;background-position:-11px -11px}
+    
+    background-position:-11px -11px}
   .wrap{max-width:640px;margin:0 auto;padding:14px 14px 32px}
 
   .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
-  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:800;
-    font-size:14px;background:var(--surface);border:2.5px solid var(--ink);border-radius:999px;
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:600;
+    font-size:14px;background:var(--surface);border:1px solid var(--ink);border-radius:999px;
     padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
-  .back:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
-  .tag{font-weight:900;font-size:14px;background:var(--point);color:#fff;border:2.5px solid var(--ink);
+  .back:hover{transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
+  .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;border:1px solid var(--line);
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(24px,5.8vw,34px);font-weight:900;letter-spacing:-.035em;line-height:1.08}
+  h1{font-size:clamp(24px,5.8vw,34px);font-weight:700;letter-spacing:-.035em;line-height:1.08}
   .lead{font-size:15px;color:var(--muted);margin-top:6px;font-weight:700}
 
-  section{background:var(--surface);border:3px solid var(--ink);border-radius:var(--r);
+  section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:13px 12px;margin-top:12px}
-  h2{font-size:13.5px;font-weight:900;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
+  h2{font-size:13.5px;font-weight:700;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
 
   .tbl{display:grid;grid-template-columns:74px repeat(3,minmax(44px,1fr)) 34px;gap:5px}
   .cell{display:flex;align-items:center;justify-content:center;text-align:center;
     min-height:44px;border-radius:var(--r-sm);padding:3px;font-size:11.5px;line-height:1.15}
-  .cell.corner{background:transparent;color:var(--muted);font-weight:800;font-size:10.5px}
-  .cell.head{background:var(--ink);color:var(--paper);font-weight:900;border:2px solid var(--ink)}
-  .cell.rowlabel{background:var(--surface);border:2px solid var(--ink);font-weight:800;color:var(--ink)}
-  .cell.count{background:var(--surface);border:2px solid var(--ink);font-weight:900;color:var(--point);
+  .cell.corner{background:transparent;color:var(--muted);font-weight:600;font-size:10.5px}
+  .cell.head{background:var(--ink);color:var(--paper);font-weight:700;border:1px solid var(--line)}
+  .cell.rowlabel{background:var(--surface);border:1px solid var(--line);font-weight:600;color:var(--ink)}
+  .cell.count{background:var(--surface);border:1px solid var(--line);font-weight:700;color:var(--point);
     font-family:'Courier New',monospace;font-size:16px}
   button.cell.mark{font-family:inherit;cursor:pointer;color:var(--point);background:var(--surface);
-    border:2.5px solid var(--ink);border-radius:var(--r-sm);font-weight:900;font-size:22px;
+    border:1px solid var(--ink);border-radius:var(--r-sm);font-weight:700;font-size:22px;
     box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s}
-  button.cell.mark:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  button.cell.mark:hover{transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
   button.cell.mark:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
 
-  .ask{margin-top:10px;font-size:13.5px;font-weight:800;color:var(--muted)}
+  .ask{margin-top:10px;font-size:13.5px;font-weight:600;color:var(--muted)}
 
   .acts{display:flex;gap:8px;flex-wrap:wrap}
-  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:900;
-    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:700;
+    background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
     min-height:44px;padding:10px 18px;box-shadow:var(--hard-sm);
     transition:transform .1s,box-shadow .1s}
-  .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--ink)}
+  .btn:hover{transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
   .btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .btn.main{background:var(--point);color:#fff;flex:1 1 140px}
   .btn.main[aria-pressed="true"]{background:var(--point-soft);color:var(--ink)}
@@ -69,14 +69,17 @@
     .flip{animation:flip .26s ease-out}
   @keyframes flip{0%{transform:rotate(-2.5deg) scale(.97)}100%{transform:none}}
   .guess{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:7px}
-  .gb{font-family:inherit;cursor:pointer;color:var(--ink);font-size:13px;font-weight:900;
-    background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r-sm);
+  .gb{font-family:inherit;cursor:pointer;color:var(--ink);font-size:13px;font-weight:700;
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
     min-height:46px;padding:5px 6px;box-shadow:var(--hard-sm);line-height:1.2}
   .gb[aria-pressed="true"]{background:var(--point);color:#fff;border-width:3.5px}
   .gb:disabled{opacity:.42;cursor:default;box-shadow:none}
-  .say{margin-top:7px;font-size:13.5px;font-weight:900;min-height:1.4em}
+  .say{margin-top:7px;font-size:13.5px;font-weight:700;min-height:1.4em}
   .say.dim{color:var(--muted);font-weight:700;font-size:12.5px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* 에듀다움 통일 테마 2026-09-27 */
+.btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
 </head>
 <body>

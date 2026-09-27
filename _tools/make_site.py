@@ -46,116 +46,35 @@ e = html.escape
 
 
 # ───────────────────────── 공통 모양
-CSS = """
-:root{--ink:#141414;--paper:#FBF7EC;--surface:#fff;--amber:#FFB800;--muted:#5E5E5E;--line:#141414;
---g5:#F59E0B;--g6:#3D5AFE;--soft:#F3EEDD;--r:16px;--hard:4px 4px 0 var(--ink);--hard-sm:2px 2px 0 var(--ink)}
-*{box-sizing:border-box}
-html{scroll-padding-top:72px}
-body{margin:0;background:var(--paper);color:var(--ink);font-size:16px;line-height:1.7;
-font-family:'Pretendard','Malgun Gothic','Apple SD Gothic Neo',system-ui,sans-serif;word-break:keep-all;overflow-wrap:anywhere}
-a{color:inherit}
-.top{position:sticky;top:0;z-index:10;background:var(--paper);border-bottom:2.5px solid var(--ink)}
-.top .in{max-width:1120px;margin:0 auto;padding:8px 16px;display:flex;gap:6px 14px;align-items:center;flex-wrap:wrap}
-.brand{font-weight:900;font-size:18px;text-decoration:none;letter-spacing:-.02em;margin-right:6px;display:flex;align-items:center;gap:8px}
-.brand i{display:inline-block;width:14px;height:14px;border:2.5px solid var(--ink);border-radius:4px;background:var(--amber)}
-.top nav{display:flex;flex-wrap:wrap;gap:4px}
-.top nav a{text-decoration:none;font-weight:700;font-size:14.5px;padding:8px 10px;border-radius:10px;min-height:40px;display:inline-flex;align-items:center}
-.top nav a:hover{background:var(--soft)}
-.top nav a[aria-current]{background:var(--ink);color:var(--paper)}
-main{max-width:1120px;margin:0 auto;padding:24px 16px 64px}
-h1{font-size:clamp(26px,4.6vw,40px);line-height:1.25;font-weight:900;letter-spacing:-.03em;margin:8px 0 10px}
-h2{font-size:clamp(20px,3vw,26px);font-weight:900;letter-spacing:-.02em;margin:40px 0 12px;padding-top:4px}
-h3{font-size:18px;font-weight:800;margin:24px 0 8px}
-.lead{color:var(--muted);font-weight:600;margin:0 0 18px;font-size:17px}
-.kick{display:inline-block;border:2px solid var(--ink);background:var(--amber);border-radius:999px;padding:3px 12px;font-weight:800;font-size:13px}
-.chip{display:inline-block;border:2px solid var(--ink);border-radius:999px;padding:1px 10px;font-weight:800;font-size:12.5px;background:#fff;white-space:nowrap}
-.chip.g5{background:var(--g5)}.chip.g6{background:var(--g6);color:#fff}
-.box{background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);padding:18px 20px;margin:14px 0}
-.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}
-.card{display:block;text-decoration:none;background:var(--surface);border:2.5px solid var(--ink);border-radius:var(--r);box-shadow:var(--hard);padding:16px;transition:transform .1s,box-shadow .1s}
-a.card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
-.card h3{margin:8px 0 4px;font-size:17px}
-.card p{margin:0;color:var(--muted);font-size:14.5px;font-weight:600}
-.btn{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border:2.5px solid var(--ink);border-radius:12px;background:#fff;
-box-shadow:var(--hard-sm);font-weight:800;text-decoration:none;font-size:15px;cursor:pointer;font-family:inherit;color:var(--ink)}
-.btn.pri{background:var(--amber)}
-.btn:hover{transform:translate(-1px,-1px)}
-.btns{display:flex;flex-wrap:wrap;gap:10px;margin:12px 0}
-.tw{overflow-x:auto;margin:12px 0;border:2.5px solid var(--ink);border-radius:12px;background:#fff}
-table{border-collapse:collapse;width:100%;font-size:15px}
-th,td{border-bottom:1.5px solid #D9D2BE;padding:9px 10px;text-align:left;vertical-align:top}
-th{background:var(--soft);font-weight:800;white-space:nowrap}
-tr:last-child td{border-bottom:0}
-.muted{color:var(--muted)}
-.small{font-size:13.5px}
-.note{border-left:5px solid var(--amber);background:#fff;padding:10px 14px;border-radius:0 10px 10px 0;margin:12px 0;font-size:15px}
-:focus-visible{outline:3px solid var(--g6);outline-offset:2px}
-footer{border-top:2.5px solid var(--ink);margin-top:40px}
-footer .in{max-width:1120px;margin:0 auto;padding:18px 16px;font-size:13.5px;color:var(--muted)}
-/* 64차시 지도 */
-.map{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:4px;margin:8px 0 18px}
-.map a{display:flex;align-items:center;justify-content:center;min-height:44px;border:2px solid var(--ink);border-radius:8px;text-decoration:none;font-weight:800;font-size:13px;background:#fff}
-.map a:hover{transform:translate(-1px,-1px);box-shadow:var(--hard-sm)}
-@media (max-width:720px){.map{grid-template-columns:repeat(8,minmax(0,1fr))}}
-.legend{display:flex;flex-wrap:wrap;gap:6px 12px;font-size:13.5px;font-weight:700}
-.legend span{display:inline-flex;align-items:center;gap:6px}
-.legend i{width:14px;height:14px;border:2px solid var(--ink);border-radius:4px;display:inline-block}
-/* 과정안 */
-.flow{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
-.flow a{text-decoration:none;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;background:#fff;font-weight:700;font-size:14px}
-.flow b{font-weight:900}
-.act h4{margin:14px 0 4px;font-size:16px;font-weight:900}
-.act h4:first-child{margin-top:0}
-.act ul{margin:0 0 6px;padding-left:20px}
-.act li{margin:2px 0}
-.act p{margin:4px 0}
-figure{margin:10px 0;max-width:560px}
-figure img{width:100%;height:auto;border:2px solid var(--ink);border-radius:10px;background:#fff}
-figcaption{font-size:13px;color:var(--muted);font-weight:600;margin-top:4px}
-.res div{margin:3px 0;font-size:14.5px}
-.res .k{display:inline-block;min-width:44px;font-weight:900;font-size:12px;border:1.5px solid var(--ink);border-radius:6px;padding:0 5px;margin-right:6px;background:var(--soft);text-align:center}
-.stage{font-weight:900;white-space:nowrap}
-.rowcard{border:2.5px solid var(--ink);border-radius:var(--r);background:#fff;margin:14px 0;overflow:hidden}
-.rowhead{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;background:var(--soft);border-bottom:2px solid var(--ink);padding:8px 14px;font-weight:900}
-.rowbody{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr);gap:0}
-.rowbody>div{padding:12px 16px}
-.rowbody>.res{border-left:2px dashed #CFC6AE;background:#FFFDF6}
-@media (max-width:760px){.rowbody{grid-template-columns:1fr}.rowbody>.res{border-left:0;border-top:2px dashed #CFC6AE}}
-.lv td:first-child{white-space:nowrap;font-weight:800}
-.toolgrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
-.tool{display:block;border:2px solid var(--ink);border-radius:12px;padding:10px 12px;background:#fff;text-decoration:none}
-.tool b{display:block;font-size:15px}
-.tool span{display:block;font-size:13px;color:var(--muted);font-weight:600}
-.tool:hover{box-shadow:var(--hard-sm);transform:translate(-1px,-1px)}
-.mine form{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-.mine input{min-height:44px;border:2px solid var(--ink);border-radius:10px;padding:6px 10px;font:inherit;flex:1 1 180px;min-width:0}
-.mine li{display:flex;gap:8px;align-items:center;margin:6px 0;flex-wrap:wrap}
-.mine ul{list-style:none;padding:0;margin:8px 0 0}
-.x{min-height:36px;padding:2px 10px;border:2px solid var(--ink);border-radius:8px;background:#fff;cursor:pointer;font:inherit;font-weight:700}
-.pn{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:28px}
-.toc{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 4px}
-.toc a{font-size:14px;font-weight:700;text-decoration:none;border-bottom:2px solid var(--amber)}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-@media print{.top,footer,.btns,.mine,.pn{display:none}body{background:#fff}.box,.rowcard{box-shadow:none}}
-"""
+CSS = (Path(__file__).resolve().parent / 'site.css').read_text(encoding='utf-8')
 
-NAV = [('', '홈'), ('plan/', '계획서·성취기준'), ('topics/', '주제별 활동'), ('lessons/', '차시별 과정안'),
-       ('tools/', '연동 도구'), ('play/', '체험 게임')]
+ICON = {
+    'plan/': '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h10l6 6v18H9z"/><path d="M19 4v6h6"/><path d="M13 16h8M13 20h8M13 24h5"/></svg>',
+    'topics/': '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><rect x="18" y="5" width="9" height="9" rx="2"/><rect x="5" y="18" width="9" height="9" rx="2"/><circle cx="22.5" cy="22.5" r="4.5"/></svg>',
+    'lessons/': '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="7" width="22" height="20" rx="3"/><path d="M5 13h22M11 4v6M21 4v6"/><path d="M10 18h3M15 18h3M20 18h2M10 22h3M15 22h3"/></svg>',
+}
+TABS = [('plan/', '계획서·성취기준'), ('topics/', '주제별 활동'), ('lessons/', '차시별 과정안')]
+UTIL = [('tools/', '연동 도구'), ('play/', '체험 게임')]
+BRAND = ('<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3c7.2 0 13 5.8 13 13s-5.8 13-13 13S3 23.2 3 16 8.8 3 16 3zm0 6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13z"/>'
+         '<circle cx="16" cy="16" r="2.6" fill="currentColor"/></svg>')
 
 
 def page(path: str, title: str, body: str, cur: str, extra_js: str = '') -> None:
     depth = path.count('/') + 1 if path else 0
     up = '../' * depth
-    nav = ''.join('<a href="%s%s"%s>%s</a>' % (up, h, ' aria-current="page"' if h == cur else '', t) for h, t in NAV)
+    cur_attr = lambda h: ' aria-current="page"' if h == cur else ''
+    tabs = ''.join('<a class="tab" href="%s%s"%s>%s<span>%s</span></a>' % (up, h, cur_attr(h), ICON[h], t) for h, t in TABS)
+    util = ''.join('<a href="%s%s"%s>%s</a>' % (up, h, cur_attr(h), t) for h, t in UTIL)
     doc = ('<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n'
            '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
            '<title>%s</title>\n<style>%s</style>\n</head>\n<body>\n'
-           '<header class="top"><div class="in"><a class="brand" href="%s"><i></i>에듀다움</a><nav aria-label="누리집 메뉴">%s</nav></div></header>\n'
+           '<header class="top"><div class="in"><a class="brand" href="%s">%s에듀다움</a>'
+           '<nav class="tabs" aria-label="누리집 메뉴">%s</nav><nav class="util" aria-label="바로가기">%s</nav></div></header>\n'
            '<main>\n%s\n</main>\n'
-           '<footer><div class="in">%s · %s · 과정안 기준일 %s<br>'
+           '<footer><div class="in"><b>%s</b><br>%s · %s · 과정안 기준일 %s<br>'
            '학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</div></footer>\n'
-           '%s</body>\n</html>\n') % (e(title), CSS, up or './', nav, body, e(SITE['org']), e(SITE['title']),
-                                      e(SITE['updated']), extra_js)
+           '%s</body>\n</html>\n') % (e(title), CSS, up or './', BRAND, tabs, util, body, e(SITE['org']),
+                                      e(SITE['title']), e(SITE['subtitle']), e(SITE['updated']), extra_js)
     out = ROOT / path / 'index.html' if path else ROOT / 'index.html'
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(doc, encoding='utf-8')
@@ -220,13 +139,30 @@ def game(code):
             'point': pt.group(1) if pt else '#F59E0B'}
 
 
+def thumb(code):
+    """과정안 첫 그림(대개 도입 상황 그림)을 카드 사진으로 쓴다."""
+    for r in L[code]['rows']:
+        for it in r['body']:
+            if isinstance(it, dict):
+                return it['img']
+    return ''
+
+
+def lcard(code, up, extra=''):
+    """사진이 앞서는 차시 카드."""
+    a = AREA_OF[code]
+    img = thumb(code)
+    ph = '<img src="%s%s" alt="" loading="lazy">' % (up, img) if img else ''
+    return ('<a class="card" href="%slessons/%s/" data-g="%d" data-a="%s" data-t="%s">'
+            '<div class="ph">%s<span class="badge">%d학년 %s차시</span></div>'
+            '<div class="meta"><h3>%s</h3><p>%s%s</p></div></a>'
+            % (up, code, grade(code), a['id'], e(' '.join([topic(code), a['name'], std_code(code)] + activities(code) + [t['name'] for t in tools_of(code)])),
+               ph, grade(code), label(code), e(topic(code)), e(a['name']), extra))
+
+
 def gchip(code):
     g = grade(code)
     return '<span class="chip g%d">%d학년 %s차시</span>' % (g, g, label(code))
-
-
-AREA_COLOR = {'sw1': '#FDE68A', 'sw2': '#FDBA74', 'sw3': '#FCA5A5', 'sw4': '#F9A8D4',
-              'ai1': '#BFDBFE', 'ai2': '#A5B4FC', 'ai3': '#C4B5FD', 'ai4': '#99F6E4', 'ai5': '#BBF7D0'}
 
 
 def lesson_nums(code):
@@ -235,40 +171,55 @@ def lesson_nums(code):
 
 
 # ───────────────────────── 홈
+SEARCH_SVG = ('<svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round">'
+              '<circle cx="14" cy="14" r="9"/><path d="M21 21l7 7"/></svg>')
+
+
+def search_bar(action):
+    areas = ''.join('<option value="%s">%d학년 · %s</option>' % (a['id'], a['grade'], e(a['name'])) for a in SITE['areas'])
+    return ('<form class="search" action="%s" role="search">'
+            '<label><span>학년</span><select name="g"><option value="">5·6학년 모두</option><option value="5">5학년</option><option value="6">6학년</option></select></label>'
+            '<label><span>영역</span><select name="a"><option value="">모든 영역</option>%s</select></label>'
+            '<label><span>찾을 말</span><input name="q" placeholder="예: 마이크로비트, 챗봇, 무선"></label>'
+            '<button class="orb" type="submit" aria-label="과정안 찾기">%s</button></form>') % (action, areas, SEARCH_SVG)
+
+
 def build_home():
     maps = []
     for g in (5, 6):
-        cells = []
-        for c in CODES:
-            if grade(c) != g:
+        grps = []
+        for a in SITE['areas']:
+            if a['grade'] != g:
                 continue
-            col = AREA_COLOR[AREA_OF[c]['id']]
-            for n in lesson_nums(c):
-                cells.append('<a href="lessons/%s/" style="background:%s" title="%d학년 %d차시 · %s">%d</a>'
-                             % (c, col, g, n, e(topic(c)), n))
+            cells = ''.join('<a href="lessons/%s/" title="%d학년 %d차시 · %s">%d</a>' % (c, g, n, e(topic(c)), n)
+                            for c in a['blocks'] for n in lesson_nums(c))
+            grps.append('<div class="grp"><b>%s</b><div class="cells">%s</div></div>' % (e(a['name']), cells))
         crs = SITE['courses'][str(g)]
-        legend = ''.join('<span><i style="background:%s"></i>%s</span>' % (AREA_COLOR[a['id']], e(a['name']))
-                         for a in SITE['areas'] if a['grade'] == g)
-        maps.append('<h3>%d학년 · %s <span class="muted small">%s</span></h3><div class="map">%s</div><div class="legend">%s</div>'
-                    % (g, e(crs['name']), e(crs['tools']), ''.join(cells), legend))
+        maps.append('<h3>%d학년 · %s <span class="muted small">%s</span></h3><div class="map">%s</div>'
+                    % (g, e(crs['name']), e(crs['tools']), ''.join(grps)))
+    cats = ''.join('<a href="topics/#%s">%d학년 %s</a>' % (a['id'], a['grade'], e(a['name'])) for a in SITE['areas'])
+    cards = {g: ''.join(lcard(c, '') for c in CODES if grade(c) == g) for g in (5, 6)}
     body = f"""
+<section class="hero">
 <span class="kick">{e(SITE['org'])}</span>
 <h1>{e(SITE['title'])}</h1>
 <p class="lead">{e(SITE['subtitle'])} — 학교자율시간에 바로 쓰는 교수학습 과정안, 연동 도구, 수업 중 체험 게임을 한곳에 모았습니다.</p>
-<div class="grid">
- <a class="card" href="plan/"><span class="chip">1</span><h3>계획서·성취기준</h3><p>개발 배경과 목표, 운영 구조, 자체 성취기준과 2022 개정 연계, 평가 설계</p></a>
- <a class="card" href="topics/"><span class="chip">2</span><h3>주제별 활동 내용</h3><p>9개 영역마다 성취기준, 핵심 활동, 대표 산출물, 도구</p></a>
- <a class="card" href="lessons/"><span class="chip">3</span><h3>차시별 교수학습 과정안</h3><p>28편 64차시 전문, 평가 계획, PDF, 차시에 걸린 도구·링크</p></a>
- <a class="card" href="play/"><span class="chip">4</span><h3>체험 게임</h3><p>과정안 활동 앞뒤에 붙는 5~10분 짜리 웹 조각 28개</p></a>
-</div>
+{search_bar('lessons/')}
+</section>
+<nav class="cats" aria-label="영역">{cats}</nav>
+<h2>5학년 · {e(SITE['courses']['5']['name'])}</h2>
+<div class="grid">{cards[5]}</div>
+<h2>6학년 · {e(SITE['courses']['6']['name'])}</h2>
+<div class="grid">{cards[6]}</div>
 <h2>64차시 한눈에 보기</h2>
-<p class="muted small">칸을 누르면 그 차시의 과정안으로 갑니다. 색은 영역입니다.</p>
+<p class="muted small">동그라미를 누르면 그 차시의 과정안으로 갑니다.</p>
 {''.join(maps)}
 <h2>이렇게 운영합니다</h2>
 <div class="grid">
- <div class="box"><h3>학년마다 32차시 전체</h3><p class="small">5·6학년 각 2학급이 학년 32차시를 모두 운영합니다. 주 2차시 블록 수업으로 약 16주, 비교 학급은 선택입니다.</p></div>
- <div class="box"><h3>이야기로 잇는 수업</h3><p class="small">5학년은 「{e(SITE['courses']['5']['story'])}」, 6학년은 「{e(SITE['courses']['6']['story'])}」 이야기 틀로 차시가 이어집니다.</p></div>
- <div class="box"><h3>만들고 재고 고친다</h3><p class="small">마이크로비트·엔트리·CreateAI로 실제로 만들고, 공식 통계와 실측 자료로 확인하며, 한 가지만 바꾸어 다시 시험합니다.</p></div>
+ <a class="card plain" href="plan/#run"><h3>학년마다 32차시 전체</h3><p>5·6학년 각 2학급이 학년 32차시를 모두 운영합니다. 주 2차시 블록 수업으로 약 16주, 비교 학급은 선택입니다.</p></a>
+ <a class="card plain" href="topics/"><h3>이야기로 잇는 수업</h3><p>5학년은 「{e(SITE['courses']['5']['story'])}」, 6학년은 「{e(SITE['courses']['6']['story'])}」 이야기 틀로 차시가 이어집니다.</p></a>
+ <a class="card plain" href="tools/"><h3>만들고 재고 고친다</h3><p>마이크로비트·엔트리·CreateAI로 실제로 만들고, 공식 통계와 실측 자료로 확인하며, 한 가지만 바꾸어 다시 시험합니다.</p></a>
+ <a class="card plain" href="play/"><h3>수업 중 체험 게임</h3><p>과정안 활동 앞뒤에 붙는 5~10분짜리 웹 조각 28개. 점수·이름을 받지 않습니다.</p></a>
 </div>
 """
     page('', '에듀다움 — 학교자율시간 SW·AI 교육과정', body, '')
@@ -365,29 +316,31 @@ def build_topics():
     parts = []
     for g in (5, 6):
         crs = SITE['courses'][str(g)]
-        parts.append('<h2>%d학년 · %s</h2><p class="muted">이야기 틀: %s · 주 도구: %s</p>' % (g, e(crs['name']), e(crs['story']), e(crs['tools'])))
+        parts.append('<h2 style="margin-top:56px;font-size:24px">%d학년 · %s</h2><p class="muted">이야기 틀: %s · 주 도구: %s</p>' % (g, e(crs['name']), e(crs['story']), e(crs['tools'])))
         for a in SITE['areas']:
             if a['grade'] != g:
                 continue
-            stds = ''.join('<p class="small"><b>%s</b> %s</p>' % (e(s), e(STD['standards'].get(s, ''))) for s in a['std'])
+            stds = ''.join('<p class="small muted" style="margin:0 0 16px"><b style="color:var(--ink);font-weight:600">%s</b> %s</p>' % (e(s), e(STD['standards'].get(s, ''))) for s in a['std'])
             cards = []
             for c in a['blocks']:
-                acts = ''.join('<li>%s</li>' % e(x) for x in activities(c))
+                acts = ''.join('<li>%s</li>' % e(re.sub(r'\s*\(\d+분\)', '', x)) for x in activities(c))
                 tl = ' '.join('<span class="chip">%s</span>' % e(t['name']) for t in tools_of(c))
                 gm = game(c)
-                gl = ('<a class="btn" href="../%s/">체험 게임: %s</a>' % (c, e(gm['title']))) if gm else ''
+                gl = (' · <a href="../%s/">체험 게임</a>' % c) if gm else ''
+                img = thumb(c)
                 cards.append(
-                    '<div class="box"><div>%s</div><h3><a href="../lessons/%s/">%s</a></h3>'
-                    '<ul class="small">%s</ul><div class="small" style="margin:6px 0">%s</div>'
-                    '<div class="btns"><a class="btn pri" href="../lessons/%s/">과정안 보기</a>%s</div></div>'
-                    % (gchip(c), c, e(topic(c)), acts, tl, c, gl))
-            parts.append('<section id="%s"><h3 style="font-size:21px;margin-top:30px"><span class="chip" style="background:%s">%s차시</span> %s</h3>'
-                         '<p>%s</p>%s<div class="grid">%s</div></section>'
-                         % (a['id'], AREA_COLOR[a['id']], a['range'], e(a['name']), e(a['summary']), stds, ''.join(cards)))
+                    '<div class="card"><a href="../lessons/%s/" class="ph" style="display:block">%s<span class="badge">%d학년 %s차시</span></a>'
+                    '<div class="meta"><h3><a href="../lessons/%s/" style="text-decoration:none">%s</a></h3>'
+                    '<ul class="small muted" style="padding-left:18px;margin:6px 0">%s</ul><div style="display:flex;flex-wrap:wrap;gap:4px;margin:8px 0">%s</div>'
+                    '<p class="small"><a href="../lessons/%s/">과정안 보기</a>%s</p></div></div>'
+                    % (c, ('<img src="../%s" alt="" loading="lazy">' % img) if img else '', grade(c), label(c), c, e(topic(c)), acts, tl, c, gl))
+            parts.append('<section id="%s"><h2 style="font-size:20px;margin-top:48px">%s <span class="muted" style="font-weight:400;font-size:15px">%d학년 %s차시</span></h2>'
+                         '<p class="lead" style="margin-bottom:8px">%s</p>%s<div class="grid">%s</div></section>'
+                         % (a['id'], e(a['name']), a['grade'], a['range'], e(a['summary']), stds, ''.join(cards)))
     toc = ''.join('<a href="#%s">%d학년 %s</a>' % (a['id'], a['grade'], e(a['name'])) for a in SITE['areas'])
     body = ('<span class="kick">2 · 주제별 활동 내용</span><h1>영역별로 보는 활동</h1>'
             '<p class="lead">영역마다 성취기준과 차시별 핵심 활동, 연동 도구, 체험 게임을 모았습니다.</p>'
-            '<div class="toc">%s</div>%s') % (toc, ''.join(parts))
+            '<nav class="cats" aria-label="영역">%s</nav>%s') % (toc, ''.join(parts))
     page('topics', '주제별 활동 내용 — 에듀다움', body, 'topics/')
 
 
@@ -475,22 +428,31 @@ def build_lesson(code, prev, nxt):
     for x in LINKS.get(code, {}).get('extra', []):
         tl.append('<a class="tool" href="%s" target="_blank" rel="noopener"><b>%s ↗</b><span>%s</span></a>' % (e(x['url']), e(x['name']), e(x.get('note', ''))))
     gm = game(code)
-    gbox = ('<div class="box" style="border-left:10px solid %s"><p class="small muted">수업 중 5~10분 체험</p><h3 style="margin-top:2px">%s</h3><p>%s</p>'
-            '<div class="btns"><a class="btn pri" href="../../%s/">체험 게임 열기</a></div></div>' % (gm['point'], e(gm['title']), e(gm['lead']), code)) if gm else ''
+    gbox = ('<div class="box"><p class="small muted" style="margin:0">수업 중 5~10분 체험</p><h3 style="margin-top:4px">%s</h3><p class="muted">%s</p>'
+            '<div class="btns"><a class="btn" href="../../%s/">체험 게임 열기</a></div></div>' % (e(gm['title']), e(gm['lead']), code)) if gm else ''
+    rail = ('<aside class="rail"><div class="box"><p style="margin:0">%s</p>'
+            '<p style="font-size:20px;font-weight:600;margin:10px 0 4px;line-height:1.3">%s</p>'
+            '<p class="small muted" style="margin:0 0 16px">%s · %s</p>'
+            '<a class="btn pri" style="width:100%%;justify-content:center" href="../../assets/pdf/%s.pdf" target="_blank" rel="noopener">과정안 PDF 열기</a>'
+            '%s'
+            '<p class="small" style="margin:16px 0 6px;font-weight:600">연동 도구</p><div style="display:flex;flex-wrap:wrap;gap:6px">%s</div>'
+            '<p class="small muted" style="margin:14px 0 0">%s</p></div></aside>') % (
+        gchip(code), e(topic(code)), e(a['name']), e(s), code,
+        ('<a class="btn" style="width:100%%;justify-content:center;margin-top:10px" href="../../%s/">체험 게임: %s</a>' % (code, e(gm['title']))) if gm else '',
+        ' '.join('<a class="chip" href="%s" target="_blank" rel="noopener">%s ↗</a>' % (e(t['url']), e(t['name'])) for t in tools_of(code)) or '<span class="small muted">종이·실물로 운영</span>',
+        ' · '.join('%s %s' % (e(r['stage']), e(r['time'])) for r in d['rows']))
     # 원본 hwpx(드라이브)에는 개발자 이름이 있어 공개 쪽에 걸지 않는다. PDF는 공개용 사본(public_copy.py)에서 뽑는다.
-    dl = '<a class="btn" href="../../assets/pdf/%s.pdf" target="_blank" rel="noopener">과정안 PDF</a>' % code
     pn = '<div class="pn">%s%s</div>' % (
         ('<a class="btn" href="../%s/">← %d학년 %s차시</a>' % (prev, grade(prev), label(prev))) if prev else '<span></span>',
         ('<a class="btn" href="../%s/">%d학년 %s차시 →</a>' % (nxt, grade(nxt), label(nxt))) if nxt else '')
     body = f"""
 <p class="small"><a href="../">차시별 과정안</a> › <a href="../../topics/#{a['id']}">{e(a['name'])}</a></p>
-<div>{gchip(code)} <span class="chip">{e(a['name'])}</span> <span class="chip">{e(s)}</span></div>
 <h1>{e(topic(code))}</h1>
 <p class="lead">학습 문제 — {e(problem(code))}</p>
-<div class="btns">{dl}{'<a class="btn" href="#game">체험 게임</a>' if gm else ''}<a class="btn" href="#tools">연동 도구·링크</a></div>
 <div class="toc"><a href="#ov">개요</a><a href="#flow">교수학습 활동</a><a href="#eval">평가 계획</a><a href="#tools">연동 도구·링크</a>{'<a href="#game">체험 게임</a>' if gm else ''}</div>
+<div class="side"><div>
 
-<h2 id="ov">개요</h2>
+<h2 id="ov" style="margin-top:32px">개요</h2>
 <div class="tw"><table>{''.join(ovr)}</table></div>
 
 <h2 id="flow">교수학습 활동</h2>
@@ -507,11 +469,12 @@ def build_lesson(code, prev, nxt):
 <h3 style="margin-top:0">내 수업 링크</h3>
 <p class="small muted">학급 패들렛, 엔트리 작품, 활동지 주소처럼 이 차시에 쓸 링크를 걸어 둡니다. 이 브라우저에만 저장되고 밖으로 보내지 않습니다. 학생 이름이 든 주소는 넣지 마세요.</p>
 <ul></ul>
-<form><label class="small" for="mn-{code}">이름</label><input id="mn-{code}" name="n" maxlength="40" required placeholder="예: 우리 반 패들렛">
-<label class="small" for="mu-{code}">주소</label><input id="mu-{code}" name="u" type="url" required placeholder="https://">
-<button class="btn" type="submit">걸어 두기</button></form>
+<form><div class="f"><label for="mn-{code}">이름</label><input id="mn-{code}" name="n" maxlength="40" required placeholder="예: 우리 반 패들렛"></div>
+<div class="f"><label for="mu-{code}">주소</label><input id="mu-{code}" name="u" type="url" required placeholder="https://"></div>
+<button class="btn pri" type="submit">걸어 두기</button></form>
 </div>
 {('<h2 id="game">체험 게임</h2>' + gbox) if gm else ''}
+</div>{rail}</div>
 {pn}
 """
     page('lessons/%s' % code, '%d학년 %s차시 %s — 에듀다움' % (g, label(code), topic(code)), body, 'lessons/', MINE_JS)
@@ -544,28 +507,47 @@ MINE_JS = """<script>
 """
 
 
+FILTER_JS = """<script>
+(function(){
+  var st={g:'',a:'',q:''}, P=new URLSearchParams(location.search);
+  ['g','a','q'].forEach(function(k){st[k]=P.get(k)||''});
+  var cards=[].slice.call(document.querySelectorAll('#list .card')), cnt=document.querySelector('.count'),
+      sel=document.querySelector('select[data-f=a]'), inp=document.querySelector('input[data-f=q]');
+  sel.value=st.a; inp.value=st.q;
+  function draw(){
+    var n=0, q=st.q.trim().toLowerCase();
+    document.querySelectorAll('button[data-f=g]').forEach(function(b){b.setAttribute('aria-pressed', b.dataset.v===st.g?'true':'false')});
+    cards.forEach(function(c){
+      var ok=(!st.g||c.dataset.g===st.g)&&(!st.a||c.dataset.a===st.a)&&(!q||c.dataset.t.toLowerCase().indexOf(q)>=0);
+      c.hidden=!ok; if(ok) n++;
+    });
+    cnt.textContent=n+'편'; document.getElementById('none').hidden=n>0;
+  }
+  document.querySelectorAll('button[data-f=g]').forEach(function(b){b.onclick=function(){st.g=b.dataset.v;draw()}});
+  sel.onchange=function(){st.a=sel.value;draw()};
+  inp.oninput=function(){st.q=inp.value;draw()};
+  draw();
+})();
+</script>
+"""
+
+
 def build_lessons():
     for i, c in enumerate(CODES):
         prev = CODES[i - 1] if i > 0 else None
         nxt = CODES[i + 1] if i + 1 < len(CODES) else None
         build_lesson(c, prev, nxt)
-    parts = []
-    for g in (5, 6):
-        rows = []
-        for c in CODES:
-            if grade(c) != g:
-                continue
-            gm = game(c)
-            rows.append('<tr><td><b>%s</b></td><td><a href="%s/">%s</a><br><span class="small muted">%s</span></td><td class="small">%s</td><td class="small">%s</td><td>%s</td></tr>' % (
-                label(c), c, e(topic(c)), e(AREA_OF[c]['name']),
-                '<br>'.join(e(re.sub(r'\s*\(\d+분\)', '', x)) for x in activities(c)),
-                ', '.join(e(t['name']) for t in tools_of(c)) or '종이·실물',
-                ('<a href="../%s/">%s</a>' % (c, e(gm['title']))) if gm else '—'))
-        parts.append('<h2>%d학년 · %s</h2><div class="tw"><table><tr><th>차시</th><th>학습 주제</th><th>활동</th><th>연동 도구</th><th>체험 게임</th></tr>%s</table></div>'
-                     % (g, e(SITE['courses'][str(g)]['name']), ''.join(rows)))
+    btns = ('<button type="button" data-f="g" data-v="" aria-pressed="true">5·6학년</button>'
+            '<button type="button" data-f="g" data-v="5" aria-pressed="false">5학년</button>'
+            '<button type="button" data-f="g" data-v="6" aria-pressed="false">6학년</button>')
+    areas = ''.join('<option value="%s">%d학년 · %s</option>' % (a['id'], a['grade'], e(a['name'])) for a in SITE['areas'])
+    cards = ''.join(lcard(c, '../') for c in CODES)
     body = ('<span class="kick">3 · 차시별 교수학습 과정안</span><h1>28편 64차시 과정안</h1>'
-            '<p class="lead">학습 주제를 누르면 과정안 전문(개요·교수학습 활동·평가 계획)과 PDF, 연동 도구, 체험 게임으로 이어집니다.</p>%s') % ''.join(parts)
-    page('lessons', '차시별 교수학습 과정안 — 에듀다움', body, 'lessons/')
+            '<p class="lead">카드를 누르면 과정안 전문(개요·교수학습 활동·평가 계획)과 PDF, 연동 도구, 체험 게임으로 이어집니다.</p>'
+            '<div class="filters" role="search">%s<select aria-label="영역" data-f="a" style="border:1px solid var(--line);border-radius:9999px;padding:8px 14px;min-height:40px;font:inherit;font-size:14px;background:#fff"><option value="">모든 영역</option>%s</select>'
+            '<input type="search" aria-label="찾을 말" placeholder="찾을 말 — 예: 무선, 챗봇, CreateAI" data-f="q"><span class="count" aria-live="polite"></span></div>'
+            '<div class="grid" id="list">%s</div><p class="muted" id="none" hidden>맞는 차시가 없습니다.</p>') % (btns, areas, cards)
+    page('lessons', '차시별 교수학습 과정안 — 에듀다움', body, 'lessons/', FILTER_JS)
 
 
 # ───────────────────────── 도구 모음
@@ -579,7 +561,7 @@ def build_tools():
                 continue
             ls = ' '.join('<a class="chip" href="../lessons/%s/">%d-%s</a>' % (c, grade(c), label(c)) for c in used[t['id']])
             more = ' · '.join('<a href="%s" target="_blank" rel="noopener">%s ↗</a>' % (e(m['url']), e(m['name'])) for m in t.get('more', []))
-            cards.append('<div class="box"><h3 style="margin-top:0"><a href="%s" target="_blank" rel="noopener">%s ↗</a></h3><p class="small">%s</p>'
+            cards.append('<div class="box" style="margin:0"><h3 style="margin-top:0"><a href="%s" target="_blank" rel="noopener">%s ↗</a></h3><p class="small">%s</p>'
                          '<p class="small muted">계정: %s%s</p><div>%s</div></div>'
                          % (e(t['url']), e(t['name']), e(t['use']), e(t['account']), (' · ' + more) if more else '', ls or '<span class="small muted">직접 쓰는 차시 없음</span>'))
         groups.append('<h2>%s</h2><div class="grid">%s</div>' % (grp, ''.join(cards)))
@@ -600,8 +582,8 @@ def build_play():
             gm = game(c)
             if not gm:
                 continue
-            cards.append('<a class="card" href="../%s/" style="border-top:10px solid %s"><span class="chip">%s</span><h3>%s</h3><p>%s</p></a>'
-                         % (c, gm['point'], label(c), e(gm['title']), e(gm['lead'])))
+            cards.append('<a class="card plain" href="../%s/"><span class="chip">%d학년 %s차시</span><h3 style="margin-top:12px">%s</h3><p>%s</p></a>'
+                         % (c, g, label(c), e(gm['title']), e(gm['lead'])))
         parts.append('<h2>%d학년</h2><div class="grid">%s</div>' % (g, ''.join(cards)))
     body = ('<span class="kick">체험 게임</span><h1>수업 중에 잠깐 만져 보는 체험</h1>'
             '<p class="lead">과정안의 활동 하나를 짧게 미리 겪어 보거나 견주어 봐요. 마이크로비트·엔트리·실제 측정을 대신하지 않습니다.</p>%s'
