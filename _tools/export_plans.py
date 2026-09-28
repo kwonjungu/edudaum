@@ -78,11 +78,18 @@ def texts(c) -> list:
     return [v for k, v in c['items'] if k == 'text' and v] if c else []
 
 
+def pick_tbl(tbls: list, head: str) -> str:
+    """첫 글자가 head로 시작하는 표. 과정안 판마다 표 순서가 달라서(개요 표를 글자처럼 앞에 둔 판) 순서로 고르지 않는다."""
+    hit = [t for t in tbls if (re.search(r'<hp:t>([^<]*)', t) or [None, ''])[1].strip().startswith(head)]
+    assert len(hit) == 1, '%s 표를 하나로 찾지 못함(%d개)' % (head, len(hit))
+    return hit[0]
+
+
 def export(path: Path, bins: dict, code: str) -> dict:
     z = zipfile.ZipFile(path)
     x = z.read('Contents/section0.xml').decode('utf-8')
     tbls = re.findall(r'<hp:tbl\b[\s\S]*?</hp:tbl>', x)
-    t0, t1, t2 = (cells(t) for t in tbls[:3])
+    t0, t1, t2 = (cells(pick_tbl(tbls, h)) for h in ('차시', '개요', '평가'))
 
     # 그림: 문서 순서대로 BXX_1, BXX_2 …
     hpf = z.read('Contents/content.hpf').decode('utf-8')
@@ -111,7 +118,7 @@ def export(path: Path, bins: dict, code: str) -> dict:
                 res.append(it)
         return res
 
-    # 개요 (표1): 왼쪽 라벨 → 오른쪽 값
+    # 개요 표: 왼쪽 라벨 → 오른쪽 값
     ov = {}
     for r in sorted({r for r, _ in t1}):
         lab = (texts(t1.get((r, 1))) or texts(t1.get((r, 0))) or [''])[-1]
@@ -121,7 +128,7 @@ def export(path: Path, bins: dict, code: str) -> dict:
     if not SHOW_DEV:
         ov.pop('개발자', None)
 
-    # 활동 (표0)
+    # 교수학습 활동 표
     rows = []
     r = 1
     while (r, 3) in t0:
@@ -134,7 +141,7 @@ def export(path: Path, bins: dict, code: str) -> dict:
         })
         r += 1
 
-    # 평가 (표2)
+    # 평가 계획 표
     ev = []
     r, cur = 1, None
     while (r, 2) in t2:

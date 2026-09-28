@@ -4,7 +4,7 @@
  "org": "경기 AI 융합교육 에듀다움 교사연구회",
  "title": "학교자율시간 SW·AI 교육과정",
  "subtitle": "5학년 SW 32차시 · 6학년 AI 32차시",
- "updated": "2026. 9. 27.",
+ "updated": "2026. 9. 28.",
  "courses": {
   "5": {"name": "AI와 함께 배우는 SW 교과 융합 프로젝트", "short": "SW 교과 융합", "tools": "마이크로비트 V2 · MakeCode", "story": "우리 학교 문제 해결단", "color": "#F59E0B"},
   "6": {"name": "인공지능으로 해결하는 실생활 문제해결 프로젝트", "short": "AI 실생활 문제해결", "tools": "엔트리 AI 블록 · micro:bit CreateAI", "story": "학교 구성원의 의뢰를 푸는 AI 도우미 팀", "color": "#3D5AFE"}

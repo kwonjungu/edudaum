@@ -8,7 +8,7 @@
   python _tools/public_copy.py --strip-pdf assets/pdf     # PDF 문서 정보(작성자 등) 비우기
 
 원본은 건드리지 않는다. 이름 목록을 저장소에 두지 않으려고, 이름을 찾아 지우지 않고
-개요 표의 '개발자' 칸(표 1의 4행 3열) 자체를 바꾼다.
+개요 표의 '개발자' 칸(4행 3열) 자체를 바꾼다.
 """
 import re
 import sys
@@ -20,7 +20,10 @@ ORG = '경기 AI 융합교육 에듀다움 교사연구회'
 
 def fix_section(x: str) -> str:
     tbls = [m for m in re.finditer(r'<hp:tbl\b[\s\S]*?</hp:tbl>', x)]
-    t = tbls[1]
+    # 개요 표를 첫 글자로 고른다(과정안 판마다 표 순서가 다르다)
+    hit = [m for m in tbls if (re.search(r'<hp:t>([^<]*)', m.group(0)) or [None, ''])[1].strip() == '개요']
+    assert len(hit) == 1, '개요 표를 하나로 찾지 못함(%d개)' % len(hit)
+    t = hit[0]
     tb = t.group(0)
 
     def cell(m):
@@ -37,7 +40,7 @@ def fix_section(x: str) -> str:
         return re.sub(r'<hp:t>[\s\S]*?</hp:t>|<hp:t/>', tx, c)
     tb2 = re.sub(r'<hp:tc\b[\s\S]*?</hp:tc>', cell, tb)
     # 개발자 칸 라벨 확인
-    assert '개발자' in tb, '표 1에 개발자 칸이 없음'
+    assert '개발자' in tb, '개요 표에 개발자 칸이 없음'
     return x[:t.start()] + tb2 + x[t.end():]
 
 
