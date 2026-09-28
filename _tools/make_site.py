@@ -269,7 +269,7 @@ def build_plan():
 <div class="tw"><table><tr><th>학년</th><th>영역</th><th>차시</th><th>과정안</th></tr>{area_rows}</table></div>
 
 <h2 id="std">성취기준</h2>
-<p class="small muted">학교자율시간 과목을 위해 연구회가 자체 개발한 성취기준입니다. [5실소프트웨어…]·[6실인공지능…]은 국가 실과 성취기준 코드가 아니며, ‘연계’ 칸이 2022 개정 실과·학교자율시간 정보 교육 성취기준입니다.</p>
+<p class="small muted">학교자율시간 과목을 위해 연구회가 자체 개발한 성취기준입니다. [5실SW…]·[6실인공지능…]은 국가 실과 성취기준 코드가 아니며, ‘연계’ 칸이 2022 개정 실과·학교자율시간 정보 교육 성취기준입니다.</p>
 <div class="tw"><table><tr><th>학년</th><th>영역</th><th>자체 성취기준</th><th>연계</th><th>차시</th></tr>{''.join(rows)}</table></div>
 
 <h2 id="link">교과 연계</h2>
