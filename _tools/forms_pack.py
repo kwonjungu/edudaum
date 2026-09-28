@@ -90,6 +90,8 @@ def set_members(fm, s):
         name = rel.split('/')[-1]
         if rel.startswith('assets/pdf/'):
             arc = '과정안_PDF/' + name
+        elif rel.startswith('assets/forms/'):
+            arc = '함께쓰는_빈양식/' + name          # 종합세트 안내가 가리키는 빈 양식(설문·워크시트 등)
         elif name.endswith('.hwpx') and name.startswith('B') and name[1:3].isdigit():
             arc = '과정안_한글/' + name
         else:

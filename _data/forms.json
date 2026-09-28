@@ -32,14 +32,14 @@
      "fmt": "hwpx",
      "file": "F01_과목개설개발양식_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 34726,
+     "bytes": 34690,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F01_과목개설개발양식_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 27593,
+     "bytes": 27567,
      "pages": 3
     }
    ],
@@ -153,14 +153,14 @@
      "fmt": "hwpx",
      "file": "F02_활동개설컨설팅신청서_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 55270,
+     "bytes": 55086,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F02_활동개설컨설팅신청서_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 56278,
+     "bytes": 56213,
      "pages": 4
     },
     {
@@ -169,7 +169,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 100246,
+     "bytes": 100332,
      "pages": 0
     },
     {
@@ -178,8 +178,8 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 156228,
-     "pages": 12
+     "bytes": 200411,
+     "pages": 16
     },
     {
      "fmt": "hwpx",
@@ -187,7 +187,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 101887,
+     "bytes": 102010,
      "pages": 0
     },
     {
@@ -196,8 +196,8 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 156981,
-     "pages": 13
+     "bytes": 205355,
+     "pages": 18
     }
    ],
    "preview": "F02_p1.jpg",
@@ -424,14 +424,14 @@
      "fmt": "hwpx",
      "file": "F03_기승인과목활용계획_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 61326,
+     "bytes": 61131,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F03_기승인과목활용계획_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 63753,
+     "bytes": 63603,
      "pages": 5
     }
    ],
@@ -626,14 +626,14 @@
      "fmt": "hwpx",
      "file": "F04_교육과정편제표_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 56260,
+     "bytes": 56279,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F04_교육과정편제표_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 33451,
+     "bytes": 33438,
      "pages": 1
     },
     {
@@ -642,7 +642,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 45649,
+     "bytes": 62357,
      "pages": 0
     },
     {
@@ -651,8 +651,8 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 60410,
-     "pages": 3
+     "bytes": 60024,
+     "pages": 2
     },
     {
      "fmt": "hwpx",
@@ -660,7 +660,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 45649,
+     "bytes": 62357,
      "pages": 0
     },
     {
@@ -669,8 +669,8 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 60409,
-     "pages": 3
+     "bytes": 60023,
+     "pages": 2
     }
    ],
    "preview": "F04_p1.jpg",
@@ -788,14 +788,14 @@
      "fmt": "hwpx",
      "file": "F05_고시외과목승인신청전검토체크리스트_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 92374,
+     "bytes": 92257,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F05_고시외과목승인신청전검토체크리스트_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 92583,
+     "bytes": 92579,
      "pages": 1
     }
    ],
@@ -861,14 +861,14 @@
      "fmt": "hwpx",
      "file": "F06_활동개설검토체크리스트_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 90292,
+     "bytes": 90164,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F06_활동개설검토체크리스트_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 119682,
+     "bytes": 119680,
      "pages": 2
     },
     {
@@ -877,7 +877,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 96075,
+     "bytes": 95914,
      "pages": 0
     },
     {
@@ -886,8 +886,8 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 144497,
-     "pages": 4
+     "bytes": 154418,
+     "pages": 5
     },
     {
      "fmt": "hwpx",
@@ -895,7 +895,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 96088,
+     "bytes": 95929,
      "pages": 0
     },
     {
@@ -904,8 +904,8 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 145849,
-     "pages": 4
+     "bytes": 153993,
+     "pages": 5
     }
    ],
    "preview": "F06_p1.jpg",
@@ -990,14 +990,14 @@
      "fmt": "hwpx",
      "file": "F07_활동설계워크시트_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 58111,
+     "bytes": 57567,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F07_활동설계워크시트_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 120533,
+     "bytes": 120485,
      "pages": 10
     }
    ],
@@ -1323,7 +1323,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 22186,
+     "bytes": 22185,
      "pages": 0
     },
     {
@@ -1332,7 +1332,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 22186,
+     "bytes": 22185,
      "pages": 0
     }
    ],
@@ -1488,14 +1488,14 @@
      "fmt": "hwpx",
      "file": "F10_교육공동체요구조사설문_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 50145,
+     "bytes": 49977,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F10_교육공동체요구조사설문_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 63874,
+     "bytes": 63792,
      "pages": 4
     }
    ],
@@ -1555,14 +1555,14 @@
      "fmt": "hwpx",
      "file": "F11_학운위심의안건_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 79696,
+     "bytes": 81063,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F11_학운위심의안건_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 58814,
+     "bytes": 58730,
      "pages": 2
     },
     {
@@ -1571,7 +1571,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 84726,
+     "bytes": 87325,
      "pages": 0
     },
     {
@@ -1580,7 +1580,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 65208,
+     "bytes": 66369,
      "pages": 2
     },
     {
@@ -1589,7 +1589,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 84937,
+     "bytes": 87507,
      "pages": 0
     },
     {
@@ -1598,7 +1598,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 64860,
+     "bytes": 65960,
      "pages": 2
     }
    ],
@@ -1662,14 +1662,14 @@
      "fmt": "hwpx",
      "file": "F12_학교장결재품의_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 56115,
+     "bytes": 55853,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F12_학교장결재품의_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 40778,
+     "bytes": 40811,
      "pages": 1
     },
     {
@@ -1678,7 +1678,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 86553,
+     "bytes": 84836,
      "pages": 0
     },
     {
@@ -1687,7 +1687,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 60474,
+     "bytes": 60042,
      "pages": 2
     },
     {
@@ -1696,7 +1696,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 86641,
+     "bytes": 84935,
      "pages": 0
     },
     {
@@ -1705,7 +1705,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 59886,
+     "bytes": 59539,
      "pages": 2
     }
    ],
@@ -1756,14 +1756,14 @@
      "fmt": "hwpx",
      "file": "F13_교수학습운영및평가세부계획서_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 54236,
+     "bytes": 54037,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F13_교수학습운영및평가세부계획서_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 55024,
+     "bytes": 55028,
      "pages": 2
     },
     {
@@ -1772,7 +1772,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 70745,
+     "bytes": 106527,
      "pages": 0
     },
     {
@@ -1781,8 +1781,8 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 162190,
-     "pages": 17
+     "bytes": 174145,
+     "pages": 14
     },
     {
      "fmt": "hwpx",
@@ -1790,7 +1790,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 72008,
+     "bytes": 109589,
      "pages": 0
     },
     {
@@ -1799,8 +1799,8 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 166379,
-     "pages": 19
+     "bytes": 178567,
+     "pages": 16
     }
    ],
    "preview": "F13_p1.jpg",
@@ -2030,7 +2030,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 16095,
+     "bytes": 16118,
      "pages": 0
     },
     {
@@ -2039,7 +2039,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 15982,
+     "bytes": 15981,
      "pages": 0
     }
    ],
@@ -2090,14 +2090,14 @@
      "fmt": "hwpx",
      "file": "F15_세특기재점검표_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 73220,
+     "bytes": 72936,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F15_세특기재점검표_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 56217,
+     "bytes": 56266,
      "pages": 2
     },
     {
@@ -2106,7 +2106,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 90086,
+     "bytes": 94075,
      "pages": 0
     },
     {
@@ -2115,7 +2115,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 101184,
+     "bytes": 102131,
      "pages": 4
     },
     {
@@ -2124,7 +2124,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 91059,
+     "bytes": 95030,
      "pages": 0
     },
     {
@@ -2133,7 +2133,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 103006,
+     "bytes": 104004,
      "pages": 4
     }
    ],
@@ -2370,14 +2370,14 @@
      "fmt": "hwpx",
      "file": "F16_변경절차판정표_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 65390,
+     "bytes": 65326,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F16_변경절차판정표_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 42285,
+     "bytes": 42299,
      "pages": 1
     }
    ],
@@ -2466,7 +2466,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 14710,
+     "bytes": 14718,
      "pages": 0
     },
     {
@@ -2475,7 +2475,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 14706,
+     "bytes": 14714,
      "pages": 0
     }
    ],
@@ -2532,14 +2532,14 @@
      "fmt": "hwpx",
      "file": "F18_성취기준코드문장점검표_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 57070,
+     "bytes": 56847,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F18_성취기준코드문장점검표_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 42949,
+     "bytes": 42980,
      "pages": 1
     },
     {
@@ -2548,7 +2548,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 95855,
+     "bytes": 97638,
      "pages": 0
     },
     {
@@ -2557,7 +2557,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5학년 SW",
      "grade": "5",
-     "bytes": 75652,
+     "bytes": 76126,
      "pages": 3
     },
     {
@@ -2566,7 +2566,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 45286,
+     "bytes": 101492,
      "pages": 0
     },
     {
@@ -2575,8 +2575,8 @@
      "role": "작성 예시",
      "label": "작성 예시 · 6학년 AI",
      "grade": "6",
-     "bytes": 76887,
-     "pages": 4
+     "bytes": 76422,
+     "pages": 3
     }
    ],
    "preview": "F18_p1.jpg",
@@ -2697,14 +2697,14 @@
      "fmt": "hwpx",
      "file": "F19_학기말성찰차년도보완협의록_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 48877,
+     "bytes": 48716,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F19_학기말성찰차년도보완협의록_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 42558,
+     "bytes": 42534,
      "pages": 2
     }
    ],
@@ -2812,14 +2812,14 @@
      "fmt": "hwpx",
      "file": "F20_교구구입품의_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 63173,
+     "bytes": 63028,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F20_교구구입품의_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 46099,
+     "bytes": 46290,
      "pages": 1
     },
     {
@@ -2828,7 +2828,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5·6학년 공통",
      "grade": "all",
-     "bytes": 64787,
+     "bytes": 85767,
      "pages": 0
     },
     {
@@ -2837,7 +2837,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5·6학년 공통",
      "grade": "all",
-     "bytes": 86274,
+     "bytes": 86399,
      "pages": 4
     }
    ],
@@ -2919,14 +2919,14 @@
      "fmt": "hwpx",
      "file": "F21_학운위심의요청기안문_빈양식.hwpx",
      "role": "빈 양식",
-     "bytes": 67997,
+     "bytes": 67773,
      "pages": 0
     },
     {
      "fmt": "pdf",
      "file": "F21_학운위심의요청기안문_빈양식.pdf",
      "role": "빈 양식",
-     "bytes": 45901,
+     "bytes": 46067,
      "pages": 1
     },
     {
@@ -2935,7 +2935,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5·6학년 공통",
      "grade": "all",
-     "bytes": 88265,
+     "bytes": 82861,
      "pages": 0
     },
     {
@@ -2944,7 +2944,7 @@
      "role": "작성 예시",
      "label": "작성 예시 · 5·6학년 공통",
      "grade": "all",
-     "bytes": 61472,
+     "bytes": 58637,
      "pages": 2
     }
    ],
@@ -3042,7 +3042,15 @@
      "assets/pdf/B11.pdf",
      "assets/pdf/B12.pdf",
      "assets/pdf/B13.pdf",
-     "assets/pdf/B14.pdf"
+     "assets/pdf/B14.pdf",
+     "assets/forms/F07_활동설계워크시트_빈양식.hwpx",
+     "assets/forms/F07_활동설계워크시트_빈양식.pdf",
+     "assets/forms/F10_교육공동체요구조사설문_빈양식.hwpx",
+     "assets/forms/F10_교육공동체요구조사설문_빈양식.pdf",
+     "assets/forms/F16_변경절차판정표_빈양식.hwpx",
+     "assets/forms/F16_변경절차판정표_빈양식.pdf",
+     "assets/forms/F19_학기말성찰차년도보완협의록_빈양식.hwpx",
+     "assets/forms/F19_학기말성찰차년도보완협의록_빈양식.pdf"
     ]
    },
    "drive_dir": "1_5학년 SW 종합세트 (채운 양식 — 바로 쓰기)",
@@ -3237,8 +3245,8 @@
      ]
     }
    ],
-   "bytes": 16167452,
-   "count": 52
+   "bytes": 16750561,
+   "count": 60
   },
   {
    "id": "set-edu6",
@@ -3296,7 +3304,15 @@
      "assets/pdf/B25.pdf",
      "assets/pdf/B26.pdf",
      "assets/pdf/B27.pdf",
-     "assets/pdf/B28.pdf"
+     "assets/pdf/B28.pdf",
+     "assets/forms/F07_활동설계워크시트_빈양식.hwpx",
+     "assets/forms/F07_활동설계워크시트_빈양식.pdf",
+     "assets/forms/F10_교육공동체요구조사설문_빈양식.hwpx",
+     "assets/forms/F10_교육공동체요구조사설문_빈양식.pdf",
+     "assets/forms/F16_변경절차판정표_빈양식.hwpx",
+     "assets/forms/F16_변경절차판정표_빈양식.pdf",
+     "assets/forms/F19_학기말성찰차년도보완협의록_빈양식.hwpx",
+     "assets/forms/F19_학기말성찰차년도보완협의록_빈양식.pdf"
     ]
    },
    "drive_dir": "2_6학년 AI 종합세트 (채운 양식 — 바로 쓰기)",
@@ -3491,8 +3507,8 @@
      ]
     }
    ],
-   "bytes": 14621826,
-   "count": 52
+   "bytes": 15259718,
+   "count": 60
   },
   {
    "id": "set-activity",
@@ -3524,7 +3540,7 @@
     ]
    },
    "items": [],
-   "bytes": 1895094,
+   "bytes": 1894840,
    "count": 34
   },
   {
@@ -3555,7 +3571,7 @@
     ]
    },
    "items": [],
-   "bytes": 1566097,
+   "bytes": 1566896,
    "count": 30
   },
   {
@@ -3583,7 +3599,7 @@
     ]
    },
    "items": [],
-   "bytes": 1300041,
+   "bytes": 1301139,
    "count": 24
   }
  ]
