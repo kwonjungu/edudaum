@@ -54,17 +54,17 @@ BRAND = ('<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" 
 
 # 윗줄 메뉴 — 공공기관 누리집처럼 가로 메뉴 + 펼침. (주소, 이름, 펼침 항목[(주소, 이름)])
 MENU = [
-    ('notice/', '공지사항', []),
+    ('plan/', '연구회 소개', []),
     ('about/', '학교자율시간이란?', []),
-    ('guide/', '도입 가이드', [('guide/', '한눈에 보는 절차'), ('guide/activity/', '활동 개설'), ('guide/subject/', '새 과목 개설'),
-                            ('guide/approved/', '기승인 과목 활용'), ('guide/hours/', '시수 편성'), ('guide/standards/', '성취기준 만들기'),
-                            ('guide/assess/', '평가·나이스 기록'), ('guide/books/', '교과용 도서·자료')]),
+    ('guide/', '도입 가이드', []),
+    ('forms/', '도입 서식', []),
+    ('lessons/', '차시별 교수학습 과정안', []),
+    ('topics/', '영역별 교수학습 과정안', []),
+    ('notice/', '공지', []),
     ('qna/', 'Q&A', []),
-    ('forms/', '서식 자료실', [('forms/', '절차로 찾기'), ('forms/list/', '목록·검색으로 찾기'), ('forms/set/', '종합세트 받기'),
-                             ('forms/versions/', '판본 차이·정오표')]),
-    ('edu', '에듀다움 SW·AI 과정', [('plan/', '계획서·성취기준'), ('topics/', '주제별 활동'), ('lessons/', '차시별 과정안'),
-                          ('tools/', '연동 도구'), ('play/', '체험 게임')]),
 ]
+# 윗줄에는 두지 않고 바닥 사이트맵에만 두는 쪽
+MORE = [('forms/set/', '종합세트'), ('tools/', '연동 도구'), ('play/', '체험 게임'), ('search/', '검색')]
 EDU = {'plan/', 'topics/', 'lessons/', 'tools/', 'play/'}
 
 NAV_JS = """<script>
@@ -82,7 +82,7 @@ NAV_JS = """<script>
 
 
 def nav(up: str, cur: str) -> str:
-    top = 'edu' if cur in EDU or cur.startswith('lessons/') else next((h for h, _, _ in MENU if h != 'edu' and cur.startswith(h)), cur)
+    top = next((h for h, _, _ in MENU if cur.startswith(h)), cur)
     out = []
     for href, name, sub in MENU:
         here = ' aria-current="page"' if href == top else ''
@@ -125,6 +125,7 @@ def sitemap(up: str) -> str:
     for href, name, sub in MENU:
         links = sub or [(href, name)]
         cols.append('<div><b>%s</b>%s</div>' % (e(name), ''.join('<a href="%s%s">%s</a>' % (up, h, e(t)) for h, t in links)))
+    cols.append('<div><b>더 보기</b>%s</div>' % ''.join('<a href="%s%s">%s</a>' % (up, h_, e(t)) for h_, t in MORE))
     return '<nav class="smap" aria-label="사이트맵">%s</nav>' % ''.join(cols)
 
 
@@ -262,7 +263,6 @@ def build_home():
 {hub_home()}
 <h2 style="margin-top:56px">에듀다움 SW·AI 과정 — 5학년 SW 32차시 · 6학년 AI 32차시</h2>
 <p class="lead">{e(SITE['subtitle'])} — 학교자율시간에 바로 쓰는 교수학습 과정안, 연동 도구, 수업 중 체험 게임을 한곳에 모았습니다.</p>
-{search_bar('lessons/')}
 <nav class="cats" aria-label="영역">{cats}</nav>
 <h2>5학년 · {e(SITE['courses']['5']['name'])}</h2>
 <div class="grid">{cards[5]}</div>
@@ -295,9 +295,9 @@ def build_plan():
     area_rows = ''.join('<tr><td>%d학년</td><td><a href="../topics/#%s">%s</a></td><td>%s</td><td>%d편</td></tr>' % (
         a['grade'], a['id'], e(a['name']), a['range'], len(a['blocks'])) for a in SITE['areas'])
     body = f"""
-<span class="kick">1 · 계획서·성취기준</span>
-<h1>학교자율시간 연계 초등 SW·AI 융합 프로그램</h1>
-<p class="lead">연구 계획서와 고도화 심층 설계서의 요점을 옮겼습니다.</p>
+<span class="kick">연구회 소개</span>
+<h1>경기 AI 융합교육 에듀다움 교사연구회</h1>
+<p class="lead">경기도 초등 교사들이 학교자율시간에 바로 쓰는 SW·AI 교육과정을 만들고 교실에서 검증합니다. 2026년 연구 주제는 「학교자율시간 연계 초등 SW·AI 융합 프로그램 개발 및 적용」 — 5학년 SW 32차시, 6학년 AI 32차시입니다.</p>
 <div class="toc"><a href="#why">배경과 목표</a><a href="#run">운영 구조</a><a href="#course">과정 구성</a><a href="#std">성취기준</a><a href="#link">교과 연계</a><a href="#eval">평가·검증</a><a href="#safe">안전·개인정보</a><a href="#time">추진 일정</a></div>
 
 <h2 id="why">배경과 목표</h2>
@@ -365,7 +365,7 @@ def build_plan():
 <tr><td>이슈페이퍼·결과보고서</td><td></td><td></td><td></td><td></td><td></td><td></td><td>●</td><td>●</td></tr>
 </table></div>
 """
-    page('plan', '계획서·성취기준 — 에듀다움', body, 'plan/')
+    page('plan', '연구회 소개 — 에듀다움', body, 'plan/')
 
 
 # ───────────────────────── 2) 주제별
@@ -395,10 +395,10 @@ def build_topics():
                          '<p class="lead" style="margin-bottom:8px">%s</p>%s<div class="grid">%s</div></section>'
                          % (a['id'], e(a['name']), a['grade'], a['range'], e(a['summary']), stds, ''.join(cards)))
     toc = ''.join('<a href="#%s">%d학년 %s</a>' % (a['id'], a['grade'], e(a['name'])) for a in SITE['areas'])
-    body = ('<span class="kick">2 · 주제별 활동 내용</span><h1>영역별로 보는 활동</h1>'
+    body = ('<span class="kick">영역별 교수학습 과정안</span><h1>영역별로 보는 교수학습 과정안</h1>'
             '<p class="lead">영역마다 성취기준과 차시별 핵심 활동, 연동 도구, 체험 게임을 모았습니다.</p>'
             '<nav class="cats" aria-label="영역">%s</nav>%s') % (toc, ''.join(parts))
-    page('topics', '주제별 활동 내용 — 에듀다움', body, 'topics/')
+    page('topics', '영역별 교수학습 과정안 — 에듀다움', body, 'topics/')
 
 
 # ───────────────────────── 3) 차시별 과정안
@@ -503,7 +503,7 @@ def build_lesson(code, prev, nxt):
         ('<a class="btn" href="../%s/">← %d학년 %s차시</a>' % (prev, grade(prev), label(prev))) if prev else '<span></span>',
         ('<a class="btn" href="../%s/">%d학년 %s차시 →</a>' % (nxt, grade(nxt), label(nxt))) if nxt else '')
     body = f"""
-<p class="small"><a href="../">차시별 과정안</a> › <a href="../../topics/#{a['id']}">{e(a['name'])}</a></p>
+<p class="small"><a href="../">차시별 교수학습 과정안</a> › <a href="../../topics/#{a['id']}">{e(a['name'])}</a></p>
 <h1>{e(topic(code))}</h1>
 <p class="lead">학습 문제 — {e(problem(code))}</p>
 <div class="toc"><a href="#ov">개요</a><a href="#flow">교수학습 활동</a><a href="#eval">평가 계획</a><a href="#tools">연동 도구·링크</a>{'<a href="#game">체험 게임</a>' if gm else ''}</div>
@@ -599,7 +599,7 @@ def build_lessons():
             '<button type="button" data-f="g" data-v="6" aria-pressed="false">6학년</button>')
     areas = ''.join('<option value="%s">%d학년 · %s</option>' % (a['id'], a['grade'], e(a['name'])) for a in SITE['areas'])
     cards = ''.join(lcard(c, '../') for c in CODES)
-    body = ('<span class="kick">3 · 차시별 교수학습 과정안</span><h1>28편 64차시 과정안</h1>'
+    body = ('<span class="kick">차시별 교수학습 과정안</span><h1>28편 64차시 교수학습 과정안</h1>'
             '<p class="lead">카드를 누르면 과정안 전문(개요·교수학습 활동·평가 계획)과 PDF, 연동 도구, 체험 게임으로 이어집니다.</p>'
             '<div class="filters" role="search">%s<select aria-label="영역" data-f="a" style="border:1px solid var(--line);border-radius:9999px;padding:8px 14px;min-height:40px;font:inherit;font-size:14px;background:#fff"><option value="">모든 영역</option>%s</select>'
             '<input type="search" aria-label="찾을 말" placeholder="찾을 말 — 예: 무선, 챗봇, CreateAI" data-f="q"><span class="count" aria-live="polite"></span></div>'
