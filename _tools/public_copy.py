@@ -25,6 +25,8 @@ def fix_section(x: str) -> str:
     assert len(hit) == 1, '개요 표를 하나로 찾지 못함(%d개)' % len(hit)
     t = hit[0]
     tb = t.group(0)
+    if '개발자' not in tb:      # 2026. 9. 28.부터 과정안에 개발자 행이 없다 — 바꿀 것 없음
+        return x
 
     def cell(m):
         c = m.group(0)
