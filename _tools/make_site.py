@@ -48,36 +48,84 @@ e = html.escape
 # ───────────────────────── 공통 모양
 CSS = (Path(__file__).resolve().parent / 'site.css').read_text(encoding='utf-8')
 
-ICON = {
-    'plan/': '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h10l6 6v18H9z"/><path d="M19 4v6h6"/><path d="M13 16h8M13 20h8M13 24h5"/></svg>',
-    'topics/': '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><rect x="18" y="5" width="9" height="9" rx="2"/><rect x="5" y="18" width="9" height="9" rx="2"/><circle cx="22.5" cy="22.5" r="4.5"/></svg>',
-    'lessons/': '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="7" width="22" height="20" rx="3"/><path d="M5 13h22M11 4v6M21 4v6"/><path d="M10 18h3M15 18h3M20 18h2M10 22h3M15 22h3"/></svg>',
-}
-TABS = [('plan/', '계획서·성취기준'), ('topics/', '주제별 활동'), ('lessons/', '차시별 과정안')]
-UTIL = [('tools/', '연동 도구'), ('play/', '체험 게임')]
 BRAND = ('<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3c7.2 0 13 5.8 13 13s-5.8 13-13 13S3 23.2 3 16 8.8 3 16 3zm0 6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13z"/>'
          '<circle cx="16" cy="16" r="2.6" fill="currentColor"/></svg>')
+
+
+# 윗줄 메뉴 — 공공기관 누리집처럼 가로 메뉴 + 펼침. (주소, 이름, 펼침 항목[(주소, 이름)])
+MENU = [
+    ('notice/', '공지사항', []),
+    ('about/', '학교자율시간이란?', []),
+    ('guide/', '도입 가이드', [('guide/', '한눈에 보는 절차'), ('guide/activity/', '활동 개설'), ('guide/subject/', '새 과목 개설'),
+                            ('guide/approved/', '기승인 과목 활용'), ('guide/hours/', '시수 편성'), ('guide/standards/', '성취기준 만들기'),
+                            ('guide/assess/', '평가·나이스 기록'), ('guide/books/', '교과용 도서·자료')]),
+    ('qna/', 'Q&A', []),
+    ('forms/', '서식 자료실', [('forms/', '절차로 찾기'), ('forms/list/', '목록·검색으로 찾기'), ('forms/set/', '종합세트 받기'),
+                             ('forms/versions/', '판본 차이·정오표')]),
+    ('edu', '에듀다움 SW·AI 과정', [('plan/', '계획서·성취기준'), ('topics/', '주제별 활동'), ('lessons/', '차시별 과정안'),
+                          ('tools/', '연동 도구'), ('play/', '체험 게임')]),
+]
+EDU = {'plan/', 'topics/', 'lessons/', 'tools/', 'play/'}
+
+NAV_JS = """<script>
+(function(){
+  var dd=[].slice.call(document.querySelectorAll('.menu details'));
+  document.addEventListener('click',function(ev){dd.forEach(function(d){if(!d.contains(ev.target))d.removeAttribute('open')})});
+  dd.forEach(function(d){d.addEventListener('focusout',function(ev){if(!d.contains(ev.relatedTarget))d.removeAttribute('open')})});
+  document.addEventListener('keydown',function(ev){if(ev.key==='Escape')dd.forEach(function(d){if(d.open){d.removeAttribute('open');d.querySelector('summary').focus()}})});
+  dd.forEach(function(d){d.addEventListener('toggle',function(){if(d.open)dd.forEach(function(o){if(o!==d)o.removeAttribute('open')})})});
+  var m=document.querySelector('.menu'), c=m&&m.querySelector('.m[aria-current]');
+  if(c&&m.scrollWidth>m.clientWidth) m.scrollLeft=c.offsetLeft-16;
+})();
+</script>
+"""
+
+
+def nav(up: str, cur: str) -> str:
+    top = 'edu' if cur in EDU or cur.startswith('lessons/') else next((h for h, _, _ in MENU if h != 'edu' and cur.startswith(h)), cur)
+    out = []
+    for href, name, sub in MENU:
+        here = ' aria-current="page"' if href == top else ''
+        if not sub:
+            out.append('<a class="m" href="%s%s"%s>%s</a>' % (up, href, here, e(name)))
+            continue
+        items = ''.join('<a href="%s%s"%s>%s</a>' % (up, h, ' aria-current="page"' if h == cur else '', e(t)) for h, t in sub)
+        out.append('<details class="dd"><summary class="m"%s>%s</summary><div class="panel">%s</div></details>' % (here, e(name), items))
+    return '<nav class="menu" aria-label="누리집 메뉴">%s</nav>' % ''.join(out)
 
 
 def page(path: str, title: str, body: str, cur: str, extra_js: str = '') -> None:
     depth = path.count('/') + 1 if path else 0
     up = '../' * depth
-    cur_attr = lambda h: ' aria-current="page"' if h == cur else ''
-    tabs = ''.join('<a class="tab" href="%s%s"%s>%s<span>%s</span></a>' % (up, h, cur_attr(h), ICON[h], t) for h, t in TABS)
-    util = ''.join('<a href="%s%s"%s>%s</a>' % (up, h, cur_attr(h), t) for h, t in UTIL)
     doc = ('<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n'
            '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
            '<title>%s</title>\n<style>%s</style>\n</head>\n<body>\n'
-           '<header class="top"><div class="in"><a class="brand" href="%s">%s에듀다움</a>'
-           '<nav class="tabs" aria-label="누리집 메뉴">%s</nav><nav class="util" aria-label="바로가기">%s</nav></div></header>\n'
-           '<main>\n%s\n</main>\n'
-           '<footer><div class="in"><b>%s</b><br>%s · %s · 과정안 기준일 %s<br>'
-           '학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</div></footer>\n'
-           '%s</body>\n</html>\n') % (e(title), CSS, up or './', BRAND, tabs, util, body, e(SITE['org']),
-                                      e(SITE['title']), e(SITE['subtitle']), e(SITE['updated']), extra_js)
+           '<a class="skip" href="#main">본문 바로가기</a>\n'
+           '<header class="top"><div class="in"><a class="brand" href="%s">%s에듀다움</a>%s'
+           '<a class="find" href="%ssearch/" aria-label="누리집 검색"%s>%s<span>검색</span></a></div></header>\n'
+           '<main id="main">\n%s\n</main>\n'
+           '<footer><div class="in">%s<p><b>%s</b><br>%s · %s · 과정안 기준일 %s<br>'
+           '학교자율시간 안내·서식은 경기도교육청 자료를 재구성했습니다. 원문과 최신 공문을 함께 확인하세요.<br>'
+           '학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</p></div></footer>\n'
+           '%s%s</body>\n</html>\n') % (e(title), CSS, up or './', BRAND, nav(up, cur), up,
+                                        ' aria-current="page"' if cur == 'search/' else '', SEARCH_ICON, body, sitemap(up),
+                                        e(SITE['org']), e(SITE['title']), e(SITE['subtitle']), e(SITE['updated']), NAV_JS, extra_js)
     out = ROOT / path / 'index.html' if path else ROOT / 'index.html'
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(doc, encoding='utf-8')
+
+
+SEARCH_ICON = ('<svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">'
+               '<circle cx="14" cy="14" r="8.5"/><path d="M20.5 20.5l6.5 6.5"/></svg>')
+
+
+def sitemap(up: str) -> str:
+    """바닥 사이트맵 — 윗줄 메뉴와 같은 항목."""
+    cols = []
+    for href, name, sub in MENU:
+        links = sub or [(href, name)]
+        cols.append('<div><b>%s</b>%s</div>' % (e(name), ''.join('<a href="%s%s">%s</a>' % (up, h, e(t)) for h, t in links)))
+    return '<nav class="smap" aria-label="사이트맵">%s</nav>' % ''.join(cols)
 
 
 # ───────────────────────── 데이터 도우미
@@ -184,6 +232,16 @@ def search_bar(action):
             '<button class="orb" type="submit" aria-label="과정안 찾기">%s</button></form>') % (action, areas, SEARCH_SVG)
 
 
+def hub_hero():
+    import make_hub
+    return make_hub.home_hero()
+
+
+def hub_home():
+    import make_hub
+    return make_hub.home_blocks()
+
+
 def build_home():
     maps = []
     for g in (5, 6):
@@ -200,12 +258,11 @@ def build_home():
     cats = ''.join('<a href="topics/#%s">%d학년 %s</a>' % (a['id'], a['grade'], e(a['name'])) for a in SITE['areas'])
     cards = {g: ''.join(lcard(c, '') for c in CODES if grade(c) == g) for g in (5, 6)}
     body = f"""
-<section class="hero">
-<span class="kick">{e(SITE['org'])}</span>
-<h1>{e(SITE['title'])}</h1>
+{hub_hero()}
+{hub_home()}
+<h2 style="margin-top:56px">에듀다움 SW·AI 과정 — 5학년 SW 32차시 · 6학년 AI 32차시</h2>
 <p class="lead">{e(SITE['subtitle'])} — 학교자율시간에 바로 쓰는 교수학습 과정안, 연동 도구, 수업 중 체험 게임을 한곳에 모았습니다.</p>
 {search_bar('lessons/')}
-</section>
 <nav class="cats" aria-label="영역">{cats}</nav>
 <h2>5학년 · {e(SITE['courses']['5']['name'])}</h2>
 <div class="grid">{cards[5]}</div>
@@ -600,6 +657,8 @@ def main():
     build_lessons()
     build_tools()
     build_play()
+    import make_hub
+    make_hub.main()
     n = len(list((ROOT / 'lessons').glob('B*/index.html')))
     print('누리집: 홈·계획서·주제별·도구·체험 + 차시 %d쪽' % n)
     for c in CODES:

@@ -21,23 +21,32 @@ a{color:inherit}
 .top .in{max-width:1280px;margin:0 auto;padding:0 24px;min-height:80px;display:flex;align-items:center;gap:16px}
 .brand{font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--primary);text-decoration:none;display:flex;align-items:center;gap:8px;flex:0 0 auto}
 .brand svg{width:30px;height:30px}
-.tabs{flex:1;display:flex;justify-content:center;gap:8px}
-.tab{display:flex;flex-direction:column;align-items:center;gap:2px;text-decoration:none;color:var(--muted);font-weight:600;font-size:15px;padding:10px 14px 8px;border-bottom:2px solid transparent;min-height:44px;white-space:nowrap}
-.tab svg{width:28px;height:28px}
-.tab:hover{color:var(--ink)}
-.tab[aria-current]{color:var(--ink);border-bottom-color:var(--ink)}
-.util{display:flex;gap:4px;flex:0 0 auto}
-.util a{text-decoration:none;font-weight:500;font-size:14px;padding:10px 12px;border-radius:var(--r-full);min-height:44px;display:inline-flex;align-items:center;white-space:nowrap}
-.util a:hover,.util a[aria-current]{background:var(--soft)}
-@media (max-width:980px){.top .in{flex-wrap:wrap;min-height:0;padding:10px 16px;gap:4px}.tabs{order:3;flex-basis:100%;justify-content:flex-start;overflow-x:auto}.util{margin-left:auto}}
-@media (max-width:560px){.tab{padding:8px 6px;font-size:13.5px}.tab svg{width:22px;height:22px}.util a{padding:8px;font-size:13px}}
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:12px 16px;z-index:20}
+.skip:focus{left:8px;top:8px}
+.menu{flex:1;display:flex;justify-content:center;align-items:center;gap:2px}
+.menu .m{display:inline-flex;align-items:center;gap:4px;text-decoration:none;color:var(--body);font-weight:600;font-size:15px;padding:10px 12px;min-height:44px;border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;list-style:none}
+.menu .m::-webkit-details-marker{display:none}
+.menu .m:hover{color:var(--ink)}
+.menu .m[aria-current]{color:var(--ink);border-bottom-color:var(--ink)}
+.dd{position:relative}
+.dd>summary::after{content:"";width:7px;height:7px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);margin-left:4px}
+.dd[open]>summary::after{transform:rotate(-135deg) translateY(-1px)}
+.dd .panel{position:absolute;left:50%;transform:translateX(-50%);top:calc(100% + 6px);min-width:200px;background:#fff;border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow);padding:8px;display:flex;flex-direction:column;z-index:15}
+.dd .panel a{text-decoration:none;padding:10px 12px;border-radius:var(--r-sm);font-size:14.5px;min-height:44px;display:flex;align-items:center;white-space:nowrap}
+.dd .panel a:hover,.dd .panel a[aria-current]{background:var(--soft)}
+.find{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:500;font-size:14px;padding:10px 14px;border:1px solid var(--line);border-radius:var(--r-full);min-height:44px;flex:0 0 auto}
+.find svg{width:18px;height:18px}
+.find:hover,.find[aria-current]{border-color:var(--ink)}
+@media (max-width:1080px){.top .in{flex-wrap:wrap;min-height:0;padding:10px 16px;gap:4px}.menu{order:3;flex-basis:100%;justify-content:flex-start;overflow-x:auto;scrollbar-width:thin}.find{margin-left:auto}
+ .dd{position:static}.dd .panel{left:16px;right:16px;transform:none;top:auto;margin-top:6px}}
+@media (max-width:560px){.menu .m{padding:8px 8px;font-size:14px}.find span{display:none}.find{padding:10px}}
 main{max-width:1280px;margin:0 auto;padding:32px 24px 64px}
 @media (max-width:560px){main{padding:24px 16px 48px}}
 h1{font-size:28px;line-height:1.43;font-weight:700;margin:8px 0}
 h2{font-size:22px;line-height:1.3;font-weight:600;letter-spacing:-.02em;margin:64px 0 16px}
 h3{font-size:16px;font-weight:600;margin:20px 0 6px;line-height:1.35}
 .lead{color:var(--muted);font-size:16px;margin:0 0 24px;max-width:780px}
-.kick{display:inline-block;color:var(--primary);font-weight:600;font-size:14px}
+.kick{display:inline-block;color:var(--primary-active);font-weight:600;font-size:14px}
 .chip{display:inline-block;border:1px solid var(--line);border-radius:var(--r-full);padding:2px 10px;font-weight:500;font-size:12.5px;background:var(--canvas);white-space:nowrap;text-decoration:none;color:var(--ink)}
 a.chip:hover{border-color:var(--ink)}
 .chip.g5,.chip.g6{background:var(--ink);color:#fff;border-color:var(--ink)}
@@ -70,6 +79,11 @@ tr:last-child td{border-bottom:0}
 :focus-visible{outline:2px solid var(--ink);outline-offset:2px}
 footer{border-top:1px solid var(--line)}
 footer .in{max-width:1280px;margin:0 auto;padding:32px 24px 48px;font-size:13px;color:var(--muted);line-height:1.6}
+.smap{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px 24px;padding-bottom:24px;margin-bottom:20px;border-bottom:1px solid var(--line-soft)}
+.smap div{display:flex;flex-direction:column;gap:2px}
+.smap b{margin-bottom:4px}
+.smap a{text-decoration:none;color:var(--muted);font-size:13px;padding:3px 0}
+.smap a:hover{color:var(--ink);text-decoration:underline}
 footer b{color:var(--ink);font-weight:500;font-size:14px}
 /* 홈 */
 .hero{padding:16px 0 8px;text-align:center}
@@ -144,12 +158,115 @@ figcaption{font-size:13px;color:var(--muted);margin-top:6px}
 .filters input{border:1px solid var(--line);border-radius:var(--r-full);padding:8px 16px;font:inherit;font-size:14px;min-height:40px;flex:1 1 200px;min-width:0}
 .count{font-size:14px;color:var(--muted);margin-left:auto}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
-@media print{.top,footer,.btns,.mine,.pn,.rail{display:none}.side{display:block}}
+/* 공공 누리집형 구성 요소 (2026. 9. 28.) */
+.banner{background:var(--soft);border-radius:var(--r-md);padding:40px 32px;margin:0 0 24px}
+.banner h1{margin:4px 0 8px}
+.banner .lead{margin:0}
+@media (max-width:560px){.banner{padding:24px 20px}}
+.crumb{font-size:14px;color:var(--muted);margin:0 0 8px}
+.crumb a{color:var(--muted)}
+.asof{display:inline-block;font-size:12.5px;font-weight:500;border:1px solid var(--line);border-radius:var(--r-full);padding:2px 10px;margin-left:6px;vertical-align:middle;color:var(--body)}
+.quick{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));margin:8px 0 24px}
+.quick a{display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);border-radius:var(--r-md);padding:18px;text-decoration:none;min-height:96px;background:#fff;transition:box-shadow .15s}
+.quick a:hover{box-shadow:var(--shadow)}
+.quick b{font-size:16px;font-weight:600}
+.quick span{font-size:13px;color:var(--muted)}
+.two{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:900px){.two{grid-template-columns:1fr}}
+.board td,.board th{padding:14px}
+.board .no{width:64px;text-align:center;color:var(--muted)}
+.board .cat{width:96px}
+.board .dt{width:112px;color:var(--muted);white-space:nowrap}
+.board .at{width:56px;text-align:center}
+.board tr.pin td{background:var(--soft)}
+.board a{text-decoration:none;font-weight:500}
+.board a:hover{text-decoration:underline}
+.new{display:inline-block;font-size:11px;font-weight:700;color:var(--primary-active);margin-left:6px}
+@media (max-width:700px){.board .no,.board .at,.board tr.hd{display:none}.board tr{display:block;border-bottom:1px solid var(--line-soft);padding:10px 4px}.board td{display:inline;border:0;padding:0 8px 0 0;background:none!important}.board td.tt{display:block;padding:4px 0}}
+.mini{list-style:none;padding:0;margin:0}
+.mini li{display:flex;gap:8px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line-soft)}
+.mini li a{flex:1;text-decoration:none;font-weight:500;min-width:0}
+.mini li a:hover{text-decoration:underline}
+.mini .dt{font-size:13px;color:var(--muted);white-space:nowrap}
+.warn{background:var(--soft);border-left:3px solid var(--primary);border-radius:var(--r-sm);padding:14px 18px;margin:16px 0;font-size:14.5px}
+.warn b{display:block;margin-bottom:4px}
+.warn ul{margin:4px 0 0;padding-left:18px}
+.chg{display:inline-block;font-size:12px;font-weight:500;border:1px solid var(--ink);border-radius:var(--r-full);padding:1px 8px;margin-left:6px;white-space:nowrap}
+.kind{display:inline-block;font-size:12px;font-weight:600;border-radius:var(--r-full);padding:2px 10px;white-space:nowrap}
+.kind.off{border:1px solid var(--ink)}
+.kind.ref{background:var(--soft);color:var(--body);border:1px dashed var(--line-strong)}
+.segs{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 20px}
+.segs button{border:1px solid var(--line);background:#fff;border-radius:var(--r-full);padding:10px 18px;font:600 15px var(--font);cursor:pointer;min-height:44px;color:var(--ink)}
+.segs button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.steps{list-style:none;padding:0;margin:0;counter-reset:st}
+.steps>li{position:relative;padding:0 0 28px 56px;counter-increment:st}
+.steps>li::before{content:counter(st);position:absolute;left:0;top:0;width:40px;height:40px;border-radius:50%;border:1px solid var(--ink);display:grid;place-items:center;font-weight:600;background:#fff}
+.steps>li::after{content:"";position:absolute;left:20px;top:44px;bottom:4px;border-left:1px dashed var(--line-strong)}
+.steps>li:last-child::after{display:none}
+.steps h3{margin:8px 0 4px;font-size:17px}
+.steps .who{font-size:13.5px;color:var(--muted);margin:0 0 8px}
+.stepper{display:flex;gap:4px;overflow-x:auto;padding:4px 2px 12px;margin:8px 0 16px}
+.stepper button{flex:1 0 110px;display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:none;font:500 13.5px var(--font);cursor:pointer;color:var(--muted);padding:6px 4px;min-height:44px}
+.stepper button i{width:40px;height:40px;border-radius:50%;border:1px solid var(--line-strong);display:grid;place-items:center;font-style:normal;font-weight:600;background:#fff;color:var(--ink)}
+.stepper button[aria-pressed="true"]{color:var(--ink)}
+.stepper button[aria-pressed="true"] i{background:var(--primary);border-color:var(--primary);color:#fff}
+.fcards{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.fcard{border:1px solid var(--line);border-radius:var(--r-md);padding:18px;background:#fff;display:flex;flex-direction:column;gap:8px}
+.fcard h3{margin:0;font-size:16px}
+.fcard h3 a{text-decoration:none}
+.fcard h3 a:hover{text-decoration:underline}
+.fcard p{margin:0;font-size:13.5px;color:var(--muted)}
+.fno{font-size:12px;font-weight:600;color:var(--muted)}
+.dl{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.dl a{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 12px;font-size:13.5px;font-weight:500;text-decoration:none;min-height:44px}
+.dl a:hover{border-color:var(--ink)}
+.dl a.pri{background:var(--primary);border-color:var(--primary);color:#fff}
+.qa details{border:1px solid var(--line);border-radius:var(--r-md);margin:10px 0;background:#fff}
+.qa summary{cursor:pointer;padding:16px 20px;font-weight:600;display:flex;gap:10px;align-items:baseline;list-style:none;min-height:44px}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary .qn{color:var(--ink);font-weight:700;flex:0 0 auto}
+.qa details[open] summary{border-bottom:1px solid var(--line-soft)}
+.qa .ans{padding:16px 20px 18px}
+.qa .short{font-weight:500;margin:0 0 8px}
+.refs{font-size:12.5px;color:var(--muted);margin-top:10px}
+.md p{margin:8px 0;color:var(--body)}
+.md ul{margin:6px 0;padding-left:20px;color:var(--body)}
+.md li{margin:3px 0}
+.pv{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--soft)}
+.pv img{width:100%;display:block}
+.setcard{border:2px solid var(--ink);border-radius:var(--r-md);padding:24px;background:#fff}
+.setcard h3{margin-top:0;font-size:20px}
+.cal{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+.cal div{border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;background:#fff}
+.cal b{display:block;font-size:13px;color:var(--ink);margin-bottom:4px}
+.hits a{display:block;border-bottom:1px solid var(--line-soft);padding:14px 0;text-decoration:none}
+.hits a:hover b{text-decoration:underline}
+.hits b{font-weight:600}
+.hits span{display:block;font-size:13.5px;color:var(--muted)}
+.hits em{font-style:normal;font-size:12px;border:1px solid var(--line);border-radius:var(--r-full);padding:1px 8px;margin-right:6px;color:var(--body)}
+@media print{.top,footer,.btns,.mine,.pn,.rail,.skip,.segs,.stepper,.filters,.dl{display:none}.side,.two{display:block}.qa details{border:0}}
+
+/* 웹 감수 반영 (2026. 9. 28.) */
+.chip.tap{min-height:36px;padding:6px 12px;display:inline-flex;align-items:center;font-size:13px}
+@media (pointer:coarse){.chip.tap{min-height:44px}}
+.toc a{display:inline-flex;align-items:center;min-height:44px;padding:0 4px}
+.board td.tt a{display:inline-block;padding:10px 0}
+.fcard h3 a{display:inline-block;padding:4px 0}
+.search.one{max-width:720px}
+.search.one label{border-right:0}
+@media (max-width:700px){
+ #flist tr:first-child{display:none}
+ #flist tr{display:block;border-bottom:1px solid var(--line-soft);padding:12px 14px}
+ #flist td{display:block;border:0;padding:2px 0}
+ #flist td:first-child{font-size:12px;color:var(--muted)}
+ #flist td:nth-child(3),#flist td:nth-child(4),#flist td:nth-child(5),#flist td:nth-child(6){display:inline-block;margin-right:8px;font-size:13px;color:var(--muted)}
+}
 </style>
 </head>
 <body>
-<header class="top"><div class="in"><a class="brand" href="../../"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3c7.2 0 13 5.8 13 13s-5.8 13-13 13S3 23.2 3 16 8.8 3 16 3zm0 6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13z"/><circle cx="16" cy="16" r="2.6" fill="currentColor"/></svg>에듀다움</a><nav class="tabs" aria-label="누리집 메뉴"><a class="tab" href="../../plan/"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 4h10l6 6v18H9z"/><path d="M19 4v6h6"/><path d="M13 16h8M13 20h8M13 24h5"/></svg><span>계획서·성취기준</span></a><a class="tab" href="../../topics/"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="9" height="9" rx="2"/><rect x="18" y="5" width="9" height="9" rx="2"/><rect x="5" y="18" width="9" height="9" rx="2"/><circle cx="22.5" cy="22.5" r="4.5"/></svg><span>주제별 활동</span></a><a class="tab" href="../../lessons/" aria-current="page"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="7" width="22" height="20" rx="3"/><path d="M5 13h22M11 4v6M21 4v6"/><path d="M10 18h3M15 18h3M20 18h2M10 22h3M15 22h3"/></svg><span>차시별 과정안</span></a></nav><nav class="util" aria-label="바로가기"><a href="../../tools/">연동 도구</a><a href="../../play/">체험 게임</a></nav></div></header>
-<main>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="top"><div class="in"><a class="brand" href="../../"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3c7.2 0 13 5.8 13 13s-5.8 13-13 13S3 23.2 3 16 8.8 3 16 3zm0 6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13z"/><circle cx="16" cy="16" r="2.6" fill="currentColor"/></svg>에듀다움</a><nav class="menu" aria-label="누리집 메뉴"><a class="m" href="../../notice/">공지사항</a><a class="m" href="../../about/">학교자율시간이란?</a><details class="dd"><summary class="m">도입 가이드</summary><div class="panel"><a href="../../guide/">한눈에 보는 절차</a><a href="../../guide/activity/">활동 개설</a><a href="../../guide/subject/">새 과목 개설</a><a href="../../guide/approved/">기승인 과목 활용</a><a href="../../guide/hours/">시수 편성</a><a href="../../guide/standards/">성취기준 만들기</a><a href="../../guide/assess/">평가·나이스 기록</a><a href="../../guide/books/">교과용 도서·자료</a></div></details><a class="m" href="../../qna/">Q&amp;A</a><details class="dd"><summary class="m">서식 자료실</summary><div class="panel"><a href="../../forms/">절차로 찾기</a><a href="../../forms/list/">목록·검색으로 찾기</a><a href="../../forms/set/">종합세트 받기</a><a href="../../forms/versions/">판본 차이·정오표</a></div></details><details class="dd"><summary class="m" aria-current="page">에듀다움 SW·AI 과정</summary><div class="panel"><a href="../../plan/">계획서·성취기준</a><a href="../../topics/">주제별 활동</a><a href="../../lessons/" aria-current="page">차시별 과정안</a><a href="../../tools/">연동 도구</a><a href="../../play/">체험 게임</a></div></details></nav><a class="find" href="../../search/" aria-label="누리집 검색"><svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="14" cy="14" r="8.5"/><path d="M20.5 20.5l6.5 6.5"/></svg><span>검색</span></a></div></header>
+<main id="main">
 
 <p class="small"><a href="../">차시별 과정안</a> › <a href="../../topics/#ai1">인공지능과 우리 생활</a></p>
 <h1>같은 카드를 규칙 기반 방식(규칙표)과 학습시킨 AI 모델로 판정해 견주고 AI가 주는 도움 알아보기</h1>
@@ -183,7 +300,18 @@ figcaption{font-size:13px;color:var(--muted);margin-top:6px}
 <div class="pn"><a class="btn" href="../B15/">← 6학년 1~2차시</a><a class="btn" href="../B17/">6학년 5~6차시 →</a></div>
 
 </main>
-<footer><div class="in"><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 28.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</div></footer>
+<footer><div class="in"><nav class="smap" aria-label="사이트맵"><div><b>공지사항</b><a href="../../notice/">공지사항</a></div><div><b>학교자율시간이란?</b><a href="../../about/">학교자율시간이란?</a></div><div><b>도입 가이드</b><a href="../../guide/">한눈에 보는 절차</a><a href="../../guide/activity/">활동 개설</a><a href="../../guide/subject/">새 과목 개설</a><a href="../../guide/approved/">기승인 과목 활용</a><a href="../../guide/hours/">시수 편성</a><a href="../../guide/standards/">성취기준 만들기</a><a href="../../guide/assess/">평가·나이스 기록</a><a href="../../guide/books/">교과용 도서·자료</a></div><div><b>Q&amp;A</b><a href="../../qna/">Q&amp;A</a></div><div><b>서식 자료실</b><a href="../../forms/">절차로 찾기</a><a href="../../forms/list/">목록·검색으로 찾기</a><a href="../../forms/set/">종합세트 받기</a><a href="../../forms/versions/">판본 차이·정오표</a></div><div><b>에듀다움 SW·AI 과정</b><a href="../../plan/">계획서·성취기준</a><a href="../../topics/">주제별 활동</a><a href="../../lessons/">차시별 과정안</a><a href="../../tools/">연동 도구</a><a href="../../play/">체험 게임</a></div></nav><p><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 28.<br>학교자율시간 안내·서식은 경기도교육청 자료를 재구성했습니다. 원문과 최신 공문을 함께 확인하세요.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</p></div></footer>
+<script>
+(function(){
+  var dd=[].slice.call(document.querySelectorAll('.menu details'));
+  document.addEventListener('click',function(ev){dd.forEach(function(d){if(!d.contains(ev.target))d.removeAttribute('open')})});
+  dd.forEach(function(d){d.addEventListener('focusout',function(ev){if(!d.contains(ev.relatedTarget))d.removeAttribute('open')})});
+  document.addEventListener('keydown',function(ev){if(ev.key==='Escape')dd.forEach(function(d){if(d.open){d.removeAttribute('open');d.querySelector('summary').focus()}})});
+  dd.forEach(function(d){d.addEventListener('toggle',function(){if(d.open)dd.forEach(function(o){if(o!==d)o.removeAttribute('open')})})});
+  var m=document.querySelector('.menu'), c=m&&m.querySelector('.m[aria-current]');
+  if(c&&m.scrollWidth>m.clientWidth) m.scrollLeft=c.offsetLeft-16;
+})();
+</script>
 <script>
 (function(){
   var box=document.querySelector('.mine'); if(!box) return;

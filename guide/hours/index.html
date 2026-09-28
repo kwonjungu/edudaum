@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>시수 편성 — 도입 가이드 — 에듀다움</title>
+<style>/* 에듀다움 디자인 토큰 — _공통기준.md 6-3 (2026. 9. 27. 통일안). make_site.py가 쪽마다 안에 넣는다. */
+:root{--canvas:#fff;--ink:#222;--body:#3f3f3f;--muted:#6a6a6a;--muted-soft:#929292;
+--primary:#ff385c;--primary-active:#e00b41;--primary-disabled:#ffd1da;--primary-soft:#fff0f3;
+--soft:#f7f7f7;--strong:#f2f2f2;--line:#ddd;--line-soft:#ebebeb;--line-strong:#c1c1c1;
+--r-sm:8px;--r-md:14px;--r-xl:32px;--r-full:9999px;
+--shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0;
+--font:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',-apple-system,system-ui,Roboto,'Helvetica Neue',sans-serif}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-padding-top:96px}
+body{margin:0;background:var(--canvas);color:var(--ink);font:400 16px/1.5 var(--font);word-break:keep-all;overflow-wrap:anywhere}
+a{color:inherit}
+/* 윗줄 */
+.top{position:sticky;top:0;z-index:10;background:var(--canvas);border-bottom:1px solid var(--line)}
+.top .in{max-width:1280px;margin:0 auto;padding:0 24px;min-height:80px;display:flex;align-items:center;gap:16px}
+.brand{font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--primary);text-decoration:none;display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.brand svg{width:30px;height:30px}
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:12px 16px;z-index:20}
+.skip:focus{left:8px;top:8px}
+.menu{flex:1;display:flex;justify-content:center;align-items:center;gap:2px}
+.menu .m{display:inline-flex;align-items:center;gap:4px;text-decoration:none;color:var(--body);font-weight:600;font-size:15px;padding:10px 12px;min-height:44px;border-bottom:2px solid transparent;white-space:nowrap;cursor:pointer;list-style:none}
+.menu .m::-webkit-details-marker{display:none}
+.menu .m:hover{color:var(--ink)}
+.menu .m[aria-current]{color:var(--ink);border-bottom-color:var(--ink)}
+.dd{position:relative}
+.dd>summary::after{content:"";width:7px;height:7px;border-right:1.6px solid currentColor;border-bottom:1.6px solid currentColor;transform:rotate(45deg) translateY(-2px);margin-left:4px}
+.dd[open]>summary::after{transform:rotate(-135deg) translateY(-1px)}
+.dd .panel{position:absolute;left:50%;transform:translateX(-50%);top:calc(100% + 6px);min-width:200px;background:#fff;border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow);padding:8px;display:flex;flex-direction:column;z-index:15}
+.dd .panel a{text-decoration:none;padding:10px 12px;border-radius:var(--r-sm);font-size:14.5px;min-height:44px;display:flex;align-items:center;white-space:nowrap}
+.dd .panel a:hover,.dd .panel a[aria-current]{background:var(--soft)}
+.find{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:500;font-size:14px;padding:10px 14px;border:1px solid var(--line);border-radius:var(--r-full);min-height:44px;flex:0 0 auto}
+.find svg{width:18px;height:18px}
+.find:hover,.find[aria-current]{border-color:var(--ink)}
+@media (max-width:1080px){.top .in{flex-wrap:wrap;min-height:0;padding:10px 16px;gap:4px}.menu{order:3;flex-basis:100%;justify-content:flex-start;overflow-x:auto;scrollbar-width:thin}.find{margin-left:auto}
+ .dd{position:static}.dd .panel{left:16px;right:16px;transform:none;top:auto;margin-top:6px}}
+@media (max-width:560px){.menu .m{padding:8px 8px;font-size:14px}.find span{display:none}.find{padding:10px}}
+main{max-width:1280px;margin:0 auto;padding:32px 24px 64px}
+@media (max-width:560px){main{padding:24px 16px 48px}}
+h1{font-size:28px;line-height:1.43;font-weight:700;margin:8px 0}
+h2{font-size:22px;line-height:1.3;font-weight:600;letter-spacing:-.02em;margin:64px 0 16px}
+h3{font-size:16px;font-weight:600;margin:20px 0 6px;line-height:1.35}
+.lead{color:var(--muted);font-size:16px;margin:0 0 24px;max-width:780px}
+.kick{display:inline-block;color:var(--primary-active);font-weight:600;font-size:14px}
+.chip{display:inline-block;border:1px solid var(--line);border-radius:var(--r-full);padding:2px 10px;font-weight:500;font-size:12.5px;background:var(--canvas);white-space:nowrap;text-decoration:none;color:var(--ink)}
+a.chip:hover{border-color:var(--ink)}
+.chip.g5,.chip.g6{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip.pri{background:var(--primary);border-color:var(--primary);color:#fff}
+.box{background:var(--canvas);border:1px solid var(--line);border-radius:var(--r-md);padding:24px;margin:16px 0}
+.grid{display:grid;gap:24px 16px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.card{display:block;text-decoration:none;color:inherit;background:var(--canvas);border-radius:var(--r-md)}
+.card .ph{aspect-ratio:3/2;border-radius:var(--r-md);overflow:hidden;background:var(--soft);position:relative}
+.card .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .2s}
+.card:hover .ph img{transform:scale(1.03)}
+.card .badge{position:absolute;left:12px;top:12px;background:#fff;border-radius:var(--r-full);padding:4px 10px;font-size:11.5px;font-weight:600;box-shadow:var(--shadow)}
+.card .meta{padding:10px 2px 0}
+.card h3{margin:0 0 2px;font-size:16px;font-weight:600}
+.card p{margin:0;color:var(--muted);font-size:14px;line-height:1.43}
+.card.plain{border:1px solid var(--line);padding:20px;transition:box-shadow .15s}
+.card.plain:hover{box-shadow:var(--shadow)}
+.btn{display:inline-flex;align-items:center;gap:6px;min-height:48px;padding:12px 22px;border:1px solid var(--ink);border-radius:var(--r-sm);background:var(--canvas);font:500 16px/1.25 var(--font);text-decoration:none;cursor:pointer;color:var(--ink)}
+.btn:hover{background:var(--soft)}
+.btn.pri{background:var(--primary);border-color:var(--primary);color:#fff}
+.btn.pri:hover,.btn.pri:active{background:var(--primary-active);border-color:var(--primary-active)}
+.btns{display:flex;flex-wrap:wrap;gap:12px;margin:16px 0}
+.tw{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:var(--r-md)}
+table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.5}
+th,td{border-bottom:1px solid var(--line-soft);padding:12px 14px;text-align:left;vertical-align:top}
+th{background:var(--soft);font-weight:600;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+.note{background:var(--soft);padding:16px 20px;border-radius:var(--r-md);margin:16px 0;font-size:14px;color:var(--body)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+footer{border-top:1px solid var(--line)}
+footer .in{max-width:1280px;margin:0 auto;padding:32px 24px 48px;font-size:13px;color:var(--muted);line-height:1.6}
+.smap{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px 24px;padding-bottom:24px;margin-bottom:20px;border-bottom:1px solid var(--line-soft)}
+.smap div{display:flex;flex-direction:column;gap:2px}
+.smap b{margin-bottom:4px}
+.smap a{text-decoration:none;color:var(--muted);font-size:13px;padding:3px 0}
+.smap a:hover{color:var(--ink);text-decoration:underline}
+footer b{color:var(--ink);font-weight:500;font-size:14px}
+/* 홈 */
+.hero{padding:16px 0 8px;text-align:center}
+.hero .lead{margin:0 auto 28px}
+.search{display:flex;align-items:center;max-width:860px;margin:0 auto;border:1px solid var(--line);border-radius:var(--r-full);box-shadow:var(--shadow);background:#fff;min-height:66px;padding:6px 8px 6px 0}
+.search label{display:flex;flex-direction:column;justify-content:center;padding:6px 24px;flex:1;min-width:0;border-right:1px solid var(--line);cursor:text;text-align:left}
+.search label:last-of-type{border-right:0}
+.search span{font-size:12px;font-weight:600}
+.search select,.search input{border:0;outline:0;background:transparent;font:400 14px/1.4 var(--font);color:var(--ink);padding:2px 0;min-height:24px;width:100%}
+.search input::placeholder{color:var(--muted)}
+.orb{flex:0 0 48px;width:48px;height:48px;border-radius:50%;background:var(--primary);border:0;display:grid;place-items:center;cursor:pointer}
+.orb:hover{background:var(--primary-active)}
+.orb svg{width:18px;height:18px}
+@media (max-width:700px){.search{flex-wrap:wrap;border-radius:var(--r-md);padding:8px}.search label{flex-basis:100%;border-right:0;border-bottom:1px solid var(--line);padding:8px 12px}.search label:last-of-type{border-bottom:0}.orb{margin:6px auto 0;flex-basis:100%;border-radius:var(--r-sm)}}
+.cats{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 8px;margin:32px 0 8px}
+.cats a{flex:0 0 auto;border:1px solid var(--line);border-radius:var(--r-full);padding:8px 16px;font-size:14px;font-weight:500;text-decoration:none;min-height:40px;display:inline-flex;align-items:center}
+.cats a:hover{border-color:var(--ink)}
+/* 64차시 지도 */
+.map{display:flex;flex-wrap:wrap;gap:16px 24px;margin:8px 0 24px}
+.map .grp{display:flex;flex-direction:column;gap:6px}
+.map .grp b{font-size:12.5px;font-weight:600;color:var(--muted)}
+.map .cells{display:flex;flex-wrap:wrap;gap:4px}
+.map a{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;text-decoration:none;font-size:13.5px;font-weight:500;background:#fff}
+.map a:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+@media (max-width:560px){.map a{width:44px;height:44px}}
+/* 과정안 */
+.flow{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.flow a{text-decoration:none;border:1px solid var(--line);border-radius:var(--r-full);padding:8px 14px;background:#fff;font-size:13.5px;min-height:40px;display:inline-flex;align-items:center}
+.flow a:hover{border-color:var(--ink)}
+.flow b{font-weight:600;margin-right:4px}
+.act h4{margin:18px 0 6px;font-size:16px;font-weight:600}
+.act h4:first-child{margin-top:0}
+.act ul{margin:0 0 8px;padding-left:20px}
+.act li{margin:3px 0;color:var(--body)}
+.act p{margin:4px 0;color:var(--body)}
+figure{margin:12px 0;max-width:560px}
+figure img{width:100%;height:auto;border-radius:var(--r-md);background:var(--soft);display:block}
+figcaption{font-size:13px;color:var(--muted);margin-top:6px}
+.res div{margin:6px 0;font-size:14px;color:var(--body)}
+.res .k{display:inline-block;font-weight:600;font-size:12px;border-radius:var(--r-full);padding:1px 8px;margin-right:6px;background:#fff;border:1px solid var(--line);color:var(--ink)}
+.stage{font-weight:600}
+.rowcard{border:1px solid var(--line);border-radius:var(--r-md);background:#fff;margin:16px 0;overflow:hidden}
+.rowhead{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;border-bottom:1px solid var(--line-soft);padding:14px 20px;font-weight:600}
+.rowbody{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr)}
+.rowbody>div{padding:20px}
+.rowbody>.res{border-left:1px solid var(--line-soft);background:var(--soft)}
+@media (max-width:760px){.rowbody{grid-template-columns:1fr}.rowbody>.res{border-left:0;border-top:1px solid var(--line-soft)}}
+.lv td:first-child{white-space:nowrap;font-weight:600}
+.toolgrid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.tool{display:block;border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;background:#fff;text-decoration:none;transition:box-shadow .15s}
+.tool b{display:block;font-size:15px;font-weight:600}
+.tool span{display:block;font-size:13px;color:var(--muted)}
+.tool:hover{box-shadow:var(--shadow)}
+.mine form{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;align-items:flex-end}
+.mine .f{display:flex;flex-direction:column;gap:4px;flex:1 1 200px;min-width:0}
+.mine label{font-size:13px;font-weight:500;color:var(--muted)}
+.mine input{min-height:48px;border:1px solid var(--line);border-radius:var(--r-sm);padding:12px;font:inherit}
+.mine input:focus{outline:0;border:2px solid var(--ink);padding:11px}
+.mine li{display:flex;gap:8px;align-items:center;margin:6px 0;flex-wrap:wrap}
+.mine ul{list-style:none;padding:0;margin:8px 0 0}
+.x{min-height:36px;padding:4px 12px;border:1px solid var(--line);border-radius:var(--r-full);background:#fff;cursor:pointer;font:inherit;font-size:13px}
+.pn{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-top:48px;padding-top:24px;border-top:1px solid var(--line)}
+.toc{display:flex;flex-wrap:wrap;gap:8px 18px;margin:8px 0 4px}
+.toc a{font-size:14px;font-weight:500}
+.side{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:40px;align-items:start}
+.side .rail{position:sticky;top:104px}
+.rail .box{box-shadow:var(--shadow);margin-top:0}
+@media (max-width:980px){.side{grid-template-columns:1fr}.side .rail{position:static}}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 24px;align-items:center}
+.filters button{border:1px solid var(--line);background:#fff;border-radius:var(--r-full);padding:8px 16px;font:500 14px var(--font);cursor:pointer;min-height:40px;color:var(--ink)}
+.filters button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.filters input{border:1px solid var(--line);border-radius:var(--r-full);padding:8px 16px;font:inherit;font-size:14px;min-height:40px;flex:1 1 200px;min-width:0}
+.count{font-size:14px;color:var(--muted);margin-left:auto}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* 공공 누리집형 구성 요소 (2026. 9. 28.) */
+.banner{background:var(--soft);border-radius:var(--r-md);padding:40px 32px;margin:0 0 24px}
+.banner h1{margin:4px 0 8px}
+.banner .lead{margin:0}
+@media (max-width:560px){.banner{padding:24px 20px}}
+.crumb{font-size:14px;color:var(--muted);margin:0 0 8px}
+.crumb a{color:var(--muted)}
+.asof{display:inline-block;font-size:12.5px;font-weight:500;border:1px solid var(--line);border-radius:var(--r-full);padding:2px 10px;margin-left:6px;vertical-align:middle;color:var(--body)}
+.quick{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));margin:8px 0 24px}
+.quick a{display:flex;flex-direction:column;gap:6px;border:1px solid var(--line);border-radius:var(--r-md);padding:18px;text-decoration:none;min-height:96px;background:#fff;transition:box-shadow .15s}
+.quick a:hover{box-shadow:var(--shadow)}
+.quick b{font-size:16px;font-weight:600}
+.quick span{font-size:13px;color:var(--muted)}
+.two{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:900px){.two{grid-template-columns:1fr}}
+.board td,.board th{padding:14px}
+.board .no{width:64px;text-align:center;color:var(--muted)}
+.board .cat{width:96px}
+.board .dt{width:112px;color:var(--muted);white-space:nowrap}
+.board .at{width:56px;text-align:center}
+.board tr.pin td{background:var(--soft)}
+.board a{text-decoration:none;font-weight:500}
+.board a:hover{text-decoration:underline}
+.new{display:inline-block;font-size:11px;font-weight:700;color:var(--primary-active);margin-left:6px}
+@media (max-width:700px){.board .no,.board .at,.board tr.hd{display:none}.board tr{display:block;border-bottom:1px solid var(--line-soft);padding:10px 4px}.board td{display:inline;border:0;padding:0 8px 0 0;background:none!important}.board td.tt{display:block;padding:4px 0}}
+.mini{list-style:none;padding:0;margin:0}
+.mini li{display:flex;gap:8px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line-soft)}
+.mini li a{flex:1;text-decoration:none;font-weight:500;min-width:0}
+.mini li a:hover{text-decoration:underline}
+.mini .dt{font-size:13px;color:var(--muted);white-space:nowrap}
+.warn{background:var(--soft);border-left:3px solid var(--primary);border-radius:var(--r-sm);padding:14px 18px;margin:16px 0;font-size:14.5px}
+.warn b{display:block;margin-bottom:4px}
+.warn ul{margin:4px 0 0;padding-left:18px}
+.chg{display:inline-block;font-size:12px;font-weight:500;border:1px solid var(--ink);border-radius:var(--r-full);padding:1px 8px;margin-left:6px;white-space:nowrap}
+.kind{display:inline-block;font-size:12px;font-weight:600;border-radius:var(--r-full);padding:2px 10px;white-space:nowrap}
+.kind.off{border:1px solid var(--ink)}
+.kind.ref{background:var(--soft);color:var(--body);border:1px dashed var(--line-strong)}
+.segs{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 20px}
+.segs button{border:1px solid var(--line);background:#fff;border-radius:var(--r-full);padding:10px 18px;font:600 15px var(--font);cursor:pointer;min-height:44px;color:var(--ink)}
+.segs button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.steps{list-style:none;padding:0;margin:0;counter-reset:st}
+.steps>li{position:relative;padding:0 0 28px 56px;counter-increment:st}
+.steps>li::before{content:counter(st);position:absolute;left:0;top:0;width:40px;height:40px;border-radius:50%;border:1px solid var(--ink);display:grid;place-items:center;font-weight:600;background:#fff}
+.steps>li::after{content:"";position:absolute;left:20px;top:44px;bottom:4px;border-left:1px dashed var(--line-strong)}
+.steps>li:last-child::after{display:none}
+.steps h3{margin:8px 0 4px;font-size:17px}
+.steps .who{font-size:13.5px;color:var(--muted);margin:0 0 8px}
+.stepper{display:flex;gap:4px;overflow-x:auto;padding:4px 2px 12px;margin:8px 0 16px}
+.stepper button{flex:1 0 110px;display:flex;flex-direction:column;align-items:center;gap:6px;border:0;background:none;font:500 13.5px var(--font);cursor:pointer;color:var(--muted);padding:6px 4px;min-height:44px}
+.stepper button i{width:40px;height:40px;border-radius:50%;border:1px solid var(--line-strong);display:grid;place-items:center;font-style:normal;font-weight:600;background:#fff;color:var(--ink)}
+.stepper button[aria-pressed="true"]{color:var(--ink)}
+.stepper button[aria-pressed="true"] i{background:var(--primary);border-color:var(--primary);color:#fff}
+.fcards{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.fcard{border:1px solid var(--line);border-radius:var(--r-md);padding:18px;background:#fff;display:flex;flex-direction:column;gap:8px}
+.fcard h3{margin:0;font-size:16px}
+.fcard h3 a{text-decoration:none}
+.fcard h3 a:hover{text-decoration:underline}
+.fcard p{margin:0;font-size:13.5px;color:var(--muted)}
+.fno{font-size:12px;font-weight:600;color:var(--muted)}
+.dl{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:6px}
+.dl a{display:inline-flex;align-items:center;gap:4px;border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 12px;font-size:13.5px;font-weight:500;text-decoration:none;min-height:44px}
+.dl a:hover{border-color:var(--ink)}
+.dl a.pri{background:var(--primary);border-color:var(--primary);color:#fff}
+.qa details{border:1px solid var(--line);border-radius:var(--r-md);margin:10px 0;background:#fff}
+.qa summary{cursor:pointer;padding:16px 20px;font-weight:600;display:flex;gap:10px;align-items:baseline;list-style:none;min-height:44px}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary .qn{color:var(--ink);font-weight:700;flex:0 0 auto}
+.qa details[open] summary{border-bottom:1px solid var(--line-soft)}
+.qa .ans{padding:16px 20px 18px}
+.qa .short{font-weight:500;margin:0 0 8px}
+.refs{font-size:12.5px;color:var(--muted);margin-top:10px}
+.md p{margin:8px 0;color:var(--body)}
+.md ul{margin:6px 0;padding-left:20px;color:var(--body)}
+.md li{margin:3px 0}
+.pv{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--soft)}
+.pv img{width:100%;display:block}
+.setcard{border:2px solid var(--ink);border-radius:var(--r-md);padding:24px;background:#fff}
+.setcard h3{margin-top:0;font-size:20px}
+.cal{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
+.cal div{border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;background:#fff}
+.cal b{display:block;font-size:13px;color:var(--ink);margin-bottom:4px}
+.hits a{display:block;border-bottom:1px solid var(--line-soft);padding:14px 0;text-decoration:none}
+.hits a:hover b{text-decoration:underline}
+.hits b{font-weight:600}
+.hits span{display:block;font-size:13.5px;color:var(--muted)}
+.hits em{font-style:normal;font-size:12px;border:1px solid var(--line);border-radius:var(--r-full);padding:1px 8px;margin-right:6px;color:var(--body)}
+@media print{.top,footer,.btns,.mine,.pn,.rail,.skip,.segs,.stepper,.filters,.dl{display:none}.side,.two{display:block}.qa details{border:0}}
+
+/* 웹 감수 반영 (2026. 9. 28.) */
+.chip.tap{min-height:36px;padding:6px 12px;display:inline-flex;align-items:center;font-size:13px}
+@media (pointer:coarse){.chip.tap{min-height:44px}}
+.toc a{display:inline-flex;align-items:center;min-height:44px;padding:0 4px}
+.board td.tt a{display:inline-block;padding:10px 0}
+.fcard h3 a{display:inline-block;padding:4px 0}
+.search.one{max-width:720px}
+.search.one label{border-right:0}
+@media (max-width:700px){
+ #flist tr:first-child{display:none}
+ #flist tr{display:block;border-bottom:1px solid var(--line-soft);padding:12px 14px}
+ #flist td{display:block;border:0;padding:2px 0}
+ #flist td:first-child{font-size:12px;color:var(--muted)}
+ #flist td:nth-child(3),#flist td:nth-child(4),#flist td:nth-child(5),#flist td:nth-child(6){display:inline-block;margin-right:8px;font-size:13px;color:var(--muted)}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<header class="top"><div class="in"><a class="brand" href="../../"><svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3c7.2 0 13 5.8 13 13s-5.8 13-13 13S3 23.2 3 16 8.8 3 16 3zm0 6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13z"/><circle cx="16" cy="16" r="2.6" fill="currentColor"/></svg>에듀다움</a><nav class="menu" aria-label="누리집 메뉴"><a class="m" href="../../notice/">공지사항</a><a class="m" href="../../about/">학교자율시간이란?</a><details class="dd"><summary class="m" aria-current="page">도입 가이드</summary><div class="panel"><a href="../../guide/">한눈에 보는 절차</a><a href="../../guide/activity/">활동 개설</a><a href="../../guide/subject/">새 과목 개설</a><a href="../../guide/approved/">기승인 과목 활용</a><a href="../../guide/hours/" aria-current="page">시수 편성</a><a href="../../guide/standards/">성취기준 만들기</a><a href="../../guide/assess/">평가·나이스 기록</a><a href="../../guide/books/">교과용 도서·자료</a></div></details><a class="m" href="../../qna/">Q&amp;A</a><details class="dd"><summary class="m">서식 자료실</summary><div class="panel"><a href="../../forms/">절차로 찾기</a><a href="../../forms/list/">목록·검색으로 찾기</a><a href="../../forms/set/">종합세트 받기</a><a href="../../forms/versions/">판본 차이·정오표</a></div></details><details class="dd"><summary class="m">에듀다움 SW·AI 과정</summary><div class="panel"><a href="../../plan/">계획서·성취기준</a><a href="../../topics/">주제별 활동</a><a href="../../lessons/">차시별 과정안</a><a href="../../tools/">연동 도구</a><a href="../../play/">체험 게임</a></div></details></nav><a class="find" href="../../search/" aria-label="누리집 검색"><svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="14" cy="14" r="8.5"/><path d="M20.5 20.5l6.5 6.5"/></svg><span>검색</span></a></div></header>
+<main id="main">
+<p class="crumb"><a href="../">도입 가이드</a> › 시수 편성</p><div class="banner"><span class="kick">도입 가이드</span><h1>시수 편성</h1><p class="lead">학년별 총 수업시간 수를 34로 나눈 시간을 한 학기 안에 확보합니다. 교과(군)와 창의적 체험활동의 20% 범위에서 증감하되 체육·예술은 줄이지 않습니다.</p></div><h2>몇 시간인가</h2><div class="md"><div class="tw"><table><tr><th>구분</th><th>3학년</th><th>4학년</th><th>5학년</th><th>6학년</th></tr><tr><td>학년별 총 수업시간 수</td><td>986</td><td>986</td><td>1,088</td><td>1,088</td></tr><tr><td>학교자율시간(학기별)</td><td>29(986÷34)</td><td>29(986÷34)</td><td>32(1,088÷34)</td><td>32(1,088÷34)</td></tr></table></div><p>수업시수를 순증한 학교는 소속교의 학년별 총 수업시간 수 ÷ 34로 정합니다. 999시간이면 29시간 또는 30시간, 1,039시간이면 30시간 또는 31시간입니다.</p></div><p class="refs">근거: <span title="초등 『학교자율시간』 이해와 실제 안내자료 — 경기도교육청 초등교육과 — 2025. 9.">안내자료(2025.9.) p.12</span> · <span title="학교자율시간 궁금한 이야기(Q&amp;A) — 경기도교육청 초등교육과 — 2025. 9.">Q&amp;A(2025.9.) p.12</span></p><h2>시수 확보 원리</h2><div class="md"><ul><li>교과(군)별 및 창의적 체험활동의 20% 범위 내에서 시수 증감 기준을 지킵니다.</li><li>수업 시수를 줄인 교과는 줄어든 시수로 그 교과의 성취기준을 모두 이수할 수 있는지 점검합니다.</li><li>체육, 예술(음악/미술) 교과(군)는 기준 수업 시수를 줄이지 않습니다. 체육·예술 교과(군) 시수가 줄지 않는 경우에 한해 그 교과(군) 안의 과목은 줄일 수 있습니다.</li><li>특정 교과나 창의적 체험활동 시수를 지나치게 줄이지 않습니다.</li></ul></div><p class="refs">근거: <span title="2022 개정 교육과정 초등학교 전 학년 적용 완료에 따른 초등학교 학교자율시간 편성·운영 기준 안내 — 경기도교육청 초등교육과 — 2026.">편성·운영 기준 안내(2026) p.2</span> · <span title="초등 『학교자율시간』 이해와 실제 안내자료 — 경기도교육청 초등교육과 — 2025. 9.">안내자료(2025.9.) p.12</span> · <span title="학교자율시간 궁금한 이야기(Q&amp;A) — 경기도교육청 초등교육과 — 2025. 9.">Q&amp;A(2025.9.) p.12</span></p><h2>교과(군)별 증감 범위</h2><div class="md"><div class="tw"><table><tr><th>교과(군)</th><th>3~4학년 기준</th><th>범위</th><th>5~6학년 기준</th><th>범위</th></tr><tr><td>국어</td><td>408</td><td>±81(327~489)</td><td>408</td><td>±81(327~489)</td></tr><tr><td>사회/도덕</td><td>272</td><td>±54(218~326)</td><td>272</td><td>±54(218~326)</td></tr><tr><td>수학</td><td>272</td><td>±54(218~326)</td><td>272</td><td>±54(218~326)</td></tr><tr><td>과학/실과</td><td>204</td><td>±40(164~244)</td><td>340</td><td>±68(272~408)</td></tr><tr><td>체육</td><td>204</td><td>+40(204~244)</td><td>204</td><td>+40(204~244)</td></tr><tr><td>예술(음악/미술)</td><td>272</td><td>+54(272~326)</td><td>272</td><td>+54(272~326)</td></tr><tr><td>영어</td><td>136</td><td>±27(109~163)</td><td>204</td><td>±40(164~244)</td></tr><tr><td>창의적 체험활동</td><td>204</td><td>±40(164~244)</td><td>204</td><td>±40(164~244)</td></tr></table></div><p>학교자율시간을 편성한 교과(군)의 <b>최종 시수</b>도 이 범위 안이어야 합니다. 3~4학년 영어 136시간에 영어 편성 활동 29시간을 더하면 165시간이 되어 범위(최대 163시간)를 넘으므로 편성할 수 없습니다.</p></div><p class="refs">근거: <span title="초등 『학교자율시간』 이해와 실제 안내자료 — 경기도교육청 초등교육과 — 2025. 9.">안내자료(2025.9.) p.12</span> · <span title="학교자율시간 궁금한 이야기(Q&amp;A) — 경기도교육청 초등교육과 — 2025. 9.">Q&amp;A(2025.9.) p.13</span></p><h2>체육·예술 교과 편성 사례(3~4학년)</h2><div class="md"><div class="tw"><table><tr><th>편성</th><th>체육 교과 총 시수</th><th>가능 여부</th></tr><tr><td>체육 204 + 체육 편성 학교자율시간 29</td><td>233</td><td>가능</td></tr><tr><td>체육 175 + 체육 편성 학교자율시간 29</td><td>204</td><td>가능</td></tr><tr><td>체육 186 + 체육 편성 학교자율시간 17</td><td>203</td><td>불가(기준 204 미확보)</td></tr><tr><td>체육 175 + 다른 교과 편성 학교자율시간 29</td><td>175</td><td>불가(기준 204 미확보)</td></tr></table></div></div><p class="refs">근거: <span title="초등 『학교자율시간』 이해와 실제 안내자료 — 경기도교육청 초등교육과 — 2025. 9.">안내자료(2025.9.) p.13</span></p><h2>학기와 운영 유형</h2><div class="md"><p>학기 단위로 편성·운영하며, 1주의 수업 시수를 1·2학기에 나누어 운영하지 않습니다. 같은 학기 안에 29시간(또는 32시간)을 모두 편성합니다.</p><p>한 학기 안에서의 운영 방식은 학교가 고릅니다.</p><ul><li>지속형: 매주 시수를 씁니다(예: 매주 목요일 5~6교시).</li><li>집중형: 학기 초·중·말의 특정 주나 월에 몰아서 씁니다(예: 1~2주 지정).</li><li>혼합형: 지속형으로 운영하다 학기말에 결과를 나누는 식으로 섞습니다.</li></ul><p>같은 학년 같은 학기에 활동(과목)은 최대 2개이며, 2개일 때 각각 10시간 이상입니다.</p></div><p class="refs">근거: <span title="2022 개정 교육과정 초등학교 전 학년 적용 완료에 따른 초등학교 학교자율시간 편성·운영 기준 안내 — 경기도교육청 초등교육과 — 2026.">편성·운영 기준 안내(2026) p.2</span> · <span title="학교자율시간 궁금한 이야기(Q&amp;A) — 경기도교육청 초등교육과 — 2025. 9.">Q&amp;A(2025.9.) p.13</span> · <span title="초등 『학교자율시간』 이해와 실제 안내자료 — 경기도교육청 초등교육과 — 2025. 9.">안내자료(2025.9.) p.13</span> · <span title="학교자율시간 궁금한 이야기(Q&amp;A) — 경기도교육청 초등교육과 — 2025. 9.">Q&amp;A(2025.9.) p.14</span> · <span title="학교자율시간 궁금한 이야기(Q&amp;A) — 경기도교육청 초등교육과 — 2025. 9.">Q&amp;A(2025.9.) p.16</span></p><h2>2027학년도 최소 편성</h2><div class="md"><p>2027학년도부터 3~6학년 각 학년별로 1개 학기 이상 편성합니다. 순증이 없는 학교의 최소 편성은 3학년 29시간, 4학년 29시간, 5학년 32시간, 6학년 32시간이며, 학년마다 한 학기 안에 편성합니다.</p><p>2025. 9. 안내자료의 &#x27;최소운영(3~6학년 중 한 학기 29시간)&#x27; 예시는 2026학년도까지의 기준입니다.</p></div><p class="refs">근거: <span title="2022 개정 교육과정 초등학교 전 학년 적용 완료에 따른 초등학교 학교자율시간 편성·운영 기준 안내 — 경기도교육청 초등교육과 — 2026.">편성·운영 기준 안내(2026) p.2</span> · <span title="초등 『학교자율시간』 이해와 실제 안내자료 — 경기도교육청 초등교육과 — 2025. 9.">안내자료(2025.9.) p.11</span></p><div class="warn"><b>⚠ 자주 틀리는 곳</b><ul><li>1학기 15시간 + 2학기 14시간처럼 나누어 편성하지 않습니다.</li><li>편성 교과 쪽 시수만 늘리고 줄인 교과를 적지 않으면 총 수업시간 수가 맞지 않습니다. 편제표의 계(증감) 칸으로 확인합니다.</li><li>체육·예술 교과(군) 총 시수가 기준 아래로 내려가지 않게 합니다.</li><li>활동을 편성한 교과(군)의 최종 시수가 증감 범위를 넘지 않는지 확인합니다.</li></ul></div><p class="small" style="margin:12px 0 4px;font-weight:600">관련 서식</p><div style="display:flex;flex-wrap:wrap;gap:6px"><a class="chip tap" href="../../forms/F09/">F09 학교자율시간 시수 편성 점검표</a><a class="chip tap" href="../../forms/F04/">F04 ○○초등학교 교육과정 편제표(3·4학년 / 5·6학년)</a></div><p class="small" style="margin:12px 0 4px;font-weight:600">관련 Q&A</p><div style="display:flex;flex-wrap:wrap;gap:6px"><a class="chip tap" href="../../qna/#q16">학교자율시간 수업은 수업일수와 시수에 포함되나요?</a><a class="chip tap" href="../../qna/#q17">학교자율시간 시수는 어떻게 확보하나요?</a><a class="chip tap" href="../../qna/#q18">3~4학년은 29시간, 5~6학년은 32시간으로 편성하면 되나…</a><a class="chip tap" href="../../qna/#q20">1학기 15시간, 2학기 14시간처럼 나누어 편성할 수 있나요…</a><a class="chip tap" href="../../qna/#q21">3~4학년 영어 136시간에 영어로 편성한 활동 29시간을 더…</a><a class="chip tap" href="../../qna/#q23">지속형, 집중형, 혼합형 가운데 어느 운영 방식이 가장 좋은가…</a><a class="chip tap" href="../../qna/#q30">같은 학년 같은 학기에 활동(과목)을 두 개 이상 운영해도 되…</a><a class="chip tap" href="../../qna/#q48">2027학년도부터 모든 학년이 학교자율시간을 해야 하나요?</a></div>
+</main>
+<footer><div class="in"><nav class="smap" aria-label="사이트맵"><div><b>공지사항</b><a href="../../notice/">공지사항</a></div><div><b>학교자율시간이란?</b><a href="../../about/">학교자율시간이란?</a></div><div><b>도입 가이드</b><a href="../../guide/">한눈에 보는 절차</a><a href="../../guide/activity/">활동 개설</a><a href="../../guide/subject/">새 과목 개설</a><a href="../../guide/approved/">기승인 과목 활용</a><a href="../../guide/hours/">시수 편성</a><a href="../../guide/standards/">성취기준 만들기</a><a href="../../guide/assess/">평가·나이스 기록</a><a href="../../guide/books/">교과용 도서·자료</a></div><div><b>Q&amp;A</b><a href="../../qna/">Q&amp;A</a></div><div><b>서식 자료실</b><a href="../../forms/">절차로 찾기</a><a href="../../forms/list/">목록·검색으로 찾기</a><a href="../../forms/set/">종합세트 받기</a><a href="../../forms/versions/">판본 차이·정오표</a></div><div><b>에듀다움 SW·AI 과정</b><a href="../../plan/">계획서·성취기준</a><a href="../../topics/">주제별 활동</a><a href="../../lessons/">차시별 과정안</a><a href="../../tools/">연동 도구</a><a href="../../play/">체험 게임</a></div></nav><p><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 28.<br>학교자율시간 안내·서식은 경기도교육청 자료를 재구성했습니다. 원문과 최신 공문을 함께 확인하세요.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</p></div></footer>
+<script>
+(function(){
+  var dd=[].slice.call(document.querySelectorAll('.menu details'));
+  document.addEventListener('click',function(ev){dd.forEach(function(d){if(!d.contains(ev.target))d.removeAttribute('open')})});
+  dd.forEach(function(d){d.addEventListener('focusout',function(ev){if(!d.contains(ev.relatedTarget))d.removeAttribute('open')})});
+  document.addEventListener('keydown',function(ev){if(ev.key==='Escape')dd.forEach(function(d){if(d.open){d.removeAttribute('open');d.querySelector('summary').focus()}})});
+  dd.forEach(function(d){d.addEventListener('toggle',function(){if(d.open)dd.forEach(function(o){if(o!==d)o.removeAttribute('open')})})});
+  var m=document.querySelector('.menu'), c=m&&m.querySelector('.m[aria-current]');
+  if(c&&m.scrollWidth>m.clientWidth) m.scrollLeft=c.offsetLeft-16;
+})();
+</script>
+</body>
+</html>
