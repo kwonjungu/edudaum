@@ -52,20 +52,17 @@ BRAND = ('<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" 
          '<circle cx="16" cy="16" r="2.6" fill="currentColor"/></svg>')
 
 
-# 윗줄 메뉴 — 공공기관 누리집처럼 가로 메뉴 + 펼침. (주소, 이름, 펼침 항목[(주소, 이름)])
+# 윗줄 메뉴 — 넷만 둔다(2026. 10. 11.). 예전 쪽은 지우지 않고 펼침 항목으로 묶는다.
+# (주소, 이름, 아이콘, 펼침 항목[(주소, 이름)])
 MENU = [
-    ('plan/', '연구회 소개', []),
-    ('about/', '학교자율시간이란?', []),
-    ('guide/', '도입 가이드', []),
-    ('forms/', '도입 서식', []),
-    ('lessons/', '차시별 교수학습 과정안', []),
-    ('topics/', '영역별 교수학습 과정안', []),
-    ('notice/', '공지', []),
-    ('qna/', 'Q&A', []),
+    ('lessons/', '수업 자료', 'book-open', [('lessons/', '차시별 수업 꾸러미'), ('topics/', '단원별로 보기'), ('tools/', '연동 도구')]),
+    ('play/', '체험 게임', 'game', []),
+    ('about/', '도입 안내', 'lightbulb', [('about/', '학교자율시간이란?'), ('guide/', '도입 절차'), ('forms/', '서식 받기'),
+                                     ('forms/set/', '채운 서식 한 벌'), ('qna/', '자주 묻는 질문')]),
+    ('plan/', '연구회', 'people-team', [('plan/', '연구회 소개'), ('notice/', '알림')]),
 ]
-# 윗줄에는 두지 않고 바닥 사이트맵에만 두는 쪽
-MORE = [('forms/set/', '종합세트'), ('tools/', '연동 도구'), ('play/', '체험 게임'), ('search/', '검색')]
-EDU = {'plan/', 'topics/', 'lessons/', 'tools/', 'play/'}
+# 펼침에 없고 바닥 사이트맵에만 두는 쪽
+MORE = [('forms/list/', '서식 목록·검색'), ('forms/versions/', '판본 차이·정오표'), ('search/', '검색')]
 
 NAV_JS = """<script>
 (function(){
@@ -81,16 +78,31 @@ NAV_JS = """<script>
 """
 
 
+def menu_top(cur: str) -> str:
+    """지금 쪽이 어느 메뉴 아래에 있는지 — 가장 길게 맞는 주소를 고른다."""
+    best, n = '', 0
+    for href, _, _, sub in MENU:
+        for h in [href] + [s for s, _ in sub]:
+            if cur.startswith(h) and len(h) > n:
+                best, n = href, len(h)
+    return best
+
+
+def icon(name: str, up: str, cls: str = 'ic') -> str:
+    return '<img class="%s" src="%sassets/icons/%s.svg" alt="" width="24" height="24">' % (cls, up, name)
+
+
 def nav(up: str, cur: str) -> str:
-    top = next((h for h, _, _ in MENU if cur.startswith(h)), cur)
+    top = menu_top(cur)
     out = []
-    for href, name, sub in MENU:
+    for href, name, ic, sub in MENU:
         here = ' aria-current="page"' if href == top else ''
         if not sub:
-            out.append('<a class="m" href="%s%s"%s>%s</a>' % (up, href, here, e(name)))
+            out.append('<a class="m" href="%s%s"%s>%s<span>%s</span></a>' % (up, href, here, icon(ic, up), e(name)))
             continue
         items = ''.join('<a href="%s%s"%s>%s</a>' % (up, h, ' aria-current="page"' if h == cur else '', e(t)) for h, t in sub)
-        out.append('<details class="dd"><summary class="m"%s>%s</summary><div class="panel">%s</div></details>' % (here, e(name), items))
+        out.append('<details class="dd"><summary class="m"%s>%s<span>%s</span></summary><div class="panel">%s</div></details>'
+                   % (here, icon(ic, up), e(name), items))
     return '<nav class="menu" aria-label="누리집 메뉴">%s</nav>' % ''.join(out)
 
 
@@ -99,7 +111,7 @@ def page(path: str, title: str, body: str, cur: str, extra_js: str = '') -> None
     up = '../' * depth
     doc = ('<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n'
            '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
-           '<title>%s</title>\n<style>%s</style>\n</head>\n<body>\n'
+           '<title>%s</title>\n<link rel="icon" href="%sassets/icons/book-open.svg">\n<style>%s</style>\n</head>\n<body>\n'
            '<a class="skip" href="#main">본문 바로가기</a>\n'
            '<header class="top"><div class="in"><a class="brand" href="%s">%s에듀다움</a>%s'
            '<a class="find" href="%ssearch/" aria-label="누리집 검색"%s>%s<span>검색</span></a></div></header>\n'
@@ -107,7 +119,7 @@ def page(path: str, title: str, body: str, cur: str, extra_js: str = '') -> None
            '<footer><div class="in">%s<p><b>%s</b><br>%s · %s · 과정안 기준일 %s<br>'
            '학교자율시간 안내·서식은 경기도교육청 자료를 재구성했습니다. 원문과 최신 공문을 함께 확인하세요.<br>'
            '학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</p></div></footer>\n'
-           '%s%s</body>\n</html>\n') % (e(title), CSS, up or './', BRAND, nav(up, cur), up,
+           '%s%s</body>\n</html>\n') % (e(title), up, CSS, up or './', BRAND, nav(up, cur), up,
                                         ' aria-current="page"' if cur == 'search/' else '', SEARCH_ICON, body, sitemap(up),
                                         e(SITE['org']), e(SITE['title']), e(SITE['subtitle']), e(SITE['updated']), NAV_JS, extra_js)
     out = ROOT / path / 'index.html' if path else ROOT / 'index.html'
@@ -122,7 +134,7 @@ SEARCH_ICON = ('<svg viewBox="0 0 32 32" aria-hidden="true" fill="none" stroke="
 def sitemap(up: str) -> str:
     """바닥 사이트맵 — 윗줄 메뉴와 같은 항목."""
     cols = []
-    for href, name, sub in MENU:
+    for href, name, _, sub in MENU:
         links = sub or [(href, name)]
         cols.append('<div><b>%s</b>%s</div>' % (e(name), ''.join('<a href="%s%s">%s</a>' % (up, h, e(t)) for h, t in links)))
     cols.append('<div><b>더 보기</b>%s</div>' % ''.join('<a href="%s%s">%s</a>' % (up, h_, e(t)) for h_, t in MORE))
