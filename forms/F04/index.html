@@ -5,13 +5,24 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>F04 ○○초등학교 교육과정 편제표(3·4학년 / 5·6학년) — 도입 서식 — 에듀다움</title>
 <link rel="icon" href="../../assets/icons/book-open.svg">
-<style>/* 에듀다움 디자인 토큰 — _공통기준.md 6-3 (2026. 9. 27. 통일안). make_site.py가 쪽마다 안에 넣는다. */
-:root{--canvas:#fff;--ink:#222;--body:#3f3f3f;--muted:#6a6a6a;--muted-soft:#929292;
---primary:#ff385c;--primary-active:#e00b41;--primary-disabled:#ffd1da;--primary-soft:#fff0f3;
---soft:#f7f7f7;--strong:#f2f2f2;--line:#ddd;--line-soft:#ebebeb;--line-strong:#c1c1c1;
---r-sm:8px;--r-md:14px;--r-xl:32px;--r-full:9999px;
---shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0;
---font:'Pretendard','Apple SD Gothic Neo','Malgun Gothic',-apple-system,system-ui,Roboto,'Helvetica Neue',sans-serif}
+<style>/* 에듀다움 디자인 토큰 — 활동지 공통 양식(ws.css)과 한 벌 (2026. 10. 11.). make_site.py가 쪽마다 안에 넣는다.
+   글꼴: 제목 Jua · 본문 고운돋움(Google Fonts). 아이콘: Microsoft Fluent UI System Icons Color(MIT) — assets/icons */
+@import url('https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap');
+:root{--canvas:#fff;--ink:#33302b;--body:#4a463f;--muted:#6f6a62;--muted-soft:#9a948a;
+--sky:#5aa9e6;--sky-l:#e6f3fc;--sky-d:#2f78b5;
+--sun:#ffc845;--sun-l:#fff6d9;--sun-d:#9a6f00;
+--mint:#4cbf9a;--mint-l:#e3f6ef;--mint-d:#1f7a5c;
+--pink:#ff8fa3;--pink-l:#ffeef1;--pink-d:#c23a57;
+--grape:#9b8cf2;--grape-l:#efecfd;--grape-d:#5f4fc4;
+--primary:var(--sky-d);--primary-active:#25639a;--primary-disabled:#bcdcf3;--primary-soft:var(--sky-l);
+--gc:var(--sky);--gc-l:var(--sky-l);--gc-d:var(--sky-d);
+--soft:#f8f6f1;--strong:#f0ece4;--line:#e3ddd1;--line-soft:#eeeae2;--line-strong:#cfc7b8;
+--r-sm:12px;--r-md:18px;--r-xl:32px;--r-full:9999px;
+--shadow:rgba(51,48,43,.04) 0 0 0 1px,rgba(51,48,43,.05) 0 2px 6px 0,rgba(51,48,43,.08) 0 6px 14px 0;
+--font:'Gowun Dodum','Pretendard','Apple SD Gothic Neo','Malgun Gothic',-apple-system,system-ui,sans-serif;
+--title:'Jua','Gowun Dodum','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+.g5{--gc:var(--sky);--gc-l:var(--sky-l);--gc-d:var(--sky-d)}
+.g6{--gc:var(--grape);--gc-l:var(--grape-l);--gc-d:var(--grape-d)}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-padding-top:96px}
@@ -20,12 +31,12 @@ a{color:inherit}
 /* 윗줄 */
 .top{position:sticky;top:0;z-index:10;background:var(--canvas);border-bottom:1px solid var(--line)}
 .top .in{max-width:1280px;margin:0 auto;padding:0 24px;min-height:80px;display:flex;align-items:center;gap:16px}
-.brand{font-weight:700;font-size:20px;letter-spacing:-.02em;color:var(--primary);text-decoration:none;display:flex;align-items:center;gap:8px;flex:0 0 auto}
+.brand{font-family:var(--title);font-weight:400;font-size:24px;color:var(--sky-d);text-decoration:none;display:flex;align-items:center;gap:8px;flex:0 0 auto}
 .brand svg{width:30px;height:30px}
 .skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;padding:12px 16px;z-index:20}
 .skip:focus{left:8px;top:8px}
 .menu{flex:1;display:flex;justify-content:center;align-items:center;gap:4px}
-.menu .m{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--body);font-weight:600;font-size:16px;padding:10px 14px;min-height:44px;border-bottom:3px solid transparent;white-space:nowrap;cursor:pointer;list-style:none}
+.menu .m{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--body);font-family:var(--title);font-weight:400;font-size:17px;padding:10px 14px;min-height:44px;border-bottom:3px solid transparent;white-space:nowrap;cursor:pointer;list-style:none}
 .menu .m .ic{width:24px;height:24px;flex:0 0 auto}
 .menu .m::-webkit-details-marker{display:none}
 .menu .m:hover{color:var(--ink)}
@@ -45,14 +56,14 @@ a{color:inherit}
 @media (max-width:560px){.find span{display:none}.find{padding:10px}}
 main{max-width:1280px;margin:0 auto;padding:32px 24px 64px}
 @media (max-width:560px){main{padding:24px 16px 48px}}
-h1{font-size:28px;line-height:1.43;font-weight:700;margin:8px 0}
-h2{font-size:22px;line-height:1.3;font-weight:600;letter-spacing:-.02em;margin:64px 0 16px}
-h3{font-size:16px;font-weight:600;margin:20px 0 6px;line-height:1.35}
+h1{font-family:var(--title);font-size:30px;line-height:1.35;font-weight:400;margin:8px 0}
+h2{font-family:var(--title);font-size:24px;line-height:1.3;font-weight:400;margin:56px 0 16px}
+h3{font-family:var(--title);font-size:18px;font-weight:400;margin:20px 0 6px;line-height:1.35}
 .lead{color:var(--muted);font-size:16px;margin:0 0 24px;max-width:780px}
-.kick{display:inline-block;color:var(--primary-active);font-weight:600;font-size:14px}
+.kick{display:inline-block;color:var(--sky-d);font-family:var(--title);font-size:15px}
 .chip{display:inline-block;border:1px solid var(--line);border-radius:var(--r-full);padding:2px 10px;font-weight:500;font-size:12.5px;background:var(--canvas);white-space:nowrap;text-decoration:none;color:var(--ink)}
 a.chip:hover{border-color:var(--ink)}
-.chip.g5,.chip.g6{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chip.g5,.chip.g6{background:var(--gc-d);color:#fff;border-color:var(--gc-d)}
 .chip.pri{background:var(--primary);border-color:var(--primary);color:#fff}
 .box{background:var(--canvas);border:1px solid var(--line);border-radius:var(--r-md);padding:24px;margin:16px 0}
 .grid{display:grid;gap:24px 16px;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
@@ -66,7 +77,7 @@ a.chip:hover{border-color:var(--ink)}
 .card p{margin:0;color:var(--muted);font-size:14px;line-height:1.43}
 .card.plain{border:1px solid var(--line);padding:20px;transition:box-shadow .15s}
 .card.plain:hover{box-shadow:var(--shadow)}
-.btn{display:inline-flex;align-items:center;gap:6px;min-height:48px;padding:12px 22px;border:1px solid var(--ink);border-radius:var(--r-sm);background:var(--canvas);font:500 16px/1.25 var(--font);text-decoration:none;cursor:pointer;color:var(--ink)}
+.btn{display:inline-flex;align-items:center;gap:6px;min-height:48px;padding:12px 22px;border:1.5px solid var(--line-strong);border-radius:var(--r-sm);background:var(--canvas);font:500 16px/1.25 var(--font);text-decoration:none;cursor:pointer;color:var(--ink)}
 .btn:hover{background:var(--soft)}
 .btn.pri{background:var(--primary);border-color:var(--primary);color:#fff}
 .btn.pri:hover,.btn.pri:active{background:var(--primary-active);border-color:var(--primary-active)}
@@ -74,7 +85,7 @@ a.chip:hover{border-color:var(--ink)}
 .tw{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:var(--r-md)}
 table{border-collapse:collapse;width:100%;font-size:14px;line-height:1.5}
 th,td{border-bottom:1px solid var(--line-soft);padding:12px 14px;text-align:left;vertical-align:top}
-th{background:var(--soft);font-weight:600;white-space:nowrap}
+th{background:var(--gc-l);font-family:var(--title);font-weight:400;white-space:nowrap}
 tr:last-child td{border-bottom:0}
 .muted{color:var(--muted)}
 .small{font-size:14px}
@@ -162,7 +173,7 @@ figcaption{font-size:13px;color:var(--muted);margin-top:6px}
 .count{font-size:14px;color:var(--muted);margin-left:auto}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 /* 공공 누리집형 구성 요소 (2026. 9. 28.) */
-.banner{background:var(--soft);border-radius:var(--r-md);padding:40px 32px;margin:0 0 24px}
+.banner{background:var(--sky-l);border-radius:var(--r-md);padding:40px 32px;margin:0 0 24px}
 .banner h1{margin:4px 0 8px}
 .banner .lead{margin:0}
 @media (max-width:560px){.banner{padding:24px 20px}}
@@ -237,7 +248,7 @@ figcaption{font-size:13px;color:var(--muted);margin-top:6px}
 .md li{margin:3px 0}
 .pv{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden;background:var(--soft)}
 .pv img{width:100%;display:block}
-.setcard{border:2px solid var(--ink);border-radius:var(--r-md);padding:24px;background:#fff}
+.setcard{border:2px solid var(--sky);border-radius:var(--r-md);padding:24px;background:#fff}
 .setcard h3{margin-top:0;font-size:20px}
 .cal{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
 .cal div{border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;background:#fff}
@@ -264,6 +275,14 @@ figcaption{font-size:13px;color:var(--muted);margin-top:6px}
  #flist td:first-child{font-size:12px;color:var(--muted)}
  #flist td:nth-child(3),#flist td:nth-child(4),#flist td:nth-child(5),#flist td:nth-child(6){display:inline-block;margin-right:8px;font-size:13px;color:var(--muted)}
 }
+
+/* 활동지 공통 양식과 같은 조각 (2026. 10. 11.) — ws.css의 goal·no·tip·ico */
+.ic{width:24px;height:24px;flex:0 0 auto;vertical-align:-6px}
+.goal{display:flex;gap:10px;align-items:flex-start;padding:12px 16px;border-radius:var(--r-md);background:var(--sun-l);border:1.5px dashed var(--sun);margin:12px 0}
+.goal b{font-family:var(--title);font-weight:400;color:var(--sun-d);white-space:nowrap}
+.tip{display:flex;gap:10px;align-items:flex-start;background:var(--mint-l);border-radius:var(--r-md);padding:12px 16px;margin:12px 0;font-size:15px}
+.no{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;background:var(--sky);color:#fff;font-family:var(--title);font-size:16px;flex:0 0 auto}
+.no.c2{background:var(--mint)}.no.c3{background:var(--pink)}.no.c4{background:var(--grape)}
 </style>
 </head>
 <body>
