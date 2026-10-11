@@ -41,9 +41,10 @@
   .crit .k2{background:var(--point);border-color:var(--point);color:#fff}
 
   .tbl{display:grid;gap:4px;margin-top:8px}
-  .tr{display:grid;grid-template-columns:1.2em 1fr 3.2em 2.4em 3.7em 3.7em;gap:4px;align-items:center;
+  .tr{display:grid;grid-template-columns:1.2em 1fr 3.1em 3.6em 3.6em 3.6em;gap:4px;align-items:center;
     font:inherit;font-size:15px;color:var(--ink);text-align:left;width:100%}
-  .th{font-size:12.5px;color:var(--muted);padding:0 10px}
+  .th span{white-space:nowrap}
+  .th{font-size:12px;letter-spacing:-.03em;color:var(--muted);padding:0 10px}
   button.tr{background:#fff;border:1px solid var(--ink);border-radius:var(--r-sm);min-height:44px;padding:4px 10px;cursor:pointer}
   button.tr:disabled{cursor:default;border-color:var(--line)}
   button.tr[aria-pressed="true"]{background:var(--point-soft);outline:2px solid var(--point);outline-offset:-1px}
@@ -88,14 +89,14 @@
   </header>
 
   <section aria-labelledby="h1t">
-    <h2 id="h1t">등교 표</h2>
+    <h2 id="h1t">등교 표 <span class="hint">줄마다 한 사람</span></h2>
     <div class="crit">
       <p><span class="k">기준1</span><span id="c1"></span></p>
       <p><span class="k k2">기준2</span><span id="c2"></span></p>
     </div>
     <p class="hint" id="hint"></p>
     <div class="tbl" id="tbl">
-      <div class="tr th" aria-hidden="true"><span></span><span>등교 방법</span><span class="num">시간</span><span class="num">횡단</span><span class="g">기준1</span><span class="g">기준2</span></div>
+      <div class="tr th" aria-hidden="true"><span></span><span>등교 방법</span><span class="num">시간</span><span class="num">횡단보도</span><span class="g">기준1</span><span class="g">기준2</span></div>
     </div>
     <div class="acts">
       <button class="btn main" id="checkBtn" type="button" disabled>확인하기</button>
@@ -103,7 +104,7 @@
   </section>
 
   <section aria-labelledby="h2t" id="s2">
-    <h2 id="h2t">막대 차트</h2>
+    <h2 id="h2t">막대 차트 <span class="hint">기준별 사람 수</span></h2>
     <div class="bars" id="bars"></div>
     <p class="say" id="say" aria-live="polite"></p>
     <div class="acts">
