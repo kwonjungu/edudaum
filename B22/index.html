@@ -78,6 +78,29 @@
   [hidden]{display:none!important}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
+  .card{border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:9px 11px;margin-bottom:9px;background:var(--paper)}
+  .card .cn{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:5px}
+  .card .cn.lim{color:var(--point)}
+  .vals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+  .val{text-align:center}
+  .val .k{display:block;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .val .v{display:block;font-size:20px;font-weight:700;letter-spacing:-.03em;word-break:keep-all;line-height:1.2}
+  .warn{margin-top:7px;font-size:14px;font-weight:700;color:var(--point);word-break:keep-all}
+  .ord{display:inline-block;font-size:13px;font-weight:700;border-radius:999px;padding:3px 10px;margin-bottom:7px;
+    border:1px solid var(--line-strong);color:var(--muted)}
+  .ord.tf{border-color:var(--point);background:var(--point-soft);color:var(--ink)}
+  .row .cd{flex:1 1 auto;min-width:0;word-break:keep-all;line-height:1.3}
+  .row .to{flex:0 0 auto;max-width:44%;text-align:right;word-break:keep-all;line-height:1.3}
+  .row .yn{flex:0 0 46px;text-align:center;font-size:13px;font-weight:700;color:var(--muted);visibility:hidden}
+  .row.asked .yn{visibility:visible}
+  .row.no{opacity:.6}
+  .row.hit .yn{color:var(--point)}
+  .opts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .opt{justify-content:center;text-align:center;word-break:keep-all;font-weight:700}
+  .opt.hit{color:#fff;border-color:var(--point)}
+  .tools .btn{flex:1 1 90px}
+  .say.lim{color:var(--point)}
+
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
@@ -90,26 +113,35 @@
   </nav>
   <header>
     <h1>날씨 카드로 판단 도우미 시험</h1>
-    <p class="lead">이 카드에서 뭐라고 할지 짚어요</p>
+    <p class="lead">규칙표를 위에서부터 따라가 결론을 짚어요</p>
   </header>
 
   <section aria-labelledby="h-t">
-    <h2 id="h-t">이번 날씨 카드 · 확인 순서</h2>
-    <p class="big"><span id="tv">20</span><small>도</small></p>
-    <p class="chips"><span class="chip" id="rain">비 안 옴</span><span class="chip" id="dust">미세먼지 보통</span></p>
+    <h2 id="h-t">이번 카드 · 확인 순서</h2>
+    <div class="card">
+      <p class="cn" id="cn">날씨 카드</p>
+      <div class="vals">
+        <p class="val"><span class="k">날씨</span><span class="v" id="vw">-</span></p>
+        <p class="val"><span class="k">미세먼지</span><span class="v" id="vd">-</span></p>
+        <p class="val"><span class="k">최고기온</span><span class="v" id="vt">-</span></p>
+      </div>
+      <p class="warn" id="warn" hidden></p>
+    </div>
+    <p class="ord" id="ord">처음 정한 순서</p>
     <div class="rows" id="rows"></div>
-    <p class="note">엔트리 도우미에도 넣어 봐요</p>
   </section>
 
   <section aria-labelledby="h-o">
     <h2 id="h-o">결론 고르기</h2>
     <div class="opts" id="opts"></div>
+    <p class="say dim" id="say" role="status" aria-live="polite">결론을 하나 짚어요</p>
+    <p class="say lim" id="lim" hidden>규칙표에 없는 날씨예요 · 알맞은 결론일까요?</p>
     <div class="tools">
       <button class="btn main" id="check" type="button" disabled>확인하기</button>
       <button class="btn" id="reset" type="button">다시 하기</button>
-      <button class="btn" id="next" type="button">다음 판</button>
+      <button class="btn" id="next" type="button">다음 카드</button>
     </div>
-    <p class="say dim" id="say">결론을 하나 짚어요</p>
+    <p class="note">엔트리 도우미에도 넣어 봐요</p>
   </section>
 </div>
 
@@ -117,132 +149,176 @@
 (function(){
   'use strict';
   var $ = function(id){ return document.getElementById(id); };
+
+  // 지도안 활동1 규칙표 그대로. 학생은 조건·결론·순서를 못 고친다.
   var RULES = [
-    {cd:'비가 오면',        ms:'강당 수업',     f:function(c){ return c.rain; }},
-    {cd:'미세먼지 나쁨이면', ms:'실내 수업',     f:function(c){ return c.dust === 2; }},
-    {cd:'33도 이상이면',    ms:'실내 수업',     f:function(c){ return c.t >= 33; }},
-    {cd:'28도 이상이면',    ms:'그늘에서 짧게', f:function(c){ return c.t >= 28; }}
+    {cd:'비가 오면',                   ms:'강당 수업',     f:function(c){ return c.w === '비'; }},
+    {cd:'미세먼지가 나쁨 또는 매우나쁨이면', ms:'교실 수업',     f:function(c){ return c.d === '나쁨' || c.d === '매우나쁨'; }},
+    {cd:'최고기온 33도 이상이면',        ms:'실내 수업',     f:function(c){ return c.t >= 33; }},
+    {cd:'28도 이상이면',               ms:'그늘에서 짧게', f:function(c){ return c.t >= 28; }}
   ];
-  var OPTS = ['강당 수업', '실내 수업', '그늘에서 짧게', '운동장 수업'];
-  var NUM = ['①','②','③','④'];
-  var BOUND = [28, 33];
-  var DUST = ['좋음', '보통', '나쁨'];
+  var ELSE = {cd:'어디에도 해당하지 않으면', ms:'운동장 수업'};
+  var OPTS = ['강당 수업', '교실 수업', '실내 수업', '그늘에서 짧게', '운동장 수업'];
+  var NTH = ['첫째', '둘째', '셋째', '넷째', '다섯째'];
+  var NUM = ['①', '②', '③', '④', '-'];
   var BASE = [0, 1, 2, 3], TEMP_FIRST = [2, 3, 0, 1];
 
-  var order, card, picked, confirmed, prevSig;
-  var rowsBox = $('rows'), optsBox = $('opts'), say = $('say'), tv = $('tv');
-  var checkBtn = $('check'), resetBtn = $('reset');
-  var optBtns = [];
+  // 카드 자료 세트(날씨 카드 A~E, 한계 카드 F~H)와 시험 활동지 3-② 기준 값
+  var CARDS = {
+    A: {w:'비', d:'보통', t:30}, B: {w:'맑음', d:'나쁨', t:24}, C: {w:'구름많음', d:'좋음', t:34},
+    D: {w:'맑음', d:'보통', t:29}, E: {w:'구름조금', d:'좋음', t:21}
+  };
+  var LIMIT = {
+    F: {w:'눈', d:'좋음', t:1, note:'눈이 펑펑 내려요'},
+    G: {w:'맑음', d:'좋음', t:18, note:'강풍 · 바람이 초속 14m로 세게 불어요'},
+    H: {w:'흐림', d:'보통', t:26, note:'천둥·번개가 쳐요 (비는 아직 안 와요)'}
+  };
+  var BOUND = [
+    {w:'맑음', d:'좋음', t:28}, {w:'맑음', d:'좋음', t:27}, {w:'맑음', d:'좋음', t:33}, {w:'맑음', d:'좋음', t:32},
+    {w:'맑음', d:'보통', t:20}, {w:'맑음', d:'나쁨', t:20}, {w:'맑음', d:'매우나쁨', t:20}
+  ];
+  var WEATHER = ['맑음', '구름조금', '구름많음', '흐림'];
+  var DUST = ['좋음', '보통', '나쁨', '매우나쁨'];
 
-  (function build(){
-    for (var i = 0; i < OPTS.length; i++){
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'opt';
-      b.textContent = OPTS[i];
-      (function(idx){ b.addEventListener('click', function(){ pick(idx); }); })(i);
-      optsBox.appendChild(b);
-      optBtns.push(b);
-    }
-  })();
+  var deck = shuffle(['A', 'B', 'C', 'D', 'E']).map(function(k){ return {name:'날씨 카드 ' + k, c:CARDS[k], order:BASE}; });
+  deck.push({name:'날씨 카드 A', c:CARDS.A, order:TEMP_FIRST});
 
-  function fire(ord, c){
-    for (var i = 0; i < ord.length; i++){ if (RULES[ord[i]].f(c)) return ord[i]; }
-    return -1;
+  var cur, picked, confirmed, revealing, asked, prevSig = '', gen = 0;
+  var rowsBox = $('rows'), optsBox = $('opts'), say = $('say');
+  var checkBtn = $('check'), resetBtn = $('reset'), nextBtn = $('next');
+  var reduceMotion = false;
+  try { reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+
+  function shuffle(a){
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
   }
+  function any(a){ return a[Math.floor(Math.random() * a.length)]; }
 
-  function randTemp(){
-    if (Math.random() < 0.3) return BOUND[Math.floor(Math.random() * BOUND.length)];
-    return 15 + Math.floor(Math.random() * 23);   /* 15~37도 */
+  var optBtns = OPTS.map(function(txt, i){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'opt'; b.textContent = txt;
+    b.addEventListener('click', function(){ pick(i); });
+    optsBox.appendChild(b);
+    return b;
+  });
+
+  function randomRound(){
+    var ord = Math.random() < 1 / 3 ? TEMP_FIRST : BASE;
+    var r = Math.random();
+    if (r < 0.3) return {name:'기준 값', c:any(BOUND), order:ord};
+    if (r < 0.5){ var k = any(['F', 'G', 'H']); return {name:'한계 카드 ' + k, c:LIMIT[k], order:ord, limit:true}; }
+    if (r < 0.75){ var a = any(['A', 'B', 'C', 'D', 'E']); return {name:'날씨 카드 ' + a, c:CARDS[a], order:ord}; }
+    var rain = Math.random() < 0.3;
+    return {name:'새 카드', order:ord,
+      c:{w: rain ? '비' : any(WEATHER), d: any(DUST), t: 15 + Math.floor(Math.random() * 23)}};
   }
+  function sigOf(r){ return r.name + r.c.w + r.c.d + r.c.t + r.order.join(''); }
 
-  function pickRound(){
-    var ord = (Math.random() < 1 / 3) ? TEMP_FIRST : BASE;
-    var c;
-    if (Math.random() < 0.15){
-      c = { t: 30, rain: true, dust: 1 };          /* 비 오는 30도 카드 */
-    } else {
-      var d = Math.random();
-      c = { t: randTemp(), rain: Math.random() < 0.35, dust: d < 0.25 ? 2 : (d < 0.6 ? 1 : 0) };
-    }
-    return { order: ord, card: c, sig: ord.join('') + '|' + c.t + c.rain + c.dust };
+  // 지금 순서에서 몇째 줄에 걸리는가(0~3, 어디에도 없으면 4)
+  function firePos(r){
+    for (var i = 0; i < r.order.length; i++){ if (RULES[r.order[i]].f(r.c)) return i; }
+    return 4;
+  }
+  function lineAt(r, pos){ return pos === 4 ? ELSE : RULES[r.order[pos]]; }
+  function posOfOpt(r, k){
+    for (var i = 0; i < 5; i++){ if (lineAt(r, i).ms === OPTS[k]) return i; }
+    return 4;
   }
 
   function newRound(){
+    gen++;
     var r;
-    do { r = pickRound(); } while (r.sig === prevSig);
-    prevSig = r.sig;
-    order = r.order; card = r.card;
-    picked = null; confirmed = false;
+    if (deck.length) r = deck.shift();
+    else { do { r = randomRound(); } while (sigOf(r) === prevSig); }
+    prevSig = sigOf(r);
+    cur = r; picked = null; confirmed = false; revealing = false; asked = -1;
     render();
   }
 
-  function pick(i){
+  function pick(k){
     if (confirmed) return;
-    picked = i;
+    picked = k;
     render();
   }
 
-  function confirm(){
+  function check(){
     if (confirmed || picked === null) return;
-    confirmed = true;
+    confirmed = true; revealing = true;
+    var myGen = gen, hit = firePos(cur), step = reduceMotion ? 0 : 250;
     render();
+    (function next(i){
+      setTimeout(function(){
+        if (myGen !== gen) return;
+        asked = i;
+        if (i >= hit){ revealing = false; finish(hit); }
+        render();
+        if (i < hit) next(i + 1);
+      }, step);
+    })(0);
+  }
+
+  function finish(hit){
+    var mine = posOfOpt(cur, picked);
+    if (mine === hit) say.textContent = '짚은 대로 ' + NTH[hit] + ' 줄에서 정해졌어요';
+    else say.textContent = NTH[hit] + ' 줄에서 정해졌어요 · 짚은 결론은 ' + NTH[mine] + ' 줄이에요';
+    say.className = 'say';
   }
 
   function render(){
-    tv.textContent = String(card.t);
-    var rainEl = $('rain'), dustEl = $('dust');
-    rainEl.textContent = card.rain ? '비 옴' : '비 안 옴';
-    rainEl.classList.toggle('on', card.rain);
-    dustEl.textContent = '미세먼지 ' + DUST[card.dust];
-    dustEl.classList.toggle('on', card.dust === 2);
+    var c = cur.c;
+    $('cn').textContent = cur.name;
+    $('cn').className = 'cn' + (cur.limit ? ' lim' : '');
+    $('vw').textContent = c.w;
+    $('vd').textContent = c.d;
+    $('vt').textContent = c.t + '℃';
+    var warn = $('warn');
+    warn.hidden = !c.note;
+    warn.textContent = c.note || '';
+    var tf = cur.order === TEMP_FIRST;
+    $('ord').textContent = tf ? '기온 규칙을 맨 앞으로 옮긴 순서' : '처음 정한 순서';
+    $('ord').className = 'ord' + (tf ? ' tf' : '');
 
-    var actual = fire(order, card);
-    var showHit = confirmed;
+    var hit = firePos(cur);
     rowsBox.textContent = '';
-    for (var i = 0; i <= order.length; i++){
-      var last = (i === order.length);
-      var r = last ? {cd:'그 밖에', ms:'운동장 수업'} : RULES[order[i]];
-      var on = showHit && (last ? actual === -1 : order[i] === actual);
+    for (var i = 0; i < 5; i++){
+      var r = lineAt(cur, i);
       var row = document.createElement('div');
-      row.className = 'row' + (on ? ' hit' : '');
-      row.innerHTML = '<span class="n" aria-hidden="true">' + (last ? '-' : NUM[i]) + '</span>' +
+      var cls = 'row';
+      if (confirmed && i <= asked){
+        cls += ' asked' + (i === hit ? ' hit' : ' no');
+      }
+      row.className = cls;
+      var yn = i === hit ? '예' : '아니요';
+      row.innerHTML = '<span class="n" aria-hidden="true">' + NUM[i] + '</span>' +
         '<span class="cd">' + r.cd + '</span>' +
         '<span class="to">→ ' + r.ms + '</span>' +
-        '<svg class="mk" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 10.5 8 15.5 17 4.5"' +
-        ' fill="none" stroke="#222222" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+        '<span class="yn">' + yn + '</span>';
       rowsBox.appendChild(row);
     }
 
-    for (var k = 0; k < optBtns.length; k++){
-      optBtns[k].disabled = confirmed;
-      optBtns[k].classList.toggle('pick', !confirmed && picked === k);
-      var isActualOpt = (actual === -1) ? (k === 3) : (OPTS[k] === RULES[actual].ms);
-      optBtns[k].classList.toggle('hit', confirmed && isActualOpt);
-    }
+    var done = confirmed && !revealing;
+    optBtns.forEach(function(b, k){
+      b.disabled = confirmed;
+      b.classList.toggle('pick', picked === k);
+      b.setAttribute('aria-pressed', picked === k ? 'true' : 'false');
+      b.classList.toggle('hit', done && lineAt(cur, hit).ms === OPTS[k]);
+    });
+    $('lim').hidden = !(done && cur.limit);
 
     checkBtn.disabled = confirmed || picked === null;
     resetBtn.disabled = confirmed || picked === null;
-
-    if (confirmed){
-      var pickedIsActual = (actual === -1) ? (picked === 3) : (OPTS[picked] === RULES[actual].ms);
-      say.textContent = pickedIsActual ? '짚은 대로 나왔어요' : '다른 줄이 먼저 걸렸어요';
-      say.className = 'say';
-    } else if (picked === null){
-      say.textContent = '결론을 하나 짚어요';
-      say.className = 'say dim';
-    } else {
-      say.textContent = '확인하기를 눌러요';
+    nextBtn.disabled = revealing;
+    if (!confirmed){
+      say.textContent = picked === null ? '결론을 하나 짚어요' : '확인하기를 눌러요';
       say.className = 'say dim';
     }
   }
 
-  checkBtn.addEventListener('click', confirm);
-  resetBtn.addEventListener('click', function(){
-    if (confirmed) return;
-    picked = null; render();
-  });
-  $('next').addEventListener('click', newRound);
+  checkBtn.addEventListener('click', check);
+  resetBtn.addEventListener('click', function(){ if (confirmed) return; picked = null; render(); });
+  nextBtn.addEventListener('click', newRound);
 
   newRound();
 })();
