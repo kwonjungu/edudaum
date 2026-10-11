@@ -3,63 +3,65 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>곡선을 몇 점으로 끊을지 짚기 — 에듀다움 B23</title>
+<title>기록 간격 견주기 활동 — 에듀다움</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
   :root{--line:#DDDDDD;--line-strong:#C1C1C1;
-    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-    --point:#FF385C; --point-soft:#FFF0F3;
-    --muted:#6A6A6A;
+    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF; --soft:#F7F7F7;
+    --point:#FF385C; --point-soft:#FFF0F3; --point-dim:#FFD1DA; --muted:#6A6A6A;
     --r:14px; --r-sm:8px;
     --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
-    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    
-    background-position:-11px -11px}
-  .wrap{max-width:760px;margin:0 auto;padding:14px 14px 44px}
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
-  .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);
-    font-weight:600;font-size:14px;background:var(--surface);border:1px solid var(--ink);
-    border-radius:999px;padding:9px 15px;box-shadow:var(--hard-sm);min-height:44px}
+  body{font-family:Pretendard,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+    background:var(--paper);color:var(--ink);font-size:16px;line-height:1.5}
+  .wrap{max-width:640px;margin:0 auto;padding:10px 16px 28px}
+
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:600;
+    font-size:14px;background:var(--surface);border:1px solid var(--ink);border-radius:999px;
+    padding:9px 15px;min-height:44px}
   .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;
-    border:1px solid var(--line);border-radius:999px;padding:8px 14px;box-shadow:var(--hard-sm)}
-  h1{font-size:clamp(23px,5.2vw,34px);font-weight:700;letter-spacing:-.035em;line-height:1.06}
-  .lead{font-size:15px;color:var(--muted);font-weight:700;margin-top:6px}
+    border-radius:999px;padding:6px 14px;white-space:nowrap}
+
+  h1{font-size:clamp(22px,5.4vw,28px);font-weight:700;letter-spacing:-.03em;line-height:1.15}
+  .lead{font-size:15px;color:var(--muted);margin-top:4px}
+
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
-    box-shadow:var(--hard);padding:13px;margin-top:12px}
-  h2{font-size:14px;font-weight:700;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
-  button{font-family:inherit;cursor:pointer;color:var(--ink)}
-  .btn{display:inline-flex;align-items:center;justify-content:center;
-    border:1px solid var(--ink);background:var(--surface);font-size:14px;font-weight:700;
-    padding:9px 12px;border-radius:var(--r-sm);min-height:44px;box-shadow:var(--hard-sm);
-    transition:transform .1s,box-shadow .1s}
-  .btn.on{background:var(--point);color:#fff}
-  .btn.main{background:var(--point);color:#fff}
-  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
-  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .btn:disabled{opacity:.42;cursor:default;box-shadow:none;transform:none}
-  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+    box-shadow:var(--hard);padding:12px;margin-top:12px}
+  section.off{opacity:.45}
+  h2{font-size:16px;font-weight:600;margin-bottom:8px}
+  .hint{font-size:15px;color:var(--muted)}
 
-  .pics{display:grid;grid-template-columns:1fr;gap:8px;max-width:560px;margin:0 auto}
-  .note{font-size:12.5px;font-weight:700;color:var(--muted);margin-top:6px}
-  .pic{display:flex;flex-direction:column;gap:5px}
-  .pic svg{width:100%;height:auto;display:block;border:1px solid var(--line);
-    border-radius:var(--r-sm);background:var(--surface)}
-  .pic .cap{font-size:12px;font-weight:700;color:var(--muted);text-align:center}
-  .status{margin-top:9px;font-size:13px;font-weight:600;color:var(--muted)}
 
-  .grids{display:flex;gap:7px;flex-wrap:wrap}
-  .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
-  .say{margin-top:9px;font-size:14px;font-weight:700}
-  .say.dim{color:var(--muted);font-weight:700}
+  /* 막대 */
+  .chart{display:grid;gap:3px;align-items:end;margin-top:10px}
+  .col{display:flex;flex-direction:column;align-items:stretch;gap:3px;min-width:0}
+  .bar{position:relative;height:110px;width:100%;min-height:44px;display:flex;align-items:flex-end;
+    background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:0;font:inherit;color:inherit}
+  button.bar{cursor:pointer;border-color:var(--ink)}
+  button.bar:disabled{cursor:default;border-color:var(--line)}
+  .bar i{display:block;width:100%;background:var(--ink);border-radius:4px 4px 0 0;opacity:.75}
+  .bar.is30 i{background:var(--point);opacity:1}
+  .bar.pick{background:var(--point-soft);outline:3px solid var(--point);outline-offset:-1px}
+  .bar.most{outline:3px dashed var(--ink);outline-offset:-1px}
+  .bar.blank{background:transparent;border-style:dashed;border-color:var(--line-strong)}
+  .bar.h30{height:70px}
+  .t{font-size:12px;color:var(--muted);text-align:center;white-space:nowrap}
+
+  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .btn{font:inherit;font-size:15px;font-weight:500;cursor:pointer;color:var(--ink);background:#fff;
+    border:1px solid var(--ink);border-radius:var(--r-sm);min-height:44px;padding:8px 14px;flex:1 1 auto}
+  .btn.main{background:var(--point);border-color:var(--point);color:#fff;min-height:48px}
+  .btn:disabled{opacity:.45;cursor:default}
+  .btn.main:disabled{background:var(--point-dim);border-color:var(--point-dim);opacity:1}
+  .say{margin-top:10px;font-size:16px;font-weight:600}
+  .foot{margin-top:12px;font-size:14px;color:var(--muted)}
   [hidden]{display:none!important}
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-/* 에듀다움 통일 테마 2026-09-27 */
-.btn.main{background:var(--point);border-color:var(--point);color:#fff}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
 <body>
@@ -69,202 +71,135 @@
     <span class="tag">17~18</span>
   </nav>
   <header>
-    <h1>곡선을 몇 점으로 끊을지 짚기</h1>
-    <p class="lead">2초만 보여 주고 가려요</p>
+    <h1>기록 간격 견주기 활동</h1>
+    <p class="lead">30초 기록이 가장 크게 놓칠 곳을 짚어요</p>
   </header>
 
-  <section aria-labelledby="h-p">
-    <h2 id="h-p">움직임 그래프</h2>
-    <div class="pics">
-      <div class="pic">
-        <svg id="orig" viewBox="0 0 200 70" role="img" aria-label="손 곡선"></svg>
-        <p class="cap">손 곡선</p>
-      </div>
-      <div class="pic">
-        <svg id="rec" viewBox="0 0 200 70" role="img" aria-label="끊어 적은 막대"></svg>
-        <p class="cap">끊어 적은 막대</p>
-      </div>
+  <section id="s2" aria-labelledby="h2t">
+    <h2 id="h2t">10초 기록 <span class="hint" id="info"></span></h2>
+    <p class="hint" id="hint2"></p>
+    <div class="chart" id="chart10" role="group" aria-label="10초 기록 막대"></div>
+    <div class="acts">
+      <button class="btn main" id="checkBtn" type="button" disabled>확인하기</button>
     </div>
-    <p class="status" id="status">보여 주는 중이에요</p>
-    <p class="note">마이크로비트 그래프로 다시 해 봐요</p>
   </section>
 
-  <section aria-labelledby="h-n">
-    <h2 id="h-n">지점 수 고르기</h2>
-    <div class="grids" id="grids"></div>
-    <div class="tools">
-      <button class="btn main" id="ok" type="button" disabled>이제 알겠어요</button>
-      <button class="btn" id="again" type="button">다시 하기</button>
-      <button class="btn" id="next" type="button">다음 판</button>
+  <section id="s3" aria-labelledby="h3t" class="off">
+    <h2 id="h3t">30초 기록 <span class="hint">10초 기록에서 30초마다 고른 값</span></h2>
+    <div class="chart" id="chart30" aria-label="30초 기록 막대"></div>
+    <p class="say" id="say" aria-live="polite"></p>
+    <div class="acts">
+      <button class="btn main" id="nextBtn" type="button">다음 판</button>
+      <button class="btn" id="resetBtn" type="button">다시 하기</button>
     </div>
-    <p class="say dim" id="say">지점 수를 눌러 봐요</p>
   </section>
+
+  <p class="foot">기기로 잰 값이 아니에요. 기기로 걸으며 다시 재요.</p>
 </div>
 
 <script>
 (function(){
   'use strict';
   var $ = function(id){ return document.getElementById(id); };
-  var POINTS = [3, 5, 10, 20, 40];
-  var FLASH_MS = 2000;
-  var W = 200, H = 70, PAD = 6;
 
-  /* 손목 움직임 곡선. t는 0~1, 값도 0~1. 이름은 화면에 적지 않는다. */
-  function sm(u){ u = Math.max(0, Math.min(1, u)); return u * u * (3 - 2 * u); }
-  var SHAPES = [
-    function(t){ var v = Math.sin(Math.PI * t); return v * v; },            /* 한 번 들기 */
-    function(t){ var v = Math.sin(2 * Math.PI * t); return v * v; },        /* 두 번 들기 */
-    function(t){ return sm((t - 0.1) / 0.8); },                              /* 천천히 올리기 */
-    function(t){ return sm(t / 0.2) - sm((t - 0.8) / 0.2); },                /* 들었다 멈추기 */
-    function(t){ return 0.5 + 0.42 * Math.sin(2 * Math.PI * 6.5 * t); }     /* 빠르게 흔들기 */
-  ];
+  var n = 0, v = [], pick = -1, checked = false, lastN = 0, flatLeft = 0;
 
-  var shapeIdx, prevShapeIdx;
-  var flashing = true, flashTimer = null, n = null, confirmed = false;
+  function is30(i){ return i % 3 === 0; }
+  function sec(i){ return (i * 10) + '초'; }
+  function rnd(a, b){ return a + Math.floor(Math.random() * (b - a + 1)); }
 
-  var origSvg = $('orig'), recSvg = $('rec');
-  var status = $('status'), say = $('say');
-  var gridsBox = $('grids'), okBtn = $('ok'), btns = [];
-
-  (function build(){
-    for (var i = 0; i < POINTS.length; i++){
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'btn';
-      b.textContent = POINTS[i] + '지점';
-      (function(k){ b.addEventListener('click', function(){ choose(k); }); })(POINTS[i]);
-      gridsBox.appendChild(b);
-      btns.push(b);
-    }
-  })();
-
-  function X(t){ return PAD + t * (W - 2 * PAD); }
-  function Y(v){ return H - PAD - v * (H - 2 * PAD); }
-
-  function frame(){
-    return '<rect x="0" y="0" width="' + W + '" height="' + H + '" fill="#FFFFFF"/>' +
-      '<line x1="' + PAD + '" y1="' + (H - PAD) + '" x2="' + (W - PAD) + '" y2="' + (H - PAD) +
-      '" stroke="#C9C2B0" stroke-width="1"/>';
+  function lineAt(i){
+    var a = i - (i % 3), b = a + 3;
+    return (b < n) ? v[a] + (v[b] - v[a]) * (i - a) / 3 : v[a];
+  }
+  // 30초 기록이 그 칸에서 놓친 정도
+  function miss(i){ return is30(i) ? 0 : Math.abs(v[i] - lineAt(i)); }
+  function mostIdx(){
+    var best = -1, bv = -1;
+    for (var i = 0; i < n; i++){ var d = miss(i); if (d > bv){ bv = d; best = i; } }
+    return best;
   }
 
-  function curvePath(fn, width){
-    var d = '';
-    for (var i = 0; i <= 200; i++){
-      var t = i / 200;
-      d += (i ? 'L' : 'M') + X(t).toFixed(1) + ' ' + Y(fn(t)).toFixed(1);
+  // 판을 그 자리에서 뽑는다. 창가(밝음)에서 안쪽(어두움)으로, 출렁임 한 번. 셋에 하나는 출렁임 없음.
+  function newRound(){
+    do { n = [7, 10, 13][rnd(0, 2)]; } while (n === lastN);
+    lastN = n;
+    var hi = rnd(170, 239), lo = rnd(20, 59);
+    var flat = Math.random() < 1 / 3;
+    var bump = rnd(1, n - 1); if (is30(bump)) bump = (bump + 1 < n) ? bump + 1 : bump - 1;
+    var amp = (Math.random() < .5 ? -1 : 1) * rnd(40, 79);
+    v = [];
+    for (var i = 0; i < n; i++){
+      var x = hi + (lo - hi) * i / (n - 1) + rnd(-5, 5) + (!flat && i === bump ? amp : 0);
+      v.push(Math.max(0, Math.min(255, Math.round(x))));
     }
-    return '<path d="' + d + '" fill="none" stroke="#222222" stroke-width="' + width +
-      '" stroke-linecap="round" stroke-linejoin="round"/>';
+    pick = -1; checked = false;
+    render();
   }
 
-  /* k개 지점에서 곡선 높이를 읽어 막대로 세운다. 10지점 이하면 숫자도 적는다. */
-  function bars(fn, k){
-    var s = '', slot = (W - 2 * PAD) / k, bw = Math.max(1.2, slot * 0.6);
-    for (var i = 0; i < k; i++){
-      var t = (i + 0.5) / k, v = fn(t);
-      var x = PAD + i * slot + (slot - bw) / 2, y = Y(v);
-      s += '<rect x="' + x.toFixed(2) + '" y="' + y.toFixed(2) + '" width="' + bw.toFixed(2) +
-        '" height="' + (H - PAD - y).toFixed(2) + '" fill="#7C3AED" fill-opacity=".55" stroke="#222222" stroke-width=".6"/>';
-      if (k <= 10){
-        s += '<text x="' + (x + bw / 2).toFixed(2) + '" y="' + Math.max(8, y - 2).toFixed(2) +
-          '" text-anchor="middle" font-size="7" font-weight="900" fill="#222222">' + Math.round(v * 99) + '</text>';
+  function drawChart(box, opt){
+    box.innerHTML = '';
+    box.style.gridTemplateColumns = 'repeat(' + n + ',minmax(0,1fr))';
+    var most = opt.most == null ? -1 : opt.most;
+    for (var i = 0; i < n; i++){
+      var col = document.createElement('div');
+      col.className = 'col';
+      var show = opt.only30 ? is30(i) : true;
+      var el;
+      if (opt.tap){
+        el = document.createElement('button');
+        el.type = 'button';
+        (function(k){ el.addEventListener('click', function(){ if (!checked && !is30(k)){ pick = k; render(); } }); })(i);
+        el.disabled = is30(i) || checked;
+        el.setAttribute('aria-pressed', i === pick ? 'true' : 'false');
+      } else {
+        el = document.createElement('div');
       }
+      el.className = 'bar' + (opt.only30 ? ' h30' : '') + (is30(i) ? ' is30' : '') +
+        (show ? '' : ' blank') + (opt.tap && i === pick ? ' pick' : '') + (i === most ? ' most' : '');
+      var fill = document.createElement('i');
+      fill.style.height = (show ? Math.max(2, v[i] / 255 * 100) : 0) + '%';
+      el.appendChild(fill);
+      el.setAttribute('aria-label', show ? sec(i) + ' 빛 세기 ' + v[i] + (is30(i) ? ', 30초 기록에도 들어감' : '')
+                                         : sec(i) + ' 30초 기록에 없음');
+      var t = document.createElement('span');
+      t.className = 't';
+      t.textContent = String(i * 10);
+      col.appendChild(el); col.appendChild(t);
+      box.appendChild(col);
     }
-    return s;
-  }
-
-  function cover(svg, label){
-    svg.innerHTML = '<defs><pattern id="hatchB23" width="9" height="9" patternUnits="userSpaceOnUse"' +
-      ' patternTransform="rotate(45)"><rect width="9" height="9" fill="#EDE7FF"/>' +
-      '<path d="M0 0 V9" stroke="#222222" stroke-width="1.6"/></pattern></defs>' +
-      '<rect x="0" y="0" width="' + W + '" height="' + H + '" fill="url(#hatchB23)"/>' +
-      '<text x="' + (W / 2) + '" y="' + (H / 2 + 3) + '" text-anchor="middle" font-size="9" font-weight="900" fill="#222222">' + label + '</text>';
-  }
-
-  function empty(svg, label){
-    svg.innerHTML = frame() +
-      '<text x="' + (W / 2) + '" y="' + (H / 2 + 3) + '" text-anchor="middle" font-size="8" font-weight="800" fill="#5A5A5A">' + label + '</text>';
-  }
-
-  function clearFlash(){
-    if (flashTimer !== null){ clearTimeout(flashTimer); flashTimer = null; }
-  }
-  function endFlash(){ clearFlash(); flashing = false; render(); }
-  function startFlash(){
-    clearFlash();
-    flashing = true;
-    flashTimer = setTimeout(endFlash, FLASH_MS);
-    render();
-  }
-
-  function newShape(){
-    var i;
-    do { i = Math.floor(Math.random() * SHAPES.length); } while (i === prevShapeIdx);
-    prevShapeIdx = i;
-    shapeIdx = i;
-  }
-
-  function newRound(){ newShape(); n = null; confirmed = false; startFlash(); }
-  function sameRound(){ n = null; confirmed = false; startFlash(); }
-
-  function choose(k){
-    if (flashing || confirmed) return;
-    n = k;
-    render();
-  }
-
-  function confirm(){
-    if (flashing || confirmed || n === null) return;
-    confirmed = true;
-    render();
   }
 
   function render(){
-    var fn = SHAPES[shapeIdx];
-    if (flashing){
-      origSvg.innerHTML = frame() + curvePath(fn, 2.4);
-      empty(recSvg, '가려져 있어요');
-      status.textContent = '보여 주는 중이에요';
-    } else if (!confirmed){
-      cover(origSvg, '가려짐');
-      if (n === null){ empty(recSvg, '지점 수를 골라요'); }
-      else { recSvg.innerHTML = frame() + bars(fn, n); }
-      status.textContent = '가려졌어요';
-    } else {
-      origSvg.innerHTML = frame() + curvePath(fn, 2.4);
-      recSvg.innerHTML = frame() + bars(fn, n) + curvePath(fn, 1.4);
-      status.textContent = '겹쳐 놓았어요';
-    }
+    $('info').textContent = n + '칸';
+    $('hint2').textContent = checked ? '점선 막대가 가장 크게 놓친 곳이에요'
+      : pick < 0 ? '분홍이 아닌 막대를 하나 눌러요'
+      : sec(pick) + '를 짚었어요. 확인 전엔 바꿔도 돼요';
+    drawChart($('chart10'), { tap:true, most: checked ? mostIdx() : null });
+    $('checkBtn').disabled = pick < 0 || checked;
 
-    for (var i = 0; i < btns.length; i++){
-      btns[i].disabled = flashing || confirmed;
-      btns[i].classList.toggle('on', n === POINTS[i]);
-    }
-    okBtn.disabled = flashing || confirmed || n === null;
+    $('s3').classList.toggle('off', !checked);
+    $('chart30').hidden = !checked;
+    $('nextBtn').disabled = !checked;
+    if (!checked){ $('say').textContent = '짚고 확인하면 30초 막대가 나와요'; return; }
+    drawChart($('chart30'), { only30:true });
 
-    if (confirmed){
-      say.textContent = n + '지점으로 알아봤어요 · 숫자 ' + n + '개';
-      say.className = 'say';
-    } else if (flashing){
-      say.textContent = '눈에 담아 둬요';
-      say.className = 'say dim';
-    } else if (n === null){
-      say.textContent = '지점 수를 눌러 봐요';
-      say.className = 'say dim';
-    } else {
-      say.textContent = '이제 알겠으면 눌러요';
-      say.className = 'say dim';
-    }
+    var m = mostIdx(), mv = Math.round(miss(m));
+    var say;
+    if (mv <= 12) say = '30초 기록도 거의 같은 모양이에요 · 가장 큰 차이 ' + mv;
+    else if (m === pick) say = '짚은 ' + sec(pick) + '에서 가장 크게 놓쳤어요 · 차이 ' + mv;
+    else say = '가장 크게 놓친 곳은 짚은 곳에서 ' + Math.abs(m - pick) + '칸 옆 ' + sec(m) +
+      '예요 · 짚은 곳 차이 ' + Math.round(miss(pick));
+    $('say').textContent = say;
   }
 
-  document.addEventListener('visibilitychange', function(){
-    if (document.hidden){ clearFlash(); }
-    else if (flashing && flashTimer === null){ endFlash(); }
+  $('checkBtn').addEventListener('click', function(){
+    if (checked || pick < 0) return;
+    checked = true; render();
+    $('s3').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
-
-  okBtn.addEventListener('click', confirm);
-  $('again').addEventListener('click', sameRound);
-  $('next').addEventListener('click', newRound);
+  $('nextBtn').addEventListener('click', function(){ if (checked){ newRound(); window.scrollTo(0, 0); } });
+  $('resetBtn').addEventListener('click', function(){ pick = -1; checked = false; render(); window.scrollTo(0, 0); });
 
   newRound();
 })();
