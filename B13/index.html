@@ -221,16 +221,17 @@
     tr.appendChild(td);
   }
 
-  function renderRows(all) {
+  // upto: 몇 째 줄까지 펼쳐 보이나. 막 펼친 줄(fresh)은 잠깐 빛난다.
+  function renderRows(upto, fresh) {
     rowsEl.innerHTML = '';
     for (var r = 0; r < round.rows.length; r++) {
       var row = round.rows[r];
       var tr = document.createElement('tr');
-      if (r >= SHOWN && !all) {
+      if (r >= upto) {
         tr.className = 'hide';
         cell(tr, row.who); cell(tr, '?'); cell(tr, '?'); cell(tr, '?');
       } else {
-        if (r >= SHOWN) { tr.className = 'new'; }
+        if (r === fresh) { tr.className = 'new'; }
         cell(tr, row.who);
         cell(tr, row.stop ? '멈춤' : '성공', row.stop ? 'stop' : '');
         cell(tr, row.sec === null ? '—' : row.sec + '초');
@@ -273,7 +274,8 @@
     booth += 1;
     boothEl.textContent = '· 부스 ' + booth;
     guess = -1; fixPick = -1; step = 'pick';
-    renderRows(false);
+    clearTick();
+    renderRows(SHOWN, -1);
     candButtons(candsEl, pickGuess);
     openBtn.disabled = true;
     barsEl.hidden = true; barsEl.innerHTML = '';
@@ -291,14 +293,57 @@
     setSay('짚은 곳: ' + round.cands[c].name + '. 펼치기 전엔 바꿀 수 있어요', false);
   }
 
+  var tick = null;
+  function clearTick() { if (tick) { clearTimeout(tick); tick = null; } }
+  var REDUCE = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // 펼치기: 3~6째 줄을 한 줄씩 펼치며 막대를 그 자리에서 센다.
   function openAll() {
     if (step !== 'pick' || guess < 0) { return; }
-    step = 'open';
+    step = 'opening';
     openBtn.disabled = true;
     var bs = candsEl.querySelectorAll('button');
     for (var i = 0; i < bs.length; i++) { bs[i].disabled = true; }
-    renderRows(true);
 
+    barsEl.innerHTML = '';
+    var fills = {}, nums = {};
+    for (i = 0; i < 3; i++) {
+      var c = round.order[i];
+      var d = document.createElement('div');
+      d.className = 'bar' + (c === guess ? ' me' : '');
+      var sp = document.createElement('span'); sp.textContent = round.cands[c].name;
+      var track = document.createElement('i'); var fill = document.createElement('b');
+      track.appendChild(fill);
+      var n = document.createElement('em');
+      d.appendChild(sp); d.appendChild(track); d.appendChild(n);
+      barsEl.appendChild(d);
+      fills[c] = fill; nums[c] = n;
+    }
+    barsEl.hidden = false;
+    setSay('세는 중이에요', false);
+
+    var upto = SHOWN;
+    var countTo = function (k) {
+      var got = [0, 0, 0];
+      for (var r = 0; r < k; r++) { if (round.rows[r].where >= 0) { got[round.rows[r].where] += 1; } }
+      for (var q = 0; q < 3; q++) {
+        fills[q].style.width = (got[q] / FRIENDS * 100) + '%';
+        nums[q].textContent = got[q] + '번';
+      }
+    };
+    countTo(upto);
+    var stepOne = function () {
+      upto += 1;
+      renderRows(upto, upto - 1);
+      countTo(upto);
+      if (upto < FRIENDS) { tick = setTimeout(stepOne, REDUCE ? 0 : 420); }
+      else { tick = null; finish(); }
+    };
+    tick = setTimeout(stepOne, REDUCE ? 0 : 300);
+  }
+
+  function finish() {
+    step = 'open';
     var top = round.cands[round.winner], topN = round.counts[round.winner], myN = round.counts[guess];
     var tally = ' 친구 ' + FRIENDS + '명 중 ' + round.success + '명 성공, 1분 안에 ' + round.inMin + '명.';
     if (guess === round.winner) {
@@ -307,22 +352,6 @@
       setSay("짚은 곳 " + myN + "번, 가장 많은 곳 '" + top.name + "' " + topN + '번. ' + (topN - myN) +
         '번 차이예요.' + tally, true);
     }
-
-    barsEl.innerHTML = '';
-    for (i = 0; i < 3; i++) {
-      var c = round.order[i];
-      var d = document.createElement('div');
-      d.className = 'bar' + (c === guess ? ' me' : '');
-      var s = document.createElement('span'); s.textContent = round.cands[c].name;
-      var track = document.createElement('i'); var fill = document.createElement('b');
-      track.appendChild(fill);
-      var n = document.createElement('em'); n.textContent = round.counts[c] + '번';
-      d.appendChild(s); d.appendChild(track); d.appendChild(n);
-      barsEl.appendChild(d);
-      (function (f, w) { requestAnimationFrame(function () { f.style.width = w + '%'; }); })(fill, round.counts[c] / FRIENDS * 100);
-    }
-    barsEl.hidden = false;
-
     renderGrid();
     candButtons(fixesEl, pickFix);
     fixSec.hidden = false;
@@ -368,6 +397,7 @@
   openBtn.addEventListener('click', openAll);
   nextBtn.addEventListener('click', function () { if (step === 'open') { newRound(); } });
   resetBtn.addEventListener('click', function () { booth = 0; newRound(); });
+  window.addEventListener('pagehide', clearTick);
 
   newRound();
 })();
