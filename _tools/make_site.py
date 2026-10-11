@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""에듀다움 누리집을 만든다 — 과정안 데이터(_data)와 체험 게임 폴더(BXX)를 이어 붙인다.
+"""에듀다움 누리집을 만든다 — 과정안 데이터(_data)와 체험 활동 폴더(BXX)를 이어 붙인다.
 
   python _tools/make_site.py
 
@@ -8,9 +8,9 @@
   plan/index.html         1) 계획서 및 성취기준
   topics/index.html       2) 주제(영역)별 활동 내용
   lessons/index.html      3) 차시별 교수학습 과정안 목록
-  lessons/BXX/index.html     차시 쪽 — 과정안 전문 + 연동 도구·링크 + 체험 게임 + PDF
+  lessons/BXX/index.html     차시 쪽 — 과정안 전문 + 연동 도구·링크 + 체험 활동 + PDF
   tools/index.html        연동 도구 모음
-  play/index.html         체험 게임 목록 (예전 허브)
+  play/index.html         체험 활동 목록 (예전 허브)
 
 근거 데이터
   _data/lessons.json   export_plans.py가 hwpx에서 뽑은 과정안 (손으로 고치지 않는다)
@@ -19,7 +19,7 @@
   _data/tools.json     외부 도구 목록 (match 낱말로 차시에 저절로 붙는다)
   _data/links.json     차시별로 더 걸 링크·숨길 도구·드라이브 원본 id
 
-체험 게임 쪽(BXX/index.html)은 이 스크립트가 만들지 않는다. 제목·부제·포인트색만 읽어 온다.
+체험 활동 쪽(BXX/index.html)은 이 스크립트가 만들지 않는다. 제목·부제·포인트색만 읽어 온다.
 """
 from __future__ import annotations
 
@@ -57,7 +57,7 @@ BRAND = ('<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" 
 # (주소, 이름, 아이콘, 펼침 항목[(주소, 이름)])
 MENU = [
     ('lessons/', '수업 자료', 'book-open', [('lessons/', '차시별 수업 꾸러미'), ('topics/', '단원별로 보기'), ('tools/', '연동 도구')]),
-    ('play/', '체험 게임', 'game', []),
+    ('play/', '체험 활동', 'game', []),
     ('about/', '도입 안내', 'lightbulb', [('about/', '학교자율시간이란?'), ('guide/', '도입 절차'), ('forms/', '서식 받기'),
                                      ('forms/set/', '채운 서식 한 벌'), ('qna/', '자주 묻는 질문')]),
     ('plan/', '연구회', 'people-team', [('plan/', '연구회 소개'), ('notice/', '알림')]),
@@ -119,7 +119,7 @@ def page(path: str, title: str, body: str, cur: str, extra_js: str = '') -> None
            '<main id="main">\n%s\n</main>\n'
            '<footer><div class="in">%s<p><b>%s</b><br>%s · %s · 과정안 기준일 %s<br>'
            '학교자율시간 안내·서식은 경기도교육청 자료를 재구성했어요. 원문과 최신 공문을 함께 확인하세요.<br>'
-           '학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않아요.</p></div></footer>\n'
+           '학생 이름·점수를 받지 않고, 체험 활동의 카메라·마이크는 화면에만 쓰며 저장하지 않아요.</p></div></footer>\n'
            '%s%s</body>\n</html>\n') % (e(title), up, CSS, up or './', BRAND, nav(up, cur), up,
                                         ' aria-current="page"' if cur == 'search/' else '', SEARCH_ICON, body, sitemap(up),
                                         e(SITE['org']), e(SITE['title']), e(SITE['subtitle']), e(SITE['updated']), NAV_JS, extra_js)
@@ -222,11 +222,11 @@ def sheet_href(code):
 
 
 def res_icons(code, up):
-    """카드 아래 아이콘 셋 — 지도안·활동지·게임. 아직 없는 자료는 흐리게 두고 누르지 않는다."""
+    """카드 아래 아이콘 셋 — 지도안·활동지·활동. 아직 없는 자료는 흐리게 두고 누르지 않는다."""
     out = []
     items = [('plan', '지도안', 'assets/pdf/%s.pdf' % code, True),
              ('sheet', '활동지', sheet_href(code), True),
-             ('game', '게임', '%s/' % code if game(code) else '', False)]
+             ('game', '활동', '%s/' % code if game(code) else '', False)]
     for ic, name, href, newtab in items:
         if href:
             out.append('<a href="%s%s"%s aria-label="%d학년 %s차시 %s">%s<span>%s</span></a>' % (
@@ -237,7 +237,7 @@ def res_icons(code, up):
 
 
 def lcard(code, up, extra=''):
-    """차시 카드 — 그림 · 차시 꼬리표 · 한 줄 제목 · 아이콘 셋(지도안·활동지·게임)."""
+    """차시 카드 — 그림 · 차시 꼬리표 · 한 줄 제목 · 아이콘 셋(지도안·활동지·활동)."""
     img = thumb(code)
     ph = '<img src="%s%s" alt="" loading="lazy">' % (up, img) if img else ''
     return ('<div class="lcard g%d"><a class="lmain" href="%slessons/%s/">'
@@ -310,11 +310,11 @@ def build_home():
     q = ''.join('<a href="%s">%s<b>%s</b><span>%s</span></a>' % (u, icon(ic, ''), e(t), e(d)) for u, ic, t, d in quick)
     body = f"""
 <section class="hello"><h1>학교자율시간 SW·AI 수업 자료</h1>
-<p class="lead">학년을 고르고, 단원을 펴고, 차시를 눌러요. 지도안·활동지·체험 게임이 한곳에 있어요.</p></section>
+<p class="lead">학년을 고르고, 단원을 펴고, 차시를 눌러요. 지도안·활동지·체험 활동이 한곳에 있어요.</p></section>
 {grade_tabs('')}
 <h2 class="sub">{icon('lightbulb', '')}도입 안내</h2>
 <div class="quick">{q}</div>
-<p class="small muted">모든 자료는 무료이고, 학생 이름·점수를 받지 않아요. <a href="play/">체험 게임 모아 보기</a> · <a href="plan/">연구회 소개</a></p>
+<p class="small muted">모든 자료는 무료이고, 학생 이름·점수를 받지 않아요. <a href="play/">체험 활동 모아 보기</a> · <a href="plan/">연구회 소개</a></p>
 """
     page('', '에듀다움 — 학교자율시간 SW·AI 수업 자료', body, '', TABS_JS)
 
@@ -420,7 +420,7 @@ def build_topics():
                 acts = ''.join('<li>%s</li>' % e(re.sub(r'\s*\(\d+분\)', '', x)) for x in activities(c))
                 tl = ' '.join('<span class="chip">%s</span>' % e(t['name']) for t in tools_of(c))
                 gm = game(c)
-                gl = (' · <a href="../%s/">체험 게임</a>' % c) if gm else ''
+                gl = (' · <a href="../%s/">체험 활동</a>' % c) if gm else ''
                 img = thumb(c)
                 cards.append(
                     '<div class="card"><a href="../lessons/%s/" class="ph" style="display:block">%s<span class="badge">%d학년 %s차시</span></a>'
@@ -433,7 +433,7 @@ def build_topics():
                          % (a['id'], e(a['name']), a['grade'], a['range'], e(a['summary']), stds, ''.join(cards)))
     toc = ''.join('<a href="#%s">%d학년 %s</a>' % (a['id'], a['grade'], e(a['name'])) for a in SITE['areas'])
     body = ('<span class="kick">수업 자료</span><h1>단원별로 보기</h1>'
-            '<p class="lead">영역마다 성취기준과 차시별 핵심 활동, 연동 도구, 체험 게임을 모았어요.</p>'
+            '<p class="lead">영역마다 성취기준과 차시별 핵심 활동, 연동 도구, 체험 활동을 모았어요.</p>'
             '<nav class="cats" aria-label="영역">%s</nav>%s') % (toc, ''.join(parts))
     page('topics', '영역별 교수학습 과정안 — 에듀다움', body, 'topics/')
 
@@ -591,8 +591,8 @@ def kit_buttons(code, up, gm, has_tools):
     sh = sheet_href(code)
     b.append(('<a class="kb" href="%s%s" target="_blank" rel="noopener">%s<b>활동지</b><span>PDF</span></a>' % (up, sh, icon('sheet', up)))
              if sh else '<span class="kb off" title="활동지는 곧 올려요">%s<b>활동지</b><span>준비 중</span></span>' % icon('sheet', up))
-    b.append(('<a class="kb" href="%s%s/">%s<b>체험 게임</b><span>5~10분</span></a>' % (up, code, icon('game', up)))
-             if gm else '<span class="kb off">%s<b>체험 게임</b><span>없음</span></span>' % icon('game', up))
+    b.append(('<a class="kb" href="%s%s/">%s<b>체험 활동</b><span>5~10분</span></a>' % (up, code, icon('game', up)))
+             if gm else '<span class="kb off">%s<b>체험 활동</b><span>없음</span></span>' % icon('game', up))
     b.append('<a class="kb" href="#tools">%s<b>연동 도구</b><span>%s</span></a>' % (icon('tool', up), '바로 열기' if has_tools else '종이·실물'))
     return '<div class="kit">%s</div>' % ''.join(b)
 
@@ -629,7 +629,7 @@ def build_lesson(code, prev, nxt):
         ('<a class="btn" href="../%s/">← %d학년 %s차시</a>' % (prev, grade(prev), label(prev))) if prev else '<span></span>',
         ('<a class="btn" href="../%s/">%d학년 %s차시 →</a>' % (nxt, grade(nxt), label(nxt))) if nxt else '')
     prep = ('<h2 class="sub">%s준비물</h2><div class="pchips">%s</div>' % (icon('kit', up), chips)) if chips else ''
-    gsec = ('<h2 class="sub" id="game">%s체험 게임</h2>%s' % (icon('game', up), gbox)) if gm else ''
+    gsec = ('<h2 class="sub" id="game">%s체험 활동</h2>%s' % (icon('game', up), gbox)) if gm else ''
     body = f"""
 <p class="crumb"><a href="../">수업 자료</a> › <a href="../#u-{a['id']}">{g}학년 {e(a['name'])}</a></p>
 <div class="kband g{g}">
@@ -726,9 +726,9 @@ def build_tools():
     page('tools', '연동 도구 — 에듀다움', body, 'tools/')
 
 
-# ───────────────────────── 체험 게임 목록
+# ───────────────────────── 체험 활동 목록
 def needs(code):
-    """체험 게임 카드의 꼬리표 — 걸리는 시간과 필요한 것(게임 쪽 코드에서 읽는다)."""
+    """체험 활동 카드의 꼬리표 — 걸리는 시간과 필요한 것(게임 쪽 코드에서 읽는다)."""
     h = (ROOT / code / 'index.html').read_text(encoding='utf-8')
     tags = [('clock', '교사 준비용' if code == 'B03' else '5~10분')]
     if 'devicemotion' in h:
@@ -756,10 +756,10 @@ def build_play():
                          '<span class="needs">%s</span></span></a>'
                          % (g, c, icon('game', '../', 'ic big'), g, label(c), e(gm['title']), e(gm['lead']), needs(c)))
         parts.append('<h2 class="sub">%s%d학년 %s</h2><div class="ggrid">%s</div>' % (icon('g%d' % g, '../'), g, 'SW' if g == 5 else 'AI', ''.join(cards)))
-    body = ('<span class="kick">체험 게임</span><h1>수업 중 5~10분 체험 게임</h1>'
+    body = ('<span class="kick">체험 활동</span><h1>수업 중 5~10분 체험 활동</h1>'
             '<p class="lead">활동 하나를 짧게 미리 해 보거나 견주어 봐요. 설치 없이 브라우저로 열어요. 실물 활동을 대신하지는 않아요.</p>%s'
             '<p class="note">카메라와 마이크는 화면에만 쓰이고 저장되지 않아요. 밖으로 보내는 것도 없어요.</p>') % ''.join(parts)
-    page('play', '체험 게임 — 에듀다움', body, 'play/')
+    page('play', '체험 활동 — 에듀다움', body, 'play/')
 
 
 def main():
