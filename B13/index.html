@@ -3,95 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>발표 카드 세 장 2분에 말하기 — 에듀다움 B13</title>
+<title>기록 두 장으로 막힌 곳 짚기 — 에듀다움 B13</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
   :root{--line:#DDDDDD;--line-strong:#C1C1C1;
     --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A;
+    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A; --shade:#F4F4F4;
     --r:14px; --r-sm:8px;
     --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  html{-webkit-text-size-adjust:100%}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
-    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    
-    background-position:-11px -11px}
-  .wrap{max-width:640px;margin:0 auto;padding:12px 14px 26px}
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5}
+  .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px}
 
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
   .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:600;
     font-size:14px;background:var(--surface);border:1px solid var(--ink);border-radius:999px;
-    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
-  .back:hover{transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
   .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;border:1px solid var(--line);
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(23px,5.6vw,32px);font-weight:700;letter-spacing:-.035em;line-height:1.07}
-  .lead{font-size:14.5px;color:var(--muted);margin-top:5px;font-weight:700}
+  h1{font-size:clamp(21px,5vw,27px);font-weight:700;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:14px;color:var(--muted);margin-top:3px;font-weight:700}
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
-    box-shadow:var(--hard);padding:12px 12px;margin-top:11px}
-  h2{font-size:13px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted)}
+    box-shadow:var(--hard);padding:10px;margin-top:9px}
+  h2{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--muted)}
+  .note{font-size:12.5px;color:var(--muted);font-weight:600}
 
-  .timebox{display:flex;flex-direction:column;align-items:center;text-align:center}
-  #time{font-family:'Courier New',monospace;font-size:clamp(36px,10vw,50px);font-weight:700;
-    line-height:1;color:var(--point)}
-  .unit{font-size:13px;font-weight:600;color:var(--muted);margin-left:4px}
-  #cellname{margin-top:3px;font-size:15px;font-weight:700}
+  table.rec{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13.5px}
+  .rec th,.rec td{border:1px solid var(--line);padding:5px 4px;text-align:center;height:34px;word-break:keep-all}
+  .rec th{font-size:12px;color:var(--muted);font-weight:700}
+  .rec col.c1{width:17%} .rec col.c2{width:17%} .rec col.c3{width:20%}
+  .rec tr.hide td{background:var(--shade);color:var(--muted);letter-spacing:.2em}
+  .rec tr.new td{animation:pop .35s ease-out}
+  .rec td.stop{color:var(--point);font-weight:700}
+  @keyframes pop{from{background:var(--point-soft)}to{background:transparent}}
 
-  #belt{width:100%;height:auto;display:block;margin-top:8px}
-  .seg{fill:var(--surface);stroke:var(--ink);stroke-width:2}
-  .seg.active{fill:var(--point)}
-  .divider{fill:var(--ink)}
-  .pointer{fill:var(--ink);opacity:0}
-
-  .say{display:block;width:100%;margin-top:9px;font-size:15px;padding:0 12px;background:var(--point-soft)}
-  .end{margin-top:8px;font-size:13.5px;font-weight:700;background:var(--ink);color:var(--paper);
-    border-radius:999px;padding:6px 12px;display:inline-flex}
-  .end[hidden]{display:none}
-
-  .rows{display:flex;flex-direction:column}
-  .row{display:flex;flex-wrap:wrap;align-items:center;gap:6px;
-    padding:7px 0 7px 8px;border-top:1px solid var(--line);border-left:4px solid transparent}
-  .row:first-of-type{border-top:none}
-  .row.filled{border-left-color:var(--point)}
-  .rowname{font-size:13.5px;font-weight:700;flex:1 1 118px;min-width:0;line-height:1.3}
-  .rowname .cnt{display:block;font-size:11.5px;font-weight:600;color:var(--muted)}
-  .rowval{font-family:'Courier New',monospace;font-size:15px;font-weight:700;white-space:nowrap}
-  .rowbtns{display:flex;gap:6px}
-
-  .mini{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;
-    background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
-    min-width:44px;min-height:44px;padding:6px 9px;box-shadow:var(--hard-sm);
-    transition:transform .1s,box-shadow .1s}
-  .mini:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
-  .mini:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .mini:disabled{opacity:.35;cursor:not-allowed;box-shadow:none;transform:none}
-
-  .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+  .q{font-size:15px;font-weight:700;margin-bottom:6px}
+  .cands{display:flex;gap:6px;flex-wrap:wrap}
   .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14.5px;font-weight:700;
     background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
-    min-height:44px;padding:9px 14px;box-shadow:var(--hard-sm);
+    min-height:46px;padding:8px 10px;box-shadow:var(--hard-sm);flex:1 1 96px;word-break:keep-all;
     transition:transform .1s,box-shadow .1s}
   .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
   .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .btn:disabled{opacity:.4;cursor:not-allowed;box-shadow:none;transform:none}
-  .btn.main{background:var(--point-soft);flex:1 1 130px}
-  .btn.sub{flex:1 1 96px}
+  .btn:disabled{opacity:.45;cursor:default;box-shadow:none;transform:none}
+  .btn[aria-pressed="true"]{background:var(--point-soft);border:3px solid var(--point)}
+  .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+  .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
+  .say{margin-top:8px;font-size:14px;font-weight:700}
+  .say.dim{color:var(--muted)}
 
-  .note{margin-top:9px;font-size:12px;font-weight:700;color:var(--muted)}
+  .bars{display:grid;gap:5px;margin-top:8px}
+  .bar{display:grid;grid-template-columns:minmax(0,1fr) 110px 34px;gap:6px;align-items:center;font-size:13.5px;font-weight:600}
+  .bar i{display:block;height:14px;background:var(--line);border-radius:4px;overflow:hidden}
+  .bar i b{display:block;height:100%;background:var(--point);width:0;transition:width .4s}
+  .bar em{font-style:normal;font-family:'Courier New',monospace;font-weight:700;text-align:right}
+  .bar.me span{text-decoration:underline;text-decoration-color:var(--point);text-decoration-thickness:3px}
 
-  button{outline-offset:3px}
+  .grid{display:grid;grid-template-columns:64px 1fr 1fr;gap:4px;font-size:12.5px;margin-top:4px}
+  .grid .hd{font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:center;text-align:center}
+  .grid .cell{border:1px dashed var(--line-strong);border-radius:6px;min-height:52px;padding:4px;display:flex;
+    flex-wrap:wrap;gap:4px;align-content:flex-start}
+  .chip{background:var(--point-soft);border:1px solid var(--point);border-radius:999px;padding:1px 8px;font-weight:700;font-size:12.5px}
+  .chip.pick{background:var(--point);color:#fff}
+  .out{margin-top:8px;font-size:13.5px;border:1px dashed var(--line-strong);border-radius:var(--r-sm);
+    padding:8px 10px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
+  .out b{display:block;font-size:12px;color:var(--muted)}
+  [hidden]{display:none!important}
+
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
-
-  .pop{animation:pop .17s ease-out}
-  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.15)}100%{transform:scale(1)}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-/* 에듀다움 통일 테마 2026-09-27 */
-.btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
 </head>
 <body>
@@ -102,313 +86,286 @@
   </nav>
 
   <header>
-    <h1>발표 카드 세 장 2분에 말하기</h1>
-    <p class="lead">카드 세 장을 다 말하고 끝내요</p>
+    <h1>기록 두 장으로 막힌 곳 짚기</h1>
+    <p class="lead">다 펼쳐 세어 보고 고칠 점을 골라요 · 체험 활동</p>
   </header>
 
-  <section aria-labelledby="h-t">
-    <h2 id="h-t">남은 시간</h2>
-    <div class="timebox">
-      <p><span id="time">120</span><span class="unit">초</span></p>
-      <p id="cellname" aria-live="polite">카드1 문제</p>
-    </div>
-    <svg id="belt" viewBox="0 0 300 56" role="img" aria-label="2분 띠에서 지금 자리를 보여 줌"></svg>
-    <button class="btn say" id="sayBtn" type="button" disabled>다 말했어요</button>
-    <p class="end" id="endMsg" hidden></p>
+  <section aria-labelledby="h-rec">
+    <h2 id="h-rec">활동 기록지 <span class="note" id="booth"></span></h2>
+    <table class="rec">
+      <colgroup><col class="c1"><col class="c2"><col class="c3"><col></colgroup>
+      <thead><tr><th scope="col">친구</th><th scope="col">결과</th><th scope="col">걸린 시간</th><th scope="col">막힌 곳</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <p class="note" style="margin-top:6px">연습용 기록이에요. 우리 기록지는 종이에</p>
   </section>
 
-  <section aria-labelledby="h-c">
-    <h2 id="h-c">시간 나누기</h2>
-
-    <div class="rows" id="rows">
-      <div class="row" data-i="0">
-        <span class="rowname">카드1 문제<b class="cnt" id="cnt0"></b></span>
-        <span class="rowval" id="v0">40초</span>
-        <span class="rowbtns">
-          <button class="mini" type="button" data-i="0" data-op="minus" aria-label="카드1 문제 −10초">−10초</button>
-          <button class="mini" type="button" data-i="0" data-op="plus" aria-label="카드1 문제 +10초">+10초</button>
-        </span>
-      </div>
-      <div class="row" data-i="1">
-        <span class="rowname">카드2 통신 약속<b class="cnt" id="cnt1"></b></span>
-        <span class="rowval" id="v1">40초</span>
-        <span class="rowbtns">
-          <button class="mini" type="button" data-i="1" data-op="minus" aria-label="카드2 통신 약속 −10초">−10초</button>
-          <button class="mini" type="button" data-i="1" data-op="plus" aria-label="카드2 통신 약속 +10초">+10초</button>
-        </span>
-      </div>
-      <div class="row" data-i="2">
-        <span class="rowname">카드3 시험 기록<b class="cnt" id="cnt2"></b></span>
-        <span class="rowval" id="v2">40초</span>
-        <span class="rowbtns">
-          <button class="mini" type="button" data-i="2" data-op="minus" aria-label="카드3 시험 기록 −10초">−10초</button>
-          <button class="mini" type="button" data-i="2" data-op="plus" aria-label="카드3 시험 기록 +10초">+10초</button>
-        </span>
-      </div>
-    </div>
-
+  <section aria-labelledby="h-pick">
+    <h2 id="h-pick">짚기</h2>
+    <p class="q">두 장만 보고, 가장 자주 막힌 곳은?</p>
+    <div class="cands" id="cands"></div>
     <div class="acts">
-      <button class="btn main" id="startBtn" type="button">연습 시작</button>
-      <button class="btn sub" id="againBtn" type="button">다시 하기</button>
-      <button class="btn sub" id="nextBtn" type="button">다음 판</button>
+      <button class="btn main" id="open" type="button" disabled>나머지 펼치기</button>
     </div>
-    <p class="note">발표는 모둠 앞에서 해요</p>
+    <p class="say dim" id="say" aria-live="polite">한 곳을 짚어야 펼칠 수 있어요</p>
+    <div class="bars" id="bars" hidden></div>
+  </section>
+
+  <section aria-labelledby="h-fix" id="fixSec" hidden>
+    <h2 id="h-fix">많이 막힘·고치기 쉬움 표</h2>
+    <div class="grid" id="grid"></div>
+    <p class="q" style="margin-top:10px">다음에 고칠 점 한 가지는?</p>
+    <div class="cands" id="fixes"></div>
+    <p class="out" id="out" hidden><b>기록지 맨 아래 칸에 옮겨 적기</b><span id="outText"></span></p>
+  </section>
+
+  <section aria-label="판 넘기기">
+    <div class="acts" style="margin-top:0">
+      <button class="btn" id="next" type="button" disabled>다음 판</button>
+      <button class="btn" id="reset" type="button">처음으로</button>
+    </div>
   </section>
 </div>
 
 <script>
-(function(){
+(function () {
   'use strict';
+  var $ = function (id) { return document.getElementById(id); };
 
-  // 과정안 29~30차시 발표 카드 세 장 그대로다. 학생이 이름을 못 고친다.
-  var NAMES = ['카드1 문제', '카드2 통신 약속', '카드3 시험 기록'];
-  var TOTAL = 120, STEP = 10, MIN = 20, MAX = 80;   // 2분 발표, 10초씩 나눔
-  var NS = 'http://www.w3.org/2000/svg';
-  var W = 300, H = 56, TOP = 8, SEGH = 32;
+  // 막힌 곳 후보: 이름, 고치는 길, 고치기 쉬움(지도안 활동2: 활동 안내 고치기 / 코드 조정하기)
+  var POOL = [
+    { name: '어느 버튼인지', fix: '안내에 버튼 그림·화살표', easy: true },
+    { name: 'LED 모양 뜻', fix: '안내에 모양과 뜻 짝 짓기', easy: true },
+    { name: '흔들기를 모름', fix: '안내에 흔들기 그림', easy: true },
+    { name: '안내 글이 김', fix: '글 줄이고 그림으로', easy: true },
+    { name: '수신기가 늦음', fix: '코드의 기다리기 줄이기', easy: false },
+    { name: 'A·B 결과 비슷', fix: '코드에서 LED 모양 바꾸기', easy: false }
+  ];
+  var FRIENDS = 6, SHOWN = 2;
 
-  var cuts = [40, 40, 40];
-  var counts = [0, 0, 0];       // 이번 판의 칸마다 마디 수
-  var prevCounts = null;
-  var filled = [false, false, false];
-  var running = false;
-  var remaining = TOTAL;
-  var lastIdx = -1;
-  var curIdx = 0;
-  var timerId = null;
+  var rowsEl = $('rows'), candsEl = $('cands'), openBtn = $('open'), sayEl = $('say'), barsEl = $('bars');
+  var fixSec = $('fixSec'), gridEl = $('grid'), fixesEl = $('fixes'), outEl = $('out'), outText = $('outText');
+  var nextBtn = $('next'), resetBtn = $('reset'), boothEl = $('booth');
 
-  var timeEl = document.getElementById('time');
-  var cellEl = document.getElementById('cellname');
-  var beltEl = document.getElementById('belt');
-  var endEl = document.getElementById('endMsg');
-  var sayBtn = document.getElementById('sayBtn');
-  var startBtn = document.getElementById('startBtn');
-  var againBtn = document.getElementById('againBtn');
-  var nextBtn = document.getElementById('nextBtn');
-  var valEls = [document.getElementById('v0'), document.getElementById('v1'), document.getElementById('v2')];
-  var cntEls = [document.getElementById('cnt0'), document.getElementById('cnt1'), document.getElementById('cnt2')];
-  var rowEls = Array.prototype.slice.call(document.querySelectorAll('.row'));
-  var minusBtns = Array.prototype.slice.call(document.querySelectorAll('.mini[data-op="minus"]'));
-  var plusBtns = Array.prototype.slice.call(document.querySelectorAll('.mini[data-op="plus"]'));
+  function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) { var j = rnd(0, i); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function take(arr, v) { var i = arr.indexOf(v); if (i >= 0) { arr.splice(i, 1); return true; } return false; }
 
-  var segs = [], dividers = [], pointer;
-  (function buildBelt(){
-    var i;
-    for (i = 0; i < 3; i++) {
-      var r = document.createElementNS(NS, 'rect');
-      r.setAttribute('class', 'seg');
-      r.setAttribute('y', TOP);
-      r.setAttribute('height', SEGH);
-      beltEl.appendChild(r);
-      segs.push(r);
+  var lastKey = '', mislead = Math.random() < 0.5, booth = 0;
+  var round = null, guess = -1, step = 'pick', fixPick = -1;
+
+  // 한 판: 후보 셋, 줄 여섯. 가장 많은 곳 3번, 나머지 1~2번.
+  function makeRound() {
+    var idx, key;
+    do {
+      idx = shuffle([0, 1, 2, 3, 4, 5]).slice(0, 3);
+      key = idx.slice().sort().join(',');
+    } while (key === lastKey);
+    lastKey = key;
+    var cands = idx.map(function (i) { return POOL[i]; });
+    var pairs = [[1, 1], [1, 2], [2, 1]];
+    var p = pairs[rnd(0, 2)];
+    var counts = [3, p[0], p[1]];          // 0번이 가장 많은 곳
+    var bag = [];
+    for (var c = 0; c < 3; c++) { for (var k = 0; k < counts[c]; k++) { bag.push(c); } }
+    while (bag.length < FRIENDS) { bag.push(-1); }   // -1: 막힌 곳 없음
+
+    // 첫 두 장: 판의 절반은 다른 곳을 가리키게, 절반은 실제와 같은 쪽을 가리키게
+    mislead = !mislead;
+    var first = [];
+    if (mislead) {
+      var other = counts[1] >= counts[2] ? 1 : 2;
+      first.push(other); take(bag, other);
+      if (counts[other] >= 2) { first.push(other); take(bag, other); }
+      else { var o2 = other === 1 ? 2 : 1; first.push(o2); take(bag, o2); }
+      first = shuffle(first);
+    } else {
+      first.push(0); take(bag, 0);
+      if (take(bag, -1)) { first.push(-1); } else { first.push(0); take(bag, 0); }
+      first = shuffle(first);
     }
-    for (i = 0; i < 2; i++) {
-      var d = document.createElementNS(NS, 'rect');
-      d.setAttribute('class', 'divider');
-      d.setAttribute('y', TOP);
-      d.setAttribute('width', 3);
-      d.setAttribute('height', SEGH);
-      beltEl.appendChild(d);
-      dividers.push(d);
+    var order = first.concat(shuffle(bag));
+
+    // 성공 3~5명. 막힌 곳이 없는 줄은 성공, 멈춤은 막힌 줄 가운데서.
+    var success = rnd(3, 5);
+    var stuckRows = [];
+    for (var r = 0; r < FRIENDS; r++) { if (order[r] >= 0) { stuckRows.push(r); } }
+    var stopN = Math.min(FRIENDS - success, stuckRows.length);
+    var stops = shuffle(stuckRows.slice()).slice(0, stopN);
+    var rows = [];
+    for (r = 0; r < FRIENDS; r++) {
+      var stop = stops.indexOf(r) >= 0;
+      rows.push({
+        who: '친구' + (r + 1),
+        stop: stop,
+        sec: stop ? null : (order[r] >= 0 ? rnd(60, 95) : rnd(25, 55)),
+        where: order[r]
+      });
     }
-    pointer = document.createElementNS(NS, 'rect');
-    pointer.setAttribute('class', 'pointer');
-    pointer.setAttribute('y', 2);
-    pointer.setAttribute('width', 4);
-    pointer.setAttribute('height', H - 4);
-    beltEl.appendChild(pointer);
-  })();
-
-  function cum(){ return [cuts[0], cuts[0] + cuts[1], TOTAL]; }
-
-  function sameCounts(a, b){
-    return a[0] === b[0] && a[1] === b[1] && a[2] === b[2];
+    var winner = 0;
+    var order3 = shuffle([0, 1, 2]);   // 후보 단추 순서를 섞어 가장 많은 곳이 늘 첫째가 아니게
+    return { cands: cands, counts: counts, rows: rows, winner: winner, order: order3,
+      success: FRIENDS - stopN };
   }
 
-  function pickCounts(){
-    var c;
-    do { c = [2 + Math.floor(Math.random()*4), 2 + Math.floor(Math.random()*4), 2 + Math.floor(Math.random()*4)]; }
-    while (prevCounts && sameCounts(c, prevCounts));
-    prevCounts = c;
-    return c;
+  function cell(tr, text, cls) {
+    var td = document.createElement('td');
+    td.textContent = text;
+    if (cls) { td.className = cls; }
+    tr.appendChild(td);
   }
 
-  function renderCuts(){
-    var c = cum();
-    var x = 0, i;
-    for (i = 0; i < 3; i++) {
-      var w = (cuts[i] / TOTAL) * W;
-      segs[i].setAttribute('x', x.toFixed(2));
-      segs[i].setAttribute('width', w.toFixed(2));
-      x += w;
+  function renderRows(all) {
+    rowsEl.innerHTML = '';
+    for (var r = 0; r < round.rows.length; r++) {
+      var row = round.rows[r];
+      var tr = document.createElement('tr');
+      if (r >= SHOWN && !all) {
+        tr.className = 'hide';
+        cell(tr, row.who); cell(tr, '?'); cell(tr, '?'); cell(tr, '?');
+      } else {
+        if (r >= SHOWN) { tr.className = 'new'; }
+        cell(tr, row.who);
+        cell(tr, row.stop ? '멈춤' : '성공', row.stop ? 'stop' : '');
+        cell(tr, row.sec === null ? '—' : row.sec + '초');
+        cell(tr, row.where < 0 ? '—' : round.cands[row.where].name);
+      }
+      rowsEl.appendChild(tr);
     }
-    dividers[0].setAttribute('x', (((c[0] / TOTAL) * W) - 1.5).toFixed(2));
-    dividers[1].setAttribute('x', (((c[1] / TOTAL) * W) - 1.5).toFixed(2));
-    for (i = 0; i < 3; i++) valEls[i].textContent = cuts[i] + '초';
-    updateLocks();
   }
 
-  function renderCounts(){
-    for (var i = 0; i < 3; i++) cntEls[i].textContent = counts[i] + '마디';
-  }
-
-  function renderRows(){
-    for (var i = 0; i < 3; i++) rowEls[i].classList.toggle('filled', filled[i]);
-  }
-
-  // 옆 칸 하나에서만 주고받으면 80초에 닿지 못한다(40/40/40에서 60초가 끝이다).
-  // 두 이웃 가운데 여유가 더 있는 쪽과 주고받는다. 합은 늘 120초다.
-  function other(i, want){
-    var a = (i + 1) % 3, b = (i + 2) % 3;
-    var ok = [];
-    if (want === 'take' ? cuts[a] > MIN : cuts[a] < MAX) ok.push(a);
-    if (want === 'take' ? cuts[b] > MIN : cuts[b] < MAX) ok.push(b);
-    if (!ok.length) return -1;
-    if (ok.length === 1) return ok[0];
-    return (want === 'take')
-      ? (cuts[ok[0]] >= cuts[ok[1]] ? ok[0] : ok[1])
-      : (cuts[ok[0]] <= cuts[ok[1]] ? ok[0] : ok[1]);
-  }
-
-  function updateLocks(){
+  function candButtons(wrap, onPick) {
+    wrap.innerHTML = '';
     for (var i = 0; i < 3; i++) {
-      plusBtns[i].disabled = running || cuts[i] >= MAX || other(i, 'take') < 0;
-      minusBtns[i].disabled = running || cuts[i] <= MIN || other(i, 'give') < 0;
+      var c = round.order[i];
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'btn';
+      b.textContent = round.cands[c].name;
+      b.setAttribute('data-c', String(c));
+      b.setAttribute('aria-pressed', 'false');
+      wrap.appendChild(b);
+    }
+    wrap.onclick = function (ev) {
+      var b = ev.target.closest ? ev.target.closest('button') : null;
+      if (!b || b.disabled) { return; }
+      onPick(parseInt(b.getAttribute('data-c'), 10));
+    };
+  }
+
+  function press(wrap, c) {
+    var bs = wrap.querySelectorAll('button');
+    for (var i = 0; i < bs.length; i++) {
+      bs[i].setAttribute('aria-pressed', bs[i].getAttribute('data-c') === String(c) ? 'true' : 'false');
     }
   }
 
-  function updateSayBtn(){
-    sayBtn.disabled = !running || filled[curIdx];
+  function setSay(t, strong) { sayEl.textContent = t; sayEl.className = strong ? 'say' : 'say dim'; }
+
+  function newRound() {
+    round = makeRound();
+    booth += 1;
+    boothEl.textContent = '· 부스 ' + booth;
+    guess = -1; fixPick = -1; step = 'pick';
+    renderRows(false);
+    candButtons(candsEl, pickGuess);
+    openBtn.disabled = true;
+    barsEl.hidden = true; barsEl.innerHTML = '';
+    fixSec.hidden = true; outEl.hidden = true;
+    nextBtn.disabled = true;
+    setSay('한 곳을 짚어야 펼칠 수 있어요', false);
   }
 
-  function renderRun(idx, elapsed, idle){
-    timeEl.textContent = String(Math.ceil(remaining - 1e-9));
-    if (!idle && idx !== lastIdx){
-      lastIdx = idx;
-      timeEl.classList.remove('pop'); void timeEl.offsetWidth; timeEl.classList.add('pop');
+  // 펼치기 전까지는 다른 곳으로 바꿀 수 있다.
+  function pickGuess(c) {
+    if (step !== 'pick') { return; }
+    guess = c;
+    press(candsEl, c);
+    openBtn.disabled = false;
+    setSay('짚은 곳: ' + round.cands[c].name + '. 펼치기 전엔 바꿀 수 있어요', false);
+  }
+
+  function openAll() {
+    if (step !== 'pick' || guess < 0) { return; }
+    step = 'open';
+    openBtn.disabled = true;
+    var bs = candsEl.querySelectorAll('button');
+    for (var i = 0; i < bs.length; i++) { bs[i].disabled = true; }
+    renderRows(true);
+
+    var top = round.cands[round.winner], topN = round.counts[round.winner], myN = round.counts[guess];
+    if (guess === round.winner) {
+      setSay('짚은 곳이 가장 많이 막혔어요 (' + topN + '번). 성공 ' + round.success + '명 / ' + FRIENDS + '명', true);
+    } else {
+      setSay("짚은 곳 " + myN + "번, 가장 많은 곳 '" + top.name + "' " + topN + '번. ' + (topN - myN) +
+        '번 차이예요. 성공 ' + round.success + '명 / ' + FRIENDS + '명', true);
     }
-    if (idle) lastIdx = -1;
-    curIdx = idle ? 0 : idx;
-    cellEl.textContent = NAMES[curIdx];
-    segs.forEach(function(s, k){ s.classList.toggle('active', !idle && k === idx); });
-    pointer.setAttribute('opacity', idle ? 0 : 1);
-    if (!idle) pointer.setAttribute('x', (((elapsed / TOTAL) * W) - 2).toFixed(2));
-    updateSayBtn();
+
+    barsEl.innerHTML = '';
+    for (i = 0; i < 3; i++) {
+      var c = round.order[i];
+      var d = document.createElement('div');
+      d.className = 'bar' + (c === guess ? ' me' : '');
+      var s = document.createElement('span'); s.textContent = round.cands[c].name;
+      var track = document.createElement('i'); var fill = document.createElement('b');
+      track.appendChild(fill);
+      var n = document.createElement('em'); n.textContent = round.counts[c] + '번';
+      d.appendChild(s); d.appendChild(track); d.appendChild(n);
+      barsEl.appendChild(d);
+      (function (f, w) { requestAnimationFrame(function () { f.style.width = w + '%'; }); })(fill, round.counts[c] / FRIENDS * 100);
+    }
+    barsEl.hidden = false;
+
+    renderGrid();
+    candButtons(fixesEl, pickFix);
+    fixSec.hidden = false;
+    nextBtn.disabled = false;
   }
 
-  function hideEnd(){ endEl.hidden = true; endEl.textContent = ''; }
-
-  function showEnd(){
-    var missing = filled.filter(function(f){ return !f; }).length;
-    endEl.textContent = missing === 0 ? '카드 세 장을 다 말했어요' : ('모자란 카드 ' + missing + '장');
-    endEl.hidden = false;
+  function renderGrid() {
+    gridEl.innerHTML = '';
+    var heads = ['', '많이 막힘', '덜 막힘'];
+    for (var h = 0; h < 3; h++) { var e = document.createElement('div'); e.className = 'hd'; e.textContent = heads[h]; gridEl.appendChild(e); }
+    var rowsH = ['고치기 쉬움', '고치기 어려움'];
+    for (var r = 0; r < 2; r++) {
+      var rh = document.createElement('div'); rh.className = 'hd'; rh.textContent = rowsH[r]; gridEl.appendChild(rh);
+      for (var col = 0; col < 2; col++) {
+        var box = document.createElement('div'); box.className = 'cell';
+        for (var i = 0; i < 3; i++) {
+          var c = round.order[i], cand = round.cands[c];
+          var many = c === round.winner;
+          if ((cand.easy ? 0 : 1) === r && (many ? 0 : 1) === col) {
+            var chip = document.createElement('span');
+            chip.className = 'chip' + (c === fixPick ? ' pick' : '');
+            chip.textContent = cand.name + ' ' + round.counts[c];
+            box.appendChild(chip);
+          }
+        }
+        gridEl.appendChild(box);
+      }
+    }
   }
 
-  function tick(){
-    remaining = Math.max(0, remaining - 0.1);
-    var elapsed = TOTAL - remaining;
-    var c = cum();
-    var idx = elapsed < c[0] ? 0 : (elapsed < c[1] ? 1 : 2);
-    renderRun(idx, elapsed, false);
-    if (remaining <= 0) finish();
+  // 고칠 점은 학생이 고른다. 화면은 무엇이 낫다고 말하지 않는다.
+  function pickFix(c) {
+    if (step !== 'open') { return; }
+    fixPick = c;
+    press(fixesEl, c);
+    renderGrid();
+    var cand = round.cands[c];
+    outText.textContent = '고칠 점: ' + cand.name + ' → ' + cand.fix + ' / 까닭: ' + FRIENDS + '명 중 ' +
+      round.counts[c] + '번 막힘, 고치기 ' + (cand.easy ? '쉬움' : '어려움');
+    outEl.hidden = false;
   }
 
-  function startPractice(){
-    if (running) return;
-    hideEnd();
-    running = true;
-    remaining = TOTAL;
-    lastIdx = -1;
-    filled = [false, false, false];
-    renderRows();
-    updateLocks();
-    startBtn.textContent = '멈추기';
-    renderRun(0, 0, false);
-    timerId = setInterval(tick, 100);
-  }
+  openBtn.addEventListener('click', openAll);
+  nextBtn.addEventListener('click', function () { if (step === 'open') { newRound(); } });
+  resetBtn.addEventListener('click', function () { booth = 0; newRound(); });
 
-  function finish(){
-    if (timerId !== null) { clearInterval(timerId); timerId = null; }
-    running = false;
-    updateLocks();
-    updateSayBtn();
-    startBtn.textContent = '연습 시작';
-    showEnd();
-  }
-
-  function stopToIdle(){
-    if (timerId !== null) { clearInterval(timerId); timerId = null; }
-    running = false;
-    remaining = TOTAL;
-    lastIdx = -1;
-    updateLocks();
-    startBtn.textContent = '연습 시작';
-    hideEnd();
-    renderRun(0, 0, true);
-  }
-
-  function markSaid(){
-    if (!running || filled[curIdx]) return;
-    filled[curIdx] = true;
-    renderRows();
-    updateSayBtn();
-  }
-
-  function newRound(){
-    stopToIdle();
-    counts = pickCounts();
-    renderCounts();
-    cuts = [40, 40, 40];
-    filled = [false, false, false];
-    renderRows();
-    renderCuts();
-  }
-
-  function retryRound(){
-    // 같은 판(같은 마디 수)을 시간만 고쳐 잡아 한 번 더 한다.
-    stopToIdle();
-    filled = [false, false, false];
-    renderRows();
-    renderCuts();
-  }
-
-  startBtn.addEventListener('click', function(){
-    if (running) stopToIdle(); else startPractice();
-  });
-  sayBtn.addEventListener('click', markSaid);
-  againBtn.addEventListener('click', retryRound);
-  nextBtn.addEventListener('click', newRound);
-
-  minusBtns.forEach(function(btn, i){
-    btn.addEventListener('click', function(){
-      if (cuts[i] <= MIN) return;
-      var j = other(i, 'give');
-      if (j < 0) return;
-      cuts[i] -= STEP; cuts[j] += STEP;
-      renderCuts();
-    });
-  });
-  plusBtns.forEach(function(btn, i){
-    btn.addEventListener('click', function(){
-      if (cuts[i] >= MAX) return;
-      var j = other(i, 'take');
-      if (j < 0) return;
-      cuts[i] += STEP; cuts[j] -= STEP;
-      renderCuts();
-    });
-  });
-
-  document.addEventListener('visibilitychange', function(){
-    if (document.hidden && running) stopToIdle();
-  });
-  window.addEventListener('pagehide', function(){
-    if (running) stopToIdle();
-  });
-
-  counts = pickCounts();
-  renderCounts();
-  renderRows();
-  renderCuts();
-  renderRun(0, 0, true);
+  newRound();
 })();
 </script>
 </body>
