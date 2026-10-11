@@ -63,8 +63,8 @@
   .bar em{font-style:normal;font-family:'Courier New',monospace;font-weight:700;text-align:right}
   .bar.me span{text-decoration:underline;text-decoration-color:var(--point);text-decoration-thickness:3px}
 
-  .grid{display:grid;grid-template-columns:64px 1fr 1fr;gap:4px;font-size:12.5px;margin-top:4px}
-  .grid .hd{font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:center;text-align:center}
+  .grid{display:grid;grid-template-columns:58px 1fr 1fr;gap:4px;font-size:12.5px;margin-top:4px}
+  .grid .hd{white-space:pre-line;word-break:keep-all;font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:center;text-align:center}
   .grid .cell{border:1px dashed var(--line-strong);border-radius:6px;min-height:52px;padding:4px;display:flex;
     flex-wrap:wrap;gap:4px;align-content:flex-start}
   .chip{background:var(--point-soft);border:1px solid var(--point);border-radius:999px;padding:1px 8px;font-weight:700;font-size:12.5px}
@@ -116,7 +116,8 @@
     <div class="grid" id="grid"></div>
     <p class="q" style="margin-top:10px">다음에 고칠 점 한 가지는?</p>
     <div class="cands" id="fixes"></div>
-    <p class="out" id="out" hidden><b>기록지 맨 아래 칸에 옮겨 적기</b><span id="outText"></span></p>
+    <p class="out" id="out" hidden><b>이 부스라면 기록지 맨 아래 칸에</b><span id="outText"></span></p>
+    <p class="note" style="margin-top:8px">이제 우리 기록지로: 세기 → 1분 말하기(기록에 나온 수로) → 표에 놓기 → 맨 아래 칸 쓰기</p>
   </section>
 
   <section aria-label="판 넘기기">
@@ -207,8 +208,10 @@
     }
     var winner = 0;
     var order3 = shuffle([0, 1, 2]);   // 후보 단추 순서를 섞어 가장 많은 곳이 늘 첫째가 아니게
+    var inMin = 0;
+    for (r = 0; r < FRIENDS; r++) { if (!rows[r].stop && rows[r].sec <= 60) { inMin += 1; } }
     return { cands: cands, counts: counts, rows: rows, winner: winner, order: order3,
-      success: FRIENDS - stopN };
+      success: FRIENDS - stopN, inMin: inMin };
   }
 
   function cell(tr, text, cls) {
@@ -297,11 +300,12 @@
     renderRows(true);
 
     var top = round.cands[round.winner], topN = round.counts[round.winner], myN = round.counts[guess];
+    var tally = ' 친구 ' + FRIENDS + '명 중 ' + round.success + '명 성공, 1분 안에 ' + round.inMin + '명.';
     if (guess === round.winner) {
-      setSay('짚은 곳이 가장 많이 막혔어요 (' + topN + '번). 성공 ' + round.success + '명 / ' + FRIENDS + '명', true);
+      setSay('짚은 곳이 가장 많이 막혔어요(' + topN + '번).' + tally, true);
     } else {
       setSay("짚은 곳 " + myN + "번, 가장 많은 곳 '" + top.name + "' " + topN + '번. ' + (topN - myN) +
-        '번 차이예요. 성공 ' + round.success + '명 / ' + FRIENDS + '명', true);
+        '번 차이예요.' + tally, true);
     }
 
     barsEl.innerHTML = '';
@@ -329,7 +333,7 @@
     gridEl.innerHTML = '';
     var heads = ['', '많이 막힘', '덜 막힘'];
     for (var h = 0; h < 3; h++) { var e = document.createElement('div'); e.className = 'hd'; e.textContent = heads[h]; gridEl.appendChild(e); }
-    var rowsH = ['고치기 쉬움', '고치기 어려움'];
+    var rowsH = ['고치기\n쉬움', '고치기\n어려움'];
     for (var r = 0; r < 2; r++) {
       var rh = document.createElement('div'); rh.className = 'hd'; rh.textContent = rowsH[r]; gridEl.appendChild(rh);
       for (var col = 0; col < 2; col++) {
