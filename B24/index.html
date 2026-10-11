@@ -49,7 +49,9 @@
   button.tr:disabled{cursor:default;border-color:var(--line)}
   button.tr[aria-pressed="true"]{background:var(--point-soft);outline:2px solid var(--point);outline-offset:-1px}
   button.tr.chg{box-shadow:inset 6px 0 0 var(--point)}
-  button.tr.extra{border-style:dashed;border-color:var(--ink)}
+  button.tr.extra{border-style:dashed;border-color:var(--ink);background:#fff;outline:none}
+  .tr .tag2{animation:pop .35s ease-out}
+  @keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.15);opacity:1}100%{transform:scale(1)}}
   .tr .no{color:var(--muted);font-size:13px}
   .tr .num{text-align:right}
   .tr .g{text-align:center;font-weight:600;font-size:14px}
@@ -224,7 +226,7 @@
       el.setAttribute('aria-label', (i + 1) + '번 ' + r.w + ' ' + (r.t === null ? '시간 빈칸' : r.t + '분') +
         ' 횡단보도 ' + r.x + '개 기준1 ' + g(ans(c1, r)) + (checked ? ' 기준2 ' + g(ans(c2, r)) + (ch ? ' 달라짐' : '') : ''));
     });
-    $('hint').textContent = checked ? '띠가 붙은 줄이 묶음이 달라진 줄이에요'
+    $('hint').textContent = checked ? '띠가 붙은 줄이 달라진 줄, 점선은 그대로인 줄이에요'
       : nMark === 0 ? '기준2로 묶음이 달라질 줄을 모두 눌러요'
       : nMark + '줄 짚었어요. 확인 전엔 바꿔도 돼요';
     $('checkBtn').disabled = checked || nMark === 0;
