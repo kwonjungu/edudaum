@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>다시 시작한 변수 값 맞히기 — 에듀다움 B10</title>
+<title>처음 값 바꿔 흔든수 예상하기 — 에듀다움 B10</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
   :root{--line:#DDDDDD;--line-strong:#C1C1C1;
@@ -14,9 +14,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
-    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    
-    background-position:-11px -11px}
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5}
   .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px}
 
   .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
@@ -49,32 +47,45 @@
   .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 10px}
   .card .when{font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--muted)}
   .card .line{font-size:14px;font-weight:600;margin-top:3px}
-  .card.cover .line{color:var(--muted);letter-spacing:.3em}
-  .card.off{border-style:dashed;color:var(--muted);
-    background:repeating-linear-gradient(135deg,var(--surface) 0 9px,#EFEADC 9px 18px)}
+  .card .line b.iv{display:inline-block;min-width:2.2em;text-align:center;background:var(--point-soft);
+    border:1px solid var(--point);border-radius:6px;padding:0 4px}
 
-  .guess{display:flex;gap:7px;flex-wrap:wrap;margin-top:2px}
+
+  .ask{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:9px}
+  .ask label{font-size:15px;font-weight:700;flex:1 1 100%}
+  .ask input{font-family:'Courier New',monospace;font-size:20px;font-weight:700;width:84px;min-height:46px;
+    text-align:center;border:1px solid var(--ink);border-radius:var(--r-sm);background:var(--surface);color:var(--ink)}
+  .ask input:disabled{color:var(--muted);border-color:var(--line)}
+
   .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:700;
     background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
     min-height:46px;padding:8px 12px;box-shadow:var(--hard-sm);flex:1 1 96px;
     transition:transform .1s,box-shadow .1s}
   .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
   .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .btn.main{background:var(--amber)}
-  .btn[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px}
+  .btn.main{background:var(--point);border-color:var(--point);color:#fff}
   .btn:disabled{opacity:.45;cursor:default;box-shadow:none}
+  .ask .btn{flex:0 1 auto}
 
   .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
 
   .say{margin-top:8px;font-size:13.5px;font-weight:700}
-  .say.dim{color:var(--muted);font-weight:700}
+  .say.dim{color:var(--muted)}
+
 
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
-  @media(max-width:420px){ .stage{grid-template-columns:1fr} }
+  @media(max-width:420px){ .stage{grid-template-columns:1fr 1fr} }
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-/* 에듀다움 통일 테마 2026-09-27 */
-.btn.main{background:var(--point);border-color:var(--point);color:#fff}
+  .steps{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px;min-height:34px}
+  .steps span{min-width:34px;height:34px;border:1px solid var(--line);border-radius:6px;display:inline-flex;
+    align-items:center;justify-content:center;font-family:'Courier New',monospace;font-weight:700;font-size:15px;color:var(--muted)}
+  .steps span.on{border-color:var(--point);color:var(--ink);background:var(--point-soft)}
+  .diff{word-break:keep-all;margin-top:6px;font-size:13px;font-weight:700;color:var(--point)}
+  .ask .step{flex:0 0 46px;padding:0}
+  .vbox.end{border-color:var(--point);background:var(--point-soft);box-shadow:0 0 0 3px var(--point-soft)}
+  .past{list-style:none;font-size:13.5px;display:grid;gap:3px}
+  .past li{border-bottom:1px dashed var(--line);padding:3px 0}
+  .past li.empty{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -85,36 +96,46 @@
   </nav>
 
   <header>
-    <h1>다시 시작한 변수 값 맞히기</h1>
-    <p class="lead">값이 몇일지 짚어요</p>
+    <h1>처음 값 바꿔 흔든수 예상하기</h1>
+    <p class="lead">예상을 먼저 적고 흔들어 견줘요 · 체험 활동</p>
   </header>
 
-  <section aria-labelledby="h-v">
-    <h2 id="h-v">흔든수</h2>
+  <section aria-labelledby="h-code">
+    <h2 id="h-code">흔들기 카운터</h2>
     <div class="stage">
       <div class="panel"><svg id="led" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg></div>
       <p class="vbox"><span>흔든수</span><b id="num">0</b></p>
     </div>
     <div class="code">
-      <div class="card cover" id="c1"><span class="when">시작하면</span><p class="line" id="c1line">? ? ?</p></div>
-      <div class="card"><span class="when">흔들림 감지하면</span><p class="line">흔든수를 1만큼 바꾸기</p></div>
+      <div class="card"><span class="when">시작하면 실행</span><p class="line">흔든수에 <b class="iv" id="initV">0</b> 저장</p></div>
+      <div class="card"><span class="when">흔들림 감지하면 실행</span><p class="line">흔든수 값 1 증가</p><p class="line">수 출력 흔든수</p></div>
+    </div>
+    <p class="diff" id="diff"></p>
+  </section>
+
+  <section aria-labelledby="h-round">
+    <h2 id="h-round">이번 판</h2>
+    <div class="ask">
+      <label for="guess" id="askLabel">처음 값 0, 5번 흔들면 흔든수는?</label>
+      <button class="btn step" id="minus" type="button" aria-label="하나 빼기">−</button>
+      <input id="guess" type="number" inputmode="numeric" min="0" max="99" placeholder="?">
+      <button class="btn step" id="plus" type="button" aria-label="하나 더하기">+</button>
     </div>
     <div class="acts">
-      <button class="btn main" id="shake" type="button">흔들기</button>
+      <button class="btn" id="pick" type="button" disabled>예상 적기</button>
+      <button class="btn main" id="shake" type="button" disabled>흔들기</button>
+    </div>
+    <div class="steps" id="steps" aria-label="흔들 때마다 흔든수"></div>
+    <p class="say dim" id="say" aria-live="polite">예상을 적어야 흔들 수 있어요</p>
+    <div class="acts">
+      <button class="btn" id="next" type="button" disabled>다음 판</button>
+      <button class="btn" id="reset" type="button">처음으로</button>
     </div>
   </section>
 
-  <section aria-labelledby="h-g">
-    <h2 id="h-g">다시 시작하면 값이 몇일까요</h2>
-    <div class="guess" id="guess">
-      <button class="btn" type="button" data-g="zero">0</button>
-      <button class="btn" type="button" data-g="same" id="sameBtn">지금 값</button>
-    </div>
-    <p class="say dim" id="say">먼저 흔들어 값을 올려요</p>
-    <div class="acts">
-      <button class="btn" id="restart" type="button" disabled>다시 시작</button>
-      <button class="btn" id="next" type="button">다음 판</button>
-    </div>
+  <section aria-labelledby="h-past">
+    <h2 id="h-past">지난 판</h2>
+    <ul class="past" id="past"><li class="empty">아직 없어요</li></ul>
   </section>
 </div>
 
@@ -130,17 +151,13 @@
     '6':'111100111101111', '7':'111001001001001', '8':'111101111101111',
     '9':'111101111001111'
   };
+  var INITS = [0, 10];
 
-  var numEl = $('num');
-  var c1El = $('c1');
-  var c1lineEl = $('c1line');
-  var shakeBtn = $('shake');
-  var guessWrap = $('guess');
-  var guessBtns = Array.prototype.slice.call(guessWrap.querySelectorAll('.btn'));
-  var sameBtn = $('sameBtn');
-  var restartBtn = $('restart');
-  var nextBtn = $('next');
-  var sayEl = $('say');
+  var numEl = $('num'), initEl = $('initV'), askEl = $('askLabel'), diffEl = $('diff');
+  var guessEl = $('guess'), minusBtn = $('minus'), plusBtn = $('plus');
+  var pickBtn = $('pick'), shakeBtn = $('shake'), nextBtn = $('next'), resetBtn = $('reset');
+  var vboxEl = numEl.parentNode;
+  var stepsEl = $('steps'), sayEl = $('say'), pastEl = $('past');
 
   var cells = [];
   (function buildLed() {
@@ -170,131 +187,166 @@
     }
   }
 
-  var count = 0;
-  var hasInit = true;
-  var guess = null;
-  var locked = false;
   var seq = null;
-  var lastKey = '';
-
   function clearSeq() { if (seq) { clearTimeout(seq); seq = null; } }
-
   function show(v) {
     clearSeq();
-    var s = String(v);
-    var i = 0;
+    var s = String(v), i = 0;
     var next = function () {
       paint(s.charAt(i));
       i += 1;
       if (i >= s.length) { seq = null; return; }
-      seq = setTimeout(function () {
-        paint(null);
-        seq = setTimeout(next, 150);
-      }, 620);
+      seq = setTimeout(function () { paint(null); seq = setTimeout(next, 150); }, 620);
     };
     next();
   }
 
-  function setNum() { numEl.textContent = String(count); }
+  // 판: 한 쌍(처음 값 0 → 10) 안에서 흔들 횟수 n은 같다.
+  var n = 5, half = 0, init = 0, count = 0, shaken = 0, guess = null, step = 'guess';
+  var history = [];
 
-  function draw() {
-    return Math.random() < 0.5;
+  function drawN(prev) {
+    var v = prev;
+    while (v === prev) { v = 3 + Math.floor(Math.random() * 6); }
+    return v;
   }
 
-  function newRound() {
-    clearSeq();
-    var h = draw();
-    var tries = 0;
-    while (h === lastKey && tries < 5) { h = draw(); tries += 1; }
-    lastKey = h;
+  function setSay(t, strong) { sayEl.textContent = t; sayEl.className = strong ? 'say' : 'say dim'; }
 
-    hasInit = h;
-    count = 0;
-    guess = null;
-    locked = false;
+  function readGuess() {
+    var t = String(guessEl.value).trim();
+    if (!/^\d{1,2}$/.test(t)) { return null; }
+    return parseInt(t, 10);
+  }
 
-    paint(null);
-    setNum();
-    c1El.className = 'card cover';
-    c1lineEl.textContent = '? ? ?';
+  function lockGuess(on) {
+    guessEl.disabled = on; minusBtn.disabled = on; plusBtn.disabled = on;
+  }
 
-    for (var i = 0; i < guessBtns.length; i += 1) {
-      guessBtns[i].disabled = true;
-      guessBtns[i].setAttribute('aria-pressed', 'false');
+  function openRound() {
+    clearSeq(); paint(null);
+    vboxEl.classList.remove('end');
+    init = INITS[half];
+    count = init; shaken = 0; guess = null; step = 'guess';
+    initEl.textContent = String(init);
+    numEl.textContent = String(count);
+    diffEl.textContent = half === 1 ? '지난 판과 다른 것: 처음 값 0 → 10' : '';
+    askEl.textContent = '처음 값 ' + init + ', ' + n + '번 흔들면 흔든수는?';
+    guessEl.value = '';
+    lockGuess(false);
+    pickBtn.disabled = true;
+    shakeBtn.disabled = true;
+    shakeBtn.textContent = '흔들기';
+    nextBtn.disabled = true;
+    stepsEl.innerHTML = '';
+    for (var i = 0; i < n; i++) {
+      var s = document.createElement('span');
+      s.textContent = String(i + 1) + '번';
+      stepsEl.appendChild(s);
     }
-    sameBtn.textContent = '지금 값';
+    setSay('예상을 적어야 흔들 수 있어요', false);
+  }
+
+  // 예상을 적은 뒤에도 첫 흔들기 전까지는 고칠 수 있다. 고치면 다시 적어야 흔들린다.
+  function onInput() {
+    if (step === 'shake' && shaken === 0) {
+      step = 'guess';
+      shakeBtn.disabled = true;
+      shakeBtn.textContent = '흔들기';
+      setSay('예상을 고쳤어요. 다시 적어요', false);
+    }
+    if (step !== 'guess') { return; }
+    pickBtn.disabled = readGuess() === null;
+  }
+
+  function nudge(d) {
+    if (step !== 'guess' && !(step === 'shake' && shaken === 0)) { return; }
+    var g = readGuess();
+    if (g === null) { g = d > 0 ? -1 : 1; }
+    g = Math.max(0, Math.min(99, g + d));
+    guessEl.value = String(g);
+    onInput();
+  }
+
+  function pick() {
+    if (step !== 'guess') { return; }
+    var g = readGuess();
+    if (g === null) { return; }
+    guess = g;
+    step = 'shake';
+    pickBtn.disabled = true;
     shakeBtn.disabled = false;
-    restartBtn.disabled = true;
-    sayEl.textContent = '먼저 흔들어 값을 올려요';
-    sayEl.className = 'say dim';
+    shakeBtn.textContent = '흔들기 (' + n + ')';
+    setSay(g + '(으)로 적었어요. 흔들기 전엔 고칠 수 있어요', false);
+    shakeBtn.focus();
   }
 
   function shake() {
-    if (locked) { return; }
-    count += 1;
-    setNum();
+    if (step !== 'shake') { return; }
+    if (shaken === 0) { lockGuess(true); }
+    count += 1; shaken += 1;
+    numEl.textContent = String(count);
     show(count);
-    sameBtn.textContent = '지금 값 ' + count;
-    if (count === 1) {
-      for (var i = 0; i < guessBtns.length; i += 1) { guessBtns[i].disabled = false; }
-      sayEl.textContent = '다시 시작하면 값이 몇일지 짚어요';
-      sayEl.className = 'say dim';
+    var box = stepsEl.children[shaken - 1];
+    box.textContent = String(count);
+    box.classList.add('on');
+    if (shaken < n) {
+      shakeBtn.textContent = '흔들기 (' + (n - shaken) + ')';
+      return;
     }
-  }
-
-  function pickGuess(g) {
-    if (locked || guess !== null || count < 1) { return; }
-    guess = g;
-    locked = true;
-    for (var i = 0; i < guessBtns.length; i += 1) {
-      var b = guessBtns[i];
-      b.disabled = true;
-      b.setAttribute('aria-pressed', b.getAttribute('data-g') === g ? 'true' : 'false');
-    }
+    step = 'done';
+    vboxEl.classList.add('end');
     shakeBtn.disabled = true;
-    restartBtn.disabled = false;
-    sayEl.textContent = '다시 시작을 눌러요';
-    sayEl.className = 'say dim';
+    shakeBtn.textContent = '흔들기';
+    var d = Math.abs(count - guess);
+    setSay(d === 0 ? '예상과 화면의 수가 같아요' :
+      '예상 ' + guess + ', 화면 ' + count + '. ' + d + ' 떨어졌어요', true);
+    history.unshift('처음 값 ' + init + ' · ' + n + '번 → ' + count + ' (예상 ' + guess + ')');
+    if (history.length > 4) { history.length = 4; }
+    renderPast();
+    if (half === 1) {
+      diffEl.textContent = '0 판과 10 판의 흔든수를 견줘 보고, 기기에서 확인한 뒤 추적지에 한 문장으로 써요';
+    }
+    nextBtn.disabled = false;
+    nextBtn.focus();
   }
 
-  function restart() {
-    if (!locked || restartBtn.disabled) { return; }
-    clearSeq();
-    paint(null);
-
-    var guessValue = guess === 'zero' ? 0 : count;
-    if (hasInit) {
-      c1El.className = 'card';
-      c1lineEl.textContent = '흔든수를 0으로 정하기';
-      count = 0;
-    } else {
-      c1El.className = 'card off';
-      c1lineEl.textContent = '(이 블록 없음)';
+  function renderPast() {
+    pastEl.innerHTML = '';
+    if (!history.length) {
+      var e = document.createElement('li'); e.className = 'empty'; e.textContent = '아직 없어요';
+      pastEl.appendChild(e); return;
     }
-    setNum();
-
-    if (guessValue === count) {
-      sayEl.textContent = '짚은 대로 나왔어요';
-    } else {
-      sayEl.textContent = '실제로는 ' + count + '이었어요';
+    for (var i = 0; i < history.length; i++) {
+      var li = document.createElement('li'); li.textContent = history[i]; pastEl.appendChild(li);
     }
-    sayEl.className = 'say';
-    restartBtn.disabled = true;
   }
 
-  guessWrap.addEventListener('click', function (ev) {
-    var btn = ev.target.closest ? ev.target.closest('.btn') : null;
-    if (!btn) { return; }
-    pickGuess(btn.getAttribute('data-g'));
-  });
+  function nextRound() {
+    if (step !== 'done') { return; }
+    if (half === 0) { half = 1; } else { half = 0; n = drawN(n); }
+    openRound();
+    guessEl.focus();
+  }
 
+  function resetAll() {
+    n = 5; half = 0; history = [];
+    renderPast();
+    openRound();
+  }
+
+  guessEl.addEventListener('input', onInput);
+  guessEl.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') { pick(); } });
+  minusBtn.addEventListener('click', function () { nudge(-1); });
+  plusBtn.addEventListener('click', function () { nudge(1); });
+  pickBtn.addEventListener('click', pick);
   shakeBtn.addEventListener('click', shake);
-  restartBtn.addEventListener('click', restart);
-  nextBtn.addEventListener('click', newRound);
+  nextBtn.addEventListener('click', nextRound);
+  resetBtn.addEventListener('click', resetAll);
   document.addEventListener('visibilitychange', function () { if (document.hidden) { clearSeq(); } });
   window.addEventListener('pagehide', clearSeq);
 
-  newRound();
+  resetAll();
 })();
 </script>
 </body>
