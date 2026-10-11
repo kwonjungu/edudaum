@@ -58,7 +58,7 @@
   @keyframes jump{0%{transform:translateY(0)}30%{transform:translateY(-5px)}100%{transform:translateY(0)}}
 
   .line{margin-top:6px;font-size:13.5px;font-weight:700}
-  .score{font-family:'Courier New',monospace;font-size:clamp(24px,6vw,32px);font-weight:700;
+  .score{font-size:clamp(19px,5vw,24px);font-variant-numeric:tabular-nums;font-weight:700;
     line-height:1;color:var(--point);text-align:center;margin:6px 0 2px}
   .score.pulse{animation:jump .4s ease-out}
   .tries{font-size:12.5px;font-weight:700;color:var(--muted);text-align:center}
@@ -122,8 +122,9 @@
       <thead><tr><th></th><th>손바닥</th><th>손등</th><th>손가락</th></tr></thead>
       <tbody id="tbody"></tbody>
     </table>
+    <p class="note">✕ 아래 글자는 코치가 안내한 동작</p>
     <div class="ev" id="ev"></div>
-    <p class="score" id="score">0 / 6</p>
+    <p class="score" id="score"></p>
     <p class="tries" id="tries"></p>
   </section>
 
@@ -310,7 +311,7 @@
     }
 
     var sc = $('score');
-    sc.textContent = '카드 조건 ' + rowCount(st.now, 1) + ' / 6';
+    sc.textContent = '기본 ' + rowCount(st.now, 0) + '/6 · 카드 ' + rowCount(st.now, 1) + '/6';
     sc.classList.remove('pulse');
     if (afterTest && done){ void sc.offsetWidth; sc.classList.add('pulse'); }
     $('tries').textContent = '코치 ' + VER[st.round] + ' · 남은 시험 ' + st.left + '번';
@@ -330,8 +331,8 @@
 
     if ((done && st.round > 0) || over){
       $('sum').hidden = false;
-      $('sum').textContent = '고친 점 기록 · ' + CARDS[b.card] + ' · 1.0 ' + rowCount(st.first, 1) + '/6 → ' +
-        VER[st.round] + ' ' + rowCount(st.now, 1) + '/6';
+      $('sum').textContent = '고친 점 기록 · ' + CARDS[b.card] + ' · 기본 ' + rowCount(st.first, 0) + '/6 → ' +
+        rowCount(st.now, 0) + '/6 · 카드 ' + rowCount(st.first, 1) + '/6 → ' + rowCount(st.now, 1) + '/6 (' + VER[st.round] + ')';
     }
   }
 
