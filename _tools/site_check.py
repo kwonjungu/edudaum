@@ -251,7 +251,7 @@ def main(argv):
                 continue
             d = fitz.open(f)
             t = ''.join(pg.get_text() for pg in d)
-            m = re.search(r'개발자\s*\n\s*([^\n]+)', t)
+            m = re.search(r'(?:^|\n)\s*개발자\s*\n\s*([^\n]+)', t)   # 줄 전체가 '개발자'인 칸 라벨만 (본문의 'AI 개발자'는 아님)
             # 2026. 9. 28.부터 과정안에 개발자 행이 없다. 행이 남아 있으면 연구회 이름이어야 한다.
             if m and m.group(1).strip() != '경기 AI 융합교육 에듀다움 교사연구회':
                 bad.append(('S8', c, 'PDF 개발자 칸이 공개용이 아님'))

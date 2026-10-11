@@ -608,7 +608,7 @@ def build_lesson(code, prev, nxt):
                     '<div class="rowbody"><div class="act">%s</div><div class="res">%s</div></div></div>'
                     % (i, e(r['lesson']), e(r['stage']), e(r['time']), render_body(r['body']), render_res(r['res'])))
     ovr = []
-    for k in ('성취기준', '핵심 역량', '핵심 기능', '가치 태도'):
+    for k in ('성취기준', '핵심 역량', '지식·이해', '과정·기능', '가치·태도'):
         v = ov(code, k)
         if v:
             ovr.append('<tr><th>%s</th><td>%s</td></tr>' % (e(k), '<br>'.join(e(x) for x in v)))

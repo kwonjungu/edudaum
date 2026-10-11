@@ -8,7 +8,7 @@
   python _tools/public_copy.py --strip-pdf assets/pdf     # PDF 문서 정보(작성자 등) 비우기
 
 원본은 건드리지 않는다. 이름 목록을 저장소에 두지 않으려고, 이름을 찾아 지우지 않고
-개요 표의 '개발자' 칸(4행 3열) 자체를 바꾼다.
+개요 표에서 라벨이 '개발자'인 행의 값 칸 자체를 바꾼다.
 """
 import re
 import sys
@@ -18,32 +18,34 @@ from pathlib import Path
 ORG = '경기 AI 융합교육 에듀다움 교사연구회'
 
 
-def fix_section(x: str) -> str:
-    tbls = [m for m in re.finditer(r'<hp:tbl\b[\s\S]*?</hp:tbl>', x)]
-    # 개요 표를 첫 글자로 고른다(과정안 판마다 표 순서가 다르다)
-    hit = [m for m in tbls if (re.search(r'<hp:t>([^<]*)', m.group(0)) or [None, ''])[1].strip() == '개요']
+HP = '{http://www.hancom.co.kr/hwpml/2011/paragraph}'
+
+
+def fix_section(x: bytes) -> bytes:
+    """개요 표에서 라벨이 '개발자'인 행의 값 칸을 연구회 이름으로 바꾼다.
+    행 위치로 찾지 않는다(지식·이해 행이 들어가면서 행 번호가 바뀌었다)."""
+    from lxml import etree
+    root = etree.fromstring(x.replace(b'\r', b'&#13;'))
+    def text(el):
+        return ''.join(t.text or '' for t in el.iter(HP + 't')).strip()
+    hit = [t for t in root.iter(HP + 'tbl') if (next(t.iter(HP + 't'), None) is not None and (next(t.iter(HP + 't')).text or '').strip() == '개요')]
     assert len(hit) == 1, '개요 표를 하나로 찾지 못함(%d개)' % len(hit)
-    t = hit[0]
-    tb = t.group(0)
-    if '개발자' not in tb:      # 2026. 9. 28.부터 과정안에 개발자 행이 없다 — 바꿀 것 없음
-        return x
-
-    def cell(m):
-        c = m.group(0)
-        if not re.search(r'<hp:cellAddr colAddr="3" rowAddr="4"', c):
-            return c
-        first = [True]
-
-        def tx(_):
-            if first[0]:
-                first[0] = False
-                return '<hp:t>%s</hp:t>' % ORG
-            return '<hp:t/>'
-        return re.sub(r'<hp:t>[\s\S]*?</hp:t>|<hp:t/>', tx, c)
-    tb2 = re.sub(r'<hp:tc\b[\s\S]*?</hp:tc>', cell, tb)
-    # 개발자 칸 라벨 확인
-    assert '개발자' in tb, '개요 표에 개발자 칸이 없음'
-    return x[:t.start()] + tb2 + x[t.end():]
+    for tr in hit[0].findall(HP + 'tr'):
+        tcs = tr.findall(HP + 'tc')
+        labs = [i for i, tc in enumerate(tcs) if text(tc) == '개발자']
+        if not labs:
+            continue
+        val = tcs[labs[0] + 1]
+        ts = list(val.iter(HP + 't'))
+        for i, t in enumerate(ts):
+            t.text = ORG if i == 0 else ''
+            for ch in list(t):
+                t.remove(ch)
+        for p in val.iter(HP + 'p'):
+            for ls in p.findall(HP + 'linesegarray'):
+                p.remove(ls)
+        return etree.tostring(root, xml_declaration=True, encoding='UTF-8', standalone=True)
+    return x   # 개발자 행이 없는 판 — 바꿀 것 없음
 
 
 def copy(src: Path, dst: Path) -> None:
@@ -52,7 +54,7 @@ def copy(src: Path, dst: Path) -> None:
         for it in zin.infolist():
             data = zin.read(it.filename)
             if it.filename == 'Contents/section0.xml':
-                data = fix_section(data.decode('utf-8')).encode('utf-8')
+                data = fix_section(data)
             elif it.filename == 'Contents/content.hpf':
                 s = data.decode('utf-8')
                 s = re.sub(r'(<opf:meta name="(?:creator|lastsaveby)" content="text">)[^<]*(</opf:meta>)', r'\1\2', s)

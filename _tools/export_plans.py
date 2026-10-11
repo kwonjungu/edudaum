@@ -22,6 +22,7 @@ import zipfile
 from pathlib import Path
 
 from PIL import Image
+from lxml import etree
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from blocks import LESSON  # noqa: E402
@@ -32,19 +33,18 @@ IMG = ROOT / 'assets' / 'plan'
 SHOW_DEV = False
 MAXW = 960
 
-P_RE = re.compile(r'<hp:p\b[\s\S]*?</hp:p>')
+HP = '{http://www.hancom.co.kr/hwpml/2011/paragraph}'
+HC = '{http://www.hancom.co.kr/hwpml/2011/core}'
 
 
-def para_items(p: str) -> list:
-    """문단 하나 → [('text', s)] 또는 [('img', binId)]"""
-    out = []
-    for m in re.finditer(r'binaryItemIDRef="([^"]+)"', p):
-        out.append(('img', m.group(1)))
-    # 표 안의 표는 쓰지 않는다. 글자는 hp:t 안에서만 모은다.
-    t = ''.join(re.findall(r'<hp:t>([\s\S]*?)</hp:t>', p))
-    t = re.sub(r'<[^>]+>', '', t)
-    t = (t.replace('&lt;', '<').replace('&gt;', '>').replace('&quot;', '"')
-         .replace('&apos;', "'").replace('&amp;', '&'))
+def para_items(p) -> list:
+    """문단 하나(lxml 요소) → [('text', s)] 또는 [('img', binId)].
+    표 안의 표는 쓰지 않는다. 글자는 이 문단의 hp:run/hp:t 안에서만 모은다(줄바꿈 뒤 글자 포함)."""
+    out = [('img', im.get('binaryItemIDRef')) for im in p.iter(HC + 'img')]  # 칸 안 표의 그림도 싣는다
+    t = ''
+    for run in p.findall(HP + 'run'):
+        for el in run.findall(HP + 't'):
+            t += (el.text or '') + ''.join(' ' + (c.tail or '') for c in el)
     if not out:
         out.append(('text', t.strip()))
     elif t.strip():
@@ -52,25 +52,26 @@ def para_items(p: str) -> list:
     return out
 
 
-def cells(tbl: str) -> dict:
+def cells(tbl) -> dict:
+    """표(lxml 요소)의 직계 칸만 읽는다 — 칸 안에 표가 또 있어도 바깥 표가 끊기지 않는다."""
     res = {}
-    for tc in re.finditer(r'<hp:tc\b[\s\S]*?</hp:tc>', tbl):
-        x = tc.group(0)
-        a = re.search(r'<hp:cellAddr colAddr="(\d+)" rowAddr="(\d+)"', x)
-        span = re.search(r'<hp:cellSpan colSpan="(\d+)" rowSpan="(\d+)"', x)
-        items = []
-        for p in P_RE.findall(x):
-            items += para_items(p)
-        # 끝의 빈 줄 정리, 빈 줄 연속은 하나로
-        clean = []
-        for k, v in items:
-            if k == 'text' and not v and (not clean or clean[-1] == ('text', '')):
-                continue
-            clean.append((k, v))
-        while clean and clean[-1] == ('text', ''):
-            clean.pop()
-        res[(int(a.group(2)), int(a.group(1)))] = {
-            'items': clean, 'rowspan': int(span.group(2)) if span else 1}
+    for tr in tbl.findall(HP + 'tr'):
+        for tc in tr.findall(HP + 'tc'):
+            a = tc.find(HP + 'cellAddr')
+            span = tc.find(HP + 'cellSpan')
+            items = []
+            sub = tc.find(HP + 'subList')
+            for p in (sub.findall(HP + 'p') if sub is not None else []):
+                items += para_items(p)
+            clean = []
+            for k, v in items:
+                if k == 'text' and not v and (not clean or clean[-1] == ('text', '')):
+                    continue
+                clean.append((k, v))
+            while clean and clean[-1] == ('text', ''):
+                clean.pop()
+            res[(int(a.get('rowAddr')), int(a.get('colAddr')))] = {
+                'items': clean, 'rowspan': int(span.get('rowSpan')) if span is not None else 1}
     return res
 
 
@@ -80,15 +81,18 @@ def texts(c) -> list:
 
 def pick_tbl(tbls: list, head: str) -> str:
     """첫 글자가 head로 시작하는 표. 과정안 판마다 표 순서가 달라서(개요 표를 글자처럼 앞에 둔 판) 순서로 고르지 않는다."""
-    hit = [t for t in tbls if (re.search(r'<hp:t>([^<]*)', t) or [None, ''])[1].strip().startswith(head)]
+    def first(t):
+        el = next(t.iter(HP + 't'), None)
+        return (el.text or '') if el is not None else ''
+    hit = [t for t in tbls if first(t).strip().startswith(head)]
     assert len(hit) == 1, '%s 표를 하나로 찾지 못함(%d개)' % (head, len(hit))
     return hit[0]
 
 
 def export(path: Path, bins: dict, code: str) -> dict:
     z = zipfile.ZipFile(path)
-    x = z.read('Contents/section0.xml').decode('utf-8')
-    tbls = re.findall(r'<hp:tbl\b[\s\S]*?</hp:tbl>', x)
+    root = etree.fromstring(z.read('Contents/section0.xml'))
+    tbls = list(root.iter(HP + 'tbl'))
     t0, t1, t2 = (cells(pick_tbl(tbls, h)) for h in ('차시', '개요', '평가'))
 
     # 그림: 문서 순서대로 BXX_1, BXX_2 …
@@ -122,7 +126,8 @@ def export(path: Path, bins: dict, code: str) -> dict:
     ov = {}
     for r in sorted({r for r, _ in t1}):
         lab = (texts(t1.get((r, 1))) or texts(t1.get((r, 0))) or [''])[-1]
-        val = texts(t1.get((r, 3)))
+        # 값 칸은 그 행의 가장 오른쪽 칸 (판마다 3열·2열로 다르다)
+        val = texts(t1.get((r, max(c for rr, c in t1 if rr == r))))
         if lab and val:
             ov[lab] = val
     if not SHOW_DEV:
