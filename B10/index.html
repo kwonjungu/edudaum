@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>처음 값 바꾸기 활동 — 에듀다움 B10</title>
+<title>처음 값 바꿔 흔든수 예상하기 — 에듀다움 B10</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
   :root{--line:#DDDDDD;--line-strong:#C1C1C1;
@@ -95,8 +95,8 @@
   </nav>
 
   <header>
-    <h1>처음 값 바꿔 흔든수 짚기</h1>
-    <p class="lead">짚고 나서 흔들어 견줘요 · 체험 활동</p>
+    <h1>처음 값 바꿔 흔든수 예상하기</h1>
+    <p class="lead">예상을 먼저 적고 흔들어 견줘요 · 체험 활동</p>
   </header>
 
   <section aria-labelledby="h-code">
@@ -121,11 +121,11 @@
       <button class="btn step" id="plus" type="button" aria-label="하나 더하기">+</button>
     </div>
     <div class="acts">
-      <button class="btn" id="pick" type="button" disabled>짚기</button>
+      <button class="btn" id="pick" type="button" disabled>예상 적기</button>
       <button class="btn main" id="shake" type="button" disabled>흔들기</button>
     </div>
     <div class="steps" id="steps" aria-label="흔들 때마다 흔든수"></div>
-    <p class="say dim" id="say" aria-live="polite">짚어야 흔들 수 있어요</p>
+    <p class="say dim" id="say" aria-live="polite">예상을 적어야 흔들 수 있어요</p>
     <div class="acts">
       <button class="btn" id="next" type="button" disabled>다음 판</button>
       <button class="btn" id="reset" type="button">처음으로</button>
@@ -241,7 +241,7 @@
       s.textContent = String(i + 1) + '번';
       stepsEl.appendChild(s);
     }
-    setSay('짚어야 흔들 수 있어요', false);
+    setSay('예상을 적어야 흔들 수 있어요', false);
   }
 
   function onInput() {
@@ -268,7 +268,7 @@
     pickBtn.disabled = true;
     shakeBtn.disabled = false;
     shakeBtn.textContent = '흔들기 (' + n + ')';
-    setSay(g + '(으)로 짚었어요. 흔들어 봐요', false);
+    setSay(g + '(으)로 예상했어요. 흔들어 봐요', false);
     shakeBtn.focus();
   }
 
@@ -288,11 +288,14 @@
     shakeBtn.disabled = true;
     shakeBtn.textContent = '흔들기';
     var d = Math.abs(count - guess);
-    setSay(d === 0 ? '짚은 수와 화면의 수가 같아요' :
-      '짚은 수 ' + guess + ', 화면 ' + count + '. ' + d + ' 떨어졌어요', true);
-    history.unshift('처음 값 ' + init + ' · ' + n + '번 → ' + count + ' (짚은 수 ' + guess + ')');
+    setSay(d === 0 ? '예상과 화면의 수가 같아요' :
+      '예상 ' + guess + ', 화면 ' + count + '. ' + d + ' 떨어졌어요', true);
+    history.unshift('처음 값 ' + init + ' · ' + n + '번 → ' + count + ' (예상 ' + guess + ')');
     if (history.length > 4) { history.length = 4; }
     renderPast();
+    if (half === 1) {
+      diffEl.textContent = '0 판과 10 판의 흔든수를 견줘 보고, 기기에서 확인한 뒤 추적지에 한 문장으로 써요';
+    }
     nextBtn.disabled = false;
     nextBtn.focus();
   }
