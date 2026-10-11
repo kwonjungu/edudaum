@@ -170,6 +170,7 @@ button{font-family:inherit}
   var guess = null;
   var held = null;
   var done = false;
+  var justChecked = false;   // 확인한 바로 그때만 옮긴 조각이 한 번 튄다
 
   var $ = function (id) { return document.getElementById(id); };
   var cardname = $('cardname'), hint = $('hint'), tray = $('tray'), out = $('out');
@@ -214,7 +215,7 @@ button{font-family:inherit}
   function pieceButton(p, i) {
     var b = document.createElement('button');
     b.type = 'button';
-    b.className = 'piece' + (held === i ? ' held' : '') + (p.moved ? ' wasmoved' : '');
+    b.className = 'piece' + (held === i ? ' held' : '') + (p.moved ? ' wasmoved' : '') + (p.moved && justChecked ? ' pop' : '');
     b.disabled = done || guess === null;
     if (p.moved) {
       var m = document.createElement('span');
@@ -261,6 +262,8 @@ button{font-family:inherit}
 
     var allIn = firstLoose() === null;
     checkBtn.disabled = done || guess === null || !allIn;
+    checkBtn.classList.toggle('main', !done);
+    nextBtn.classList.toggle('main', done);   // 확인 뒤엔 다음 물건이 눈에 띈다
 
     if (done) { hint.textContent = ''; }
     else if (guess === null) { hint.textContent = '예상을 먼저 골라요'; }
@@ -315,7 +318,13 @@ button{font-family:inherit}
     });
     out.classList.add('show');
     out.classList.remove('pop'); void out.offsetWidth; out.classList.add('pop');
+    justChecked = true;
     render();
+    justChecked = false;
+    try {
+      var calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      out.scrollIntoView({ block: 'nearest', behavior: calm ? 'auto' : 'smooth' });
+    } catch (e) { /* 스크롤을 못 해도 결과는 그대로 보인다 */ }
   }
 
   function clearRound() {
