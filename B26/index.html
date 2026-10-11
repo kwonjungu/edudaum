@@ -255,7 +255,7 @@
   }
 
   function choose(i){
-    if (st.left === 0 || allOk(st.now)) return;
+    if (st.left === 0 || allOk(st.now) || st.fixed.indexOf(FIX[i].k) >= 0) return;
     st.pick = i;
     render(false);
   }
@@ -317,7 +317,9 @@
     $('tries').textContent = '코치 ' + VER[st.round] + ' · 남은 시험 ' + st.left + '번';
 
     fixBtns.forEach(function(btn, j){
-      btn.disabled = over || done;
+      var fixedAlready = st.fixed.indexOf(FIX[j].k) >= 0;
+      btn.textContent = FIX[j].nm + (fixedAlready ? ' · 고침' : '');
+      btn.disabled = over || done || fixedAlready;
       btn.setAttribute('aria-pressed', st.pick === j ? 'true' : 'false');
     });
     $('retest').disabled = over || done || st.pick === null;
