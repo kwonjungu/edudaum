@@ -357,3 +357,9 @@ details.full{margin-top:32px;background:var(--soft)}
 .gcard>span{flex:1;min-width:0}
 .gcard .go{flex:0 0 auto;background:var(--gc-d);color:#fff;border-radius:var(--r-full);padding:8px 16px;font:400 15px var(--title)}
 @media print{.kit,details.mine{display:none}details.full>*{display:block}}
+/* 체험 게임 목록 */
+.ggrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.gcard .gtag{display:inline-block;background:var(--gc-l);color:var(--gc-d);border-radius:var(--r-full);padding:0 8px;font:400 12.5px var(--title);margin-bottom:2px}
+.gcard .needs{display:flex!important;flex-wrap:wrap;gap:6px;margin-top:6px}
+.gcard .needs i{display:inline-flex;align-items:center;gap:4px;font-style:normal;font-size:12.5px;color:var(--body);border:1px solid var(--line);border-radius:var(--r-full);padding:1px 8px 1px 4px}
+.gcard .needs .ic{width:18px;height:18px}

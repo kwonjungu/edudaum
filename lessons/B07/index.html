@@ -364,6 +364,12 @@ details.full{margin-top:32px;background:var(--soft)}
 .gcard>span{flex:1;min-width:0}
 .gcard .go{flex:0 0 auto;background:var(--gc-d);color:#fff;border-radius:var(--r-full);padding:8px 16px;font:400 15px var(--title)}
 @media print{.kit,details.mine{display:none}details.full>*{display:block}}
+/* 체험 게임 목록 */
+.ggrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.gcard .gtag{display:inline-block;background:var(--gc-l);color:var(--gc-d);border-radius:var(--r-full);padding:0 8px;font:400 12.5px var(--title);margin-bottom:2px}
+.gcard .needs{display:flex!important;flex-wrap:wrap;gap:6px;margin-top:6px}
+.gcard .needs i{display:inline-flex;align-items:center;gap:4px;font-style:normal;font-size:12.5px;color:var(--body);border:1px solid var(--line);border-radius:var(--r-full);padding:1px 8px 1px 4px}
+.gcard .needs .ic{width:18px;height:18px}
 </style>
 </head>
 <body>
@@ -385,7 +391,7 @@ details.full{margin-top:32px;background:var(--soft)}
 <h2 class="sub"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">준비물</h2><div class="pchips"><span class="pchip"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">학생 기기</span><span class="pchip"><img class="ic" src="../../assets/icons/device.svg" alt="" width="24" height="24">마이크로비트</span><span class="pchip"><img class="ic" src="../../assets/icons/device.svg" alt="" width="24" height="24">마이크로비트 V2</span><span class="pchip"><img class="ic" src="../../assets/icons/device.svg" alt="" width="24" height="24">데이터 전송용 USB 케이블</span><span class="pchip" title="배터리 팩(AAA 2개)"><img class="ic" src="../../assets/icons/device.svg" alt="" width="24" height="24">배터리 팩</span><span class="pchip" title="명찰 틀(LED 창 낸 골판지)"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">명찰 틀</span><span class="pchip"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">목걸이 줄</span><span class="pchip"><img class="ic" src="../../assets/icons/note.svg" alt="" width="24" height="24">마스킹테이프</span><span class="pchip"><img class="ic" src="../../assets/icons/note.svg" alt="" width="24" height="24">별점 스티커</span></div>
 <h2 class="sub"><img class="ic" src="../../assets/icons/eval.svg" alt="" width="24" height="24">평가</h2>
 <p class="evone">LED 그림 두 개를 차례로 표시하는 코드를 기기로 옮겨 실행하고, 순서를 바꾼 결과를 예상과 비교해 설명할 수 있는가?</p><details class="more"><summary>평가 기준 자세히</summary><p><b>컴퓨팅 사고력 · 순차 구조의 확인과 설명</b> — LED 그림 두 개를 차례로 표시하는 코드를 기기로 옮겨 실행하고, 순서를 바꾼 결과를 예상과 비교해 설명할 수 있는가?</p><div class="tw"><table class="lv"><tr><th>수준</th><th>평가 기준</th></tr><tr><td>매우 잘함</td><td>하트와 웃는 얼굴을 차례로 표시하는 코드를 만들어 마이크로비트에서 실행하고, 순서를 두 번 이상 바꾸어 보며 예상과 실제 결과를 모두 기록한다. 세 컷 이상의 LED 이름표를 스스로 만들어 시연하며, 순서가 결과를 바꾸는 까닭을 실행 결과를 들어 설명한다.</td></tr><tr><td>잘함</td><td>두 그림을 차례로 표시하는 코드를 기기에서 실행해 확인하고 순서를 바꾼 뒤 달라진 점을 기록한다. LED 이름표를 만들어 순서와 결과의 관계를 한 문장으로 쓴다.</td></tr><tr><td>보통</td><td>코드를 만들어 기기로 옮기기는 하나 일부 블록의 자리가 다르거나, 순서를 바꾼 기록에서 예상이나 달라진 점 한 가지가 빠져 있다.</td></tr><tr><td>노력요함</td><td>교사가 절차를 한 단계씩 안내해 주고 블록 위치와 기기 연결을 함께 해 준 뒤에도 차례대로 표시하는 코드를 실행하거나 바뀐 결과를 기록하는 데 어려움이 있다.</td></tr><tr><td>미관찰</td><td>결석이나 미제출, 기기와 케이블 장애로 확인하지 못한 경우. 낮은 성취로 적지 않고 따로 기록한 뒤 보충 확인 시점을 정한다.</td></tr></table></div><p class="small"><b>평가 방법</b> 활동지 분석 · 구술 확인 · 기기 작동 관찰 · LED 이름표 시연</p></details>
-<h2 class="sub" id="game"><img class="ic" src="../../assets/icons/game.svg" alt="" width="24" height="24">체험 게임</h2><a class="gcard" href="../../B07/"><img class="ic big" src="../../assets/icons/game.svg" alt="" width="24" height="24"><span><b>자리를 바꾸면</b><span>끝나고 남는 그림은 무엇일까</span></span><span class="go">열기</span></a>
+<h2 class="sub" id="game"><img class="ic" src="../../assets/icons/game.svg" alt="" width="24" height="24">체험 게임</h2><a class="gcard" href="../../B07/"><img class="ic big" src="../../assets/icons/game.svg" alt="" width="24" height="24"><span><b>순서 바꾸면 남는 그림 맞히기</b><span>끝나고 남는 그림은 무엇일까</span></span><span class="go">열기</span></a>
 <h2 class="sub" id="tools"><img class="ic" src="../../assets/icons/tool.svg" alt="" width="24" height="24">연동 도구</h2>
 <p class="small muted">과정안에 나온 도구예요. 수업 전에 학교망에서 열리는지 확인해 주세요.</p>
 <div class="toolgrid"><a class="tool" href="https://makecode.microbit.org/?lang=ko" target="_blank" rel="noopener"><b>MakeCode (micro:bit) ↗</b><span>마이크로비트 블록 코딩·시뮬레이터·무선(라디오)</span><span>계정: 필요 없음</span></a><a class="tool" href="https://makecode.microbit.org/reference/radio" target="_blank" rel="noopener"><b>라디오 블록 설명 ↗</b><span>MakeCode (micro:bit) 안내</span></a><a class="tool" href="https://microbit.org/projects/make-it-code-it/" target="_blank" rel="noopener"><b>마이크로비트 V2 ↗</b><span>LED·버튼·가속도·소리 센서, 무선 통신</span><span>계정: 필요 없음</span></a></div>
@@ -406,7 +412,7 @@ details.full{margin-top:32px;background:var(--soft)}
 <div class="pn"><a class="btn" href="../B06/">← 5학년 11~12차시</a><a class="btn" href="../B08/">5학년 15~16차시 →</a></div>
 
 </main>
-<footer><div class="in"><nav class="smap" aria-label="사이트맵"><div><b>수업 자료</b><a href="../../lessons/">차시별 수업 꾸러미</a><a href="../../topics/">단원별로 보기</a><a href="../../tools/">연동 도구</a></div><div><b>체험 게임</b><a href="../../play/">체험 게임</a></div><div><b>도입 안내</b><a href="../../about/">학교자율시간이란?</a><a href="../../guide/">도입 절차</a><a href="../../forms/">서식 받기</a><a href="../../forms/set/">채운 서식 한 벌</a><a href="../../qna/">자주 묻는 질문</a></div><div><b>연구회</b><a href="../../plan/">연구회 소개</a><a href="../../notice/">알림</a></div><div><b>더 보기</b><a href="../../forms/list/">서식 목록·검색</a><a href="../../forms/versions/">판본 차이·정오표</a><a href="../../search/">검색</a></div></nav><p><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 28.<br>학교자율시간 안내·서식은 경기도교육청 자료를 재구성했습니다. 원문과 최신 공문을 함께 확인하세요.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</p></div></footer>
+<footer><div class="in"><nav class="smap" aria-label="사이트맵"><div><b>수업 자료</b><a href="../../lessons/">차시별 수업 꾸러미</a><a href="../../topics/">단원별로 보기</a><a href="../../tools/">연동 도구</a></div><div><b>체험 게임</b><a href="../../play/">체험 게임</a></div><div><b>도입 안내</b><a href="../../about/">학교자율시간이란?</a><a href="../../guide/">도입 절차</a><a href="../../forms/">서식 받기</a><a href="../../forms/set/">채운 서식 한 벌</a><a href="../../qna/">자주 묻는 질문</a></div><div><b>연구회</b><a href="../../plan/">연구회 소개</a><a href="../../notice/">알림</a></div><div><b>더 보기</b><a href="../../forms/list/">서식 목록·검색</a><a href="../../forms/versions/">판본 차이·정오표</a><a href="../../search/">검색</a></div></nav><p><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 28.<br>학교자율시간 안내·서식은 경기도교육청 자료를 재구성했어요. 원문과 최신 공문을 함께 확인하세요.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않아요.</p></div></footer>
 <script>
 (function(){
   var dd=[].slice.call(document.querySelectorAll('.menu details'));
@@ -426,7 +432,7 @@ details.full{margin-top:32px;background:var(--soft)}
   function save(a){try{localStorage.setItem(key,JSON.stringify(a))}catch(_){}}
   function draw(){
     var a=load(); ul.textContent='';
-    if(!a.length){var p=document.createElement('li');p.className='small muted';p.textContent='아직 걸어 둔 링크가 없습니다.';ul.appendChild(p);return}
+    if(!a.length){var p=document.createElement('li');p.className='small muted';p.textContent='아직 걸어 둔 링크가 없어요.';ul.appendChild(p);return}
     a.forEach(function(x,i){
       var li=document.createElement('li'),l=document.createElement('a'),b=document.createElement('button');
       l.href=x.u;l.textContent=x.n+' ↗';l.target='_blank';l.rel='noopener';l.style.fontWeight='800';

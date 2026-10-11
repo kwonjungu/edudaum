@@ -249,10 +249,10 @@ BOARD_JS = """<script>
 def build_notices():
     cats = [c for c in CAT_ORDER if any(n.get('cat') == c for n in NOTICES)]
     btns = '<button type="button" data-c="" aria-pressed="true">전체</button>' + ''.join('<button type="button" data-c="%s" aria-pressed="false">%s</button>' % (e(c), e(c)) for c in cats)
-    body = (head('공지사항', '공지사항', '학교자율시간 지침 변경, 일정, 서식 공개 소식을 알립니다. 📌 표시는 꼭 읽어야 할 글입니다.')
+    body = (head('연구회', '알림', '학교자율시간 지침 변경, 일정, 서식 공개 소식을 알려요. 📌 표시는 꼭 읽어야 할 글이에요.')
             + '<div class="filters">%s<input id="nq" type="search" aria-label="제목·내용 검색" placeholder="제목·내용 검색"><span class="count" aria-live="polite"></span></div>'
               '<div class="tw"><table class="board" id="board"><tr class="hd"><th class="no">번호</th><th class="cat">분류</th><th>제목</th><th class="at">첨부</th><th class="dt">작성일</th></tr>%s</table></div>'
-              '<p class="muted" id="none" hidden>맞는 글이 없습니다.</p><div class="filters" id="pg" style="justify-content:center"></div>' % (btns, notice_rows('../')))
+              '<p class="muted" id="none" hidden>맞는 글이 없어요.</p><div class="filters" id="pg" style="justify-content:center"></div>' % (btns, notice_rows('../')))
     M.page('notice', '공지사항 — 에듀다움', body, 'notice/', BOARD_JS)
     order = notice_sorted()
     for i, n in enumerate(order):
@@ -281,10 +281,10 @@ def build_about():
     secs = ABOUT.get('sections', [])
     toc = ''.join('<a href="#%s">%s</a>' % (s['id'], e(s['title'])) for s in secs)
     parts = ''.join('<section id="%s"><h2>%s</h2>%s%s</section>' % (s['id'], e(s['title']), md(s.get('body', '')), refs_html(s.get('refs'))) for s in secs)
-    body = (head('학교자율시간이란?', '학교자율시간, 한 쪽으로 이해하기',
-                 '무엇인지, 왜 생겼는지, 활동과 과목은 무엇이 다른지, 언제 누가 얼마나 해야 하는지 정리했습니다.', asof=ABOUT.get('updated', ''))
+    body = (head('도입 안내', '학교자율시간, 한 쪽으로 이해하기',
+                 '무엇인지, 왜 생겼는지, 활동과 과목은 무엇이 다른지, 언제 누가 얼마나 해야 하는지 정리했어요.', asof=ABOUT.get('updated', ''))
             + '<div class="toc">%s</div>%s'
-              '<div class="btns" style="margin-top:40px"><a class="btn pri" href="../guide/">도입 가이드로 →</a><a class="btn" href="../forms/set/">종합세트 받기</a></div>' % (toc, parts))
+              '<div class="btns" style="margin-top:40px"><a class="btn pri" href="../guide/">도입 절차 보기 →</a><a class="btn" href="../forms/set/">채운 서식 한 벌 받기</a></div>' % (toc, parts))
     M.page('about', '학교자율시간이란? — 에듀다움', body, 'about/')
 
 
@@ -323,10 +323,10 @@ def build_guide():
                   for c in GUIDE.get('calendar', []))
     tops = {t['slug']: t for t in GUIDE.get('topics', [])}
     cards = ''.join('<a class="card plain" href="%s/"><h3>%s</h3><p>%s</p></a>' % (s, e(tops[s]['title']), e(tops[s].get('lead', ''))) for s in TOPIC_ORDER if s in tops)
-    body = (head('도입 가이드', '한눈에 보는 도입 절차',
-                 '우리 학교가 무엇을 하려는지 고르면 단계마다 <b>누가 · 언제 · 무엇을 내는지</b>와 서식이 나옵니다.', asof='2026. 9.')
+    body = (head('도입 안내', '도입 절차 한눈에 보기',
+                 '우리 학교가 무엇을 하려는지 고르면 단계마다 <b>누가 · 언제 · 무엇을 내는지</b>와 서식이 나와요.', asof='2026. 9.')
             + '<p class="small" style="margin:0 0 4px;font-weight:600">우리 학교는 무엇을 하려나요?</p><div class="segs" role="group" aria-label="갈래 고르기">%s</div>%s'
-              '<h2>한 해 일정</h2><p class="small muted">해마다 공문으로 날짜가 확정됩니다. 교육지원청 안내를 함께 확인하세요.</p><div class="cal">%s</div>'
+              '<h2>한 해 일정</h2><p class="small muted">해마다 공문으로 날짜가 확정돼요. 교육지원청 안내를 함께 확인하세요.</p><div class="cal">%s</div>'
               '<h2>주제별 가이드</h2><div class="grid">%s</div>'
               '<div class="note" style="margin-top:32px">더 궁금한 것은 <a href="../qna/">자주 묻는 질문(Q&A)</a>에서 찾아보세요.</div>' % (segs, panels, cal, cards))
     M.page('guide', '도입 가이드 — 에듀다움', body, 'guide/', TRACK_JS)
@@ -336,7 +336,7 @@ def build_guide():
             continue
         secs = ''.join('<h2>%s</h2>%s%s' % (e(x['title']), md(x.get('body', '')), refs_html(x.get('refs'))) for x in t.get('sections', []))
         pit = ''.join('<li>%s</li>' % inline(p) for p in t.get('pitfalls', []))
-        body = (head('도입 가이드', t['title'], e(t.get('lead', '')), crumb='<a href="../">도입 가이드</a> › %s' % e(t['title']))
+        body = (head('도입 안내', t['title'], e(t.get('lead', '')), crumb='<a href="../">도입 절차</a> › %s' % e(t['title']))
                 + secs + (('<div class="warn"><b>⚠ 자주 틀리는 곳</b><ul>%s</ul></div>' % pit) if pit else '')
                 + chips('관련 서식', [form_chip(f, '../../') for f in t.get('forms', [])])
                 + chips('관련 Q&A', [qna_chip(q, '../../') for q in t.get('qna', [])]))
@@ -381,9 +381,9 @@ def build_qna():
                         ('<div class="warn"><b>🔁 이전 안내와 다른 점</b>%s</div>' % inline(q['changed'])) if q.get('changed') else '',
                         chips('관련 서식', [form_chip(f, '../') for f in q.get('forms', [])]),
                         e(catname.get(q.get('cat'), '')), e(q.get('since', '')), q['id'])).replace('</div></details>', refs_html(q.get('refs')) + '</div></details>'))
-    body = (head('Q&A', '학교자율시간 궁금한 이야기', '경기도교육청 Q&A(2025. 9.)와 2026년 안내를 바탕으로 다시 정리했습니다. 문항마다 근거 쪽을 달았습니다.', asof='2026. 9.')
+    body = (head('도입 안내', '자주 묻는 질문', '경기도교육청 Q&A(2025. 9.)와 2026년 안내를 바탕으로 다시 정리했어요. 문항마다 근거 쪽을 달았어요.', asof='2026. 9.')
             + '<div class="filters">%s<input id="qq" type="search" aria-label="질문 검색" placeholder="질문·답 검색 — 예: 시수, 세특, 기승인"><span class="count" aria-live="polite"></span>'
-              '<button type="button" id="all">모두 펼치기</button></div><div class="qa">%s</div><p class="muted" id="none" hidden>맞는 문항이 없습니다.</p>' % (btns, ''.join(rows)))
+              '<button type="button" id="all">모두 펼치기</button></div><div class="qa">%s</div><p class="muted" id="none" hidden>맞는 문항이 없어요.</p>' % (btns, ''.join(rows)))
     M.page('qna', 'Q&A — 에듀다움', body, 'qna/', QNA_JS)
 
 
@@ -425,8 +425,8 @@ def set_banner(up):
     if not edu:
         return ''
     return ('<div class="setcard" style="margin:8px 0 32px"><span class="kick">가져다 쓰기만 하면 되는 묶음</span><h3>에듀다움 종합세트</h3>'
-            '<p>우리 연구회 5학년 SW 32차시 · 6학년 AI 32차시를 학교자율시간으로 그대로 도입할 때 필요한 서식을 <b>모두 채워</b> 두었습니다. '
-            '【 】 표시한 곳을 우리 학교에 맞게 고치고, 학교 절차(학업성적관리위원회·학교운영위원회 심의, 학교장 결재)를 거쳐 확정합니다.</p><div class="btns">%s</div></div>') % ''.join(
+            '<p>우리 연구회 5학년 SW 32차시 · 6학년 AI 32차시를 학교자율시간으로 그대로 도입할 때 필요한 서식을 <b>모두 채워</b> 두었어요. '
+            '【 】 표시한 곳을 우리 학교에 맞게 고치고, 학교 절차(학업성적관리위원회·학교운영위원회 심의, 학교장 결재)를 거쳐 확정해요.</p><div class="btns">%s</div></div>') % ''.join(
         '<a class="btn%s" href="%sforms/set/#%s">%s</a>' % (' pri' if i == 0 else '', up, s['id'], e(s['name'])) for i, s in enumerate(edu))
 
 
@@ -436,8 +436,8 @@ def build_forms():
     segs = ''.join('<button type="button" data-tr="%s" aria-pressed="false">%s</button>' % (k, e(TRACKS[k])) for k in trs)
     stepper = ''.join('<button type="button" data-s="%s" aria-pressed="false"><i>%d</i>%s</button>' % (k, i, e(v)) for i, (k, v) in enumerate(sorted(STAGES.items()), 1))
     cards = ''.join(fcard(f, '../') for f in sorted(forms, key=lambda f: (f.get('stage', ''), f['id'])))
-    body = (head('도입 서식', '도입 서식 — 절차로 찾기',
-                 '우리 학교가 하려는 일을 고르고 단계를 누르면, 그 단계에서 쓰는 서식만 보입니다. 모든 서식은 <b>누리집에서 바로</b> 받을 수 있습니다' + (' — 같은 파일이 <b>구글 드라이브</b> 서식 폴더에도 있습니다.' if FORMS.get('drive_folder') else '.'))
+    body = (head('도입 안내', '서식 받기 — 절차로 찾기',
+                 '우리 학교가 하려는 일을 고르고 단계를 누르면, 그 단계에서 쓰는 서식만 보여요. 모든 서식은 <b>누리집에서 바로</b> 받을 수 있어요' + (' — 같은 파일이 <b>구글 드라이브</b> 서식 폴더에도 있어요.' if FORMS.get('drive_folder') else '.'))
             + set_banner('../')
             + '<div class="btns" style="margin-top:0"><a class="btn" href="list/">목록·검색으로 찾기 →</a>%s</div>' % (
                 ('<a class="btn" href="%s" target="_blank" rel="noopener">구글 드라이브 서식 폴더 ↗</a>' % e(FORMS['drive_folder'])) if FORMS.get('drive_folder') else '')
@@ -460,13 +460,13 @@ def build_forms():
         e(s['name']), e(s.get('desc', '')), human(s.get('bytes')), e(s['zip']),
         ('<a href="%s" target="_blank" rel="noopener">구글 드라이브 ↗</a>' % e(s['drive'])) if s.get('drive') else '') for s in FORMS.get('sets', []))
     opt = lambda d: ''.join('<option value="%s">%s</option>' % (k, e(v)) for k, v in d)
-    body = (head('도입 서식', '도입 서식 — 목록·검색으로 찾기', '서식 이름·칸 이름으로 찾고, 구분·단계·갈래로 걸러 봅니다.', crumb='<a href="../">도입 서식</a> › 목록·검색')
+    body = (head('도입 안내', '서식 받기 — 목록·검색으로 찾기', '서식 이름·칸 이름으로 찾고, 구분·단계·갈래로 걸러 봐요.', crumb='<a href="../">서식 받기</a> › 목록·검색')
             + '<div class="filters"><select data-f="k" aria-label="구분" %s><option value="">공식·참고 모두</option><option value="공식">공식 양식</option><option value="연구회 참고">연구회 참고 양식</option></select>'
               '<select data-f="s" aria-label="단계" %s><option value="">모든 단계</option>%s</select>'
               '<select data-f="t" aria-label="갈래" %s><option value="">모든 갈래</option>%s</select>'
               '<input id="fq" type="search" aria-label="서식 검색" placeholder="서식·칸 이름 — 예: 편제, 체크리스트, 세특"><span class="count" aria-live="polite"></span></div>'
               '<div class="tw"><table id="flist"><tr><th>번호</th><th>서식</th><th>구분</th><th>단계</th><th>갈래</th><th>형식</th><th>받기</th></tr>%s</table></div>'
-              '<p class="muted" id="none" hidden>맞는 서식이 없습니다.</p><h2>한 번에 받기</h2><div class="tw"><table>%s</table></div>'
+              '<p class="muted" id="none" hidden>맞는 서식이 없어요.</p><h2>한 번에 받기</h2><div class="tw"><table>%s</table></div>'
             % (SEL, SEL, opt(sorted(STAGES.items())), SEL, opt((k, TRACKS[k]) for k in TRACKS), ''.join(rows), sets))
     M.page('forms/list', '서식 목록·검색 — 에듀다움', body, 'forms/list/', LIST_JS)
 
@@ -526,14 +526,14 @@ def build_form(f):
         for x in f.get('files', []))
     flow = ' → '.join(linkf(e(x), up) for x in (f.get('who'), f.get('submit_to'), f.get('next')) if x)
     pv = ('<div class="pv"><img src="%sassets/forms/%s" alt="%s 첫 쪽 미리보기" loading="lazy"></div>' % (up, e(f['preview']), e(f['name']))) if f.get('preview') else ''
-    body = ('<p class="crumb"><a href="../">도입 서식</a> › <a href="../list/">목록</a> › %s</p>'
+    body = ('<p class="crumb"><a href="../">서식 받기</a> › <a href="../list/">목록</a> › %s</p>'
             '<h1>%s %s</h1><p style="margin:0 0 16px">%s <span class="asof">%s</span> <span class="small muted">%s · %s</span></p>'
             '%s%s<div class="two"><div>%s%s%s%s%s</div><aside>%s<h2 style="margin-top:24px">파일</h2><div class="tw"><table><tr><th>종류</th><th>형식</th><th>크기</th><th>받기</th></tr>%s</table></div>%s</aside></div>') % (
         f['id'], f['id'], e(f['name']), kind_badge(f), e(f.get('asof', '2025. 9.') + ' 기준' if f.get('kind') == '공식' else '연구회 제작 ' + f.get('asof', '2026. 9.')),
         e(STAGES.get(f.get('stage', ''), '')), e(' · '.join(TRACKS.get(t, t) for t in f.get('track', []))),
         ('<p class="lead">%s</p>' % e(f['desc'])) if f.get('desc') else '', file_links(f, up),
         ('<p><b>흐름</b> %s</p>' % flow) if flow else '',
-        ('<div class="note">경기도교육청 공식 양식이 아닙니다. 에듀다움 연구회가 현장에서 필요해 만든 참고 양식이니 학교 여건에 맞게 고쳐 쓰세요.</div>' if f.get('kind') != '공식' else ''),
+        ('<div class="note">경기도교육청 공식 양식이 아니에요. 에듀다움 연구회가 현장에서 필요해 만든 참고 양식이니 학교 여건에 맞게 고쳐 쓰세요.</div>' if f.get('kind') != '공식' else ''),
         ('<h2>칸별 작성 요령</h2><div class="tw"><table>%s</table></div>' % tips) if tips else '',
         ('<div class="warn"><b>⚠ 자주 틀리는 곳</b><ul>%s</ul></div>' % pit) if pit else '',
         (('<h2>원 양식과 다른 점</h2><ul class="small">%s</ul>' % diffs) if diffs else '')
@@ -553,7 +553,7 @@ def build_set():
             it['no'], it['id'], e(it['name']), it['id'],
             ''.join('<a href="../../assets/forms/%s" download>⬇ %s</a>' % (e(x['file']), FMT.get(x['fmt'], x['fmt'])) for x in it['files']))
             for it in s.get('items', []))
-        order = ('<h4 style="margin:20px 0 6px">들어 있는 채운 양식 — 쓰는 순서대로</h4><p class="small muted" style="margin:0 0 8px">zip과 구글 드라이브 폴더도 같은 번호 순서입니다. 과정안 14편(한글·PDF)과 「00_먼저읽어주세요」 안내가 함께 들어 있습니다.</p>'
+        order = ('<h4 style="margin:20px 0 6px">들어 있는 채운 양식 — 쓰는 순서대로</h4><p class="small muted" style="margin:0 0 8px">zip과 구글 드라이브 폴더도 같은 번호 순서예요. 과정안 14편(한글·PDF)과 「00_먼저읽어주세요」 안내가 함께 들어 있어요.</p>'
                  '<div class="tw"><table><tr><th>순서</th><th>서식</th><th>한 장씩 받기</th></tr>%s</table></div>' % rows) if rows else ''
         parts.append('<section id="%s" class="setcard" style="margin:24px 0"><h3>%s</h3><p>%s</p>'
                      '<div class="btns"><a class="btn%s" href="../../assets/forms/%s" download>⬇ 한 번에 받기 (zip, %s)</a>%s</div>'
@@ -561,10 +561,10 @@ def build_set():
                                           ('<a class="btn" href="%s" target="_blank" rel="noopener">구글 드라이브에서 받기 ↗</a>' % e(s['drive'])) if s.get('drive') else '',
                                           order + (('<h4>이렇게 쓰세요</h4><ol class="small">%s</ol>' % how) if how else ''),
                                           ('<details><summary class="small" style="cursor:pointer;font-weight:600">묶음에 든 파일 %d개</summary><ul class="small">%s</ul></details>' % (len(s.get('contents', [])), cont)) if cont else ''))
-    body = (head('도입 서식', '종합세트 — 가져다 쓰기만 하면 되는 묶음',
-                 '5학년 SW·6학년 AI 32차시를 학교자율시간으로 그대로 도입할 때 필요한 서식을 <b>모두 채워</b> 두었습니다. 신청서부터 학운위 안건·결재 기안·교구 구입 품의·나이스 업로드·세특 예시까지, 쓰는 순서대로 번호를 붙였습니다. 다른 과정을 직접 만들 학교는 맨 아래 빈 양식 한 벌을 받으세요.',
-                 crumb='<a href="../">도입 서식</a> › 종합세트')
-            + '<div class="note">채운 서식은 <b>작성 예시</b>입니다. 【 】 표시한 곳을 우리 학교에 맞게 고치고, 학교 절차(학업성적관리위원회·학교운영위원회 심의, 학교장 결재)를 거쳐 확정합니다. 【 】에는 학교명·날짜·운영 학기·시수를 조정할 교과 등이 들어 있습니다.</div>'
+    body = (head('도입 안내', '채운 서식 한 벌 — 그대로 가져다 써요',
+                 '5학년 SW·6학년 AI 32차시를 학교자율시간으로 그대로 도입할 때 필요한 서식을 <b>모두 채워</b> 두었어요. 신청서부터 학운위 안건·결재 기안·교구 구입 품의·나이스 업로드·세특 예시까지, 쓰는 순서대로 번호를 붙였어요. 다른 과정을 직접 만들 학교는 맨 아래 빈 양식 한 벌을 받으세요.',
+                 crumb='<a href="../">서식 받기</a> › 종합세트')
+            + '<div class="note">채운 서식은 <b>작성 예시</b>예요. 【 】 표시한 곳을 우리 학교에 맞게 고치고, 학교 절차(학업성적관리위원회·학교운영위원회 심의, 학교장 결재)를 거쳐 확정해요. 【 】에는 학교명·날짜·운영 학기·시수를 조정할 교과 등이 들어 있어요.</div>'
             + ''.join(parts))
     M.page('forms/set', '종합세트 — 도입 서식 — 에듀다움', body, 'forms/set/')
 
@@ -577,8 +577,8 @@ def build_versions():
         ch = f.get('diffs', []) + f.get('changes_from_source', [])
         if f.get('kind') == '공식' and ch:
             diff.append('<h3><a href="../%s/">%s %s</a></h3><ul class="small">%s</ul>' % (f['id'], f['id'], e(f['name']), ''.join('<li>%s</li>' % inline(c) for c in ch)))
-    body = (head('도입 서식', '판본 차이·정오표', '같은 서식이 문서마다 조금씩 다르고, 원문에 잘못 찍힌 곳도 있습니다. 이 누리집의 서식은 2025. 9. 판과 2026년 안내를 기준으로 맞췄습니다.',
-                 crumb='<a href="../">도입 서식</a> › 판본 차이·정오표')
+    body = (head('도입 안내', '판본 차이·정오표', '같은 서식이 문서마다 조금씩 다르고, 원문에 잘못 찍힌 곳도 있어요. 이 누리집의 서식은 2025. 9. 판과 2026년 안내를 기준으로 맞췄어요.',
+                 crumb='<a href="../">서식 받기</a> › 판본 차이·정오표')
             + '<h2>원문 정오표</h2><div class="tw"><table><tr><th>문서</th><th>쪽</th><th>원문</th><th>바로잡음</th><th>비고</th></tr>%s</table></div>'
               '<h2>공식 양식 — 원 양식과 다르게 정리한 곳</h2>%s' % (rows, ''.join(diff) or '<p class="muted">없음</p>'))
     M.page('forms/versions', '판본 차이·정오표 — 에듀다움', body, 'forms/versions/')
@@ -625,7 +625,7 @@ def build_search():
     for c in M.CODES:
         idx.append({'k': '과정안', 't': '%d학년 %s차시 %s' % (M.grade(c), M.label(c), M.topic(c)), 'b': plain(' '.join(M.activities(c)) + ' ' + M.std_code(c))[:400], 'u': '../lessons/%s/' % c})
     data = json.dumps(idx, ensure_ascii=False).replace('</', '<\\/')
-    body = (head('검색', '누리집 검색', '공지·가이드·Q&A·서식·과정안을 한꺼번에 찾습니다. 낱말을 띄어 쓰면 모두 들어간 것만 보여 줍니다.')
+    body = (head('검색', '누리집 검색', '공지·가이드·Q&A·서식·과정안을 한꺼번에 찾아요. 낱말을 띄어 쓰면 모두 들어간 것만 보여 줘요.')
             + '<div class="filters"><input id="sq" type="search" aria-label="검색어" placeholder="예: 세특 시간, 편제표, 기승인 인정도서, 마이크로비트" style="font-size:16px;min-height:52px">'
               '<span class="count" aria-live="polite"></span></div><div class="hits" id="hits"></div>'
               '<script type="application/json" id="idx">%s</script>' % data)

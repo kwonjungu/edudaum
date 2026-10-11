@@ -364,6 +364,12 @@ details.full{margin-top:32px;background:var(--soft)}
 .gcard>span{flex:1;min-width:0}
 .gcard .go{flex:0 0 auto;background:var(--gc-d);color:#fff;border-radius:var(--r-full);padding:8px 16px;font:400 15px var(--title)}
 @media print{.kit,details.mine{display:none}details.full>*{display:block}}
+/* 체험 게임 목록 */
+.ggrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.gcard .gtag{display:inline-block;background:var(--gc-l);color:var(--gc-d);border-radius:var(--r-full);padding:0 8px;font:400 12.5px var(--title);margin-bottom:2px}
+.gcard .needs{display:flex!important;flex-wrap:wrap;gap:6px;margin-top:6px}
+.gcard .needs i{display:inline-flex;align-items:center;gap:4px;font-style:normal;font-size:12.5px;color:var(--body);border:1px solid var(--line);border-radius:var(--r-full);padding:1px 8px 1px 4px}
+.gcard .needs .ic{width:18px;height:18px}
 </style>
 </head>
 <body>
@@ -385,7 +391,7 @@ details.full{margin-top:32px;background:var(--soft)}
 <h2 class="sub"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">준비물</h2><div class="pchips"><span class="pchip"><img class="ic" src="../../assets/icons/pen.svg" alt="" width="24" height="24">연필</span><span class="pchip"><img class="ic" src="../../assets/icons/thermo.svg" alt="" width="24" height="24">눈금 온도계와 숫자 온도계</span><span class="pchip" title="마이크로비트 V2(모둠당 1대)"><img class="ic" src="../../assets/icons/device.svg" alt="" width="24" height="24">마이크로비트 V2</span><span class="pchip"><img class="ic" src="../../assets/icons/device.svg" alt="" width="24" height="24">USB 케이블</span><span class="pchip"><img class="ic" src="../../assets/icons/device.svg" alt="" width="24" height="24">배터리 팩</span><span class="pchip"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">학생 기기</span><span class="pchip" title="데이터 카드 8장(모둠별)"><img class="ic" src="../../assets/icons/card.svg" alt="" width="24" height="24">데이터 카드 8장</span></div>
 <h2 class="sub"><img class="ic" src="../../assets/icons/eval.svg" alt="" width="24" height="24">평가</h2>
 <p class="evone">온도계와 마이크로비트 센서로 같은 대상을 이어지는 값과 끊어 적은 값으로 나타내고, 기록 간격에 따른 차이와 데이터 유형을 설명할 수 있는가?</p><details class="more"><summary>평가 기준 자세히</summary><p><b>인공지능 소양 · 데이터를 나타내는 방식의 이해</b> — 온도계와 마이크로비트 센서로 같은 대상을 이어지는 값과 끊어 적은 값으로 나타내고, 기록 간격에 따른 차이와 데이터 유형을 설명할 수 있는가?</p><div class="tw"><table class="lv"><tr><th>수준</th><th>평가 기준</th></tr><tr><td>매우 잘함</td><td>두 온도계의 값을 적고 1도·0.5도 단위로 끊어 적으며 아날로그와 디지털을 값을 나타내는 방식으로 설명한다. 움직임 그래프의 다섯 숫자를 손으로 그린 곡선과 겹쳐 비교하고, 센서 값을 두 간격으로 기록해 넓은 간격에서 놓친 변화를 자기 기록을 들어 설명한다. 데이터 카드를 네 유형으로 나누고 카드마다 어떤 숫자로 바뀌는지 쓴다.</td></tr><tr><td>잘함</td><td>두 방식으로 기록하고 움직임 그래프의 숫자를 적으며, 두 간격의 센서 기록에서 놓친 변화를 한 가지 이상 찾는다. 데이터 카드를 대부분 바르게 나눈다.</td></tr><tr><td>보통</td><td>온도계를 읽어 두 방식으로 기록하지만 차이를 ‘다르다’는 말로만 설명한다. 또는 센서 기록이나 데이터 카드 나누기 가운데 일부만 마친다.</td></tr><tr><td>노력요함</td><td>교사가 기록 칸과 간격을 하나씩 가리켜 주고 예를 보여 준 뒤에도, 같은 대상을 두 방식으로 나타내거나 기록 간격에 따른 차이를 설명하는 데 어려움이 있다.</td></tr><tr><td>미관찰</td><td>결석이나 미제출로 확인하지 못한 경우. 낮은 성취로 적지 않고 따로 기록한 뒤 보충 확인 시점을 정한다.</td></tr></table></div><p class="small"><b>평가 방법</b> 활동지 분석 · 구술 확인 · 관찰</p></details>
-<h2 class="sub" id="game"><img class="ic" src="../../assets/icons/game.svg" alt="" width="24" height="24">체험 게임</h2><a class="gcard" href="../../B23/"><img class="ic big" src="../../assets/icons/game.svg" alt="" width="24" height="24"><span><b>몇 지점으로 끊을까</b><span>2초만 보여 주고 가려요</span></span><span class="go">열기</span></a>
+<h2 class="sub" id="game"><img class="ic" src="../../assets/icons/game.svg" alt="" width="24" height="24">체험 게임</h2><a class="gcard" href="../../B23/"><img class="ic big" src="../../assets/icons/game.svg" alt="" width="24" height="24"><span><b>곡선을 몇 점으로 끊을지 짚기</b><span>2초만 보여 주고 가려요</span></span><span class="go">열기</span></a>
 <h2 class="sub" id="tools"><img class="ic" src="../../assets/icons/tool.svg" alt="" width="24" height="24">연동 도구</h2>
 <p class="small muted">과정안에 나온 도구예요. 수업 전에 학교망에서 열리는지 확인해 주세요.</p>
 <div class="toolgrid"><a class="tool" href="https://makecode.microbit.org/?lang=ko" target="_blank" rel="noopener"><b>MakeCode (micro:bit) ↗</b><span>마이크로비트 블록 코딩·시뮬레이터·무선(라디오)</span><span>계정: 필요 없음</span></a><a class="tool" href="https://makecode.microbit.org/reference/radio" target="_blank" rel="noopener"><b>라디오 블록 설명 ↗</b><span>MakeCode (micro:bit) 안내</span></a><a class="tool" href="https://microbit.org/projects/make-it-code-it/" target="_blank" rel="noopener"><b>마이크로비트 V2 ↗</b><span>LED·버튼·가속도·소리 센서, 무선 통신</span><span>계정: 필요 없음</span></a><a class="tool" href="https://createai.microbit.org/" target="_blank" rel="noopener"><b>micro:bit CreateAI ↗</b><span>움직임 데이터로 동작 모델 학습·시험, 움직임 그래프</span><span>계정: 필요 없음(크롬·엣지)</span></a><a class="tool" href="https://microbit.org/get-started/user-guide/microbit-createai/" target="_blank" rel="noopener"><b>CreateAI 사용 안내 ↗</b><span>micro:bit CreateAI 안내</span></a></div>
@@ -406,7 +412,7 @@ details.full{margin-top:32px;background:var(--soft)}
 <div class="pn"><a class="btn" href="../B22/">← 6학년 15~16차시</a><a class="btn" href="../B24/">6학년 19~20차시 →</a></div>
 
 </main>
-<footer><div class="in"><nav class="smap" aria-label="사이트맵"><div><b>수업 자료</b><a href="../../lessons/">차시별 수업 꾸러미</a><a href="../../topics/">단원별로 보기</a><a href="../../tools/">연동 도구</a></div><div><b>체험 게임</b><a href="../../play/">체험 게임</a></div><div><b>도입 안내</b><a href="../../about/">학교자율시간이란?</a><a href="../../guide/">도입 절차</a><a href="../../forms/">서식 받기</a><a href="../../forms/set/">채운 서식 한 벌</a><a href="../../qna/">자주 묻는 질문</a></div><div><b>연구회</b><a href="../../plan/">연구회 소개</a><a href="../../notice/">알림</a></div><div><b>더 보기</b><a href="../../forms/list/">서식 목록·검색</a><a href="../../forms/versions/">판본 차이·정오표</a><a href="../../search/">검색</a></div></nav><p><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 28.<br>학교자율시간 안내·서식은 경기도교육청 자료를 재구성했습니다. 원문과 최신 공문을 함께 확인하세요.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</p></div></footer>
+<footer><div class="in"><nav class="smap" aria-label="사이트맵"><div><b>수업 자료</b><a href="../../lessons/">차시별 수업 꾸러미</a><a href="../../topics/">단원별로 보기</a><a href="../../tools/">연동 도구</a></div><div><b>체험 게임</b><a href="../../play/">체험 게임</a></div><div><b>도입 안내</b><a href="../../about/">학교자율시간이란?</a><a href="../../guide/">도입 절차</a><a href="../../forms/">서식 받기</a><a href="../../forms/set/">채운 서식 한 벌</a><a href="../../qna/">자주 묻는 질문</a></div><div><b>연구회</b><a href="../../plan/">연구회 소개</a><a href="../../notice/">알림</a></div><div><b>더 보기</b><a href="../../forms/list/">서식 목록·검색</a><a href="../../forms/versions/">판본 차이·정오표</a><a href="../../search/">검색</a></div></nav><p><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 28.<br>학교자율시간 안내·서식은 경기도교육청 자료를 재구성했어요. 원문과 최신 공문을 함께 확인하세요.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않아요.</p></div></footer>
 <script>
 (function(){
   var dd=[].slice.call(document.querySelectorAll('.menu details'));
@@ -426,7 +432,7 @@ details.full{margin-top:32px;background:var(--soft)}
   function save(a){try{localStorage.setItem(key,JSON.stringify(a))}catch(_){}}
   function draw(){
     var a=load(); ul.textContent='';
-    if(!a.length){var p=document.createElement('li');p.className='small muted';p.textContent='아직 걸어 둔 링크가 없습니다.';ul.appendChild(p);return}
+    if(!a.length){var p=document.createElement('li');p.className='small muted';p.textContent='아직 걸어 둔 링크가 없어요.';ul.appendChild(p);return}
     a.forEach(function(x,i){
       var li=document.createElement('li'),l=document.createElement('a'),b=document.createElement('button');
       l.href=x.u;l.textContent=x.n+' ↗';l.target='_blank';l.rel='noopener';l.style.fontWeight='800';

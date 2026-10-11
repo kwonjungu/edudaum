@@ -364,6 +364,12 @@ details.full{margin-top:32px;background:var(--soft)}
 .gcard>span{flex:1;min-width:0}
 .gcard .go{flex:0 0 auto;background:var(--gc-d);color:#fff;border-radius:var(--r-full);padding:8px 16px;font:400 15px var(--title)}
 @media print{.kit,details.mine{display:none}details.full>*{display:block}}
+/* 체험 게임 목록 */
+.ggrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.gcard .gtag{display:inline-block;background:var(--gc-l);color:var(--gc-d);border-radius:var(--r-full);padding:0 8px;font:400 12.5px var(--title);margin-bottom:2px}
+.gcard .needs{display:flex!important;flex-wrap:wrap;gap:6px;margin-top:6px}
+.gcard .needs i{display:inline-flex;align-items:center;gap:4px;font-style:normal;font-size:12.5px;color:var(--body);border:1px solid var(--line);border-radius:var(--r-full);padding:1px 8px 1px 4px}
+.gcard .needs .ic{width:18px;height:18px}
 </style>
 </head>
 <body>
@@ -373,17 +379,17 @@ details.full{margin-top:32px;background:var(--soft)}
 
 <span class="kick">연구회 소개</span>
 <h1>경기 AI 융합교육 에듀다움 교사연구회</h1>
-<p class="lead">경기도 초등 교사들이 학교자율시간에 바로 쓰는 SW·AI 교육과정을 만들고 교실에서 검증합니다. 2026년 연구 주제는 「학교자율시간 연계 초등 SW·AI 융합 프로그램 개발 및 적용」 — 5학년 SW 32차시, 6학년 AI 32차시입니다.</p>
+<p class="lead">경기도 초등 교사들이 학교자율시간에 바로 쓰는 SW·AI 교육과정을 만들고 교실에서 검증해요. 2026년 연구 주제는 「학교자율시간 연계 초등 SW·AI 융합 프로그램 개발 및 적용」 — 5학년 SW 32차시, 6학년 AI 32차시예요.</p>
 <div class="toc"><a href="#why">배경과 목표</a><a href="#run">운영 구조</a><a href="#course">과정 구성</a><a href="#std">성취기준</a><a href="#link">교과 연계</a><a href="#eval">평가·검증</a><a href="#safe">안전·개인정보</a><a href="#time">추진 일정</a></div>
 
 <h2 id="why">배경과 목표</h2>
 <div class="box">
 <p><b>연구 주제</b> 학교자율시간 연계 초등 SW·AI 융합 프로그램 개발 및 적용 <span class="muted small">(AI 활용 — AI·데이터 기반 교과 융합 수업모델 개발)</span></p>
 <ul>
-<li>2022 개정 교육과정은 초등 정보교육을 34시간 이상으로 늘렸으나, 실과 「디지털 사회와 인공지능」 17차시만으로는 SW·데이터·인공지능을 프로젝트로 넓히기 어렵고, 학교자율시간에 쓸 검증된 자료가 부족합니다.</li>
-<li>실과 정보 영역 [6실05-01]~[6실05-05]와 학교자율시간 정보 교육 [06자율-1]~[06자율-7]을 재구조화하여 5학년 32차시, 6학년 32차시(합 64차시)를 개발합니다.</li>
-<li>5학년은 SW 기초를 교과와 잇는 교과 융합 프로젝트, 6학년은 데이터와 AI로 학교·가정·지역 문제를 푸는 실생활 문제해결 프로젝트입니다.</li>
-<li>고가 장비 없이 학교 보유 기기, 무료 교육용 도구, 학교 주변에서 모을 수 있는 자료로 운영합니다.</li>
+<li>2022 개정 교육과정은 초등 정보교육을 34시간 이상으로 늘렸으나, 실과 「디지털 사회와 인공지능」 17차시만으로는 SW·데이터·인공지능을 프로젝트로 넓히기 어렵고, 학교자율시간에 쓸 검증된 자료가 부족해요.</li>
+<li>실과 정보 영역 [6실05-01]~[6실05-05]와 학교자율시간 정보 교육 [06자율-1]~[06자율-7]을 재구조화하여 5학년 32차시, 6학년 32차시(합 64차시)를 개발해요.</li>
+<li>5학년은 SW 기초를 교과와 잇는 교과 융합 프로젝트, 6학년은 데이터와 AI로 학교·가정·지역 문제를 푸는 실생활 문제해결 프로젝트예요.</li>
+<li>고가 장비 없이 학교 보유 기기, 무료 교육용 도구, 학교 주변에서 모을 수 있는 자료로 운영해요.</li>
 </ul></div>
 
 <h2 id="run">운영 구조 (고도화안)</h2>
@@ -396,13 +402,13 @@ details.full{margin-top:32px;background:var(--soft)}
 <tr><td>비교 학급</td><td>선택 1학급</td><td>선택 1학급</td></tr>
 <tr><td>편성</td><td colspan="2">주 2차시 블록 수업, 한 학기 약 16주. 한 차시 40분, 대부분 2차시(80분) 묶음, B11·B12·B25·B27은 4차시 묶음</td></tr>
 </table></div>
-<p class="note">연구 계획서의 1차 파일럿 → 2차 확대 적용 구조를, 고도화 과정에서 학년별 2학급 전체 운영으로 바꾸었습니다. 이야기 흐름과 누적 산출물을 한 학생 집단 안에서 볼 수 있게 하려는 것입니다.</p>
+<p class="note">연구 계획서의 1차 파일럿 → 2차 확대 적용 구조를, 고도화 과정에서 학년별 2학급 전체 운영으로 바꾸었어요. 이야기 흐름과 누적 산출물을 한 학생 집단 안에서 볼 수 있게 하려는 것이에요.</p>
 
 <h2 id="course">과정 구성 — 영역과 차시</h2>
 <div class="tw"><table><tr><th>학년</th><th>영역</th><th>차시</th><th>과정안</th></tr><tr><td>5학년</td><td><a href="../topics/#sw1">생활 속 소프트웨어</a></td><td>1~4</td><td>2편</td></tr><tr><td>5학년</td><td><a href="../topics/#sw2">알고리즘</a></td><td>5~12</td><td>4편</td></tr><tr><td>5학년</td><td><a href="../topics/#sw3">프로그래밍</a></td><td>13~24</td><td>5편</td></tr><tr><td>5학년</td><td><a href="../topics/#sw4">협력과 공유</a></td><td>25~32</td><td>3편</td></tr><tr><td>6학년</td><td><a href="../topics/#ai1">인공지능과 우리 생활</a></td><td>1~6</td><td>3편</td></tr><tr><td>6학년</td><td><a href="../topics/#ai2">사람과 대화하는 인공지능</a></td><td>7~10</td><td>2편</td></tr><tr><td>6학년</td><td><a href="../topics/#ai3">규칙으로 판단하는 인공지능</a></td><td>11~16</td><td>3편</td></tr><tr><td>6학년</td><td><a href="../topics/#ai4">데이터로 학습하는 인공지능</a></td><td>17~26</td><td>4편</td></tr><tr><td>6학년</td><td><a href="../topics/#ai5">인공지능과 올바른 사용</a></td><td>27~32</td><td>2편</td></tr></table></div>
 
 <h2 id="std">성취기준</h2>
-<p class="small muted">학교자율시간 과목을 위해 연구회가 자체 개발한 성취기준입니다. [5실SW…]·[6실인공지능…]은 국가 실과 성취기준 코드가 아니며, ‘연계’ 칸이 2022 개정 실과·학교자율시간 정보 교육 성취기준입니다.</p>
+<p class="small muted">학교자율시간 과목을 위해 연구회가 자체 개발한 성취기준이에요. [5실SW…]·[6실인공지능…]은 국가 실과 성취기준 코드가 아니며, ‘연계’ 칸이 2022 개정 실과·학교자율시간 정보 교육 성취기준이에요.</p>
 <div class="tw"><table><tr><th>학년</th><th>영역</th><th>자체 성취기준</th><th>연계</th><th>차시</th></tr><tr><td>5학년</td><td>생활 속 소프트웨어</td><td><b>[5실SW01-01]</b><br>생활 속에서 소프트웨어가 활용되는 사례를 찾아보고, 해결할 수 있는 문제를 발견한다.</td><td>[06자율-1] [6실05-01]</td><td><a href="../lessons/B01/">1~2</a> <a href="../lessons/B02/">3~4</a></td></tr><tr><td>5학년</td><td>알고리즘</td><td><b>[5실SW02-01]</b><br>놀이를 통해 알고리즘을 체험하고, 문제를 해결하는 절차를 다양한 방법으로 표현한다.</td><td>[06자율-2] [6실05-01]</td><td><a href="../lessons/B03/">5~6</a> <a href="../lessons/B04/">7~8</a> <a href="../lessons/B05/">9~10</a> <a href="../lessons/B06/">11~12</a></td></tr><tr><td>5학년</td><td>프로그래밍</td><td><b>[5실SW03-01]</b><br>예제 프로그램을 바꾸어 보며 순차·선택·반복 구조와 수를 세는 변수를 사용한 프로그램을 작성한다.</td><td>[6실05-02]</td><td><a href="../lessons/B07/">13~14</a> <a href="../lessons/B08/">15~16</a> <a href="../lessons/B09/">17~18</a> <a href="../lessons/B10/">19~20</a></td></tr><tr><td>5학년</td><td>프로그래밍</td><td><b>[5실SW03-02]</b><br>기존 프로그램을 바꾸어 나에게 필요한 프로그램을 만들고, 예상과 다른 실행 결과에서 오류를 찾아 고친다. 프로그램의 입력·출력을 무선 통신으로 다른 기기까지 넓힌다.</td><td>[06자율-3] [6실05-02]</td><td><a href="../lessons/B11/">21~24</a></td></tr><tr><td>5학년</td><td>협력과 공유</td><td><b>[5실SW04-01]</b><br>친구와 역할을 나누어 프로그램을 만들고, 서로의 코드를 검토해 고친다. 사용자 시험 기록을 근거로 작품을 설명하며 공유한다.</td><td>[06자율-4] [6실05-03]</td><td><a href="../lessons/B12/">25~28</a> <a href="../lessons/B13/">29~30</a></td></tr><tr><td>5학년</td><td>협력과 공유</td><td><b>[5실SW04-02]</b><br>무선으로 보낸 정보는 다른 사람도 받을 수 있음을 알고, 개인정보를 보내거나 공개하지 않는다. 작품에 사용한 자료의 출처와 이용 조건을 확인해 밝힌다.</td><td>[6실05-03]</td><td><a href="../lessons/B14/">31~32</a></td></tr><tr><td>6학년</td><td>인공지능과 우리 생활</td><td><b>[6실인공지능01-01]</b><br>생활 속 인공지능 사례를 찾아보고, 판별 기준에 따라 정해진 동작만 되풀이하는 기계와 인공지능을 구분한다.</td><td>[6실05-05]</td><td><a href="../lessons/B15/">1~2</a> <a href="../lessons/B16/">3~4</a> <a href="../lessons/B17/">5~6</a></td></tr><tr><td>6학년</td><td>사람과 대화하는 인공지능</td><td><b>[6실인공지능02-01]</b><br>대화형 인공지능을 체험하며 말과 글이 처리되는 단계를 설명하고, 챗봇의 답을 근거 자료로 확인한다.</td><td>[6실05-04]</td><td><a href="../lessons/B18/">7~8</a> <a href="../lessons/B19/">9~10</a></td></tr><tr><td>6학년</td><td>규칙으로 판단하는 인공지능</td><td><b>[6실인공지능03-01]</b><br>사람의 판단 지식을 규칙으로 옮기는 놀이와 프로그램 만들기로 규칙 기반 인공지능의 판단 과정을 체험한다.</td><td>[6실05-05]</td><td><a href="../lessons/B20/">11~12</a> <a href="../lessons/B21/">13~14</a> <a href="../lessons/B22/">15~16</a></td></tr><tr><td>6학년</td><td>데이터로 학습하는 인공지능</td><td><b>[6실인공지능04-01]</b><br>온도·움직임처럼 이어지며 변하는 값이 숫자 데이터로 바뀌는 과정을 알고, 인공지능에 쓰이는 데이터의 종류(수·글·이미지·소리)를 구분한다.</td><td>[06자율-5] [6실05-04]</td><td><a href="../lessons/B23/">17~18</a></td></tr><tr><td>6학년</td><td>데이터로 학습하는 인공지능</td><td><b>[6실인공지능04-02]</b><br>인공지능 모델이 학습 데이터의 공통점으로 새 데이터를 분류하는 과정을 체험하고, 학습 데이터의 양이 분류 결과에 영향을 줌을 안다.</td><td>[06자율-6] [6실05-04]</td><td><a href="../lessons/B24/">19~20</a> <a href="../lessons/B25/">21~24</a></td></tr><tr><td>6학년</td><td>데이터로 학습하는 인공지능</td><td><b>[6실인공지능04-03]</b><br>인공지능이 만들어지는 과정을 체험하고, 인공지능이 틀리는 원인을 데이터·모델·사용 조건에서 찾는다.</td><td>[6실05-05]</td><td><a href="../lessons/B26/">25~26</a></td></tr><tr><td>6학년</td><td>인공지능과 올바른 사용</td><td><b>[6실인공지능05-01]</b><br>인공지능으로 생활 속 문제를 해결하고, 결과를 친구들과 공유한다.</td><td>[6실05-05]</td><td><a href="../lessons/B27/">27~30</a></td></tr><tr><td>6학년</td><td>인공지능과 올바른 사용</td><td><b>[6실인공지능05-02]</b><br>인공지능이 사회에 미치는 영향과 학습 데이터의 치우침을 찾고, 토의를 거쳐 공정한 사용 안내를 정한다.</td><td>[06자율-7] [6실05-05]</td><td><a href="../lessons/B28/">31~32</a></td></tr></table></div>
 
 <h2 id="link">교과 연계</h2>
@@ -422,11 +428,11 @@ details.full{margin-top:32px;background:var(--soft)}
 
 <h2 id="safe">안전·개인정보 원칙</h2>
 <ul>
-<li>사진·영상에 사람 얼굴을 넣지 않고 손·물건으로 대신합니다. 웹캠 자료는 저장하지 않고 수업 끝에 지웁니다.</li>
-<li>생성형 AI는 학생용 <b>우리아이AI</b>만 쓰며, 개인정보는 입력하지 않고 학생 계정은 만들지 않습니다.</li>
-<li>무선으로 보낸 정보는 다른 사람도 받을 수 있음을 실험으로 겪고, 교사가 정한 그룹 번호만 씁니다.</li>
-<li>작품에 쓴 그림·소리는 허락·출처·이용 조건(CCL)을 확인해 밝힙니다.</li>
-<li>설문은 이름 없이 반·번호로만 받으며, 연구 종료 후 기관 기준에 따라 보관·폐기합니다.</li>
+<li>사진·영상에 사람 얼굴을 넣지 않고 손·물건으로 대신해요. 웹캠 자료는 저장하지 않고 수업 끝에 지워요.</li>
+<li>생성형 AI는 학생용 <b>우리아이AI</b>만 쓰며, 개인정보는 입력하지 않고 학생 계정은 만들지 않아요.</li>
+<li>무선으로 보낸 정보는 다른 사람도 받을 수 있음을 실험으로 겪고, 교사가 정한 그룹 번호만 써요.</li>
+<li>작품에 쓴 그림·소리는 허락·출처·이용 조건(CCL)을 확인해 밝혀요.</li>
+<li>설문은 이름 없이 반·번호로만 받으며, 연구 종료 후 기관 기준에 따라 보관·폐기해요.</li>
 </ul>
 
 <h2 id="time">추진 일정 (2026)</h2>
@@ -442,7 +448,7 @@ details.full{margin-top:32px;background:var(--soft)}
 </table></div>
 
 </main>
-<footer><div class="in"><nav class="smap" aria-label="사이트맵"><div><b>수업 자료</b><a href="../lessons/">차시별 수업 꾸러미</a><a href="../topics/">단원별로 보기</a><a href="../tools/">연동 도구</a></div><div><b>체험 게임</b><a href="../play/">체험 게임</a></div><div><b>도입 안내</b><a href="../about/">학교자율시간이란?</a><a href="../guide/">도입 절차</a><a href="../forms/">서식 받기</a><a href="../forms/set/">채운 서식 한 벌</a><a href="../qna/">자주 묻는 질문</a></div><div><b>연구회</b><a href="../plan/">연구회 소개</a><a href="../notice/">알림</a></div><div><b>더 보기</b><a href="../forms/list/">서식 목록·검색</a><a href="../forms/versions/">판본 차이·정오표</a><a href="../search/">검색</a></div></nav><p><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 28.<br>학교자율시간 안내·서식은 경기도교육청 자료를 재구성했습니다. 원문과 최신 공문을 함께 확인하세요.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</p></div></footer>
+<footer><div class="in"><nav class="smap" aria-label="사이트맵"><div><b>수업 자료</b><a href="../lessons/">차시별 수업 꾸러미</a><a href="../topics/">단원별로 보기</a><a href="../tools/">연동 도구</a></div><div><b>체험 게임</b><a href="../play/">체험 게임</a></div><div><b>도입 안내</b><a href="../about/">학교자율시간이란?</a><a href="../guide/">도입 절차</a><a href="../forms/">서식 받기</a><a href="../forms/set/">채운 서식 한 벌</a><a href="../qna/">자주 묻는 질문</a></div><div><b>연구회</b><a href="../plan/">연구회 소개</a><a href="../notice/">알림</a></div><div><b>더 보기</b><a href="../forms/list/">서식 목록·검색</a><a href="../forms/versions/">판본 차이·정오표</a><a href="../search/">검색</a></div></nav><p><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 28.<br>학교자율시간 안내·서식은 경기도교육청 자료를 재구성했어요. 원문과 최신 공문을 함께 확인하세요.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않아요.</p></div></footer>
 <script>
 (function(){
   var dd=[].slice.call(document.querySelectorAll('.menu details'));

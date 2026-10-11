@@ -364,6 +364,12 @@ details.full{margin-top:32px;background:var(--soft)}
 .gcard>span{flex:1;min-width:0}
 .gcard .go{flex:0 0 auto;background:var(--gc-d);color:#fff;border-radius:var(--r-full);padding:8px 16px;font:400 15px var(--title)}
 @media print{.kit,details.mine{display:none}details.full>*{display:block}}
+/* 체험 게임 목록 */
+.ggrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.gcard .gtag{display:inline-block;background:var(--gc-l);color:var(--gc-d);border-radius:var(--r-full);padding:0 8px;font:400 12.5px var(--title);margin-bottom:2px}
+.gcard .needs{display:flex!important;flex-wrap:wrap;gap:6px;margin-top:6px}
+.gcard .needs i{display:inline-flex;align-items:center;gap:4px;font-style:normal;font-size:12.5px;color:var(--body);border:1px solid var(--line);border-radius:var(--r-full);padding:1px 8px 1px 4px}
+.gcard .needs .ic{width:18px;height:18px}
 </style>
 </head>
 <body>
@@ -385,7 +391,7 @@ details.full{margin-top:32px;background:var(--soft)}
 <h2 class="sub"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">준비물</h2><div class="pchips"><span class="pchip"><img class="ic" src="../../assets/icons/pen.svg" alt="" width="24" height="24">필기구</span><span class="pchip"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">사물 한 가지</span><span class="pchip"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">도우미 얼굴 틀</span><span class="pchip"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">색지</span><span class="pchip"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">가위</span><span class="pchip"><img class="ic" src="../../assets/icons/note.svg" alt="" width="24" height="24">테이프</span><span class="pchip"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">무늬 천</span><span class="pchip"><img class="ic" src="../../assets/icons/note.svg" alt="" width="24" height="24">거리 표시 테이프</span></div>
 <h2 class="sub"><img class="ic" src="../../assets/icons/eval.svg" alt="" width="24" height="24">평가</h2>
 <p class="evone">엔트리 음성 인식과 비디오 감지로 인사 도우미를 만들고, 거리·밝기·배경·말 속도를 하나씩 바꾸어 인식 결과를 비교하며 달라진 까닭을 설명할 수 있는가?</p><details class="more"><summary>평가 기준 자세히</summary><p><b>인공지능 소양 · 조건을 하나만 바꾸었을 때 달라지는 인식 결과의 관찰</b> — 엔트리 음성 인식과 비디오 감지로 인사 도우미를 만들고, 거리·밝기·배경·말 속도를 하나씩 바꾸어 인식 결과를 비교하며 달라진 까닭을 설명할 수 있는가?</p><div class="tw"><table class="lv"><tr><th>수준</th><th>평가 기준</th></tr><tr><td>매우 잘함</td><td>음성 인식과 비디오 감지로 만든 도우미를 실행해 기록표를 조건 하나만 바꾸어 채우고 그대로 둔 조건까지 적는다. 결과가 달라진 조건을 같은 조건으로 다시 확인해 적고, 그 까닭을 모델이 배운 자료와 입력 조건으로 설명한다. 미리 학습된 인식 모델과 소리 크기 같은 센서 값의 차이를 말한다.</td></tr><tr><td>잘함</td><td>음성 인식과 비디오 감지 가운데 하나 이상을 실행해 기록표를 대체로 채우고, 조건을 하나만 바꾼 줄에서 결과가 달라진 지점을 찾아 적는다. 까닭을 배운 자료와 이어 간단히 설명한다.</td></tr><tr><td>보통</td><td>기본 작품으로 조건을 바꾸어 시험하고 결과는 적으나, 그대로 둔 조건이나 다시 확인한 기록이 일부 빠지고 까닭 설명이 짧다.</td></tr><tr><td>노력요함</td><td>교사가 조건을 하나씩 가리켜 주고 기록 칸을 함께 읽어 준 뒤에도 바꾼 조건과 그대로 둔 조건을 나누어 적거나 결과가 달라진 까닭을 말하는 데 어려움이 있다.</td></tr><tr><td>미관찰</td><td>결석이나 미제출, 기기 장애로 확인하지 못한 경우. 낮은 성취로 적지 않고 따로 기록한 뒤 보충 확인 시점을 정한다.</td></tr></table></div><p class="small"><b>평가 방법</b> 활동지 분석 · 산출물(도우미 2.0) 실행 확인 · 구술 확인 · 관찰</p></details>
-<h2 class="sub" id="game"><img class="ic" src="../../assets/icons/game.svg" alt="" width="24" height="24">체험 게임</h2><a class="gcard" href="../../B17/"><img class="ic big" src="../../assets/icons/game.svg" alt="" width="24" height="24"><span><b>하나만 바꾸어 보기</b><span>못 알아보는 사진을 알아보게 만들어요</span></span><span class="go">열기</span></a>
+<h2 class="sub" id="game"><img class="ic" src="../../assets/icons/game.svg" alt="" width="24" height="24">체험 게임</h2><a class="gcard" href="../../B17/"><img class="ic big" src="../../assets/icons/game.svg" alt="" width="24" height="24"><span><b>하나만 바꿔 알아보게 하기</b><span>못 알아보는 사진을 알아보게 만들어요</span></span><span class="go">열기</span></a>
 <h2 class="sub" id="tools"><img class="ic" src="../../assets/icons/tool.svg" alt="" width="24" height="24">연동 도구</h2>
 <p class="small muted">과정안에 나온 도구예요. 수업 전에 학교망에서 열리는지 확인해 주세요.</p>
 <div class="toolgrid"><a class="tool" href="https://playentry.org/ws/new" target="_blank" rel="noopener"><b>엔트리 ↗</b><span>블록 코딩, 인공지능 블록, 데이터 분석(테이블·차트)</span><span>계정: 학생 계정 없이 만들기 화면 사용 가능(저장은 교사 계정)</span></a><a class="tool" href="https://docs.playentry.org/user/" target="_blank" rel="noopener"><b>엔트리 사용 설명서 ↗</b><span>엔트리 안내</span></a><a class="tool" href="https://docs.playentry.org/user/block_ai_stt.html" target="_blank" rel="noopener"><b>엔트리 음성 인식 ↗</b><span>말을 글자로 바꾸기</span><span>계정: 엔트리와 같음</span></a><a class="tool" href="https://docs.playentry.org/user/block_ai_hand.html" target="_blank" rel="noopener"><b>엔트리 비디오 감지(손·얼굴·사물) ↗</b><span>웹캠으로 손·사물 알아보기(얼굴 대신 손·물건)</span><span>계정: 엔트리와 같음</span></a></div>
@@ -406,7 +412,7 @@ details.full{margin-top:32px;background:var(--soft)}
 <div class="pn"><a class="btn" href="../B16/">← 6학년 3~4차시</a><a class="btn" href="../B18/">6학년 7~8차시 →</a></div>
 
 </main>
-<footer><div class="in"><nav class="smap" aria-label="사이트맵"><div><b>수업 자료</b><a href="../../lessons/">차시별 수업 꾸러미</a><a href="../../topics/">단원별로 보기</a><a href="../../tools/">연동 도구</a></div><div><b>체험 게임</b><a href="../../play/">체험 게임</a></div><div><b>도입 안내</b><a href="../../about/">학교자율시간이란?</a><a href="../../guide/">도입 절차</a><a href="../../forms/">서식 받기</a><a href="../../forms/set/">채운 서식 한 벌</a><a href="../../qna/">자주 묻는 질문</a></div><div><b>연구회</b><a href="../../plan/">연구회 소개</a><a href="../../notice/">알림</a></div><div><b>더 보기</b><a href="../../forms/list/">서식 목록·검색</a><a href="../../forms/versions/">판본 차이·정오표</a><a href="../../search/">검색</a></div></nav><p><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 28.<br>학교자율시간 안내·서식은 경기도교육청 자료를 재구성했습니다. 원문과 최신 공문을 함께 확인하세요.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</p></div></footer>
+<footer><div class="in"><nav class="smap" aria-label="사이트맵"><div><b>수업 자료</b><a href="../../lessons/">차시별 수업 꾸러미</a><a href="../../topics/">단원별로 보기</a><a href="../../tools/">연동 도구</a></div><div><b>체험 게임</b><a href="../../play/">체험 게임</a></div><div><b>도입 안내</b><a href="../../about/">학교자율시간이란?</a><a href="../../guide/">도입 절차</a><a href="../../forms/">서식 받기</a><a href="../../forms/set/">채운 서식 한 벌</a><a href="../../qna/">자주 묻는 질문</a></div><div><b>연구회</b><a href="../../plan/">연구회 소개</a><a href="../../notice/">알림</a></div><div><b>더 보기</b><a href="../../forms/list/">서식 목록·검색</a><a href="../../forms/versions/">판본 차이·정오표</a><a href="../../search/">검색</a></div></nav><p><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 28.<br>학교자율시간 안내·서식은 경기도교육청 자료를 재구성했어요. 원문과 최신 공문을 함께 확인하세요.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않아요.</p></div></footer>
 <script>
 (function(){
   var dd=[].slice.call(document.querySelectorAll('.menu details'));
@@ -426,7 +432,7 @@ details.full{margin-top:32px;background:var(--soft)}
   function save(a){try{localStorage.setItem(key,JSON.stringify(a))}catch(_){}}
   function draw(){
     var a=load(); ul.textContent='';
-    if(!a.length){var p=document.createElement('li');p.className='small muted';p.textContent='아직 걸어 둔 링크가 없습니다.';ul.appendChild(p);return}
+    if(!a.length){var p=document.createElement('li');p.className='small muted';p.textContent='아직 걸어 둔 링크가 없어요.';ul.appendChild(p);return}
     a.forEach(function(x,i){
       var li=document.createElement('li'),l=document.createElement('a'),b=document.createElement('button');
       l.href=x.u;l.textContent=x.n+' ↗';l.target='_blank';l.rel='noopener';l.style.fontWeight='800';

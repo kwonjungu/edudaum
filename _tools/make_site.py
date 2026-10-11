@@ -118,8 +118,8 @@ def page(path: str, title: str, body: str, cur: str, extra_js: str = '') -> None
            '<a class="find" href="%ssearch/" aria-label="누리집 검색"%s>%s<span>검색</span></a></div></header>\n'
            '<main id="main">\n%s\n</main>\n'
            '<footer><div class="in">%s<p><b>%s</b><br>%s · %s · 과정안 기준일 %s<br>'
-           '학교자율시간 안내·서식은 경기도교육청 자료를 재구성했습니다. 원문과 최신 공문을 함께 확인하세요.<br>'
-           '학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</p></div></footer>\n'
+           '학교자율시간 안내·서식은 경기도교육청 자료를 재구성했어요. 원문과 최신 공문을 함께 확인하세요.<br>'
+           '학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않아요.</p></div></footer>\n'
            '%s%s</body>\n</html>\n') % (e(title), up, CSS, up or './', BRAND, nav(up, cur), up,
                                         ' aria-current="page"' if cur == 'search/' else '', SEARCH_ICON, body, sitemap(up),
                                         e(SITE['org']), e(SITE['title']), e(SITE['subtitle']), e(SITE['updated']), NAV_JS, extra_js)
@@ -334,17 +334,17 @@ def build_plan():
     body = f"""
 <span class="kick">연구회 소개</span>
 <h1>경기 AI 융합교육 에듀다움 교사연구회</h1>
-<p class="lead">경기도 초등 교사들이 학교자율시간에 바로 쓰는 SW·AI 교육과정을 만들고 교실에서 검증합니다. 2026년 연구 주제는 「학교자율시간 연계 초등 SW·AI 융합 프로그램 개발 및 적용」 — 5학년 SW 32차시, 6학년 AI 32차시입니다.</p>
+<p class="lead">경기도 초등 교사들이 학교자율시간에 바로 쓰는 SW·AI 교육과정을 만들고 교실에서 검증해요. 2026년 연구 주제는 「학교자율시간 연계 초등 SW·AI 융합 프로그램 개발 및 적용」 — 5학년 SW 32차시, 6학년 AI 32차시예요.</p>
 <div class="toc"><a href="#why">배경과 목표</a><a href="#run">운영 구조</a><a href="#course">과정 구성</a><a href="#std">성취기준</a><a href="#link">교과 연계</a><a href="#eval">평가·검증</a><a href="#safe">안전·개인정보</a><a href="#time">추진 일정</a></div>
 
 <h2 id="why">배경과 목표</h2>
 <div class="box">
 <p><b>연구 주제</b> 학교자율시간 연계 초등 SW·AI 융합 프로그램 개발 및 적용 <span class="muted small">(AI 활용 — AI·데이터 기반 교과 융합 수업모델 개발)</span></p>
 <ul>
-<li>2022 개정 교육과정은 초등 정보교육을 34시간 이상으로 늘렸으나, 실과 「디지털 사회와 인공지능」 17차시만으로는 SW·데이터·인공지능을 프로젝트로 넓히기 어렵고, 학교자율시간에 쓸 검증된 자료가 부족합니다.</li>
-<li>실과 정보 영역 [6실05-01]~[6실05-05]와 학교자율시간 정보 교육 [06자율-1]~[06자율-7]을 재구조화하여 5학년 32차시, 6학년 32차시(합 64차시)를 개발합니다.</li>
-<li>5학년은 SW 기초를 교과와 잇는 교과 융합 프로젝트, 6학년은 데이터와 AI로 학교·가정·지역 문제를 푸는 실생활 문제해결 프로젝트입니다.</li>
-<li>고가 장비 없이 학교 보유 기기, 무료 교육용 도구, 학교 주변에서 모을 수 있는 자료로 운영합니다.</li>
+<li>2022 개정 교육과정은 초등 정보교육을 34시간 이상으로 늘렸으나, 실과 「디지털 사회와 인공지능」 17차시만으로는 SW·데이터·인공지능을 프로젝트로 넓히기 어렵고, 학교자율시간에 쓸 검증된 자료가 부족해요.</li>
+<li>실과 정보 영역 [6실05-01]~[6실05-05]와 학교자율시간 정보 교육 [06자율-1]~[06자율-7]을 재구조화하여 5학년 32차시, 6학년 32차시(합 64차시)를 개발해요.</li>
+<li>5학년은 SW 기초를 교과와 잇는 교과 융합 프로젝트, 6학년은 데이터와 AI로 학교·가정·지역 문제를 푸는 실생활 문제해결 프로젝트예요.</li>
+<li>고가 장비 없이 학교 보유 기기, 무료 교육용 도구, 학교 주변에서 모을 수 있는 자료로 운영해요.</li>
 </ul></div>
 
 <h2 id="run">운영 구조 (고도화안)</h2>
@@ -357,13 +357,13 @@ def build_plan():
 <tr><td>비교 학급</td><td>선택 1학급</td><td>선택 1학급</td></tr>
 <tr><td>편성</td><td colspan="2">주 2차시 블록 수업, 한 학기 약 16주. 한 차시 40분, 대부분 2차시(80분) 묶음, B11·B12·B25·B27은 4차시 묶음</td></tr>
 </table></div>
-<p class="note">연구 계획서의 1차 파일럿 → 2차 확대 적용 구조를, 고도화 과정에서 학년별 2학급 전체 운영으로 바꾸었습니다. 이야기 흐름과 누적 산출물을 한 학생 집단 안에서 볼 수 있게 하려는 것입니다.</p>
+<p class="note">연구 계획서의 1차 파일럿 → 2차 확대 적용 구조를, 고도화 과정에서 학년별 2학급 전체 운영으로 바꾸었어요. 이야기 흐름과 누적 산출물을 한 학생 집단 안에서 볼 수 있게 하려는 것이에요.</p>
 
 <h2 id="course">과정 구성 — 영역과 차시</h2>
 <div class="tw"><table><tr><th>학년</th><th>영역</th><th>차시</th><th>과정안</th></tr>{area_rows}</table></div>
 
 <h2 id="std">성취기준</h2>
-<p class="small muted">학교자율시간 과목을 위해 연구회가 자체 개발한 성취기준입니다. [5실SW…]·[6실인공지능…]은 국가 실과 성취기준 코드가 아니며, ‘연계’ 칸이 2022 개정 실과·학교자율시간 정보 교육 성취기준입니다.</p>
+<p class="small muted">학교자율시간 과목을 위해 연구회가 자체 개발한 성취기준이에요. [5실SW…]·[6실인공지능…]은 국가 실과 성취기준 코드가 아니며, ‘연계’ 칸이 2022 개정 실과·학교자율시간 정보 교육 성취기준이에요.</p>
 <div class="tw"><table><tr><th>학년</th><th>영역</th><th>자체 성취기준</th><th>연계</th><th>차시</th></tr>{''.join(rows)}</table></div>
 
 <h2 id="link">교과 연계</h2>
@@ -383,11 +383,11 @@ def build_plan():
 
 <h2 id="safe">안전·개인정보 원칙</h2>
 <ul>
-<li>사진·영상에 사람 얼굴을 넣지 않고 손·물건으로 대신합니다. 웹캠 자료는 저장하지 않고 수업 끝에 지웁니다.</li>
-<li>생성형 AI는 학생용 <b>우리아이AI</b>만 쓰며, 개인정보는 입력하지 않고 학생 계정은 만들지 않습니다.</li>
-<li>무선으로 보낸 정보는 다른 사람도 받을 수 있음을 실험으로 겪고, 교사가 정한 그룹 번호만 씁니다.</li>
-<li>작품에 쓴 그림·소리는 허락·출처·이용 조건(CCL)을 확인해 밝힙니다.</li>
-<li>설문은 이름 없이 반·번호로만 받으며, 연구 종료 후 기관 기준에 따라 보관·폐기합니다.</li>
+<li>사진·영상에 사람 얼굴을 넣지 않고 손·물건으로 대신해요. 웹캠 자료는 저장하지 않고 수업 끝에 지워요.</li>
+<li>생성형 AI는 학생용 <b>우리아이AI</b>만 쓰며, 개인정보는 입력하지 않고 학생 계정은 만들지 않아요.</li>
+<li>무선으로 보낸 정보는 다른 사람도 받을 수 있음을 실험으로 겪고, 교사가 정한 그룹 번호만 써요.</li>
+<li>작품에 쓴 그림·소리는 허락·출처·이용 조건(CCL)을 확인해 밝혀요.</li>
+<li>설문은 이름 없이 반·번호로만 받으며, 연구 종료 후 기관 기준에 따라 보관·폐기해요.</li>
 </ul>
 
 <h2 id="time">추진 일정 (2026)</h2>
@@ -432,8 +432,8 @@ def build_topics():
                          '<p class="lead" style="margin-bottom:8px">%s</p>%s<div class="grid">%s</div></section>'
                          % (a['id'], e(a['name']), a['grade'], a['range'], e(a['summary']), stds, ''.join(cards)))
     toc = ''.join('<a href="#%s">%d학년 %s</a>' % (a['id'], a['grade'], e(a['name'])) for a in SITE['areas'])
-    body = ('<span class="kick">영역별 교수학습 과정안</span><h1>영역별로 보는 교수학습 과정안</h1>'
-            '<p class="lead">영역마다 성취기준과 차시별 핵심 활동, 연동 도구, 체험 게임을 모았습니다.</p>'
+    body = ('<span class="kick">수업 자료</span><h1>단원별로 보기</h1>'
+            '<p class="lead">영역마다 성취기준과 차시별 핵심 활동, 연동 도구, 체험 게임을 모았어요.</p>'
             '<nav class="cats" aria-label="영역">%s</nav>%s') % (toc, ''.join(parts))
     page('topics', '영역별 교수학습 과정안 — 에듀다움', body, 'topics/')
 
@@ -676,7 +676,7 @@ MINE_JS = """<script>
   function save(a){try{localStorage.setItem(key,JSON.stringify(a))}catch(_){}}
   function draw(){
     var a=load(); ul.textContent='';
-    if(!a.length){var p=document.createElement('li');p.className='small muted';p.textContent='아직 걸어 둔 링크가 없습니다.';ul.appendChild(p);return}
+    if(!a.length){var p=document.createElement('li');p.className='small muted';p.textContent='아직 걸어 둔 링크가 없어요.';ul.appendChild(p);return}
     a.forEach(function(x,i){
       var li=document.createElement('li'),l=document.createElement('a'),b=document.createElement('button');
       l.href=x.u;l.textContent=x.n+' ↗';l.target='_blank';l.rel='noopener';l.style.fontWeight='800';
@@ -721,12 +721,27 @@ def build_tools():
                          % (e(t['url']), e(t['name']), e(t['use']), e(t['account']), (' · ' + more) if more else '', ls or '<span class="small muted">직접 쓰는 차시 없음</span>'))
         groups.append('<h2>%s</h2><div class="grid">%s</div>' % (grp, ''.join(cards)))
     body = ('<span class="kick">연동 도구</span><h1>차시에 걸린 외부 도구</h1>'
-            '<p class="lead">모두 무료이며 학생 계정 없이 쓸 수 있게 골랐습니다. 칩을 누르면 그 도구를 쓰는 차시로 갑니다.</p>'
-            '<p class="note">도구를 더하거나 차시에 링크를 더 걸려면 <code>_data/tools.json</code>·<code>_data/links.json</code>을 고친 뒤 <code>python _tools/make_site.py</code>를 돌립니다. 교사 개인 링크는 차시 쪽 「내 수업 링크」에 걸 수 있습니다.</p>%s') % ''.join(groups)
+            '<p class="lead">모두 무료이며 학생 계정 없이 쓸 수 있게 골랐어요. 칩을 누르면 그 도구를 쓰는 차시로 가요.</p>'
+            '<p class="note">도구를 더하거나 차시에 링크를 더 걸려면 <code>_data/tools.json</code>·<code>_data/links.json</code>을 고친 뒤 <code>python _tools/make_site.py</code>를 돌려요. 교사 개인 링크는 차시 쪽 「내 수업 링크」에 걸 수 있어요.</p>%s') % ''.join(groups)
     page('tools', '연동 도구 — 에듀다움', body, 'tools/')
 
 
 # ───────────────────────── 체험 게임 목록
+def needs(code):
+    """체험 게임 카드의 꼬리표 — 걸리는 시간과 필요한 것(게임 쪽 코드에서 읽는다)."""
+    h = (ROOT / code / 'index.html').read_text(encoding='utf-8')
+    tags = [('clock', '교사 준비용' if code == 'B03' else '5~10분')]
+    if 'devicemotion' in h:
+        tags.append(('motion', '흔들기(태블릿)'))
+    if 'getUserMedia' in h and re.search(r'video\s*:\s*\{', h):
+        tags.append(('camera', '카메라'))
+    if 'getUserMedia' in h and 'audio:false' not in h.replace(' ', ''):
+        tags.append(('mic', '마이크'))
+    if len(tags) == 1:
+        tags.append(('tablet', '누르기만'))
+    return ''.join('<i>%s%s</i>' % (icon(ic, '../'), e(t)) for ic, t in tags)
+
+
 def build_play():
     parts = []
     for g in (5, 6):
@@ -737,11 +752,12 @@ def build_play():
             gm = game(c)
             if not gm:
                 continue
-            cards.append('<a class="card plain" href="../%s/"><span class="chip">%d학년 %s차시</span><h3 style="margin-top:12px">%s</h3><p>%s</p></a>'
-                         % (c, g, label(c), e(gm['title']), e(gm['lead'])))
-        parts.append('<h2>%d학년</h2><div class="grid">%s</div>' % (g, ''.join(cards)))
-    body = ('<span class="kick">체험 게임</span><h1>수업 중에 잠깐 만져 보는 체험</h1>'
-            '<p class="lead">과정안의 활동 하나를 짧게 미리 겪어 보거나 견주어 봐요. 마이크로비트·엔트리·실제 측정을 대신하지 않습니다.</p>%s'
+            cards.append('<a class="gcard g%d" href="../%s/">%s<span><small class="gtag">%d학년 %s차시</small><b>%s</b><span>%s</span>'
+                         '<span class="needs">%s</span></span></a>'
+                         % (g, c, icon('game', '../', 'ic big'), g, label(c), e(gm['title']), e(gm['lead']), needs(c)))
+        parts.append('<h2 class="sub">%s%d학년 %s</h2><div class="ggrid">%s</div>' % (icon('g%d' % g, '../'), g, 'SW' if g == 5 else 'AI', ''.join(cards)))
+    body = ('<span class="kick">체험 게임</span><h1>수업 중 5~10분 체험 게임</h1>'
+            '<p class="lead">활동 하나를 짧게 미리 해 보거나 견주어 봐요. 설치 없이 브라우저로 열어요. 실물 활동을 대신하지는 않아요.</p>%s'
             '<p class="note">카메라와 마이크는 화면에만 쓰이고 저장되지 않아요. 밖으로 보내는 것도 없어요.</p>') % ''.join(parts)
     page('play', '체험 게임 — 에듀다움', body, 'play/')
 

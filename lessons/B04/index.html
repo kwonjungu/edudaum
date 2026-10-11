@@ -364,6 +364,12 @@ details.full{margin-top:32px;background:var(--soft)}
 .gcard>span{flex:1;min-width:0}
 .gcard .go{flex:0 0 auto;background:var(--gc-d);color:#fff;border-radius:var(--r-full);padding:8px 16px;font:400 15px var(--title)}
 @media print{.kit,details.mine{display:none}details.full>*{display:block}}
+/* 체험 게임 목록 */
+.ggrid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.gcard .gtag{display:inline-block;background:var(--gc-l);color:var(--gc-d);border-radius:var(--r-full);padding:0 8px;font:400 12.5px var(--title);margin-bottom:2px}
+.gcard .needs{display:flex!important;flex-wrap:wrap;gap:6px;margin-top:6px}
+.gcard .needs i{display:inline-flex;align-items:center;gap:4px;font-style:normal;font-size:12.5px;color:var(--body);border:1px solid var(--line);border-radius:var(--r-full);padding:1px 8px 1px 4px}
+.gcard .needs .ic{width:18px;height:18px}
 </style>
 </head>
 <body>
@@ -385,7 +391,7 @@ details.full{margin-top:32px;background:var(--soft)}
 <h2 class="sub"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">준비물</h2><div class="pchips"><span class="pchip"><img class="ic" src="../../assets/icons/pen.svg" alt="" width="24" height="24">필기구</span><span class="pchip"><img class="ic" src="../../assets/icons/paper.svg" alt="" width="24" height="24">종이컵 6개</span><span class="pchip"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">색 블록</span><span class="pchip"><img class="ic" src="../../assets/icons/pen.svg" alt="" width="24" height="24">색연필</span><span class="pchip" title="접이식 설명서 종이(A4 8칸)"><img class="ic" src="../../assets/icons/paper.svg" alt="" width="24" height="24">접이식 설명서 종이</span><span class="pchip"><img class="ic" src="../../assets/icons/note.svg" alt="" width="24" height="24">‘?’·‘■’ 스티커</span><span class="pchip"><img class="ic" src="../../assets/icons/note.svg" alt="" width="24" height="24">완주 스티커</span><span class="pchip"><img class="ic" src="../../assets/icons/note.svg" alt="" width="24" height="24">별 스티커</span></div>
 <h2 class="sub"><img class="ic" src="../../assets/icons/eval.svg" alt="" width="24" height="24">평가</h2>
 <p class="evone">절차를 글 없는 그림 설명서로 표현하고, 다른 모둠의 사용자 시험 결과를 근거로 헷갈리거나 빠진 단계를 찾아 고칠 수 있는가?</p><details class="more"><summary>평가 기준 자세히</summary><p><b>컴퓨팅 사고력 · 알고리즘 표현의 정확성 점검</b> — 절차를 글 없는 그림 설명서로 표현하고, 다른 모둠의 사용자 시험 결과를 근거로 헷갈리거나 빠진 단계를 찾아 고칠 수 있는가?</p><div class="tw"><table class="lv"><tr><th>수준</th><th>평가 기준</th></tr><tr><td>매우 잘함</td><td>한 단계에 한 동작씩 빠짐없이 나누어 그림 설명서를 만들고, 방향·개수를 화살표와 숫자로 분명히 나타낸다. 사용자 시험 기록을 근거로 막힌 칸을 헷갈림과 빠짐으로 나누어 까닭을 설명하고, 고친 설명서로 다시 시험해 막힘이 줄었음을 확인한다. 갈림길이 필요한 칸도 찾는다.</td></tr><tr><td>잘함</td><td>그림 설명서를 완성하고 사용자 시험에서 막힌 칸을 찾아 고친다. 고친 까닭을 한 문장으로 설명한다.</td></tr><tr><td>보통</td><td>그림 설명서를 만들었으나 한 칸에 여러 동작이 섞이거나 단계가 빠졌고, 막힌 칸을 고친 까닭이 시험 기록과 이어지지 않는다.</td></tr><tr><td>노력요함</td><td>교사가 단계 나누기와 픽토그램 약속을 함께 확인해 준 뒤에도 절차를 그림 단계로 나타내거나 막힌 칸을 찾아 고치는 데 어려움이 있다.</td></tr><tr><td>미관찰</td><td>결석이나 미제출로 확인하지 못한 경우. 낮은 성취로 적지 않고 따로 기록한 뒤 보충 확인 시점을 정한다.</td></tr></table></div><p class="small"><b>평가 방법</b> 산출물 분석(고치기 전후 그림 설명서) · 사용자 시험 관찰 기록지 분석 · 구술 확인</p></details>
-<h2 class="sub" id="game"><img class="ic" src="../../assets/icons/game.svg" alt="" width="24" height="24">체험 게임</h2><a class="gcard" href="../../B04/"><img class="ic big" src="../../assets/icons/game.svg" alt="" width="24" height="24"><span><b>적힌 대로만</b><span>고지식한 로봇이 어느 줄에서 막힐까</span></span><span class="go">열기</span></a>
+<h2 class="sub" id="game"><img class="ic" src="../../assets/icons/game.svg" alt="" width="24" height="24">체험 게임</h2><a class="gcard" href="../../B04/"><img class="ic big" src="../../assets/icons/game.svg" alt="" width="24" height="24"><span><b>로봇이 막힐 줄 짚기</b><span>고지식한 로봇이 어느 줄에서 막힐까</span></span><span class="go">열기</span></a>
 <h2 class="sub" id="tools"><img class="ic" src="../../assets/icons/tool.svg" alt="" width="24" height="24">연동 도구</h2>
 <p class="small muted">과정안에 나온 도구예요. 수업 전에 학교망에서 열리는지 확인해 주세요.</p>
 <div class="toolgrid"><p class="muted">이 차시는 외부 도구 없이 종이·실물로 해요.</p></div>
@@ -406,7 +412,7 @@ details.full{margin-top:32px;background:var(--soft)}
 <div class="pn"><a class="btn" href="../B03/">← 5학년 5~6차시</a><a class="btn" href="../B05/">5학년 9~10차시 →</a></div>
 
 </main>
-<footer><div class="in"><nav class="smap" aria-label="사이트맵"><div><b>수업 자료</b><a href="../../lessons/">차시별 수업 꾸러미</a><a href="../../topics/">단원별로 보기</a><a href="../../tools/">연동 도구</a></div><div><b>체험 게임</b><a href="../../play/">체험 게임</a></div><div><b>도입 안내</b><a href="../../about/">학교자율시간이란?</a><a href="../../guide/">도입 절차</a><a href="../../forms/">서식 받기</a><a href="../../forms/set/">채운 서식 한 벌</a><a href="../../qna/">자주 묻는 질문</a></div><div><b>연구회</b><a href="../../plan/">연구회 소개</a><a href="../../notice/">알림</a></div><div><b>더 보기</b><a href="../../forms/list/">서식 목록·검색</a><a href="../../forms/versions/">판본 차이·정오표</a><a href="../../search/">검색</a></div></nav><p><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 28.<br>학교자율시간 안내·서식은 경기도교육청 자료를 재구성했습니다. 원문과 최신 공문을 함께 확인하세요.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않습니다.</p></div></footer>
+<footer><div class="in"><nav class="smap" aria-label="사이트맵"><div><b>수업 자료</b><a href="../../lessons/">차시별 수업 꾸러미</a><a href="../../topics/">단원별로 보기</a><a href="../../tools/">연동 도구</a></div><div><b>체험 게임</b><a href="../../play/">체험 게임</a></div><div><b>도입 안내</b><a href="../../about/">학교자율시간이란?</a><a href="../../guide/">도입 절차</a><a href="../../forms/">서식 받기</a><a href="../../forms/set/">채운 서식 한 벌</a><a href="../../qna/">자주 묻는 질문</a></div><div><b>연구회</b><a href="../../plan/">연구회 소개</a><a href="../../notice/">알림</a></div><div><b>더 보기</b><a href="../../forms/list/">서식 목록·검색</a><a href="../../forms/versions/">판본 차이·정오표</a><a href="../../search/">검색</a></div></nav><p><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 28.<br>학교자율시간 안내·서식은 경기도교육청 자료를 재구성했어요. 원문과 최신 공문을 함께 확인하세요.<br>학생 이름·점수를 받지 않고, 체험 게임의 카메라·마이크는 화면에만 쓰며 저장하지 않아요.</p></div></footer>
 <script>
 (function(){
   var dd=[].slice.call(document.querySelectorAll('.menu details'));
@@ -426,7 +432,7 @@ details.full{margin-top:32px;background:var(--soft)}
   function save(a){try{localStorage.setItem(key,JSON.stringify(a))}catch(_){}}
   function draw(){
     var a=load(); ul.textContent='';
-    if(!a.length){var p=document.createElement('li');p.className='small muted';p.textContent='아직 걸어 둔 링크가 없습니다.';ul.appendChild(p);return}
+    if(!a.length){var p=document.createElement('li');p.className='small muted';p.textContent='아직 걸어 둔 링크가 없어요.';ul.appendChild(p);return}
     a.forEach(function(x,i){
       var li=document.createElement('li'),l=document.createElement('a'),b=document.createElement('button');
       l.href=x.u;l.textContent=x.n+' ↗';l.target='_blank';l.rel='noopener';l.style.fontWeight='800';
