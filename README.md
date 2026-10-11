@@ -13,7 +13,7 @@
 | 2) 주제별 활동 내용 | `/topics/` | `make_site.py` |
 | 3) 차시별 교수학습 과정안 | `/lessons/`, `/lessons/BXX/` | `make_site.py` ← `_data/lessons.json` ← hwpx |
 | 연동 도구 | `/tools/` | `make_site.py` ← `_data/tools.json`, `_data/links.json` |
-| 체험 게임 목록 | `/play/` | `make_site.py` |
+| 체험 활동 목록 | `/play/` | `make_site.py` |
 | 체험 게임 | `/BXX/` | 사람이 만든다(아래 규칙) |
 
 ### 과정안이 바뀌었을 때
@@ -25,6 +25,7 @@ powershell -File _tools/hwpx2pdf.ps1 -Src "<공개용 폴더>" -Out assets/pdf  
 python _tools/public_copy.py --strip-pdf assets/pdf         # PDF 작성자 정보 비우기
 python _tools/make_site.py                                  # 누리집 쪽 전부
 python _tools/run_all.py                                    # 게임 3종 + 누리집 점검 0건
+node _tools/capture_shots.mjs [--only B01,B04]             # 체험 활동 썸네일 굽기(assets/shots/BXX.jpg, 640×400)
 ```
 
 개발자 이름은 누리집·PDF 어디에도 싣지 않는다(`site_check.py` S8이 확인). 웹 쪽 HTML을 손으로 고쳐 과정안 문장을 바꾸지 않는다. 차시에 링크를 더 걸려면 `_data/links.json`,
