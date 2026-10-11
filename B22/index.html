@@ -127,7 +127,7 @@
       </div>
       <p class="warn" id="warn" hidden></p>
     </div>
-    <p class="ord" id="ord">처음 정한 순서</p>
+    <p class="ord" id="ord">원래 순서</p>
     <div class="rows" id="rows"></div>
   </section>
 
@@ -141,7 +141,7 @@
       <button class="btn" id="reset" type="button">다시 하기</button>
       <button class="btn" id="next" type="button">다음 카드</button>
     </div>
-    <p class="note">엔트리 도우미에도 넣어 봐요</p>
+    <p class="note">실행 결과는 엔트리 도우미로 넣어 적어요</p>
   </section>
 </div>
 
@@ -159,7 +159,7 @@
   ];
   var ELSE = {cd:'어디에도 해당하지 않으면', ms:'운동장 수업'};
   var OPTS = ['강당 수업', '교실 수업', '실내 수업', '그늘에서 짧게', '운동장 수업'];
-  var NTH = ['첫째', '둘째', '셋째', '넷째', '다섯째'];
+  var LINE = ['①번 줄', '②번 줄', '③번 줄', '④번 줄', '마지막 줄'];
   var NUM = ['①', '②', '③', '④', '-'];
   var BASE = [0, 1, 2, 3], TEMP_FIRST = [2, 3, 0, 1];
 
@@ -261,8 +261,8 @@
 
   function finish(hit){
     var mine = posOfOpt(cur, picked);
-    if (mine === hit) say.textContent = '짚은 대로 ' + NTH[hit] + ' 줄에서 정해졌어요';
-    else say.textContent = NTH[hit] + ' 줄에서 정해졌어요 · 짚은 결론은 ' + NTH[mine] + ' 줄이에요';
+    if (mine === hit) say.textContent = '짚은 대로 ' + LINE[hit] + '에서 정해졌어요';
+    else say.textContent = LINE[hit] + '에서 정해졌어요 · 짚은 결론은 ' + LINE[mine] + '이에요';
     say.className = 'say';
   }
 
@@ -277,7 +277,7 @@
     warn.hidden = !c.note;
     warn.textContent = c.note || '';
     var tf = cur.order === TEMP_FIRST;
-    $('ord').textContent = tf ? '기온 규칙을 맨 앞으로 옮긴 순서' : '처음 정한 순서';
+    $('ord').textContent = tf ? '기온 규칙을 맨 앞으로 옮긴 순서' : '원래 순서';
     $('ord').className = 'ord' + (tf ? ' tf' : '');
 
     var hit = firePos(cur);
