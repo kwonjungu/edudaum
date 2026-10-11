@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>예시 옮겨 새 카드 나누기</title>
+<title>기계와 인공지능 짝 가르기</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
 :root{--line:#DDDDDD;--line-strong:#C1C1C1;
@@ -34,40 +34,32 @@ section{
 }
 h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
 
-.boxes{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}
-.box{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--paper);padding:7px}
-.box h3{font-size:13px;font-weight:700;margin:0 0 6px}
-.slot{display:flex;flex-wrap:wrap;gap:6px;min-height:62px;align-content:flex-start}
-
-.card{
-  width:58px;min-height:58px;padding:3px;cursor:pointer;
-  background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
-  box-shadow:var(--hard-sm);transition:transform .1s,box-shadow .1s;
-}
-.card:active:not(:disabled){transform:translate(3px,3px);box-shadow:none}
-.card:disabled{cursor:default;opacity:.7}
-.card svg{display:block;width:100%;height:auto}
-.card.placed{border-width:3.5px;box-shadow:0 0 0 3px var(--amber) inset,var(--hard-sm)}
-.card.placed.enter{animation:popin .22s ease-out}
-@keyframes popin{0%{transform:scale(.55)}60%{transform:scale(1.1)}100%{transform:scale(1)}}
-
-.note{font-size:12.5px;font-weight:700;color:var(--muted);margin-top:7px}
-
-.newgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.newcard{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--paper);
-  padding:6px;text-align:center}
-.newcard .pic{width:100%}
-.newcard .pic svg{display:block;width:100%;height:auto;max-height:46px}
-.gpick{display:flex;gap:4px;margin-top:5px}
-.gbtn{
-  flex:1 1 0;font-family:inherit;cursor:pointer;color:var(--ink);font-size:12.5px;font-weight:700;
+.ask{font-size:16px;font-weight:700;margin:0 0 9px;word-break:keep-all}
+.pair{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:9px}
+.case{border:1px solid var(--line);border-radius:var(--r-sm);background:var(--paper);padding:8px;min-width:0}
+.case.open{border-color:var(--line-strong)}
+.name{font-size:17px;font-weight:700;margin:0 0 7px;word-break:keep-all;line-height:1.3}
+.sensor{display:inline-block;margin-left:5px;font-size:12px;font-weight:700;color:var(--muted);
+  border:1px dashed var(--line-strong);border-radius:999px;padding:1px 7px;vertical-align:2px;white-space:nowrap}
+.bins{display:flex;flex-direction:column;gap:6px}
+.bin{
+  font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:700;
   background:var(--surface);border:1px solid var(--ink);border-radius:9px;
-  min-height:44px;padding:2px;box-shadow:0 1px 2px rgba(0,0,0,.08);word-break:keep-all;line-height:1.15;
+  min-height:44px;padding:4px 6px;box-shadow:var(--hard-sm);word-break:keep-all;line-height:1.15;
   transition:transform .1s,box-shadow .1s,background .1s;
 }
-.gbtn[aria-pressed="true"]{background:var(--point);color:#fff}
-.gbtn:disabled{opacity:.5;cursor:default}
-.rv-tag{display:block;margin-top:5px;font-size:11.5px;font-weight:700;color:var(--point)}
+.bin[aria-pressed="true"]{background:var(--point);border-color:var(--point);color:#fff}
+.bin:disabled{cursor:default}
+.bin:disabled:not([aria-pressed="true"]){opacity:.45}
+.io{margin:8px 0 0;font-size:14px;font-weight:600;line-height:1.4;word-break:keep-all;animation:popin .22s ease-out}
+.tag{margin:5px 0 0;font-size:13px;font-weight:700;color:var(--point);word-break:keep-all}
+.key{font-size:13px;font-weight:700;color:var(--muted);margin:9px 0 0;word-break:keep-all}
+@keyframes popin{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:none}}
+.round{font-weight:700;color:var(--point);margin-left:4px}
+.case.off{border-color:var(--point);box-shadow:0 0 0 2px var(--point-soft)}
+.bin.ref,.bin.ref:disabled{outline:2px dashed var(--point);outline-offset:2px;opacity:1}
+.btn.go{background:var(--point);border-color:var(--point);color:#fff}
+.note{font-size:13px;font-weight:700;color:var(--muted);margin:9px 0 0}
 
 .msg{margin-top:9px;font-size:14px;font-weight:700;min-height:20px}
 .msg.dim{color:var(--muted);font-weight:700}
@@ -85,7 +77,6 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
 .btn:disabled{opacity:.45;cursor:default;box-shadow:none}
 
 :focus-visible{outline:3px solid var(--point);outline-offset:3px}
-@media (max-width:520px){.newgrid{grid-template-columns:repeat(3,1fr)}}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* 쪽 위 차시 표시 */
@@ -104,27 +95,25 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
 <body>
 <main>
   <nav class="topnav"><span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a href="../play/">← 체험 목록</a><a href="../lessons/B16/">과정안</a></span><b>3~4</b></nav>
-  <h1>예시 옮겨 새 카드 나누기</h1>
-  <p class="lead">카드를 옮기고 새 카드를 짚어요</p>
+  <h1>기계와 인공지능 짝 가르기</h1>
+  <p class="lead">짝마다 두 장을 칸에 짚고 확인해요</p>
 
-  <section aria-labelledby="h-ex">
-    <h2 id="h-ex">예시 카드</h2>
-    <div class="boxes">
-      <div class="box"><h3>가 상자</h3><div class="slot" id="s1"></div></div>
-      <div class="box"><h3>나 상자</h3><div class="slot" id="s2"></div></div>
-    </div>
-    <p class="note" id="exNote">카드를 눌러 옆 상자로 옮겨요</p>
+  <section aria-labelledby="h-pair">
+    <h2 id="h-pair">이번 짝 <span class="round" id="round"></span></h2>
+    <p class="ask">정해진 조건 하나로 반응하나요, 여러 가지를 보고 스스로 판단하나요?</p>
+    <div class="pair" id="pair"></div>
+    <p class="key">기계: 단순히 반응하는 기계 · 인공지능: 스스로 판단하는 인공지능</p>
   </section>
 
-  <section aria-labelledby="h-new">
-    <h2 id="h-new">새 카드</h2>
-    <div class="newgrid" id="newCards"></div>
-    <p class="msg dim" id="msg" role="status" aria-live="polite">세 장 모두 짚어요</p>
+  <section aria-labelledby="h-chk">
+    <h2 id="h-chk">확인</h2>
+    <p class="msg dim" id="msg" role="status" aria-live="polite">두 장 모두 칸을 짚어요</p>
     <div class="acts">
       <button class="btn main" id="confirmBtn" type="button" disabled>확인하기</button>
       <button class="btn" id="resetBtn" type="button">다시 하기</button>
-      <button class="btn" id="nextBtn" type="button">다음 판</button>
+      <button class="btn" id="nextBtn" type="button">다음 짝</button>
     </div>
+    <p class="note">까닭은 비교표에 한 줄로 써요</p>
   </section>
 </main>
 
@@ -132,25 +121,24 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
 (function () {
   'use strict';
 
-  // 과정안(3~4차시)의 클래스 이름 그대로: ‘가 상자’, ‘나 상자’
-  var BOXN = { 1: '가 상자', 2: '나 상자' };
-  var FEATS = [['fill', '칠하기'], ['size', '크기'], ['shape', '모양']];
-  var WORD = { y: '칠한', n: '칠하지 않은', b: '큰', s: '작은', c: '동그라미', q: '네모', t: '세모' };
+  // 지도안 3차시 활동2의 사례 카드 여덟 장과 짝. io 는 활동1 비교 활동지의 '받아들이는 것 → 하는 일'.
+  // ref: 'm' 기계, 'a' 인공지능, null 생각이 나뉨(지도안: 단정하지 않는다)
+  var CARDS = [
+    { n: '자동문', pair: 1, sensor: true, io: '다가오는 사람 → 늘 같게 문을 연다', ref: 'm' },
+    { n: '사진 속 얼굴 묶기', pair: 1, sensor: false, io: '사진 속 생김새 → 같은 사람끼리 묶는다', ref: 'a' },
+    { n: '주방 타이머', pair: 2, sensor: false, io: '맞춰 둔 시간 → 시간이 되면 늘 같게 울린다', ref: 'm' },
+    { n: '영상 추천', pair: 2, sensor: false, io: '내가 본 영상들 → 볼 만한 영상을 골라 준다', ref: 'a' },
+    { n: '계산기', pair: 3, sensor: false, io: '누른 숫자 → 정해진 대로 셈한다', ref: 'm' },
+    { n: '손동작 알아보기', pair: 3, sensor: true, io: '손의 움직임 → 어떤 동작인지 알아본다', ref: 'a' },
+    { n: '복도 전등', pair: 4, sensor: true, io: '지나가는 움직임 → 늘 같게 불을 켠다', ref: 'm' },
+    { n: '걸음 수 세기', pair: 4, sensor: true, io: '몸의 흔들림 → 걸음으로 센다', ref: null }
+  ];
+  var BINS = [['m', '기계'], ['a', '인공지능'], ['q', '더 알아봐야 함']];
+  var BINNAME = { m: '기계', a: '인공지능', q: '더 알아봐야 함' };
+  var COUNT = ['', '한 장', '두 장'];
 
-  var POOL = [];
-  ['y', 'n'].forEach(function (fill) {
-    ['b', 's'].forEach(function (size) {
-      ['c', 'q', 't'].forEach(function (shape) {
-        POOL.push({ fill: fill, size: size, shape: shape });
-      });
-    });
-  });
-
-  var s1 = document.getElementById('s1');
-  var s2 = document.getElementById('s2');
-  var newWrap = document.getElementById('newCards');
+  var pairEl = document.getElementById('pair');
   var msgEl = document.getElementById('msg');
-  var exNote = document.getElementById('exNote');
   var confirmBtn = document.getElementById('confirmBtn');
   var resetBtn = document.getElementById('resetBtn');
   var nextBtn = document.getElementById('nextBtn');
@@ -158,8 +146,8 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
   var reduceMotion = false;
   try { reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
-  var examples, initBoxes, newCards, locked, confirmed, revealing, lastSig, gen;
-  gen = 0; lastSig = null;
+  var queue = shuffle([1, 2, 3, 4]);
+  var cur = [], guess = [], shown = [], confirmed = false, revealing = false, lastKey = '', gen = 0;
 
   function shuffle(arr) {
     var a = arr.slice();
@@ -169,233 +157,149 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
     }
     return a;
   }
+  function keyOf(a, b) { return a < b ? a + '-' + b : b + '-' + a; }
 
-  function shapeSvg(c) {
-    var s = c.size === 'b' ? 1 : 0.6;
-    var fc = c.fill === 'y' ? '#3D5AFE' : '#FFFFFF';
-    if (c.shape === 'c') {
-      return '<circle cx="36" cy="36" r="' + (26 * s) + '" fill="' + fc + '" stroke="#222222" stroke-width="3"/>';
+  // 처음 네 판은 지도안 짝, 그 뒤로는 여덟 장을 섞은 새 짝(지도안 짝·직전 판은 빼고)
+  function drawPair() {
+    if (queue.length) {
+      var p = queue.shift();
+      var two = [];
+      CARDS.forEach(function (c, i) { if (c.pair === p) { two.push(i); } });
+      return shuffle(two);
     }
-    if (c.shape === 'q') {
-      var side = 52 * s, off = 36 - side / 2, rx = 5 * s;
-      return '<rect x="' + off + '" y="' + off + '" width="' + side + '" height="' + side + '" rx="' + rx + '" fill="' + fc + '" stroke="#222222" stroke-width="3"/>';
+    // 섞은 짝의 절반은 '센서 있음' 두 장끼리 낸다 — 센서가 있다고 인공지능은 아니라는 지도안 유의점
+    var from = [];
+    var sensorOnly = Math.random() < 0.5;
+    CARDS.forEach(function (c, i) { if (!sensorOnly || c.sensor) { from.push(i); } });
+    for (var t = 0; t < 100; t++) {
+      var a = from[Math.floor(Math.random() * from.length)];
+      var b = from[Math.floor(Math.random() * from.length)];
+      if (a === b) { continue; }
+      if (CARDS[a].pair === CARDS[b].pair) { continue; }
+      if (keyOf(a, b) === lastKey) { continue; }
+      return [a, b];
     }
-    var dx = 26 * s, topY = 36 - dx, botY = 36 + dx * 0.92;
-    return '<polygon points="36,' + topY + ' ' + (36 + dx) + ',' + botY + ' ' + (36 - dx) + ',' + botY +
-      '" fill="' + fc + '" stroke="#222222" stroke-width="3"/>';
-  }
-  function cardSvg(c) { return '<svg viewBox="0 0 72 72" aria-hidden="true">' + shapeSvg(c) + '</svg>'; }
-  function label(c) { return WORD[c.fill] + ' ' + WORD[c.size] + ' ' + WORD[c.shape]; }
-
-  function setOf(box, f) {
-    var out = [];
-    examples.forEach(function (c) {
-      if (c.box === box && out.indexOf(c[f]) < 0) { out.push(c[f]); }
-    });
-    return out;
+    return [0, 6];
   }
 
-  function findRule() {
-    var has1 = examples.some(function (c) { return c.box === 1; });
-    var has2 = examples.some(function (c) { return c.box === 2; });
-    if (!has1 || !has2) { return { kind: 'empty' }; }
-    for (var i = 0; i < FEATS.length; i++) {
-      var f = FEATS[i][0];
-      var v1 = setOf(1, f), v2 = setOf(2, f);
-      var overlap = v1.some(function (v) { return v2.indexOf(v) >= 0; });
-      if (!overlap) { return { kind: 'ok', f: f, v1: v1, v2: v2 }; }
-    }
-    return { kind: 'none' };
-  }
-
-  function actualBox(card, rule) {
-    if (rule.kind !== 'ok') { return 0; }
-    var v = card[rule.f];
-    if (rule.v1.indexOf(v) >= 0) { return 1; }
-    if (rule.v2.indexOf(v) >= 0) { return 2; }
-    return 0;
-  }
-
-  // 예시 넷에서 규칙이 서고, 새 카드는 그 규칙 안에서만 뽑는다.
-  // 규칙 밖의 카드를 처음부터 섞으면 절반이 '어디에도 안 맞아요'가 되어 게임이 안 선다.
-  // 학생이 예시를 옮겨 규칙이 바뀌었을 때만 규칙 밖이 나오고, 그것이 이 차시의 알맹이다.
-  function ruleOf(ex) {
-    var box = function (n, f) {
-      var out = [];
-      ex.forEach(function (c) { if (c.box === n && out.indexOf(c[f]) < 0) out.push(c[f]); });
-      return out;
-    };
-    if (!ex.some(function (c) { return c.box === 1; })) { return null; }
-    if (!ex.some(function (c) { return c.box === 2; })) { return null; }
-    for (var i = 0; i < FEATS.length; i++) {
-      var f = FEATS[i][0];
-      var v1 = box(1, f), v2 = box(2, f);
-      var overlap = v1.some(function (v) { return v2.indexOf(v) >= 0; });
-      if (!overlap) { return { f: f, v1: v1, v2: v2 }; }
-    }
-    return null;
-  }
-
-  function makeRound() {
-    for (var t = 0; t < 60; t++) {
-      var pool = shuffle(POOL);
-      var ex = pool.slice(0, 4).map(function (c) {
-        return { fill: c.fill, size: c.size, shape: c.shape, box: Math.random() < 0.5 ? 1 : 2 };
-      });
-      var rule = ruleOf(ex);
-      if (!rule) { continue; }
-      var rest = pool.slice(4).filter(function (c) {
-        return rule.v1.indexOf(c[rule.f]) >= 0 || rule.v2.indexOf(c[rule.f]) >= 0;
-      });
-      if (rest.length < 3) { continue; }
-      var nw = rest.slice(0, 3).map(function (c) {
-        return { fill: c.fill, size: c.size, shape: c.shape, guess: null, actual: null, revealed: false };
-      });
-      return { ex: ex, nw: nw };
-    }
-    // 예순 번을 뽑아도 못 찾으면 예시 둘씩 갈라 규칙이 서게 만든다
-    var p2 = shuffle(POOL);
-    var f0 = FEATS[0][0];
-    var sorted = p2.slice().sort(function (a, b) { return String(a[f0]) < String(b[f0]) ? -1 : 1; });
-    var ex2 = [sorted[0], sorted[1], sorted[sorted.length - 2], sorted[sorted.length - 1]]
-      .map(function (c, i) { return { fill: c.fill, size: c.size, shape: c.shape, box: i < 2 ? 1 : 2 }; });
-    var nw2 = p2.slice(0, 3).map(function (c) {
-      return { fill: c.fill, size: c.size, shape: c.shape, guess: null, actual: null, revealed: false };
-    });
-    return { ex: ex2, nw: nw2 };
-  }
-
-  function sigOf(r) {
-    return r.ex.map(function (c) { return c.fill + c.size + c.shape + c.box; }).join('|') +
-      '#' + r.nw.map(function (c) { return c.fill + c.size + c.shape; }).join('|');
-  }
+  var roundEl = document.getElementById('round');
+  var dealt = 0;
 
   function newRound() {
     gen++;
-    var r;
-    do { r = makeRound(); } while (lastSig !== null && sigOf(r) === lastSig);
-    lastSig = sigOf(r);
-    examples = r.ex;
-    initBoxes = examples.map(function (c) { return c.box; });
-    newCards = r.nw;
-    locked = false; confirmed = false; revealing = false;
+    dealt++;
+    roundEl.textContent = dealt <= 4 ? '지도안 짝 ' + dealt + '/4' : '섞은 짝';
+    cur = drawPair();
+    lastKey = keyOf(cur[0], cur[1]);
+    guess = [null, null]; shown = [false, false];
+    confirmed = false; revealing = false;
     render();
   }
 
-  function restartRound() {
-    gen++;
-    examples.forEach(function (c, i) { c.box = initBoxes[i]; });
-    newCards.forEach(function (c) { c.guess = null; c.actual = null; c.revealed = false; });
-    locked = false; confirmed = false; revealing = false;
-    render();
-  }
-
-  function moveExample(i) {
-    if (locked || confirmed) { return; }
-    examples[i].box = examples[i].box === 1 ? 2 : 1;
-    render();
-  }
-
-  function pickGuess(i, box) {
+  function pick(slot, k) {
     if (confirmed) { return; }
-    newCards[i].guess = box;
-    if (!locked) { locked = true; }
+    guess[slot] = k;
     render();
+  }
+
+  function tagOf(c, g) {
+    if (c.ref === null) { return '생각이 나뉘는 카드예요 · 모둠에서 따져 봐요'; }
+    if (g === c.ref) { return ''; }
+    if (g === 'q') { return '구분 기준으로는 ' + BINNAME[c.ref] + ' 칸 · 모둠에서 따져 봐요'; }
+    return '구분 기준으로는 ' + BINNAME[c.ref] + ' 칸';
   }
 
   function confirmRound() {
-    if (confirmed) { return; }
-    if (newCards.some(function (c) { return c.guess === null; })) { return; }
+    if (confirmed || guess[0] === null || guess[1] === null) { return; }
     confirmed = true; revealing = true;
     var myGen = gen;
-    var rule = findRule();
-    newCards.forEach(function (c) { c.actual = actualBox(c, rule); });
-    var misses = newCards.filter(function (c) { return c.actual !== c.guess; }).length;
+    var off = 0;
+    cur.forEach(function (ci, s) {
+      var c = CARDS[ci];
+      if (c.ref !== null && guess[s] !== 'q' && guess[s] !== c.ref) { off++; }
+    });
     render();
-    step(0);
-    function step(idx) {
-      if (idx >= newCards.length) {
-        if (myGen !== gen) { return; }
-        revealing = false;
-        var msg = misses === 0 ? '셋 다 짚은 대로 갔어요'
-          : (misses === 1 ? '한 장이 달리 갔어요' : (misses === 2 ? '두 장이 달리 갔어요' : '세 장이 달리 갔어요'));
-        msgEl.textContent = msg;
-        msgEl.className = 'msg';
-        render();
-        return;
-      }
-      var delay = reduceMotion ? 0 : 260;
+    var delay = reduceMotion ? 0 : 300;
+    setTimeout(function () {
+      if (myGen !== gen) { return; }
+      shown[0] = true; render();
       setTimeout(function () {
         if (myGen !== gen) { return; }
-        newCards[idx].revealed = true;
+        shown[1] = true; revealing = false;
+        msgEl.textContent = off === 0 ? '구분 기준과 반대 칸에 놓은 카드는 없어요' : '구분 기준과 반대 칸에 놓은 카드가 ' + COUNT[off] + '이에요';
+        msgEl.className = 'msg';
         render();
-        step(idx + 1);
+        try { nextBtn.focus({ preventScroll: true }); } catch (e) {}
       }, delay);
-    }
+    }, delay);
   }
 
   function render() {
-    s1.innerHTML = ''; s2.innerHTML = '';
-    examples.forEach(function (c, i) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'card';
-      b.innerHTML = cardSvg(c);
-      b.disabled = locked || confirmed;
-      b.setAttribute('aria-label', label(c) + ', 지금 ' + BOXN[c.box] + ', 눌러서 옮기기');
-      b.addEventListener('click', function () { moveExample(i); });
-      (c.box === 1 ? s1 : s2).appendChild(b);
-    });
-    newCards.forEach(function (c) {
-      if (c.revealed && c.actual !== 0) {
-        var placed = document.createElement('div');
-        placed.className = 'card placed enter';
-        placed.innerHTML = cardSvg(c);
-        placed.setAttribute('role', 'img');
-        placed.setAttribute('aria-label', '새 카드, ' + label(c) + ', ' + BOXN[c.actual] + '로 감');
-        (c.actual === 1 ? s1 : s2).appendChild(placed);
+    pairEl.innerHTML = '';
+    cur.forEach(function (ci, s) {
+      var c = CARDS[ci];
+      var box = document.createElement('div');
+      box.className = 'case';
+      var isOff = shown[s] && c.ref !== null && guess[s] !== c.ref;
+      if (isOff) { box.classList.add('off'); }
+      var head = document.createElement('p');
+      head.className = 'name';
+      head.textContent = c.n;
+      if (c.sensor) {
+        var sb = document.createElement('span');
+        sb.className = 'sensor';
+        sb.textContent = '센서 있음';
+        head.appendChild(sb);
       }
-    });
-    exNote.textContent = (locked || confirmed) ? '카드는 잠겼어요' : '카드를 눌러 옆 상자로 옮겨요';
-
-    newWrap.innerHTML = '';
-    newCards.forEach(function (c, i) {
-      if (c.revealed && c.actual !== 0) { return; }
-      var wrap = document.createElement('div');
-      wrap.className = 'newcard';
-      var pic = document.createElement('div'); pic.className = 'pic'; pic.innerHTML = cardSvg(c);
-      wrap.appendChild(pic);
-      var grp = document.createElement('div'); grp.className = 'gpick';
-      [1, 2].forEach(function (box) {
-        var gb = document.createElement('button');
-        gb.type = 'button'; gb.className = 'gbtn';
-        gb.textContent = BOXN[box];
-        gb.setAttribute('aria-pressed', c.guess === box ? 'true' : 'false');
-        gb.disabled = confirmed;
-        gb.addEventListener('click', function () { pickGuess(i, box); });
-        grp.appendChild(gb);
+      box.appendChild(head);
+      var grp = document.createElement('div');
+      grp.className = 'bins';
+      grp.setAttribute('role', 'group');
+      grp.setAttribute('aria-label', c.n + ' 칸 고르기');
+      BINS.forEach(function (bn) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'bin';
+        b.textContent = bn[1];
+        b.setAttribute('aria-pressed', guess[s] === bn[0] ? 'true' : 'false');
+        b.disabled = confirmed;
+        if (isOff && bn[0] === c.ref) { b.classList.add('ref'); }
+        b.addEventListener('click', function () { pick(s, bn[0]); });
+        grp.appendChild(b);
       });
-      wrap.appendChild(grp);
-      if (c.revealed && c.actual === 0) {
-        var tag = document.createElement('span');
-        tag.className = 'rv-tag';
-        tag.textContent = '어디에도 안 맞아요';
-        wrap.appendChild(tag);
+      box.appendChild(grp);
+      if (shown[s]) {
+        var io = document.createElement('p');
+        io.className = 'io';
+        io.textContent = c.io;
+        box.appendChild(io);
+        var t = tagOf(c, guess[s]);
+        if (t) {
+          var tg = document.createElement('p');
+          tg.className = 'tag';
+          tg.textContent = t;
+          box.appendChild(tg);
+        }
+        box.classList.add('open');
       }
-      newWrap.appendChild(wrap);
+      pairEl.appendChild(box);
     });
 
-    confirmBtn.disabled = confirmed || newCards.some(function (c) { return c.guess === null; });
-    resetBtn.disabled = revealing;
+    var both = guess[0] !== null && guess[1] !== null;
+    confirmBtn.disabled = confirmed || !both;
+    resetBtn.disabled = confirmed || (guess[0] === null && guess[1] === null);
     nextBtn.disabled = revealing;
+    nextBtn.classList.toggle('go', confirmed && !revealing);
     if (!confirmed) {
-      var allGuessed = newCards.every(function (c) { return c.guess !== null; });
-      msgEl.textContent = allGuessed ? '확인하기를 눌러요' : '세 장 모두 짚어요';
+      msgEl.textContent = both ? '확인하기를 눌러요' : '두 장 모두 칸을 짚어요';
       msgEl.className = 'msg dim';
     }
   }
 
   confirmBtn.addEventListener('click', confirmRound);
-  resetBtn.addEventListener('click', restartRound);
+  resetBtn.addEventListener('click', function () {
+    if (confirmed) { return; }
+    guess = [null, null]; render();
+  });
   nextBtn.addEventListener('click', newRound);
 
   newRound();
