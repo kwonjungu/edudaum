@@ -3,105 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>다 건너는 초록불 시간 짚기</title>
+<title>물건 카드 두 칸 나누기</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
 :root{--line:#DDDDDD;--line-strong:#C1C1C1;
   --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-  --point:#FF385C; --point-soft:#FFF0F3;
-  --muted:#6A6A6A; --red:#E5484D; --green:#12B76A;
+  --point:#FF385C; --point-soft:#FFF0F3; --soft:#F7F7F7;
+  --muted:#6A6A6A;
   --r:14px; --r-sm:8px;
   --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
 }
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  background:var(--paper);
-  
-  
-  color:var(--ink);
-  font-family:"Pretendard","Noto Sans KR",-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
-  font-size:17px; line-height:1.45; font-weight:600;
+  background:var(--paper); color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px; line-height:1.45; font-weight:400;
   -webkit-text-size-adjust:100%;
 }
-main{max-width:920px;margin:0 auto;padding:16px 14px 28px}
-h1{
-  font-size:clamp(24px,5.6vw,34px); font-weight:700; letter-spacing:-.035em;
-  margin:0 0 4px;
-}
-.lead{font-size:15px;color:var(--muted);margin:0 0 12px;font-weight:700}
-
-.stage{
-  display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px;
-  align-items:start; margin:0;
-}
-@media (max-width:719px){ .stage{grid-template-columns:minmax(0,1fr)} }
-
-.face{
-  background:var(--surface); border:1px solid var(--line);
-  border-radius:var(--r); box-shadow:var(--hard); padding:12px;
-}
-.face + .face{margin-top:14px}
-.face h2{font-size:13.5px;font-weight:700;letter-spacing:-.02em;margin:0 0 8px;color:var(--muted)}
-.scene svg{display:block;width:100%;height:auto}
-
-.lamp{fill:#EFEAE0;stroke:var(--ink);stroke-width:3}
-.lamp.on.red{fill:var(--red)}
-.lamp.on.green{fill:var(--green)}
-.ring{fill:none;stroke:var(--ink);stroke-width:0}
-.lamp.on + .ring{stroke-width:6}
-.band{fill:#E8E2D6;stroke:var(--ink);stroke-width:3}
-.stripe{fill:var(--surface)}
-.walker{fill:var(--point);stroke:var(--ink);stroke-width:2.5;transition:cx .32s linear}
-.svgtxt{font:700 15px "Pretendard","Malgun Gothic",sans-serif;fill:var(--ink)}
-
-.who{font-size:15px;font-weight:600;margin:0 0 8px}
-.who b{color:var(--point);font-size:19px}
-
-/* 초 선택 띠 */
-.strip{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;margin:0 0 8px}
-.c{
-  font-family:inherit;cursor:pointer;background:var(--surface);color:var(--ink);
-  border:1px solid var(--line);border-radius:9px;min-height:44px;
-  font-weight:600;font-size:14px;
-  transition:transform .1s,box-shadow .1s,background .12s;
-}
-.c:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:0 1px 2px rgba(0,0,0,.08)}
-.c.pick{background:var(--point);color:#fff;animation:pk .2s ease-out}
-.c:disabled{opacity:.55;cursor:not-allowed}
-.c:disabled.pick{opacity:1}
-@keyframes pk{0%{transform:scale(1)}45%{transform:scale(1.18)}100%{transform:scale(1)}}
-
-.pickline{font-size:13.5px;font-weight:600;color:var(--muted);min-height:20px}
-.pickline b{color:var(--point)}
-
-.cmd{margin:6px 0 0;padding:8px 10px;border:1.5px dashed var(--line-strong);border-radius:var(--r-sm);
-  font-size:15px;font-weight:600;background:var(--point-soft)}
-.cmd b{color:var(--ink);font-size:18px}
-.row{display:flex;flex-wrap:wrap;gap:8px}
-button.act{
-  font:inherit; font-weight:600; color:var(--ink); cursor:pointer;
-  min-height:48px; min-width:88px; padding:10px 18px;
-  border:1px solid var(--ink); border-radius:999px;
-  background:var(--surface); box-shadow:var(--hard-sm);
-  transition:transform .1s ease, box-shadow .1s ease;
-}
-button.act.main{background:var(--point)}
-button.act:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
-button.act:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
-:focus-visible{outline:3px solid var(--point);outline-offset:3px}
-
-.out{
-  margin:12px 0 0; min-height:52px; display:flex; align-items:center;
-  border:1px solid var(--line); border-radius:var(--r-sm);
-  background:var(--ink); color:var(--paper); padding:10px 14px;
-  font-weight:700; font-size:19px;
-}
-.out:empty{background:var(--surface)}
-@media (prefers-reduced-motion:reduce){
-  *{animation:none !important;transition:none !important}
-}
+main{max-width:760px;margin:0 auto;padding:16px 16px 28px}
+h1{font-size:clamp(24px,5.6vw,32px);font-weight:700;letter-spacing:-.035em;margin:0 0 4px}
+.lead{font-size:15px;color:var(--muted);margin:0 0 12px;font-weight:600}
 
 /* 쪽 위 차시 표시 */
 .topnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}
@@ -112,55 +34,106 @@ button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   border:1px solid var(--line);border-radius:999px;padding:6px 14px;
   box-shadow:var(--hard-sm);white-space:nowrap}
 
-/* 에듀다움 통일 테마 2026-09-27 */
+section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--hard);padding:12px;margin:0 0 12px}
+h2{font-size:13.5px;font-weight:700;letter-spacing:-.02em;margin:0 0 6px;color:var(--muted)}
+
+.card{display:flex;align-items:center;gap:10px;margin:0 0 10px}
+.card svg{flex:0 0 auto}
+.cardname{font-size:21px;font-weight:700;letter-spacing:-.02em}
+.ask{font-size:15px;font-weight:600;margin:0 0 6px}
+.guess{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+
+button{font-family:inherit}
+.opt{cursor:pointer;color:var(--ink);background:var(--surface);border:1px solid var(--ink);
+  border-radius:var(--r-sm);min-height:44px;padding:6px 4px;font-size:15px;font-weight:600;line-height:1.2}
+.opt[aria-pressed="true"]{background:var(--point);border-color:var(--point);color:#fff}
+.opt:disabled{cursor:not-allowed}
+.opt:disabled:not([aria-pressed="true"]){opacity:.5}
+
+.hint{font-size:14px;font-weight:600;color:var(--point);margin:10px 0 0;min-height:20px}
+
+.tray{display:flex;flex-direction:column;gap:6px;margin:8px 0 0}
+.tray:empty{display:none}
+.piece{cursor:pointer;text-align:left;width:100%;color:var(--ink);background:var(--soft);
+  border:1px solid var(--line-strong);border-radius:var(--r-sm);min-height:44px;padding:8px 10px;
+  font-size:15px;font-weight:600;line-height:1.3;transition:transform .12s,background .12s}
+.piece.held{background:var(--point-soft);border:2px solid var(--point);transform:translateY(-1px)}
+.piece:disabled{cursor:default}
+.piece .tag{display:block;margin-top:4px;font-size:12.5px;font-weight:600;color:var(--muted)}
+.piece .moved{display:inline-block;margin-right:6px;padding:0 6px;border-radius:999px;
+  background:var(--ink);color:#fff;font-size:12px;font-weight:600}
+.piece.wasmoved{border:2px dashed var(--ink)}
+
+.cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin:10px 0 0}
+.col{border:1px dashed var(--line-strong);border-radius:var(--r);padding:6px;min-height:120px;
+  display:flex;flex-direction:column;gap:6px}
+.col.full{border-style:solid;border-color:var(--ink)}
+.drop{cursor:pointer;width:100%;min-height:48px;border-radius:var(--r-sm);
+  border:1px solid var(--ink);background:var(--surface);color:var(--ink);
+  font-size:15.5px;font-weight:700;line-height:1.15;padding:4px}
+.drop:disabled{opacity:.5;cursor:not-allowed}
+.cnt{display:block;font-size:12.5px;font-weight:600;color:var(--muted)}
+
+.row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
+.act{cursor:pointer;font-size:16px;font-weight:600;color:var(--ink);
+  min-height:48px;padding:10px 16px;flex:1 1 90px;
+  border:1px solid var(--ink);border-radius:999px;background:var(--surface);box-shadow:var(--hard-sm)}
+.act.main{background:var(--point);border-color:var(--point);color:#fff}
+.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+
+.out{margin:12px 0 0;border-radius:var(--r-sm);padding:10px 12px;min-height:48px;
+  background:var(--soft);font-size:16px;font-weight:600}
+.out.show{background:var(--ink);color:#fff}
+.out p{margin:0}
+.out p + p{margin-top:4px}
+.note{font-size:13.5px;color:var(--muted);font-weight:600;margin:10px 0 0}
+
+.pop{animation:pop .22s ease-out}
+@keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.05)}100%{transform:scale(1)}}
+@media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
 </style>
 </head>
 <body>
 <main>
   <nav class="topnav"><span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a href="../play/">← 체험 목록</a><a href="../lessons/B01/">과정안</a></span><b>1~2</b></nav>
-  <h1>다 건너는 초록불 시간 짚기</h1>
-  <p class="lead">가장 짧은 초록불을 짚어요</p>
+  <h1>물건 카드 두 칸 나누기</h1>
+  <p class="lead">한 물건 속 조각을 하드웨어·소프트웨어 칸에 나눠요</p>
 
-  <section class="stage">
-    <div class="face">
-      <h2>이번 판</h2>
-      <p class="who">이번엔 <b id="nText">3</b>명이 건너요</p>
-      <div class="strip" id="strip" role="group" aria-label="초록불 초 수"></div>
-      <p class="pickline" id="pickline">초를 짚어요</p>
-      <p class="cmd" aria-label="숨은 명령">버튼을 누르면 → 초록불 <b id="cmdSec">?</b>초 켜기</p>
+  <section aria-labelledby="h-card">
+    <h2 id="h-card">물건 카드</h2>
+    <div class="card">
+      <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="7" y="4" width="26" height="32" rx="4" fill="#FFF0F3" stroke="#222222" stroke-width="1.8"/><path d="M13 14h14M13 20h14M13 26h9" stroke="#222222" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <span class="cardname" id="cardname"></span>
     </div>
+    <p class="ask" id="ask">이 물건엔 무엇이 들어 있을까</p>
+    <div class="guess" role="group" aria-labelledby="ask">
+      <button class="opt" type="button" data-g="hw" aria-pressed="false">하드웨어만</button>
+      <button class="opt" type="button" data-g="sw" aria-pressed="false">소프트웨어만</button>
+      <button class="opt" type="button" data-g="both" aria-pressed="false">둘 다</button>
+    </div>
+    <p class="hint" id="hint" aria-live="polite"></p>
+    <div class="tray" id="tray" aria-label="아직 안 넣은 조각"></div>
+  </section>
 
-    <div class="face">
-      <h2>건너기</h2>
-      <div class="scene">
-        <svg viewBox="0 0 320 232" role="img" aria-label="보행자 신호등과 횡단보도">
-          <rect x="10" y="6" width="64" height="112" rx="12" fill="#FFFFFF" stroke="#222222" stroke-width="3"/>
-          <circle id="lampR" class="lamp red" cx="42" cy="38" r="19"/>
-          <circle class="ring" cx="42" cy="38" r="25"/>
-          <circle id="lampG" class="lamp green" cx="42" cy="86" r="19"/>
-          <circle class="ring" cx="42" cy="86" r="25"/>
-          <text class="svgtxt" x="84" y="44">빨강</text>
-          <text class="svgtxt" x="84" y="92">초록</text>
-          <rect x="36" y="118" width="12" height="50" fill="#FFFFFF" stroke="#222222" stroke-width="3"/>
-          <rect class="band" x="8" y="168" width="304" height="52" rx="8"/>
-          <g class="stripe" aria-hidden="true">
-            <rect x="16" y="174" width="12" height="40"/><rect x="40" y="174" width="12" height="40"/>
-            <rect x="64" y="174" width="12" height="40"/><rect x="88" y="174" width="12" height="40"/>
-            <rect x="112" y="174" width="12" height="40"/><rect x="136" y="174" width="12" height="40"/>
-            <rect x="160" y="174" width="12" height="40"/><rect x="184" y="174" width="12" height="40"/>
-            <rect x="208" y="174" width="12" height="40"/><rect x="232" y="174" width="12" height="40"/>
-            <rect x="256" y="174" width="12" height="40"/><rect x="280" y="174" width="12" height="40"/>
-          </g>
-          <g id="walkers"></g>
-        </svg>
+  <section aria-labelledby="h-cols">
+    <h2 id="h-cols">두 칸</h2>
+    <div class="cols">
+      <div class="col" id="col-hw">
+        <button class="drop" type="button" id="drop-hw">하드웨어 칸<span class="cnt" id="cnt-hw">0개</span></button>
       </div>
-      <div class="row">
-        <button class="act main" id="run" type="button">건너 보기</button>
-        <button class="act" id="reset" type="button">다시 하기</button>
-        <button class="act" id="next" type="button">다음 판</button>
+      <div class="col" id="col-sw">
+        <button class="drop" type="button" id="drop-sw">소프트웨어 칸<span class="cnt" id="cnt-sw">0개</span></button>
       </div>
-      <p id="out" class="out" role="status" aria-live="polite"></p>
     </div>
+    <div class="row">
+      <button class="act main" id="check" type="button">확인하기</button>
+      <button class="act" id="reset" type="button">다시 하기</button>
+      <button class="act" id="next" type="button">다음 물건</button>
+    </div>
+    <div class="out" id="out" role="status" aria-live="polite"></div>
+    <p class="note">학교 탐험에서 진짜 물건을 찾아요</p>
   </section>
 </main>
 
@@ -168,171 +141,207 @@ button.act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 (function () {
   'use strict';
 
-  var NS = 'http://www.w3.org/2000/svg';
-  var SEC_MIN = 5, SEC_MAX = 20;
-  var N_MIN = 3, N_MAX = 8;
-  var TICK = 220;
-  var STARTX = 22, ENDX = 296;
+  // 물건 카드 — 지도안 탐험 구역과 도입 물건에서 고름. sw가 빈 카드는 소프트웨어가 없는 물건.
+  var CARDS = [
+    { name: '계산기',
+      hw: ['숫자 버튼', '숫자가 뜨는 화면', '플라스틱 몸체', '안에 든 건전지'],
+      sw: ['× 누르면 → 두 수를 곱한다', '= 누르면 → 답을 화면에 띄운다', '한참 안 쓰면 → 화면을 끈다'] },
+    { name: '보행자 신호등',
+      hw: ['빨강·초록 전구', '건너기 누름 버튼', '쇠기둥'],
+      sw: ['누름 버튼을 누르면 → 초록불을 켠다', '초록불 20초가 지나면 → 빨간불로 바꾼다', '끝나기 5초 전 → 초록불을 깜빡인다'] },
+    { name: '현관 자동문',
+      hw: ['유리문', '사람을 알아채는 센서', '문을 미는 모터'],
+      sw: ['사람이 다가오면 → 문을 연다', '아무도 없으면 → 5초 뒤 닫는다', '문 사이에 무엇이 있으면 → 닫지 않는다'] },
+    { name: '보건실 체온계',
+      hw: ['끝에 달린 온도 센서', '숫자 화면', '재기 단추'],
+      sw: ['단추를 누르면 → 온도를 잰다', '37.5도가 넘으면 → 삐 소리를 낸다'] },
+    { name: '마이크로비트',
+      hw: ['LED 25개', 'A 버튼', '작은 칩'],
+      sw: ['A 버튼을 누르면 → 하트를 보여 준다', 'B 버튼을 누르면 → 숫자 3을 보여 준다'] },
+    { name: '손으로 돌리는 연필깎이',
+      hw: ['칼날', '돌리는 손잡이', '톱니바퀴', '가루 통'],
+      sw: [] }
+  ];
+  var TAG = { hw: '만질 수 있는 부품', sw: '정해 둔 명령' };
+  var NUM = ['', '한', '두', '세', '네'];
 
-  var stripEl = document.getElementById('strip');
-  var pickline = document.getElementById('pickline');
-  var nText = document.getElementById('nText');
-  var runBtn = document.getElementById('run');
-  var resetBtn = document.getElementById('reset');
-  var nextBtn = document.getElementById('next');
-  var out = document.getElementById('out');
-  var lampR = document.getElementById('lampR');
-  var lampG = document.getElementById('lampG');
-  var walkersG = document.getElementById('walkers');
+  var cardIdx = -1, prevCard = null;
+  var pieces = [];          // {text, kind, put, moved}
+  var guess = null;
+  var held = null;
+  var done = false;
 
-  var cells = [];
-  var walkerEls = [];
+  var $ = function (id) { return document.getElementById(id); };
+  var cardname = $('cardname'), hint = $('hint'), tray = $('tray'), out = $('out');
+  var colHw = $('col-hw'), colSw = $('col-sw');
+  var dropHw = $('drop-hw'), dropSw = $('drop-sw');
+  var checkBtn = $('check'), resetBtn = $('reset'), nextBtn = $('next');
+  var opts = Array.prototype.slice.call(document.querySelectorAll('.opt'));
 
-  var N = 0, prevN = null;
-  var pickedSec = null;
-  var timer = null;
-  var t = 0;
-  var running = false;
-  var ran = false;       // 확인을 눌렀나. 그 뒤로는 짚기가 잠긴다.
-
-  (function buildStrip() {
-    for (var s = SEC_MIN; s <= SEC_MAX; s++) {
-      var b = document.createElement('button');
-      b.type = 'button';
-      b.className = 'c';
-      b.textContent = String(s);
-      b.setAttribute('aria-label', s + '초');
-      (function (sec) {
-        b.addEventListener('click', function () { pickSec(sec); });
-      })(s);
-      stripEl.appendChild(b);
-      cells.push(b);
-    }
-  })();
-
-  (function buildWalkers() {
-    for (var i = 0; i < N_MAX; i++) {
-      var g = document.createElementNS(NS, 'g');
-      var c = document.createElementNS(NS, 'circle');
-      c.setAttribute('class', 'walker');
-      c.setAttribute('r', '6');
-      c.setAttribute('cx', String(STARTX));
-      c.setAttribute('cy', String(178 + i * 6));
-      g.appendChild(c);
-      walkersG.appendChild(g);
-      walkerEls.push(c);
-    }
-  })();
-
-  function lamps(mode) {
-    lampR.classList.toggle('on', mode === 'red');
-    lampG.classList.toggle('on', mode === 'green');
+  function rnd(n) { return Math.floor(Math.random() * n); }
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
   }
 
-  function halt() {
-    if (timer !== null) { clearInterval(timer); timer = null; }
-    running = false;
-  }
-
-  function pickN() {
+  function pickCard() {
     var v;
-    do { v = N_MIN + Math.floor(Math.random() * (N_MAX - N_MIN + 1)); } while (v === prevN);
-    prevN = v;
+    do { v = rnd(CARDS.length); } while (v === prevCard);
+    prevCard = v;
     return v;
   }
 
-  function updateWalkers(crossedCount) {
-    for (var i = 0; i < N_MAX; i++) {
-      var el = walkerEls[i];
-      if (i >= N) { el.setAttribute('display', 'none'); continue; }
-      el.setAttribute('display', '');
-      el.setAttribute('cx', String(i < crossedCount ? ENDX : STARTX));
+  function dealPieces(card) {
+    var hwN;
+    if (!card.sw.length) { hwN = 4; }
+    else {
+      // 하드웨어 1~3개, 남는 자리는 소프트웨어. 묶음 크기를 넘지 않게.
+      var lo = Math.max(1, 4 - card.sw.length), hi = Math.min(3, card.hw.length);
+      hwN = lo + rnd(hi - lo + 1);
     }
+    var hw = shuffle(card.hw.slice()).slice(0, hwN);
+    var sw = shuffle(card.sw.slice()).slice(0, 4 - hwN);
+    var list = hw.map(function (t) { return { text: t, kind: 'hw' }; })
+      .concat(sw.map(function (t) { return { text: t, kind: 'sw' }; }));
+    return shuffle(list).map(function (p) { p.put = null; p.moved = false; return p; });
+  }
+
+  function firstLoose() {
+    for (var i = 0; i < pieces.length; i++) { if (pieces[i].put === null) { return i; } }
+    return null;
+  }
+
+  function pieceButton(p, i) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'piece' + (held === i ? ' held' : '') + (p.moved ? ' wasmoved' : '');
+    b.disabled = done || guess === null;
+    if (p.moved) {
+      var m = document.createElement('span');
+      m.className = 'moved';
+      m.textContent = '옮김';
+      b.appendChild(m);
+    }
+    b.appendChild(document.createTextNode(p.text));
+    if (done) {
+      var t = document.createElement('span');
+      t.className = 'tag';
+      t.textContent = TAG[p.kind];
+      b.appendChild(t);
+    }
+    b.setAttribute('aria-pressed', held === i ? 'true' : 'false');
+    b.addEventListener('click', function () { hold(i); });
+    return b;
   }
 
   function render() {
-    for (var i = 0; i < cells.length; i++) {
-      var sec = SEC_MIN + i;
-      cells[i].classList.toggle('pick', pickedSec === sec);
-      cells[i].disabled = ran;   // 확인 전까지는 바꿀 수 있다
-    }
-    document.getElementById('cmdSec').textContent = pickedSec === null ? '?' : String(pickedSec);
-    pickline.innerHTML = pickedSec === null
-      ? '초를 짚어요'
-      : '<b>' + pickedSec + '초</b>를 짚었어요';
-    runBtn.disabled = running || pickedSec === null;
-    resetBtn.disabled = running;
-    nextBtn.disabled = running;
+    // 조각 자리
+    tray.textContent = '';
+    [colHw, colSw].forEach(function (col) {
+      while (col.children.length > 1) { col.removeChild(col.lastChild); }
+    });
+    var n = { hw: 0, sw: 0 };
+    pieces.forEach(function (p, i) {
+      var b = pieceButton(p, i);
+      if (p.put === null) { tray.appendChild(b); }
+      else { (p.put === 'hw' ? colHw : colSw).appendChild(b); n[p.put] += 1; }
+    });
+    $('cnt-hw').textContent = n.hw + '개';
+    $('cnt-sw').textContent = n.sw + '개';
+    colHw.classList.toggle('full', done && n.hw > 0);
+    colSw.classList.toggle('full', done && n.sw > 0);
+
+    opts.forEach(function (o) {
+      o.setAttribute('aria-pressed', o.getAttribute('data-g') === guess ? 'true' : 'false');
+      o.disabled = done;
+    });
+    var canDrop = !done && guess !== null && held !== null;
+    dropHw.disabled = !canDrop;
+    dropSw.disabled = !canDrop;
+
+    var allIn = firstLoose() === null;
+    checkBtn.disabled = done || guess === null || !allIn;
+
+    if (done) { hint.textContent = ''; }
+    else if (guess === null) { hint.textContent = '예상을 먼저 골라요'; }
+    else if (held !== null) { hint.textContent = '칸을 눌러 넣어요'; }
+    else if (allIn) { hint.textContent = '다 넣었어요. 확인해요'; }
+    else { hint.textContent = '조각을 눌러 집어요'; }
   }
 
-  function pickSec(sec) {
-    if (running || ran) { return; }   // 건너 보기 전까지는 바꿀 수 있다
-    pickedSec = sec;
+  function setGuess(g) {
+    if (done) { return; }
+    guess = g;
+    if (held === null) { held = firstLoose(); }
     render();
   }
 
-  function tick() {
-    t += 1;
-    var crossedCount = Math.min(N, Math.floor(t / 2));
-    updateWalkers(crossedCount);
-    var blink = (t > pickedSec - 5) && (t % 2 === 1);
-    lamps(blink ? 'off' : 'green');
-    if (t >= pickedSec) { finish(); }
-  }
-
-  function finish() {
-    halt();
-    lamps('red');
-    var minSec = N * 2;
-    var crossedFinal = Math.min(N, Math.floor(pickedSec / 2));
-    if (crossedFinal >= N) {
-      var leftover = pickedSec - minSec;
-      out.textContent = leftover <= 0 ? '모두 건넜어요' : (leftover + '초가 남았어요');
-    } else {
-      out.textContent = (N - crossedFinal) + '명이 남았어요';
-    }
+  function hold(i) {
+    if (done || guess === null) { return; }
+    held = (held === i && pieces[i].put !== null) ? null : i;
     render();
   }
 
-  function run() {
-    if (running || pickedSec === null) { return; }
-    running = true; ran = true;
-    t = 0;
+  function drop(col) {
+    if (done || guess === null || held === null) { return; }
+    pieces[held].put = col;
+    held = firstLoose();
+    render();
+  }
+
+  function guessLine(actualBoth) {
+    if (guess === 'both') { return actualBoth ? '예상대로 두 칸이 다 찼어요' : '소프트웨어 칸은 비었어요'; }
+    if (guess === 'hw') { return actualBoth ? '소프트웨어 칸에도 조각이 들어갔어요' : '예상대로 하드웨어 칸만 찼어요'; }
+    return actualBoth ? '하드웨어 칸에도 조각이 들어갔어요' : '소프트웨어 칸은 비고 하드웨어 칸만 찼어요';
+  }
+
+  function check() {
+    if (done || guess === null || firstLoose() !== null) { return; }
+    done = true;
+    held = null;
+    var moved = 0, putKinds = {};
+    pieces.forEach(function (p) {
+      putKinds[p.put] = true;
+      if (p.put !== p.kind) { p.moved = true; moved += 1; p.put = p.kind; }
+    });
+    var actualBoth = pieces.some(function (p) { return p.kind === 'sw'; });
+    var oneSide = Object.keys(putKinds).length === 1 && guess !== 'both';
+    var line2 = moved === 0 ? '넣은 칸 그대로였어요'
+      : NUM[moved] + ' 조각이 다른 칸으로 옮겨 갔어요';
+    if (oneSide && actualBoth) { line2 = '한 칸에 다 넣었는데 두 칸으로 갈렸어요'; }
     out.textContent = '';
-    updateWalkers(0);
-    lamps('green');
+    [guessLine(actualBoth), line2].forEach(function (t) {
+      var p = document.createElement('p'); p.textContent = t; out.appendChild(p);
+    });
+    out.classList.add('show');
+    out.classList.remove('pop'); void out.offsetWidth; out.classList.add('pop');
     render();
-    timer = setInterval(tick, TICK);
   }
 
-  function resetRun() {
-    ran = false;
-    if (running) { return; }
-    halt();
-    t = 0;
+  function clearRound() {
+    pieces.forEach(function (p) { p.put = null; p.moved = false; });
+    guess = null; held = null; done = false;
     out.textContent = '';
-    updateWalkers(0);
-    lamps('red');
-    render();
+    out.classList.remove('show', 'pop');
   }
+
+  function resetRound() { clearRound(); render(); }
 
   function newRound() {
-    ran = false;
-    halt();
-    N = pickN();
-    nText.textContent = String(N);
-    pickedSec = null;
-    t = 0;
-    out.textContent = '';
-    updateWalkers(0);
-    lamps('red');
+    cardIdx = pickCard();
+    var card = CARDS[cardIdx];
+    cardname.textContent = card.name;
+    pieces = dealPieces(card);
+    clearRound();
     render();
   }
 
-  runBtn.addEventListener('click', run);
-  resetBtn.addEventListener('click', resetRun);
+  opts.forEach(function (o) { o.addEventListener('click', function () { setGuess(o.getAttribute('data-g')); }); });
+  dropHw.addEventListener('click', function () { drop('hw'); });
+  dropSw.addEventListener('click', function () { drop('sw'); });
+  checkBtn.addEventListener('click', check);
+  resetBtn.addEventListener('click', resetRound);
   nextBtn.addEventListener('click', newRound);
-  window.addEventListener('pagehide', halt);
 
   newRound();
 })();
