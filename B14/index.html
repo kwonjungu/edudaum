@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>점검표로 걸리는 곳 찾기 — 에듀다움 B14</title>
+<title>드러난 개인정보 찾기 활동 — 에듀다움 B14</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
   :root{--line:#DDDDDD;--line-strong:#C1C1C1;
@@ -14,68 +14,59 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
-    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    
-    background-position:-11px -11px}
+  body{font-family:Pretendard,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5}
   .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px}
 
   .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
   .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:600;
     font-size:14px;background:var(--surface);border:1px solid var(--ink);border-radius:999px;
-    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
-  .back:hover{transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
   .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;border:1px solid var(--line);
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(21px,5.0vw,27px);font-weight:700;letter-spacing:-.035em;line-height:1.08}
-  .lead{font-size:14.5px;color:var(--muted);margin-top:5px;font-weight:700}
+  h1{font-size:clamp(21px,5.0vw,27px);font-weight:700;letter-spacing:-.035em;line-height:1.15}
+  .lead{font-size:14.5px;color:var(--muted);margin-top:5px;font-weight:600}
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
-    box-shadow:var(--hard);padding:12px 12px;margin-top:11px}
+    box-shadow:var(--hard);padding:12px;margin-top:11px}
   h2{font-size:13px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted);text-align:center}
 
-  #scene{width:100%;max-width:340px;height:auto;display:block;margin:0 auto}
-  .zbg{fill:var(--surface);stroke:var(--ink);stroke-width:2}
-  .zbg.hit{stroke:var(--point);stroke-width:4}
-  .zlabel{font:700 11.5px "Malgun Gothic",sans-serif;fill:var(--muted)}
-  .zval{font:900 12.5px "Courier New",monospace;fill:var(--ink)}
+  #scene{width:100%;max-width:360px;height:auto;display:block;margin:0 auto}
+  .zbg{fill:var(--surface);stroke:var(--line-strong);stroke-width:1.5}
+  .zone{cursor:pointer}
+  .zbg.pick{stroke:var(--ink);stroke-width:2.5;stroke-dasharray:6 4}
+  .zbg.hit{fill:var(--point-soft);stroke:var(--point);stroke-width:4;stroke-dasharray:none}
+  .zlabel{font:600 11px 'Malgun Gothic',sans-serif;fill:var(--muted)}
+  .zval{font:700 14px 'Malgun Gothic',sans-serif;fill:var(--ink)}
 
-  .status{margin-top:9px;text-align:center;font-size:14.5px;font-weight:700}
-  .status.dim{color:var(--muted);font-weight:700}
+  .status{margin-top:9px;text-align:center;font-size:15px;font-weight:700;min-height:1.5em}
+  .status.dim{color:var(--muted)}
 
-  .picks{display:flex;flex-direction:column;gap:7px}
+  .picks{display:grid;grid-template-columns:1fr 1fr;gap:7px}
   .pk{width:100%;text-align:left;display:flex;align-items:center;gap:9px;font-family:inherit;
-    cursor:pointer;color:var(--ink);font-size:14.5px;font-weight:600;
-    background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
-    min-height:46px;padding:8px 12px;box-shadow:var(--hard-sm);
-    transition:transform .1s,box-shadow .1s,background .1s}
-  .pk:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
-  .pk:active:not(:disabled){transform:translate(2px,2px);box-shadow:0 1px 2px rgba(0,0,0,.08)}
-  .pk[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px}
-  .pk:disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:var(--hard-sm)}
-  .pk .dot{flex:0 0 auto;width:10px;height:10px;border-radius:50%;border:1px solid var(--line);background:var(--surface)}
-  .pk[aria-pressed="true"] .dot{background:var(--point)}
+    cursor:pointer;color:var(--ink);font-size:15px;font-weight:600;
+    background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
+    min-height:46px;padding:8px 12px;box-shadow:var(--hard-sm)}
+  .pk.none{grid-column:1 / -1}
+  .pk[aria-pressed="true"]{background:var(--point-soft);border-color:var(--point);border-width:2px}
+  .pk:disabled{opacity:.55;cursor:not-allowed}
+  .pk .dot{flex:0 0 auto;width:10px;height:10px;border-radius:50%;border:1px solid var(--ink);background:var(--surface)}
+  .pk[aria-pressed="true"] .dot{background:var(--point);border-color:var(--point)}
 
   .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
-  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:700;
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:600;
     background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
-    min-height:44px;padding:10px 16px;box-shadow:var(--hard-sm);
-    transition:transform .1s,box-shadow .1s}
-  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
-  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .btn.main{background:var(--point);color:#fff;flex:1 1 140px}
+    min-height:48px;padding:10px 16px}
+  .btn.main{background:var(--point);border-color:var(--point);color:#fff;flex:1 1 140px}
   .btn.sub{flex:1 1 100px}
-  .btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none;transform:none}
+  .btn:disabled{opacity:.45;cursor:not-allowed}
 
-  .note{margin-top:8px;font-size:12px;font-weight:700;color:var(--muted)}
+  .note{margin-top:8px;font-size:13px;font-weight:600;color:var(--muted)}
 
   button, a{outline-offset:3px}
-  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-/* 에듀다움 통일 테마 2026-09-27 */
-.btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
 </head>
 <body>
@@ -86,25 +77,25 @@
   </nav>
 
   <header>
-    <h1>점검표로 걸리는 곳 찾기</h1>
-    <p class="lead">예시 작품에서 점검표에 걸리는 곳을 짚어요</p>
+    <h1>드러난 개인정보 찾기 활동</h1>
+    <p class="lead">예시 작품 소개에서 개인정보가 드러난 곳을 짚어요</p>
   </header>
 
   <section aria-labelledby="h-s">
-    <h2 id="h-s">예시 작품</h2>
-    <svg id="scene" viewBox="0 0 300 140" role="img" aria-label="예시 작품의 코드·화면·카드 다섯 곳"></svg>
-    <p class="status" id="status">다섯 가운데 하나를 짚어요</p>
+    <h2 id="h-s">예시 작품 소개</h2>
+    <svg id="scene" viewBox="0 0 300 196" role="img" aria-label="예시 작품 소개의 네 칸"></svg>
+    <p class="status dim" id="status" aria-live="polite">칸을 눌러 짚어요. 없을 수도 있어요</p>
   </section>
 
   <section aria-labelledby="h-p">
-    <h2 id="h-p">몇 번 항목에 걸리나요</h2>
+    <h2 id="h-p">어디에 드러났나요</h2>
     <div class="picks" id="picks"></div>
     <div class="acts">
       <button class="btn main" id="checkBtn" type="button" disabled>확인하기</button>
       <button class="btn sub" id="againBtn" type="button">다시 하기</button>
-      <button class="btn sub" id="nextBtn" type="button">다음 판</button>
+      <button class="btn sub" id="nextBtn" type="button">다음 예시</button>
     </div>
-    <p class="note">고치는 일은 우리 작품에서 해요</p>
+    <p class="note">짝 모둠 작품은 활동2 약속으로 확인해요</p>
   </section>
 </div>
 
@@ -113,19 +104,34 @@
   'use strict';
 
   var NS = 'http://www.w3.org/2000/svg';
-  // 과정안 32차시 점검표 다섯 항목. 줄 이름은 '어느 코드·화면·카드인지'(활동3)를 따른다.
-  var LABELS = ['코드 · 보내는 것', '코드 · 그룹 번호', '안내 화면', '설명 카드 · 그림', '설명 카드 · 소리'];
-  var PICK_TEXT = ['① 개인정보', '② 그룹 번호', '③ 친구 이름', '④ 그림 출처', '⑤ 소리 출처'];
-  // 바르게 된 값과 어긋난 값. 판마다 그 가운데 하나를 뽑는다. 실제 사람 이름을 쓰지 않는다.
-  var OK = [['수 1', '수 0', 'GOAL'], null, ['사용자1 · 12걸음', '사용자2 · 성공'],
-            ['LED로 직접 그림', '출처·BY 적음'], ['출처·BY 적음', '소리 없음']];
-  var BAD = [['이름 ㅇㅇㅇ', '전화번호', '지금 위치'], null, ['ㅇㅇㅇ · 12걸음', 'ㅇㅇ이 · 성공'],
-             ['출처 없음', 'ND 그림 · 바꿔 씀'], ['출처 없음', '허락 없이 쓴 노래']];
+  // 지도안 32차시 활동3-2: 해결한 문제·해결 방법·작동 순서·다음에 고칠 점, 실제 이름 대신 모둠 이름.
+  var LABELS = ['만든 사람', '작품 사진', '해결한 문제', '다음에 고칠 점'];
+  var NONE = 4;
+  // 바른 값. 실제 사람·학교·동네 이름을 쓰지 않는다(드러난 이름은 지어낸 이름, 학교·동네는 ㅇㅇ).
+  var OK = [
+    ['반짝 모둠', '별빛 모둠', '바람 모둠'],
+    ['기기와 틀만 찍힘', '수신기와 틀만 찍힘'],
+    ['복도에서 뛰는 친구 알리기', '쉬는 시간 끝 알리기'],
+    ['소리를 더 크게 하기', '틀을 더 튼튼하게 하기']
+  ];
+  // 드러난 값과 드러난 것의 이름. 활동3-1(얼굴·이름표·교실 게시물·창밖), 활동3-2(이름·얼굴·학교 이름·사는 곳).
+  var BAD = [
+    [['김하늘, 이바다', '실제 이름'], ['박나래온, 최솔', '실제 이름']],
+    [['얼굴이 함께 찍힘', '얼굴'], ['이름표가 보임', '이름표'], ['창밖 건물이 보임', '창밖'], ['교실 게시물이 보임', '교실 게시물']],
+    [['ㅇㅇ초 5학년 복도 문제', '학교 이름'], ['ㅇㅇ초 쉬는 시간 문제', '학교 이름']],
+    [['ㅇㅇ동 우리 집 앞에서 다시 시험', '사는 곳'], ['ㅇㅇ아파트 놀이터에서 다시 시험', '사는 곳']]
+  ];
   function any(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
-  var shownVals = ['', '', '', '', ''];
+  function josa(word){
+    // 받침이 있으면 '이', 없으면 '가'
+    var c = word.charCodeAt(word.length - 1);
+    if (c < 0xAC00 || c > 0xD7A3) return '이';
+    return ((c - 0xAC00) % 28) ? '이' : '가';
+  }
 
-  var wrongIdx = -1, prevWrong = -1;
-  var picked = null, confirmed = false, result = null;
+  var shown = ['', '', '', ''];
+  var badIdx = NONE, prevBad = -1, badName = '';
+  var picked = null, confirmed = false;
 
   var sceneEl = document.getElementById('scene');
   var statusEl = document.getElementById('status');
@@ -134,68 +140,73 @@
   var againBtn = document.getElementById('againBtn');
   var nextBtn = document.getElementById('nextBtn');
 
-  var rowH = 26, top = 4;
-  var zoneEls = [];
+  var rowH = 48, top = 2;
+  var zones = [];
   (function buildScene(){
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 4; i++) {
       var y = top + i * rowH;
+      var g = document.createElementNS(NS, 'g');
+      g.setAttribute('class', 'zone');
+      (function (idx) { g.addEventListener('click', function () { choose(idx); }); })(i);
+      sceneEl.appendChild(g);
       var rect = document.createElementNS(NS, 'rect');
       rect.setAttribute('class', 'zbg');
-      rect.setAttribute('x', 6); rect.setAttribute('y', y);
-      rect.setAttribute('width', 288); rect.setAttribute('height', rowH - 4);
-      rect.setAttribute('rx', 6);
-      sceneEl.appendChild(rect);
+      rect.setAttribute('x', 4); rect.setAttribute('y', y);
+      rect.setAttribute('width', 292); rect.setAttribute('height', rowH - 6);
+      rect.setAttribute('rx', 8);
+      g.appendChild(rect);
 
       var label = document.createElementNS(NS, 'text');
       label.setAttribute('class', 'zlabel');
-      label.setAttribute('x', 16); label.setAttribute('y', y + (rowH - 4) / 2 + 4);
-      sceneEl.appendChild(label);
+      label.setAttribute('x', 14); label.setAttribute('y', y + 15);
+      label.textContent = LABELS[i];
+      g.appendChild(label);
 
       var val = document.createElementNS(NS, 'text');
       val.setAttribute('class', 'zval');
-      val.setAttribute('x', 286); val.setAttribute('y', y + (rowH - 4) / 2 + 4);
-      val.setAttribute('text-anchor', 'end');
-      sceneEl.appendChild(val);
+      val.setAttribute('x', 14); val.setAttribute('y', y + 34);
+      g.appendChild(val);
 
-      label.textContent = LABELS[i];
-      zoneEls.push({ rect: rect, val: val });
+      zones.push({ rect: rect, val: val });
     }
   })();
 
   var pkBtns = [];
   (function buildPicks(){
-    for (var i = 0; i < 5; i++) {
+    var names = LABELS.concat(['드러난 곳 없음']);
+    for (var i = 0; i < names.length; i++) {
       var b = document.createElement('button');
-      b.type = 'button'; b.className = 'pk'; b.setAttribute('aria-pressed', 'false');
-      b.innerHTML = '<span class="dot" aria-hidden="true"></span><span>' + PICK_TEXT[i] + '</span>';
+      b.type = 'button'; b.className = 'pk' + (i === NONE ? ' none' : '');
+      b.setAttribute('aria-pressed', 'false');
+      b.innerHTML = '<span class="dot" aria-hidden="true"></span><span>' + names[i] + '</span>';
       (function (idx) { b.addEventListener('click', function () { choose(idx); }); })(i);
       picksEl.appendChild(b);
       pkBtns.push(b);
     }
   })();
 
-  function pickWrong(){
+  function pickBad(){
     var i;
-    do { i = Math.floor(Math.random() * 5); } while (i === prevWrong);
-    prevWrong = i;
+    do {
+      i = Math.random() < 0.25 ? NONE : Math.floor(Math.random() * 4);
+    } while (i === prevBad);
+    prevBad = i;
     return i;
   }
 
   function newRound(){
-    wrongIdx = pickWrong();
-    for (var i = 0; i < 5; i++) {
-      if (i === 1) {
-        // ② 배정받은 번호와 코드의 번호. 어긋난 판에서만 서로 다르다.
-        var g = 1 + Math.floor(Math.random() * 9), c = g;
-        if (i === wrongIdx) { do { c = 1 + Math.floor(Math.random() * 9); } while (c === g); }
-        shownVals[i] = '배정 ' + g + ' · 코드 ' + c;
+    badIdx = pickBad();
+    badName = '';
+    for (var i = 0; i < 4; i++) {
+      if (i === badIdx) {
+        var b = any(BAD[i]);
+        shown[i] = b[0]; badName = b[1];
       } else {
-        shownVals[i] = any(i === wrongIdx ? BAD[i] : OK[i]);
+        shown[i] = any(OK[i]);
       }
     }
     picked = null;
     confirmed = false;
-    result = null;
     render();
   }
 
@@ -208,12 +219,12 @@
   function doCheck(){
     if (confirmed || picked === null) return;
     confirmed = true;
-    result = (picked === wrongIdx);
     render();
+    nextBtn.focus({ preventScroll: true });
   }
 
   function doAgain(){
-    // 확인 전이면 고른 것만 지운다. 확인한 뒤에는 다음 판과 같다(무를 수 없어서).
+    // 확인 전이면 고른 것만 지운다. 확인한 뒤에는 다음 예시와 같다(무를 수 없어서).
     if (!confirmed) { picked = null; render(); return; }
     newRound();
   }
@@ -222,23 +233,38 @@
   againBtn.addEventListener('click', doAgain);
   nextBtn.addEventListener('click', newRound);
 
-  function render(){
-    for (var i = 0; i < 5; i++) {
-      zoneEls[i].val.textContent = shownVals[i];
-      zoneEls[i].rect.classList.toggle('hit', confirmed && i === wrongIdx);
+  var NUM = ['', '한', '두', '세'];
+  function resultText(){
+    var what = badName + josa(badName);
+    if (badIdx === NONE) {
+      return picked === NONE ? '짚은 대로 드러난 곳이 없었어요' : '이 예시는 드러난 곳이 없었어요';
     }
-    for (var j = 0; j < 5; j++) {
-      var on = picked === j;
-      pkBtns[j].setAttribute('aria-pressed', on ? 'true' : 'false');
+    if (picked === badIdx) return '짚은 칸에 ' + what + ' 드러나 있었어요';
+    if (picked === NONE) return LABELS[badIdx] + ' 칸에 ' + what + ' 드러나 있었어요';
+    var d = badIdx - picked;
+    return NUM[Math.abs(d)] + ' 칸 ' + (d > 0 ? '아래' : '위') + '에 ' + what + ' 드러나 있었어요';
+  }
+
+  function render(){
+    for (var i = 0; i < 4; i++) {
+      zones[i].val.textContent = shown[i];
+      zones[i].rect.classList.toggle('hit', confirmed && i === badIdx);
+      zones[i].rect.classList.toggle('pick', !confirmed && picked === i);
+    }
+    for (var j = 0; j < pkBtns.length; j++) {
+      pkBtns[j].setAttribute('aria-pressed', picked === j ? 'true' : 'false');
       pkBtns[j].disabled = confirmed;
     }
     checkBtn.disabled = confirmed || picked === null;
+    // 확인한 뒤에는 '다음 예시'가 주 단추가 된다.
+    checkBtn.className = 'btn ' + (confirmed ? 'sub' : 'main');
+    nextBtn.className = 'btn ' + (confirmed ? 'main' : 'sub');
 
     if (!confirmed) {
-      statusEl.textContent = picked === null ? '다섯 가운데 하나를 짚어요' : '확인하면 드러나요';
+      statusEl.textContent = picked === null ? '칸을 눌러 짚어요. 없을 수도 있어요' : '확인하면 드러나요';
       statusEl.className = 'status dim';
     } else {
-      statusEl.textContent = result ? '짚은 자리에서 걸렸어요' : '다른 곳이 걸렸어요';
+      statusEl.textContent = resultText();
       statusEl.className = 'status';
     }
   }
