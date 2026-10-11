@@ -45,6 +45,7 @@
   .cut .no{position:absolute;left:6px;top:5px;width:22px;height:22px;border-radius:50%;
     background:var(--ink);color:#fff;font-size:13px;font-weight:700;line-height:22px}
   .cut .st{position:absolute;right:6px;top:5px;font-size:12px;font-weight:700;padding:0 6px;border-radius:999px}
+  .cut .st{z-index:2;background:var(--surface)}
   .cut .st:empty{display:none}
   .cut.did .st{background:var(--soft);border:1px solid var(--line-strong)}
   .cut.stop{background:var(--point-soft)}
@@ -84,7 +85,7 @@
 
   <header>
     <h1>로봇 셰프 레시피 고치기</h1>
-    <p class="lead">로봇 셰프가 멈출 칸에 동그라미 치고 고쳐요</p>
+    <p class="lead">로봇 셰프가 헷갈릴 한 곳에 동그라미 치고 고쳐요</p>
   </header>
 
   <section aria-labelledby="h-r">
@@ -215,7 +216,7 @@
     nextBtn.classList.toggle('main', phase === 'done');
 
     if (running) { say.textContent = '로봇 셰프가 그림 순서대로 해요'; }
-    else if (phase === 'circle') { say.textContent = circle === null ? '로봇이 멈출 칸에 동그라미 쳐요' : '보여 주기를 눌러요'; }
+    else if (phase === 'circle') { say.textContent = circle === null ? '로봇 셰프가 헷갈릴 칸에 동그라미 쳐요' : '보여 주기를 눌러요'; }
     else if (phase === 'fix') { say.textContent = lift === null ? '바꿀 두 칸을 차례로 눌러요' : '자리를 바꿀 칸을 하나 더 눌러요'; }
     else { say.textContent = ''; }
   }
@@ -252,7 +253,7 @@
     if (res.stop === null) {
       phase = 'done';
       var msg = ['요리가 나왔어요'];
-      if (firstStop !== null) { msg.push('처음엔 ' + (firstStop + 1) + '번 칸에서 멈췄어요'); }
+      if (firstStop !== null) { msg.push('처음 헷갈린 곳: ' + (firstStop + 1) + '번 칸 → 자리를 바꿔 고쳤어요'); }
       lines(msg);
       sheet.classList.add('cooked');
       sheet.classList.remove('pop'); void sheet.offsetWidth; sheet.classList.add('pop');
