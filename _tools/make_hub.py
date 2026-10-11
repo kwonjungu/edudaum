@@ -632,24 +632,6 @@ def build_search():
     M.page('search', '검색 — 에듀다움', body, 'search/', SEARCH_JS)
 
 
-# ───────────────────────── 홈에 붙는 블록
-def home_hero() -> str:
-    return ('<section class="hero"><span class="kick">%s</span><h1>학교자율시간, 처음부터 끝까지</h1>'
-            '<p class="lead">개념·도입 절차·Q&A·서식을 한곳에서 찾고, 5학년 SW·6학년 AI 32차시 과정을 종합세트로 그대로 가져다 씁니다.</p>'
-            '<form class="search one" action="search/" role="search"><label><span>찾을 말</span>'
-            '<input name="q" placeholder="예: 세특 시간, 편제표, 기승인 과목, 마이크로비트 품의"></label>'
-            '<button class="orb" type="submit" aria-label="누리집 검색">%s</button></form></section>') % (e(M.SITE['org']), M.SEARCH_SVG)
-
-
-def home_blocks() -> str:
-    """홈 — 윗줄 메뉴와 같은 여섯 칸만."""
-    quick = [('plan/', '연구회 소개', '에듀다움 교사연구회와 5·6학년 SW·AI 과정'), ('about/', '학교자율시간이란?', '개념·도입 시기·활동과 과목'),
-             ('guide/', '도입 가이드', '활동 개설 절차를 단계별로'), ('forms/', '도입 서식', '채운 서식 종합세트·빈 양식'),
-             ('lessons/', '차시별 교수학습 과정안', '28편 64차시'), ('topics/', '영역별 교수학습 과정안', '5학년 4영역 · 6학년 5영역')]
-    q = ''.join('<a href="%s"><b>%s</b><span>%s</span></a>' % (u, e(t), e(d)) for u, t, d in quick)
-    return '<div class="quick">%s</div>' % q
-
-
 def main():
     build_notices()
     build_about()

@@ -39,6 +39,7 @@ SITE = json.loads((D / 'site.json').read_text(encoding='utf-8'))
 STD = json.loads((D / 'standards.json').read_text(encoding='utf-8'))
 TOOLS = json.loads((D / 'tools.json').read_text(encoding='utf-8'))['tools']
 LINKS = json.loads((D / 'links.json').read_text(encoding='utf-8'))
+EASY = json.loads((D / 'easy.json').read_text(encoding='utf-8'))['lessons']
 AREA_OF = {b: a for a in SITE['areas'] for b in a['blocks']}
 CODES = sorted(LESSON)
 
@@ -209,16 +210,74 @@ def thumb(code):
     return ''
 
 
+def easy(code, key):
+    """카드 한 줄 제목(title)·한 줄 요약(summary) — _data/easy.json. 없으면 학습 주제·학습 문제를 쓴다."""
+    v = EASY.get(code, {}).get(key)
+    return v or (topic(code) if key == 'title' else problem(code))
+
+
+def sheet_href(code):
+    """활동지 PDF — 올라오면(assets/sheets/BXX.pdf) 저절로 걸린다. 없으면 빈 문자열."""
+    return 'assets/sheets/%s.pdf' % code if (ROOT / 'assets/sheets' / ('%s.pdf' % code)).exists() else ''
+
+
+def res_icons(code, up):
+    """카드 아래 아이콘 셋 — 지도안·활동지·게임. 아직 없는 자료는 흐리게 두고 누르지 않는다."""
+    out = []
+    items = [('plan', '지도안', 'assets/pdf/%s.pdf' % code, True),
+             ('sheet', '활동지', sheet_href(code), True),
+             ('game', '게임', '%s/' % code if game(code) else '', False)]
+    for ic, name, href, newtab in items:
+        if href:
+            out.append('<a href="%s%s"%s aria-label="%d학년 %s차시 %s">%s<span>%s</span></a>' % (
+                up, href, ' target="_blank" rel="noopener"' if newtab else '', grade(code), label(code), name, icon(ic, up), name))
+        else:
+            out.append('<span class="off" title="%s 준비 중">%s<span>%s</span></span>' % (name, icon(ic, up), name))
+    return '<div class="lico">%s</div>' % ''.join(out)
+
+
 def lcard(code, up, extra=''):
-    """사진이 앞서는 차시 카드."""
-    a = AREA_OF[code]
+    """차시 카드 — 그림 · 차시 꼬리표 · 한 줄 제목 · 아이콘 셋(지도안·활동지·게임)."""
     img = thumb(code)
     ph = '<img src="%s%s" alt="" loading="lazy">' % (up, img) if img else ''
-    return ('<a class="card" href="%slessons/%s/" data-g="%d" data-a="%s" data-t="%s">'
-            '<div class="ph">%s<span class="badge">%d학년 %s차시</span></div>'
-            '<div class="meta"><h3>%s</h3><p>%s%s</p></div></a>'
-            % (up, code, grade(code), a['id'], e(' '.join([topic(code), a['name'], std_code(code)] + activities(code) + [t['name'] for t in tools_of(code)])),
-               ph, grade(code), label(code), e(topic(code)), e(a['name']), extra))
+    return ('<div class="lcard g%d"><a class="lmain" href="%slessons/%s/">'
+            '<span class="ph">%s<span class="tag">%s차시</span></span><b class="lt">%s</b></a>%s</div>'
+            % (grade(code), up, code, ph, label(code), e(easy(code, 'title')), res_icons(code, up)))
+
+
+def units(up, g, open_all=False):
+    """학년 하나의 단원 묶음 — 접고 펴는 칸 안에 차시 카드."""
+    out = []
+    for i, a in enumerate([a for a in SITE['areas'] if a['grade'] == g], 1):
+        cards = ''.join(lcard(c, up) for c in a['blocks'])
+        out.append('<details class="unit" id="u-%s"%s><summary><span class="no c%d">%d</span>%s<b>%s</b>'
+                   '<span class="rng">%s차시</span></summary><div class="lgrid">%s</div></details>'
+                   % (a['id'], ' open' if open_all else '', (i - 1) % 4 + 1, i, icon(a['id'], up), e(a['name']), a['range'], cards))
+    return ''.join(out)
+
+
+def grade_tabs(up, open_all=False):
+    tabs = ''.join('<button type="button" role="tab" class="g%d" id="t%d" aria-controls="p%d" aria-selected="%s">%s<span>%d학년 %s</span></button>'
+                   % (g, g, g, 'true' if g == 5 else 'false', icon('g%d' % g, up), g, 'SW' if g == 5 else 'AI') for g in (5, 6))
+    panels = ''.join('<section class="gpanel g%d" id="p%d" role="tabpanel" aria-labelledby="t%d"><p class="crs">%s · %s</p>%s</section>'
+                     % (g, g, g, e(SITE['courses'][str(g)]['name']), e(SITE['courses'][str(g)]['tools']), units(up, g, open_all)) for g in (5, 6))
+    return '<div class="gtabs" role="tablist" aria-label="학년">%s</div>%s' % (tabs, panels)
+
+
+TABS_JS = """<script>
+(function(){
+  var tabs=[].slice.call(document.querySelectorAll('.gtabs [role=tab]'));
+  function pick(g,keep){tabs.forEach(function(t){var on=t.id==='t'+g;t.setAttribute('aria-selected',on?'true':'false');t.tabIndex=on?0:-1;
+    document.getElementById(t.getAttribute('aria-controls')).hidden=!on});
+    if(!keep){try{history.replaceState(null,'','#g'+g)}catch(_){}}}
+  tabs.forEach(function(t,i){t.onclick=function(){pick(t.id.slice(1))};
+    t.onkeydown=function(ev){if(ev.key==='ArrowRight'||ev.key==='ArrowLeft'){var n=tabs[(i+1)%tabs.length];n.focus();pick(n.id.slice(1))}}});
+  var h=location.hash, m=/^#g([56])$/.exec(h), u=/^#u-(sw|ai)[0-9]$/.exec(h);
+  pick(m?m[1]:(u&&u[1]==='ai')?'6':'5',true);
+  if(u){var d=document.getElementById(h.slice(1));if(d){d.open=true;d.scrollIntoView()}}
+})();
+</script>
+"""
 
 
 def gchip(code):
@@ -245,53 +304,19 @@ def search_bar(action):
             '<button class="orb" type="submit" aria-label="과정안 찾기">%s</button></form>') % (action, areas, SEARCH_SVG)
 
 
-def hub_hero():
-    import make_hub
-    return make_hub.home_hero()
-
-
-def hub_home():
-    import make_hub
-    return make_hub.home_blocks()
-
-
 def build_home():
-    maps = []
-    for g in (5, 6):
-        grps = []
-        for a in SITE['areas']:
-            if a['grade'] != g:
-                continue
-            cells = ''.join('<a href="lessons/%s/" title="%d학년 %d차시 · %s">%d</a>' % (c, g, n, e(topic(c)), n)
-                            for c in a['blocks'] for n in lesson_nums(c))
-            grps.append('<div class="grp"><b>%s</b><div class="cells">%s</div></div>' % (e(a['name']), cells))
-        crs = SITE['courses'][str(g)]
-        maps.append('<h3>%d학년 · %s <span class="muted small">%s</span></h3><div class="map">%s</div>'
-                    % (g, e(crs['name']), e(crs['tools']), ''.join(grps)))
-    cats = ''.join('<a href="topics/#%s">%d학년 %s</a>' % (a['id'], a['grade'], e(a['name'])) for a in SITE['areas'])
-    cards = {g: ''.join(lcard(c, '') for c in CODES if grade(c) == g) for g in (5, 6)}
+    quick = [('about/', 'about', '학교자율시간이란?', '한 쪽으로 알아봐요'), ('guide/', 'steps', '도입 절차', '누가·언제·무엇을 내는지'),
+             ('forms/', 'forms', '서식 받기', '채운 서식과 빈 양식')]
+    q = ''.join('<a href="%s">%s<b>%s</b><span>%s</span></a>' % (u, icon(ic, ''), e(t), e(d)) for u, ic, t, d in quick)
     body = f"""
-{hub_hero()}
-{hub_home()}
-<h2 style="margin-top:56px">에듀다움 SW·AI 과정 — 5학년 SW 32차시 · 6학년 AI 32차시</h2>
-<p class="lead">{e(SITE['subtitle'])} — 학교자율시간에 바로 쓰는 교수학습 과정안, 연동 도구, 수업 중 체험 게임을 한곳에 모았습니다.</p>
-<nav class="cats" aria-label="영역">{cats}</nav>
-<h2>5학년 · {e(SITE['courses']['5']['name'])}</h2>
-<div class="grid">{cards[5]}</div>
-<h2>6학년 · {e(SITE['courses']['6']['name'])}</h2>
-<div class="grid">{cards[6]}</div>
-<h2>64차시 한눈에 보기</h2>
-<p class="muted small">동그라미를 누르면 그 차시의 과정안으로 갑니다.</p>
-{''.join(maps)}
-<h2>이렇게 운영합니다</h2>
-<div class="grid">
- <a class="card plain" href="plan/#run"><h3>학년마다 32차시 전체</h3><p>5·6학년 각 2학급이 학년 32차시를 모두 운영합니다. 주 2차시 블록 수업으로 약 16주, 비교 학급은 선택입니다.</p></a>
- <a class="card plain" href="topics/"><h3>이야기로 잇는 수업</h3><p>5학년은 「{e(SITE['courses']['5']['story'])}」, 6학년은 「{e(SITE['courses']['6']['story'])}」 이야기 틀로 차시가 이어집니다.</p></a>
- <a class="card plain" href="tools/"><h3>만들고 재고 고친다</h3><p>마이크로비트·엔트리·CreateAI로 실제로 만들고, 공식 통계와 실측 자료로 확인하며, 한 가지만 바꾸어 다시 시험합니다.</p></a>
- <a class="card plain" href="play/"><h3>수업 중 체험 게임</h3><p>과정안 활동 앞뒤에 붙는 5~10분짜리 웹 조각 28개. 점수·이름을 받지 않습니다.</p></a>
-</div>
+<section class="hello"><h1>학교자율시간 SW·AI 수업 자료</h1>
+<p class="lead">학년을 고르고, 단원을 펴고, 차시를 눌러요. 지도안·활동지·체험 게임이 한곳에 있어요.</p></section>
+{grade_tabs('')}
+<h2 class="sub">{icon('lightbulb', '')}도입 안내</h2>
+<div class="quick">{q}</div>
+<p class="small muted">모든 자료는 무료이고, 학생 이름·점수를 받지 않아요. <a href="play/">체험 게임 모아 보기</a> · <a href="plan/">연구회 소개</a></p>
 """
-    page('', '에듀다움 — 학교자율시간 SW·AI 교육과정', body, '')
+    page('', '에듀다움 — 학교자율시간 SW·AI 수업 자료', body, '', TABS_JS)
 
 
 # ───────────────────────── 1) 계획서·성취기준
@@ -576,47 +601,14 @@ MINE_JS = """<script>
 """
 
 
-FILTER_JS = """<script>
-(function(){
-  var st={g:'',a:'',q:''}, P=new URLSearchParams(location.search);
-  ['g','a','q'].forEach(function(k){st[k]=P.get(k)||''});
-  var cards=[].slice.call(document.querySelectorAll('#list .card')), cnt=document.querySelector('.count'),
-      sel=document.querySelector('select[data-f=a]'), inp=document.querySelector('input[data-f=q]');
-  sel.value=st.a; inp.value=st.q;
-  function draw(){
-    var n=0, q=st.q.trim().toLowerCase();
-    document.querySelectorAll('button[data-f=g]').forEach(function(b){b.setAttribute('aria-pressed', b.dataset.v===st.g?'true':'false')});
-    cards.forEach(function(c){
-      var ok=(!st.g||c.dataset.g===st.g)&&(!st.a||c.dataset.a===st.a)&&(!q||c.dataset.t.toLowerCase().indexOf(q)>=0);
-      c.hidden=!ok; if(ok) n++;
-    });
-    cnt.textContent=n+'편'; document.getElementById('none').hidden=n>0;
-  }
-  document.querySelectorAll('button[data-f=g]').forEach(function(b){b.onclick=function(){st.g=b.dataset.v;draw()}});
-  sel.onchange=function(){st.a=sel.value;draw()};
-  inp.oninput=function(){st.q=inp.value;draw()};
-  draw();
-})();
-</script>
-"""
-
-
 def build_lessons():
     for i, c in enumerate(CODES):
         prev = CODES[i - 1] if i > 0 else None
         nxt = CODES[i + 1] if i + 1 < len(CODES) else None
         build_lesson(c, prev, nxt)
-    btns = ('<button type="button" data-f="g" data-v="" aria-pressed="true">5·6학년</button>'
-            '<button type="button" data-f="g" data-v="5" aria-pressed="false">5학년</button>'
-            '<button type="button" data-f="g" data-v="6" aria-pressed="false">6학년</button>')
-    areas = ''.join('<option value="%s">%d학년 · %s</option>' % (a['id'], a['grade'], e(a['name'])) for a in SITE['areas'])
-    cards = ''.join(lcard(c, '../') for c in CODES)
-    body = ('<span class="kick">차시별 교수학습 과정안</span><h1>28편 64차시 교수학습 과정안</h1>'
-            '<p class="lead">카드를 누르면 과정안 전문(개요·교수학습 활동·평가 계획)과 PDF, 연동 도구, 체험 게임으로 이어집니다.</p>'
-            '<div class="filters" role="search">%s<select aria-label="영역" data-f="a" style="border:1px solid var(--line);border-radius:9999px;padding:8px 14px;min-height:40px;font:inherit;font-size:14px;background:#fff"><option value="">모든 영역</option>%s</select>'
-            '<input type="search" aria-label="찾을 말" placeholder="찾을 말 — 예: 무선, 챗봇, CreateAI" data-f="q"><span class="count" aria-live="polite"></span></div>'
-            '<div class="grid" id="list">%s</div><p class="muted" id="none" hidden>맞는 차시가 없습니다.</p>') % (btns, areas, cards)
-    page('lessons', '차시별 교수학습 과정안 — 에듀다움', body, 'lessons/', FILTER_JS)
+    body = ('<span class="kick">수업 자료</span><h1>차시별 수업 꾸러미</h1>'
+            '<p class="lead">5·6학년 28묶음 64차시예요. 카드를 누르면 한 줄 요약, 수업 흐름 표, 자료 단추가 나와요.</p>%s') % grade_tabs('../', open_all=True)
+    page('lessons', '차시별 수업 꾸러미 — 에듀다움', body, 'lessons/', TABS_JS)
 
 
 # ───────────────────────── 도구 모음
