@@ -34,7 +34,9 @@
 
   #scene{width:100%;max-width:360px;height:auto;display:block;margin:0 auto}
   .zbg{fill:var(--surface);stroke:var(--line-strong);stroke-width:1.5}
-  .zbg.hit{fill:var(--point-soft);stroke:var(--point);stroke-width:4}
+  .zone{cursor:pointer}
+  .zbg.pick{stroke:var(--ink);stroke-width:2.5;stroke-dasharray:6 4}
+  .zbg.hit{fill:var(--point-soft);stroke:var(--point);stroke-width:4;stroke-dasharray:none}
   .zlabel{font:600 11px 'Malgun Gothic',sans-serif;fill:var(--muted)}
   .zval{font:700 14px 'Malgun Gothic',sans-serif;fill:var(--ink)}
 
@@ -82,7 +84,7 @@
   <section aria-labelledby="h-s">
     <h2 id="h-s">예시 작품 소개</h2>
     <svg id="scene" viewBox="0 0 300 196" role="img" aria-label="예시 작품 소개의 네 칸"></svg>
-    <p class="status dim" id="status" aria-live="polite">한 곳을 짚어요. 없을 수도 있어요</p>
+    <p class="status dim" id="status" aria-live="polite">칸을 눌러 짚어요. 없을 수도 있어요</p>
   </section>
 
   <section aria-labelledby="h-p">
@@ -143,23 +145,27 @@
   (function buildScene(){
     for (var i = 0; i < 4; i++) {
       var y = top + i * rowH;
+      var g = document.createElementNS(NS, 'g');
+      g.setAttribute('class', 'zone');
+      (function (idx) { g.addEventListener('click', function () { choose(idx); }); })(i);
+      sceneEl.appendChild(g);
       var rect = document.createElementNS(NS, 'rect');
       rect.setAttribute('class', 'zbg');
       rect.setAttribute('x', 4); rect.setAttribute('y', y);
       rect.setAttribute('width', 292); rect.setAttribute('height', rowH - 6);
       rect.setAttribute('rx', 8);
-      sceneEl.appendChild(rect);
+      g.appendChild(rect);
 
       var label = document.createElementNS(NS, 'text');
       label.setAttribute('class', 'zlabel');
       label.setAttribute('x', 14); label.setAttribute('y', y + 15);
       label.textContent = LABELS[i];
-      sceneEl.appendChild(label);
+      g.appendChild(label);
 
       var val = document.createElementNS(NS, 'text');
       val.setAttribute('class', 'zval');
       val.setAttribute('x', 14); val.setAttribute('y', y + 34);
-      sceneEl.appendChild(val);
+      g.appendChild(val);
 
       zones.push({ rect: rect, val: val });
     }
@@ -214,6 +220,7 @@
     if (confirmed || picked === null) return;
     confirmed = true;
     render();
+    nextBtn.focus({ preventScroll: true });
   }
 
   function doAgain(){
@@ -242,15 +249,19 @@
     for (var i = 0; i < 4; i++) {
       zones[i].val.textContent = shown[i];
       zones[i].rect.classList.toggle('hit', confirmed && i === badIdx);
+      zones[i].rect.classList.toggle('pick', !confirmed && picked === i);
     }
     for (var j = 0; j < pkBtns.length; j++) {
       pkBtns[j].setAttribute('aria-pressed', picked === j ? 'true' : 'false');
       pkBtns[j].disabled = confirmed;
     }
     checkBtn.disabled = confirmed || picked === null;
+    // 확인한 뒤에는 '다음 예시'가 주 단추가 된다.
+    checkBtn.className = 'btn ' + (confirmed ? 'sub' : 'main');
+    nextBtn.className = 'btn ' + (confirmed ? 'main' : 'sub');
 
     if (!confirmed) {
-      statusEl.textContent = picked === null ? '한 곳을 짚어요. 없을 수도 있어요' : '확인하면 드러나요';
+      statusEl.textContent = picked === null ? '칸을 눌러 짚어요. 없을 수도 있어요' : '확인하면 드러나요';
       statusEl.className = 'status dim';
     } else {
       statusEl.textContent = resultText();
