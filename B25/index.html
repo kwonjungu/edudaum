@@ -74,6 +74,8 @@
   table.cf thead th{background:var(--soft);font-size:12px}
   table.cf td.off{background:var(--point-soft);font-weight:700}
   table.cf td.hit{font-weight:700}
+  table.cf td.new{animation:pop .5s ease-out;outline:2px solid var(--ink);outline-offset:-2px}
+  @keyframes pop{0%{transform:scale(1.25)}100%{transform:scale(1)}}
   .cap{font-size:12px;color:var(--muted);font-weight:600;margin-top:4px}
   .row2{display:flex;gap:8px;margin-top:8px}
   .row2 .btn{margin-top:0;flex:1}
@@ -356,6 +358,7 @@
         addSample(m, pts); nextSel();
         $('say1').className = 'say dim'; $('say1').textContent = '튀는 그래프는 눌러 지워요';
         paint();
+        if (full()) show($('try'));
       });
       return;
     }
@@ -364,6 +367,7 @@
     st.picker = { m: m, c: [0, 1, 2].map(function (i) { return gen(m, null, i === odd ? 1 + Math.floor(Math.random() * 2) : 0); }) };
     $('say1').className = 'say dim'; $('say1').textContent = NAME[m] + ' 그래프 하나를 골라요';
     paint();
+    show($('pick'));
   }
 
   function paintPick() {
@@ -379,6 +383,7 @@
         addSample(st.picker.m, pts); st.picker = null; nextSel();
         $('say1').textContent = full() ? '세 동작이 3개씩 찼어요' : '튀는 그래프는 눌러 지워요';
         paint();
+        if (full()) show($('try'));
       });
       box.appendChild(b);
     });
@@ -394,6 +399,7 @@
       drawSvg($('big'), pts, 300, 110, 2.4);
       $('say2').className = 'say dim'; $('say2').textContent = '무엇으로 알아볼지 짚어요';
       paint();
+      show($('ok'));
     };
     if (st.mode === 'sensor') capture(NAME[m], $('say2'), fin); else fin(gen(m, st.habit, 0));
   }
@@ -411,6 +417,7 @@
     st.tries.push({ m: card, pts: st.cur });
     st.r1.push(res);
     st.conf[card][res.pred] += 1;
+    st.lastCell = card * 3 + res.pred;
     var mk = res.pred === card ? '○ ' : '✕ ';
     var msg = res.pred === g
       ? mk + '짚은 대로 ' + NAME[g] + '로 알아봤어요 · 확신 ' + res.conf[g] + '%'
@@ -418,6 +425,8 @@
     $('say2').className = 'say'; $('say2').textContent = msg;
     st.cur = null; st.guess = null; st.ci += 1;
     paint();
+    st.lastCell = -1;
+    show(st.ci >= 6 ? $('g7') : $('say2'));
   }
 
   function paintTest() {
@@ -446,7 +455,7 @@
       for (var p = 0; p < 3; p++) {
         var td = document.createElement('td'), n = st.conf[r][p];
         td.textContent = n ? String(n) : '';
-        if (n) td.className = r === p ? 'hit' : 'off';
+        if (n) td.className = (r === p ? 'hit' : 'off') + (st.lastCell === r * 3 + p ? ' new' : '');
         tr.appendChild(td);
       }
       tb.appendChild(tr);
@@ -498,6 +507,13 @@
     var out = [];
     for (var r = 0; r < 3; r++) for (var p = 0; p < 3; p++) if (r !== p && st.conf[r][p]) out.push(SHORT[r] + '→' + SHORT[p] + ' ' + st.conf[r][p] + '번');
     return out.length ? out.join(', ') : '없음';
+  }
+
+  /* 다음에 누를 것이 접힘 아래면 보이게 끌어올린다 */
+  function show(el) {
+    var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var r = el.getBoundingClientRect();
+    if (r.bottom > window.innerHeight || r.top < 0) el.scrollIntoView({ block: 'center', behavior: still ? 'auto' : 'smooth' });
   }
 
   /* ── 그리기 ── */
