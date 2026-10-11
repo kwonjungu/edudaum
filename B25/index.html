@@ -42,7 +42,7 @@
   :focus-visible{outline:3px solid var(--ink);outline-offset:2px}
 
   .mrow{display:grid;grid-template-columns:112px 1fr;gap:8px;align-items:center;margin-top:6px}
-  .mname{min-height:44px;font-size:13.5px;font-weight:700;background:var(--surface);border:1px solid var(--ink);
+  .mname{word-break:keep-all;min-height:44px;font-size:13.5px;font-weight:700;background:var(--surface);border:1px solid var(--ink);
     border-radius:var(--r-sm);padding:4px 6px;line-height:1.2}
   .mname[aria-pressed="true"]{background:var(--point-soft);border-color:var(--point);border-width:2px}
   .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
@@ -66,7 +66,7 @@
   .legend{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px}
   .guess{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
   .guess7{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}
-  .gb{min-height:48px;font-size:14px;font-weight:700;background:var(--surface);border:1px solid var(--ink);
+  .gb{word-break:keep-all;min-height:48px;font-size:14px;font-weight:700;background:var(--surface);border:1px solid var(--ink);
     border-radius:var(--r-sm);padding:2px 4px;line-height:1.2}
   .gb[aria-pressed="true"]{background:var(--point);border-color:var(--point);color:#fff}
   table.cf{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px;table-layout:fixed}
@@ -124,7 +124,7 @@
 
   <section aria-labelledby="h3s" id="sec3" hidden>
     <h2 id="h3s">③ 샘플 8개로 늘리면</h2>
-    <p class="say dim">여섯 번 가운데 몇 번 알아볼까</p>
+    <p class="say dim">바꾸는 것은 샘플 수 하나 · 같은 시도 여섯 번 가운데 몇 번 알아볼까</p>
     <div class="guess7" id="g7" role="group" aria-label="몇 번 알아볼지 짚기"></div>
     <button class="btn ghost" id="more" type="button" disabled>5개씩 더</button>
     <button class="btn" id="r2" type="button" disabled>2회차 확인</button>
@@ -377,7 +377,7 @@
       var sv = svgEl(100, 64); drawSvg(sv, pts, 100, 64, 2); b.appendChild(sv);
       b.addEventListener('click', function () {
         addSample(st.picker.m, pts); st.picker = null; nextSel();
-        $('say1').textContent = full() ? '세 동작이 3개씩 찼어요' : '';
+        $('say1').textContent = full() ? '세 동작이 3개씩 찼어요' : '튀는 그래프는 눌러 지워요';
         paint();
       });
       box.appendChild(b);
@@ -411,9 +411,10 @@
     st.tries.push({ m: card, pts: st.cur });
     st.r1.push(res);
     st.conf[card][res.pred] += 1;
+    var mk = res.pred === card ? '○ ' : '✕ ';
     var msg = res.pred === g
-      ? '짚은 대로 ' + NAME[g] + '로 알아봤어요 · 확신 ' + res.conf[g] + '%'
-      : NAME[res.pred] + '로 알아봤어요 · 짚은 ' + SHORT[g] + '은 확신 ' + res.conf[g] + '%';
+      ? mk + '짚은 대로 ' + NAME[g] + '로 알아봤어요 · 확신 ' + res.conf[g] + '%'
+      : mk + NAME[res.pred] + '로 알아봤어요 · 짚은 ' + SHORT[g] + '은 확신 ' + res.conf[g] + '%';
     $('say2').className = 'say'; $('say2').textContent = msg;
     st.cur = null; st.guess = null; st.ci += 1;
     paint();
@@ -485,7 +486,7 @@
     else msg = '짚은 것보다 ' + (g - n2) + '번 덜 알아봤어요';
     $('say3').className = 'say'; $('say3').textContent = '샘플 3개 ' + n1 + '/6 → 샘플 8개 ' + n2 + '/6 · ' + msg;
     $('sum').hidden = false;
-    $('sum').textContent = '활동지에 옮겨 적을 것 · 샘플 3개: ' + per(st.r1) + ' / 샘플 8개: ' + per(res) + ' / 헷갈림: ' + mix();
+    $('sum').textContent = '활동지에 옮겨 적을 것 · 샘플 3개: ' + per(st.r1) + ' / 샘플 8개: ' + per(res) + ' / 1회차 헷갈림: ' + mix();
     paint();
   }
   function per(rs) {
