@@ -107,7 +107,7 @@ button{font-family:inherit}
       <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="7" y="4" width="26" height="32" rx="4" fill="#FFF0F3" stroke="#222222" stroke-width="1.8"/><path d="M13 14h14M13 20h14M13 26h9" stroke="#222222" stroke-width="1.8" stroke-linecap="round"/></svg>
       <span class="cardname" id="cardname"></span>
     </div>
-    <p class="ask" id="ask">이 물건엔 무엇이 들어 있을까</p>
+    <p class="ask" id="ask">이 물건엔 무엇이 들어 있을까?</p>
     <div class="guess" role="group" aria-labelledby="ask">
       <button class="opt" type="button" data-g="hw" aria-pressed="false">하드웨어만</button>
       <button class="opt" type="button" data-g="sw" aria-pressed="false">소프트웨어만</button>
@@ -133,7 +133,7 @@ button{font-family:inherit}
       <button class="act" id="next" type="button">다음 물건</button>
     </div>
     <div class="out" id="out" role="status" aria-live="polite"></div>
-    <p class="note">학교 탐험에서 진짜 물건을 찾아요</p>
+    <p class="note">한 물건 속 두 가지를 기록지에 적어요</p>
   </section>
 </main>
 
@@ -145,7 +145,7 @@ button{font-family:inherit}
   var CARDS = [
     { name: '계산기',
       hw: ['숫자 버튼', '숫자가 뜨는 화면', '플라스틱 몸체', '안에 든 건전지'],
-      sw: ['× 누르면 → 두 수를 곱한다', '= 누르면 → 답을 화면에 띄운다', '한참 안 쓰면 → 화면을 끈다'] },
+      sw: ['× 버튼을 누르면 → 두 수를 곱한다', '= 버튼을 누르면 → 답을 화면에 띄운다', '한참 안 쓰면 → 화면을 끈다'] },
     { name: '보행자 신호등',
       hw: ['빨강·초록 전구', '건너기 누름 버튼', '쇠기둥'],
       sw: ['누름 버튼을 누르면 → 초록불을 켠다', '초록불 20초가 지나면 → 빨간불로 바꾼다', '끝나기 5초 전 → 초록불을 깜빡인다'] },
@@ -162,7 +162,7 @@ button{font-family:inherit}
       hw: ['칼날', '돌리는 손잡이', '톱니바퀴', '가루 통'],
       sw: [] }
   ];
-  var TAG = { hw: '만질 수 있는 부품', sw: '정해 둔 명령' };
+  var TAG = { hw: '만질 수 있는 몸체·부품', sw: '사람이 미리 정해 준 명령' };
   var NUM = ['', '한', '두', '세', '네'];
 
   var cardIdx = -1, prevCard = null;
