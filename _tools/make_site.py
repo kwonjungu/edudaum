@@ -228,7 +228,10 @@ def res_icons(code, up):
              ('sheet', '활동지', sheet_href(code), True),
              ('game', '활동', '%s/' % code if game(code) else '', False)]
     for ic, name, href, newtab in items:
-        if href:
+        if href and ic == 'game' and shot(code):
+            out.append('<a href="%s%s" aria-label="%d학년 %s차시 %s"><img class="sic" src="%s%s" alt="" width="40" height="25" loading="lazy"><span>%s</span></a>' % (
+                up, href, grade(code), label(code), name, up, shot(code), name))
+        elif href:
             out.append('<a href="%s%s"%s aria-label="%d학년 %s차시 %s">%s<span>%s</span></a>' % (
                 up, href, ' target="_blank" rel="noopener"' if newtab else '', grade(code), label(code), name, icon(ic, up), name))
         else:
@@ -621,8 +624,9 @@ def build_lesson(code, prev, nxt):
     for x in LINKS.get(code, {}).get('extra', []):
         tl.append('<a class="tool" href="%s" target="_blank" rel="noopener"><b>%s ↗</b><span>%s</span></a>' % (e(x['url']), e(x['name']), e(x.get('note', ''))))
     gm = game(code)
-    gbox = ('<a class="gcard" href="%s%s/">%s<span><b>%s</b><span>%s</span></span><span class="go">열기</span></a>'
-            % (up, code, icon('game', up, 'ic big'), e(gm['title']), e(gm['lead']))) if gm else ''
+    gimg = ('<img class="gshot" src="%s%s" alt="" width="640" height="400" loading="lazy">' % (up, shot(code))) if gm and shot(code) else icon('game', up, 'ic big')
+    gbox = ('<a class="gcard" href="%s%s/">%s<span><b>%s</b><span>%s</span><span class="needs">%s</span></span><span class="go">열기</span></a>'
+            % (up, code, gimg, e(gm['title']), e(gm['lead']), needs(code, up))) if gm else ''
     chips = prep_chips(d, up)
     # 원본 hwpx(드라이브)에는 개발자 이름이 있어 공개 쪽에 걸지 않는다. PDF는 공개용 사본(public_copy.py)에서 뽑는다.
     pn = '<div class="pn">%s%s</div>' % (
@@ -727,39 +731,106 @@ def build_tools():
 
 
 # ───────────────────────── 체험 활동 목록
-def needs(code):
-    """체험 활동 카드의 꼬리표 — 걸리는 시간과 필요한 것(게임 쪽 코드에서 읽는다)."""
+def shot(code):
+    """체험 활동 썸네일(실제 실행 화면) — _tools/capture_shots.mjs가 굽는다. 없으면 빈 문자열."""
+    return 'assets/shots/%s.jpg' % code if (ROOT / 'assets/shots' / ('%s.jpg' % code)).exists() else ''
+
+
+def need_tags(code):
+    """체험 활동 카드의 꼬리표 — 걸리는 시간과 필요한 것(체험 쪽 코드에서 읽는다). [(아이콘, 글, 센서인가)]"""
     h = (ROOT / code / 'index.html').read_text(encoding='utf-8')
-    tags = [('clock', '교사 준비용' if code == 'B03' else '5~10분')]
+    tags = [('clock', '교사 준비용' if code == 'B03' else '5~10분', False)]
     if 'devicemotion' in h:
-        tags.append(('motion', '흔들기(태블릿)'))
+        tags.append(('motion', '흔들기(태블릿)', True))
     if 'getUserMedia' in h and re.search(r'video\s*:\s*\{', h):
-        tags.append(('camera', '카메라'))
+        tags.append(('camera', '카메라', True))
     if 'getUserMedia' in h and 'audio:false' not in h.replace(' ', ''):
-        tags.append(('mic', '마이크'))
+        tags.append(('mic', '마이크', True))
     if len(tags) == 1:
-        tags.append(('tablet', '누르기만'))
-    return ''.join('<i>%s%s</i>' % (icon(ic, '../'), e(t)) for ic, t in tags)
+        tags.append(('tablet', '누르기만', False))
+    return tags
+
+
+def needs(code, up='../'):
+    return ''.join('<i>%s%s</i>' % (icon(ic, up), e(t)) for ic, t, _ in need_tags(code))
+
+
+# 미리보기: 마우스를 올린 카드 하나만 실제 체험 쪽을 돌린다(ban12 방식).
+# 터치 기기·움직임 줄이기 설정·카메라·마이크 쪽(data-live 없음)은 켜지 않는다.
+PLAY_JS = """<script>
+(function(){
+  var cards=[].slice.call(document.querySelectorAll('.pcard')), chips=[].slice.call(document.querySelectorAll('.pfilter button')),
+      cnt=document.getElementById('pcount');
+  function pick(f,keep){
+    var n=0;
+    chips.forEach(function(b){b.setAttribute('aria-pressed',b.dataset.f===f?'true':'false')});
+    cards.forEach(function(c){var on=f==='all'||(f==='g5'&&c.dataset.g==='5')||(f==='g6'&&c.dataset.g==='6')||
+      (f==='sensor'&&c.dataset.sensor==='1')||(f==='prep'&&c.dataset.prep==='1');c.hidden=!on;if(on)n++});
+    cnt.textContent=n+'개';
+    if(!keep){try{history.replaceState(null,'',f==='all'?location.pathname:'#'+f)}catch(_){}}
+  }
+  chips.forEach(function(b){b.onclick=function(){pick(b.dataset.f)}});
+  var h=location.hash.slice(1); pick(chips.some(function(b){return b.dataset.f===h})?h:'all',true);
+
+  if(!window.matchMedia||!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+  if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var live=null, timer=null, W=900;
+  function fit(th){th.style.setProperty('--s',(th.clientWidth/W).toFixed(4))}
+  function off(){clearTimeout(timer);if(!live)return;var f=live.querySelector('iframe');if(f){f.src='about:blank';f.remove()}
+    live.classList.remove('ready');live=null}
+  function on(th){
+    off(); live=th;
+    var f=document.createElement('iframe');
+    f.setAttribute('tabindex','-1');f.setAttribute('aria-hidden','true');f.setAttribute('title','미리보기');f.setAttribute('scrolling','no');
+    f.addEventListener('load',function(){if(live===th){fit(th);th.classList.add('ready')}},{once:true});
+    f.src=th.dataset.live; fit(th); th.appendChild(f);
+  }
+  cards.forEach(function(c){
+    var th=c.querySelector('.shot[data-live]'); if(!th) return;
+    c.addEventListener('mouseenter',function(){clearTimeout(timer);timer=setTimeout(function(){on(th)},320)});
+    c.addEventListener('mouseleave',function(){clearTimeout(timer);if(live===th)off()});
+  });
+  addEventListener('blur',off);
+})();
+</script>
+"""
 
 
 def build_play():
-    parts = []
-    for g in (5, 6):
-        cards = []
-        for c in CODES:
-            if grade(c) != g:
-                continue
-            gm = game(c)
-            if not gm:
-                continue
-            cards.append('<a class="gcard g%d" href="../%s/">%s<span><small class="gtag">%d학년 %s차시</small><b>%s</b><span>%s</span>'
-                         '<span class="needs">%s</span></span></a>'
-                         % (g, c, icon('game', '../', 'ic big'), g, label(c), e(gm['title']), e(gm['lead']), needs(c)))
-        parts.append('<h2 class="sub">%s%d학년 %s</h2><div class="ggrid">%s</div>' % (icon('g%d' % g, '../'), g, 'SW' if g == 5 else 'AI', ''.join(cards)))
-    body = ('<span class="kick">체험 활동</span><h1>수업 중 5~10분 체험 활동</h1>'
-            '<p class="lead">활동 하나를 짧게 미리 해 보거나 견주어 봐요. 설치 없이 브라우저로 열어요. 실물 활동을 대신하지는 않아요.</p>%s'
-            '<p class="note">카메라와 마이크는 화면에만 쓰이고 저장되지 않아요. 밖으로 보내는 것도 없어요.</p>') % ''.join(parts)
-    page('play', '체험 활동 — 에듀다움', body, 'play/')
+    rows = [(c, game(c), need_tags(c)) for c in CODES if game(c)]
+    n5 = sum(1 for c, _, _ in rows if grade(c) == 5)
+    n6 = sum(1 for c, _, _ in rows if grade(c) == 6)
+    nsen = sum(1 for _, _, t in rows if any(x[2] for x in t))
+    cards = []
+    for c, gm, tags in rows:
+        g = grade(c)
+        sensor = any(x[2] for x in tags)
+        sh = shot(c)
+        img = ('<img src="../%s" alt="" loading="lazy" width="640" height="400">' % sh) if sh else icon('game', '../', 'ic big')
+        live = '' if sensor else ' data-live="../%s/"' % c
+        cards.append(
+            '<article class="pcard g%d" data-g="%d" data-sensor="%d" data-prep="%d">'
+            '<div class="shot"%s>%s<span class="tag">%d학년 %s차시</span></div>'
+            '<div class="pbody"><h3><a href="../%s/">%s</a></h3><p>%s</p><div class="needs">%s</div></div></article>'
+            % (g, g, sensor, c == 'B03', live, img, g, label(c), c, e(gm['title']), e(gm['lead']), needs(c)))
+    hero = [x for x in ('B18', 'B03', 'B20') if shot(x)]
+    collage = ''.join('<img class="h%d" src="../%s" alt="" width="640" height="400">' % (i + 1, shot(x)) for i, x in enumerate(hero))
+    stats = [(len(rows), '체험 활동'), (n5, '5학년'), (n6, '6학년'), (nsen, '센서 쓰는 활동')]
+    st = ''.join('<div><b>%d</b><span>%s</span></div>' % (n, e(t)) for n, t in stats)
+    filters = [('all', '전체', ''), ('g5', '5학년', 'g5'), ('g6', '6학년', 'g6'),
+               ('sensor', '센서(마이크·카메라·흔들기)', 'motion'), ('prep', '교사 준비용', 'clock')]
+    fl = ''.join('<button type="button" data-f="%s" aria-pressed="%s">%s<span>%s</span></button>'
+                 % (f, 'true' if f == 'all' else 'false', icon(ic, '../') if ic else '', e(t)) for f, t, ic in filters)
+    body = ('<section class="phero"><div class="ptext"><span class="kick">체험 활동</span>'
+            '<h1>수업 중 5~10분 <em>체험 활동</em></h1>'
+            '<p class="lead">활동 하나를 짧게 미리 해 보거나 견주어 봐요. 설치 없이 브라우저로 열어요. 실물 활동을 대신하지는 않아요.</p>'
+            '<div class="pstats">%s</div></div><div class="pcollage" aria-hidden="true">%s</div></section>'
+            '<div class="pbar"><div class="pfilter" role="group" aria-label="체험 활동 거르기">%s</div>'
+            '<span class="small muted" id="pcount" aria-live="polite">%d개</span></div>'
+            '<p class="small muted ptip">카드 그림은 체험 활동을 실제로 열어 찍은 화면이에요. 컴퓨터에서 마우스를 올리면 그 카드 하나만 움직여요(카메라·마이크 쓰는 활동은 빼고).</p>'
+            '<div class="pgrid">%s</div>'
+            '<p class="note">카메라와 마이크는 화면에만 쓰이고 저장되지 않아요. 밖으로 보내는 것도 없어요.</p>') % (st, collage, fl, len(rows), ''.join(cards))
+    page('play', '체험 활동 — 에듀다움', body, 'play/', PLAY_JS)
 
 
 def main():

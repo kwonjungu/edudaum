@@ -371,6 +371,57 @@ details.full{margin-top:32px;background:var(--soft)}
 .gcard .needs i{display:inline-flex;align-items:center;gap:4px;font-style:normal;font-size:12.5px;color:var(--body);border:1px solid var(--line);border-radius:var(--r-full);padding:1px 8px 1px 4px}
 .gcard .needs .ic{width:18px;height:18px}
 .chip.tap{white-space:normal;max-width:100%}
+/* 체험 활동 갤러리 (2026. 10. 11.) — 카드 그림은 실제 실행 화면(assets/shots), 마우스를 올린 카드 하나만 움직인다 */
+.phero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px;align-items:center;margin:8px 0 28px}
+.phero h1{font-size:44px;line-height:1.2;margin:6px 0 14px}
+.phero h1 em{font-style:normal;display:inline-block;background:var(--grape-l);color:var(--grape-d);border-radius:var(--r-md);padding:0 12px}
+.phero .lead{font-size:17px}
+.pstats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;max-width:560px}
+.pstats div{border:1.5px solid var(--line);border-radius:var(--r-md);background:#fff;padding:12px 14px;box-shadow:var(--shadow)}
+.pstats b{display:block;font:400 30px/1.1 var(--title);color:var(--sky-d)}
+.pstats div:nth-child(3) b{color:var(--grape-d)}.pstats div:nth-child(4) b{color:var(--mint-d)}
+.pstats span{font-size:13px;color:var(--muted)}
+.pcollage{position:relative;height:360px}
+.pcollage img{position:absolute;width:62%;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:var(--r-md);border:6px solid #fff;box-shadow:rgba(51,48,43,.08) 0 0 0 1px,rgba(51,48,43,.16) 0 14px 30px -6px;background:#fff}
+.pcollage .h1{left:0;top:18px;transform:rotate(-5deg);z-index:1}
+.pcollage .h2{right:0;top:0;transform:rotate(4deg);z-index:2}
+.pcollage .h3{left:22%;bottom:0;transform:rotate(-1.5deg);z-index:3}
+@media (max-width:900px){.phero{grid-template-columns:1fr;gap:12px}.phero h1{font-size:34px}.pcollage{height:240px;max-width:520px;width:100%;margin:0 auto}}
+@media (max-width:560px){.phero h1{font-size:30px}.pstats{gap:6px}.pstats div{padding:8px 8px}.pstats b{font-size:24px}.pstats span{font-size:12px;line-height:1.3;display:block}.pcollage{height:200px}.pcollage img{border-width:4px}}
+.pbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:8px 0 4px}
+.pfilter{display:flex;flex-wrap:wrap;gap:8px;flex:1;min-width:0}
+.pfilter button{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 16px;border:1.5px solid var(--line);border-radius:var(--r-full);background:#fff;color:var(--ink);font:400 15.5px var(--title);cursor:pointer}
+.pfilter button .ic{width:22px;height:22px}
+.pfilter button:hover{border-color:var(--sky)}
+.pfilter button[aria-pressed=true]{background:var(--sky-d);border-color:var(--sky-d);color:#fff}
+.pfilter button[data-f=g6][aria-pressed=true]{background:var(--grape-d);border-color:var(--grape-d)}
+.pfilter button:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+.ptip{margin:6px 0 16px}
+.pgrid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
+.pcard{position:relative;display:flex;flex-direction:column;border:1.5px solid var(--line);border-radius:var(--r-md);background:#fff;overflow:hidden;transition:transform .15s,box-shadow .15s,border-color .15s}
+.pcard:hover,.pcard:focus-within{transform:translateY(-3px);border-color:var(--gc);box-shadow:var(--shadow)}
+.pcard .shot{position:relative;display:block;aspect-ratio:16/10;background:var(--gc-l);overflow:hidden;border-bottom:1px solid var(--line-soft)}
+.pcard .shot>img{width:100%;height:100%;object-fit:cover;display:block}
+.pcard .shot>.ic{position:absolute;inset:0;margin:auto;width:56px;height:56px}
+.pcard .shot iframe{position:absolute;top:0;left:0;z-index:2;width:900px;height:563px;border:0;background:#fff;transform-origin:top left;transform:scale(var(--s,.35));pointer-events:none;opacity:0;transition:opacity .35s}
+.pcard .shot.ready iframe{opacity:1}
+.pcard .tag{position:absolute;left:10px;bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.18);z-index:3;background:var(--gc-d);color:#fff;border-radius:var(--r-full);padding:2px 10px;font:400 13px var(--title)}
+.pcard .pbody{padding:12px 14px 14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.pcard h3{margin:0;font-size:18.5px}
+.pcard h3 a{text-decoration:none;color:inherit}
+.pcard h3 a::after{content:"";position:absolute;inset:0;z-index:4}
+.pcard h3 a:focus-visible{outline:none}
+.pcard:focus-within{outline:3px solid var(--sun);outline-offset:2px}
+.pcard p{margin:0;font-size:14.5px;color:var(--muted);line-height:1.45}
+.pcard .needs{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;padding-top:4px}
+.needs i{display:inline-flex;align-items:center;gap:4px;font-style:normal;font-size:12.5px;color:var(--body);border:1px solid var(--line);border-radius:var(--r-full);padding:1px 8px 1px 4px;background:#fff}
+.needs .ic{width:18px;height:18px}
+@media (max-width:560px){.pgrid{grid-template-columns:1fr;gap:14px}.pfilter button{padding:8px 12px;font-size:14.5px}}
+/* 차시 카드·차시 쪽 체험 상자의 썸네일 */
+.lico .sic{width:40px;height:25px;object-fit:cover;border-radius:5px;border:1px solid var(--line)}
+.gcard .gshot{flex:0 0 auto;width:160px;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:var(--r-sm);border:1px solid var(--line)}
+.gcard .needs{display:flex!important;flex-wrap:wrap;gap:6px;margin-top:6px}
+@media (max-width:560px){.gcard{flex-wrap:wrap}.gcard .gshot{width:100%}}
 </style>
 </head>
 <body>
@@ -392,7 +443,7 @@ details.full{margin-top:32px;background:var(--soft)}
 <h2 class="sub"><img class="ic" src="../../assets/icons/kit.svg" alt="" width="24" height="24">준비물</h2><div class="pchips"><span class="pchip"><img class="ic" src="../../assets/icons/tablet.svg" alt="" width="24" height="24">모둠 태블릿</span><span class="pchip"><img class="ic" src="../../assets/icons/clipboard.svg" alt="" width="24" height="24">클립보드</span><span class="pchip"><img class="ic" src="../../assets/icons/pen.svg" alt="" width="24" height="24">필기구</span><span class="pchip"><img class="ic" src="../../assets/icons/note.svg" alt="" width="24" height="24">판단 스티커 3색</span><span class="pchip"><img class="ic" src="../../assets/icons/device.svg" alt="" width="24" height="24">교사 시연용 마이크로비트</span><span class="pchip"><img class="ic" src="../../assets/icons/paper.svg" alt="" width="24" height="24">O·X·? 판</span><span class="pchip"><img class="ic" src="../../assets/icons/note.svg" alt="" width="24" height="24">붙임쪽지</span></div>
 <h2 class="sub"><img class="ic" src="../../assets/icons/eval.svg" alt="" width="24" height="24">평가</h2>
 <p class="evone">학교 현장에서 찾은 물건의 숨은 명령을 추측해 쓰고, 소프트웨어가 들어 있는지 근거를 들어 판단해 SW 지도로 발표할 수 있는가?</p><details class="more"><summary>평가 기준 자세히</summary><p><b>컴퓨팅 사고력 · 소프트웨어 개념 이해와 사례 판단</b> — 학교 현장에서 찾은 물건의 숨은 명령을 추측해 쓰고, 소프트웨어가 들어 있는지 근거를 들어 판단해 SW 지도로 발표할 수 있는가?</p><div class="tw"><table class="lv"><tr><th>수준</th><th>평가 기준</th></tr><tr><td>매우 잘함</td><td>소프트웨어와 하드웨어를 자기 문장으로 구분하고, 탐험 기록지의 물건마다 숨은 명령을 ‘언제 → 무엇을 한다’로 적으며 근거를 들어 판단한다. 의견이 나뉘는 물건은 확인할 방법을 밝히고, SW 지도의 자기 핀에서 명령 한 줄을 바꾸면 달라질 일까지 설명한다.</td></tr><tr><td>잘함</td><td>소프트웨어를 사람이 미리 정해 준 명령의 묶음으로 설명하고, 찾은 물건에서 숨은 명령을 추측해 쓰며 판단한 까닭을 한 가지 들어 발표한다.</td></tr><tr><td>보통</td><td>물건은 찾아 기록하나 명령 문장이 물건 이름 나열에 가깝거나, 판단한 까닭이 자동으로 움직인다는 데 그친다.</td></tr><tr><td>노력요함</td><td>교사가 정의를 함께 읽고 도움 카드로 물건을 가리켜 준 뒤에도 숨은 명령을 추측해 쓰거나 소프트웨어와 하드웨어를 구분하는 데 어려움이 있다.</td></tr><tr><td>미관찰</td><td>결석이나 미제출로 확인하지 못한 경우. 낮은 성취로 적지 않고 따로 기록한 뒤 보충 확인 시점을 정한다.</td></tr></table></div><p class="small"><b>평가 방법</b> 탐험 기록지 분석 · SW 지도(개인 핀) 분석 · 구술 확인 · 관찰</p></details>
-<h2 class="sub" id="game"><img class="ic" src="../../assets/icons/game.svg" alt="" width="24" height="24">체험 활동</h2><a class="gcard" href="../../B01/"><img class="ic big" src="../../assets/icons/game.svg" alt="" width="24" height="24"><span><b>다 건너는 초록불 시간 짚기</b><span>가장 짧은 초록불을 짚어요</span></span><span class="go">열기</span></a>
+<h2 class="sub" id="game"><img class="ic" src="../../assets/icons/game.svg" alt="" width="24" height="24">체험 활동</h2><a class="gcard" href="../../B01/"><img class="gshot" src="../../assets/shots/B01.jpg" alt="" width="640" height="400" loading="lazy"><span><b>다 건너는 초록불 시간 짚기</b><span>가장 짧은 초록불을 짚어요</span><span class="needs"><i><img class="ic" src="../../assets/icons/clock.svg" alt="" width="24" height="24">5~10분</i><i><img class="ic" src="../../assets/icons/tablet.svg" alt="" width="24" height="24">누르기만</i></span></span><span class="go">열기</span></a>
 <h2 class="sub" id="tools"><img class="ic" src="../../assets/icons/tool.svg" alt="" width="24" height="24">연동 도구</h2>
 <p class="small muted">과정안에 나온 도구예요. 수업 전에 학교망에서 열리는지 확인해 주세요.</p>
 <div class="toolgrid"><a class="tool" href="https://microbit.org/projects/make-it-code-it/" target="_blank" rel="noopener"><b>마이크로비트 V2 ↗</b><span>LED·버튼·가속도·소리 센서, 무선 통신</span><span>계정: 필요 없음</span></a><a class="tool" href="https://www.canva.com/" target="_blank" rel="noopener"><b>Canva ↗</b><span>SW 지도, 공감 지도(화이트보드), 미션 포스터, 팀 소개판</span><span>계정: 교사가 만든 수업(클래스) 안에서 사용</span></a></div>
