@@ -231,10 +231,13 @@
     else {
       var t = order[lift]; order[lift] = order[pos]; order[pos] = t;
       drawCut(lift); drawCut(pos);
+      bump(cuts[lift]); bump(cuts[pos]);   // 바뀐 두 칸만 한 번 튄다
       lift = null;
     }
     render();
   }
+
+  function bump(el) { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); }
 
   function lines(arr) {
     out.textContent = '';
@@ -252,11 +255,11 @@
     running = false;
     if (res.stop === null) {
       phase = 'done';
-      var msg = ['요리가 나왔어요'];
+      var msg = ['요리가 나왔어요: ' + rec.dish];
       if (firstStop !== null) { msg.push('처음 헷갈린 곳: ' + (firstStop + 1) + '번 칸 → 자리를 바꿔 고쳤어요'); }
       lines(msg);
       sheet.classList.add('cooked');
-      sheet.classList.remove('pop'); void sheet.offsetWidth; sheet.classList.add('pop');
+      bump(sheet);
     } else {
       marks[res.stop] = 'stop';
       var m = [(res.stop + 1) + '번 칸: ' + res.why];
