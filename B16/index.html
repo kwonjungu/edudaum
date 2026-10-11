@@ -55,6 +55,10 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
 .tag{margin:5px 0 0;font-size:13px;font-weight:700;color:var(--point);word-break:keep-all}
 .key{font-size:13px;font-weight:700;color:var(--muted);margin:9px 0 0;word-break:keep-all}
 @keyframes popin{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:none}}
+.round{font-weight:700;color:var(--point);margin-left:4px}
+.case.off{border-color:var(--point);box-shadow:0 0 0 2px var(--point-soft)}
+.bin.ref,.bin.ref:disabled{outline:2px dashed var(--point);outline-offset:2px;opacity:1}
+.btn.go{background:var(--point);border-color:var(--point);color:#fff}
 .note{font-size:13px;font-weight:700;color:var(--muted);margin:9px 0 0}
 
 .msg{margin-top:9px;font-size:14px;font-weight:700;min-height:20px}
@@ -95,7 +99,7 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
   <p class="lead">짝마다 두 장을 칸에 짚고 확인해요</p>
 
   <section aria-labelledby="h-pair">
-    <h2 id="h-pair">이번 짝</h2>
+    <h2 id="h-pair">이번 짝 <span class="round" id="round"></span></h2>
     <p class="ask">정해진 조건 하나로 반응하나요, 여러 가지를 보고 스스로 판단하나요?</p>
     <div class="pair" id="pair"></div>
     <p class="key">기계: 단순히 반응하는 기계 · 인공지능: 스스로 판단하는 인공지능</p>
@@ -163,9 +167,13 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
       CARDS.forEach(function (c, i) { if (c.pair === p) { two.push(i); } });
       return shuffle(two);
     }
+    // 섞은 짝의 절반은 '센서 있음' 두 장끼리 낸다 — 센서가 있다고 인공지능은 아니라는 지도안 유의점
+    var from = [];
+    var sensorOnly = Math.random() < 0.5;
+    CARDS.forEach(function (c, i) { if (!sensorOnly || c.sensor) { from.push(i); } });
     for (var t = 0; t < 100; t++) {
-      var a = Math.floor(Math.random() * CARDS.length);
-      var b = Math.floor(Math.random() * CARDS.length);
+      var a = from[Math.floor(Math.random() * from.length)];
+      var b = from[Math.floor(Math.random() * from.length)];
       if (a === b) { continue; }
       if (CARDS[a].pair === CARDS[b].pair) { continue; }
       if (keyOf(a, b) === lastKey) { continue; }
@@ -174,8 +182,13 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
     return [0, 6];
   }
 
+  var roundEl = document.getElementById('round');
+  var dealt = 0;
+
   function newRound() {
     gen++;
+    dealt++;
+    roundEl.textContent = dealt <= 4 ? '지도안 짝 ' + dealt + '/4' : '섞은 짝';
     cur = drawPair();
     lastKey = keyOf(cur[0], cur[1]);
     guess = [null, null]; shown = [false, false];
@@ -216,6 +229,7 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
         msgEl.textContent = off === 0 ? '구분 기준과 반대 칸에 놓은 카드는 없어요' : '구분 기준과 반대 칸에 놓은 카드가 ' + COUNT[off] + '이에요';
         msgEl.className = 'msg';
         render();
+        try { nextBtn.focus({ preventScroll: true }); } catch (e) {}
       }, delay);
     }, delay);
   }
@@ -226,6 +240,8 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
       var c = CARDS[ci];
       var box = document.createElement('div');
       box.className = 'case';
+      var isOff = shown[s] && c.ref !== null && guess[s] !== c.ref;
+      if (isOff) { box.classList.add('off'); }
       var head = document.createElement('p');
       head.className = 'name';
       head.textContent = c.n;
@@ -246,6 +262,7 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
         b.textContent = bn[1];
         b.setAttribute('aria-pressed', guess[s] === bn[0] ? 'true' : 'false');
         b.disabled = confirmed;
+        if (isOff && bn[0] === c.ref) { b.classList.add('ref'); }
         b.addEventListener('click', function () { pick(s, bn[0]); });
         grp.appendChild(b);
       });
@@ -271,6 +288,7 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
     confirmBtn.disabled = confirmed || !both;
     resetBtn.disabled = confirmed || (guess[0] === null && guess[1] === null);
     nextBtn.disabled = revealing;
+    nextBtn.classList.toggle('go', confirmed && !revealing);
     if (!confirmed) {
       msgEl.textContent = both ? '확인하기를 눌러요' : '두 장 모두 칸을 짚어요';
       msgEl.className = 'msg dim';
