@@ -63,14 +63,14 @@ button{font-family:inherit}
 .piece .tag{display:block;margin-top:4px;font-size:12.5px;font-weight:600;color:var(--muted)}
 .piece .moved{display:inline-block;margin-right:6px;padding:0 6px;border-radius:999px;
   background:var(--ink);color:#fff;font-size:12px;font-weight:600}
-.piece.wasmoved{border:2px dashed var(--ink)}
+.piece.wasmoved{border:1.5px dashed var(--line-strong)}
 
 .cols{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px;margin:10px 0 0}
 .col{border:1px dashed var(--line-strong);border-radius:var(--r);padding:6px;min-height:120px;
   display:flex;flex-direction:column;gap:6px}
 .col.full{border-style:solid;border-color:var(--ink)}
 .drop{cursor:pointer;width:100%;min-height:48px;border-radius:var(--r-sm);
-  border:1px solid var(--ink);background:var(--surface);color:var(--ink);
+  border:1px solid var(--line);background:var(--surface);color:var(--ink);
   font-size:15.5px;font-weight:700;line-height:1.15;padding:4px}
 .drop:disabled{opacity:.5;cursor:not-allowed}
 .cnt{display:block;font-size:12.5px;font-weight:600;color:var(--muted)}
@@ -78,7 +78,7 @@ button{font-family:inherit}
 .row{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0}
 .act{cursor:pointer;font-size:16px;font-weight:600;color:var(--ink);
   min-height:48px;padding:10px 16px;flex:1 1 90px;
-  border:1px solid var(--ink);border-radius:999px;background:var(--surface);box-shadow:var(--hard-sm)}
+  border:1px solid var(--line);border-radius:999px;background:var(--surface);box-shadow:var(--hard-sm)}
 .act.main{background:var(--point);border-color:var(--point);color:#fff}
 .act:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
@@ -93,6 +93,8 @@ button{font-family:inherit}
 .pop{animation:pop .22s ease-out}
 @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.05)}100%{transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
+
+/* 에듀다움 통일 테마 2026-09-27 */
 </style>
 </head>
 <body>

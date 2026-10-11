@@ -46,12 +46,12 @@
   .picks{display:grid;grid-template-columns:1fr 1fr;gap:7px}
   .pk{width:100%;text-align:left;display:flex;align-items:center;gap:9px;font-family:inherit;
     cursor:pointer;color:var(--ink);font-size:15px;font-weight:600;
-    background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
     min-height:46px;padding:8px 12px;box-shadow:var(--hard-sm)}
   .pk.none{grid-column:1 / -1}
   .pk[aria-pressed="true"]{background:var(--point-soft);border-color:var(--point);border-width:2px}
   .pk:disabled{opacity:.55;cursor:not-allowed}
-  .pk .dot{flex:0 0 auto;width:10px;height:10px;border-radius:50%;border:1px solid var(--ink);background:var(--surface)}
+  .pk .dot{flex:0 0 auto;width:10px;height:10px;border-radius:50%;border:1px solid var(--line);background:var(--surface)}
   .pk[aria-pressed="true"] .dot{background:var(--point);border-color:var(--point)}
 
   .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
@@ -67,6 +67,9 @@
   button, a{outline-offset:3px}
   :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* 에듀다움 통일 테마 2026-09-27 */
+.btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
 </head>
 <body>

@@ -40,7 +40,7 @@
     min-height:58px;padding:7px 12px;display:flex;flex-direction:column;justify-content:center}
   .slot .sl{font-size:12.5px;font-weight:700;color:var(--muted)}
   .slot .sc{font-size:15.5px;font-weight:600;min-height:1.4em}
-  .slot.full{background:var(--surface);border:1px solid var(--ink)}
+  .slot.full{background:var(--surface);border:1px solid var(--line)}
   .slot.far{background:var(--point-soft);border:2px solid var(--point)}
   .slot .sd{font-size:13px;font-weight:700;color:var(--point)}
   .slot:disabled{cursor:default}
@@ -48,7 +48,7 @@
 
   .cards{display:flex;flex-direction:column;gap:7px}
   .card{width:100%;text-align:left;font-family:inherit;cursor:pointer;color:var(--ink);
-    font-size:15.5px;font-weight:600;background:var(--surface);border:1px solid var(--ink);
+    font-size:15.5px;font-weight:600;background:var(--surface);border:1px solid var(--line);
     border-radius:var(--r-sm);min-height:48px;padding:8px 12px;box-shadow:var(--hard-sm)}
   .card:disabled{opacity:.3;cursor:not-allowed;box-shadow:none}
 
@@ -68,6 +68,9 @@
   button, a{outline-offset:3px}
   :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* 에듀다움 통일 테마 2026-09-27 */
+.btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
 </head>
 <body>
