@@ -36,22 +36,23 @@
 
 
   /* 막대 */
-  .chart{display:grid;gap:3px;align-items:end;margin-top:10px}
-  .col{display:flex;flex-direction:column;align-items:stretch;gap:3px;min-width:0}
-  .bar{position:relative;height:110px;width:100%;min-height:44px;display:flex;align-items:flex-end;
+  .chart{display:grid;gap:4px;margin-top:10px}
+  .rowb{display:grid;grid-template-columns:3em 1fr;gap:8px;align-items:center}
+  .bar{position:relative;display:block;height:44px;width:100%;min-height:44px;overflow:hidden;
     background:var(--soft);border:1px solid var(--line);border-radius:6px;padding:0;font:inherit;color:inherit}
   button.bar{cursor:pointer;border-color:var(--ink)}
   button.bar:disabled{cursor:default;border-color:var(--line)}
-  .bar i{display:block;width:100%;background:var(--ink);border-radius:4px 4px 0 0;opacity:.75}
-  .bar.is30 i{background:var(--point);opacity:1}
+  .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink);opacity:.7}
+  .bar.is30 i{background:var(--ink);opacity:.35}
+  .bar s{position:absolute;left:0;bottom:0;height:12px;background:var(--point);text-decoration:none}
   .bar.pick{background:var(--point-soft);outline:3px solid var(--point);outline-offset:-1px}
-  .bar.most{outline:3px dashed var(--ink);outline-offset:-1px}
-  .bar b{position:absolute;left:-2px;right:-2px;height:0;border-top:3px solid var(--point)}
-  .bar.most{animation:pop .35s ease-out}
-  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.08)}100%{transform:scale(1)}}
-  .bar.blank{background:transparent;border-style:dashed;border-color:var(--line-strong)}
-  .bar.h30{height:70px}
-  .t{font-size:12px;color:var(--muted);text-align:center;white-space:nowrap}
+  .bar.most{outline:3px dashed var(--ink);outline-offset:-1px;animation:pop .35s ease-out}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.04)}100%{transform:scale(1)}}
+  .key{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:6px}
+  .key span::before{content:"";display:inline-block;width:14px;height:10px;margin-right:5px;vertical-align:middle;border-radius:2px}
+  .key .k10::before{background:var(--ink);opacity:.7}
+  .key .k30::before{background:var(--point)}
+  .t{font-size:14px;color:var(--muted);text-align:right;white-space:nowrap}
 
   .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
   .btn{font:inherit;font-size:15px;font-weight:500;cursor:pointer;color:var(--ink);background:#fff;
@@ -82,15 +83,14 @@
     <h2 id="h2t">10초 기록 <span class="hint" id="info"></span></h2>
     <p class="hint" id="hint2"></p>
     <div class="chart" id="chart10" role="group" aria-label="10초 기록 막대"></div>
-    <p class="t" style="text-align:right">걸은 시간(초)</p>
+    <p class="key"><span class="k10">10초 기록</span><span class="k30" id="key30" hidden>30초 기록(사이는 곧게 이어 짐작)</span></p>
     <div class="acts">
       <button class="btn main" id="checkBtn" type="button" disabled>확인하기</button>
     </div>
   </section>
 
   <section id="s3" aria-labelledby="h3t" class="off">
-    <h2 id="h3t">30초 기록 <span class="hint">같은 기록에서 30초마다 고른 값</span></h2>
-    <div class="chart" id="chart30" aria-label="30초 기록 막대"></div>
+    <h2 id="h3t">30초 기록과 견주기</h2>
     <p class="say" id="say" aria-live="polite"></p>
     <div class="acts">
       <button class="btn main" id="nextBtn" type="button">다음 판</button>
@@ -106,7 +106,7 @@
   'use strict';
   var $ = function(id){ return document.getElementById(id); };
 
-  var n = 0, v = [], pick = -1, checked = false, lastN = 0, flatLeft = 0;
+  var n = 0, v = [], pick = -1, checked = false, lastN = 0;
 
   function is30(i){ return i % 3 === 0; }
   function sec(i){ return (i * 10) + '초'; }
@@ -126,7 +126,7 @@
 
   // 판을 그 자리에서 뽑는다. 창가(밝음)에서 안쪽(어두움)으로, 출렁임 한 번. 셋에 하나는 출렁임 없음.
   function newRound(){
-    do { n = [7, 10, 13][rnd(0, 2)]; } while (n === lastN);
+    do { n = [7, 10][rnd(0, 1)]; } while (n === lastN && Math.random() < .7);
     lastN = n;
     var hi = rnd(170, 239), lo = rnd(20, 59);
     var flat = Math.random() < 1 / 3;
@@ -143,55 +143,48 @@
 
   function drawChart(box, opt){
     box.innerHTML = '';
-    box.style.gridTemplateColumns = 'repeat(' + n + ',minmax(0,1fr))';
     var most = opt.most == null ? -1 : opt.most;
     for (var i = 0; i < n; i++){
-      var col = document.createElement('div');
-      col.className = 'col';
-      var show = opt.only30 ? is30(i) : true;
-      var el;
-      if (opt.tap){
-        el = document.createElement('button');
-        el.type = 'button';
-        (function(k){ el.addEventListener('click', function(){ if (!checked && !is30(k)){ pick = k; render(); } }); })(i);
-        el.disabled = is30(i) || checked;
-        el.setAttribute('aria-pressed', i === pick ? 'true' : 'false');
-      } else {
-        el = document.createElement('div');
-      }
-      el.className = 'bar' + (opt.only30 ? ' h30' : '') + (is30(i) ? ' is30' : '') +
-        (show ? '' : ' blank') + (opt.tap && i === pick ? ' pick' : '') + (i === most ? ' most' : '');
-      var fill = document.createElement('i');
-      fill.style.height = (show ? Math.max(2, v[i] / 255 * 100) : 0) + '%';
-      el.appendChild(fill);
-      if (opt.tick && !is30(i)){
-        var tk = document.createElement('b');
-        tk.style.bottom = (lineAt(i) / 255 * 100) + '%';
-        el.appendChild(tk);
-      }
-      el.setAttribute('aria-label', show ? sec(i) + ' 빛 세기 ' + v[i] + (is30(i) ? ', 30초 기록에도 들어감' : '')
-                                         : sec(i) + ' 30초 기록에 없음');
+      var row = document.createElement('div');
+      row.className = 'rowb';
       var t = document.createElement('span');
       t.className = 't';
-      t.textContent = String(i * 10);
-      col.appendChild(el); col.appendChild(t);
-      box.appendChild(col);
+      t.textContent = sec(i);
+      var el = document.createElement('button');
+      el.type = 'button';
+      (function(k){ el.addEventListener('click', function(){ if (!checked && !is30(k)){ pick = k; render(); } }); })(i);
+      el.disabled = is30(i) || checked;
+      el.setAttribute('aria-pressed', i === pick ? 'true' : 'false');
+      el.className = 'bar' + (is30(i) ? ' is30' : '') + (i === pick ? ' pick' : '') + (i === most ? ' most' : '');
+      var fill = document.createElement('i');
+      fill.style.width = Math.max(1, v[i] / 255 * 100) + '%';
+      el.appendChild(fill);
+      if (opt.reveal){
+        var r30 = document.createElement('s');
+        r30.style.width = Math.max(1, lineAt(i) / 255 * 100) + '%';
+        el.appendChild(r30);
+      }
+      el.setAttribute('aria-label', sec(i) + ' 빛 세기 ' + v[i] +
+        (is30(i) ? ', 30초 기록에도 들어감' : '') +
+        (opt.reveal && !is30(i) ? ', 30초 기록으로 짐작한 값 ' + Math.round(lineAt(i)) : ''));
+      row.appendChild(t); row.appendChild(el);
+      box.appendChild(row);
     }
   }
 
   function render(){
     $('info').textContent = '창가에서 안쪽으로 걸으며 잰 빛 세기 · ' + n + '칸';
-    $('hint2').textContent = checked ? '분홍 선은 30초 기록으로 짐작한 값, 점선 막대가 가장 크게 놓친 변화예요'
-      : pick < 0 ? '분홍이 아닌 막대를 하나 눌러요'
+    $('hint2').textContent = checked ? '분홍 막대가 30초 기록, 점선이 가장 크게 놓친 곳이에요'
+      : pick < 0 ? '흐린 막대(30초 기록에도 들어감)가 아닌 막대를 눌러요'
       : sec(pick) + '를 짚었어요. 확인 전엔 바꿔도 돼요';
-    drawChart($('chart10'), { tap:true, tick: checked, most: checked ? mostIdx() : null });
+    var mi = checked ? mostIdx() : -1;
+    drawChart($('chart10'), { reveal: checked, most: (mi >= 0 && miss(mi) > 12) ? mi : null });
+    $('key30').hidden = !checked;
     $('checkBtn').disabled = pick < 0 || checked;
 
     $('s3').classList.toggle('off', !checked);
-    $('chart30').hidden = !checked;
     $('nextBtn').disabled = !checked;
     if (!checked){ $('say').textContent = '짚고 확인하면 30초 막대가 나와요'; return; }
-    drawChart($('chart30'), { only30:true });
 
     var m = mostIdx(), mv = Math.round(miss(m));
     var say;
