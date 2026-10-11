@@ -95,7 +95,14 @@
   .row.asked .yn{visibility:visible}
   .row.no{opacity:.6}
   .row.hit .yn{color:var(--point)}
-  .opts{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .opts{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .opt{padding:6px 6px;line-height:1.2}
+  .row{min-height:40px;padding:5px 9px}
+  .row .cd,.row .to{font-size:13.5px}
+  .row.mine{outline:2px dashed var(--ink);outline-offset:1px}
+  .row .yn{flex-basis:40px}
+  .val .v{font-size:19px}
+  .btn.go{background:var(--point);border-color:var(--point);color:#fff}
   .opt{justify-content:center;text-align:center;word-break:keep-all;font-weight:700}
   .opt.hit{color:#fff;border-color:var(--point)}
   .tools .btn{flex:1 1 90px}
@@ -134,13 +141,13 @@
   <section aria-labelledby="h-o">
     <h2 id="h-o">결론 고르기</h2>
     <div class="opts" id="opts"></div>
-    <p class="say dim" id="say" role="status" aria-live="polite">결론을 하나 짚어요</p>
-    <p class="say lim" id="lim" hidden>규칙표에 없는 날씨예요 · 알맞은 결론일까요?</p>
     <div class="tools">
       <button class="btn main" id="check" type="button" disabled>확인하기</button>
       <button class="btn" id="reset" type="button">다시 하기</button>
       <button class="btn" id="next" type="button">다음 카드</button>
     </div>
+    <p class="say dim" id="say" role="status" aria-live="polite">결론을 하나 짚어요</p>
+    <p class="say lim" id="lim" hidden>규칙표에 없는 날씨예요 · 알맞은 결론일까요?</p>
     <p class="note">실행 결과는 엔트리 도우미로 넣어 적어요</p>
   </section>
 </div>
@@ -254,6 +261,7 @@
         asked = i;
         if (i >= hit){ revealing = false; finish(hit); }
         render();
+        if (i >= hit){ try { nextBtn.focus({ preventScroll: true }); } catch (e) {} }
         if (i < hit) next(i + 1);
       }, step);
     })(0);
@@ -281,6 +289,8 @@
     $('ord').className = 'ord' + (tf ? ' tf' : '');
 
     var hit = firePos(cur);
+    var done = confirmed && !revealing;
+    var mine = picked === null ? -1 : posOfOpt(cur, picked);
     rowsBox.textContent = '';
     for (var i = 0; i < 5; i++){
       var r = lineAt(cur, i);
@@ -289,6 +299,7 @@
       if (confirmed && i <= asked){
         cls += ' asked' + (i === hit ? ' hit' : ' no');
       }
+      if (done && i === mine && mine !== hit) cls += ' mine';
       row.className = cls;
       var yn = i === hit ? '예' : '아니요';
       row.innerHTML = '<span class="n" aria-hidden="true">' + NUM[i] + '</span>' +
@@ -298,7 +309,6 @@
       rowsBox.appendChild(row);
     }
 
-    var done = confirmed && !revealing;
     optBtns.forEach(function(b, k){
       b.disabled = confirmed;
       b.classList.toggle('pick', picked === k);
@@ -310,6 +320,7 @@
     checkBtn.disabled = confirmed || picked === null;
     resetBtn.disabled = confirmed || picked === null;
     nextBtn.disabled = revealing;
+    nextBtn.classList.toggle('go', done);
     if (!confirmed){
       say.textContent = picked === null ? '결론을 하나 짚어요' : '확인하기를 눌러요';
       say.className = 'say dim';
