@@ -4,6 +4,7 @@
   python _tools/link_games.py
 
 - 돌아가기 링크(`../`, `../index.html`)를 체험 게임 목록 `../play/`로 바꾸고 글을 `체험 목록`으로 한다.
+- 탭 아이콘(`../assets/icons/game.svg`)이 없으면 단다.
 - 첫 돌아가기 링크 옆에 그 차시 과정안 쪽 `../lessons/BXX/` 링크(`과정안`)를 붙인다.
 게임 규격(`_공통기준.md`)에 맞게 글자는 세 자만 더한다. make_site.py가 끝에 부른다.
 """
@@ -25,6 +26,10 @@ def main():
         if not f.exists():
             continue
         h = f.read_text(encoding='utf-8')
+        if 'rel="icon"' not in h:   # 탭 아이콘이 없으면 브라우저가 /favicon.ico를 찾다 404를 낸다(2026. 10. 11.)
+            h = h.replace('</title>', '</title>\n<link rel="icon" href="../assets/icons/game.svg">', 1)
+            f.write_text(h, encoding='utf-8')
+            n += 1
         if 'href="../lessons/%s/"' % c in h:
             continue
         first = [True]
