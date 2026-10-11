@@ -96,9 +96,9 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
 
   <section aria-labelledby="h-pair">
     <h2 id="h-pair">이번 짝</h2>
-    <p class="ask">조건 하나로 반응하나요, 여러 가지를 보고 스스로 판단하나요?</p>
+    <p class="ask">정해진 조건 하나로 반응하나요, 여러 가지를 보고 스스로 판단하나요?</p>
     <div class="pair" id="pair"></div>
-    <p class="key">기계: 단순히 반응 · 인공지능: 스스로 판단 · 더 알아봐야: 생각이 나뉨</p>
+    <p class="key">기계: 단순히 반응하는 기계 · 인공지능: 스스로 판단하는 인공지능</p>
   </section>
 
   <section aria-labelledby="h-chk">
@@ -122,16 +122,16 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
   var CARDS = [
     { n: '자동문', pair: 1, sensor: true, io: '다가오는 사람 → 늘 같게 문을 연다', ref: 'm' },
     { n: '사진 속 얼굴 묶기', pair: 1, sensor: false, io: '사진 속 생김새 → 같은 사람끼리 묶는다', ref: 'a' },
-    { n: '주방 타이머', pair: 2, sensor: false, io: '정해 둔 시간 → 그 시간이 되면 울린다', ref: 'm' },
+    { n: '주방 타이머', pair: 2, sensor: false, io: '맞춰 둔 시간 → 시간이 되면 늘 같게 울린다', ref: 'm' },
     { n: '영상 추천', pair: 2, sensor: false, io: '내가 본 영상들 → 볼 만한 영상을 골라 준다', ref: 'a' },
     { n: '계산기', pair: 3, sensor: false, io: '누른 숫자 → 정해진 대로 셈한다', ref: 'm' },
     { n: '손동작 알아보기', pair: 3, sensor: true, io: '손의 움직임 → 어떤 동작인지 알아본다', ref: 'a' },
     { n: '복도 전등', pair: 4, sensor: true, io: '지나가는 움직임 → 늘 같게 불을 켠다', ref: 'm' },
     { n: '걸음 수 세기', pair: 4, sensor: true, io: '몸의 흔들림 → 걸음으로 센다', ref: null }
   ];
-  var BINS = [['m', '기계'], ['a', '인공지능'], ['q', '더 알아봐야']];
-  var BINNAME = { m: '기계', a: '인공지능', q: '더 알아봐야' };
-  var COUNT = ['', '한 장이', '두 장이'];
+  var BINS = [['m', '기계'], ['a', '인공지능'], ['q', '더 알아봐야 함']];
+  var BINNAME = { m: '기계', a: '인공지능', q: '더 알아봐야 함' };
+  var COUNT = ['', '한 장', '두 장'];
 
   var pairEl = document.getElementById('pair');
   var msgEl = document.getElementById('msg');
@@ -190,10 +190,10 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
   }
 
   function tagOf(c, g) {
-    if (c.ref === null) { return '생각이 나뉘는 카드예요'; }
+    if (c.ref === null) { return '생각이 나뉘는 카드예요 · 모둠에서 따져 봐요'; }
     if (g === c.ref) { return ''; }
-    if (g === 'q') { return '기준으로는 ' + BINNAME[c.ref] + ' 칸 · 모둠에서 따져 봐요'; }
-    return '기준으로는 ' + BINNAME[c.ref] + ' 칸';
+    if (g === 'q') { return '구분 기준으로는 ' + BINNAME[c.ref] + ' 칸 · 모둠에서 따져 봐요'; }
+    return '구분 기준으로는 ' + BINNAME[c.ref] + ' 칸';
   }
 
   function confirmRound() {
@@ -213,7 +213,7 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
       setTimeout(function () {
         if (myGen !== gen) { return; }
         shown[1] = true; revealing = false;
-        msgEl.textContent = off === 0 ? '두 장 모두 기준과 반대 칸은 없어요' : COUNT[off] + ' 기준과 반대 칸이에요';
+        msgEl.textContent = off === 0 ? '구분 기준과 반대 칸에 놓은 카드는 없어요' : '구분 기준과 반대 칸에 놓은 카드가 ' + COUNT[off] + '이에요';
         msgEl.className = 'msg';
         render();
       }, delay);
