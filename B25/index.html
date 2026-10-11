@@ -3,423 +3,553 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>조건 하나 바꿔 동작 다 알아보기 — 에듀다움 B25</title>
+<title>손목 동작, 무엇으로 알아볼까 — 에듀다움 B25</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
   :root{--line:#DDDDDD;--line-strong:#C1C1C1;
     --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
     --point:#FF385C; --point-soft:#FFF0F3;
-    --green:#12B76A; --muted:#6A6A6A; --desk:#EFE2CB;
+    --green:#12B76A; --muted:#6A6A6A; --soft:#F7F7F7;
     --r:14px; --r-sm:8px;
     --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
-  body{
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;
-    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    
-    background-position:-11px -11px;
-  }
-  .wrap{max-width:680px;margin:0 auto;padding:4px 14px 10px}
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:3px}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","Malgun Gothic",sans-serif;
+    background:var(--paper);color:var(--ink);font-size:16px;line-height:1.45}
+  [hidden]{display:none!important}
+  .wrap{max-width:680px;margin:0 auto;padding:6px 16px 20px}
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px}
   .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);
-    font-weight:600;font-size:13px;background:var(--surface);border:1px solid var(--ink);
-    border-radius:999px;padding:7px 14px;box-shadow:var(--hard-sm);min-height:44px;
-    transition:transform .12s,box-shadow .12s}
-  .back:hover{transform:translate(-1px,-1px)}
-  .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;
-    border:1px solid var(--line);border-radius:999px;padding:5px 14px;box-shadow:var(--hard-sm)}
-  h1{font-size:clamp(18px,4.3vw,24px);font-weight:700;letter-spacing:-.035em;line-height:1.02}
-  .lead{font-size:12.5px;color:var(--muted);font-weight:700;margin-top:1px}
-  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
-    box-shadow:var(--hard);padding:4px 6px;margin-top:3px}
-  h2{font-size:12px;font-weight:700;letter-spacing:-.02em;margin-bottom:2px}
-  h2:not(:first-child){margin-top:3px}
-  .cond{display:grid;grid-template-columns:48px 1fr auto auto;align-items:center;gap:5px;
-    border:1px solid var(--line);border-radius:var(--r-sm);padding:2px 5px;margin-top:2px;
-    background:var(--paper)}
-  .cond.chg{background:var(--point-soft)}
-  .cond.lock{opacity:.55}
-  .cl{font-size:12px;font-weight:700;white-space:nowrap}
-  .cv{font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums}
-  .keep{font-size:10.5px;font-weight:600;color:var(--muted);white-space:nowrap}
+    font-weight:600;font-size:14px;background:var(--surface);border:1px solid var(--ink);
+    border-radius:999px;padding:8px 14px;min-height:44px}
+  .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;border-radius:999px;padding:5px 14px;white-space:nowrap}
+  h1{font-size:clamp(21px,5vw,27px);font-weight:700;letter-spacing:-.035em;line-height:1.15}
+  .lead{font-size:14px;color:var(--muted);font-weight:600;margin-top:2px}
+  .stat{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:6px;font-size:13.5px;font-weight:700}
+  .stat .dot{width:10px;height:10px;border-radius:50%;background:var(--line-strong);flex:none}
+  .stat.on .dot{background:var(--green)}
+  .safe{font-size:12.5px;font-weight:600;color:var(--muted);margin-top:2px}
+  section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+    box-shadow:var(--hard);padding:10px;margin-top:10px}
+  h2{font-size:15px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px}
   button{font-family:inherit;cursor:pointer;color:var(--ink)}
-  .mini{min-height:44px;min-width:56px;font-size:12.5px;font-weight:700;background:var(--surface);
-    border:1px solid var(--line);border-radius:10px;box-shadow:var(--hard-sm);padding:4px 7px;
-    transition:transform .1s,box-shadow .1s}
-  .mini:hover:not(:disabled){transform:translate(-1px,-1px)}
-  .mini:active:not(:disabled){transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
-  .btn{display:block;width:100%;min-height:44px;margin-top:3px;font-size:14.5px;font-weight:700;
-    background:var(--point);color:#fff;border:1px solid var(--ink);border-radius:var(--r-sm);
-    box-shadow:var(--hard-sm);padding:7px 10px;transition:transform .1s,box-shadow .1s}
-  .btn:hover:not(:disabled){transform:translate(-1px,-1px)}
-  .btn:active:not(:disabled){transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
-  .btn.ghost{background:var(--surface);color:var(--ink)}
-  button:disabled{opacity:.45;cursor:default;box-shadow:none;transform:none}
-  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
-  .hint{margin-top:4px;font-size:11.5px;font-weight:600;text-align:center;
-    background:var(--ink);color:var(--paper);border-radius:999px;padding:4px 8px}
-  .trow{display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
-  .tile{min-width:0;border:1px solid var(--line);border-radius:6px;padding:1px}
-  .tile{display:flex;flex-direction:column;align-items:center;gap:0;background:var(--surface);line-height:1}
-  .tile.bgd{background:var(--desk)}
-  .tile.now{box-shadow:var(--hard-sm)}
-  .hand{width:13px;height:13px;color:var(--ink)}
-  .tile.angs .hand{transform:rotate(-24deg)}
-  .tl{font-size:8px;font-weight:700;color:var(--muted);text-align:center;line-height:1}
-  .marks{display:flex;gap:2px;margin-top:1px}
-  .m{width:10px;height:10px;display:block;border:1px solid var(--line);border-radius:3px;background:var(--paper)}
-  .m svg{width:100%;height:100%;display:block}
-  .m.ok{background:#DFF6E9;border-color:var(--green)}
-  .m.no{background:var(--point-soft);border-color:var(--point)}
-  .gwrap{margin-top:3px}
-  .gstrip{display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
-  .g{min-height:44px;font-family:inherit;cursor:pointer;color:var(--ink);font-weight:700;font-size:13px;
-    background:var(--surface);border:1px solid var(--line);border-radius:8px;box-shadow:var(--hard-sm)}
-  .g[aria-pressed="true"]{background:var(--point);color:#fff}
-  .g:disabled{opacity:.5;cursor:default;box-shadow:none}
-  .row2{display:flex;gap:8px;margin-top:3px}
+  .btn{min-height:48px;font-size:16px;font-weight:700;background:var(--point);color:#fff;
+    border:1px solid var(--point);border-radius:var(--r-sm);padding:8px 14px;width:100%;margin-top:8px}
+  .btn.ghost{background:var(--surface);color:var(--ink);border-color:var(--ink)}
+  .btn.sm{width:auto;min-height:44px;font-size:14px;margin-top:0}
+  button:disabled{opacity:.42;cursor:default}
+  :focus-visible{outline:3px solid var(--ink);outline-offset:2px}
+
+  .mrow{display:grid;grid-template-columns:112px 1fr;gap:8px;align-items:center;margin-top:6px}
+  .mname{min-height:44px;font-size:13.5px;font-weight:700;background:var(--surface);border:1px solid var(--ink);
+    border-radius:var(--r-sm);padding:4px 6px;line-height:1.2}
+  .mname[aria-pressed="true"]{background:var(--point-soft);border-color:var(--point);border-width:2px}
+  .slots{display:grid;grid-template-columns:repeat(3,1fr);gap:4px}
+  .slots.many{grid-template-columns:repeat(8,1fr);gap:2px}
+  .slot{min-height:44px;border:1px dashed var(--line-strong);border-radius:6px;background:var(--soft);padding:0}
+  button.slot{border:1px solid var(--line);background:var(--surface)}
+  .slot svg{display:block;width:100%;height:40px}
+  .say{margin-top:8px;font-size:14.5px;font-weight:700;min-height:1.4em}
+  .say.dim{color:var(--muted)}
+  .pick{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+  .cand{min-height:72px;border:1px solid var(--ink);border-radius:var(--r-sm);background:var(--surface);padding:2px}
+  .cand svg{display:block;width:100%;height:64px}
+
+  .cardline{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap}
+  .card{font-size:15px;font-weight:700;background:var(--point-soft);border-radius:999px;padding:4px 12px}
+  .log{display:flex;gap:3px}
+  .log i{width:22px;height:22px;border:1px solid var(--line);border-radius:5px;display:grid;place-items:center;
+    font-style:normal;font-size:13px;font-weight:700;color:var(--muted)}
+  .log i.now{border-color:var(--ink)}
+  .big{display:block;width:100%;height:110px;border:1px solid var(--line);border-radius:var(--r-sm);margin-top:8px;background:var(--soft)}
+  .legend{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px}
+  .guess{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+  .guess7{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-top:8px}
+  .gb{min-height:48px;font-size:14px;font-weight:700;background:var(--surface);border:1px solid var(--ink);
+    border-radius:var(--r-sm);padding:2px 4px;line-height:1.2}
+  .gb[aria-pressed="true"]{background:var(--point);border-color:var(--point);color:#fff}
+  table.cf{width:100%;border-collapse:collapse;margin-top:8px;font-size:13px;table-layout:fixed}
+  table.cf th,table.cf td{border:1px solid var(--line);padding:4px 2px;text-align:center;font-variant-numeric:tabular-nums}
+  table.cf thead th{background:var(--soft);font-size:12px}
+  table.cf td.off{background:var(--point-soft);font-weight:700}
+  table.cf td.hit{font-weight:700}
+  .cap{font-size:12px;color:var(--muted);font-weight:600;margin-top:4px}
+  .row2{display:flex;gap:8px;margin-top:8px}
   .row2 .btn{margin-top:0;flex:1}
-  #hint2:empty{display:none}
-  .cap{font-size:10px;font-weight:700;color:var(--muted);margin-top:1px;text-align:center}
-  table.sc{width:100%;border-collapse:collapse;margin-top:2px;font-size:12px}
-  table.sc th,table.sc td{border:1px solid var(--line);padding:2px;text-align:center;
-    font-weight:600;font-variant-numeric:tabular-nums}
-  table.sc thead th{background:var(--ink);color:var(--paper);font-size:11px}
-  table.sc td.tot{background:var(--point-soft)}
+  .sum{margin-top:8px;font-size:14px;font-weight:700;background:var(--soft);border-radius:var(--r-sm);padding:8px 10px}
+  .foot{font-size:12.5px;color:var(--muted);font-weight:700;text-align:center;margin-top:10px}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* 에듀다움 통일 테마 2026-09-27 */
 </style>
 </head>
 <body>
-<svg width="0" height="0" aria-hidden="true" style="position:absolute">
-  <symbol id="h-palm" viewBox="0 0 44 44">
-    <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="6" y="18" width="13" height="18" rx="4"/>
-      <path d="M9.5 18v-6M13 18v-8M16.5 18v-6"/>
-      <rect x="25" y="18" width="13" height="18" rx="4"/>
-      <path d="M28.5 18v-6M32 18v-8M35.5 18v-6"/>
-    </g>
-  </symbol>
-  <symbol id="h-back" viewBox="0 0 44 44">
-    <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="7" y="16" width="18" height="18" rx="5"/>
-      <rect x="17" y="10" width="18" height="18" rx="5"/>
-      <path d="M8 39h26M30 36l4 3-4 3"/>
-    </g>
-  </symbol>
-  <symbol id="h-shake" viewBox="0 0 44 44">
-    <g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-      <rect x="14" y="6" width="16" height="20" rx="5"/>
-      <path d="M10 30l-2 4M22 32v5M34 30l2 4"/>
-    </g>
-  </symbol>
-  <symbol id="mk-o" viewBox="0 0 20 20">
-    <circle cx="10" cy="10" r="5.5" fill="none" stroke="#12B76A" stroke-width="3"/>
-  </symbol>
-  <symbol id="mk-x" viewBox="0 0 20 20">
-    <g stroke="#FF5A5F" stroke-width="3" stroke-linecap="round"><path d="M6 6l8 8M14 6l-8 8"/></g>
-  </symbol>
-</svg>
-
 <div class="wrap">
   <nav class="nav">
-    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">
-      <svg width="13" height="13" viewBox="0 0 20 20" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4L6 10l6 6"/></svg>
-      체험 목록</a><a class="back" href="../lessons/B25/">과정안</a></span>
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">체험 목록</a><a class="back" href="../lessons/B25/">과정안</a></span>
     <span class="tag">21~24</span>
   </nav>
 
-  <section>
-    <h1>조건 하나 바꿔 동작 다 알아보기</h1>
-    <p class="lead">아홉 번을 다 알아보게 만들어요.</p>
-    <div class="card">
-      <h2>학습 데이터</h2>
-      <div class="cond" id="r-bg"><span class="cl">샘플 수</span><span class="cv" id="v-bg">3개</span><button class="mini" id="b-bg" disabled>바꾸기</button></div>
-      <div class="cond" id="r-ang"><span class="cl">빠르기</span><span class="cv" id="v-ang">보통</span><button class="mini" id="b-ang" disabled>바꾸기</button></div>
-      <div class="cond" id="r-cnt"><span class="cl">착용 손</span><span class="cv" id="v-cnt">오른손</span><button class="mini" id="b-cnt" disabled>바꾸기</button></div>
-    </div>
-    <button class="btn" id="run">시험하기</button>
-    <p class="hint" id="hint">시험하기를 누르세요</p>
-    <div class="gwrap" id="gwrap" hidden>
-      <div class="gstrip" id="gstrip" role="group" aria-label="몇 번 알아볼지 짚어요"></div>
-    </div>
-    <button class="btn" id="retest" disabled>다시 시험</button>
+  <header>
+    <h1>손목 동작, 무엇으로 알아볼까</h1>
+    <p class="lead">체험 활동 · 시도 그래프를 샘플과 견주어 먼저 짚어요.</p>
+    <p class="stat" id="stat"><span class="dot"></span><span id="statTxt">연습 모드 · 버튼으로 그래프를 골라요</span>
+      <button class="btn ghost sm" id="perm" type="button" hidden>센서 켜기</button></p>
+    <p class="safe">태블릿을 꼭 쥐고 책상 위에서 작게 움직여요</p>
+  </header>
+
+  <section aria-labelledby="h1s">
+    <h2 id="h1s">① 샘플 · 동작마다 3개</h2>
+    <div id="rows"></div>
+    <button class="btn" id="rec" type="button">녹화</button>
+    <div class="pick" id="pick" hidden></div>
+    <p class="say dim" id="say1"></p>
   </section>
 
-  <section>
-    <div class="card">
-      <h2>시험 데이터 9번</h2>
-      <div id="grid"></div>
-      <p class="cap">연습용 기록 · 왼쪽 1회차 · 오른쪽 2회차</p><p class="cap">CreateAI로 다시 해 봐요</p>
-      <h2>맞힌 수</h2>
-      <table class="sc">
-        <thead><tr><th></th><th>손바닥</th><th>손등</th><th>물 털기</th><th>모두</th></tr></thead>
-        <tbody id="scb"></tbody>
-      </table>
-      <p class="hint" id="hint2"></p>
-    </div>
-    <div class="row2">
-      <button class="btn" id="next">다음 판</button>
-      <button class="btn ghost" id="reset">다시 하기</button>
-    </div>
+  <section aria-labelledby="h2s" id="sec2" hidden>
+    <h2 id="h2s">② 시험 · 시험 담당의 새 시도</h2>
+    <div class="cardline"><span class="card" id="card"></span><span class="log" id="log"></span></div>
+    <button class="btn" id="try" type="button">시도</button>
+    <svg class="big" id="big" viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true"></svg>
+    <p class="legend">x 실선 · y 긴 점선 · z 짧은 점선</p>
+    <div class="guess" id="guess" role="group" aria-label="무엇으로 알아볼지 짚기"></div>
+    <button class="btn" id="ok" type="button" disabled>확인</button>
+    <p class="say dim" id="say2"></p>
+    <table class="cf" aria-label="헷갈림 판">
+      <thead><tr><th>카드 \ 알아봄</th><th>손바닥</th><th>손등</th><th>손가락</th></tr></thead>
+      <tbody id="cfb"></tbody>
+    </table>
   </section>
+
+  <section aria-labelledby="h3s" id="sec3" hidden>
+    <h2 id="h3s">③ 샘플 8개로 늘리면</h2>
+    <p class="say dim">여섯 번 가운데 몇 번 알아볼까</p>
+    <div class="guess7" id="g7" role="group" aria-label="몇 번 알아볼지 짚기"></div>
+    <button class="btn ghost" id="more" type="button" disabled>5개씩 더</button>
+    <button class="btn" id="r2" type="button" disabled>2회차 확인</button>
+    <p class="say dim" id="say3"></p>
+    <p class="sum" id="sum" hidden></p>
+  </section>
+
+  <div class="row2">
+    <button class="btn ghost" id="again" type="button" disabled>새 카드</button>
+    <button class="btn ghost" id="reset" type="button">다시 하기</button>
+  </div>
+  <p class="foot">연습용 기록이에요 · CreateAI로 다시 해 봐요</p>
 </div>
 
 <script>
 (function () {
   'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  var NAME = ['손바닥 문지르기', '손등 문지르기', '손가락 문지르기'];
+  var SHORT = ['손바닥', '손등', '손가락'];
+  var N = 50, DUR = 2;          /* 연습 그래프: 2초 · 50점 */
 
-  var NAME = ['손바닥 문지르기', '손등 문지르기', '물 털기'];
-  var SYM = ['h-palm', 'h-back', 'h-shake'];
-  var HAND = { r: '오른손', l: '왼손' };
-  var SPD = { n: '보통', f: '빠르게' };
+  var st, rowEls = [], guessBtns = [], g7Btns = [];
+  var sensor = { on: false, buf: null, last: 0 };
 
-  /* 판마다 시험 데이터 9번(동작마다 셋)을 그 자리에서 뽑는다.
-     학습 데이터의 시작은 과정안 그대로 샘플 3개·오른손·보통이다.
-     샘플 3개로는 두 문지르기가 서로 헷갈리고, 또렷하게 한 시도만 알아본다.
-     셋에 한 판꼴로 빠르게 하거나 왼손에 찬 시도가 하나 섞인다. 그 판은 한 가지만 바꿔서는
-     아홉 번을 다 알아볼 수 없다. */
-  function makeBoard() {
-    var cards = [];
-    for (var a = 0; a < 3; a++) {
-      for (var k = 0; k < 3; k++) {
-        cards.push({ n: a, hand: 'r', spd: 'n', clear: a < 2 && Math.random() < 0.35 });
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+  function noise() { return (Math.random() + Math.random() + Math.random() - 1.5) * 0.08; }
+
+  /* ── 연습 모드 그래프 만들기 ──
+     손바닥: 화면이 위(z+), x축으로 흔들림 / 손등: 뒤집혀 z−, x축 흔들림 /
+     손가락: z+에 조금 기울고 y축 흔들림, 조금 빠름. 손바닥·손가락은 겹치게 둔다. */
+  function gen(m, habit, odd) {
+    var bx = rnd(-0.15, 0.15), by, bz, w, amp, f;
+    if (m === 0) { by = rnd(-0.1, 0.55); bz = 0.92; w = [1, rnd(0.1, 1), 0.1]; amp = rnd(0.3, 0.6); f = rnd(2, 4); }
+    else if (m === 1) { by = rnd(-0.3, 0.25); bz = -0.92; w = [1, rnd(0, 0.5), 0.1]; amp = rnd(0.3, 0.55); f = rnd(2, 3.5); }
+    else { by = rnd(0.05, 0.6); bz = 0.88; w = [rnd(0.4, 1.1), 1, 0.1]; amp = rnd(0.25, 0.55); f = rnd(2.4, 4.4); }
+    if (habit) { by += habit.tilt; f *= habit.speed; amp *= habit.amp; }
+    if (odd === 1) { amp = 0.04; }
+    if (odd === 2) { w = [0.1, 0.1, 1]; }
+    var ph = rnd(0, 6.28), pts = [];
+    for (var i = 0; i < N; i++) {
+      var t = i / N * DUR, s = Math.sin(6.283 * f * t + ph);
+      pts.push([bx + amp * w[0] * s + noise(), by + amp * w[1] * Math.sin(6.283 * f * t + ph + 0.6) + noise(),
+        bz + amp * w[2] * s + noise()]);
+    }
+    return pts;
+  }
+
+  /* ── 특징: 손 방향(평균) · 움직이는 방향(흔들림) · 빠르기(넘나든 횟수) ── */
+  function feat(pts) {
+    var n = pts.length, mu = [0, 0, 0], sd = [0, 0, 0], i, k;
+    for (i = 0; i < n; i++) for (k = 0; k < 3; k++) mu[k] += pts[i][k] / n;
+    for (i = 0; i < n; i++) for (k = 0; k < 3; k++) sd[k] += Math.pow(pts[i][k] - mu[k], 2) / n;
+    sd = sd.map(Math.sqrt);
+    var ax = sd.indexOf(Math.max.apply(null, sd)), cr = 0;
+    for (i = 1; i < n; i++) if ((pts[i - 1][ax] - mu[ax]) * (pts[i][ax] - mu[ax]) < 0) cr++;
+    return [mu[0], mu[1], mu[2], sd[0] * 2, sd[1] * 2, sd[2] * 2, cr / DUR * 0.12];
+  }
+  function dist(a, b) { var s = 0; for (var i = 0; i < a.length; i++) s += (a[i] - b[i]) * (a[i] - b[i]); return Math.sqrt(s); }
+
+  /* 동작마다 가장 가까운 샘플 거리 → 가장 가까운 동작, 확신 % = 1/d 비율 */
+  function classify(pts, upto) {
+    var f = feat(pts), d = [];
+    for (var m = 0; m < 3; m++) {
+      var best = 1e9, list = st.samples[m].slice(0, upto);
+      for (var j = 0; j < list.length; j++) best = Math.min(best, dist(f, list[j].f));
+      d.push(best + 0.02);
+    }
+    var inv = d.map(function (x) { return 1 / x; }), sum = inv[0] + inv[1] + inv[2];
+    var conf = inv.map(function (x) { return Math.round(x / sum * 100); });
+    return { pred: d.indexOf(Math.min.apply(null, d)), conf: conf };
+  }
+
+  /* ── 그래프 그리기 (x 실선 · y 긴 점선 · z 짧은 점선) ── */
+  function drawSvg(svg, pts, W, H, sw) {
+    var step = Math.max(1, Math.floor(pts.length / 60)), dash = ['', '7 4', '2 3'], out = '';
+    out += '<line x1="0" y1="' + H / 2 + '" x2="' + W + '" y2="' + H / 2 + '" stroke="#DDDDDD" stroke-width="1"/>';
+    for (var k = 0; k < 3; k++) {
+      var p = [];
+      for (var i = 0; i < pts.length; i += step) {
+        var v = Math.max(-1.8, Math.min(1.8, pts[i][k]));
+        p.push((i / (pts.length - 1) * W).toFixed(1) + ',' + (H / 2 - v / 1.8 * (H / 2 - 2)).toFixed(1));
       }
+      out += '<polyline fill="none" stroke="' + ['#222222', '#FF385C', '#2563EB'][k] + '" stroke-width="' + sw +
+        '" stroke-dasharray="' + dash[k] + '" points="' + p.join(' ') + '"/>';
     }
-    if (Math.random() < 1 / 3) {
-      var j = Math.floor(Math.random() * 9);
-      if (Math.random() < 0.5) { cards[j].spd = 'f'; } else { cards[j].hand = 'l'; }
+    svg.innerHTML = out;
+  }
+  function svgEl(W, H) {
+    var s = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    s.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
+    s.setAttribute('preserveAspectRatio', 'none');
+    s.setAttribute('aria-hidden', 'true');
+    return s;
+  }
+
+  /* ── 센서 ── */
+  function onMotion(e) {
+    var a = e.accelerationIncludingGravity;
+    if (!a || a.x === null || a.x === undefined) return;
+    sensor.last = Date.now();
+    if (!sensor.on) {
+      sensor.on = true; st.mode = 'sensor'; paintStat();
     }
-    return { cards: cards };
+    if (sensor.buf) sensor.buf.push([a.x / 9.8, a.y / 9.8, a.z / 9.8]);
+  }
+  function attach() { window.addEventListener('devicemotion', onMotion); }
+  function detach() { window.removeEventListener('devicemotion', onMotion); }
+  function askPerm() {
+    var fail = function () { st.denied = true; $('perm').hidden = true; paintStat(); };
+    try {
+      DeviceMotionEvent.requestPermission().then(function (r) {
+        if (r === 'granted') { $('perm').hidden = true; attach(); } else { fail(); }
+      }).catch(fail);
+    } catch (err) { fail(); }
+  }
+  var needPerm = typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function';
+  if (needPerm) { $('perm').hidden = false; } else if (typeof DeviceMotionEvent !== 'undefined') { attach(); }
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) detach(); else if (!needPerm || sensor.on) attach();
+  });
+  window.addEventListener('pagehide', detach);
+
+  /* 센서 모드에서 1초 준비 뒤 2초 녹화 */
+  function capture(label, sayEl, done) {
+    st.busy = true; paint();
+    sayEl.className = 'say';
+    sayEl.textContent = label + ' · 준비';
+    setTimeout(function () {
+      sensor.buf = [];
+      var t0 = Date.now();
+      var tick = setInterval(function () {
+        var left = DUR - Math.floor((Date.now() - t0) / 1000);
+        sayEl.textContent = label + ' · 움직여요 ' + Math.max(left, 1) + '초';
+      }, 200);
+      setTimeout(function () {
+        clearInterval(tick);
+        var pts = sensor.buf; sensor.buf = null; st.busy = false;
+        if (!pts || pts.length < 20) { sayEl.textContent = '움직임이 안 잡혔어요 · 다시 눌러요'; paint(); return; }
+        done(pts);
+      }, DUR * 1000);
+    }, 1000);
   }
 
-  var st, lastSig = '';
-  var gcells = [];
-
-  function sig(t) {
-    return t.cards.map(function (c) { return c.n + c.hand + c.spd + (c.clear ? 1 : 0); }).join('');
-  }
-
-  function firstScore(t) {
-    var n = 0;
-    for (var i = 0; i < t.cards.length; i++) {
-      var c = t.cards[i];
-      if (c.hand === 'r' && c.spd === 'n' && (c.n === 2 || c.clear)) { n++; }
-    }
-    return n;
-  }
-
-  /* 직전 판과 같거나 1회차에 두 번도 안 빗나가는 판이면 다시 뽑는다. */
-  function pickBoard() {
-    var t;
-    do { t = makeBoard(); } while (sig(t) === lastSig || firstScore(t) > 7);
-    return t;
-  }
-
-  function fresh(t) {
-    return {
-      tmpl: t, smp: 3, spd: ['n'], hand: ['r'],
-      changed: null, round: 0, marks: [null, null], guess: null
+  /* ── 상태 ── */
+  function fresh(keepSamples) {
+    var s = {
+      mode: sensor.on ? 'sensor' : 'practice', denied: st ? st.denied : false,
+      sel: 0, samples: keepSamples || [[], [], []], picker: null, busy: false,
+      locked: false, cards: shuffle([0, 0, 1, 1, 2, 2]), ci: 0, cur: null, guess: null,
+      tries: [], r1: [], conf: [[0, 0, 0], [0, 0, 0], [0, 0, 0]],
+      g7: null, added: false, r2: null,
+      habit: { tilt: rnd(-0.3, 0.3), speed: rnd(0.8, 1.25), amp: rnd(0.75, 1.25) }
     };
+    return s;
   }
-
-  /* 학습 데이터에 그 시도의 빠르기와 착용 손이 있어야 하고,
-     샘플이 8개이거나 헷갈리지 않는 시도여야 알아본다. */
-  function judge(t) {
-    return st.spd.indexOf(t.spd) >= 0 && st.hand.indexOf(t.hand) >= 0 &&
-      (st.smp >= 8 || t.n === 2 || t.clear);
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)), t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
   }
+  function full() { return st.samples.every(function (l) { return l.length >= 3; }); }
 
-  function $(id) { return document.getElementById(id); }
-
-  function buildGrid() {
-    var cards = st.tmpl.cards;
-    var g = $('grid');
-    g.textContent = '';
-    var row = document.createElement('div');
-    row.className = 'trow';
-    for (var i = 0; i < cards.length; i++) {
-      var t = cards[i];
-      var tile = document.createElement('div');
-      tile.className = 'tile' + (t.hand === 'l' ? ' bgd' : '') + (t.spd === 'f' ? ' angs' : '');
-      tile.setAttribute('data-i', String(i));
-      tile.setAttribute('aria-label', NAME[t.n] + ' ' + HAND[t.hand] + ' ' + SPD[t.spd]);
-      tile.innerHTML =
-        '<svg class="hand" aria-hidden="true"><use href="#' + SYM[t.n] + '"></use></svg>' +
-        '<span class="tl">' + HAND[t.hand] + ' ' + SPD[t.spd] + '</span>' +
-        '<span class="marks"><i class="m" data-m="' + i + '-0"></i>' +
-        '<i class="m" data-m="' + i + '-1"></i></span>';
-      row.appendChild(tile);
+  /* ── ① 샘플 ── */
+  (function buildRows() {
+    for (var m = 0; m < 3; m++) {
+      var row = document.createElement('div'); row.className = 'mrow';
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'mname';
+      b.textContent = NAME[m]; b.setAttribute('aria-pressed', 'false');
+      (function (k) { b.addEventListener('click', function () { if (!st.busy && !st.locked) { st.sel = k; st.picker = null; paint(); } }); })(m);
+      var slots = document.createElement('div'); slots.className = 'slots';
+      row.appendChild(b); row.appendChild(slots); $('rows').appendChild(row);
+      rowEls.push({ name: b, slots: slots });
     }
-    g.appendChild(row);
-  }
-
-  function paintMarks() {
-    var cells = document.querySelectorAll('.m');
-    for (var k = 0; k < cells.length; k++) {
-      var p = cells[k].getAttribute('data-m').split('-');
-      var i = Number(p[0]);
-      var r = Number(p[1]);
-      var res = st.marks[r];
-      if (!res) {
-        cells[k].className = 'm';
-        cells[k].innerHTML = '';
-        cells[k].removeAttribute('aria-label');
-        continue;
-      }
-      var ok = res[i];
-      cells[k].className = 'm ' + (ok ? 'ok' : 'no');
-      cells[k].innerHTML = '<svg aria-hidden="true"><use href="#' + (ok ? 'mk-o' : 'mk-x') + '"></use></svg>';
-      cells[k].setAttribute('aria-label', (r + 1) + '회차 ' + (ok ? '맞음' : '틀림'));
+    for (var g = 0; g < 3; g++) {
+      var gb = document.createElement('button'); gb.type = 'button'; gb.className = 'gb';
+      gb.textContent = NAME[g]; gb.setAttribute('aria-pressed', 'false');
+      (function (k) { gb.addEventListener('click', function () { pickGuess(k); }); })(g);
+      $('guess').appendChild(gb); guessBtns.push(gb);
     }
-    var tiles = document.querySelectorAll('.tile');
-    for (var q = 0; q < tiles.length; q++) {
-      var idx = Number(tiles[q].getAttribute('data-i'));
-      var moved = !!(st.marks[0] && st.marks[1] && st.marks[0][idx] !== st.marks[1][idx]);
-      tiles[q].classList.toggle('now', moved);
-    }
-  }
-
-  function paintScore() {
-    var cards = st.tmpl.cards;
-    var body = $('scb');
-    body.textContent = '';
-    for (var r = 0; r < 2; r++) {
-      var res = st.marks[r];
-      if (!res) { continue; }
-      var per = [0, 0, 0];
-      var all = 0;
-      for (var i = 0; i < cards.length; i++) {
-        if (res[i]) { per[cards[i].n] += 1; all += 1; }
-      }
-      var tr = document.createElement('tr');
-      tr.innerHTML = '<th>' + (r + 1) + '회차</th><td>' + per[0] + '</td><td>' + per[1] +
-        '</td><td>' + per[2] + '</td><td class="tot">' + all + '</td>';
-      body.appendChild(tr);
-    }
-  }
-
-  function paintCond() {
-    $('v-bg').textContent = st.smp + '개';
-    $('v-ang').textContent = st.spd.map(function (k) { return SPD[k]; }).join('·');
-    $('v-cnt').textContent = st.hand.map(function (k) { return HAND[k]; }).join('·');
-    var keys = ['bg', 'ang', 'cnt'];
-    for (var i = 0; i < keys.length; i++) {
-      var k = keys[i];
-      var row = $('r-' + k);
-      var btn = $('b-' + k);
-      btn.disabled = !(st.round === 1 && !st.changed);
-      row.className = 'cond' + (st.changed === k ? ' chg' : (st.changed ? ' lock' : ''));
-      var tag = row.querySelector('.keep');
-      if (st.changed) {
-        if (!tag) {
-          tag = document.createElement('span');
-          tag.className = 'keep';
-          row.insertBefore(tag, btn);
-        }
-        tag.textContent = st.changed === k ? '바꿈' : '그대로';
-      } else if (tag) {
-        row.removeChild(tag);
-      }
-    }
-  }
-
-  function paintGuess() {
-    var show = (st.round === 1 && !!st.changed);
-    $('gwrap').hidden = !show;
-    gcells.forEach(function (b, v) {
-      b.disabled = !show || st.guess !== null;
-      b.setAttribute('aria-pressed', st.guess === v ? 'true' : 'false');
-    });
-    $('retest').disabled = !(st.round === 1 && st.changed && st.guess !== null);
-  }
-
-  function paintHint() {
-    var h = $('hint');
-    if (st.round === 0) { h.textContent = '시험하기를 누르세요'; }
-    else if (st.round === 1 && !st.changed) { h.textContent = '조건 하나만 바꾸세요'; }
-    else if (st.round === 1 && st.guess === null) { h.textContent = '몇 번 알아볼지 짚어요'; }
-    else if (st.round === 1) { h.textContent = '다시 시험을 누르세요'; }
-    else { h.textContent = ''; }
-    $('run').disabled = st.round !== 0;
-  }
-
-  function render() { paintCond(); paintMarks(); paintScore(); paintGuess(); paintHint(); }
-
-  function run() {
-    if ($('run').disabled) { return; }
-    var cards = st.tmpl.cards;
-    var res = [];
-    for (var i = 0; i < cards.length; i++) { res.push(judge(cards[i])); }
-    st.marks[0] = res;
-    st.round = 1;
-    render();
-  }
-
-  function change(k) {
-    if (st.round !== 1 || st.changed) { return; }
-    st.changed = k;
-    if (k === 'bg') { st.smp = 8; }
-    if (k === 'ang') { st.spd = ['n', 'f']; }
-    if (k === 'cnt') { st.hand = ['r', 'l']; }
-    render();
-  }
-
-  function pickGuess(v) {
-    if (st.round !== 1 || !st.changed || st.guess !== null) { return; }
-    st.guess = v;
-    render();
-  }
-
-  function retest() {
-    if ($('retest').disabled) { return; }
-    var cards = st.tmpl.cards;
-    var res = [];
-    for (var i = 0; i < cards.length; i++) { res.push(judge(cards[i])); }
-    st.marks[1] = res;
-    st.round = 2;
-    var score2 = res.filter(function (x) { return x; }).length;
-    var g = st.guess, msg;
-    if (g === score2) { msg = score2 === 9 ? '짚은 대로 아홉 번을 다 알아봤어요' : '짚은 대로였어요'; }
-    else if (score2 > g) { msg = (score2 - g) + '번 더 알아봤어요'; }
-    else { msg = (g - score2) + '번 덜 알아봤어요'; }
-    $('hint2').textContent = msg;
-    render();
-  }
-
-  function startRound(t) {
-    st = fresh(t);
-    buildGrid();
-    $('hint2').textContent = '';
-    render();
-  }
-  function nextRound() { lastSig = sig(st.tmpl); startRound(pickBoard()); }
-  function resetRound() { startRound(st.tmpl); }
-
-  (function buildGuessStrip() {
-    for (var v = 0; v <= 9; v++) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'g'; b.textContent = String(v);
-      b.setAttribute('aria-label', v + '번'); b.setAttribute('aria-pressed', 'false');
-      (function (k) { b.addEventListener('click', function () { pickGuess(k); }); })(v);
-      $('gstrip').appendChild(b);
-      gcells.push(b);
+    for (var v = 0; v <= 6; v++) {
+      var vb = document.createElement('button'); vb.type = 'button'; vb.className = 'gb';
+      vb.textContent = String(v); vb.setAttribute('aria-label', v + '번'); vb.setAttribute('aria-pressed', 'false');
+      (function (k) { vb.addEventListener('click', function () { if (st.r2 === null) { st.g7 = k; paint(); } }); })(v);
+      $('g7').appendChild(vb); g7Btns.push(vb);
     }
   })();
 
-  $('run').addEventListener('click', run);
-  $('retest').addEventListener('click', retest);
-  $('next').addEventListener('click', nextRound);
-  $('reset').addEventListener('click', resetRound);
-  $('b-bg').addEventListener('click', function () { change('bg'); });
-  $('b-ang').addEventListener('click', function () { change('ang'); });
-  $('b-cnt').addEventListener('click', function () { change('cnt'); });
+  function paintRows() {
+    for (var m = 0; m < 3; m++) {
+      var r = rowEls[m], list = st.samples[m];
+      r.name.setAttribute('aria-pressed', st.sel === m && !st.locked ? 'true' : 'false');
+      r.name.disabled = st.locked;
+      var slotN = Math.max(3, list.length);
+      r.slots.className = 'slots' + (slotN > 3 ? ' many' : '');
+      r.slots.textContent = '';
+      for (var j = 0; j < slotN; j++) {
+        var s = list[j], el;
+        if (s) {
+          el = document.createElement('button'); el.type = 'button'; el.className = 'slot';
+          el.setAttribute('aria-label', NAME[m] + ' 샘플 ' + (j + 1) + (st.locked ? '' : ' 지우기'));
+          el.disabled = st.locked;
+          var sv = svgEl(60, 40); drawSvg(sv, s.pts, 60, 40, 2.2); el.appendChild(sv);
+          (function (mm, jj) { el.addEventListener('click', function () { delSample(mm, jj); }); })(m, j);
+        } else { el = document.createElement('span'); el.className = 'slot'; }
+        r.slots.appendChild(el);
+      }
+    }
+  }
 
-  startRound(pickBoard());
-}());
+  function delSample(m, j) {
+    if (st.locked || st.busy) return;
+    st.samples[m].splice(j, 1); st.sel = m; st.picker = null;
+    $('say1').className = 'say dim'; $('say1').textContent = NAME[m] + ' 샘플을 지웠어요';
+    paint();
+  }
+
+  function addSample(m, pts) { st.samples[m].push({ pts: pts, f: feat(pts) }); }
+
+  function nextSel() {
+    if (st.samples[st.sel].length < 3) return;
+    for (var m = 0; m < 3; m++) if (st.samples[m].length < 3) { st.sel = m; return; }
+  }
+
+  function rec() {
+    if ($('rec').disabled) return;
+    var m = st.sel;
+    if (st.mode === 'sensor') {
+      capture(NAME[m], $('say1'), function (pts) {
+        addSample(m, pts); nextSel();
+        $('say1').className = 'say dim'; $('say1').textContent = '튀는 그래프는 눌러 지워요';
+        paint();
+      });
+      return;
+    }
+    /* 연습 모드: 그 동작의 그래프 세 장 가운데 하나 고르기 */
+    var odd = Math.random() < 1 / 3 ? Math.floor(Math.random() * 3) : -1;
+    st.picker = { m: m, c: [0, 1, 2].map(function (i) { return gen(m, null, i === odd ? 1 + Math.floor(Math.random() * 2) : 0); }) };
+    $('say1').className = 'say dim'; $('say1').textContent = NAME[m] + ' 그래프 하나를 골라요';
+    paint();
+  }
+
+  function paintPick() {
+    var box = $('pick');
+    box.hidden = !st.picker;
+    box.textContent = '';
+    if (!st.picker) return;
+    st.picker.c.forEach(function (pts, i) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'cand';
+      b.setAttribute('aria-label', '그래프 ' + (i + 1) + ' 고르기');
+      var sv = svgEl(100, 64); drawSvg(sv, pts, 100, 64, 2); b.appendChild(sv);
+      b.addEventListener('click', function () {
+        addSample(st.picker.m, pts); st.picker = null; nextSel();
+        $('say1').textContent = full() ? '세 동작이 3개씩 찼어요' : '';
+        paint();
+      });
+      box.appendChild(b);
+    });
+  }
+
+  /* ── ② 시험 판 ── */
+  function doTry() {
+    if ($('try').disabled) return;
+    var m = st.cards[st.ci];
+    st.locked = true; st.picker = null;
+    var fin = function (pts) {
+      st.cur = pts; st.guess = null;
+      drawSvg($('big'), pts, 300, 110, 2.4);
+      $('say2').className = 'say dim'; $('say2').textContent = '무엇으로 알아볼지 짚어요';
+      paint();
+    };
+    if (st.mode === 'sensor') capture(NAME[m], $('say2'), fin); else fin(gen(m, st.habit, 0));
+  }
+
+  function pickGuess(k) {
+    if (!st.cur) return;
+    st.guess = k;
+    $('say2').className = 'say dim'; $('say2').textContent = '확인을 누르세요';
+    paint();
+  }
+
+  function confirm1() {
+    if ($('ok').disabled) return;
+    var card = st.cards[st.ci], res = classify(st.cur, 3), g = st.guess;
+    st.tries.push({ m: card, pts: st.cur });
+    st.r1.push(res);
+    st.conf[card][res.pred] += 1;
+    var msg = res.pred === g
+      ? '짚은 대로 ' + NAME[g] + '로 알아봤어요 · 확신 ' + res.conf[g] + '%'
+      : NAME[res.pred] + '로 알아봤어요 · 짚은 ' + SHORT[g] + '은 확신 ' + res.conf[g] + '%';
+    $('say2').className = 'say'; $('say2').textContent = msg;
+    st.cur = null; st.guess = null; st.ci += 1;
+    paint();
+  }
+
+  function paintTest() {
+    var done = st.ci >= 6;
+    $('card').textContent = done ? '카드 6장을 다 했어요' : '카드 ' + (st.ci + 1) + ' / 6 · ' + NAME[st.cards[st.ci]];
+    var log = $('log'); log.textContent = '';
+    for (var i = 0; i < 6; i++) {
+      var c = document.createElement('i');
+      if (i < st.r1.length) {
+        var ok = st.r1[i].pred === st.tries[i].m;
+        c.textContent = ok ? '○' : '✕';
+        c.setAttribute('aria-label', (i + 1) + '번 ' + (ok ? '동그라미' : '가위표'));
+      } else if (i === st.ci) c.className = 'now';
+      log.appendChild(c);
+    }
+    $('try').disabled = st.busy || done || !!st.cur;
+    guessBtns.forEach(function (b, k) {
+      b.disabled = !st.cur || st.busy;
+      b.setAttribute('aria-pressed', st.guess === k ? 'true' : 'false');
+    });
+    $('ok').disabled = !st.cur || st.guess === null || st.busy;
+    var tb = $('cfb'); tb.textContent = '';
+    for (var r = 0; r < 3; r++) {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<th>' + SHORT[r] + '</th>';
+      for (var p = 0; p < 3; p++) {
+        var td = document.createElement('td'), n = st.conf[r][p];
+        td.textContent = n ? String(n) : '';
+        if (n) td.className = r === p ? 'hit' : 'off';
+        tr.appendChild(td);
+      }
+      tb.appendChild(tr);
+    }
+  }
+
+  /* ── ③ 샘플 8개로 ── */
+  function more() {
+    if ($('more').disabled) return;
+    if (st.mode !== 'sensor') {
+      for (var m = 0; m < 3; m++) for (var j = 0; j < 5; j++) addSample(m, gen(m, null, 0));
+      st.added = true;
+      $('say3').className = 'say dim'; $('say3').textContent = '같은 녹화 조건으로 동작마다 8개가 됐어요';
+      paint(); return;
+    }
+    var queue = [];
+    for (var a = 0; a < 3; a++) for (var b = 0; b < 5; b++) queue.push(a);
+    (function step(i) {
+      if (i >= queue.length) {
+        st.added = true; $('say3').className = 'say dim'; $('say3').textContent = '동작마다 8개가 됐어요';
+        paint(); return;
+      }
+      var mm = queue[i];
+      capture(NAME[mm] + ' ' + (i % 5 + 1) + '/5', $('say3'), function (pts) { addSample(mm, pts); paint(); step(i + 1); });
+    })(0);
+  }
+
+  function confirm2() {
+    if ($('r2').disabled) return;
+    var res = st.tries.map(function (t) { return classify(t.pts, 8); });
+    st.r2 = res;
+    var n1 = 0, n2 = 0;
+    for (var i = 0; i < 6; i++) { if (st.r1[i].pred === st.tries[i].m) n1++; if (res[i].pred === st.tries[i].m) n2++; }
+    var g = st.g7, msg;
+    if (n2 === g) msg = '짚은 대로 ' + n2 + '번이에요';
+    else if (n2 > g) msg = '짚은 것보다 ' + (n2 - g) + '번 더 알아봤어요';
+    else msg = '짚은 것보다 ' + (g - n2) + '번 덜 알아봤어요';
+    $('say3').className = 'say'; $('say3').textContent = '샘플 3개 ' + n1 + '/6 → 샘플 8개 ' + n2 + '/6 · ' + msg;
+    $('sum').hidden = false;
+    $('sum').textContent = '활동지에 옮겨 적을 것 · 샘플 3개: ' + per(st.r1) + ' / 샘플 8개: ' + per(res) + ' / 헷갈림: ' + mix();
+    paint();
+  }
+  function per(rs) {
+    var c = [0, 0, 0];
+    for (var i = 0; i < 6; i++) if (rs[i].pred === st.tries[i].m) c[st.tries[i].m]++;
+    return SHORT.map(function (s, k) { return s + ' ' + c[k] + '/2'; }).join(' · ');
+  }
+  function mix() {
+    var out = [];
+    for (var r = 0; r < 3; r++) for (var p = 0; p < 3; p++) if (r !== p && st.conf[r][p]) out.push(SHORT[r] + '→' + SHORT[p] + ' ' + st.conf[r][p] + '번');
+    return out.length ? out.join(', ') : '없음';
+  }
+
+  /* ── 그리기 ── */
+  function paintStat() {
+    var on = st.mode === 'sensor';
+    $('stat').className = 'stat' + (on ? ' on' : '');
+    $('statTxt').textContent = on ? '센서로 녹화해요' :
+      (st.denied ? '센서를 못 켜서 연습 모드로 해요' : '연습 모드 · 버튼으로 그래프를 골라요');
+  }
+  function paint() {
+    paintStat(); paintRows(); paintPick();
+    var isFull = full();
+    $('rec').disabled = st.busy || st.locked || st.samples[st.sel].length >= 3 || (isFull && !st.locked);
+    $('rec').textContent = '녹화';
+    if (!st.locked && !st.busy && isFull && !$('say1').textContent) $('say1').textContent = '세 동작이 3개씩 찼어요';
+    $('sec2').hidden = !isFull && !st.locked;
+    paintTest();
+    var t3 = st.ci >= 6;
+    $('sec3').hidden = !t3;
+    g7Btns.forEach(function (b, k) { b.disabled = st.r2 !== null; b.setAttribute('aria-pressed', st.g7 === k ? 'true' : 'false'); });
+    $('more').disabled = !t3 || st.added || st.busy || st.g7 === null;
+    $('r2').disabled = !t3 || !st.added || st.busy || st.g7 === null || st.r2 !== null;
+    $('again').disabled = st.busy || !st.locked;
+    $('reset').disabled = st.busy;
+  }
+
+  function newCards() {
+    if (st.busy) return;
+    var keep = st.samples.map(function (l) { return l.slice(0, 3); });
+    st = fresh(keep);
+    clearSays(); paint();
+  }
+  function resetAll() {
+    if (st.busy) return;
+    st = fresh(null);
+    clearSays(); paint();
+  }
+  function clearSays() {
+    ['say1', 'say2', 'say3'].forEach(function (id) { $(id).textContent = ''; $(id).className = 'say dim'; });
+    $('sum').hidden = true; $('big').innerHTML = '';
+  }
+
+  st = fresh(null);
+  $('perm').addEventListener('click', askPerm);
+  $('rec').addEventListener('click', rec);
+  $('try').addEventListener('click', doTry);
+  $('ok').addEventListener('click', confirm1);
+  $('more').addEventListener('click', more);
+  $('r2').addEventListener('click', confirm2);
+  $('again').addEventListener('click', newCards);
+  $('reset').addEventListener('click', resetAll);
+  paint();
+})();
 </script>
 </body>
 </html>
