@@ -3,87 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>로봇이 막힐 줄 짚기 — 에듀다움 B04</title>
+<title>로봇 셰프 레시피 고치기 — 에듀다움 B04</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
   :root{--line:#DDDDDD;--line-strong:#C1C1C1;
     --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A;
+    --point:#FF385C; --point-soft:#FFF0F3; --soft:#F7F7F7; --muted:#6A6A6A;
     --r:14px; --r-sm:8px;
     --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
-    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    
-    background-position:-11px -11px}
-  .wrap{max-width:640px;margin:0 auto;padding:14px 14px 32px}
+  body{font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.45}
+  .wrap{max-width:640px;margin:0 auto;padding:14px 16px 32px}
 
   .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
   .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:600;
     font-size:14px;background:var(--surface);border:1px solid var(--ink);border-radius:999px;
-    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
-  .back:hover{transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
   .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;border:1px solid var(--line);
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(24px,5.8vw,34px);font-weight:700;letter-spacing:-.035em;line-height:1.08}
-  .lead{font-size:15px;color:var(--muted);margin-top:6px;font-weight:700}
+  h1{font-size:clamp(24px,5.8vw,32px);font-weight:700;letter-spacing:-.035em;line-height:1.1}
+  .lead{font-size:15px;color:var(--muted);margin-top:6px;font-weight:600}
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
-    box-shadow:var(--hard);padding:8px 12px;margin-top:8px}
-  h2{font-size:13.5px;font-weight:700;letter-spacing:-.02em;margin-bottom:6px;color:var(--muted)}
+    box-shadow:var(--hard);padding:12px;margin-top:12px}
+  h2{font-size:13.5px;font-weight:700;letter-spacing:-.02em;margin-bottom:4px;color:var(--muted)}
+  .dish{font-size:20px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px}
 
-  .setname{font-size:15px;font-weight:700;margin-bottom:8px}
+  .sheet{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;
+    padding:8px;border:1px solid var(--line-strong);border-radius:var(--r-sm);background:var(--soft)}
+  .sheet.cooked{border:2px solid var(--ink)}
+  .cut{position:relative;cursor:pointer;font-family:inherit;color:var(--ink);text-align:center;
+    background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
+    min-height:44px;padding:22px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;
+    transition:background .15s,transform .12s}
+  .cut svg{width:72px;height:54px;display:block}
+  .cut .cap{font-size:14.5px;font-weight:600;line-height:1.25}
+  .cut .no{position:absolute;left:6px;top:5px;width:22px;height:22px;border-radius:50%;
+    background:var(--ink);color:#fff;font-size:13px;font-weight:700;line-height:22px}
+  .cut .st{position:absolute;right:6px;top:5px;font-size:12px;font-weight:700;padding:0 6px;border-radius:999px}
+  .cut .st{z-index:2;background:var(--surface)}
+  .cut .st:empty{display:none}
+  .cut.did .st{background:var(--soft);border:1px solid var(--line-strong)}
+  .cut.stop{background:var(--point-soft)}
+  .cut.stop .st{background:var(--point);color:#fff}
+  .cut.cur{background:var(--point-soft)}
+  .cut.lift{transform:translateY(-3px);border:2px solid var(--point)}
+  .cut.lift .st{background:var(--point);color:#fff}
+  .cut.circled::after{content:"";position:absolute;inset:-6px;border:3px dashed var(--point);border-radius:50%;pointer-events:none}
+  .cut:disabled{cursor:default}
 
-  .steps{list-style:none;display:flex;flex-direction:column;gap:4px}
-  .step{display:flex;align-items:center;gap:8px;min-height:44px;padding:4px 8px;
-    border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface);
-    transition:background .15s,border-color .15s}
-  .step.guess{border-color:var(--point);border-width:3px}
-  .step.current{background:var(--point-soft);border-color:var(--point)}
-  .step.stopped{background:var(--point-soft);border-color:var(--point);border-width:3px}
-  .pickbtn{flex:0 0 auto;font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:700;
-    background:var(--surface);border:1px solid var(--ink);border-radius:50%;
-    min-height:44px;min-width:44px;width:44px;height:44px;padding:0;
-    display:flex;align-items:center;justify-content:center}
-  .pickbtn[aria-pressed="true"]{background:var(--point);color:#fff}
-  .pickbtn:disabled{opacity:.6;cursor:not-allowed}
-  .stext{flex:1 1 auto;font-size:14.5px;font-weight:700}
-
-  .status{margin-top:8px;font-size:13.5px;font-weight:700;color:var(--point)}
-  .status[hidden]{display:none}
-
-  .scene{background:var(--ink);border:1px solid var(--line);border-radius:var(--r-sm);
-    display:flex;align-items:center;justify-content:center;padding:5px;max-width:190px;margin:6px auto 0}
-  #stagesvg{max-height:72px;width:100%;max-width:150px;height:auto;display:block}
-  #stagesvg [hidden]{display:none}
-
-  .ask{margin-top:7px;font-size:13.5px;font-weight:600;color:var(--muted)}
+  .say{margin-top:10px;font-size:14.5px;font-weight:600;color:var(--point);min-height:21px}
 
   .acts{display:flex;gap:8px;flex-wrap:wrap}
-  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:700;
-    background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
-    min-height:44px;padding:10px 18px;box-shadow:var(--hard-sm);
-    transition:transform .1s,box-shadow .1s}
-  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
-  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .btn.main{background:var(--point);color:#fff;flex:1 1 140px}
-  .btn.sub{flex:1 1 120px}
-  .btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:var(--hard-sm)}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:600;
+    background:var(--surface);border:1px solid var(--ink);border-radius:999px;
+    min-height:48px;padding:10px 16px;box-shadow:var(--hard-sm);flex:1 1 100px}
+  .btn.main{background:var(--point);border-color:var(--point);color:#fff;flex:2 1 150px}
+  .btn:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 
-  .note{margin-top:9px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .out{margin-top:10px;border-radius:var(--r-sm);padding:10px 12px;min-height:48px;background:var(--soft);font-size:16px;font-weight:600}
+  .out.show{background:var(--ink);color:#fff}
+  .out p + p{margin-top:4px}
+  .note{margin-top:10px;font-size:13.5px;font-weight:600;color:var(--muted)}
 
-  button, a{outline-offset:3px}
-  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
-
-  .pop{animation:pop .17s ease-out}
-  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.15)}100%{transform:scale(1)}}
+  :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
+  .pop{animation:pop .25s ease-out}
+  @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.04)}100%{transform:scale(1)}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-/* 에듀다움 통일 테마 2026-09-27 */
-.btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
 </head>
 <body>
@@ -94,74 +84,31 @@
   </nav>
 
   <header>
-    <h1>로봇이 막힐 줄 짚기</h1>
-    <p class="lead">고지식한 로봇이 어느 줄에서 막힐까</p>
+    <h1>로봇 셰프 레시피 고치기</h1>
+    <p class="lead">로봇 셰프가 헷갈릴 한 곳에 동그라미 치고 고쳐요</p>
   </header>
 
-  <section aria-labelledby="h-s">
-    <h2 id="h-s">단계</h2>
-    <p class="setname" id="setname"></p>
-    <ol class="steps" id="steps">
-      <li class="step" id="row-1">
-        <button class="pickbtn" id="pick-1" type="button" aria-pressed="false" aria-label="1번 줄 짚기">1</button>
-        <span class="stext" id="txt-1"></span>
-      </li>
-      <li class="step" id="row-2">
-        <button class="pickbtn" id="pick-2" type="button" aria-pressed="false" aria-label="2번 줄 짚기">2</button>
-        <span class="stext" id="txt-2"></span>
-      </li>
-      <li class="step" id="row-3">
-        <button class="pickbtn" id="pick-3" type="button" aria-pressed="false" aria-label="3번 줄 짚기">3</button>
-        <span class="stext" id="txt-3"></span>
-      </li>
-      <li class="step" id="row-4">
-        <button class="pickbtn" id="pick-4" type="button" aria-pressed="false" aria-label="4번 줄 짚기">4</button>
-        <span class="stext" id="txt-4"></span>
-      </li>
-      <li class="step" id="row-5">
-        <button class="pickbtn" id="pick-5" type="button" aria-pressed="false" aria-label="5번 줄 짚기">5</button>
-        <span class="stext" id="txt-5"></span>
-      </li>
-    </ol>
-    <div class="scene">
-      <svg id="stagesvg" viewBox="0 0 200 120" role="img" aria-label="이번 과제에서 다루는 물건">
-        <rect x="8" y="86" width="184" height="10" fill="#C9C2B4" stroke="#222222" stroke-width="2"/>
-        <rect x="20" y="96" width="10" height="20" fill="#C9C2B4" stroke="#222222" stroke-width="2"/>
-        <rect x="170" y="96" width="10" height="20" fill="#C9C2B4" stroke="#222222" stroke-width="2"/>
-        <g id="icon-0" hidden>
-          <rect x="72" y="60" width="56" height="22" rx="6" fill="#FFFFFF" stroke="#222222" stroke-width="3"/>
-          <rect x="72" y="60" width="56" height="9" rx="4" fill="#E11D48" stroke="#222222" stroke-width="2"/>
-          <rect x="118" y="38" width="8" height="44" rx="3" fill="#F5D77A" stroke="#222222" stroke-width="2" transform="rotate(20 122 60)"/>
-        </g>
-        <g id="icon-1" hidden>
-          <rect x="40" y="62" width="22" height="22" rx="2" fill="#E11D48" stroke="#222222" stroke-width="2.5"/>
-          <rect x="64" y="62" width="22" height="22" rx="2" fill="#FFFFFF" stroke="#222222" stroke-width="2.5"/>
-          <rect x="88" y="62" width="22" height="22" rx="2" fill="#F5D77A" stroke="#222222" stroke-width="2.5"/>
-          <rect x="120" y="54" width="22" height="22" rx="2" fill="#FFFFFF" stroke="#222222" stroke-width="2.5" transform="rotate(-12 131 65)"/>
-          <rect x="146" y="60" width="22" height="22" rx="2" fill="#F5D77A" stroke="#222222" stroke-width="2.5" transform="rotate(10 157 71)"/>
-        </g>
-        <g id="icon-2" hidden>
-          <path d="M58 84 L62 64 H80 L84 84 Z" fill="#FFFFFF" stroke="#222222" stroke-width="2.5"/>
-          <path d="M86 84 L90 64 H108 L112 84 Z" fill="#FFFFFF" stroke="#222222" stroke-width="2.5"/>
-          <path d="M114 84 L118 64 H136 L140 84 Z" fill="#FFFFFF" stroke="#222222" stroke-width="2.5"/>
-          <path d="M72 64 L76 44 H94 L98 64 Z" fill="#FFFFFF" stroke="#222222" stroke-width="2.5"/>
-          <path d="M100 64 L104 44 H122 L126 64 Z" fill="#FFFFFF" stroke="#222222" stroke-width="2.5"/>
-          <path d="M86 44 L90 24 H108 L112 44 Z" fill="#E11D48" stroke="#222222" stroke-width="2.5" stroke-dasharray="4 3"/>
-        </g>
-      </svg>
+  <section aria-labelledby="h-r">
+    <h2 id="h-r">옆 모둠 4컷 레시피</h2>
+    <p class="dish" id="dish"></p>
+    <div class="sheet" id="sheet">
+      <button class="cut" type="button" id="cut-0"><span class="no">1</span><span class="st"></span><span class="pic"></span><span class="cap"></span></button>
+      <button class="cut" type="button" id="cut-1"><span class="no">2</span><span class="st"></span><span class="pic"></span><span class="cap"></span></button>
+      <button class="cut" type="button" id="cut-2"><span class="no">3</span><span class="st"></span><span class="pic"></span><span class="cap"></span></button>
+      <button class="cut" type="button" id="cut-3"><span class="no">4</span><span class="st"></span><span class="pic"></span><span class="cap"></span></button>
     </div>
-    <p class="status" id="status" hidden></p>
+    <p class="say" id="say" aria-live="polite"></p>
   </section>
 
-
   <section aria-labelledby="h-a">
-    <h2 id="h-a">해보기</h2>
+    <h2 id="h-a">로봇 셰프</h2>
     <div class="acts">
-      <button class="btn main" id="run" type="button">해 보기</button>
-      <button class="btn sub" id="reset" type="button">처음으로</button>
-      <button class="btn sub" id="next" type="button">다음 판</button>
+      <button class="btn main" id="run" type="button">보여 주기</button>
+      <button class="btn" id="reset" type="button">처음으로</button>
+      <button class="btn" id="next" type="button">다른 레시피</button>
     </div>
-    <p class="note">내 설명서는 옆 모둠이 시험해요</p>
+    <div class="out" id="out" role="status" aria-live="polite"></div>
+    <p class="note">우리 레시피는 A4로 옆 모둠과 바꿔 봐요</p>
   </section>
 </div>
 
@@ -169,160 +116,216 @@
 (function(){
   'use strict';
 
-  var SETS = [
-    {
-      name: '필통 정리',
-      lines: ['지퍼를 연다', '필통을 잘 정리한다', '연필 세 자루를 넣는다', '지우개 한 개를 넣는다', '지퍼를 닫는다'],
-      vague: 2,
-      icon: 0
-    },
-    {
-      name: '색 블록 줄 세우기',
-      lines: ['블록 다섯 개를 책상에 놓는다', '빨간 블록을 맨 왼쪽에 둔다', '나머지 블록을 잘 늘어놓는다', '블록끼리 붙인다', '손을 뗀다'],
-      vague: 3,
-      icon: 1
-    },
-    {
-      name: '종이컵 탑 쌓기',
-      lines: ['종이컵 여섯 개를 꺼낸다', '세 개를 한 줄로 엎어 놓는다', '그 위에 두 개를 엎어 올린다', '남은 컵을 적당히 올린다', '손을 뗀다'],
-      vague: 4,
-      icon: 2
-    }
+  // ── 그림 (선 1.8px, 먹색)
+  var K = 'stroke="#222222" stroke-width="1.8" stroke-linejoin="round" stroke-linecap="round"';
+  var PLATE = '<ellipse cx="36" cy="46" rx="30" ry="6" fill="#FFFFFF" ' + K + '/>';
+  var BREAD = '<path d="M18 44 V24 a8 8 0 0 1 4-14 h28 a8 8 0 0 1 4 14 V44 Z" fill="#F2D7A6" ' + K + '/>';
+  var JAM = '<path d="M23 26 q6-6 13-2 t13 2 q-1 9-6 12 q-7 3-14 0 q-6-4-6-12 Z" fill="#E5484D" ' + K + '/>';
+  function berry(x, y) { return '<path d="M' + x + ' ' + y + ' q-5-1-4-6 q4-2 8 0 q1 5-4 6 Z" fill="#E5484D" ' + K + '/><path d="M' + (x - 3) + ' ' + (y - 6) + ' l3 -2 l3 2" fill="none" stroke="#12B76A" stroke-width="1.8"/>'; }
+  var BOWL = '<path d="M10 26 h52 q-3 20-26 20 q-23 0-26-20 Z" fill="#FFFFFF" ' + K + '/>';
+  var RICE = '<path d="M14 26 q4-10 22-10 q18 0 22 10 Z" fill="#FFFFFF" ' + K + '/>';
+  var BALL = '<path d="M36 8 q5 0 18 26 q3 10-8 10 h-20 q-11 0-8-10 q13-26 18-26 Z" fill="#FFFFFF" ' + K + '/>';
+  var JAR = '<path d="M22 8 h28 l-3 32 h-22 Z" fill="#FFFFFF" ' + K + '/><rect x="20" y="40" width="32" height="8" rx="2" fill="#C1C1C1" ' + K + '/>';
+  var TOASTER = '<rect x="12" y="20" width="44" height="26" rx="6" fill="#DDDDDD" ' + K + '/>';
+  var TOAST = '<path d="M20 42 V26 a7 7 0 0 1 3-12 h26 a7 7 0 0 1 3 12 V42 Z" fill="#C98B4A" ' + K + '/>';
+  function svg(inner) { return '<svg viewBox="0 0 72 54" aria-hidden="true">' + inner + '</svg>'; }
+
+  var RECIPES = [
+    { dish: '딸기잼 샌드위치', steps: [
+      { cap: '식빵 한 장 놓기', pic: PLATE + BREAD },
+      { cap: '식빵에 잼 바르기', pic: PLATE + BREAD + JAM, need: [0], needMsg: '잼을 바를 식빵이 없어요' },
+      { cap: '잼 위에 딸기 올리기', pic: PLATE + BREAD + JAM + berry(30, 32) + berry(42, 34) + berry(36, 26), need: [1], needMsg: '딸기를 올릴 잼이 없어요', not: [3], notMsg: '식빵이 덮여 잼이 안 보여요' },
+      { cap: '식빵으로 덮기', pic: PLATE + BREAD + '<path d="M14 38 V20 a8 8 0 0 1 4-14 h28 a8 8 0 0 1 4 14 V38 Z" fill="#F2D7A6" ' + K + '/>', need: [0], needMsg: '덮을 식빵이 아래에 없어요' }
+    ]},
+    { dish: '주먹밥', steps: [
+      { cap: '그릇에 밥 담기', pic: RICE + BOWL },
+      { cap: '밥에 깨 섞기', pic: RICE + BOWL + '<path d="M28 20h1M36 18h1M44 21h1M32 23h1M40 23h1" stroke="#222222" stroke-width="3" stroke-linecap="round"/><path d="M50 6 L40 22" ' + K + ' fill="none"/>', need: [0], needMsg: '섞을 밥이 없어요', not: [2], notMsg: '벌써 뭉쳐서 섞을 수 없어요' },
+      { cap: '밥을 동그랗게 뭉치기', pic: BALL, need: [0], needMsg: '뭉칠 밥이 없어요' },
+      { cap: '김 두르기', pic: BALL + '<rect x="27" y="30" width="18" height="14" fill="#222222"/>', need: [2], needMsg: '김을 두를 주먹밥이 없어요' }
+    ]},
+    { dish: '바나나 우유', steps: [
+      { cap: '바나나 껍질 벗기기', pic: '<path d="M14 36 q22 14 44-8 q-6 20-26 20 q-12 0-18-12 Z" fill="#FDE68A" ' + K + '/><path d="M58 28 l6-10 M58 28 l-2-12" ' + K + ' fill="none"/>' },
+      { cap: '믹서에 바나나·우유 넣기', pic: JAR + '<path d="M25 24 h22 l-2 16 h-18 Z" fill="#FFF8E1" ' + K + '/><path d="M28 30 q8 4 16-2" fill="none" stroke="#E0B400" stroke-width="3"/>', need: [0], needMsg: '껍질을 안 벗긴 바나나예요' },
+      { cap: '뚜껑 닫고 갈기', pic: JAR + '<rect x="20" y="4" width="32" height="6" rx="2" fill="#222222"/><path d="M25 24 h22 l-2 16 h-18 Z" fill="#FDE68A" ' + K + '/><path d="M8 18 h8 M8 26 h8 M56 18 h8 M56 26 h8" ' + K + '/>', need: [1], needMsg: '믹서가 비어 있어요' },
+      { cap: '컵에 따르기', pic: '<path d="M22 12 h28 l-4 34 h-20 Z" fill="#FFFFFF" ' + K + '/><path d="M24 22 h24 l-3 24 h-18 Z" fill="#FDE68A" ' + K + '/>', need: [2], needMsg: '아직 갈지 않았어요' }
+    ]},
+    { dish: '토스트', steps: [
+      { cap: '식빵을 토스터에 넣기', pic: '<path d="M24 26 V10 h22 V26" fill="#F2D7A6" ' + K + '/>' + TOASTER },
+      { cap: '레버 내리기', pic: TOASTER + '<rect x="56" y="34" width="8" height="5" rx="1" fill="#222222"/><path d="M60 14 v14 m-4-4 l4 4 l4-4" fill="none" ' + K + '/>', need: [0], needMsg: '토스터가 비어 있어요' },
+      { cap: '구운 빵 접시에 놓기', pic: PLATE + TOAST, need: [1], needMsg: '빵이 아직 안 구워졌어요' },
+      { cap: '빵에 버터 바르기', pic: PLATE + TOAST + '<rect x="29" y="24" width="14" height="10" rx="2" fill="#FDE68A" ' + K + '/>', need: [2], needMsg: '버터를 바를 빵이 접시에 없어요' }
+    ]}
   ];
+  var NUM = ['', '한', '두', '세'];
 
-  var setIdx = -1, prevSetIdx = null;
-  var guess = null;
-  var running = false;
-  var ran = false;       // 확인을 눌렀나. 그 뒤로는 짚기가 잠긴다.
-
-  var runBtn = document.getElementById('run');
-  var resetBtn = document.getElementById('reset');
-  var nextBtn = document.getElementById('next');
-  var statusEl = document.getElementById('status');
-  var setnameEl = document.getElementById('setname');
-  var icons = [document.getElementById('icon-0'), document.getElementById('icon-1'), document.getElementById('icon-2')];
-  var pickBtns = [1, 2, 3, 4, 5].map(function (i) { return document.getElementById('pick-' + i); });
+  var $ = function (id) { return document.getElementById(id); };
+  var cuts = [0, 1, 2, 3].map(function (i) { return $('cut-' + i); });
+  var dishEl = $('dish'), sheet = $('sheet'), say = $('say'), out = $('out');
+  var runBtn = $('run'), resetBtn = $('reset'), nextBtn = $('next');
 
   var reduced = false;
-  try {
-    reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  } catch (e) { reduced = false; }
+  try { reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) { reduced = false; }
 
-  function pickSetIdx() {
-    var v;
-    do { v = Math.floor(Math.random() * SETS.length); } while (v === prevSetIdx);
-    prevSetIdx = v;
-    return v;
-  }
+  var rec = null, prevKey = null, swapAt = 0;
+  var order = [];        // 자리마다 칸 번호(바른 순서 기준)
+  var circle = null;     // 동그라미 친 자리
+  var phase = 'circle';  // circle → fix → done
+  var lift = null;       // 고칠 때 들어 올린 자리
+  var running = false;
+  var marks = ['', '', '', ''];
+  var firstStop = null;
 
-  function clearMarks() {
-    for (var i = 1; i <= 5; i++) {
-      document.getElementById('row-' + i).classList.remove('current', 'stopped');
+  function rnd(n) { return Math.floor(Math.random() * n); }
+
+  function simulate(ord) {
+    var did = {};
+    for (var pos = 0; pos < ord.length; pos++) {
+      var s = rec.steps[ord[pos]];
+      var need = s.need || [], not = s.not || [];
+      for (var i = 0; i < need.length; i++) { if (!did[need[i]]) { return { stop: pos, why: s.needMsg }; } }
+      for (var j = 0; j < not.length; j++) { if (did[not[j]]) { return { stop: pos, why: s.notMsg }; } }
+      did[ord[pos]] = true;
     }
-    statusEl.hidden = true;
-    statusEl.textContent = '';
+    return { stop: null };
   }
 
-  function clearGuessMarks() {
-    for (var i = 1; i <= 5; i++) {
-      document.getElementById('row-' + i).classList.remove('guess');
-      pickBtns[i - 1].setAttribute('aria-pressed', 'false');
-      pickBtns[i - 1].disabled = false;
+  function drawCut(pos) {
+    var b = cuts[pos], s = rec.steps[order[pos]];
+    b.querySelector('.pic').innerHTML = svg(s.pic);
+    b.querySelector('.cap').textContent = s.cap;
+    b.setAttribute('aria-label', (pos + 1) + '번 칸 ' + s.cap);
+  }
+
+  function render() {
+    for (var p = 0; p < 4; p++) {
+      var b = cuts[p], m = marks[p];
+      b.classList.toggle('circled', circle === p);
+      b.classList.toggle('did', m === 'did');
+      b.classList.toggle('stop', m === 'stop');
+      b.classList.toggle('cur', m === 'cur');
+      b.classList.toggle('lift', lift === p);
+      b.querySelector('.st').textContent = lift === p ? '들림' : (m === 'did' ? '함' : (m === 'stop' ? '멈춤' : ''));
+      b.disabled = running || phase === 'done';
+      b.setAttribute('aria-pressed', (phase === 'circle' ? circle === p : lift === p) ? 'true' : 'false');
     }
+    runBtn.textContent = phase === 'circle' ? '보여 주기' : '다시 보여 주기';
+    runBtn.disabled = running || phase === 'done' || (phase === 'circle' && circle === null);
+    resetBtn.disabled = running;
+    nextBtn.disabled = running;
+    runBtn.classList.toggle('main', phase !== 'done');
+    nextBtn.classList.toggle('main', phase === 'done');
+
+    if (running) { say.textContent = '로봇 셰프가 그림 순서대로 해요'; }
+    else if (phase === 'circle') { say.textContent = circle === null ? '로봇 셰프가 헷갈릴 칸에 동그라미 쳐요' : '보여 주기를 눌러요'; }
+    else if (phase === 'fix') { say.textContent = lift === null ? '바꿀 두 칸을 차례로 눌러요' : '자리를 바꿀 칸을 하나 더 눌러요'; }
+    else { say.textContent = ''; }
   }
 
-  function lockAll(on) {
-    runBtn.disabled = on || guess === null;
-    resetBtn.disabled = on;
-    nextBtn.disabled = on;
-    for (var i = 0; i < 5; i++) { pickBtns[i].disabled = on || ran; }
-  }
-
-  function loadSet() {
-    var set = SETS[setIdx];
-    setnameEl.textContent = set.name;
-    for (var i = 1; i <= 5; i++) {
-      document.getElementById('txt-' + i).textContent = set.lines[i - 1];
+  function tap(pos) {
+    if (running || phase === 'done') { return; }
+    if (phase === 'circle') { circle = pos; render(); return; }
+    // 고치기: 들어 올린 칸과 자리 바꾸기
+    marks = ['', '', '', ''];
+    if (lift === null) { lift = pos; }
+    else if (lift === pos) { lift = null; }
+    else {
+      var t = order[lift]; order[lift] = order[pos]; order[pos] = t;
+      drawCut(lift); drawCut(pos);
+      bump(cuts[lift]); bump(cuts[pos]);   // 바뀐 두 칸만 한 번 튄다
+      lift = null;
     }
-    for (var k = 0; k < icons.length; k++) {
-      if (k === set.icon) { icons[k].removeAttribute('hidden'); }
-      else { icons[k].setAttribute('hidden', ''); }
-    }
+    render();
   }
 
-  function pick(i) {
-    if (running || ran) { return; }
-    guess = i;
-    document.getElementById('row-' + i).classList.add('guess');
-    pickBtns[i - 1].setAttribute('aria-pressed', 'true');
-    for (var k = 0; k < 5; k++) { pickBtns[k].disabled = true; }
-    lockAll(false);
+  function bump(el) { el.classList.remove('pop'); void el.offsetWidth; el.classList.add('pop'); }
+
+  function lines(arr) {
+    out.textContent = '';
+    arr.forEach(function (t) { var p = document.createElement('p'); p.textContent = t; out.appendChild(p); });
+    out.classList.add('show');
+  }
+
+  function distLine(stop) {
+    var d = stop - circle;
+    if (d === 0) { return '동그라미 친 칸에서 멈췄어요'; }
+    return '동그라미보다 ' + Math.abs(d) + '칸 ' + (d > 0 ? '뒤' : '앞') + '에서 멈췄어요';
+  }
+
+  function finish(res, first) {
+    running = false;
+    if (res.stop === null) {
+      phase = 'done';
+      var msg = ['요리가 나왔어요: ' + rec.dish];
+      if (firstStop !== null) { msg.push('처음 헷갈린 곳: ' + (firstStop + 1) + '번 칸 → 자리를 바꿔 고쳤어요'); }
+      lines(msg);
+      sheet.classList.add('cooked');
+      bump(sheet);
+    } else {
+      marks[res.stop] = 'stop';
+      var m = [(res.stop + 1) + '번 칸: ' + res.why];
+      if (first) { firstStop = res.stop; m.push(distLine(res.stop)); }
+      lines(m);
+      phase = 'fix';
+    }
+    render();
+    try { out.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' }); } catch (e) { /* 결과는 그대로 보인다 */ }
   }
 
   function run() {
-    if (running || guess === null) { return; }
-    running = true; ran = true;
-    lockAll(true);
-    clearMarks();
-
-    var vague = SETS[setIdx].vague;
-    var i = 1;
-
-    function step() {
-      var row = document.getElementById('row-' + i);
-      if (i === vague) {
-        row.classList.add('stopped');
-        var diff = guess - vague;
-        var msg;
-        if (diff === 0) { msg = '짚은 줄에서 멈췄어요'; }
-        else if (diff > 0) { msg = diff + '줄 위에서 막혔어요'; }
-        else { msg = (-diff) + '줄 아래에서 막혔어요'; }
-        statusEl.textContent = msg;
-        statusEl.classList.remove('pop'); void statusEl.offsetWidth; statusEl.classList.add('pop');
-        statusEl.hidden = false;
-        running = false;
-        lockAll(false);
-        return;
-      }
-      row.classList.add('current');
-      if (reduced) {
-        row.classList.remove('current');
-        i += 1;
-        step();
-      } else {
-        setTimeout(function () {
-          row.classList.remove('current');
-          i += 1;
-          step();
-        }, 600);
-      }
+    if (running || phase === 'done' || (phase === 'circle' && circle === null)) { return; }
+    var first = phase === 'circle';
+    running = true; lift = null;
+    marks = ['', '', '', ''];
+    out.textContent = ''; out.classList.remove('show');
+    var res = simulate(order);
+    var last = res.stop === null ? 3 : res.stop;
+    if (reduced) {
+      for (var k = 0; k < last + (res.stop === null ? 1 : 0); k++) { marks[k] = 'did'; }
+      finish(res, first);
+      return;
     }
-    step();
+    var pos = 0;
+    render();
+    (function step() {
+      if (res.stop !== null && pos === res.stop) { finish(res, first); return; }
+      marks[pos] = 'cur'; render();
+      setTimeout(function () {
+        marks[pos] = 'did';
+        pos += 1;
+        if (pos > 3) { finish(res, first); return; }
+        step();
+      }, 600);
+    })();
   }
 
-  function resetRun() {
-    ran = false;
-    if (running) { return; }
-    clearMarks();
+  function startOrder() {
+    order = [0, 1, 2, 3];
+    var t = order[swapAt]; order[swapAt] = order[swapAt + 1]; order[swapAt + 1] = t;
+  }
+
+  function clearRound() {
+    startOrder();
+    circle = null; lift = null; phase = 'circle'; firstStop = null;
+    marks = ['', '', '', ''];
+    out.textContent = ''; out.classList.remove('show');
+    sheet.classList.remove('cooked', 'pop');
+    for (var p = 0; p < 4; p++) { drawCut(p); }
+    render();
   }
 
   function newRound() {
-    ran = false;
-    running = false;
-    setIdx = pickSetIdx();
-    guess = null;
-    loadSet();
-    clearGuessMarks();
-    clearMarks();
-    lockAll(false);
+    var ri, sa, key;
+    do { ri = rnd(RECIPES.length); sa = rnd(3); key = ri + ':' + sa; } while (key === prevKey);
+    prevKey = key;
+    rec = RECIPES[ri]; swapAt = sa;
+    dishEl.textContent = rec.dish;
+    clearRound();
   }
 
+  cuts.forEach(function (b, i) { b.addEventListener('click', function () { tap(i); }); });
   runBtn.addEventListener('click', run);
-  resetBtn.addEventListener('click', resetRun);
-  nextBtn.addEventListener('click', newRound);
-  for (var p = 0; p < 5; p++) {
-    (function (idx) { pickBtns[idx].addEventListener('click', function () { pick(idx + 1); }); })(p);
-  }
+  resetBtn.addEventListener('click', function () { if (!running) { clearRound(); } });
+  nextBtn.addEventListener('click', function () { if (!running) { newRound(); } });
 
   newRound();
 })();
