@@ -484,35 +484,134 @@ def render_res(lines):
     return ''.join(out)
 
 
+STAGE_IC = {'도입': 'start', '전개': 'do', '정리': 'end'}
+PREP_IC = [(r'태블릿|노트북|컴퓨터|크롬북', 'tablet'), (r'마이크로비트|USB|배터리', 'device'), (r'웹캠|카메라', 'camera'),
+           (r'마이크|소리', 'mic'), (r'헤드폰|이어폰|스피커', 'headphones'), (r'온도계', 'thermo'), (r'무선', 'wifi'),
+           (r'카드', 'card'), (r'필기구|연필|펜|사인펜|색연필', 'pen'), (r'붙임쪽지|스티커|쪽지|테이프', 'note'),
+           (r'기록지|활동지|학습지|기록표|점검표', 'sheet'), (r'클립보드', 'clipboard'), (r'종이|전지|도화지|평면도|판', 'paper'),
+           (r'그림|사진', 'image'), (r'차트|그래프', 'chart')]
+
+
+def core_lines(r):
+    """수업 흐름 표 한 칸 — 전개는 ◎활동 제목, 도입·정리는 ◎ 아래 첫 줄. 과정안 문장을 그대로 쓴다."""
+    groups, cur = [], None
+    for it in r['body']:
+        if isinstance(it, str) and it.startswith('◎'):
+            cur = [it[1:].strip(), []]
+            groups.append(cur)
+        elif isinstance(it, str) and cur and re.match(r'^\s*[-·•]\s', it):
+            cur[1].append(re.sub(r'^\s*[-·•]\s*', '', it))
+    out = []
+    for h, b in groups:
+        if re.match(r'^활동\s*\d', h):
+            out.append(h)
+        elif '학습문제' in h.replace(' ', ''):
+            continue
+        else:
+            out.append(b[0] if b else h)
+    return out
+
+
+def flow_rows(d):
+    """같은 차시·같은 단계가 이어지면 한 줄로 묶는다."""
+    rows = []
+    for r in d['rows']:
+        m = re.match(r'(\d+)', r['time'] or '')
+        mins = int(m.group(1)) if m else 0
+        if rows and rows[-1]['lesson'] == r['lesson'] and rows[-1]['stage'] == r['stage']:
+            rows[-1]['mins'] += mins
+            rows[-1]['lines'] += core_lines(r)
+        else:
+            rows.append({'lesson': r['lesson'], 'stage': r['stage'], 'mins': mins, 'lines': core_lines(r)})
+    return rows
+
+
+def flow_line(t):
+    m = re.match(r'^활동\s*(\d+)\.\s*(.*?)\s*(?:\((\d+분)\))?$', t)
+    if m:
+        return '<li><span class="ano">활동%s</span>%s%s</li>' % (m.group(1), e(m.group(2)), (' <span class="min">%s</span>' % m.group(3)) if m.group(3) else '')
+    return '<li>%s</li>' % e(t)
+
+
+def flow_table(d, up):
+    out = []
+    for r in flow_rows(d):
+        lines = r['lines'][:3]
+        more = len(r['lines']) - len(lines)
+        ic = STAGE_IC.get(r['stage'], 'do')
+        out.append('<tr class="st-%s"><th scope="row">%s<span>%s</span><small>%s차시</small></th><td class="tm">%s분</td><td><ul>%s%s</ul></td></tr>'
+                   % (ic, icon(ic, up), e(r['stage']), e(r['lesson']), r['mins'],
+                      ''.join(flow_line(x) for x in lines), ('<li class="muted small">그 밖에 %d가지 — 맨 아래 과정안 전문</li>' % more) if more > 0 else ''))
+    return '<div class="tw flowt"><table><tr><th>단계</th><th>시간</th><th>핵심 활동</th></tr>%s</table></div>' % ''.join(out)
+
+
+def split_items(line):
+    parts, depth, buf = [], 0, ''
+    for ch in line:
+        depth += ch in '(（'
+        depth -= ch in ')）'
+        if ch == ',' and depth == 0:
+            parts.append(buf.strip())
+            buf = ''
+        else:
+            buf += ch
+    parts.append(buf.strip())
+    return [x for x in parts if x]
+
+
+def prep_chips(d, up):
+    seen, out = set(), []
+    for r in d['rows']:
+        for x in r['res']:
+            if x[:1] != '☆':
+                continue
+            for it in split_items(x[1:].strip()):
+                short = re.sub(r'\s*[(（][^)）]*[)）]', '', it).strip()
+                if not short or short in seen:
+                    continue
+                seen.add(short)
+                ic = next((n for pat, n in PREP_IC if re.search(pat, short)), 'kit')
+                out.append('<span class="pchip"%s>%s%s</span>' % ((' title="%s"' % e(it)) if it != short else '', icon(ic, up), e(short)))
+    return ''.join(out)
+
+
+def eval_block(d):
+    if not d['eval']:
+        return ''
+    det = []
+    for ev in d['eval']:
+        lv = ''.join('<tr><td>%s</td><td>%s</td></tr>' % (e(x['level']), e(x['desc'])) for x in ev['levels'])
+        det.append('<p><b>%s</b> — %s</p><div class="tw"><table class="lv"><tr><th>수준</th><th>평가 기준</th></tr>%s</table></div>'
+                   '<p class="small"><b>평가 방법</b> %s</p>' % (e(' · '.join(ev['aspect'])), e(ev['goal']), lv, e(' · '.join(ev['method']))))
+    return '<p class="evone">%s</p><details class="more"><summary>평가 기준 자세히</summary>%s</details>' % (e(d['eval'][0]['goal']), ''.join(det))
+
+
+def kit_buttons(code, up, gm, has_tools):
+    b = ['<a class="kb" href="%sassets/pdf/%s.pdf" target="_blank" rel="noopener">%s<b>지도안 받기</b><span>PDF</span></a>' % (up, code, icon('plan', up))]
+    sh = sheet_href(code)
+    b.append(('<a class="kb" href="%s%s" target="_blank" rel="noopener">%s<b>활동지</b><span>PDF</span></a>' % (up, sh, icon('sheet', up)))
+             if sh else '<span class="kb off" title="활동지는 곧 올려요">%s<b>활동지</b><span>준비 중</span></span>' % icon('sheet', up))
+    b.append(('<a class="kb" href="%s%s/">%s<b>체험 게임</b><span>5~10분</span></a>' % (up, code, icon('game', up)))
+             if gm else '<span class="kb off">%s<b>체험 게임</b><span>없음</span></span>' % icon('game', up))
+    b.append('<a class="kb" href="#tools">%s<b>연동 도구</b><span>%s</span></a>' % (icon('tool', up), '바로 열기' if has_tools else '종이·실물'))
+    return '<div class="kit">%s</div>' % ''.join(b)
+
+
 def build_lesson(code, prev, nxt):
     d = L[code]
     g = grade(code)
     a = AREA_OF[code]
-    s = std_code(code)
-    # 활동 흐름 띠
-    flow = []
-    for i, r in enumerate(d['rows']):
-        heads = [x[1:].strip() for x in r['body'] if isinstance(x, str) and x.startswith('◎')]
-        flow.append('<a href="#r%d"><b>%s차시 %s</b> %s</a>' % (i, e(r['lesson']), e(r['stage']), e(' · '.join(re.sub(r'\s*\(\d+분\)', '', h) for h in heads)[:60])))
+    up = '../../'
     rows = []
     for i, r in enumerate(d['rows']):
         rows.append('<div class="rowcard" id="r%d"><div class="rowhead"><span>%s차시</span><span class="stage">%s</span><span class="chip">%s</span></div>'
                     '<div class="rowbody"><div class="act">%s</div><div class="res">%s</div></div></div>'
                     % (i, e(r['lesson']), e(r['stage']), e(r['time']), render_body(r['body']), render_res(r['res'])))
-    # 개요
     ovr = []
     for k in ('성취기준', '핵심 역량', '핵심 기능', '가치 태도'):
         v = ov(code, k)
         if v:
             ovr.append('<tr><th>%s</th><td>%s</td></tr>' % (e(k), '<br>'.join(e(x) for x in v)))
-    # 평가
-    evs = []
-    for ev in d['eval']:
-        lv = ''.join('<tr><td>%s</td><td>%s</td></tr>' % (e(l['level']), e(l['desc'])) for l in ev['levels'])
-        evs.append('<div class="box"><p><b>%s</b></p><p>%s</p><div class="tw"><table class="lv"><tr><th>수준</th><th>평가 기준</th></tr>%s</table></div>'
-                   '<p class="small"><b>평가 방법</b> %s</p></div>'
-                   % (e(' · '.join(ev['aspect'])), e(ev['goal']), lv, e(' · '.join(ev['method']))))
-    # 도구·링크
     tl = []
     for t in tools_of(code):
         tl.append('<a class="tool" href="%s" target="_blank" rel="noopener"><b>%s ↗</b><span>%s</span><span>계정: %s</span></a>'
@@ -522,53 +621,48 @@ def build_lesson(code, prev, nxt):
     for x in LINKS.get(code, {}).get('extra', []):
         tl.append('<a class="tool" href="%s" target="_blank" rel="noopener"><b>%s ↗</b><span>%s</span></a>' % (e(x['url']), e(x['name']), e(x.get('note', ''))))
     gm = game(code)
-    gbox = ('<div class="box"><p class="small muted" style="margin:0">수업 중 5~10분 체험</p><h3 style="margin-top:4px">%s</h3><p class="muted">%s</p>'
-            '<div class="btns"><a class="btn" href="../../%s/">체험 게임 열기</a></div></div>' % (e(gm['title']), e(gm['lead']), code)) if gm else ''
-    rail = ('<aside class="rail"><div class="box"><p style="margin:0">%s</p>'
-            '<p style="font-size:20px;font-weight:600;margin:10px 0 4px;line-height:1.3">%s</p>'
-            '<p class="small muted" style="margin:0 0 16px">%s · %s</p>'
-            '<a class="btn pri" style="width:100%%;justify-content:center" href="../../assets/pdf/%s.pdf" target="_blank" rel="noopener">과정안 PDF 열기</a>'
-            '%s'
-            '<p class="small" style="margin:16px 0 6px;font-weight:600">연동 도구</p><div style="display:flex;flex-wrap:wrap;gap:6px">%s</div>'
-            '<p class="small muted" style="margin:14px 0 0">%s</p></div></aside>') % (
-        gchip(code), e(topic(code)), e(a['name']), e(s), code,
-        ('<a class="btn" style="width:100%%;justify-content:center;margin-top:10px" href="../../%s/">체험 게임: %s</a>' % (code, e(gm['title']))) if gm else '',
-        ' '.join('<a class="chip" href="%s" target="_blank" rel="noopener">%s ↗</a>' % (e(t['url']), e(t['name'])) for t in tools_of(code)) or '<span class="small muted">종이·실물로 운영</span>',
-        ' · '.join('%s %s' % (e(r['stage']), e(r['time'])) for r in d['rows']))
+    gbox = ('<a class="gcard" href="%s%s/">%s<span><b>%s</b><span>%s</span></span><span class="go">열기</span></a>'
+            % (up, code, icon('game', up, 'ic big'), e(gm['title']), e(gm['lead']))) if gm else ''
+    chips = prep_chips(d, up)
     # 원본 hwpx(드라이브)에는 개발자 이름이 있어 공개 쪽에 걸지 않는다. PDF는 공개용 사본(public_copy.py)에서 뽑는다.
     pn = '<div class="pn">%s%s</div>' % (
         ('<a class="btn" href="../%s/">← %d학년 %s차시</a>' % (prev, grade(prev), label(prev))) if prev else '<span></span>',
         ('<a class="btn" href="../%s/">%d학년 %s차시 →</a>' % (nxt, grade(nxt), label(nxt))) if nxt else '')
+    prep = ('<h2 class="sub">%s준비물</h2><div class="pchips">%s</div>' % (icon('kit', up), chips)) if chips else ''
+    gsec = ('<h2 class="sub" id="game">%s체험 게임</h2>%s' % (icon('game', up), gbox)) if gm else ''
     body = f"""
-<p class="small"><a href="../">차시별 교수학습 과정안</a> › <a href="../../topics/#{a['id']}">{e(a['name'])}</a></p>
+<p class="crumb"><a href="../">수업 자료</a> › <a href="../#u-{a['id']}">{g}학년 {e(a['name'])}</a></p>
+<div class="kband g{g}">
+<span class="ktag">{icon('g%d' % g, up)}{g}학년 {label(code)}차시 · {e(easy(code, 'title'))}</span>
 <h1>{e(topic(code))}</h1>
-<p class="lead">학습 문제 — {e(problem(code))}</p>
-<div class="toc"><a href="#ov">개요</a><a href="#flow">교수학습 활동</a><a href="#eval">평가 계획</a><a href="#tools">연동 도구·링크</a>{'<a href="#game">체험 게임</a>' if gm else ''}</div>
-<div class="side"><div>
-
-<h2 id="ov" style="margin-top:32px">개요</h2>
-<div class="tw"><table>{''.join(ovr)}</table></div>
-
-<h2 id="flow">교수학습 활동</h2>
-<div class="flow">{''.join(flow)}</div>
-{''.join(rows)}
-
-<h2 id="eval">평가 계획</h2>
-{''.join(evs)}
-
-<h2 id="tools">연동 도구·링크</h2>
-<p class="small muted">과정안에 나오는 도구가 저절로 걸립니다. 수업 전에 학교망에서 열리는지, 블록·메뉴 이름이 바뀌지 않았는지 확인하세요.</p>
-<div class="toolgrid">{''.join(tl) or '<p class="muted">이 차시는 외부 도구 없이 종이·실물로 운영합니다.</p>'}</div>
-<div class="box mine" data-code="{code}">
-<h3 style="margin-top:0">내 수업 링크</h3>
-<p class="small muted">학급 패들렛, 엔트리 작품, 활동지 주소처럼 이 차시에 쓸 링크를 걸어 둡니다. 이 브라우저에만 저장되고 밖으로 보내지 않습니다. 학생 이름이 든 주소는 넣지 마세요.</p>
+<p class="ksum">{e(easy(code, 'summary'))}</p>
+</div>
+{kit_buttons(code, up, gm, bool(tl))}
+<div class="g{g}">
+<h2 class="sub">{icon('clock', up)}수업 흐름</h2>
+{flow_table(d, up)}
+<div class="goal">{icon('goal', up)}<span><b>학습 문제</b> {e(problem(code))}</span></div>
+{prep}
+<h2 class="sub">{icon('eval', up)}평가</h2>
+{eval_block(d)}
+{gsec}
+<h2 class="sub" id="tools">{icon('tool', up)}연동 도구</h2>
+<p class="small muted">과정안에 나온 도구예요. 수업 전에 학교망에서 열리는지 확인해 주세요.</p>
+<div class="toolgrid">{''.join(tl) or '<p class="muted">이 차시는 외부 도구 없이 종이·실물로 해요.</p>'}</div>
+<details class="more mine" data-code="{code}"><summary>내 수업 링크 걸어 두기</summary>
+<p class="small muted">학급 패들렛, 엔트리 작품처럼 이 차시에 쓸 링크를 걸어 둬요. 이 브라우저에만 저장돼요. 학생 이름이 든 주소는 넣지 마세요.</p>
 <ul></ul>
 <form><div class="f"><label for="mn-{code}">이름</label><input id="mn-{code}" name="n" maxlength="40" required placeholder="예: 우리 반 패들렛"></div>
 <div class="f"><label for="mu-{code}">주소</label><input id="mu-{code}" name="u" type="url" required placeholder="https://"></div>
 <button class="btn pri" type="submit">걸어 두기</button></form>
+</details>
+<details class="more full" id="full"><summary>{icon('plan', up)}과정안 전문 펼치기 <span class="small muted">개요·교수학습 활동·그림</span></summary>
+<h3>개요</h3>
+<div class="tw"><table>{''.join(ovr)}</table></div>
+<h3>교수학습 활동</h3>
+{''.join(rows)}
+</details>
 </div>
-{('<h2 id="game">체험 게임</h2>' + gbox) if gm else ''}
-</div>{rail}</div>
 {pn}
 """
     page('lessons/%s' % code, '%d학년 %s차시 %s — 에듀다움' % (g, label(code), topic(code)), body, 'lessons/', MINE_JS)
