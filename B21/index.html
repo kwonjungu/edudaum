@@ -6,71 +6,78 @@
 <title>질문 다섯 번에 동물 찾기 — 에듀다움 B21</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
-  :root{--line:#DDDDDD;--line-strong:#C1C1C1;
-    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-    --point:#FF385C; --point-soft:#FFF0F3;
-    --muted:#6A6A6A;
-    --r:14px; --r-sm:8px;
-    --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
-  }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
-    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    
-    background-position:-11px -11px}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;font-size:17px;line-height:1.5}
   .wrap{max-width:760px;margin:0 auto;padding:14px 14px 44px}
   .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}
   .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);
     font-weight:600;font-size:14px;background:var(--surface);border:1px solid var(--ink);
     border-radius:999px;padding:9px 15px;box-shadow:var(--hard-sm);min-height:44px}
-  .tag{font-weight:700;font-size:14px;background:var(--point);color:var(--ink);
+  .tag{font-weight:700;font-size:14px;background:var(--sun);color:var(--ink);
     border:1px solid var(--line);border-radius:999px;padding:8px 14px;box-shadow:var(--hard-sm)}
-  h1{font-size:clamp(23px,5.2vw,34px);font-weight:700;letter-spacing:-.035em;line-height:1.06}
+  h1{font-size:clamp(23px,5.2vw,34px);line-height:1.15}
   .lead{font-size:15px;color:var(--muted);font-weight:700;margin-top:6px}
-  section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
-    box-shadow:var(--hard);padding:13px;margin-top:12px}
-  h2{font-size:14px;font-weight:700;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
+  section{background:var(--surface);border:1px solid var(--line);box-shadow:var(--hard);padding:13px;margin-top:12px}
+  h2{font-size:16px;margin-bottom:9px}
   button{font-family:inherit;cursor:pointer;color:var(--ink)}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
     border:1px solid var(--ink);background:var(--surface);font-size:14.5px;font-weight:700;
-    padding:9px 15px;border-radius:var(--r-sm);min-height:44px;box-shadow:var(--hard-sm);
-    transition:transform .1s,box-shadow .1s}
-  .btn.main{background:var(--point)}
-  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
-  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .btn:disabled{opacity:.42;cursor:default;box-shadow:none;transform:none}
-  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+    padding:9px 15px;border-radius:var(--r-sm);min-height:44px;box-shadow:var(--hard-sm)}
+  .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+  .btn:disabled{opacity:.42;cursor:default;box-shadow:none}
 
   .readout{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:700;
-    background:var(--ink);color:var(--paper);border-radius:999px;padding:7px 15px}
-  .readout b{color:var(--point)}
+    background:var(--ink);color:#fff;border-radius:999px;padding:7px 15px}
+  .readout b{color:var(--sun)}
+  .meter{display:flex;gap:6px;margin-top:10px}
+  .meter i{flex:1;height:10px;border-radius:5px;background:var(--soft);border:1px solid var(--line-strong);transition:background-color .25s}
+  .meter i.on{background:var(--sky);border-color:var(--point)}
 
-  .pool{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
-  .an{font-size:13.5px;font-weight:600;border:1px solid var(--line);border-radius:999px;
-    padding:6px 11px;background:var(--point-soft)}
-  .an.gone{background:var(--paper);color:var(--muted);text-decoration:line-through;opacity:.55}
-  .an.found{background:var(--point);border-width:3px}
+  .pool{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px;margin-top:11px}
+  .an{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 4px 6px;
+    font-size:13.5px;font-weight:700;border:2px solid var(--line-strong);border-radius:12px;background:var(--sky-l);
+    transition:transform .3s,opacity .3s,background-color .3s}
+  .an svg,.an .em{width:30px;height:30px;font-size:26px;line-height:30px;text-align:center}
+  .an.gone{background:var(--surface);color:var(--muted);opacity:.5;transform:scale(.92)}
+  .an.gone span.nm{text-decoration:line-through}
+  .an.gone::after{content:'';position:absolute;left:8px;right:8px;top:50%;border-top:3px solid var(--muted);transform:rotate(-14deg)}
+  .an.found{background:var(--sun-l);border-color:var(--ink);border-width:3px}
+  .an.secret{border-style:dashed;border-color:var(--ink)}
+  .an.drop{animation:drop .4s ease}
+  @keyframes drop{0%{transform:scale(1)}40%{transform:scale(1.08) rotate(-4deg)}100%{transform:scale(.92)}}
 
+  .pred{display:flex;flex-wrap:wrap;gap:8px;margin-top:4px}
+  .pred .btn[aria-pressed=true]{background:var(--sun);}
   .qs{display:grid;gap:8px}
   .q{display:flex;align-items:center;gap:10px;width:100%;text-align:left;
-    border:1px solid var(--line);background:var(--surface);border-radius:var(--r-sm);
-    padding:10px 13px;min-height:48px;box-shadow:var(--hard-sm);font-size:15px;font-weight:600;
-    transition:transform .1s,box-shadow .1s}
-  .q:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
-  .q:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .q:disabled{background:var(--paper);box-shadow:none;transform:none;opacity:.55}
-  .q .mk{width:18px;height:18px;flex:none;visibility:hidden}
+    border:1px solid var(--line-strong);background:var(--surface);border-radius:var(--r-sm);
+    padding:10px 13px;min-height:48px;box-shadow:var(--hard-sm);font-size:15px;font-weight:600}
+  .q:hover:not(:disabled){background:var(--sky-l)}
+  .q:disabled{background:var(--paper);box-shadow:none;opacity:.55;cursor:default}
+  .q .mk{color:var(--ink);width:18px;height:18px;flex:none;visibility:hidden}
   .q.asked .mk{visibility:visible}
   .tools{display:flex;gap:8px;flex-wrap:wrap;margin-top:11px}
   .say{margin-top:9px;font-size:14px;font-weight:700}
-  .say.dim{color:var(--muted);font-weight:700}
-  [hidden]{display:none!important}
-  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+  .say.dim{color:var(--muted)}
 
-/* 에듀다움 통일 테마 2026-09-27 */
-.btn.main{background:var(--point);border-color:var(--point);color:#fff}
+  .path{list-style:none;display:grid;gap:0}
+  .path li{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:8px 10px 8px 34px;
+    border-left:4px solid var(--sky);margin-left:10px;font-size:14px;font-weight:600;animation:slide .35s ease}
+  .path li::before{content:'';position:absolute;left:-11px;top:50%;width:18px;height:18px;margin-top:-9px;border-radius:50%;background:var(--surface);border:4px solid var(--sky)}
+  .path .ans{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:1px 10px;border:2px solid var(--ink);font-size:13px}
+  .path .ans.y{background:var(--mint-l)}
+  .path .ans.n{background:var(--pink-l)}
+  .path .ct{margin-left:auto;font-variant-numeric:tabular-nums}
+  .path .empty{color:var(--muted);border-left-style:dashed}
+  .path .empty::before{border-style:dashed}
+  @keyframes slide{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  [hidden]{display:none!important}
+  @media (max-width:420px){.wrap{padding:12px 10px 40px}.pool{grid-template-columns:repeat(auto-fill,minmax(66px,1fr));gap:6px}.path li{padding-left:30px}}
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -83,20 +90,31 @@
     <p class="lead">다섯 번 안에 하나만 남겨요</p>
   </header>
 
+  <section aria-labelledby="h-pred" id="predBox">
+    <h2 id="h-pred">먼저 걸어요: 몇 번이면 하나만 남을까요?</h2>
+    <div class="pred" id="pred" role="group" aria-label="예상"></div>
+  </section>
+
   <section aria-labelledby="h-pool">
     <h2 id="h-pool">남은 후보</h2>
     <p class="readout" id="out">남은 후보 <b id="cnt">0</b> · 질문 <b id="qn">0</b>/5</p>
+    <div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
     <div class="pool" id="pool"></div>
   </section>
 
   <section aria-labelledby="h-q">
     <h2 id="h-q">질문 고르기</h2>
     <div class="qs" id="qs"></div>
-    <p class="say dim" id="say">질문을 하나 골라요</p>
+    <p class="say dim" id="say" aria-live="polite">몇 번이면 될지 먼저 골라요</p>
     <div class="tools">
       <button class="btn" id="again" type="button">다시 하기</button>
       <button class="btn main" id="next" type="button">다음 판</button>
     </div>
+  </section>
+
+  <section aria-labelledby="h-path">
+    <h2 id="h-path">지나온 길</h2>
+    <ol class="path" id="path"></ol>
   </section>
 </div>
 
@@ -105,29 +123,32 @@
   'use strict';
   var $ = function(id){ return document.getElementById(id); };
 
-  // 속성: 날개 / 물속 / 다리넷 / 다리여섯 / 사람이 기름
+  // 동물 16마리는 과정안 활동1 속성표와 같다. 속성: 날개 / 물속 / 다리넷 / 다리여섯 / 사람이 기름 / 사람보다 큼. 거북·펭귄·개미는 활동4 새 카드라 넣지 않는다.
   var A = [
-    ['개',    0,0,1,0,1], ['고양이', 0,0,1,0,1], ['소',   0,0,1,0,1],
-    ['사자',  0,0,1,0,0], ['코끼리', 0,0,1,0,0], ['거북', 0,1,1,0,0],
-    ['닭',    1,0,0,0,1], ['앵무새', 1,0,0,0,1], ['참새', 1,0,0,0,0],
-    ['독수리',1,0,0,0,0], ['나비',   1,0,0,1,0], ['잠자리',1,0,0,1,0],
-    ['금붕어',0,1,0,0,1], ['상어',   0,1,0,0,0], ['고래', 0,1,0,0,0],
-    ['문어',  0,1,0,0,0]
+    ['강아지',0,0,1,0,1,0], ['상어',  0,1,0,0,0,1], ['나비',  1,0,0,1,0,0], ['기린',  0,0,1,0,0,1],
+    ['닭',    1,0,0,0,1,0], ['여우',  0,0,1,0,0,0], ['고래',  0,1,0,0,0,1], ['고양이',0,0,1,0,1,0],
+    ['벌',    1,0,0,1,0,0], ['코끼리',0,0,1,0,0,1], ['문어',  0,1,0,0,0,0], ['말',    0,0,1,0,1,1],
+    ['독수리',1,0,0,0,0,0], ['다람쥐',0,0,1,0,0,0], ['열대어',0,1,0,0,1,0], ['소',    0,0,1,0,1,1]
   ];
+  var EMO = ['🐶','🦈','🦋','🦒','🐔','🦊','🐋','🐱','🐝','🐘','🐙','🐴','🦅','🐿️','🐠','🐮'];
   var Q = [
     {t:'날개가 있어요?',    i:1},
     {t:'물속에서 살아요?',  i:2},
     {t:'다리가 넷이에요?',  i:3},
     {t:'다리가 여섯이에요?',i:4},
-    {t:'사람이 길러요?',    i:5}
+    {t:'사람이 길러요?',    i:5},
+    {t:'사람보다 커요?',    i:6}
   ];
   var MAXQ = 5;
+  var PREDS = [['1','1번'],['2','2번'],['3','3번'],['4','4번'],['5','5번'],['x','못 좁혀요']];
 
-  var subset, target, pool, askedSet, qn, locked, prevSig;
+  var subset, target, pool, askedSet, qn, locked, prevSig, pred, steps;
 
-  var poolBox = $('pool'), qsBox = $('qs'), say = $('say');
-  var cnt = $('cnt'), qnEl = $('qn');
-  var qBtns = [];
+  var poolBox = $('pool'), qsBox = $('qs'), say = $('say'), pathEl = $('path'), predEl = $('pred');
+  var cnt = $('cnt'), qnEl = $('qn'), meter = $('meter').children;
+  var qBtns = [], pBtns = [];
+
+  function fx(){ return window.Fun; }
 
   (function build(){
     for (var k = 0; k < Q.length; k++){
@@ -135,13 +156,20 @@
       b.type = 'button';
       b.className = 'q';
       b.innerHTML = '<svg class="mk" viewBox="0 0 20 20" aria-hidden="true">' +
-        '<path d="M3 10.5 8 15.5 17 4.5" fill="none" stroke="#222222" stroke-width="3"' +
+        '<path d="M3 10.5 8 15.5 17 4.5" fill="none" stroke="currentColor" stroke-width="3"' +
         ' stroke-linecap="round" stroke-linejoin="round"/></svg><span></span>';
       b.querySelector('span').textContent = Q[k].t;
       (function(idx){ b.addEventListener('click', function(){ ask(idx); }); })(k);
       qsBox.appendChild(b);
       qBtns.push(b);
     }
+    PREDS.forEach(function(pp){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'btn'; b.textContent = pp[1];
+      b.setAttribute('aria-pressed', 'false');
+      b.addEventListener('click', function(){ setPred(pp[0]); });
+      predEl.appendChild(b); pBtns.push(b);
+    });
   })();
 
   function shuffle(arr){
@@ -165,79 +193,166 @@
     do { r = pickRound(); } while (r.sig === prevSig);
     prevSig = r.sig;
     subset = r.subset; target = r.target;
-    startRound();
+    startRound(true);
   }
 
-  function startRound(){
+  function startRound(fresh){
     pool = subset.slice();
     askedSet = {};
+    steps = [];
     qn = 0;
     locked = false;
+    pred = null;
     buildPool();
     render();
+    if (fx()){
+      if (fresh) Fun.say('새 판이에요. 동물 ' + subset.length + '마리 가운데 한 마리를 몰래 골랐어요. 몇 번이면 될지 먼저 걸어요.');
+      else Fun.say('같은 동물이에요. 이번엔 다른 질문 순서로 해 봐요. 몇 번이면 될지 다시 걸어요.', 'think');
+    }
   }
 
   function buildPool(){
     poolBox.textContent = '';
     for (var i = 0; i < subset.length; i++){
       var idx = subset[i];
-      var s = document.createElement('span');
+      var s = document.createElement('div');
       s.className = 'an';
       s.id = 'a' + idx;
-      s.textContent = A[idx][0];
+      var g = document.createElement('div');
+      g.className = 'em'; g.setAttribute('aria-hidden', 'true'); g.textContent = EMO[idx];
+      var nm = document.createElement('span');
+      nm.className = 'nm'; nm.textContent = A[idx][0];
+      s.appendChild(g); s.appendChild(nm);
       poolBox.appendChild(s);
     }
   }
 
   function inPool(idx){ return pool.indexOf(idx) >= 0; }
 
-  function ask(qi){
-    if (locked || askedSet[qi] || qn >= MAXQ) return;
-    askedSet[qi] = true;
-    var attr = Q[qi].i;
-    var ans = A[target][attr] ? 1 : 0;
-    var next = [];
-    for (var i = 0; i < pool.length; i++){
-      if ((A[pool[i]][attr] ? 1 : 0) === ans) next.push(pool[i]);
+  function setPred(v){
+    if (pred !== null || locked) return;
+    pred = v;
+    if (fx()){
+      Fun.say(v === 'x' ? '다 좁히지 못할 거라고 걸었어요. 질문을 골라서 확인해 봐요.'
+                         : v + '번 안에 한 마리가 될 거라고 걸었어요. 질문을 골라 봐요.');
     }
-    pool = next;
-    qn += 1;
-    if (pool.length <= 1 || qn >= MAXQ) locked = true;
     render();
   }
 
-  function render(){
+  function canSplit(){
+    for (var k = 0; k < Q.length; k++){
+      if (askedSet[k]) continue;
+      var a = Q[k].i, y = 0;
+      for (var i = 0; i < pool.length; i++) if (A[pool[i]][a]) y++;
+      if (y > 0 && y < pool.length) return true;
+    }
+    return false;
+  }
+
+  function ask(qi){
+    if (locked || pred === null || askedSet[qi] || qn >= MAXQ) return;
+    askedSet[qi] = true;
+    var attr = Q[qi].i;
+    var ans = A[target][attr] ? 1 : 0;
+    var before = pool.length, next = [], dropped = [];
+    for (var i = 0; i < pool.length; i++){
+      if ((A[pool[i]][attr] ? 1 : 0) === ans) next.push(pool[i]); else dropped.push(pool[i]);
+    }
+    pool = next;
+    qn += 1;
+    steps.push({q: Q[qi].t, ans: ans, from: before, to: pool.length});
+    if (pool.length <= 1 || qn >= MAXQ || !canSplit()) locked = true;
+    render(dropped);
+
+    if (!fx()) return;
+    var a = ans ? '예' : '아니요';
+    if (locked){
+      finish();
+    } else if (before === pool.length){
+      Fun.say('「' + Q[qi].t + '」는 ' + a + '. ' + before + '마리 그대로예요. 하나도 못 갈랐어요. 다음 질문은 어떨까요?', 'think');
+      Fun.shake($('pool'));
+    } else {
+      Fun.say('「' + Q[qi].t + '」는 ' + a + '. ' + before + '마리에서 ' + pool.length + '마리로 줄었어요.');
+    }
+  }
+
+  function finish(){
+    var one = pool.length === 1;
+    var shown = A[target][0];
+    var cmp;
+    if (pred !== 'x' && one) cmp = ' 걸었던 ' + pred + '번과 견줘 봐요.';
+    else if (pred === 'x' && one) cmp = ' 못 좁힐 거라 걸었는데 달라졌어요. 왜 그랬을까요?';
+    else if (pred !== 'x') cmp = ' ' + pred + '번이면 될 거라 걸었는데 달랐어요. 어디서 갈렸는지 봐요.';
+    else cmp = ' 못 좁힐 거라 걸었던 대로예요.';
+    var tail;
+    if (one) tail = qn + '번 만에 한 마리가 남았어요. 몰래 고른 동물은 ' + shown + '.';
+    else if (qn < MAXQ) tail = pool.length + '마리가 남았어요. 더 갈라 줄 질문이 없어요. 남은 둘은 이름을 물어서 가려요. 몰래 고른 동물은 ' + shown + '.';
+    else tail = pool.length + '마리가 남았어요. 질문을 다 썼어요. 몰래 고른 동물은 ' + shown + '.';
+    Fun.say(tail + cmp, one ? 'cheer' : 'think');
+    if (one) Fun.burst(document.getElementById('a' + target)); else Fun.shake($('pool'));
+    Fun.stamp();
+  }
+
+  function render(dropped){
     for (var i = 0; i < subset.length; i++){
       var idx = subset[i];
       var el = document.getElementById('a' + idx);
       var found = locked && pool.length === 1 && idx === target;
-      el.className = inPool(idx) ? (found ? 'an found' : 'an') : 'an gone';
+      var cls = inPool(idx) ? (found ? 'an found' : 'an') : 'an gone';
+      if (locked && idx === target && !found) cls += ' secret';
+      if (dropped && dropped.indexOf(idx) >= 0) cls += ' drop';
+      el.className = cls;
     }
     cnt.textContent = String(pool.length);
     qnEl.textContent = String(qn);
+    for (var m = 0; m < meter.length; m++) meter[m].className = m < qn ? 'on' : '';
 
     for (var k = 0; k < Q.length; k++){
-      qBtns[k].disabled = locked || !!askedSet[k];
+      qBtns[k].disabled = locked || pred === null || !!askedSet[k];
       qBtns[k].classList.toggle('asked', !!askedSet[k]);
     }
-
-    if (!locked){
-      say.textContent = '질문을 하나 골라요';
-      say.className = 'say dim';
-    } else if (pool.length === 1){
-      say.textContent = '한 마리만 남았어요';
-      say.className = 'say';
-    } else {
-      say.textContent = pool.length + '마리가 남았어요';
-      say.className = 'say';
+    for (var p = 0; p < pBtns.length; p++){
+      pBtns[p].setAttribute('aria-pressed', String(PREDS[p][0] === pred));
+      pBtns[p].disabled = pred !== null;
     }
+
+    if (pred === null){
+      say.textContent = '몇 번이면 될지 먼저 골라요'; say.className = 'say dim';
+    } else if (!locked){
+      say.textContent = '질문을 하나 골라요'; say.className = 'say dim';
+    } else if (pool.length === 1){
+      say.textContent = '한 마리만 남았어요'; say.className = 'say';
+    } else if (qn < MAXQ){
+      say.textContent = pool.length + '마리가 남았어요. 더 갈라 줄 질문이 없어요'; say.className = 'say';
+    } else {
+      say.textContent = pool.length + '마리가 남았어요'; say.className = 'say';
+    }
+
+    pathEl.textContent = '';
+    if (!steps.length){
+      var e = document.createElement('li'); e.className = 'empty';
+      e.textContent = '질문을 하면 길이 이어져요';
+      pathEl.appendChild(e);
+    }
+    steps.forEach(function(st){
+      var li = document.createElement('li');
+      var t = document.createElement('span'); t.textContent = st.q;
+      var an = document.createElement('span');
+      an.className = 'ans ' + (st.ans ? 'y' : 'n');
+      an.textContent = st.ans ? '○ 예' : '✕ 아니요';
+      var ct = document.createElement('span'); ct.className = 'ct';
+      ct.textContent = st.from + ' → ' + st.to + '마리';
+      li.appendChild(t); li.appendChild(an); li.appendChild(ct);
+      pathEl.appendChild(li);
+    });
   }
 
-  $('again').addEventListener('click', startRound);
+  $('again').addEventListener('click', function(){ startRound(false); });
   $('next').addEventListener('click', newRound);
 
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B21" data-mission="몰래 고른 동물을 질문 다섯 번 안에 찾아요. 먼저 몇 번이면 될지 걸어 봐요!"></script>
 </body>
 </html>

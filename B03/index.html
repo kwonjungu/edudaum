@@ -40,6 +40,10 @@
   .board{display:block;width:100%;max-width:190px;margin:0 auto;height:auto}
   .cellbg{fill:var(--surface);stroke:var(--ink);stroke-width:1.5}
   .goal{fill:var(--point-soft)}
+  .cellbg{cursor:pointer}
+  .cellbg:focus-visible{outline:none;stroke:var(--point);stroke-width:3}
+  .guess{fill:none;stroke:var(--ink);stroke-width:2;stroke-dasharray:3 2.5;pointer-events:none}
+  .tip{font-size:13px;font-weight:700;color:var(--muted);text-align:center;margin-top:5px}
   .legend{margin:6px 0 0;text-align:center;font-size:15px;font-weight:600}
   .legend i{display:inline-block;width:14px;height:14px;border:1px solid var(--line);vertical-align:-2px;margin:0 4px 0 8px}
   .legend .li{border-radius:50%;background:var(--point)}
@@ -83,6 +87,7 @@
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -102,14 +107,16 @@
     <svg class="board" viewBox="0 0 100 100" role="img" aria-label="4×4 놀이판과 분실물 로봇, 분실물, 분실물함 칸">
       <g id="cells"></g>
       <g id="trail"></g>
+      <circle class="guess" id="guess" cx="0" cy="0" r="9" style="display:none"></circle>
       <circle class="item" id="item" cx="0" cy="0" r="5"></circle>
       <g id="bot">
         <circle class="bot" cx="0" cy="0" r="8"></circle>
         <polygon class="botdir" points="0,-7 4,1 -4,1"></polygon>
       </g>
     </svg>
+    <p class="tip" id="tip">끝 칸을 예상해 칸을 눌러 두고, 한 줄씩 가 봐요</p>
     <p class="legend"><i class="li"></i>분실물<i class="lg"></i>분실물함</p>
-    <p class="note" id="stop" hidden><b>판을 벗어나 멈췄어요</b></p>
+    <p class="note" id="stop" role="status" hidden><b>판을 벗어나 멈췄어요</b></p>
   </section>
 
   <section aria-labelledby="h-c">
@@ -119,6 +126,7 @@
       <button class="btn main" id="fwd" type="button">한 줄 더</button>
       <button class="btn" id="back" type="button">한 줄 뒤로</button>
       <button class="btn" id="reset" type="button">처음으로</button>
+      <button class="btn" id="fresh" type="button">새 판</button>
     </div>
     <p class="note"><b>수업 중에는 종이와 몸으로 해요</b></p>
   </section>
@@ -133,6 +141,9 @@
   var N = 4, CELL = 25, HALF = 12.5;
   var START = { x:0, y:3, dir:0 };
   var ITEM = { x:2, y:1 };
+  var GOAL = { x:3, y:0 };
+  var guess = null, stamped = false, goalEl = null;
+  var cellEls = [];
 
   var lines = ['', '', '', '', '', ''];   // 교사가 고른다. 미리 채우지 않는다.
   var n = 0;                              // 실행한 줄 수
@@ -143,12 +154,45 @@
       var e = document.createElementNS(NS, 'rect');
       e.setAttribute('x', c * CELL); e.setAttribute('y', r * CELL);
       e.setAttribute('width', CELL); e.setAttribute('height', CELL);
-      e.setAttribute('class', (c === 3 && r === 0) ? 'cellbg goal' : 'cellbg');
+      e.setAttribute('class', 'cellbg');
+      e.setAttribute('tabindex', '0'); e.setAttribute('role', 'button');
+      e.setAttribute('aria-label', (r + 1) + '행 ' + (c + 1) + '열, 끝 칸으로 예상');
+      (function(cc, rr){
+        function pick(){ guess = { x:cc, y:rr }; render(); }
+        e.addEventListener('click', pick);
+        e.addEventListener('keydown', function(ev){ if (ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); pick(); } });
+      })(c, r);
       $('cells').appendChild(e);
+      cellEls.push(e);
     }
+  })();
+
+  function place(){
     $('item').setAttribute('cx', ITEM.x * CELL + HALF);
     $('item').setAttribute('cy', ITEM.y * CELL + HALF);
-  })();
+    for (var k = 0; k < cellEls.length; k++){
+      var rr = Math.floor(k / N), cc = k % N;
+      cellEls[k].setAttribute('class', (cc === GOAL.x && rr === GOAL.y) ? 'cellbg goal' : 'cellbg');
+    }
+  }
+
+  // 새 판: 분실물·분실물함 자리와 명령 여섯 줄이 모두 새로 난다. 앞 판과 끝 칸이 같으면 다시 뽑는다.
+  function fresh(){
+    var prev = (function(){ var m = n; n = 6; var w = walk(); n = m; return w.x + ',' + w.y; })();
+    var tries = 0, e;
+    do {
+      do { ITEM = { x:Math.floor(Math.random() * N), y:Math.floor(Math.random() * N) }; }
+      while (ITEM.x === START.x && ITEM.y === START.y);
+      do { GOAL = { x:Math.floor(Math.random() * N), y:Math.floor(Math.random() * N) }; }
+      while ((GOAL.x === ITEM.x && GOAL.y === ITEM.y) || (GOAL.x === START.x && GOAL.y === START.y));
+      for (var i = 0; i < 6; i++) lines[i] = CMDS[Math.floor(Math.random() * CMDS.length)];
+      n = 6; e = walk(); n = 0;
+      tries++;
+    } while ((e.stopped || e.x + ',' + e.y === prev) && tries < 200);
+    n = 0; guess = null; stamped = false;
+    place(); render();
+    if (window.Fun) Fun.say('새 판이에요. 명령 여섯 줄과 분실물 자리가 모두 새로 나왔어요. 끝 칸부터 예상해 봐요.');
+  }
 
   (function rows(){
     for (var i = 0; i < 6; i++){
@@ -163,6 +207,7 @@
       b.className = 'cmd'; b.type = 'button';
       (function(idx){
         b.addEventListener('click', function(){
+          stamped = false;
           var k = CMDS.indexOf(lines[idx]);
           lines[idx] = (k + 1 < CMDS.length) ? CMDS[k + 1] : '';
           if (n > idx) n = idx;          // 고친 줄보다 뒤는 되감는다
@@ -211,7 +256,10 @@
       dot.setAttribute('r', '3.5');
       t.appendChild(dot);
     }
-    $('item').hidden = s.held;
+    $('item').style.display = s.held ? 'none' : '';
+    var g = $('guess');
+    g.style.display = guess ? '' : 'none';
+    if (guess){ g.setAttribute('cx', guess.x * CELL + HALF); g.setAttribute('cy', guess.y * CELL + HALF); }
     $('stop').hidden = !s.stopped;
 
     for (var i = 0; i < 6; i++){
@@ -222,16 +270,42 @@
       b.classList.toggle('empty', !has);
       b.setAttribute('aria-label', (i + 1) + '번 ' + (has ? lines[i] : '비어 있음'));
     }
-    $('fwd').disabled = (n >= 6) || s.stopped;
+    $('fwd').disabled = (n >= 6) || s.stopped || !guess;   // 끝 칸을 예상해야 열린다
     $('back').disabled = (n === 0);
+    $('tip').textContent = guess ? '예상한 칸을 눌러 바꿀 수 있어요. 한 줄씩 가 봐요' : '먼저 끝 칸을 예상해 놀이판 칸을 눌러요. 그러면 한 줄 더가 열려요';
   }
 
-  $('fwd').addEventListener('click', function(){ if (n < 6){ n++; render(); } });
+  // 끝까지 갔거나 판 밖에서 멈췄을 때 한 번 짚는다
+  function finish(){
+    var s = walk();
+    var atGoal = s.x === GOAL.x && s.y === GOAL.y;
+    var msg;
+    if (guess && (guess.x !== s.x || guess.y !== s.y)){
+      msg = '예상한 칸과 다른 칸에 섰어요. 한 줄 뒤로 가며 어디서 갈렸는지 찾아봐요.';
+      if (window.Fun) Fun.say(msg, 'think');
+      if (window.Fun) Fun.shake($('bot'));
+    } else if (s.held && atGoal){
+      msg = '분실물을 들고 분실물함 칸에 섰어요. 이 줄이 목표와 같은 길이에요.';
+      if (window.Fun){ Fun.say(msg, 'cheer'); Fun.burst($('bot')); }
+    } else {
+      msg = s.stopped ? '판을 벗어나 멈췄어요. 몇 번째 줄에서 벗어났는지 짚어 봐요.'
+        : (guess ? '예상한 칸에 섰어요. 그래도 분실물함과 분실물은 어떤지 봐요.' : '여섯 줄을 다 갔어요. 목표와 어디가 다른지 되감아 봐요.');
+      if (window.Fun) Fun.say(msg, s.stopped ? 'think' : undefined);
+    }
+    if (window.Fun && !stamped){ stamped = true; Fun.stamp(); }
+  }
+
+  $('fwd').addEventListener('click', function(){
+    if (n < 6){ n++; render(); var s = walk(); if (n === 6 || s.stopped) finish(); }
+  });
+  $('fresh').addEventListener('click', fresh);
   $('back').addEventListener('click', function(){ if (n > 0){ n--; render(); } });
   $('reset').addEventListener('click', function(){ n = 0; render(); });
 
+  place();
   render();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B03" data-mission="교사 준비용이에요. 명령 여섯 줄을 짜고, 끝 칸을 예상한 뒤 한 줄씩 가며 어디서 달라지는지 찾아요."></script>
 </body>
 </html>

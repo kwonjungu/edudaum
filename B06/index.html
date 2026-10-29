@@ -44,9 +44,13 @@
   .mk{display:inline-block;min-width:20px;padding:0 6px;background:var(--ink);color:var(--paper);
     border-radius:999px;font-weight:700;font-size:12px;text-align:center}
   .mk.b{background:var(--point);color:var(--ink);border:1px solid var(--line)}
-  .card{width:100%;min-height:42px;display:flex;align-items:center;justify-content:center;
-    border:1px solid var(--line);border-radius:var(--r-sm);background:var(--paper);
-    font-weight:700;font-size:16px}
+  .card{width:100%;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+    border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface);
+    font-weight:700;font-size:16px;line-height:1.1;transition:transform .2s,background-color .2s}
+  .card svg{width:24px;height:24px;display:block}
+  .card.now{transform:translateY(-4px);background:var(--sun-l)}
+  .cell.entry{animation:deal .35s ease-out both}
+  @keyframes deal{from{opacity:0;transform:translateY(-10px) rotate(-4deg)}to{opacity:1;transform:none}}
 
   .how{margin-top:9px;display:grid;gap:5px}
   .how p{margin:0;font-weight:700;font-size:14px}
@@ -73,7 +77,7 @@
 
   .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
 
-  .card.hit{border-width:4px}
+  .card.hit{border-width:4px;border-color:var(--ink)}
   .card.miss{border-style:dashed;border-width:3.5px;background:var(--point-soft)}
   .gone{display:inline-block;font-size:12px;font-weight:700;color:var(--ink)}
   .say{margin-top:8px;font-size:13.5px;font-weight:700}
@@ -86,6 +90,7 @@
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -164,6 +169,7 @@
   var timer = null;
   var cells = [];
   var lastKey = '';
+  var stamped = false;
 
   function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
   function fits(c) { return c.tri && c.n > 5; }
@@ -221,7 +227,12 @@
       cell.className = 'cell';
       var slotA = document.createElement('span'); slotA.className = 'slot slotA';
       var card = document.createElement('div'); card.className = 'card';
-      card.textContent = (deck[i].tri ? '△' : '○') + deck[i].n;
+      card.innerHTML = (deck[i].tri
+        ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L22 21 H2 Z" fill="#ffc845" stroke="#33302b" stroke-width="1.8" stroke-linejoin="round"/></svg>'
+        : '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#e6f3fc" stroke="#33302b" stroke-width="1.8"/></svg>')
+        + '<span aria-hidden="true">' + deck[i].n + '</span>';
+      cell.className = 'cell entry';
+      cell.style.animationDelay = (i * 40) + 'ms';
       card.setAttribute('aria-label', (deck[i].tri ? '세모 ' : '동그라미 ') + deck[i].n);
       var slotB = document.createElement('span'); slotB.className = 'slot slotB';
       cell.appendChild(slotA); cell.appendChild(card); cell.appendChild(slotB);
@@ -243,6 +254,7 @@
     replayBtn.disabled = true;
     sayEl.textContent = '셋 가운데 하나를 짚어요';
     sayEl.className = 'say dim';
+    if (window.Fun) { Fun.say('새 묶음이에요. 나는 첫 카드를 찾으면 멈춰요. 몇 장을 빠뜨릴지 먼저 걸어 봐요.'); }
   }
 
   function pickGuess(g) {
@@ -254,12 +266,16 @@
       b.setAttribute('aria-pressed', b.getAttribute('data-g') === g ? 'true' : 'false');
     }
     runBtn.disabled = false;
+    if (window.Fun) { Fun.say(guess + '장으로 걸었어요. 이제 돌려서 확인해 봐요.'); }
     sayEl.textContent = '돌려 보기를 눌러요';
     sayEl.className = 'say dim';
   }
 
   function putA(i) { cells[i].querySelector('.slotA').appendChild(mkA); }
-  function putB(i) { cells[i].querySelector('.slotB').appendChild(mkB); }
+  function putB(i) {
+    cells[i].querySelector('.slotB').appendChild(mkB);
+    for (var j = 0; j < cells.length; j += 1) { cells[j].querySelector('.card').classList.toggle('now', j === i && !calm); }
+  }
 
   // 조건에 맞는 카드는 테두리를 굵게, 나가 지나치지 못한 카드는 점선으로 드러낸다.
   function markCards() {
@@ -277,6 +293,7 @@
   }
 
   function finish() {
+    for (var j = 0; j < cells.length; j += 1) { cells[j].querySelector('.card').classList.remove('now'); }
     cAEl.textContent = String(aStop + 1);
     cBEl.textContent = String(bStop + 1);
     cMEl.textContent = String(miss);
@@ -291,6 +308,18 @@
     ran = true;
     runBtn.disabled = true;
     replayBtn.disabled = false;
+    if (window.Fun) {
+      var five = deck.some(function (c) { return c.tri && c.n === 5; });
+      var tail = five ? ' △5는 5보다 크지 않아서 답이 아니에요.' : '';
+      if (guess === miss) {
+        Fun.say('예상한 대로 나왔어요. 가는 ' + (aStop + 1) + '장, 나는 ' + (bStop + 1) + '장 봤어요.' + tail, 'cheer');
+        Fun.burst(cMEl);
+      } else {
+        Fun.say('예상과 다르게 나왔어요. 나가 멈춘 뒤 남은 카드에서 갈렸는지 봐요.' + tail, 'think');
+        Fun.shake(cMEl);
+      }
+      if (!stamped) { stamped = true; Fun.stamp(); }
+    }
   }
 
   function play(showFromStart) {
@@ -339,5 +368,6 @@
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B06" data-mission="같은 여덟 장을 두 절차로 훑어요. 나가 몇 장을 빠뜨릴지 먼저 걸고 확인해요!"></script>
 </body>
 </html>

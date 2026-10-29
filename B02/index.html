@@ -38,6 +38,11 @@
   .tbl{display:grid;grid-template-columns:74px repeat(3,minmax(44px,1fr)) 34px;gap:5px}
   .cell{display:flex;align-items:center;justify-content:center;text-align:center;
     min-height:44px;border-radius:var(--r-sm);padding:3px;font-size:11.5px;line-height:1.15}
+  button.cell.mark.m-O{background:var(--mint-l,#e3f6ef);color:var(--mint-d,#1f7a5c)}
+  button.cell.mark.m-V{background:var(--sun-l,#fff6d9);color:#8a6200}
+  button.cell.mark.m-X{background:var(--pink-l,#ffeef1);color:#b3243f}
+  .cell.hot{box-shadow:0 0 0 3px var(--sun,#ffc845)}
+  .cell.head{word-break:keep-all}
   .cell.corner{background:transparent;color:var(--muted);font-weight:600;font-size:10.5px}
   .cell.head{background:var(--ink);color:var(--paper);font-weight:700;border:1px solid var(--line)}
   .cell.rowlabel{background:var(--surface);border:1px solid var(--line);font-weight:600;color:var(--ink)}
@@ -49,6 +54,19 @@
   button.cell.mark:hover{transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
   button.cell.mark:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
 
+  .tbl.th{grid-template-columns:60px repeat(3,minmax(0,1fr))}
+  .tbl.tv{grid-template-columns:92px repeat(3,minmax(44px,1fr)) 34px}
+  .tbl.th .cell.rowlabel{font-size:12.5px}
+  .tbl.tv .cell.rowlabel{font-size:11.5px;word-break:keep-all}
+  button.cell.named{flex-direction:column;min-height:62px;gap:2px;word-break:keep-all}
+  button.cell.named .lb{font-size:11px;font-weight:600;color:var(--ink);line-height:1.15}
+  button.cell.named .mk{font-size:22px;line-height:1.1;min-height:26px}
+  button.cell.mark:disabled{cursor:default;opacity:1;transform:none;box-shadow:none}
+  .cell.rowlabel.hot{box-shadow:0 0 0 3px var(--sun,#ffc845)}
+  .gb{word-break:keep-all}
+  .gb:disabled:not([aria-pressed="true"]){opacity:.4}
+  .gb[aria-pressed="true"]:disabled{opacity:1}
+  .btn:disabled{opacity:.6}
   .ask{margin-top:10px;font-size:13.5px;font-weight:600;color:var(--muted)}
 
   .acts{display:flex;gap:8px;flex-wrap:wrap}
@@ -61,6 +79,9 @@
   .btn.main{background:var(--point);color:#fff;flex:1 1 140px}
   .btn.main[aria-pressed="true"]{background:var(--point-soft);color:var(--ink)}
   .btn.sub{flex:1 1 120px}
+  .btn.deal{background:var(--sun-l,#fff6d9)}
+  .btn:disabled{opacity:.45;cursor:default}
+  .gb.hit{border-color:var(--ink);border-width:3.5px}
 
   .note{margin-top:9px;font-size:12.5px;font-weight:700;color:var(--muted)}
 
@@ -77,11 +98,13 @@
   .gb:disabled{opacity:.42;cursor:default;box-shadow:none}
   .say{margin-top:7px;font-size:13.5px;font-weight:700;min-height:1.4em}
   .say.dim{color:var(--muted);font-weight:700;font-size:12.5px}
+  @media(max-width:400px){.tbl.th{grid-template-columns:52px repeat(3,minmax(0,1fr));gap:4px}.tbl.tv{grid-template-columns:78px repeat(3,minmax(40px,1fr)) 28px;gap:4px}.cell{font-size:10.5px}button.cell.named .lb{font-size:10px}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -105,7 +128,8 @@
   <section aria-labelledby="h-a">
     <h2 id="h-a">보기</h2>
     <div class="acts">
-      <button class="btn main" id="flip" type="button" aria-pressed="false">세로로 보기</button>
+      <button class="btn main" id="flip" type="button" aria-pressed="false" disabled>세로로 보기</button>
+      <button class="btn sub deal" id="deal" type="button">새 판 받기</button>
       <button class="btn sub" id="reset" type="button">다시 하기</button>
     </div>
     <p class="note">세로로 보면 달라지나요</p>
@@ -125,6 +149,7 @@
   var tableEl = document.getElementById('table');
   var flipBtn = document.getElementById('flip');
   var resetBtn = document.getElementById('reset');
+  var dealBtn = document.getElementById('deal');
 
   var grid = [['', '', ''], ['', '', ''], ['', '', '']];
   var vertical = false;
@@ -135,12 +160,8 @@
   }
 
   function rowCount(r){
-    var n = 0, c, crit, cand;
-    for (c = 0; c < 3; c++) {
-      crit = vertical ? c : r;
-      cand = vertical ? r : c;
-      if (grid[crit][cand] === 'O') n++;
-    }
+    var n = 0, c;
+    for (c = 0; c < 3; c++) if (grid[r][c] === 'O') n++;
     return n;
   }
 
@@ -151,61 +172,72 @@
     return el;
   }
 
+  // 처음(가로) 배치: 후보마다 한 줄. 줄마다 기준 순서를 돌려 놓아 세로 줄에 같은 기준이 모이지 않는다.
+  var PERM = [[0, 1, 2], [1, 2, 0], [2, 0, 1]];
+
   function render(){
-    var headLabels = vertical ? CRIT : CAND;
-    var rowLabels = vertical ? CAND : CRIT;
-    var r, c, crit, cand, v, lab, mark, cnt;
-
+    var r, c, crit, cand, v, lab, mark, cnt, nm, mk;
     tableEl.textContent = '';
+    tableEl.className = 'tbl ' + (vertical ? 'tv' : 'th');
 
-    tableEl.appendChild(makeCell('div', 'cell corner'));
-    for (c = 0; c < 3; c++) {
-      tableEl.appendChild(makeCell('div', 'cell head', headLabels[c]));
-    }
-    tableEl.appendChild(makeCell('div', 'cell corner', '○ 수'));
-
-    for (r = 0; r < 3; r++) {
-      tableEl.appendChild(makeCell('div', 'cell rowlabel', rowLabels[r]));
-      for (c = 0; c < 3; c++) {
-        crit = vertical ? c : r;
-        cand = vertical ? r : c;
-        v = grid[crit][cand];
-        lab = rowLabels[r] + ' ' + headLabels[c] + ' 지금 ' + (v ? DISPLAY[v] : '빈칸');
-        mark = document.createElement('button');
-        mark.type = 'button';
-        mark.className = 'cell mark';
-        mark.setAttribute('data-crit', String(crit));
-        mark.setAttribute('data-cand', String(cand));
-        mark.setAttribute('data-row', String(r));
-        mark.setAttribute('data-col', String(c));
-        mark.setAttribute('aria-label', lab);
-        mark.textContent = v ? DISPLAY[v] : '';
-        tableEl.appendChild(mark);
+    if (!vertical) {
+      for (r = 0; r < 3; r++) {
+        tableEl.appendChild(makeCell('div', 'cell rowlabel', CAND[r]));
+        for (c = 0; c < 3; c++) {
+          crit = PERM[r][c]; cand = r;
+          tableEl.appendChild(makeMark(crit, cand, true));
+        }
       }
+      return;
+    }
+    tableEl.appendChild(makeCell('div', 'cell corner'));
+    for (c = 0; c < 3; c++) tableEl.appendChild(makeCell('div', 'cell head', CAND[c]));
+    tableEl.appendChild(makeCell('div', 'cell corner', '○ 수'));
+    for (r = 0; r < 3; r++) {
+      tableEl.appendChild(makeCell('div', 'cell rowlabel', CRIT[r]));
+      for (c = 0; c < 3; c++) tableEl.appendChild(makeMark(r, c, false));
       cnt = makeCell('div', 'cell count', String(rowCount(r)));
-      cnt.id = 'cnt-' + r;
       tableEl.appendChild(cnt);
     }
   }
 
+  function makeMark(crit, cand, withName){
+    var v = grid[crit][cand];
+    var el = document.createElement('button');
+    el.type = 'button';
+    el.className = 'cell mark' + (v ? ' m-' + v : '') + (withName ? ' named' : '');
+    el.setAttribute('data-crit', String(crit));
+    el.setAttribute('data-cand', String(cand));
+    el.disabled = guess !== null;
+    setMarkText(el, crit, cand, withName);
+    return el;
+  }
+  function setMarkText(el, crit, cand, withName){
+    var v = grid[crit][cand];
+    el.setAttribute('aria-label', CAND[cand] + ' ' + CRIT[crit] + ' 지금 ' + (v ? DISPLAY[v] : '빈칸'));
+    el.textContent = '';
+    if (withName) {
+      var nm = document.createElement('span'); nm.className = 'lb'; nm.textContent = CRIT[crit];
+      el.appendChild(nm);
+    }
+    var mk = document.createElement('span'); mk.className = 'mk'; mk.textContent = v ? DISPLAY[v] : '';
+    el.appendChild(mk);
+  }
+
   tableEl.addEventListener('click', function(e){
     var t = e.target;
-    if (t.tagName !== 'BUTTON' || !t.classList.contains('mark')) return;
+    while (t && t !== tableEl && !(t.tagName === 'BUTTON' && t.classList.contains('mark'))) t = t.parentNode;
+    if (!t || t === tableEl || guess !== null || vertical) return;   // 걸고 나면 칸을 바꿀 수 없다
     var crit = parseInt(t.getAttribute('data-crit'), 10);
     var cand = parseInt(t.getAttribute('data-cand'), 10);
-    var r = parseInt(t.getAttribute('data-row'), 10);
-    var c = parseInt(t.getAttribute('data-col'), 10);
     var v = nextMark(grid[crit][cand]);
     grid[crit][cand] = v;
-    t.textContent = v ? DISPLAY[v] : '';
-    var headLabels = vertical ? CRIT : CAND;
-    var rowLabels = vertical ? CAND : CRIT;
-    t.setAttribute('aria-label', rowLabels[r] + ' ' + headLabels[c] + ' 지금 ' + (v ? DISPLAY[v] : '빈칸'));
-    document.getElementById('cnt-' + r).textContent = String(rowCount(r));
+    t.className = 'cell mark named' + (v ? ' m-' + v : '');
+    setMarkText(t, crit, cand, true);
     renderGuess();
   });
 
-  var guess = null;          // 짚은 기준. 세우기 전까지 바꿀 수 있다.
+  var guess = null;          // 짚은 기준. 한 번 걸면 바꿀 수 없다.
   var gEls = [];
   (function buildGuess(){
     for (var i = 0; i < CRIT.length; i++){
@@ -214,14 +246,19 @@
       b.textContent = CRIT[i];
       b.setAttribute('aria-label', CRIT[i] + '에 ✕가 가장 많다고 짚기');
       (function(k){ b.addEventListener('click', function(){
-        if (vertical || !allFilled()) return;   // 세우기 전까지 바꿀 수 있다
-        guess = k; renderGuess();
+        if (vertical || guess !== null || !allFilled()) return;   // 한 번 걸면 무를 수 없다
+        guess = k; lockMarks(); renderGuess();
+        say('「' + CRIT[k] + '」에 걸었어요. 무를 수 없어요. 이제 세로로 세워 확인해요.', 'think');
       }); })(i);
       document.getElementById('guess').appendChild(b);
       gEls.push(b);
     }
   })();
 
+  function lockMarks(){
+    var bs = tableEl.querySelectorAll('button.mark'), i;
+    for (i = 0; i < bs.length; i++) bs[i].disabled = true;
+  }
   function allFilled(){
     for (var c = 0; c < 3; c++) for (var d = 0; d < 3; d++) if (!grid[c][d]) return false;
     return true;
@@ -245,32 +282,52 @@
     var ok = allFilled();
     for (var i = 0; i < 3; i++){
       gEls[i].setAttribute('aria-pressed', guess === i ? 'true' : 'false');
-      gEls[i].disabled = !ok || vertical;
+      gEls[i].disabled = !ok || guess !== null;
     }
-    flipBtn.disabled = (guess === null);
+    flipBtn.disabled = vertical || !ok || guess === null;
+    flipBtn.textContent = vertical ? '세로로 세웠어요' : '세로로 보기';
+    markHot();
 
     var s = document.getElementById('say');
     if (!ok){ s.textContent = '아홉 칸을 모두 채워요'; s.className = 'say dim'; }
     else if (guess === null){ s.textContent = '✕가 가장 많을 기준을 짚어요'; s.className = 'say dim'; }
-    else if (!vertical){ s.textContent = '세로로 보기를 눌러요'; s.className = 'say dim'; }
+    else if (!vertical){ s.textContent = '걸었어요. 세로로 보기를 눌러요'; s.className = 'say dim'; }
     else {
       var m = mostX();
       if (m.n === 0) s.textContent = '✕가 한 칸도 없어요';
       else if (m.tie) s.textContent = '가장 많은 기준이 갈렸어요';
       else if (m.c === guess) s.textContent = '짚은 기준에 ✕가 가장 많아요';
-      else s.textContent = '다른 기준에 ✕가 더 많아요';
+      else s.textContent = '다른 기준에 ✕가 ' + (m.n - xCount(guess)) + '칸 더 많아요';
       s.className = 'say';
     }
   }
 
+  // 세운 뒤 ✕가 가장 많은 기준의 머리 칸을 짚어 준다(칭찬·판정 아님).
+  function markHot(){
+    var heads = tableEl.querySelectorAll('.cell.rowlabel'), i;
+    for (i = 0; i < heads.length; i++) heads[i].classList.remove('hot');
+    if (!vertical || !allFilled()) return;
+    var m = mostX();
+    if (m.n === 0 || m.tie) return;
+    if (heads[m.c]) heads[m.c].classList.add('hot');
+  }
+  function say(t, mood){ if (window.Fun) Fun.say(t, mood); }
+
   flipBtn.addEventListener('click', function(){
-    vertical = !vertical;
-    flipBtn.setAttribute('aria-pressed', vertical ? 'true' : 'false');
+    if (vertical || guess === null || !allFilled()) return;   // 세우기는 한 번뿐, 되돌리지 않는다
+    vertical = true;
+    flipBtn.setAttribute('aria-pressed', 'true');
     render();
-    // 세우는 순간을 몸으로 느끼게 한다. 글자는 늘리지 않는다.
     var t = document.getElementById('table');
     t.classList.remove('flip'); void t.offsetWidth; t.classList.add('flip');
     renderGuess();
+    if (!window.Fun) return;
+    var m = mostX();
+    if (m.n === 0){ Fun.say('✕가 한 칸도 없어요. 어느 기준이 약한지 다른 말로 짝과 이야기해 봐요.', 'think'); }
+    else if (m.tie){ Fun.say('✕가 가장 많은 기준이 둘이에요. 모둠에서 어느 쪽부터 볼지 말해 봐요.', 'think'); Fun.shake(tableEl); }
+    else if (m.c === guess){ Fun.say('걸었던 기준에 ✕가 가장 많이 모였어요. 세로로 세우니 한눈에 보이죠?', 'cheer'); Fun.burst(tableEl); }
+    else { Fun.say('걸었던 기준과 ✕가 ' + (m.n - xCount(guess)) + '칸 차이가 났어요. 가로로 볼 때 어디를 놓쳤는지 짚어 봐요.', 'think'); Fun.shake(tableEl); }
+    Fun.stamp();
   });
 
   resetBtn.addEventListener('click', function(){
@@ -278,11 +335,34 @@
     guess = null; vertical = false;
     flipBtn.setAttribute('aria-pressed', 'false');
     render(); renderGuess();
+    say('아홉 칸이 비었어요. 칸을 눌러 ○, △, ✕를 넣어 봐요.');
+  });
+
+  function rnd(n){ return Math.floor(Math.random() * n); }
+  function shuffle(a){ for (var i = a.length - 1; i > 0; i--){ var j = rnd(i + 1), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  // 판마다 모습이 다르게: 한 기준만 걸리는 판, 두 기준이 같이 걸리는 판, 거의 안 걸리는 판
+  function dealBoard(){
+    var kind = rnd(10), xs = [0, 0, 0], weak = rnd(3), other, c, d, row;
+    if (kind < 6){ xs[weak] = 2 + rnd(2); for (c = 0; c < 3; c++) if (c !== weak) xs[c] = rnd(2); }
+    else if (kind < 9){ other = (weak + 1 + rnd(2)) % 3; xs[weak] = 2; xs[other] = 2; }
+    else { xs = [rnd(2) ? 1 : 0, 0, 0]; }
+    for (c = 0; c < 3; c++){
+      row = [];
+      for (d = 0; d < 3; d++) row.push(d < xs[c] ? 'X' : (rnd(3) ? 'O' : 'V'));
+      grid[c] = shuffle(row);
+    }
+  }
+  dealBtn.addEventListener('click', function(){
+    dealBoard(); guess = null; vertical = false;
+    flipBtn.setAttribute('aria-pressed', 'false');
+    render(); renderGuess();
+    say('새 판이에요. 칸을 읽고, ✕가 가장 많을 기준을 걸어요. 걸면 무를 수 없어요.', 'think');
   });
 
   render();
   renderGuess();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B02" data-mission="표시를 넣고, ✕가 가장 많을 기준을 걸어요. 걸면 무를 수 없어요. 세로로 세워 확인해요!"></script>
 </body>
 </html>

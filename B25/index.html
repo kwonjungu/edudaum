@@ -83,8 +83,20 @@
   .foot{font-size:12.5px;color:var(--muted);font-weight:700;text-align:center;margin-top:10px}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
+  .big.draw{animation:wipe .7s ease-out}
+  @keyframes wipe{from{clip-path:inset(0 100% 0 0)}to{clip-path:inset(0 0 0 0)}}
+  .bars{margin-top:8px;display:grid;gap:4px}
+  .bar{display:grid;grid-template-columns:64px 1fr 44px;gap:6px;align-items:center;font-size:13px;font-weight:700}
+  .bar .tr{height:16px;background:var(--soft);border-radius:8px;overflow:hidden;border:1px solid var(--line)}
+  .bar .fl{display:block;height:100%;background:var(--sky);border-radius:8px;transition:width .6s ease}
+  .bar.top .fl{background:var(--mint)}
+  .bar .num{text-align:right;font-variant-numeric:tabular-nums}
+  .bar .tg{font-size:12px;color:var(--muted)}
+  @media (max-width:400px){.mrow{grid-template-columns:96px 1fr}.mname{font-size:13px}.bar{grid-template-columns:52px 1fr 40px}}
+  .gb{font-size:13.5px}
 /* 에듀다움 통일 테마 2026-09-27 */
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -118,6 +130,7 @@
     <div class="guess" id="guess" role="group" aria-label="무엇으로 알아볼지 짚기"></div>
     <button class="btn" id="ok" type="button" disabled>확인</button>
     <p class="say dim" id="say2"></p>
+    <div class="bars" id="bars" aria-label="동작별 확신 %"></div>
     <table class="cf" aria-label="헷갈림 판">
       <thead><tr><th>카드 \ 알아봄</th><th>손바닥</th><th>손등</th><th>손가락</th></tr></thead>
       <tbody id="cfb"></tbody>
@@ -149,6 +162,7 @@
   var SHORT = ['손바닥', '손등', '손가락'];
   var N = 50, DUR = 2;          /* 연습 그래프: 2초 · 50점 */
 
+  function say(t, m) { if (window.Fun) { Fun.say(t, m); } }
   var st, rowEls = [], guessBtns = [], g7Btns = [];
   var sensor = { on: false, buf: null, last: 0 };
 
@@ -210,7 +224,7 @@
         var v = Math.max(-1.8, Math.min(1.8, pts[i][k]));
         p.push((i / (pts.length - 1) * W).toFixed(1) + ',' + (H / 2 - v / 1.8 * (H / 2 - 2)).toFixed(1));
       }
-      out += '<polyline fill="none" stroke="' + ['#222222', '#FF385C', '#2563EB'][k] + '" stroke-width="' + sw +
+      out += '<polyline fill="none" stroke="' + ['#222222', '#1f7a5c', '#2563EB'][k] + '" stroke-width="' + sw +
         '" stroke-dasharray="' + dash[k] + '" points="' + p.join(' ') + '"/>';
     }
     svg.innerHTML = out;
@@ -309,7 +323,7 @@
     for (var v = 0; v <= 6; v++) {
       var vb = document.createElement('button'); vb.type = 'button'; vb.className = 'gb';
       vb.textContent = String(v); vb.setAttribute('aria-label', v + '번'); vb.setAttribute('aria-pressed', 'false');
-      (function (k) { vb.addEventListener('click', function () { if (st.r2 === null) { st.g7 = k; paint(); } }); })(v);
+      (function (k) { vb.addEventListener('click', function () { if (st.r2 === null) { st.g7 = k; say('여섯 번 가운데 ' + k + '번이라고 걸었어요. 샘플 5개씩 더하면 어떻게 달라질지 확인해 봐요.'); paint(); } }); })(v);
       $('g7').appendChild(vb); g7Btns.push(vb);
     }
   })();
@@ -358,7 +372,7 @@
         addSample(m, pts); nextSel();
         $('say1').className = 'say dim'; $('say1').textContent = '튀는 그래프는 눌러 지워요';
         paint();
-        if (full()) show($('try'));
+        if (full()) { show($('try')); say('세 동작이 3개씩 찼어요. 시험 카드가 나왔어요. 카드대로 시도해 봐요.'); }
       });
       return;
     }
@@ -366,6 +380,7 @@
     var odd = Math.random() < 1 / 3 ? Math.floor(Math.random() * 3) : -1;
     st.picker = { m: m, c: [0, 1, 2].map(function (i) { return gen(m, null, i === odd ? 1 + Math.floor(Math.random() * 2) : 0); }) };
     $('say1').className = 'say dim'; $('say1').textContent = NAME[m] + ' 그래프 하나를 골라요';
+    say('그래프 세 장이 나왔어요. ' + SHORT[m] + ' 문지르기 샘플로 어느 모양이 어울릴까요? 엉뚱한 모양은 따로 두어도 돼요.', 'think');
     paint();
     show($('pick'));
   }
@@ -383,7 +398,7 @@
         addSample(st.picker.m, pts); st.picker = null; nextSel();
         $('say1').textContent = full() ? '세 동작이 3개씩 찼어요' : '튀는 그래프는 눌러 지워요';
         paint();
-        if (full()) show($('try'));
+        if (full()) { show($('try')); say('세 동작이 3개씩 찼어요. 시험 카드가 나왔어요. 카드대로 시도해 봐요.'); }
       });
       box.appendChild(b);
     });
@@ -397,6 +412,9 @@
     var fin = function (pts) {
       st.cur = pts; st.guess = null;
       drawSvg($('big'), pts, 300, 110, 2.4);
+      $('big').classList.remove('draw'); void $('big').getBoundingClientRect(); $('big').classList.add('draw');
+      $('bars').textContent = '';
+      say('시도 그래프가 나왔어요. 샘플 그래프와 어디가 닮았는지 보고, 화면이 무엇으로 알아볼지 먼저 짚어 봐요.', 'think');
       $('say2').className = 'say dim'; $('say2').textContent = '무엇으로 알아볼지 짚어요';
       paint();
       show($('ok'));
@@ -407,6 +425,7 @@
   function pickGuess(k) {
     if (!st.cur) return;
     st.guess = k;
+    say(SHORT[k] + '으로 알아볼 거라고 짚었어요. 확인 전에는 바꿀 수 있어요.');
     $('say2').className = 'say dim'; $('say2').textContent = '확인을 누르세요';
     paint();
   }
@@ -423,10 +442,25 @@
       ? mk + '짚은 대로 ' + NAME[g] + '로 알아봤어요 · 확신 ' + res.conf[g] + '%'
       : mk + NAME[res.pred] + '로 알아봤어요 · 짚은 ' + SHORT[g] + '은 확신 ' + res.conf[g] + '%';
     $('say2').className = 'say'; $('say2').textContent = msg;
+    paintBars(res);
+    var same = res.pred === g;
+    if (st.ci + 1 >= 6) { say(same ? '짚은 대로 나왔어요. 여섯 장을 다 했어요. 이제 샘플이 8개가 되면 몇 번 알아볼지 걸어 봐요.' : '짚은 것과 다르게 나왔어요. 여섯 장을 다 했어요. 헷갈림 판에서 어디가 갈렸는지 보고, 8개가 되면 어떨지 걸어 봐요.', same ? 'cheer' : 'think'); }
+    else { say(same ? '짚은 대로 알아봤어요. 막대에서 두 번째로 높은 동작도 봐요. 다음 카드도 먼저 짚어 봐요.' : '짚은 것과 다르게 나왔어요. 어디서 갈렸는지 샘플 그래프와 견줘 봐요.', same ? 'cheer' : 'think'); }
+    if (window.Fun) { if (same) { Fun.burst($('say2')); } else { Fun.shake($('say2')); } }
     st.cur = null; st.guess = null; st.ci += 1;
     paint();
     st.lastCell = -1;
     show(st.ci >= 6 ? $('g7') : $('say2'));
+  }
+
+  function paintBars(res) {
+    var b = $('bars'); b.textContent = '';
+    for (var k = 0; k < 3; k++) {
+      var r = document.createElement('div'); r.className = 'bar' + (k === res.pred ? ' top' : '');
+      r.innerHTML = '<span>' + SHORT[k] + '</span><span class="tr"><span class="fl" style="width:0"></span></span><span class="num">' + res.conf[k] + '%</span>';
+      b.appendChild(r);
+      (function (fl, w) { setTimeout(function () { fl.style.width = w + '%'; }, 30); })(r.querySelector('.fl'), res.conf[k]);
+    }
   }
 
   function paintTest() {
@@ -469,13 +503,14 @@
       for (var m = 0; m < 3; m++) for (var j = 0; j < 5; j++) addSample(m, gen(m, null, 0));
       st.added = true;
       $('say3').className = 'say dim'; $('say3').textContent = '같은 녹화 조건으로 동작마다 8개가 됐어요';
+      say('샘플이 동작마다 8개가 됐어요. 바뀐 것은 샘플 수 하나예요. 2회차를 확인해 봐요.');
       paint(); return;
     }
     var queue = [];
     for (var a = 0; a < 3; a++) for (var b = 0; b < 5; b++) queue.push(a);
     (function step(i) {
       if (i >= queue.length) {
-        st.added = true; $('say3').className = 'say dim'; $('say3').textContent = '동작마다 8개가 됐어요';
+        st.added = true; $('say3').className = 'say dim'; $('say3').textContent = '동작마다 8개가 됐어요'; say('샘플이 동작마다 8개가 됐어요. 바뀐 것은 샘플 수 하나예요. 2회차를 확인해 봐요.');
         paint(); return;
       }
       var mm = queue[i];
@@ -495,6 +530,9 @@
     else msg = '짚은 것보다 ' + (g - n2) + '번 덜 알아봤어요';
     $('say3').className = 'say'; $('say3').textContent = '샘플 3개 ' + n1 + '/6 → 샘플 8개 ' + n2 + '/6 · ' + msg;
     $('sum').hidden = false;
+    var mood = n2 > n1 ? 'cheer' : 'think';
+    say(n2 > n1 ? '샘플 3개 때보다 알아본 횟수가 늘었어요. 어느 시도가 달라졌는지 헷갈림 판과 견줘 봐요.' : (n2 === n1 ? '알아본 횟수가 그대로예요. 샘플을 늘려도 같을 수 있어요. 어느 시도가 헷갈렸는지 봐요.' : '알아본 횟수가 줄었어요. 샘플이 늘면 더 좋아진다고 정해진 것은 아니에요. 어느 시도가 달라졌는지 봐요.'), mood);
+    if (window.Fun) { Fun.stamp(); if (n2 === g) { Fun.burst($('say3')); } else { Fun.shake($('say3')); } }
     $('sum').textContent = '활동지에 옮겨 적을 것 · 샘플 3개: ' + per(st.r1) + ' / 샘플 8개: ' + per(res) + ' / 1회차 헷갈림: ' + mix();
     paint();
   }
@@ -545,15 +583,17 @@
     var keep = st.samples.map(function (l) { return l.slice(0, 3); });
     st = fresh(keep);
     clearSays(); paint();
+    say('샘플은 그대로 두고 새 시험 카드를 섞었어요. 이번에도 먼저 짚어 봐요.');
   }
   function resetAll() {
     if (st.busy) return;
     st = fresh(null);
     clearSays(); paint();
+    say('처음부터 해 봐요. 동작마다 샘플 3개를 녹화해요.');
   }
   function clearSays() {
     ['say1', 'say2', 'say3'].forEach(function (id) { $(id).textContent = ''; $(id).className = 'say dim'; });
-    $('sum').hidden = true; $('big').innerHTML = '';
+    $('sum').hidden = true; $('big').innerHTML = ''; $('bars').textContent = '';
   }
 
   st = fresh(null);
@@ -568,5 +608,6 @@
   paint();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B25" data-mission="시도 그래프를 샘플과 견주어, 화면이 무엇으로 알아볼지 먼저 짚어요. 확인 전에 걸어 봐요!"></script>
 </body>
 </html>

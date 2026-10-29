@@ -1,0 +1,10 @@
+{"block":"HUB","round":1,"verdict":"PASS","critical":[],
+"minor":[
+"실행: 첫 측정에서 /lessons/ 360px 한 번에 sw3.svg·B05_1.jpg가 ERR_CONNECTION_REFUSED로 실패함. 같은 쪽을 세 번 다시 열었을 때는 0건이어서 로컬 서버가 잠깐 끊긴 것으로 봄(쪽 결함 아님)",
+"외부: /lessons/B08/의 '청기백기' 링크가 https://edudaum.vercel.app/extra/chunggi/ 절대 주소이고, 그 쪽(extra/chunggi, 10-11 이전 파일, make_site 범위 밖)은 아직 fonts.googleapis.com(Black Han Sans·Gowun Dodum)을 불러옴. 누리집 생성 쪽 자체의 외부 요청은 0건",
+"글: /play/ 위 숫자 상자(28 체험 활동, 14 5학년, 14 6학년, 4 센서)와 걸러 보기 결과 '28개'는 활동 목록 수라 도장·점수 세기는 아니지만, 도장 수와 헷갈리지 않게 '활동 28가지'처럼 쓰면 더 분명함",
+"모양: 360px 첫 띠에서 부제 아래 cmeta 줄('5학년 SW 32차시')이 중간에서 꺾여 두 줄이 됨. 깨짐은 아니고 다듬을 거리",
+"모양: 1280px 미션 지도에서 6학년 4·5단원 줄 오른쪽이 비어 돌이 한쪽으로 몰려 보임(취향)"
+],
+"five":{"목표":"","실패":"","예상":"","제약":"","되풀이":""},
+"checked":"site_check 지적 0건(73쪽). puppeteer로 /,/play/,/lessons/,/lessons/B01/,/lessons/B20/,/plan/,/tools/,/about/를 360·430·1280px로 열어 봄(24번): 콘솔·페이지 오류 0(일시적 연결 끊김 1회는 다시 열었을 때 0), 가로 스크롤 0, 메뉴 펼침 3개 모두 화면 안(12~418px), 외부 요청 0, 글꼴 Jua·Gowun Dodum 저장소 파일. 미션 지도 돌 28개는 모두 BXX/로 가고 200, h1과 게임 이름이 같음. 과정안 링크 28개는 lessons/BXX/로 가고 200, 차시 범위와 제목이 맞음. 캐릭터는 fun.js CAST와 같음. 도장 {B01,B05,B20,B28}과 잘못된 값(ZZ, 숫자 5)을 넣으면 넷만 도장(.seal display grid, 안 찍힌 돌은 none)이 보이고 /play/ 카드도 같음. 깨진 JSON을 넣어도 오류 없음. 도장 개수·점수 표시 없음. Tab으로 돌에 가서 Enter를 누르면 B01/로 감. reduced-motion에서 애니메이션이 꺼짐. 차시 쪽 노란 '체험 활동 열기' 단추가 BXX/로 감(B01, B20). 책 제목·부제·연구회 이름·지원 문구가 맞고, 개발자 실명 7명은 생성 쪽 74개에 0건. 사진 HUB_r1_*.png를 직접 봄"}

@@ -66,6 +66,7 @@
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -200,10 +201,21 @@
     if (chosen.length < 3 || where === null || guess === null) return;
     done = true;
     render();
+    if (window.Fun) {
+      var c = counts(), stuck = chosen.filter(function(i){ return verdict(PEOPLE[i], c) === '거의 못 알아봐요'; });
+      var ok = (guess === -1) ? (stuck.length === 0) : (stuck.indexOf(guess) >= 0);
+      var box = $('people');
+      var jo = function(w, a, b){ var k = w.charCodeAt(w.length - 1) - 0xAC00; return w + (k >= 0 && k % 28 ? a : b); };
+      var lead = ok ? '' : '짚은 것과 달랐어요. ';
+      if (stuck.length === 0) { Fun.say(lead + jo(WHERES[where].nm, '을', '를') + ' 넣으니 고른 세 사람 모두 닮은 사진이 생겼어요. 다른 셋을 골라도 그럴까요?', ok ? 'cheer' : 'think'); if (ok) Fun.burst(box); else Fun.shake(box); }
+      else { Fun.say(lead + jo(stuck.map(function(i){ return PEOPLE[i].nm; }).join(', '), '은', '는') + ' 넣은 뒤에도 닮은 사진이 없어요. 장수 칸을 보며 누구의 사진이 더 필요한지 짝과 말해 봐요.', 'think'); Fun.shake(box); }
+      Fun.stamp();
+    }
   });
   $('reset').addEventListener('click', function(){
     chosen = []; where = null; guess = null; done = false;
     render();
+    if (window.Fun) Fun.say('이번에는 다른 세 사람과 다른 곳으로 해 봐요.');
   });
 
   function render(){
@@ -253,5 +265,6 @@
   render();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B28" data-mission="도우미가 알아보기 어려운 사람이 없게 사진 열 장을 어디에 더 넣을지 골라요. 넣기 전에, 넣어도 그대로일 사람을 먼저 짚어요."></script>
 </body>
 </html>

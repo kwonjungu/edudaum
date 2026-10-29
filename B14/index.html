@@ -71,6 +71,7 @@
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -170,7 +171,11 @@
       val.setAttribute('x', 14); val.setAttribute('y', y + 34);
       g.appendChild(val);
 
-      zones.push({ rect: rect, val: val });
+      var th = document.createElementNS(NS, 'g');
+      th.setAttribute('transform', 'translate(254,' + (y + 4) + ')');
+      th.setAttribute('aria-hidden', 'true');
+      g.appendChild(th);
+      zones.push({ rect: rect, val: val, th: th });
     }
   })();
 
@@ -211,6 +216,7 @@
     picked = null;
     confirmed = false;
     render();
+    if (window.Fun) { Fun.say('새 예시예요. 개인정보가 드러난 곳이 있을까요? 먼저 한 곳을 걸어 봐요.'); }
   }
 
   function choose(i){
@@ -223,12 +229,18 @@
     if (confirmed || picked === null) return;
     confirmed = true;
     render();
+    if (window.Fun) {
+      var hitEl = badIdx === NONE ? statusEl : zones[badIdx].rect;
+      if (picked === badIdx) { Fun.say('걸어 둔 곳에 그대로 드러나 있었어요. 어떤 모습이 단서였는지 짝과 말해 봐요.', 'cheer'); Fun.burst(hitEl); }
+      else { Fun.say('걸어 둔 곳과 달랐어요. 어디서 갈렸는지 칸을 다시 훑어 봐요.', 'think'); Fun.shake(statusEl); }
+      Fun.stamp();
+    }
     nextBtn.focus({ preventScroll: true });
   }
 
   function doAgain(){
     // 확인 전이면 고른 것만 지운다. 확인한 뒤에는 다음 예시와 같다(무를 수 없어서).
-    if (!confirmed) { picked = null; render(); return; }
+    if (!confirmed) { picked = null; render(); if (window.Fun) { Fun.say('고른 것을 지웠어요. 다시 한 곳을 걸어 봐요.'); } return; }
     newRound();
   }
 
@@ -248,9 +260,44 @@
     return NUM[Math.abs(d)] + ' 칸 ' + (d > 0 ? '아래' : '위') + '에 ' + what + ' 드러나 있었어요';
   }
 
+  function el(tag, attrs){
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    return e;
+  }
+  // 칸마다 작은 그림. 드러난 값이면 그림에도 그것이 나타난다.
+  function drawThumb(i){
+    var g = zones[i].th, t = shown[i];
+    while (g.firstChild) g.removeChild(g.firstChild);
+    g.appendChild(el('rect', {x:0, y:0, width:36, height:34, rx:5, fill:'#fff', stroke:'#C1C1C1'}));
+    if (i === 0) {
+      g.appendChild(el('circle', {cx:12, cy:13, r:5, fill:'#8FD3F4'}));
+      g.appendChild(el('circle', {cx:25, cy:13, r:5, fill:'#9BE3C4'}));
+      g.appendChild(el('rect', {x:6, y:21, width:12, height:7, rx:3, fill:'#8FD3F4'}));
+      g.appendChild(el('rect', {x:19, y:21, width:12, height:7, rx:3, fill:'#9BE3C4'}));
+      if (t.indexOf('모둠') < 0) g.appendChild(el('rect', {x:10, y:29, width:16, height:3, rx:1, fill:'#222'}));
+    } else if (i === 1) {
+      g.appendChild(el('rect', {x:8, y:16, width:20, height:12, rx:2, fill:'#FFD84D', stroke:'#222'}));
+      g.appendChild(el('rect', {x:12, y:20, width:12, height:4, fill:'#222'}));
+      if (t.indexOf('얼굴') >= 0) g.appendChild(el('circle', {cx:18, cy:9, r:5, fill:'#FFC9A8', stroke:'#222'}));
+      if (t.indexOf('이름표') >= 0) g.appendChild(el('rect', {x:3, y:3, width:14, height:7, fill:'#fff', stroke:'#222'}));
+      if (t.indexOf('창밖') >= 0) { g.appendChild(el('rect', {x:20, y:3, width:13, height:11, fill:'#BFE6FA', stroke:'#222'})); }
+      if (t.indexOf('게시물') >= 0) g.appendChild(el('rect', {x:3, y:3, width:12, height:10, fill:'#FFF3B0', stroke:'#222'}));
+    } else if (i === 2) {
+      g.appendChild(el('path', {d:'M18 6 L30 26 L6 26 Z', fill:'#FFD84D', stroke:'#222'}));
+      g.appendChild(el('rect', {x:17, y:12, width:2, height:8, fill:'#222'}));
+      if (t.indexOf('초') >= 0) g.appendChild(el('rect', {x:6, y:28, width:24, height:4, fill:'#222'}));
+    } else {
+      g.appendChild(el('rect', {x:8, y:17, width:20, height:11, fill:'#9BE3C4', stroke:'#222'}));
+      g.appendChild(el('path', {d:'M6 17 L18 6 L30 17 Z', fill:'#8FD3F4', stroke:'#222'}));
+      if (t.indexOf('ㅇㅇ') >= 0) g.appendChild(el('rect', {x:6, y:29, width:24, height:4, fill:'#222'}));
+    }
+  }
+
   function render(){
     for (var i = 0; i < 4; i++) {
       zones[i].val.textContent = shown[i];
+      drawThumb(i);
       zones[i].rect.classList.toggle('hit', confirmed && i === badIdx);
       zones[i].rect.classList.toggle('pick', !confirmed && picked === i);
     }
@@ -275,5 +322,6 @@
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B14" data-mission="예시 작품 소개에서 개인정보가 드러난 곳을 먼저 걸고 확인해요. 없을 수도 있어요!"></script>
 </body>
 </html>

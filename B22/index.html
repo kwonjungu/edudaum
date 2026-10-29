@@ -8,7 +8,7 @@
 <style>
   :root{--line:#DDDDDD;--line-strong:#C1C1C1;
     --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-    --point:#FF385C; --point-soft:#FFF0F3;
+    --point:#2f78b5; --point-soft:#e6f3fc;
     --muted:#6A6A6A;
     --r:14px; --r-sm:8px;
     --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
@@ -24,7 +24,7 @@
   .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);
     font-weight:600;font-size:14px;background:var(--surface);border:1px solid var(--ink);
     border-radius:999px;padding:9px 15px;box-shadow:var(--hard-sm);min-height:44px}
-  .tag{font-weight:700;font-size:14px;background:var(--point);color:var(--ink);
+  .tag{font-weight:700;font-size:14px;background:var(--sun,#ffc845);color:var(--ink);
     border:1px solid var(--line);border-radius:999px;padding:8px 14px;box-shadow:var(--hard-sm)}
   h1{font-size:clamp(23px,5.2vw,34px);font-weight:700;letter-spacing:-.035em;line-height:1.06}
   .lead{font-size:15px;color:var(--muted);font-weight:700;margin-top:6px}
@@ -110,7 +110,20 @@
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+.cardtop{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
+.cardtop .cn{margin-bottom:0}
+.wicon{flex:0 0 auto;width:56px;height:46px}
+.card.flip{animation:cflip .38s ease}
+@keyframes cflip{0%{transform:rotateX(75deg) translateY(-6px);opacity:.15}100%{transform:none;opacity:1}}
+.row.fresh{animation:rowin .22s ease-out}
+@keyframes rowin{0%{transform:translateX(-10px);opacity:.3}100%{transform:none;opacity:1}}
+.row.hit.fresh{animation:rowhit .45s cubic-bezier(.2,1.5,.4,1)}
+@keyframes rowhit{0%{transform:scale(.95)}60%{transform:scale(1.025)}100%{transform:none}}
+.row.no .n{background:var(--muted)}
+.opt.hit{background:var(--point)}
+@media (max-width:400px){.opt{font-size:13.5px;padding:6px 3px}.row .cd,.row .to{font-size:13px}.wicon{width:48px;height:40px}}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -125,8 +138,8 @@
 
   <section aria-labelledby="h-t">
     <h2 id="h-t">이번 카드 · 확인 순서</h2>
-    <div class="card">
-      <p class="cn" id="cn">날씨 카드</p>
+    <div class="card" id="cardbox">
+      <div class="cardtop"><p class="cn" id="cn">날씨 카드</p><svg class="wicon" id="wicon" viewBox="0 0 56 46" aria-hidden="true" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg></div>
       <div class="vals">
         <p class="val"><span class="k">날씨</span><span class="v" id="vw">-</span></p>
         <p class="val"><span class="k">미세먼지</span><span class="v" id="vd">-</span></p>
@@ -196,6 +209,21 @@
   var reduceMotion = false;
   try { reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
+  function icon(c){
+    var sun = '<circle cx="28" cy="23" r="9" fill="#ffc845"/><path d="M28 6v5M28 35v5M11 23h5M40 23h5M16 11l3 3M37 32l3 3M40 11l-3 3M19 32l-3 3"/>';
+    var cl = function(x, y, f){ return '<path d="M' + (x+8) + ' ' + (y+14) + 'a7 7 0 0 1 0-14 9 9 0 0 1 17-2 7 7 0 0 1 2 16z" fill="' + f + '"/>'; };
+    var w = c.w, n = c.note || '', g = '';
+    if (/천둥/.test(n)) g = cl(8, 6, '#e3ddd1') + '<path d="M29 24l-6 9h6l-3 9 9-12h-6l3-6z" fill="#ffc845"/>';
+    else if (/강풍/.test(n)) g = sun.replace('cx="28"', 'cx="22"').replace(/M28 6v5M28 35v5/, 'M22 6v5M22 35v5').replace('M11 23h5M40 23h5', 'M5 23h5') + '<path d="M26 18h22a4 4 0 1 0-4-4M24 26h26a4 4 0 1 1-4 4M26 34h14"/>';
+    else if (w === '맑음') g = sun;
+    else if (w === '구름조금') g = '<circle cx="21" cy="17" r="8" fill="#ffc845"/><path d="M21 4v3M9 17H6M33 17h3M12 8l2 2M30 8l-2 2"/>' + cl(14, 16, '#fff');
+    else if (w === '구름많음') g = cl(6, 6, '#e3ddd1') + cl(18, 14, '#fff');
+    else if (w === '흐림') g = cl(8, 8, '#cfc6b6');
+    else if (w === '비') g = cl(8, 4, '#cfe6f7') + '<path d="M19 30l-2 6M28 30l-2 6M37 30l-2 6" stroke="#2f78b5"/>';
+    else if (w === '눈') g = cl(8, 4, '#e6f3fc') + '<path d="M19 33v6M16 36h6M30 33v6M27 36h6M41 33v6M38 36h6" stroke="#5aa9e6"/>';
+    $('wicon').innerHTML = g;
+  }
+
   function shuffle(a){
     a = a.slice();
     for (var i = a.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; }
@@ -242,12 +270,21 @@
     prevSig = sigOf(r);
     cur = r; picked = null; confirmed = false; revealing = false; asked = -1;
     render();
+    var cb = $('cardbox'); cb.classList.remove('flip'); void cb.offsetWidth; cb.classList.add('flip');
+    if (window.Fun){
+      var tf = r.order === TEMP_FIRST;
+      var m = r.limit ? '한계 카드가 나왔어요. 카드에 적힌 주의 한 줄도 읽고, 규칙표대로 따라가 봐요.'
+        : tf ? '기온 규칙이 맨 앞으로 옮겨졌어요. 줄 번호 순서를 눈으로 따라간 뒤 결론을 짚어요.'
+        : '새 카드예요. 규칙표를 위에서부터 따라가 결론을 먼저 짚어요.';
+      Fun.say(m);
+    }
   }
 
   function pick(k){
     if (confirmed) return;
     picked = k;
     render();
+    if (window.Fun) Fun.say('짚었어요. 확인하기 전에는 바꿀 수 있어요. 어느 줄에서 정해질지 한 번 더 따라가 봐요.');
   }
 
   function check(){
@@ -261,7 +298,7 @@
         asked = i;
         if (i >= hit){ revealing = false; finish(hit); }
         render();
-        if (i >= hit){ try { nextBtn.focus({ preventScroll: true }); } catch (e) {} }
+        if (i >= hit){ try { nextBtn.focus({ preventScroll: true }); } catch (e) {} react(hit, posOfOpt(cur, picked)); }
         if (i < hit) next(i + 1);
       }, step);
     })(0);
@@ -273,11 +310,26 @@
     else say.textContent = LINE[hit] + '에서 정해졌어요 · 짚은 결론은 ' + LINE[mine] + '이에요';
     say.className = 'say';
   }
+  function react(hit, mine){
+    if (window.Fun){
+      var rowEl = rowsBox.children[hit];
+      if (mine === hit){
+        Fun.say('짚은 줄과 정해진 줄이 같아요. 이 카드는 ' + LINE[hit] + '에서 멈췄어요.' + (cur.limit ? ' 그런데 규칙표에 없는 날씨였어요.' : ''), 'cheer');
+        Fun.burst(rowEl);
+      } else {
+        Fun.say('예상과 다르게 나왔어요. 짚은 결론은 ' + LINE[mine] + ', 실제는 ' + LINE[hit] + '이에요. 어디서 갈렸는지 줄을 따라 봐요.', 'think');
+        Fun.shake(rowEl);
+      }
+      if (cur.limit) Fun.say('규칙표에 없는 날씨예요. 이 결론이 알맞은지 짝과 이야기해 봐요.', 'think');
+      Fun.stamp();
+    }
+  }
 
   function render(){
     var c = cur.c;
     $('cn').textContent = cur.name;
     $('cn').className = 'cn' + (cur.limit ? ' lim' : '');
+    icon(c);
     $('vw').textContent = c.w;
     $('vd').textContent = c.d;
     $('vt').textContent = c.t + '℃';
@@ -297,7 +349,7 @@
       var row = document.createElement('div');
       var cls = 'row';
       if (confirmed && i <= asked){
-        cls += ' asked' + (i === hit ? ' hit' : ' no');
+        cls += ' asked' + (i === hit ? ' hit' : ' no') + (i === asked ? ' fresh' : '');
       }
       if (done && i === mine && mine !== hit) cls += ' mine';
       row.className = cls;
@@ -328,11 +380,13 @@
   }
 
   checkBtn.addEventListener('click', check);
-  resetBtn.addEventListener('click', function(){ if (confirmed) return; picked = null; render(); });
+  resetBtn.addEventListener('click', function(){ if (confirmed) return; picked = null; render();
+    if (window.Fun) Fun.say('짚은 것을 지웠어요. 규칙표를 다시 따라가 봐요.', 'think'); });
   nextBtn.addEventListener('click', newRound);
 
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B22" data-mission="날씨 카드가 나오면 규칙표를 위에서부터 따라가 결론을 먼저 짚어요. 확인하면 어느 줄에서 정해졌는지 보여요."></script>
 </body>
 </html>

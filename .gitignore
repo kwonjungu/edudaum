@@ -9,3 +9,8 @@ _tools/_감사보고.md
 _tools/_배치*
 package-lock.json
 _*.mjs
+
+# 재미 개편 판정 사진·임시 시험 스크립트(로컬 전용)
+_tools/_판정/shots/
+_tools/_판정/*.mjs
+_tools/_판정/b*_play*.cjs

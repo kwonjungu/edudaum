@@ -1,0 +1,54 @@
+/* 에듀다움 체험 활동 공통 재미 장치 — 책 「손끝에서 시작하는 SW와 AI 수업」과 같은 색·글꼴 (2026-10-29)
+   게임 쪽 <style> 뒤에 <link rel="stylesheet" href="../assets/play/fun.css">로 붙인다. 화면의 짜임·글·동작은 게임 쪽이 정한다. */
+@font-face{font-family:'Jua';src:url('../fonts/jua.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'Gowun Dodum';src:url('../fonts/gowun-dodum.woff2') format('woff2');font-display:swap}
+:root{
+  --ink:#33302b; --muted:#6f6a62; --paper:#f8f6f1; --surface:#ffffff; --soft:#f3efe6;
+  --line:#e3ddd1; --line-strong:#cfc6b6;
+  --point:#2f78b5; --point-soft:#e6f3fc;
+  --sky:#5aa9e6; --sky-l:#e6f3fc; --mint:#4cbf9a; --mint-d:#1f7a5c; --mint-l:#e3f6ef;
+  --sun:#ffc845; --sun-l:#fff6d9; --grape:#9b8cf2; --grape-l:#efecfd; --pink:#ff8fa3; --pink-l:#ffeef1;
+  --r:18px; --r-sm:10px;
+  --hard:0 1px 0 rgba(51,48,43,.06),0 6px 16px rgba(51,48,43,.07); --hard-sm:0 1px 2px rgba(51,48,43,.1);
+}
+body{background:var(--paper) radial-gradient(rgba(51,48,43,.05) 1px,transparent 1px) 0 0/18px 18px;color:var(--ink)}
+h1,h2,.fun-say b,.fun-stamp{font-family:'Jua','Gowun Dodum',system-ui,sans-serif;font-weight:400;letter-spacing:0}
+h1{color:var(--ink)}
+h2{color:var(--point)}
+section{border-radius:var(--r);border-color:var(--line)}
+button{transition:transform .12s ease,box-shadow .12s ease,background-color .15s}
+button:not(:disabled):active{transform:translateY(1px) scale(.98)}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+
+/* 캐릭터 안내 띠 */
+.fun-guide{display:flex;align-items:flex-end;gap:10px;margin:4px 0 12px;min-height:84px}
+.fun-guide img{width:78px;height:78px;object-fit:contain;flex:0 0 auto;transform-origin:50% 100%;animation:fun-bob 3.2s ease-in-out infinite}
+.fun-say{position:relative;flex:1;background:var(--surface);border:2px solid var(--ink);border-radius:16px;padding:9px 13px;
+  font-size:15.5px;line-height:1.45;box-shadow:var(--hard-sm);margin-bottom:14px}
+.fun-say::before{content:'';position:absolute;left:-10px;bottom:12px;border:8px solid transparent;border-right-color:var(--ink)}
+.fun-say::after{content:'';position:absolute;left:-6px;bottom:13px;border:7px solid transparent;border-right-color:var(--surface)}
+.fun-say b{display:block;font-size:13px;color:var(--point);margin-bottom:1px}
+.fun-say .fun-mission{display:inline-block;background:var(--sun-l);border-radius:6px;padding:0 4px}
+.fun-say.pop{animation:fun-pop .28s ease}
+.fun-guide.cheer img{animation:fun-jump .5s ease}
+.fun-guide.think img{animation:fun-tilt .6s ease}
+
+/* 도장 */
+.fun-stamp{position:fixed;right:10px;top:6px;z-index:50;width:76px;height:76px;border-radius:50%;
+  display:grid;place-items:center;text-align:center;font-size:15px;line-height:1.1;color:#c8442f;
+  border:4px double #c8442f;background:rgba(255,255,255,.92);transform:rotate(-12deg) scale(0);opacity:0;pointer-events:none}
+.fun-stamp.on{animation:fun-stamp .7s cubic-bezier(.2,1.6,.4,1) forwards}
+.fun-stamp small{display:block;font-family:'Gowun Dodum',system-ui;font-size:10px;color:#9a4a3a}
+.fun-shake{animation:fun-shake .38s ease}
+.fun-burst{position:fixed;inset:0;pointer-events:none;z-index:49;overflow:hidden}
+.fun-burst i{position:absolute;width:10px;height:10px;border-radius:3px;animation:fun-fly .9s ease-out forwards}
+
+@keyframes fun-bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-4px) rotate(-2deg)}}
+@keyframes fun-jump{0%{transform:translateY(0)}35%{transform:translateY(-16px) rotate(4deg)}70%{transform:translateY(0) scale(1.04,.96)}100%{transform:none}}
+@keyframes fun-tilt{0%,100%{transform:rotate(0)}30%{transform:rotate(-8deg)}60%{transform:rotate(6deg)}}
+@keyframes fun-pop{0%{transform:scale(.96)}60%{transform:scale(1.02)}100%{transform:none}}
+@keyframes fun-stamp{0%{transform:rotate(-30deg) scale(2.2);opacity:0}60%{transform:rotate(-10deg) scale(.92);opacity:1}100%{transform:rotate(-12deg) scale(1);opacity:1}}
+@keyframes fun-shake{0%,100%{translate:0 0}20%{translate:-6px 0}40%{translate:6px 0}60%{translate:-4px 0}80%{translate:3px 0}}   /* transform을 쓰지 않는다: 요소가 transform으로 자리를 잡고 있어도 그 자리에서 흔들린다 */
+@keyframes fun-fly{0%{transform:translate(0,0) rotate(0);opacity:1}100%{transform:translate(var(--dx),var(--dy)) rotate(var(--rot));opacity:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.fun-stamp.on{transform:rotate(-12deg);opacity:1}}
+@media (max-width:420px){.fun-guide img{width:62px;height:62px}.fun-say{font-size:14.5px}.fun-stamp{width:58px;height:58px;font-size:11px;top:4px;right:6px;border-width:3px}.fun-stamp small{display:none}}

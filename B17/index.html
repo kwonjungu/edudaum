@@ -6,19 +6,10 @@
 <title>하나만 바꿔 알아보게 하기</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
-:root{--line:#DDDDDD;--line-strong:#C1C1C1;
-  --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-  --point:#FF385C; --point-soft:#FFF0F3;
-  --muted:#6A6A6A; --amber:#FFE3E9;
-  --r:14px; --r-sm:8px;
-  --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
-}
+:root{--lock:#8a8378}
 *,*::before,*::after{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
-  background:var(--paper);
-  
-  
   color:var(--ink);
   font-family:"Pretendard","Noto Sans KR",-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
   font-size:17px; line-height:1.45; font-weight:600;
@@ -42,7 +33,15 @@ section{
   border:1px solid var(--ink);border-radius:var(--r-sm);box-shadow:var(--hard-sm);
   transition:transform .1s,box-shadow .1s;
 }
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px}
 .tab[aria-pressed="true"]{background:var(--point);color:#fff}
+.tab .pips{display:flex;gap:4px}
+.tab .pips i{width:9px;height:9px;border-radius:50%;border:1.5px solid currentColor;opacity:.55}
+.tab .pips i.on{background:currentColor;opacity:1}
+.tab.locked{background:var(--soft);color:var(--lock);border-style:dashed}
+.tab.locked .lk{display:inline-block}
+.tab .lk{display:none;vertical-align:-2px;margin-right:3px}
+.tab:disabled{cursor:default}
 .tab:active:not(:disabled){transform:translate(3px,3px);box-shadow:none}
 .hint{font-size:12px;font-weight:700;color:var(--muted);margin:0 0 10px}
 
@@ -50,36 +49,49 @@ section{
 .dial .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
 .dial .nm{font-weight:700;font-size:16px}
 .dial .badge{font-weight:700;font-size:14px;background:var(--point);color:#fff;border-radius:8px;padding:3px 11px}
-.ends{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:#C9C4B8;margin-top:3px}
+.ends{display:flex;justify-content:space-between;font-size:12px;font-weight:600;color:#d9d3c6;margin-top:3px}
 input[type=range]{
   -webkit-appearance:none;appearance:none;width:100%;min-height:46px;height:46px;
   background:transparent;margin:0;cursor:pointer;
 }
 input[type=range]:disabled{cursor:default;opacity:.5}
 input[type=range]::-webkit-slider-runnable-track{height:11px;border-radius:999px;background:var(--point-soft);border:2.5px solid var(--paper)}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;height:32px;margin-top:-12px;border-radius:50%;background:var(--amber);border:1px solid var(--ink)}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:32px;height:32px;margin-top:-12px;border-radius:50%;background:var(--sun);border:2px solid var(--ink)}
 input[type=range]::-moz-range-track{height:11px;border-radius:999px;background:var(--point-soft);border:2.5px solid var(--paper)}
-input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;background:var(--amber);border:1px solid var(--ink)}
+input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;background:var(--sun);border:2px solid var(--ink)}
 
 .stage{display:grid;grid-template-columns:minmax(0,118px) minmax(0,1fr);gap:9px;align-items:start}
-@media (max-width:360px){.stage{grid-template-columns:minmax(0,1fr)}}
-.shot{border:1px solid var(--line);border-radius:var(--r-sm);overflow:hidden;background:#fff;line-height:0}
+@media (max-width:380px){.stage{grid-template-columns:minmax(0,1fr)}.shotwrap{max-width:170px}}
+.shotwrap{position:relative}
+.shot{border:2px solid var(--ink);border-radius:var(--r-sm);overflow:hidden;background:#fff;line-height:0}
 .shot canvas{width:100%;height:auto;display:block}
+.thumb{position:absolute;right:-6px;bottom:-8px;width:46px;border:2px solid var(--ink);border-radius:6px;background:#fff;overflow:hidden;line-height:0;box-shadow:var(--hard-sm);transform:rotate(4deg)}
+.thumb canvas{width:100%;height:auto;display:block}
+.thumb span{display:block;font-size:10px;line-height:13px;text-align:center;background:var(--ink);color:#fff;font-weight:700}
 
 .bars{display:flex;flex-direction:column;gap:6px}
 .bar{
-  display:grid;grid-template-columns:42px minmax(0,1fr) 40px;gap:7px;align-items:center;
-  border:1px solid var(--line);border-radius:var(--r-sm);padding:6px 8px;background:var(--paper);min-height:44px;
+  display:grid;grid-template-columns:58px minmax(0,1fr) 34px;gap:6px;align-items:center;
+  border:2px solid var(--line);border-radius:var(--r-sm);padding:6px 8px;background:var(--surface);min-height:44px;transition:background .2s,border-color .2s;
 }
-.bar[data-top="1"]{background:var(--point-soft);border-width:4px}
-.bar .bn{font-weight:700;font-size:14.5px}
+.bar[data-top="1"]{background:var(--sun-l);border-color:var(--sun)}
+.bar[data-top="1"][data-ball="1"]{background:var(--mint-l);border-color:var(--mint)}
+.bar .bn{font-weight:700;font-size:14.5px;display:flex;align-items:center;gap:3px}
+.bar .bn svg{flex:0 0 auto}
 .bar .bt{display:block;height:12px;border:1px solid var(--line);border-radius:999px;background:#fff;overflow:hidden}
-.bar .bt i{display:block;height:100%;width:0;background:var(--point);transition:width .18s}
+.bar .bt i{display:block;height:100%;width:0;background:var(--sky);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.bar[data-top="1"] .bt i{background:var(--mint-d)}
 .bar .bv{font-weight:700;font-size:14.5px;text-align:right;font-variant-numeric:tabular-nums}
-.win{grid-column:1/-1;font-size:11.5px;font-weight:700;color:var(--ink)}
+.win{grid-column:1/-1;font-size:12px;font-weight:700;color:var(--ink)}
 .bar .win{display:none}
 .bar[data-top="1"] .win{display:block}
 
+.guess{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-top:10px}
+.guess .gl{font-size:12.5px;font-weight:700;color:var(--muted);flex:0 0 100%}
+.gbtn{flex:1 1 130px;min-height:46px;padding:8px 12px;font:inherit;font-size:14.5px;font-weight:700;cursor:pointer;
+  background:var(--surface);color:var(--ink);border:2px solid var(--line-strong);border-radius:var(--r-sm)}
+.gbtn[aria-pressed="true"]{background:var(--sun-l);border-color:var(--sun);box-shadow:inset 0 0 0 1px var(--sun)}
+.gbtn:disabled{cursor:default;opacity:.55}
 .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:11px}
 .btn{
   font-family:inherit;cursor:pointer;color:var(--ink);font-size:14.5px;font-weight:700;
@@ -89,10 +101,10 @@ input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;bac
 }
 .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
 .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-.btn.main{background:var(--amber)}
 .btn:disabled{opacity:.45;cursor:default;box-shadow:none}
 
 .msg{margin-top:9px;font-size:14px;font-weight:700;min-height:20px}
+main{overflow-x:hidden}
 .msg.dim{color:var(--muted);font-weight:700}
 
 :focus-visible{outline:3px solid var(--point);outline-offset:3px}
@@ -107,9 +119,11 @@ input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;bac
   border:1px solid var(--line);border-radius:999px;padding:6px 14px;
   box-shadow:var(--hard-sm);white-space:nowrap}
 
-/* 에듀다움 통일 테마 2026-09-27 */
+/* 주 단추 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+.btn.main:disabled{background:var(--line);border-color:var(--line-strong);color:var(--muted)}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <main>
@@ -120,9 +134,9 @@ input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;bac
   <section aria-labelledby="h-pick">
     <h2 id="h-pick" class="lab">바꿀 조건</h2>
     <div class="tabs" role="group" aria-label="바꿀 조건 고르기">
-      <button class="tab" type="button" data-c="dist" aria-pressed="false">거리</button>
-      <button class="tab" type="button" data-c="bg" aria-pressed="false">배경</button>
-      <button class="tab" type="button" data-c="light" aria-pressed="false">밝기</button>
+      <button class="tab" type="button" data-c="dist" aria-pressed="false"><span class="tn"><svg class="lk" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5.5" width="8" height="5.5" rx="1.5"/><path d="M4 5.5V4a2 2 0 0 1 4 0v1.5"/></svg>거리</span><span class="pips" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
+      <button class="tab" type="button" data-c="bg" aria-pressed="false"><span class="tn"><svg class="lk" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5.5" width="8" height="5.5" rx="1.5"/><path d="M4 5.5V4a2 2 0 0 1 4 0v1.5"/></svg>배경</span><span class="pips" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
+      <button class="tab" type="button" data-c="light" aria-pressed="false"><span class="tn"><svg class="lk" width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5.5" width="8" height="5.5" rx="1.5"/><path d="M4 5.5V4a2 2 0 0 1 4 0v1.5"/></svg>밝기</span><span class="pips" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
     </div>
     <p class="hint">고른 것 하나만 움직여요. 나머지는 그대로예요</p>
 
@@ -133,14 +147,22 @@ input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;bac
     </div>
 
     <div class="stage">
-      <div class="shot"><canvas id="cv" width="192" height="192" role="img" aria-label="책상 위 물건 사진"></canvas></div>
+      <div class="shotwrap">
+        <div class="shot"><canvas id="cv" width="192" height="192" role="img" aria-label="책상 위 물건 사진"></canvas></div>
+        <div class="thumb"><span>처음</span><canvas id="cv0" width="192" height="192" role="img" aria-label="판을 시작할 때의 사진"></canvas></div>
+      </div>
       <div class="bars" id="bars">
-        <div class="bar" data-k="ball"><span class="bn">공</span><span class="bt"><i></i></span><span class="bv"></span><span class="win">가장 비슷</span></div>
-        <div class="bar" data-k="box"><span class="bn">상자</span><span class="bt"><i></i></span><span class="bv"></span><span class="win">가장 비슷</span></div>
-        <div class="bar" data-k="cup"><span class="bn">컵</span><span class="bt"><i></i></span><span class="bv"></span><span class="win">가장 비슷</span></div>
+        <div class="bar" data-k="ball"><span class="bn"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" fill="#d6f5e6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><circle cx="7" cy="7" r="5.5"/></svg>공</span><span class="bt"><i></i></span><span class="bv"></span><span class="win">가장 비슷</span></div>
+        <div class="bar" data-k="box"><span class="bn"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" fill="#d6f5e6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><rect x="1.8" y="1.8" width="10.4" height="10.4"/></svg>상자</span><span class="bt"><i></i></span><span class="bv"></span><span class="win">가장 비슷</span></div>
+        <div class="bar" data-k="cup"><span class="bn"><svg width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" fill="#d6f5e6" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"><path d="M2 1.8h10l-3 10.4H5z"/></svg>컵</span><span class="bt"><i></i></span><span class="bv"></span><span class="win">가장 비슷</span></div>
       </div>
     </div>
 
+    <div class="guess" role="group" aria-label="예상">
+      <span class="gl">예상</span>
+      <button class="gbtn" type="button" data-g="clear" aria-pressed="false">공이 앞서요</button>
+      <button class="gbtn" type="button" data-g="short" aria-pressed="false">모자라요</button>
+    </div>
     <p class="msg dim" id="msg" role="status" aria-live="polite">조건을 하나 골라요</p>
     <div class="acts">
       <button class="btn main" id="confirmBtn" type="button" disabled>확인하기</button>
@@ -172,6 +194,11 @@ input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;bac
   var confirmBtn = document.getElementById('confirmBtn');
   var resetBtn = document.getElementById('resetBtn');
   var nextBtn = document.getElementById('nextBtn');
+  var cv0 = document.getElementById('cv0');
+  var ctx0 = cv0.getContext('2d');
+  var shotEl = document.querySelector('.shot');
+  var gbtns = [].slice.call(document.querySelectorAll('.gbtn'));
+  var guess = null, stamped = false;
   var rows = {};
   [].forEach.call(document.querySelectorAll('.bar'), function (el) {
     rows[el.getAttribute('data-k')] = {
@@ -288,6 +315,7 @@ input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;bac
   }
 
   function drawPreview() { render(ctx, 'ball', currentLevels()); }
+  function say(t, m) { if (window.Fun) { Fun.say(t, m); } }
 
   function clearBars() {
     KINDS.forEach(function (k) {
@@ -295,22 +323,30 @@ input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;bac
       r.fill.style.width = '0%';
       r.val.textContent = '';
       r.el.setAttribute('data-top', '0');
+      r.el.setAttribute('data-ball', '0');
     });
   }
 
   function renderUI() {
+    var cur = currentLevels();
     tabs.forEach(function (t) {
       var ax = t.getAttribute('data-c');
       t.setAttribute('aria-pressed', activeAxis === ax ? 'true' : 'false');
       t.disabled = confirmed;
+      t.classList.toggle('locked', !!activeAxis && activeAxis !== ax);
+      [].forEach.call(t.querySelectorAll('.pips i'), function (p, i) { p.classList.toggle('on', i < cur[ax]); });
+    });
+    gbtns.forEach(function (b) {
+      b.setAttribute('aria-pressed', guess === b.getAttribute('data-g') ? 'true' : 'false');
+      b.disabled = confirmed;
     });
     cname.textContent = activeAxis ? NAME[activeAxis] : '고르지 않음';
     clv.textContent = activeAxis ? (sliderVal + '단계') : '-';
     rng.disabled = !activeAxis || confirmed;
     rng.value = String(activeAxis ? sliderVal : 0);
-    confirmBtn.disabled = confirmed || !activeAxis;
+    confirmBtn.disabled = confirmed || !activeAxis || !guess;
     if (!confirmed) {
-      msgEl.textContent = activeAxis ? '확인하기를 눌러요' : '조건을 하나 골라요';
+      msgEl.textContent = !activeAxis ? '조건을 하나 골라요' : (!guess ? '예상을 골라요' : '확인하기를 눌러요');
       msgEl.className = 'msg dim';
     }
   }
@@ -321,6 +357,14 @@ input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;bac
     sliderVal = start[ax];
     renderUI();
     drawPreview();
+    say(NAME[ax] + ' 하나만 움직여요. 나머지 둘은 그대로 잠겨요. 사진이 어떻게 바뀌는지 봐요.');
+  }
+
+  function pickGuess(g) {
+    if (confirmed) { return; }
+    guess = g;
+    renderUI();
+    say(g === 'clear' ? '공이 앞선다고 걸었어요. 숫자는 확인하기에서 나와요.' : '모자랄 것 같다고 걸었어요. 숫자는 확인하기에서 나와요.', 'think');
   }
 
   function moveSlider() {
@@ -348,16 +392,28 @@ input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;bac
       if (isTop) { r.tag.textContent = close ? '아슬아슬' : '가장 비슷'; }
     });
     var clear = sorted[0].k === 'ball' && !close;
+    rows.ball.el.setAttribute('data-ball', sorted[0].k === 'ball' ? '1' : '0');
     msgEl.textContent = clear ? '공이 뚜렷하게 앞서요' : '한 가지로는 모자라요';
+    var same = (guess === 'clear') === clear;
     msgEl.className = 'msg';
     renderUI();
+    var tail = close ? ' 1등과 2등이 아슬아슬해요. 다시 하기로 단계를 바꿔 보면 뒤집힐까요?'
+      : (clear ? ' 막대 숫자 차이를 봐요.' : ' 한 가지를 고쳐서는 부족했어요. 두 조건이 같이 어긋났을지 몰라요.');
+    var sentence = same ? '예상과 같게 나왔어요.' : '예상과 다르게 나왔어요. 어디서 갈렸는지 막대를 봐요.';
+    say(sentence + tail, same ? 'cheer' : 'think');
+    if (window.Fun) {
+      Fun.burst(clear ? rows.ball.el : msgEl);
+      if (!clear) { Fun.shake(shotEl); }
+      if (!stamped) { stamped = true; Fun.stamp(); }
+    }
   }
 
   function restartRound() {
-    activeAxis = null; sliderVal = 0; confirmed = false;
+    activeAxis = null; sliderVal = 0; confirmed = false; guess = null;
     clearBars();
     renderUI();
     drawPreview();
+    say('같은 사진으로 다시 해요. 이번엔 다른 조건을 골라 볼까요?', 'think');
   }
 
   function newRound() {
@@ -370,11 +426,15 @@ input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;bac
     lastSig = sig;
     start = s;
     restartRound();
+    render(ctx0, 'ball', start);
+    drawPreview();
+    say('새 사진이에요. 세 조건이 이미 어긋나 있어요. 하나만 골라 움직여 봐요.');
   }
 
   tabs.forEach(function (t) { t.addEventListener('click', function () { pickAxis(t.getAttribute('data-c')); }); });
   rng.addEventListener('input', moveSlider);
   confirmBtn.addEventListener('click', confirmRound);
+  gbtns.forEach(function (b) { b.addEventListener('click', function () { pickGuess(b.getAttribute('data-g')); }); });
   resetBtn.addEventListener('click', restartRound);
   nextBtn.addEventListener('click', newRound);
 
@@ -385,5 +445,6 @@ input[type=range]::-moz-range-thumb{width:32px;height:32px;border-radius:50%;bac
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B17" data-mission="조건 하나만 바꿔 공을 알아보게 해요. 움직이기 전에 예상부터 걸어요!"></script>
 </body>
 </html>

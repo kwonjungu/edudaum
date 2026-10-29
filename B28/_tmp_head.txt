@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>학습에서 빠질 사람 짚기 — 에듀다움</title>
+<link rel="icon" href="../assets/icons/game.svg">
+<style>
+  :root{--line:#DDDDDD;--line-strong:#C1C1C1;
+    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
+    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A;
+    --r:14px; --r-sm:8px;
+    --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{-webkit-text-size-adjust:100%}
+  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.45;
+    
+    background-position:-11px -11px}
+  .wrap{max-width:640px;margin:0 auto;padding:9px 14px 18px}
+
+  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
+  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:600;
+    font-size:14px;background:var(--surface);border:1px solid var(--ink);border-radius:999px;
+    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
+  .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;border:1px solid var(--line);
+    border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
+
+  h1{font-size:clamp(20px,4.8vw,26px);font-weight:700;letter-spacing:-.035em;line-height:1.08}
+  .lead{font-size:13.5px;color:var(--muted);margin-top:2px;font-weight:700}
+
+  section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+    box-shadow:var(--hard);padding:8px 9px;margin-top:7px}
+  h2{font-size:12.5px;font-weight:700;margin-bottom:5px;color:var(--muted)}
+
+  .rows{display:grid;gap:3px}
+  .pick{display:flex;align-items:center;gap:7px;width:100%;font-family:inherit;cursor:pointer;
+    color:var(--ink);background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
+    min-height:44px;padding:4px 9px;box-shadow:var(--hard-sm);text-align:left}
+  .pick .nm{flex:1;font-weight:700;font-size:14px}
+  .pick .n{font-family:'Courier New',monospace;font-weight:700;font-size:14px;min-width:2.6em;
+    text-align:right;color:var(--muted)}
+  .pick .vd{font-weight:700;font-size:12.5px;min-width:6.4em;text-align:right}
+  .pick[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px}
+  .pick:disabled{opacity:.45;cursor:default;box-shadow:none}
+  .pick.guess{box-shadow:inset 6px 0 0 var(--point), var(--hard-sm)}
+
+
+  .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:700;
+    background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
+    min-height:44px;padding:8px 12px;box-shadow:var(--hard-sm);flex:1 1 90px}
+  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
+  .btn.main{background:var(--point);color:#fff}
+  .btn:disabled{opacity:.4;cursor:default;box-shadow:none}
+
+  .say{margin-top:6px;font-size:13.5px;font-weight:700;min-height:1.4em}
+  .say.dim{color:var(--muted);font-weight:700;font-size:12.5px}
+  .note{margin-top:4px;font-size:12px;font-weight:700;color:var(--muted)}
+  [hidden]{display:none!important}
+
+  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* 에듀다움 통일 테마 2026-09-27 */
+.btn.main{background:var(--point);border-color:var(--point);color:#fff}
+
+/* 재미 개편 2026-10-29 */
+.bars{display:grid;gap:5px}
+.bar{display:grid;grid-template-columns:30px minmax(0,1fr) 3.2em;align-items:center;gap:7px;padding:2px 4px;border-radius:var(--r-sm);border:2px solid transparent;transition:background .2s,border-color .2s}
+.bar.on{background:var(--sky-l);border-color:var(--sky)}
+.bar .lb{display:block;font-size:12.5px;font-weight:700;line-height:1.2}
+.bar .trk{height:12px;border-radius:99px;background:var(--soft,#F7F7F7);border:1px solid var(--line);overflow:hidden;display:flex}
+.bar .fill{height:100%;background:var(--sky);transition:width .5s ease-out;width:0}
+.bar .add{height:100%;background:repeating-linear-gradient(45deg,var(--mint) 0 4px,var(--mint-d,#2a9) 4px 8px);transition:width .7s ease-out;width:0}
+.bar .ct{font-family:'Courier New',monospace;font-weight:700;font-size:13px;text-align:right;color:var(--muted)}
+.bar.dk .trk{background:#E4E4EA}
+.bar-top{display:flex;justify-content:space-between;gap:6px}
+.hand{width:30px;height:30px;flex:0 0 auto;background:var(--sun-l);border-radius:8px}
+.hand.dk{background:#D9D9E3}
+.pick .hand{width:34px;height:34px}
+.pick.pop,.bar.pop{animation:pp .26s ease-out}
+@keyframes pp{0%{transform:scale(1)}45%{transform:scale(1.04)}100%{transform:scale(1)}}
+.pick.lit{box-shadow:inset 0 0 0 3px var(--mint),var(--hard-sm)}
+.pick .vd.stay{color:var(--ink);text-decoration:underline dotted}
+.pick .vd.ok{color:var(--mint-d,#176)}
+.wrap{overflow-x:hidden}
+.pick .nm{min-width:0;overflow-wrap:anywhere}
+@media (max-width:430px){.pick{gap:5px;padding:4px 6px}.pick .nm{font-size:13.5px}.pick .vd{min-width:5.2em;font-size:12px}.pick .n{min-width:2.2em;font-size:13px}.btn{font-size:14px;padding:8px 6px}}
+</style>
+<link rel="stylesheet" href="../assets/play/fun.css">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+  <symbol id="hR" viewBox="0 0 40 40"><g fill="#fff" stroke="var(--ink)" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"><rect x="13" y="20" width="18" height="16" rx="6"/><rect x="13" y="8" width="3.6" height="15" rx="1.8"/><rect x="17.4" y="5" width="3.6" height="18" rx="1.8"/><rect x="21.8" y="6" width="3.6" height="17" rx="1.8"/><rect x="26.2" y="10" width="3.6" height="14" rx="1.8"/><rect x="5" y="21" width="12" height="4.4" rx="2.2" transform="rotate(-30 11 23)"/></g></symbol>
+  <symbol id="hL" viewBox="0 0 40 40"><use href="#hR" transform="translate(40 0) scale(-1 1)"/></symbol>
+  <symbol id="hS" viewBox="0 0 40 40"><use href="#hR"/><rect x="9" y="26" width="26" height="12" rx="3" fill="var(--sky)" stroke="var(--ink)" stroke-width="1.6"/><path d="M13 30h18M13 34h18" stroke="#fff" stroke-width="1.2"/></symbol>
+  <symbol id="hB" viewBox="0 0 40 40"><use href="#hR"/><g transform="rotate(-8 19 14)"><rect x="12" y="11" width="9" height="5.5" rx="2" fill="var(--pink,#f9b)" stroke="var(--ink)" stroke-width="1.2"/><circle cx="15" cy="13.7" r=".7" fill="var(--ink)"/><circle cx="18" cy="13.7" r=".7" fill="var(--ink)"/></g></symbol>
+  <symbol id="mn" viewBox="0 0 40 40"><path d="M27 6a14 14 0 1 0 8 22A12 12 0 0 1 27 6z" fill="var(--sun)" stroke="var(--ink)" stroke-width="1.4"/></symbol>
+</defs></svg>
+<div class="wrap">
+  <nav class="nav">
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">← 체험 목록</a><a class="back" href="../lessons/B28/">과정안</a></span>
+    <span class="tag">31~32</span>
+  </nav>
+
+  <header>
+    <h1>학습에서 빠질 사람 짚기</h1>
+    <p class="lead">넣어도 그대로일 사람을 짚어요</p>
+  </header>
+
+  <section aria-labelledby="h-b">
+    <h2 id="h-b">학습 사진 서른 장</h2>
+    <div class="bars" id="bars"></div>
+  </section>
+
+  <section aria-labelledby="h-p">
+    <h2 id="h-p">쓸 사람 셋</h2>
+    <div class="rows" id="people"></div>
+  </section>
+
+  <section aria-labelledby="h-w">
+    <h2 id="h-w">열 장 더 넣을 곳</h2>
+    <div class="rows" id="wheres"></div>
+  </section>
+
+  <section aria-labelledby="h-c">
+    <h2 id="h-c">확인</h2>
+    <p class="say dim" id="say">쓸 사람 셋을 골라요</p>
+    <div class="acts">
+      <button class="btn main" id="go" type="button" disabled>넣어 보기</button>
+      <button class="btn" id="reset" type="button">다시 하기</button>
+      <button class="btn" id="next" type="button" hidden>다른 사진으로</button>
+    </div>
+    <p class="note">우리 도우미를 왼손으로 써 봐요</p>
+    <p class="note" id="rule" hidden>사진 8장부터 잘 알아본다고 이 화면에서 정했어요. 기준이 달라지면 결과도 달라질 수 있어요.</p>
+  </section>
+</div>
+
+<script>
+(function(){
+  'use strict';
+  var $ = function(id){ return document.getElementById(id); };
+

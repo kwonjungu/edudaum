@@ -60,10 +60,11 @@ def audit(path: Path) -> list:
         url = m.group(1)
         if not url.startswith(CDN_OK):
             bad.append('허용하지 않은 외부 주소: %s' % url[:70])
+    SHARED = ('../assets/play/fun.js', '../assets/play/fun.css')   # 공통 재미 장치(2026-10-29, _설계/_재미개편_2026-10-29.md)만 허용
     for m in re.finditer(r'<script[^>]+src="(?!https?://)([^"]+)"', html):
-        bad.append('외부 js 파일로 쪼갬: %s (단일 파일이어야 함)' % m.group(1))
+        if m.group(1) not in SHARED: bad.append('외부 js 파일로 쪼갬: %s (단일 파일이어야 함)' % m.group(1))
     for m in re.finditer(r'<link[^>]+rel="stylesheet"[^>]+href="(?!https?://)([^"]+)"', html):
-        bad.append('외부 css 파일로 쪼갬: %s' % m.group(1))
+        if m.group(1) not in SHARED: bad.append('외부 css 파일로 쪼갬: %s' % m.group(1))
     if re.search(r'\bfetch\s*\(\s*[\'"`]https?://', html):
         for m in re.finditer(r'fetch\s*\(\s*[\'"`](https?://[^\'"`]+)', html):
             if not m.group(1).startswith(CDN_OK):

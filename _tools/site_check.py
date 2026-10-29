@@ -12,7 +12,7 @@
   S5 도구 링크 : 바깥 링크는 https, tools.json·links.json 주소는 모두 https
   S6 게임 짝   : 체험 게임이 있는 차시는 차시 쪽에서 게임으로, 게임 쪽에서 차시 쪽으로 이어진다
   S7 규격      : lang="ko", viewport, 바깥 스크립트·스타일 없음
-  S9 게임 테마  : 통일 테마 표시가 있고, 하드 그림자·크림 바탕·굵은 먹 테두리가 없다(초점 테두리는 둔다)
+  S9 게임 테마  : 책 테마(fun.css) 또는 통일 테마 표시가 있고, 하드 그림자·크림 바탕·굵은 먹 테두리가 없다(초점 테두리는 둔다)
   S8 공개용 PDF: 개발자 행이 없거나(2026. 9. 28.부터) 있으면 연구회 이름이고 문서 정보의 작성자가 비어 있다(creator는 한글 프로그램 이름이라 둔다),
                드라이브 링크는 forms.json에 등록된 공개 서식 주소만(과정안 원본 등 다른 드라이브 링크는 지적)
   S10 서식 파일 : forms.json의 파일·미리보기·묶음(zip)이 assets/forms에 있고 크기가 기록과 같다
@@ -272,10 +272,13 @@ def main(argv):
         if not g.exists():
             continue
         h = g.read_text(encoding='utf-8')
-        if '에듀다움 통일 테마' not in h:
-            bad.append(('S9', c, '통일 테마 없음 — python _tools/apply_theme.py %s' % c))
-        for pat, name in ((r'\dpx \dpx 0 var\(--ink\)', '하드 그림자'), (r'#FBF7EC|#141414', '옛 크림·먹색'),
-                          (r'(?:2|2\.5|3)px (?:solid|dashed) var\(--ink\)(?![^{]*outline)', '굵은 먹 테두리')):
+        fun = '../assets/play/fun.css' in h          # 2026-10-29 책 테마(공통 재미 장치)를 쓰는 쪽
+        if '에듀다움 통일 테마' not in h and not fun:
+            bad.append(('S9', c, '통일 테마 없음 — fun.css를 붙이거나 python _tools/apply_theme.py %s' % c))
+        pats = [(r'\dpx \dpx 0 var\(--ink\)', '하드 그림자'), (r'#FBF7EC|#141414', '옛 크림·먹색')]
+        if not fun:                                   # 굵은 먹 테두리 금지는 옛 흰 바탕 통일안(2026-09-27)에만
+            pats.append((r'(?:2|2\.5|3)px (?:solid|dashed) var\(--ink\)(?![^{]*outline)', '굵은 먹 테두리'))
+        for pat, name in pats:
             for m in re.finditer(pat, h):
                 line = h[h.rfind('\n', 0, m.start()) + 1:h.find('\n', m.end())]
                 if 'outline' in line:

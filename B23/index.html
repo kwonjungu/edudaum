@@ -33,6 +33,7 @@
   section.off{opacity:.45}
   h2{font-size:16px;font-weight:600;margin-bottom:8px}
   .hint{font-size:15px;color:var(--muted)}
+  h2 .hint{display:block;font-weight:400;font-size:14px;margin-top:2px}
 
 
   /* 막대 */
@@ -44,14 +45,18 @@
   button.bar:disabled{cursor:default;border-color:var(--line)}
   .bar i{position:absolute;left:0;top:0;bottom:0;background:var(--ink);opacity:.7}
   .bar.is30 i{background:var(--ink);opacity:.35}
-  .bar s{position:absolute;left:0;bottom:0;height:12px;background:var(--point);text-decoration:none}
+  .bar s{position:absolute;left:0;bottom:0;height:12px;background:var(--pink);text-decoration:none;animation:grow .5s ease-out}
+  @keyframes grow{from{transform:scaleX(0);transform-origin:left}to{transform:none}}
   .bar.pick{background:var(--point-soft);outline:3px solid var(--point);outline-offset:-1px}
+  .bar.pick i{opacity:.9}
   .bar.most{outline:3px dashed var(--ink);outline-offset:-1px;animation:pop .35s ease-out}
   @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.04)}100%{transform:scale(1)}}
   .key{display:flex;gap:14px;flex-wrap:wrap;font-size:13px;color:var(--muted);margin-top:6px}
   .key span::before{content:"";display:inline-block;width:14px;height:10px;margin-right:5px;vertical-align:middle;border-radius:2px}
   .key .k10::before{background:var(--ink);opacity:.7}
-  .key .k30::before{background:var(--point)}
+  .key .k30::before{background:var(--pink)}
+  .walk{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--muted);margin-top:8px}
+  .walk svg{flex:1 1 auto;height:28px;min-width:0}
   .t{font-size:14px;color:var(--muted);text-align:right;white-space:nowrap}
 
   .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
@@ -70,6 +75,7 @@
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -85,6 +91,10 @@
   <section id="s2" aria-labelledby="h2t">
     <h2 id="h2t">10초 기록 <span class="hint" id="info"></span></h2>
     <p class="hint" id="hint2"></p>
+    <div class="walk" aria-hidden="true"><span>창가</span>
+      <svg viewBox="0 0 200 28" preserveAspectRatio="none"><defs><linearGradient id="lg" x1="0" x2="1"><stop offset="0" stop-color="#ffc845"/><stop offset="1" stop-color="#33302b"/></linearGradient></defs>
+      <rect x="0" y="9" width="200" height="10" rx="5" fill="url(#lg)"/><circle cx="12" cy="14" r="8" fill="#ffc845" stroke="#33302b" stroke-width="1.5"/><path d="M170 14h20m-6-5 6 5-6 5" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      <span>안쪽</span></div>
     <div class="chart" id="chart10" role="group" aria-label="10초 기록 막대"></div>
     <p class="key"><span class="k10">10초 기록</span><span class="k30" id="key30" hidden>30초 기록(사이는 곧게 이어 짐작)</span></p>
     <div class="acts">
@@ -142,6 +152,7 @@
     }
     pick = -1; checked = false;
     render();
+    if (window.Fun) Fun.say('새 기록이에요. 30초마다만 적으면 가장 크게 놓칠 막대를 먼저 걸어 봐요.');
   }
 
   function drawChart(box, opt){
@@ -155,7 +166,8 @@
       t.textContent = sec(i);
       var el = document.createElement('button');
       el.type = 'button';
-      (function(k){ el.addEventListener('click', function(){ if (!checked && !is30(k)){ pick = k; render(); } }); })(i);
+      (function(k){ el.addEventListener('click', function(){ if (!checked && !is30(k)){ pick = k; render();
+        if (window.Fun) Fun.say(sec(k) + ' 막대를 걸었어요. 확인하기를 누르면 30초 기록이 나와요. 마음이 바뀌면 다른 막대를 눌러도 돼요.'); } }); })(i);
       el.disabled = is30(i) || checked;
       el.setAttribute('aria-pressed', i === pick ? 'true' : 'false');
       el.className = 'bar' + (is30(i) ? ' is30' : '') + (i === pick ? ' pick' : '') + (i === most ? ' most' : '');
@@ -177,7 +189,7 @@
 
   function render(){
     $('info').textContent = '창가에서 안쪽으로 걸으며 잰 빛 세기 · ' + n + '칸';
-    $('hint2').textContent = checked ? '분홍 막대가 30초 기록, 점선이 가장 크게 놓친 곳이에요'
+    $('hint2').textContent = checked ? (miss(mostIdx()) > 12 ? '분홍 막대가 30초 기록, 점선이 가장 크게 놓친 곳이에요' : '분홍 막대가 30초 기록이에요. 놓친 곳이 거의 없어요')
       : pick < 0 ? '흐린 막대(30초 기록에도 들어감)가 아닌 막대를 눌러요'
       : sec(pick) + '를 짚었어요. 확인 전엔 바꿔도 돼요';
     var mi = checked ? mostIdx() : -1;
@@ -198,16 +210,28 @@
     $('say').textContent = say;
   }
 
+  function react(){
+    if (!window.Fun) return;
+    var m = mostIdx(), mv = Math.round(miss(m));
+    var box = document.getElementById('s3');
+    if (mv <= 12){ Fun.say('이 기록은 출렁임이 거의 없어요. 30초 기록으로도 모양이 거의 같은데, 늘 그럴까요? 다음 판도 걸어 봐요.', 'think'); }
+    else if (m === pick){ Fun.say('걸어 둔 곳과 같은 자리예요. 분홍 선과 막대 사이가 벌어진 걸 봐요.', 'cheer'); Fun.burst($('chart10').children[m]); }
+    else { Fun.say('예상과 다르게 나왔어요. 걸어 둔 막대와 점선 막대의 분홍 선을 견주어 봐요.', 'think'); Fun.shake(box); }
+    Fun.stamp();
+  }
+
   $('checkBtn').addEventListener('click', function(){
     if (checked || pick < 0) return;
-    checked = true; render();
+    checked = true; render(); react();
     $('s3').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
   $('nextBtn').addEventListener('click', function(){ if (checked){ newRound(); window.scrollTo(0, 0); } });
-  $('resetBtn').addEventListener('click', function(){ pick = -1; checked = false; render(); window.scrollTo(0, 0); });
+  $('resetBtn').addEventListener('click', function(){ pick = -1; checked = false; render(); window.scrollTo(0, 0);
+    if (window.Fun) Fun.say('같은 기록을 처음부터 봐요. 다시 걸어 봐요.'); });
 
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B23" data-mission="10초 기록에서 30초 기록이 가장 크게 놓칠 막대를 먼저 걸어 봐요."></script>
 </body>
 </html>

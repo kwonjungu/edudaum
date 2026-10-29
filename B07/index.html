@@ -8,7 +8,7 @@
 <style>
   :root{--line:#DDDDDD;--line-strong:#C1C1C1;
     --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A;
+    --point:#2f78b5; --point-soft:#e6f3fc; --muted:#6A6A6A;
     --r:14px; --r-sm:8px;
     --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
@@ -68,11 +68,20 @@
 
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
   @media(max-width:420px){ .stage{grid-template-columns:1fr} }
+  @media(max-width:400px){ .acts .btn{white-space:nowrap;padding:8px 6px;font-size:13px;flex:1 1 0} }
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+  .steps li{display:flex;align-items:center;gap:8px}
+  .mini{width:22px;height:22px;flex:none;background:var(--ink);border-radius:4px;padding:2px}
+  .steps li:empty .mini{display:none}
+  .steps li.pop{animation:pop .5s ease}
+  @keyframes pop{0%{transform:translateX(-14px);opacity:.3}60%{transform:translateX(5px)}100%{transform:none;opacity:1}}
+  .led-on{filter:drop-shadow(0 0 3px #0EA5E9)}
+  .tag{background:var(--point)}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -162,7 +171,7 @@
         el.setAttribute('height', '15');
         el.setAttribute('rx', '3');
         el.setAttribute('class', 'dot');
-        el.setAttribute('fill', OFF);
+        el.style.fill = OFF;
         gridEl.appendChild(el);
         cells.push(el);
       }
@@ -171,7 +180,15 @@
 
   function setLed(key) {
     var pic = key ? IMAGES[key] : null;
-    for (var i = 0; i < 25; i++) { cells[i].setAttribute('fill', pic && pic[i] ? ON : OFF); }
+    for (var i = 0; i < 25; i++) { cells[i].style.fill = pic && pic[i] ? ON : OFF; }
+  }
+
+  function miniSvg(key) {
+    var pic = IMAGES[key], h = '<svg class="mini" viewBox="0 0 100 100" aria-hidden="true">';
+    for (var i = 0; i < 25; i++) {
+      h += '<rect x="' + ((i % 5) * 20 + 2) + '" y="' + (Math.floor(i / 5) * 20 + 2) + '" width="16" height="16" rx="3" fill="' + (pic[i] ? ON : OFF) + '"/>';
+    }
+    return h + '</svg>';
   }
 
   function showLine(n) {
@@ -181,7 +198,7 @@
   function renderLines(ord, pair) {
     for (var k = 0; k < 3; k++) {
       var li = lineEls[k + 1];
-      li.textContent = '아이콘 출력 ' + LABEL[ord[k]];
+      li.innerHTML = miniSvg(ord[k]) + '<span>아이콘 출력 ' + LABEL[ord[k]] + '</span>';
       li.classList.toggle('mark', !!pair && (k === pair[0] || k === pair[1]));
     }
   }
@@ -193,6 +210,7 @@
   var ran = false;
   var timers = [];
   var lastKey = '';
+  var stamped = false;
 
   function clearTimers() {
     for (var i = 0; i < timers.length; i += 1) { clearTimeout(timers[i]); }
@@ -221,7 +239,7 @@
     while (r.key === lastKey && tries < 8) { r = draw(); tries += 1; }
     lastKey = r.key;
 
-    order = r.order; pair = r.pair; guess = null; ran = false;
+    order = r.order; pair = r.pair; guess = null; ran = false; stamped = false;
     after = order.slice();
     after[pair[0]] = order[pair[1]];
     after[pair[1]] = order[pair[0]];
@@ -240,6 +258,7 @@
     nextBtn.disabled = false;
     sayEl.textContent = '셋 가운데 하나를 짚어요';
     sayEl.className = 'say dim';
+    if (window.Fun) { Fun.say('새 판이에요. 자리를 바꾸기 전에 마지막 그림부터 예상해요.'); }
   }
 
   function pickGuess(g) {
@@ -251,18 +270,21 @@
       b.setAttribute('aria-pressed', b.getAttribute('data-g') === g ? 'true' : 'false');
     }
     goBtn.disabled = false;
+    goBtn.focus();
     sayEl.textContent = '바꿔 켜 보기를 눌러요';
     sayEl.className = 'say dim';
   }
 
   function finishLap() {
     var last = after[2];
-    if (guess === last) {
-      sayEl.textContent = '짚은 그림이 남았어요';
-    } else {
-      sayEl.textContent = SUBJ[last] + ' 남았어요';
-    }
+    sayEl.textContent = SUBJ[last] + ' 남았어요';
     sayEl.className = 'say';
+    if (window.Fun) {
+      if (!stamped) { stamped = true; Fun.stamp(); }
+      if (guess === last) { Fun.say('짚은 그림과 마지막 그림이 같아요. 어느 줄이 마지막이 됐는지 짝과 말해 봐요.', 'cheer'); }
+      else { Fun.say('예상과 다르게 나왔어요. 바꾼 줄이 마지막 줄이었는지 봐요.', 'think'); }
+      Fun.burst(gridEl);
+    }
     ran = true;
     goBtn.disabled = true;
     replayBtn.disabled = false;
@@ -272,9 +294,10 @@
   // 바꾼 차례대로 한 바퀴만 돈다. 마지막 그림은 켜진 채로 남는다.
   function lap() {
     clearTimers();
-    renderLines(after, pair);
-    showLine(0);
+    renderLines(order, pair);
+    showLine(-1);
     setLed(null);
+    swapEl.textContent = (pair[0] + 1) + '번과 ' + (pair[1] + 1) + '번 자리 바꾸는 중';
     var k = 0;
     function step() {
       showLine(k + 1);
@@ -283,7 +306,14 @@
       if (k < 3) { timers.push(setTimeout(step, SHOW)); }
       else { timers.push(setTimeout(finishLap, SHOW)); }
     }
-    timers.push(setTimeout(step, 400));
+    timers.push(setTimeout(function () {
+      renderLines(after, pair);
+      lineEls[pair[0] + 1].classList.add('pop');
+      lineEls[pair[1] + 1].classList.add('pop');
+      swapEl.textContent = (pair[0] + 1) + '번과 ' + (pair[1] + 1) + '번 자리 바꿨어요';
+      showLine(0);
+      timers.push(setTimeout(step, 700));
+    }, 600));
   }
 
   function run() {
@@ -314,7 +344,7 @@
   function stopLap() {
     if (!timers.length) { return; }
     clearTimers();
-    if (guess !== null) { ran = true; replayBtn.disabled = false; nextBtn.disabled = false; }
+    if (guess !== null) { ran = true; replayBtn.disabled = false; nextBtn.disabled = false; sayEl.textContent = '다시 보기를 눌러요'; showLine(-1); }
   }
   document.addEventListener('visibilitychange', function () { if (document.hidden) { stopLap(); } });
   window.addEventListener('pagehide', stopLap);
@@ -322,5 +352,6 @@
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B07" data-mission="블록 두 줄의 자리를 바꾸면 마지막에 남는 그림이 뭘까? 켜 보기 전에 예상부터!"></script>
 </body>
 </html>

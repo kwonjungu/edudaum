@@ -1,0 +1,1 @@
+{"block": "B25", "round": 1, "verdict": "PASS", "critical": [], "minor": [], "five": {}, "checked": "Claude 직접 점검(jscheck·audit·headless 0, monkey.cjs 360/430/1280 각 60연타 오류·넘침·외부요청·금지말 0, 430px 화면 직접 봄) + JEV decide yes"}

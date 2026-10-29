@@ -52,6 +52,47 @@ CSS = (Path(__file__).resolve().parent / 'site.css').read_text(encoding='utf-8')
 BRAND = ('<svg aria-hidden="true" viewBox="0 0 256 256"><path d="M36 134C65 131 94 139 117 155V218C91 201 65 196 36 200C30 201 26 197 26 191V144C26 138 30 135 36 134Z" fill="#2f78b5" /><path d="M220 134C191 131 162 139 139 155V218C165 201 191 196 220 200C226 201 230 197 230 191V144C230 138 226 135 220 134Z" fill="#2f78b5" /><path d="M119 132C82 128 59 102 64 67C105 66 133 93 127 132Z" fill="#4cbf9a" /><path d="M140 115C134 75 156 44 193 42C199 80 177 110 140 115Z" fill="#4cbf9a" /><circle cx="57" cy="43" r="12" fill="#ffc845"/></svg>')  # 에듀다움 로고(책과 새싹, 2026. 10. 29.)
 
 
+# 블록마다 안내하는 캐릭터 — 게임 공통 장치(assets/play/fun.js) 첫머리 CAST를 그대로 읽는다(2026. 10. 29.).
+_FUNJS = ROOT / 'assets/play/fun.js'
+CAST = [(int(a), int(b), c, n) for a, b, c, n in
+        re.findall(r"\[(\d+),\s*(\d+),\s*'(c\d)',\s*'([^']+)'\]", _FUNJS.read_text(encoding='utf-8') if _FUNJS.exists() else '')]
+GUIDE = ('c1', '새싹쌤')   # 전체 안내
+BOOK = SITE.get('book', {})
+
+
+def cast(code):
+    """(그림 파일 이름, 캐릭터 이름) — 맡은 블록이 없으면 새싹쌤."""
+    n = int(code[1:])
+    return next(((c, nm) for a, b, c, nm in CAST if a <= n <= b), GUIDE)
+
+
+def face(code, up, size=56, cls='face'):
+    c, nm = cast(code) if code else GUIDE
+    return '<img class="%s" src="%sassets/chars/%s.webp" alt="%s" width="%d" height="%d" loading="lazy">' % (cls, up, c, e(nm), size, size)
+
+
+def mission(code):
+    """체험 활동 한 줄 미션 — 게임 쪽 부제(.lead)에서 '체험 활동' 꼬리를 뗀 것."""
+    gm = game(code)
+    t = gm['lead'] if gm else ''
+    t = re.sub(r'\s*·\s*체험 활동\s*$', '', t)
+    t = re.sub(r'^체험 활동\s*·\s*', '', t)
+    return t.rstrip('. ')
+
+
+STAMP_JS = """<script>
+(function(){
+  var s={}; try{s=JSON.parse(localStorage.getItem('edudaum.stamps')||'{}')||{}}catch(_){}
+  [].forEach.call(document.querySelectorAll('[data-b]'),function(x){
+    var d=s[x.dataset.b]; if(!d||typeof d!=='string') return;
+    x.classList.add('done'); x.title='미션 도장 '+d;
+    var a=x.querySelector('a'); if(a){var v=document.createElement('span');v.className='vh';v.textContent=' (도장 받음)';a.appendChild(v)}
+  });
+})();
+</script>
+"""
+
+
 # 윗줄 메뉴 — 넷만 둔다(2026. 10. 11.). 예전 쪽은 지우지 않고 펼침 항목으로 묶는다.
 # (주소, 이름, 아이콘, 펼침 항목[(주소, 이름)])
 MENU = [
@@ -109,6 +150,7 @@ def nav(up: str, cur: str) -> str:
 def page(path: str, title: str, body: str, cur: str, extra_js: str = '') -> None:
     depth = path.count('/') + 1 if path else 0
     up = '../' * depth
+    css = CSS.replace('__UP__', up)   # 글꼴 파일 주소(assets/fonts)를 쪽 깊이에 맞춘다
     doc = ('<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n'
            '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
            '<title>%s</title>\n<link rel="icon" href="%sassets/brand/favicon.svg">\n<style>%s</style>\n</head>\n<body>\n'
@@ -116,11 +158,12 @@ def page(path: str, title: str, body: str, cur: str, extra_js: str = '') -> None
            '<header class="top"><div class="in"><a class="brand" href="%s">%s에듀다움</a>%s'
            '<a class="find" href="%ssearch/" aria-label="누리집 검색"%s>%s<span>검색</span></a></div></header>\n'
            '<main id="main">\n%s\n</main>\n'
-           '<footer><div class="in">%s<p><b>%s</b><br>%s · %s · 과정안 기준일 %s<br>'
+           '<footer><div class="in"><img class="lineup" src="%sassets/chars/lineup.webp" alt="" width="600" height="200">%s<p><b>%s</b><br>%s · %s · 과정안 기준일 %s<br>'
            '학교자율시간 안내·서식은 경기도교육청 자료를 재구성했어요. 원문과 최신 공문을 함께 확인하세요.<br>'
-           '학생 이름·점수를 받지 않고, 체험 활동의 카메라·마이크는 화면에만 쓰며 저장하지 않아요.</p></div></footer>\n'
-           '%s%s</body>\n</html>\n') % (e(title), up, CSS, up or './', BRAND, nav(up, cur), up,
-                                        ' aria-current="page"' if cur == 'search/' else '', SEARCH_ICON, body, sitemap(up),
+           '학생 이름·점수를 받지 않고, 체험 활동의 카메라·마이크는 화면에만 쓰며 저장하지 않아요.<br>'
+           '본 자료는 2026년 교육부·17개 시도교육청의 재원으로 한국과학창의재단의 지원을 받아 수행되었음</p></div></footer>\n'
+           '%s%s</body>\n</html>\n') % (e(title), up, css, up or './', BRAND, nav(up, cur), up,
+                                        ' aria-current="page"' if cur == 'search/' else '', SEARCH_ICON, body, up, sitemap(up),
                                         e(SITE['org']), e(SITE['title']), e(SITE['subtitle']), e(SITE['updated']), NAV_JS, extra_js)
     out = ROOT / path / 'index.html' if path else ROOT / 'index.html'
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -306,19 +349,56 @@ def search_bar(action):
             '<button class="orb" type="submit" aria-label="과정안 찾기">%s</button></form>') % (action, areas, SEARCH_SVG)
 
 
+def stone(code, up=''):
+    """미션 지도의 돌 하나 — 캐릭터 얼굴·블록 번호·게임 이름(누르면 체험 활동), 작은 글자로 과정안."""
+    gm = game(code)
+    href = '%s%s/' % (up, code) if gm else '%slessons/%s/' % (up, code)
+    name = gm['title'] if gm else easy(code, 'title')
+    return ('<li class="stone" data-b="%s"><a class="sgo" href="%s">%s<span class="bn">%s</span><b>%s</b></a>'
+            '<a class="slp" href="%slessons/%s/">%s차시 과정안</a><span class="seal" aria-hidden="true">미션<br>도장</span></li>'
+            % (code, href, face(code, up), code, e(name), up, code, label(code)))
+
+
+def mission_map(up=''):
+    out = []
+    for g in (5, 6):
+        crs = SITE['courses'][str(g)]
+        reaches = []
+        for i, a in enumerate([a for a in SITE['areas'] if a['grade'] == g], 1):
+            reaches.append('<div class="reach"><p class="rname"><span class="no c%d">%d</span>%s<small>%s차시</small></p><ol class="stones">%s</ol></div>'
+                           % ((i - 1) % 4 + 1, i, e(a['name']), a['range'], ''.join(stone(c, up) for c in a['blocks'])))
+        out.append('<section class="road g%d" aria-labelledby="road%d"><h3 id="road%d">%s<span>%d학년 %s</span><small>%s</small></h3>'
+                   '<div class="reaches">%s</div></section>'
+                   % (g, g, g, icon('g%d' % g, up), g, 'SW' if g == 5 else 'AI', e(crs['name']), ''.join(reaches)))
+    return ''.join(out)
+
+
 def build_home():
-    quick = [('about/', 'about', '학교자율시간이란?', '한 쪽으로 알아봐요'), ('guide/', 'steps', '도입 절차', '누가·언제·무엇을 내는지'),
-             ('forms/', 'forms', '서식 받기', '채운 서식과 빈 양식')]
-    q = ''.join('<a href="%s">%s<b>%s</b><span>%s</span></a>' % (u, icon(ic, ''), e(t), e(d)) for u, ic, t, d in quick)
+    doors = [('lessons/', 'book-open', '수업 자료', '차시마다 지도안, 활동지, 수업 흐름', [('lessons/', '차시별 수업 꾸러미'), ('topics/', '단원별로 보기'), ('tools/', '연동 도구')]),
+             ('play/', 'game', '체험 활동', '수업 중 5~10분, 설치 없이 브라우저로', [('play/#g5', '5학년'), ('play/#g6', '6학년'), ('play/#sensor', '센서 쓰는 활동')]),
+             ('about/', 'lightbulb', '도입 안내', '학교자율시간을 처음 여는 학교를 위해', [('about/', '학교자율시간이란?'), ('guide/', '도입 절차'), ('forms/', '서식 받기'), ('qna/', '자주 묻는 질문')]),
+             ('plan/', 'people-team', '연구회', '누가 어떻게 만들고 검증하는지', [('plan/', '연구회 소개'), ('notice/', '알림')])]
+    d = ''.join('<div class="door"><a class="dmain" href="%s">%s<b>%s</b><span>%s</span></a><p class="dsub">%s</p></div>'
+                % (u, icon(ic, ''), e(t), e(ds), ''.join('<a href="%s">%s</a>' % (h, e(n)) for h, n in sub)) for u, ic, t, ds, sub in doors)
     body = f"""
-<section class="hello"><h1>학교자율시간 SW·AI 수업 자료</h1>
-<p class="lead">학년을 고르고, 단원을 펴고, 차시를 눌러요. 지도안·활동지·체험 활동이 한곳에 있어요.</p></section>
-{grade_tabs('')}
-<h2 class="sub">{icon('lightbulb', '')}도입 안내</h2>
-<div class="quick">{q}</div>
-<p class="small muted">모든 자료는 무료이고, 학생 이름·점수를 받지 않아요. <a href="play/">체험 활동 모아 보기</a> · <a href="plan/">연구회 소개</a></p>
+<section class="cover">
+<div class="ctext">
+<span class="corg">{BRAND}{e(SITE['org'])}</span>
+<h1>{e(BOOK.get('title', SITE['title']))}</h1>
+<p class="csub">{e(BOOK.get('sub', SITE['subtitle']))}</p>
+<p class="cmeta">{e(SITE['title'])} · {e(SITE['subtitle'])}</p>
+<div class="btns"><a class="btn pri" href="#map">미션 지도 보기</a><a class="btn" href="lessons/">수업 자료</a></div>
+</div>
+<div class="cimg"><img src="assets/brand/cover.webp" alt="교실에서 아이들이 노트북, 마이크로비트, 태블릿으로 화분을 살피는 그림" width="1400" height="1980"></div>
+</section>
+<div class="hsay">{face('', '', 96)}<p><b>새싹쌤</b>돌 하나가 체험 활동 하나예요. 블록마다 다른 쌤이 길을 안내해요. 돌을 누르면 체험 활동이 열리고, 아래 작은 글자를 누르면 그 차시 과정안으로 가요. 끝까지 해 본 활동에는 이 브라우저에 도장이 찍혀요.</p></div>
+<h2 class="sub" id="map">{icon('star', '')}28블록 미션 지도</h2>
+{mission_map('')}
+<h2 class="sub">{icon('lightbulb', '')}어디로 갈까요</h2>
+<div class="doors">{d}</div>
+<p class="small muted">모든 자료는 무료이고, 학생 이름·점수를 받지 않아요. 도장은 이 브라우저에만 남고 어디로도 보내지 않아요.</p>
 """
-    page('', '에듀다움 — 학교자율시간 SW·AI 수업 자료', body, '', TABS_JS)
+    page('', '에듀다움 — 학교자율시간 SW·AI 수업 자료', body, '', STAMP_JS)
 
 
 # ───────────────────────── 1) 계획서·성취기준
@@ -337,6 +417,7 @@ def build_plan():
 <span class="kick">연구회 소개</span>
 <h1>경기 AI 융합교육 에듀다움 교사연구회</h1>
 <p class="lead">경기도 초등 교사들이 학교자율시간에 바로 쓰는 SW·AI 교육과정을 만들고 교실에서 검증해요. 2026년 연구 주제는 「학교자율시간 연계 초등 SW·AI 융합 프로그램 개발 및 적용」 — 5학년 SW 32차시, 6학년 AI 32차시예요.</p>
+<p class="booknote">{face('', '../', 48)}<span>{e(BOOK.get('note', ''))}</span></p>
 <div class="toc"><a href="#why">배경과 목표</a><a href="#run">운영 구조</a><a href="#course">과정 구성</a><a href="#std">성취기준</a><a href="#link">교과 연계</a><a href="#eval">평가·검증</a><a href="#safe">안전·개인정보</a><a href="#time">추진 일정</a></div>
 
 <h2 id="why">배경과 목표</h2>
@@ -633,12 +714,15 @@ def build_lesson(code, prev, nxt):
         ('<a class="btn" href="../%s/">%d학년 %s차시 →</a>' % (nxt, grade(nxt), label(nxt))) if nxt else '')
     prep = ('<h2 class="sub">%s준비물</h2><div class="pchips">%s</div>' % (icon('kit', up), chips)) if chips else ''
     gsec = ('<h2 class="sub" id="game">%s체험 활동</h2>%s' % (icon('game', up), gbox)) if gm else ''
+    kplay = ('<a class="kplay" href="%s%s/">%s<span><b>체험 활동 열기</b><small>%s과 5~10분 · %s</small></span><i aria-hidden="true">→</i></a>'
+             % (up, code, face(code, up, 60), e(cast(code)[1]), e(gm['title']))) if gm else ''
     body = f"""
 <p class="crumb"><a href="../">수업 자료</a> › <a href="../#u-{a['id']}">{g}학년 {e(a['name'])}</a></p>
 <div class="kband g{g}">
 <span class="ktag">{icon('g%d' % g, up)}{g}학년 {label(code)}차시 · {e(easy(code, 'title'))}</span>
 <h1>{e(topic(code))}</h1>
 <p class="ksum">{e(easy(code, 'summary'))}</p>
+{kplay}
 </div>
 {kit_buttons(code, up, gm, bool(tl))}
 <div class="g{g}">
@@ -808,10 +892,11 @@ def build_play():
         img = ('<img src="../%s" alt="" loading="lazy" width="640" height="400">' % sh) if sh else icon('game', '../', 'ic big')
         live = '' if sensor else ' data-live="../%s/"' % c
         cards.append(
-            '<article class="pcard g%d" data-g="%d" data-sensor="%d" data-prep="%d">'
-            '<div class="shot"%s>%s<span class="tag">%d학년 %s차시</span></div>'
-            '<div class="pbody"><h3><a href="../%s/">%s</a></h3><p>%s</p><div class="needs">%s</div></div></article>'
-            % (g, g, sensor, c == 'B03', live, img, g, label(c), c, e(gm['title']), e(gm['lead']), needs(c)))
+            '<article class="pcard g%d" data-g="%d" data-sensor="%d" data-prep="%d" data-b="%s">'
+            '<div class="shot"%s>%s<span class="tag">%s · %d학년 %s차시</span><span class="seal" aria-hidden="true">미션<br>도장</span></div>'
+            '<div class="pbody"><div class="pwho">%s<span>%s</span></div><h3><a href="../%s/">%s</a></h3>'
+            '<p class="pm"><b>미션</b>%s</p><div class="needs">%s</div></div></article>'
+            % (g, g, sensor, c == 'B03', c, live, img, c, g, label(c), face(c, '../', 52), e(cast(c)[1]), c, e(gm['title']), e(mission(c)), needs(c)))
     hero = [x for x in ('B18', 'B03', 'B20') if shot(x)]
     collage = ''.join('<img class="h%d" src="../%s" alt="" width="640" height="400">' % (i + 1, shot(x)) for i, x in enumerate(hero))
     stats = [(len(rows), '체험 활동'), (n5, '5학년'), (n6, '6학년'), (nsen, '센서 쓰는 활동')]
@@ -826,10 +911,10 @@ def build_play():
             '<div class="pstats">%s</div></div><div class="pcollage" aria-hidden="true">%s</div></section>'
             '<div class="pbar"><div class="pfilter" role="group" aria-label="체험 활동 거르기">%s</div>'
             '<span class="small muted" id="pcount" aria-live="polite">%d개</span></div>'
-            '<p class="small muted ptip">카드 그림은 체험 활동을 실제로 열어 찍은 화면이에요. 컴퓨터에서 마우스를 올리면 그 카드 하나만 움직여요(카메라·마이크 쓰는 활동은 빼고).</p>'
+            '<p class="small muted ptip">카드 그림은 체험 활동을 실제로 열어 찍은 화면이에요. 컴퓨터에서 마우스를 올리면 그 카드 하나만 움직여요(카메라·마이크 쓰는 활동은 빼고). 끝까지 해 본 활동에는 도장이 찍혀요(이 브라우저에만 남아요).</p>'
             '<div class="pgrid">%s</div>'
             '<p class="note">카메라와 마이크는 화면에만 쓰이고 저장되지 않아요. 밖으로 보내는 것도 없어요.</p>') % (st, collage, fl, len(rows), ''.join(cards))
-    page('play', '체험 활동 — 에듀다움', body, 'play/', PLAY_JS)
+    page('play', '체험 활동 — 에듀다움', body, 'play/', PLAY_JS + STAMP_JS)
 
 
 def main():

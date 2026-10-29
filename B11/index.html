@@ -6,9 +6,7 @@
 <title>흔들어 목표 수에 딱 멈추기 — 에듀다움</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
-  :root{--line:#DDDDDD;--line-strong:#C1C1C1;
-    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A;
+  :root{
     --r:14px; --r-sm:8px;
     --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
@@ -78,9 +76,22 @@
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-/* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+.guess{display:flex;gap:8px;flex-wrap:wrap}
+.chip{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;background:var(--surface);
+  border:2px solid var(--line-strong);border-radius:999px;min-height:44px;padding:7px 8px;flex:1 1 0;min-width:96px}
+.chip[aria-pressed=true]{background:var(--sun-l);border-color:var(--ink)}
+.chip:disabled{opacity:.6;cursor:default}
+.track{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;align-items:center;min-height:22px}
+.track i{width:16px;height:16px;border-radius:50%;background:var(--soft);border:2px solid var(--line-strong)}
+.track i.on{background:var(--mint);border-color:var(--mint-d)}
+.track i.goalmark{border-color:var(--ink)}
+.track em{font-style:normal;font-weight:700;font-size:13px;color:var(--muted);margin-left:4px}
+.btn.main{background:var(--point)}
+@media(max-width:400px){.btn{flex:1 1 44%}.goal b{font-size:26px}}
+body{overflow-x:hidden}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -98,6 +109,13 @@
   <section aria-labelledby="h-g">
     <h2 id="h-g">이번 목표</h2>
     <p class="goal"><span>목표</span><b id="goal">12</b></p>
+    <p class="note" id="gq" style="margin-top:8px">먼저 예상을 골라요. 흔들기 전에만 바꿀 수 있어요</p>
+    <div class="guess" role="group" aria-labelledby="gq">
+      <button class="chip" type="button" data-g="exact" aria-pressed="false">딱 맞출 것 같아요</button>
+      <button class="chip" type="button" data-g="short" aria-pressed="false">모자랄 것 같아요</button>
+      <button class="chip" type="button" data-g="over" aria-pressed="false">넘길 것 같아요</button>
+    </div>
+    <div class="track" id="track" role="img" aria-label="흔든 횟수와 목표"></div>
     <div class="stage">
       <p class="vbox"><b id="num" aria-live="off">0</b></p>
       <div class="panel" id="panel">
@@ -134,6 +152,7 @@
   var over = false;      // 목표를 넘겼나
   var lastGoal = 0;
 
+  var guess = null;
   var lastShake = 0, prev = null, latest = null, hasNew = false;
   var sawMotion = false, sensorAttached = false, waitTimer = null, permissionAsked = false;
 
@@ -155,7 +174,7 @@
     // 격자는 21차시 활동2 기능 카드 '목표 알림' 모양이다. 목표 아래는 가운데 한 점, 목표 이상은 전체.
     for (var i = 0; i < 25; i++){
       var on = (count < goal) ? (i === CENTER) : true;
-      cells[i].setAttribute('fill', on ? '#FF7A00' : '#3A3630');
+      cells[i].style.fill = on ? '#FF7A00' : '#3A3630';
     }
 
     var s = $('say');
@@ -164,6 +183,15 @@
     else if (over){ s.textContent = (count - goal) + '번 더 흔들렸어요'; s.className = 'say over'; }
     else { s.textContent = (goal - count) + '번 모자라요'; s.className = 'say over'; }
 
+    var tr = $('track'), h = '';
+    for (var k = 1; k <= goal; k++) h += '<i class="' + (k <= count ? 'on' : '') + (k === goal ? ' goalmark' : '') + '"></i>';
+    if (count > goal) h += '<em>+' + (count - goal) + '</em>';
+    tr.innerHTML = h;
+    var chips = document.querySelectorAll('.chip');
+    for (var c = 0; c < chips.length; c++){
+      chips[c].setAttribute('aria-pressed', chips[c].getAttribute('data-g') === guess ? 'true' : 'false');
+      chips[c].disabled = count > 0 || done;
+    }
     $('shake').disabled = done;
     $('stop').disabled = done || count === 0;
   }
@@ -172,8 +200,9 @@
     var g;
     do { g = 8 + Math.floor(Math.random() * 18); } while (g === lastGoal);   // 8~25
     lastGoal = g; goal = g;
-    count = 0; done = false; over = false; prev = null; latest = null; hasNew = false;
+    count = 0; done = false; over = false; prev = null; latest = null; hasNew = false; guess = null;
     render();
+    if (window.Fun) Fun.say('목표는 ' + goal + '이에요. 흔들기 전에 예상부터 골라요.');
   }
 
   function bump(){
@@ -184,23 +213,41 @@
     n.classList.remove('pop'); void n.offsetWidth; n.classList.add('pop');
     // 목표를 넘기는 그 순간 판이 끝난다. 되돌릴 수 없다.
     if (count > goal){
-      done = true; over = true;
+      done = true; over = true; render(); finish();
     } else if (count === goal){
       var p = $('panel');
       p.classList.remove('hit'); void p.offsetWidth; p.classList.add('hit');
+      if (window.Fun) Fun.say('목표 ' + goal + '에 닿았어요. 여기서 멈출 수 있나요? 한 번 더 흔들면 넘어가요.', 'think');
     }
     render();
   }
 
+  // 예상과 결과를 견주어 짚는다. 판정·칭찬 말은 쓰지 않는다.
+  function finish(){
+    if (!window.Fun) return;
+    var res = count === goal ? 'exact' : (over ? 'over' : 'short');
+    var nm = { exact:'딱 맞춘 것', short:'모자란 것', over:'넘긴 것' };
+    var diff = count === goal ? '목표와 같은 ' + goal + '번이에요.' : (over ? (count - goal) + '번 더 흔들렸어요.' : (goal - count) + '번 모자랐어요.');
+    if (guess === null) Fun.say('멈췄어요. ' + diff + ' 다음에는 흔들기 전에 예상을 골라 봐요.', 'think');
+    else if (guess === res) { Fun.say('예상은 ' + nm[guess] + '이었고 결과도 같아요. ' + diff + ' 어떻게 멈출 때를 알았나요?', 'cheer'); Fun.burst($('num')); }
+    else { Fun.say('예상은 ' + nm[guess] + '이었는데 결과는 ' + nm[res] + '이에요. ' + diff + ' 어디서 갈렸는지 봐요.', 'think'); Fun.shake($('num')); }
+    Fun.stamp();
+  }
   $('stop').addEventListener('click', function(){
     if (done || count === 0) return;
     done = true; over = false;
-    render();
+    render(); finish();
+  });
+  var chipEls = document.querySelectorAll('.chip');
+  for (var ci = 0; ci < chipEls.length; ci++) chipEls[ci].addEventListener('click', function(){
+    if (count > 0 || done) return;
+    guess = this.getAttribute('data-g'); render();
   });
   // 같은 목표로 한 번 더. 넘겼을 때 다시 해 볼 길을 열어 둔다.
   $('again').addEventListener('click', function(){
-    count = 0; done = false; over = false; prev = null; latest = null; hasNew = false;
+    count = 0; done = false; over = false; prev = null; latest = null; hasNew = false; guess = null;
     render();
+    if (window.Fun) Fun.say('목표는 ' + goal + '이에요. 흔들기 전에 예상부터 골라요.');
   });
   $('next').addEventListener('click', newRound);
 
@@ -259,5 +306,6 @@
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B11" data-mission="태블릿을 흔들어 목표 수에 딱 멈춰 봐요. 흔들기 전에 예상부터!"></script>
 </body>
 </html>

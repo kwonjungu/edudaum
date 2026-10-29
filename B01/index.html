@@ -94,8 +94,23 @@ button{font-family:inherit}
 @keyframes pop{0%{transform:scale(1)}45%{transform:scale(1.05)}100%{transform:scale(1)}}
 @media (prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
 
-/* 에듀다움 통일 테마 2026-09-27 */
+/* 재미 개편 2026-10-29 */
+.card{background:var(--sun-l);border-radius:var(--r-sm);padding:8px 10px}
+.card.flip{animation:flip .38s ease-out}
+@keyframes flip{0%{transform:rotateX(80deg);opacity:.2}100%{transform:none;opacity:1}}
+.piece.landed{animation:land .26s ease-out}
+@keyframes land{0%{transform:translateY(-10px);opacity:.4}100%{transform:none;opacity:1}}
+.piece.k-hw{border-left:6px solid var(--sky)}
+.piece.k-sw{border-left:6px solid var(--mint)}
+.col.hwc{background:var(--sky-l)} .col.swc{background:var(--mint-l)}
+.col.empty-end{border-style:dotted}
+.meter{display:flex;gap:6px;margin:8px 0 0}
+.meter i{flex:1;height:8px;border-radius:99px;background:var(--line)}
+.meter i.on{background:var(--point)}
+@media (max-width:400px){.guess{gap:6px}.opt{font-size:14px}.drop{font-size:14.5px}}
+main{overflow-x:hidden}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <main>
@@ -106,7 +121,7 @@ button{font-family:inherit}
   <section aria-labelledby="h-card">
     <h2 id="h-card">물건 카드</h2>
     <div class="card">
-      <svg width="40" height="40" viewBox="0 0 40 40" aria-hidden="true"><rect x="7" y="4" width="26" height="32" rx="4" fill="#FFF0F3" stroke="#222222" stroke-width="1.8"/><path d="M13 14h14M13 20h14M13 26h9" stroke="#222222" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <svg id="cardicon" width="52" height="52" viewBox="0 0 40 40" aria-hidden="true" fill="none" stroke="var(--ink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></svg>
       <span class="cardname" id="cardname"></span>
     </div>
     <p class="ask" id="ask">이 물건엔 무엇이 들어 있을까?</p>
@@ -115,6 +130,7 @@ button{font-family:inherit}
       <button class="opt" type="button" data-g="sw" aria-pressed="false">소프트웨어만</button>
       <button class="opt" type="button" data-g="both" aria-pressed="false">둘 다</button>
     </div>
+    <div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <p class="hint" id="hint" aria-live="polite"></p>
     <div class="tray" id="tray" aria-label="아직 안 넣은 조각"></div>
   </section>
@@ -122,10 +138,10 @@ button{font-family:inherit}
   <section aria-labelledby="h-cols">
     <h2 id="h-cols">두 칸</h2>
     <div class="cols">
-      <div class="col" id="col-hw">
+      <div class="col hwc" id="col-hw">
         <button class="drop" type="button" id="drop-hw">하드웨어 칸<span class="cnt" id="cnt-hw">0개</span></button>
       </div>
-      <div class="col" id="col-sw">
+      <div class="col swc" id="col-sw">
         <button class="drop" type="button" id="drop-sw">소프트웨어 칸<span class="cnt" id="cnt-sw">0개</span></button>
       </div>
     </div>
@@ -164,6 +180,14 @@ button{font-family:inherit}
       hw: ['칼날', '돌리는 손잡이', '톱니바퀴', '가루 통'],
       sw: [] }
   ];
+  var ICON = {
+    '계산기': '<rect x="9" y="4" width="22" height="32" rx="3"/><rect x="13" y="8" width="14" height="6"/><path d="M14 20h2M19 20h2M24 20h2M14 25h2M19 25h2M24 25h2M14 30h2M19 30h2M24 30h2"/>',
+    '보행자 신호등': '<rect x="12" y="3" width="16" height="22" rx="3"/><circle cx="20" cy="10" r="3"/><circle cx="20" cy="18" r="3"/><path d="M20 25v12"/>',
+    '현관 자동문': '<path d="M5 6h30M5 36h30"/><rect x="8" y="8" width="11" height="28"/><rect x="21" y="8" width="11" height="28"/><path d="M20 3v3"/>',
+    '보건실 체온계': '<rect x="5" y="15" width="30" height="10" rx="5"/><circle cx="12" cy="20" r="2"/><path d="M20 20h10"/>',
+    '마이크로비트': '<rect x="4" y="8" width="32" height="24" rx="3"/><circle cx="12" cy="20" r="2.5"/><circle cx="28" cy="20" r="2.5"/><path d="M17 17h6v6h-6z"/>',
+    '손으로 돌리는 연필깎이': '<rect x="8" y="14" width="22" height="18" rx="3"/><path d="M30 20h5M35 20v8M12 14l4-6h8l2 6"/>'
+  };
   var TAG = { hw: '만질 수 있는 몸체·부품', sw: '사람이 미리 정해 준 명령' };
   var NUM = ['', '한', '두', '세', '네'];
 
@@ -175,7 +199,7 @@ button{font-family:inherit}
   var justChecked = false;   // 확인한 바로 그때만 옮긴 조각이 한 번 튄다
 
   var $ = function (id) { return document.getElementById(id); };
-  var cardname = $('cardname'), hint = $('hint'), tray = $('tray'), out = $('out');
+  var cardicon = $('cardicon'), meter = $('meter'), cardBox = document.querySelector('.card'), cardname = $('cardname'), hint = $('hint'), tray = $('tray'), out = $('out');
   var colHw = $('col-hw'), colSw = $('col-sw');
   var dropHw = $('drop-hw'), dropSw = $('drop-sw');
   var checkBtn = $('check'), resetBtn = $('reset'), nextBtn = $('next');
@@ -217,7 +241,7 @@ button{font-family:inherit}
   function pieceButton(p, i) {
     var b = document.createElement('button');
     b.type = 'button';
-    b.className = 'piece' + (held === i ? ' held' : '') + (p.moved ? ' wasmoved' : '') + (p.moved && justChecked ? ' pop' : '');
+    b.className = 'piece' + (held === i ? ' held' : '') + (p.moved ? ' wasmoved' : '') + (done ? ' k-' + p.kind : '') + (p.landed ? ' landed' : '') + (p.moved && justChecked ? ' pop' : '');
     b.disabled = done || guess === null;
     if (p.moved) {
       var m = document.createElement('span');
@@ -232,6 +256,7 @@ button{font-family:inherit}
       t.textContent = TAG[p.kind];
       b.appendChild(t);
     }
+    p.landed = false;
     b.setAttribute('aria-pressed', held === i ? 'true' : 'false');
     b.addEventListener('click', function () { hold(i); });
     return b;
@@ -262,6 +287,8 @@ button{font-family:inherit}
     dropHw.disabled = !canDrop;
     dropSw.disabled = !canDrop;
 
+    var inCount = pieces.filter(function (q) { return q.put !== null; }).length;
+    Array.prototype.forEach.call(meter.children, function (m, k) { m.className = k < inCount ? 'on' : ''; });
     var allIn = firstLoose() === null;
     checkBtn.disabled = done || guess === null || !allIn;
     checkBtn.classList.toggle('main', !done);
@@ -279,6 +306,7 @@ button{font-family:inherit}
     guess = g;
     if (held === null) { held = firstLoose(); }
     render();
+    if (window.Fun) { Fun.say(guess === 'both' ? '둘 다 들어 있을 거라고 걸었어요. 조각을 나눠 확인해 봐요.' : '한쪽만이라고 걸었어요. 조각을 나눠 보면 알 수 있어요.'); }
   }
 
   function hold(i) {
@@ -290,8 +318,10 @@ button{font-family:inherit}
   function drop(col) {
     if (done || guess === null || held === null) { return; }
     pieces[held].put = col;
+    pieces[held].landed = true;
     held = firstLoose();
     render();
+    if (window.Fun && held === null) { Fun.say('네 조각을 다 넣었어요. 두 칸에 어떻게 나뉘었는지 확인해 봐요.'); }
   }
 
   function guessLine(actualBoth) {
@@ -320,6 +350,11 @@ button{font-family:inherit}
     });
     out.classList.add('show');
     out.classList.remove('pop'); void out.offsetWidth; out.classList.add('pop');
+    if (window.Fun) {
+      if (moved === 0) { Fun.say('넣은 칸 그대로예요. 이 물건에서는 두 칸이 어떻게 찼나요? 다음 물건도 걸어 봐요.', 'cheer'); Fun.burst(out); }
+      else { Fun.say('옮겨 간 조각이 있어요. 그 조각이 왜 그 칸인지 짝과 말해 봐요.', 'think'); Fun.shake(out); }
+      Fun.stamp();
+    }
     justChecked = true;
     render();
     justChecked = false;
@@ -336,12 +371,15 @@ button{font-family:inherit}
     out.classList.remove('show', 'pop');
   }
 
-  function resetRound() { clearRound(); render(); }
+  function resetRound() { clearRound(); render(); if (window.Fun) { Fun.say('같은 물건을 처음부터 나눠 봐요. 예상을 다시 골라요.'); } }
 
   function newRound() {
     cardIdx = pickCard();
     var card = CARDS[cardIdx];
     cardname.textContent = card.name;
+    cardicon.innerHTML = ICON[card.name] || '';
+    cardBox.classList.remove('flip'); void cardBox.offsetWidth; cardBox.classList.add('flip');
+    if (window.Fun && pieces.length) { Fun.say('새 물건 「' + card.name + '」이에요. 먼저 예상을 골라요.'); }
     pieces = dealPieces(card);
     clearRound();
     render();
@@ -357,5 +395,6 @@ button{font-family:inherit}
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B01" data-mission="물건 카드 속 조각을 하드웨어 칸과 소프트웨어 칸에 나눠 넣어요. 넣기 전에 예상부터!"></script>
 </body>
 </html>

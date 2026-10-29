@@ -48,15 +48,29 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
   min-height:44px;padding:4px 6px;box-shadow:var(--hard-sm);word-break:keep-all;line-height:1.15;
   transition:transform .1s,box-shadow .1s,background .1s;
 }
-.bin[aria-pressed="true"]{background:var(--point);border-color:var(--point);color:#fff}
+.bin[data-k="m"][aria-pressed="true"]{background:var(--sky);border-color:var(--ink);color:var(--ink)}
+.bin[data-k="a"][aria-pressed="true"]{background:var(--mint);border-color:var(--ink);color:var(--ink)}
+.bin[data-k="q"][aria-pressed="true"]{background:var(--sun);border-color:var(--ink);color:var(--ink)}
+.bin[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--ink)}
+.ico{display:block;width:44px;height:44px;margin:0 0 4px}
+.pair.deal .case{animation:deal .32s ease-out both}
+.pair.deal .case:nth-child(2){animation-delay:.08s}
+@keyframes deal{0%{opacity:0;transform:translateY(-14px) rotate(-2deg)}100%{opacity:1;transform:none}}
+.track{display:flex;gap:6px;margin:0 0 9px}
+.track i{flex:1;height:8px;border-radius:99px;background:var(--line)}
+.track i.on{background:var(--sky)}
+.track i.now{background:var(--sun)}
+.bin.ref,.bin.ref:disabled{outline-color:var(--ink)}
 .bin:disabled{cursor:default}
 .bin:disabled:not([aria-pressed="true"]){opacity:.45}
 .io{margin:8px 0 0;font-size:14px;font-weight:600;line-height:1.4;word-break:keep-all;animation:popin .22s ease-out}
-.tag{margin:5px 0 0;font-size:13px;font-weight:700;color:var(--point);word-break:keep-all}
+.tag{margin:5px 0 0;font-size:13px;font-weight:700;color:var(--ink);background:var(--sun-l);border-radius:6px;padding:2px 6px;word-break:keep-all}
 .key{font-size:13px;font-weight:700;color:var(--muted);margin:9px 0 0;word-break:keep-all}
 @keyframes popin{0%{opacity:0;transform:translateY(4px)}100%{opacity:1;transform:none}}
 .round{font-weight:700;color:var(--point);margin-left:4px}
-.case.off{border-color:var(--point);box-shadow:0 0 0 2px var(--point-soft)}
+@media (max-width:400px){.pair{gap:6px}.case{padding:6px}.name{font-size:15.5px}.bin{font-size:14px}}
+main{overflow-x:hidden}
+.case.off{border-color:var(--ink);border-style:dashed;background:var(--sun-l)}
 .bin.ref,.bin.ref:disabled{outline:2px dashed var(--point);outline-offset:2px;opacity:1}
 .btn.go{background:var(--point);border-color:var(--point);color:#fff}
 .note{font-size:13px;font-weight:700;color:var(--muted);margin:9px 0 0}
@@ -91,6 +105,7 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <main>
@@ -100,6 +115,7 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
 
   <section aria-labelledby="h-pair">
     <h2 id="h-pair">이번 짝 <span class="round" id="round"></span></h2>
+    <div class="track" id="track" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <p class="ask">정해진 조건 하나로 반응하나요, 여러 가지를 보고 스스로 판단하나요?</p>
     <div class="pair" id="pair"></div>
     <p class="key">기계: 단순히 반응하는 기계 · 인공지능: 스스로 판단하는 인공지능</p>
@@ -133,6 +149,23 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
     { n: '복도 전등', pair: 4, sensor: true, io: '지나가는 움직임 → 늘 같게 불을 켠다', ref: 'm' },
     { n: '걸음 수 세기', pair: 4, sensor: true, io: '몸의 흔들림 → 걸음으로 센다', ref: null }
   ];
+  var P = 'fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  var ICON = {
+    '자동문': '<rect x="5" y="6" width="30" height="28" rx="2"/><path d="M20 6v28M14 20l-4 0M26 20l4 0"/>',
+    '사진 속 얼굴 묶기': '<circle cx="12" cy="15" r="6"/><circle cx="28" cy="15" r="6"/><path d="M9 14h.1M15 14h.1M25 14h.1M31 14h.1M7 30q13 6 26 0"/>',
+    '주방 타이머': '<circle cx="20" cy="22" r="14"/><path d="M20 22V12M20 22l7 4M16 5h8"/>',
+    '영상 추천': '<rect x="4" y="9" width="32" height="22" rx="3"/><path d="M17 15l8 5-8 5z"/>',
+    '계산기': '<rect x="8" y="4" width="24" height="32" rx="3"/><path d="M13 10h14M14 18h.1M20 18h.1M26 18h.1M14 25h.1M20 25h.1M26 25h.1M14 31h.1M20 31h.1M26 31h.1"/>',
+    '손동작 알아보기': '<path d="M12 22V9M17 20V5M22 20V7M27 22V11M12 22q-5-3-6 2 3 10 10 12h8q5-3 5-12"/>',
+    '복도 전등': '<path d="M14 26a9 9 0 1 1 12 0v4H14zM16 34h8M20 2v3M6 8l2 2M34 8l-2 2"/>',
+    '걸음 수 세기': '<ellipse cx="13" cy="25" rx="5" ry="8"/><ellipse cx="27" cy="14" rx="5" ry="8"/>'
+  };
+  function icon(n) {
+    var d = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    d.setAttribute('class', 'ico'); d.setAttribute('viewBox', '0 0 40 40'); d.setAttribute('aria-hidden', 'true');
+    d.innerHTML = '<g ' + P + '>' + (ICON[n] || '') + '</g>';
+    return d;
+  }
   var BINS = [['m', '기계'], ['a', '인공지능'], ['q', '더 알아봐야 함']];
   var BINNAME = { m: '기계', a: '인공지능', q: '더 알아봐야 함' };
   var COUNT = ['', '한 장', '두 장'];
@@ -147,7 +180,7 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
   try { reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
   var queue = shuffle([1, 2, 3, 4]);
-  var cur = [], guess = [], shown = [], confirmed = false, revealing = false, lastKey = '', gen = 0;
+  var cur = [], guess = [], shown = [], confirmed = false, revealing = false, lastKey = '', gen = 0, stamped = false;
 
   function shuffle(arr) {
     var a = arr.slice();
@@ -157,6 +190,12 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
     }
     return a;
   }
+  function hasBatchim(w) {
+    var ch = w.charCodeAt(w.length - 1);
+    return ch >= 0xAC00 && ch <= 0xD7A3 && (ch - 0xAC00) % 28 !== 0;
+  }
+  function wa(w) { return hasBatchim(w) ? '과' : '와'; }
+  function iyo(w) { return hasBatchim(w) ? '이에요' : '예요'; }
   function keyOf(a, b) { return a < b ? a + '-' + b : b + '-' + a; }
 
   // 처음 네 판은 지도안 짝, 그 뒤로는 여덟 장을 섞은 새 짝(지도안 짝·직전 판은 빼고)
@@ -189,17 +228,27 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
     gen++;
     dealt++;
     roundEl.textContent = dealt <= 4 ? '지도안 짝 ' + dealt + '/4' : '섞은 짝';
+    var tr = document.getElementById('track').children;
+    for (var q = 0; q < 4; q++) { tr[q].className = dealt > 4 || q < dealt - 1 ? 'on' : (q === dealt - 1 ? 'now' : ''); }
     cur = drawPair();
     lastKey = keyOf(cur[0], cur[1]);
     guess = [null, null]; shown = [false, false];
     confirmed = false; revealing = false;
+    pairEl.classList.add('deal');
     render();
+    setTimeout(function () { pairEl.classList.remove('deal'); }, 600);
+    if (window.Fun) {
+      var both = CARDS[cur[0]].sensor && CARDS[cur[1]].sensor;
+      Fun.say(both ? '두 장 다 센서가 있어요. 센서가 있으면 모두 인공지능일까요? 먼저 걸어 봐요.' : '새 짝은 「' + CARDS[cur[0]].n + '」' + wa(CARDS[cur[0]].n) + ' 「' + CARDS[cur[1]].n + '」' + iyo(CARDS[cur[1]].n) + '. 칸을 먼저 짚어 봐요.');
+    }
   }
 
   function pick(slot, k) {
     if (confirmed) { return; }
     guess[slot] = k;
     render();
+    try { pairEl.querySelector('.bin[data-slot="' + slot + '"][data-k="' + k + '"]').focus({ preventScroll: true }); } catch (e) {}
+    if (window.Fun && guess[0] !== null && guess[1] !== null) { Fun.say('두 장 다 짚었어요. 확인하기 전에 바꿀 수 있어요.'); }
   }
 
   function tagOf(c, g) {
@@ -213,10 +262,11 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
     if (confirmed || guess[0] === null || guess[1] === null) { return; }
     confirmed = true; revealing = true;
     var myGen = gen;
-    var off = 0;
+    var off = 0, talk = [];
     cur.forEach(function (ci, s) {
       var c = CARDS[ci];
       if (c.ref !== null && guess[s] !== 'q' && guess[s] !== c.ref) { off++; }
+      if (tagOf(c, guess[s]).indexOf('모둠에서 따져 봐요') >= 0) { talk.push(c.n); }
     });
     render();
     var delay = reduceMotion ? 0 : 300;
@@ -229,6 +279,19 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
         msgEl.textContent = off === 0 ? '구분 기준과 반대 칸에 놓은 카드는 없어요' : '구분 기준과 반대 칸에 놓은 카드가 ' + COUNT[off] + '이에요';
         msgEl.className = 'msg';
         render();
+        if (window.Fun) {
+          if (off === 0 && talk.length) {
+            var last = talk[talk.length - 1];
+            Fun.say((talk.length > 1 ? '「' + talk[0] + '」' + wa(talk[0]) + ' ' : '') + '「' + last + '」' + (hasBatchim(last) ? '은' : '는') + ' 모둠에서 따져 봐요. 딱지를 읽고 까닭을 비교표에 한 줄로 써 봐요.', 'think');
+            Array.prototype.forEach.call(pairEl.querySelectorAll('.case.off'), function (el) { Fun.shake(el); });
+          } else if (off === 0) {
+            Fun.say('짚은 칸이 구분 기준과 모두 같아요. 까닭은 비교표에 한 줄로 써 봐요.', 'cheer'); Fun.burst(pairEl);
+          } else {
+            Fun.say('구분 기준과 다른 칸이 있어요. 어디서 갈렸는지 딱지를 봐요.' + (talk.length ? ' 「모둠에서 따져 봐요」가 뜬 카드는 모둠에서 따져 봐요.' : ''), 'think');
+            var offEl = pairEl.querySelector('.case.off'); if (offEl) { Fun.shake(offEl); }
+          }
+          if (!stamped) { stamped = true; Fun.stamp(); }
+        }
         try { nextBtn.focus({ preventScroll: true }); } catch (e) {}
       }, delay);
     }, delay);
@@ -240,7 +303,7 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
       var c = CARDS[ci];
       var box = document.createElement('div');
       box.className = 'case';
-      var isOff = shown[s] && c.ref !== null && guess[s] !== c.ref;
+      var isOff = shown[s] && (c.ref === null || guess[s] !== c.ref);
       if (isOff) { box.classList.add('off'); }
       var head = document.createElement('p');
       head.className = 'name';
@@ -251,6 +314,7 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
         sb.textContent = '센서 있음';
         head.appendChild(sb);
       }
+      box.appendChild(icon(c.n));
       box.appendChild(head);
       var grp = document.createElement('div');
       grp.className = 'bins';
@@ -258,11 +322,11 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
       grp.setAttribute('aria-label', c.n + ' 칸 고르기');
       BINS.forEach(function (bn) {
         var b = document.createElement('button');
-        b.type = 'button'; b.className = 'bin';
+        b.type = 'button'; b.className = 'bin'; b.setAttribute('data-k', bn[0]); b.setAttribute('data-slot', s);
         b.textContent = bn[1];
         b.setAttribute('aria-pressed', guess[s] === bn[0] ? 'true' : 'false');
         b.disabled = confirmed;
-        if (isOff && bn[0] === c.ref) { b.classList.add('ref'); }
+        if (isOff && c.ref !== null && bn[0] === c.ref) { b.classList.add('ref'); }
         b.addEventListener('click', function () { pick(s, bn[0]); });
         grp.appendChild(b);
       });
@@ -299,11 +363,13 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
   resetBtn.addEventListener('click', function () {
     if (confirmed) { return; }
     guess = [null, null]; render();
+    if (window.Fun) { Fun.say('이 판의 짚기를 지웠어요. 다시 걸어 봐요.'); }
   });
   nextBtn.addEventListener('click', newRound);
 
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B16" data-mission="카드 두 장을 칸에 먼저 짚어 봐요. '센서 있음' 딱지에 끌리지 않는지 확인해 봐요."></script>
 </body>
 </html>

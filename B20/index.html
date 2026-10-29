@@ -8,17 +8,14 @@
 <style>
   :root{--line:#DDDDDD;--line-strong:#C1C1C1;
     --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-    --point:#FF385C; --point-soft:#FFF0F3;
-    --amber:#FFE3E9; --amber-soft:#FFF0C7; --muted:#6A6A6A;
+    --point:#2f78b5; --point-soft:#e6f3fc; --muted:#6A6A6A;
     --r:14px; --r-sm:8px;
     --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
-    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    
-    background-position:-11px -11px}
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5}
   .wrap{max-width:760px;margin:0 auto;padding:12px 14px 30px}
   .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
   .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);
@@ -33,53 +30,69 @@
   h2{font-size:13.5px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted)}
   button{font-family:inherit;cursor:pointer;color:var(--ink)}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
-    border:1px solid var(--ink);background:var(--amber);font-size:14.5px;font-weight:700;
-    padding:9px 14px;border-radius:var(--r-sm);min-height:46px;box-shadow:var(--hard-sm);
+    border:1px solid var(--ink);background:var(--sun-l);font-size:14.5px;font-weight:700;
+    padding:9px 12px;border-radius:var(--r-sm);min-height:46px;box-shadow:var(--hard-sm);
     transition:transform .1s,box-shadow .1s;flex:1 1 96px}
   .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
-  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .btn:disabled{opacity:.45;cursor:default;box-shadow:none}
+  .btn.main{background:var(--sun)}
+  :focus-visible{outline:3px solid var(--ink);outline-offset:3px}
   .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
-  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
 
   /* 규칙표 */
-  .rules{display:grid;gap:7px}
+  .rules{display:grid;gap:7px;position:relative}
   .rule{display:flex;align-items:center;gap:8px;width:100%;text-align:left;
     border:1px solid var(--line);background:var(--surface);border-radius:var(--r-sm);
     padding:7px 9px;min-height:48px}
-  .rule.target{background:var(--point-soft);border-width:3.5px}
+  .rule.target{background:var(--sun-l);border-color:var(--ink);border-width:2.5px;border-style:dashed}
+  .rule.done{background:var(--point-soft);border-color:var(--ink);border-width:2.5px}
   .rule .num{flex:0 0 28px;height:28px;display:grid;place-items:center;font-weight:700;font-size:14px;
-    background:var(--point);color:#fff;border:1px solid var(--line);border-radius:8px}
+    background:var(--point);color:#fff;border-radius:8px}
   .rule .cond{flex:1;min-width:0;font-size:14px;font-weight:600;word-break:keep-all}
-  .rule .box{flex:0 0 auto;font-weight:700;font-size:15px;background:var(--amber-soft);
-    border:1px solid var(--line);border-radius:8px;padding:3px 10px}
   .rule .mk2{flex:0 0 auto;display:none}
   .rule.target .mk2{display:block}
   .hint{font-size:12.5px;font-weight:700;color:var(--muted);margin-top:8px}
 
+  /* 상자 딱지: 색과 함께 글자(가·나·다·보류)를 적는다 */
+  .bx{display:inline-block;font-weight:700;border:1px solid var(--ink);border-radius:8px;padding:1px 9px;line-height:1.4}
+  .bx.ba{background:var(--sky-l)} .bx.bb{background:var(--mint-l)} .bx.bc{background:var(--sun-l)} .bx.bn{background:#f2f2f2;color:var(--muted)}
+  .rule .bx{flex:0 0 auto;font-size:15px;padding:3px 10px}
+
   /* 짚기 */
-  .gstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:9px}
-  .gc{min-height:44px;font-weight:700;font-size:16px;background:var(--surface);color:var(--ink);
-    border:1px solid var(--line);border-radius:9px;box-shadow:0 1px 2px rgba(0,0,0,.08);
+  .gstrip{display:grid;grid-template-columns:repeat(auto-fit,minmax(44px,1fr));gap:6px;margin-top:9px}
+  .gc{min-height:46px;font-weight:700;font-size:17px;background:var(--surface);color:var(--ink);
+    border:1px solid var(--line-strong);border-radius:9px;box-shadow:0 1px 2px rgba(0,0,0,.08);
     transition:transform .1s,box-shadow .1s,background .1s}
-  .gc[aria-pressed="true"]{background:var(--point);color:#fff}
+  .gc[aria-pressed="true"]{background:var(--point);color:#fff;border-color:var(--ink);transform:translateY(-2px)}
+  .gc:disabled{cursor:default}
+  .gc:disabled:not([aria-pressed="true"]){opacity:.55}
   .msg{margin-top:9px;font-size:14px;font-weight:700;min-height:20px}
   .msg.dim{color:var(--muted);font-weight:700}
 
   /* 카드 18장 */
-  .cards{display:grid;grid-template-columns:repeat(6,1fr);gap:3px}
-
-  .card{position:relative;border:1px solid var(--line);border-radius:8px;background:var(--paper);
-    padding:2px 2px 1px;text-align:center;line-height:1}
-  .card .idx{position:absolute;left:2px;top:1px;font-size:8.5px;font-weight:600;color:var(--muted)}
-  .card .v{display:block;font-size:12px;font-weight:700;line-height:1;margin-top:0}
-  .card.diff{background:var(--point-soft);border-color:var(--point);border-width:3.5px}
+  .cards{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;perspective:700px}
+  .card{position:relative;border:1px solid var(--line);border-radius:10px;background:var(--paper);
+    padding:4px 2px 4px;text-align:center;line-height:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+  .card .idx{position:absolute;left:3px;top:2px;font-size:9px;font-weight:600;color:var(--muted)}
+  .card svg.shape{display:block;width:100%;max-width:52px;height:auto;margin-top:6px}
+  .card .v{font-size:12.5px;line-height:1.2;white-space:nowrap}
+  .card .v .bx{padding:0 6px;font-size:12.5px;border-radius:6px}
+  .card .v .was{color:var(--muted);font-size:11px;font-weight:700;text-decoration:line-through;margin-right:2px}
+  .card.diff{background:var(--sun-l);border-color:var(--ink);border-width:2.5px;animation:b20-flip .6s ease both;animation-delay:var(--d,0s)}
   .card .mk{position:absolute;right:3px;top:3px;display:none}
   .card.diff .mk{display:block}
+  .card.fresh{animation:b20-in .35s ease both;animation-delay:var(--d,0s)}
+  @keyframes b20-flip{0%{transform:rotateY(90deg) scale(.9)}60%{transform:rotateY(-12deg) scale(1.06)}100%{transform:none}}
+  @keyframes b20-in{0%{opacity:0;transform:translateY(6px) scale(.9)}100%{opacity:1;transform:none}}
+  @media (max-width:430px){
+    .wrap{padding:10px 10px 26px}
+    .btn{font-size:13.5px;padding:8px 6px}
+    .card .v{font-size:11.5px}.card .v .bx{font-size:11.5px;padding:0 4px}
+    .card .v .was{font-size:10px}
+  }
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-/* 에듀다움 통일 테마 2026-09-27 */
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -100,7 +113,7 @@
     <div class="gstrip" id="gstrip" role="group" aria-label="옮겨갈 카드 수 짚기"></div>
     <p class="msg dim" id="msg" role="status" aria-live="polite">몇 장이 옮겨갈지 짚어요</p>
     <div class="acts">
-      <button class="btn" id="swapBtn" type="button" disabled>순서 바꾸기</button>
+      <button class="btn main" id="swapBtn" type="button" disabled>순서 바꾸기</button>
       <button class="btn" id="reset" type="button">다시 하기</button>
       <button class="btn" id="nextBtn" type="button">다음 판</button>
     </div>
@@ -121,6 +134,8 @@
   var IDX = { edge: 0, colorA: 1, colorB: 2, edgeShape: 3 };
   var PAIRS_OTHER = [['edge', 'colorA'], ['edge', 'colorB'], ['edge', 'edgeShape'],
     ['colorA', 'edgeShape'], ['colorB', 'edgeShape']];
+  var BXCLS = { '가': 'ba', '나': 'bb', '다': 'bc', '보류': 'bn' };
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var rulesBox = document.getElementById('rules');
   var cardsBox = document.getElementById('cards');
@@ -133,6 +148,8 @@
 
   var RULES, cardDeck, baseOrder, curOrder, pos1, pos2, guess, confirmed, lastSig;
   lastSig = null;
+
+  function say(t, m) { if (window.Fun) { Fun.say(t, m); } }
 
   function shuffle(arr) {
     var a = arr.slice();
@@ -172,8 +189,8 @@
     var pairIds = Math.random() < 0.3
       ? ['colorA', 'colorB']
       : PAIRS_OTHER[Math.floor(Math.random() * PAIRS_OTHER.length)];
-    // 두 줄은 늘 이웃해서 놓는다 — 사이에 낀 규칙이 있으면 바꿀 때 옮겨가는 장수가
-    // 가늠하기 어렵게 커진다. 이웃이면 두 규칙 자신의 겹침만으로 정해져 0~6 안에 든다.
+    // 두 줄은 늘 이웃해서 놓는다(옮겨가는 장수가 0~6 안에 든다). 다만 더 위 줄이 먼저
+    // 가져간 카드는 옮겨가지 않으므로, 장수는 두 줄의 겹침에서 위 줄 몫을 뺀 만큼이다.
     var restIds = IDS.filter(function (id) { return pairIds.indexOf(id) < 0; });
     var restOrder = shuffle(restIds);
     var slot = Math.floor(Math.random() * 3);
@@ -194,7 +211,14 @@
 
   function judge(ord, card) {
     for (var i = 0; i < ord.length; i++) { if (RULES[ord[i]].f(card)) { return RULES[ord[i]].box; } }
-    return '—';
+    return '보류';
+  }
+
+  function boxEl(name) {
+    var s = document.createElement('span');
+    s.className = 'bx ' + BXCLS[name];
+    s.textContent = name;
+    return s;
   }
 
   function shapeSvg(c) {
@@ -203,46 +227,67 @@
     else if (c.shape === '세모') { inner = '<path d="M22 13 L32 32 L12 32 Z" fill="' + c.hex + '" stroke="' + INK + '" stroke-width="2.2" stroke-linejoin="round"/>'; }
     else { inner = '<rect x="13" y="14" width="18" height="18" rx="3" fill="' + c.hex + '" stroke="' + INK + '" stroke-width="2.2"/>'; }
     var ring = c.edge ? '<rect x="3.2" y="3.2" width="37.6" height="37.6" rx="8" fill="none" stroke="' + INK + '" stroke-width="2.6"/>' : '';
-    return '<svg width="28" height="28" viewBox="0 0 44 44" aria-hidden="true" focusable="false">' + ring + inner + '</svg>';
+    return '<svg class="shape" viewBox="0 0 44 44" aria-hidden="true" focusable="false">' + ring + inner + '</svg>';
   }
 
-  var MARK = '<svg class="mk" width="13" height="13" viewBox="0 0 14 14" aria-hidden="true" focusable="false">'
+  var MARK = '<svg class="mk" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false">'
     + '<path d="M7 1.5 8.7 5.2 12.5 5.7 9.7 8.4 10.4 12.2 7 10.4 3.6 12.2 4.3 8.4 1.5 5.7 5.3 5.2Z"'
-    + ' fill="#7C3AED" stroke="' + INK + '" stroke-width="1.4" stroke-linejoin="round"/></svg>';
-  var SWAPICON = '<svg class="mk2" width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" focusable="false">'
+    + ' fill="#ffc845" stroke="' + INK + '" stroke-width="1.4" stroke-linejoin="round"/></svg>';
+  var SWAPICON = '<svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" focusable="false">'
     + '<path d="M4 7h10M11 4l3 3-3 3M16 13H6M9 10l-3 3 3 3" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-  function drawRules() {
+  // 두 줄이 자리를 바꾸는 움직임: 아래로 온 줄은 위에서, 위로 온 줄은 아래에서 미끄러진다.
+  function slideRows(rowH) {
+    var a = rulesBox.children[pos1], b = rulesBox.children[pos2];
+    if (reduce || !a || !a.animate) { return; }
+    a.animate([{ transform: 'translateY(' + rowH + 'px)' }, { transform: 'none' }], { duration: 420, easing: 'ease-out' });
+    b.animate([{ transform: 'translateY(' + (-rowH) + 'px)' }, { transform: 'none' }], { duration: 420, easing: 'ease-out' });
+  }
+
+  function drawRules(slide) {
+    var rowH = 0;
+    if (slide && rulesBox.children[1]) {
+      rowH = rulesBox.children[1].getBoundingClientRect().top - rulesBox.children[0].getBoundingClientRect().top;
+    }
     rulesBox.innerHTML = '';
     for (var i = 0; i < curOrder.length; i++) {
       var r = RULES[curOrder[i]];
+      var isPair = (i === pos1 || i === pos2);
       var row = document.createElement('div');
-      row.className = 'rule' + (!confirmed && (i === pos1 || i === pos2) ? ' target' : '');
+      row.className = 'rule' + (isPair ? (confirmed ? ' done' : ' target') : '');
       var num = document.createElement('span'); num.className = 'num'; num.textContent = NUM[i];
       var cond = document.createElement('span'); cond.className = 'cond'; cond.textContent = r.cond;
-      var box = document.createElement('span'); box.className = 'box'; box.textContent = r.box;
       var mk2 = document.createElement('span'); mk2.className = 'mk2'; mk2.innerHTML = SWAPICON;
-      row.appendChild(num); row.appendChild(cond); row.appendChild(box); row.appendChild(mk2);
+      row.appendChild(num); row.appendChild(cond); row.appendChild(boxEl(r.box)); row.appendChild(mk2);
       rulesBox.appendChild(row);
     }
+    if (slide) { slideRows(rowH); }
   }
 
-  function drawCards() {
+  function drawCards(fresh) {
     cardsBox.innerHTML = '';
+    var k = 0;
     for (var i = 0; i < cardDeck.length; i++) {
       var c = cardDeck[i];
       var before = judge(baseOrder, c);
       var now = confirmed ? judge(curOrder, c) : before;
       var changed = confirmed && now !== before;
       var tile = document.createElement('div');
-      tile.className = 'card' + (changed ? ' diff' : '');
+      tile.className = 'card' + (changed ? ' diff' : '') + (fresh ? ' fresh' : '');
+      if (changed) { tile.style.setProperty('--d', (0.08 * k++) + 's'); }
+      else if (fresh) { tile.style.setProperty('--d', (0.012 * i) + 's'); }
       tile.setAttribute('role', 'img');
       tile.setAttribute('aria-label', c.color + ' ' + c.shape + (c.edge ? ', 테두리 있음' : ', 테두리 없음')
-        + (now === '—' ? ', 규칙 없음' : ', 상자 ' + now) + (changed ? ', 달라짐' : ''));
+        + (now === '보류' ? ', 규칙 없음' : ', 상자 ' + now) + (changed ? ', 달라짐, 전에는 ' + before : ''));
       var idx = document.createElement('span'); idx.className = 'idx'; idx.textContent = String(c.n);
       var mark = document.createElement('span'); mark.innerHTML = MARK;
-      var pic = document.createElement('span'); pic.innerHTML = shapeSvg(c);
-      var val = document.createElement('span'); val.className = 'v'; val.textContent = now;
+      var pic = document.createElement('span'); pic.style.width = '100%'; pic.style.display = 'flex'; pic.style.justifyContent = 'center'; pic.innerHTML = shapeSvg(c);
+      var val = document.createElement('span'); val.className = 'v';
+      if (changed) {
+        var was = document.createElement('span'); was.className = 'was'; was.textContent = before;
+        val.appendChild(was);
+      }
+      val.appendChild(boxEl(now));
       tile.appendChild(idx); tile.appendChild(mark); tile.appendChild(pic); tile.appendChild(val);
       cardsBox.appendChild(tile);
     }
@@ -255,6 +300,7 @@
       b.type = 'button'; b.className = 'gc';
       b.textContent = String(n);
       b.setAttribute('aria-pressed', guess === n ? 'true' : 'false');
+      b.setAttribute('aria-label', n + '장');
       b.disabled = confirmed;
       (function (v) { b.addEventListener('click', function () { pick(v); }); })(n);
       gstrip.appendChild(b);
@@ -268,6 +314,8 @@
     swapBtn.disabled = false;
     msgEl.textContent = '순서 바꾸기를 눌러요';
     msgEl.className = 'msg dim';
+    say(n === 0 ? '한 장도 안 옮겨간다고 걸었어요. 두 줄에 모두 맞아도 위 줄이 먼저 가져가면 안 옮겨가요. 18장을 훑어봐요.'
+      : n + '장이 옮겨간다고 걸었어요. 위 줄이 먼저 가져간 카드는 빼고, 두 줄에 모두 맞는 카드를 세어 봐요.');
   }
 
   function doSwap() {
@@ -283,18 +331,41 @@
     msgEl.textContent = msg;
     msgEl.className = 'msg';
     hintEl.textContent = '순서가 바뀌었어요';
-    drawRules(); drawCards(); drawGuess();
+    drawRules(true); drawCards(false); drawGuess();
     swapBtn.disabled = true;
+    if (window.Fun) {
+      // 판정은 위 줄이 먼저 가져간다: 두 줄에 모두 맞는 카드도 더 위 줄에 먼저 걸리면 안 옮겨간다.
+      var both = 0, taken = 0, same = 0, above = curOrder.slice(0, pos1);
+      var rA = RULES[baseOrder[pos1]], rB = RULES[baseOrder[pos2]];
+      cardDeck.forEach(function (c) {
+        if (!(rA.f(c) && rB.f(c))) { return; }
+        both++;
+        if (above.some(function (i) { return RULES[i].f(c); })) { taken++; }
+        else if (rA.box === rB.box) { same++; }
+      });
+      var why;
+      if (both === 0) { why = '두 줄에 함께 맞는 카드가 없어서, 순서를 바꿔도 달라지지 않아요.'; }
+      else {
+        why = '두 줄에 함께 맞는 카드 ' + both + '장 가운데 ' + (taken ? '위 줄이 먼저 가져간 ' + taken + '장' : '')
+          + (taken && same ? '과 ' : '') + (same ? '두 줄 상자가 같은 ' + same + '장' : '')
+          + ((taken || same) ? '은 빼서 ' : '') + actual + '장이 옮겨갔어요.';
+      }
+      if (actual === 0) { say('한 장도 옮겨가지 않았어요. ' + why, diff === 0 ? 'cheer' : 'think'); }
+      else if (diff === 0) { say('별표 카드가 옮겨간 카드예요. ' + why, 'cheer'); }
+      else { say('예상과 다르게 나왔어요. ' + why, 'think'); }
+      if (diff === 0) { Fun.burst(cardsBox); } else { Fun.shake(cardsBox); }
+      Fun.stamp();
+    }
   }
 
-  function restartRound() {
+  function restartRound(fresh) {
     curOrder = baseOrder.slice();
     guess = null; confirmed = false;
     hintEl.textContent = '표시된 두 줄이 자리를 바꿔요';
     msgEl.textContent = '몇 장이 옮겨갈지 짚어요';
     msgEl.className = 'msg dim';
     swapBtn.disabled = true;
-    drawRules(); drawCards(); drawGuess();
+    drawRules(false); drawCards(!!fresh); drawGuess();
   }
 
   function newRound() {
@@ -302,15 +373,17 @@
     do { r = makeRound(); sig = sigOf(r); tries++; } while (lastSig !== null && sig === lastSig && tries < 10);
     lastSig = sig;
     RULES = r.rules; baseOrder = r.order; pos1 = r.p1; pos2 = r.p2; cardDeck = r.deck;
-    restartRound();
+    restartRound(true);
+    say('새 판이에요. 표시된 두 줄이 자리를 바꾸면 카드가 몇 장 옮겨갈까요? 먼저 짚어요.');
   }
 
   swapBtn.addEventListener('click', doSwap);
-  resetBtn.addEventListener('click', restartRound);
+  resetBtn.addEventListener('click', function () { restartRound(false); say('같은 판을 처음부터 해요. 다시 짚어 봐요.'); });
   nextBtn.addEventListener('click', newRound);
 
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B20" data-mission="규칙 두 줄이 자리를 바꾸면 카드가 몇 장 옮겨갈까요? 바꾸기 전에 먼저 짚어요!"></script>
 </body>
 </html>

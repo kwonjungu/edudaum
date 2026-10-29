@@ -6,18 +6,10 @@
 <title>판정이 갈리는 횟수 짚기 — 에듀다움</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
-  :root{--line:#DDDDDD;--line-strong:#C1C1C1;
-    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A;
-    --r:14px; --r-sm:8px;
-    --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
-  }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
-    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    
-    background-position:-11px -11px}
+    color:var(--ink);font-size:17px;line-height:1.5;}
   .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px}
 
   .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
@@ -36,7 +28,7 @@
 
   /* 규칙 한 줄 — 판마다 바뀐다 */
   .rule{font-size:clamp(16px,4.3vw,21px);font-weight:700;letter-spacing:-.02em;
-    background:var(--point-soft);border:1px solid var(--line);border-radius:var(--r-sm);
+    background:var(--sun-l);border:1px solid var(--line);border-radius:var(--r-sm);
     padding:9px 11px;text-align:center}
   .rule em{font-style:normal;text-decoration:underline;text-underline-offset:4px;
     text-decoration-thickness:3px}
@@ -49,9 +41,15 @@
   .c .no{position:absolute;left:0;right:0;bottom:1px;font-size:9.5px;font-weight:700;color:var(--muted)}
   .c svg{width:17px;height:17px;display:block}
   .c.mark{background:var(--point-soft)}
-  .c.guess{border-width:4px}
-  .c.edge{box-shadow:inset 0 0 0 3px var(--point)}
-  .c:disabled{cursor:default}
+  .c.guess{border:4px solid var(--ink)}
+  .c.hit{animation:hit .45s ease-out}
+  @keyframes hit{0%{transform:scale(1)}40%{transform:scale(1.25)}100%{transform:scale(1)}}
+  .c svg{transition:transform .2s}
+  .c.mark svg{animation:drop .22s ease-out}
+  @keyframes drop{0%{transform:scale(2.2);opacity:0}100%{transform:scale(1);opacity:1}}
+  .led svg rect{transition:fill .12s}
+  .c.edge{box-shadow:inset 0 0 0 3px var(--sun);background:var(--sun-l)}
+  .c:disabled{cursor:default;color:var(--ink);opacity:1}
   .c.pick{animation:pk .2s ease-out}
   @keyframes pk{0%{transform:scale(1)}45%{transform:scale(1.16)}100%{transform:scale(1)}}
 
@@ -84,7 +82,10 @@
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+.btn{white-space:nowrap;flex:1 1 auto}
+@media(max-width:380px){.c{min-height:42px}.nav{flex-wrap:wrap}.btn{padding:8px 6px;font-size:14px}}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -121,6 +122,7 @@
   </section>
 </div>
 
+<script src="../assets/play/fun.js" data-block="B08" data-mission="규칙 한 줄을 읽고, 하트와 가위표가 갈리는 칸을 먼저 짚어요. 한 글자에 한 칸이 옮겨 가요!"></script>
 <script>
 (function(){
   'use strict';
@@ -138,6 +140,9 @@
   var guess = null;          // 짚은 칸
   var tried = [];            // 시험한 칸의 결과
   var found = false;         // 갈린 자리가 드러났나
+  var booted = false;
+  var stamped = false;       // 이 판의 도장을 찍었나
+  function say(t, m){ if (window.Fun) Fun.say(t, m); }
 
   var leds = [], cells = [];
 
@@ -161,7 +166,7 @@
   function icon(kind){
     if (!kind) return '';
     return kind === 'heart'
-      ? '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 17S2 12 2 7a4 4 0 018-1 4 4 0 018 1c0 5-8 10-8 10z" fill="#DB2777" stroke="#222222" stroke-width="1.6"/></svg>'
+      ? '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 17S2 12 2 7a4 4 0 018-1 4 4 0 018 1c0 5-8 10-8 10z" fill="#e0457b" stroke="#222222" stroke-width="1.6"/></svg>'
       : '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="#222222" stroke-width="3" stroke-linecap="round"/></svg>';
   }
 
@@ -169,7 +174,7 @@
     n = 3 + Math.floor(Math.random() * 11);       // 3~13
     ge = Math.random() < 0.5;
     edge = ge ? n : n + 1;
-    value = 0; shown = null; guess = null; found = false;
+    value = 0; shown = null; guess = null; found = false; stamped = false;
     tried = [];
     for (var i = 0; i <= MAXV; i++) tried.push(null);
     // 조사는 수를 읽는 소리에 맞춘다(4와, 10과). 규칙 칸 이름은 과정안 블록의 '횟수'다.
@@ -178,14 +183,18 @@
       ? '횟수가 <em>' + n + wa + ' 같거나 크면</em> 하트'
       : '횟수가 <em>' + n + '보다 크면</em> 하트';
     render();
+    if (booted) say('새 규칙이에요. 갈리는 칸을 먼저 짚어요', 'think');
+    booted = true;
   }
 
   // 짚기는 판마다 한 번. 시험을 시작하기 전에만 짚을 수 있다.
   function pick(v){
     if (tried.some(function(x){ return x !== null; })) return;
+    if (guess !== null) return;
     guess = v;
     cells[v].classList.remove('pick'); void cells[v].offsetWidth; cells[v].classList.add('pick');
     render();
+    say(v + '칸을 짚었어요. 이제 왼쪽으로 횟수를 올리고 오른쪽으로 시험해요');
   }
 
   $('left').addEventListener('click', function(){
@@ -197,19 +206,37 @@
     shown = (ge ? value >= n : value > n) ? 'heart' : 'cross';
     tried[value] = shown;
     // 경계 양쪽을 둘 다 시험하면 갈린 자리가 드러난다
+    var was = found;
     if (tried[edge - 1] === 'cross' && tried[edge] === 'heart') found = true;
     render();
+    if (found && !was) finish();
   });
   $('reset').addEventListener('click', function(){
     value = 0; shown = null; render();
   });
   $('next').addEventListener('click', newRound);
 
+  function finish(){
+    stamped = true;
+    var d = Math.abs(guess - edge);
+    var why = ge ? n + '부터 하트예요. 같거나 크면은 ' + n + ' 자리도 들어가요.'
+                 : (n + 1) + '부터 하트예요. 보다 크면은 ' + n + ' 자리는 빠져요.';
+    if (d === 0){
+      say('짚은 자리에서 갈렸어요. ' + why, 'cheer');
+      if (window.Fun) Fun.burst(cells[edge]);
+    } else {
+      say(d + '칸 옆에서 갈렸어요. ' + why, 'think');
+      if (window.Fun) Fun.shake($('strip'));
+    }
+    cells[edge].classList.remove('hit'); void cells[edge].offsetWidth; cells[edge].classList.add('hit');
+    if (window.Fun) Fun.stamp();
+  }
+
   function render(){
     var tested = tried.some(function(x){ return x !== null; });
     $('num').textContent = String(value);
     var pic = shown === 'heart' ? HEART : (shown === 'cross' ? CROSS : null);
-    for (var i = 0; i < 25; i++) leds[i].setAttribute('fill', pic && pic[i] ? '#DB2777' : '#3A3630');
+    for (var i = 0; i < 25; i++) leds[i].setAttribute('fill', pic && pic[i] ? '#e0457b' : '#3A3630');
 
     for (var v = 0; v <= MAXV; v++){
       var c = cells[v];

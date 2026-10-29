@@ -8,7 +8,7 @@
 <style>
   :root{--line:#DDDDDD;--line-strong:#C1C1C1;
     --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A;
+    --point:#2f78b5; --point-soft:#e6f3fc; --muted:#6A6A6A;
     --r:14px; --r-sm:8px;
     --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
@@ -44,14 +44,14 @@
   @keyframes pulse{0%{transform:scale(1)}45%{transform:scale(1.15)}100%{transform:scale(1)}}
   .cap{display:block;font-size:11.5px;font-weight:700;color:var(--muted);text-align:center;margin-top:2px}
 
-  .line{margin-top:8px;width:100%;height:42px;display:block}
-  .rail{fill:none;stroke:var(--ink);stroke-width:2.5}
-  .tick{stroke:var(--ink);stroke-width:2.5}
-  .tick.on{stroke:var(--point);stroke-width:6}
-  .tlab{font-size:9px;font-weight:700;fill:var(--muted);text-anchor:middle}
-  .tlab.on{fill:var(--point);font-size:11px}
+  .line{margin-top:8px;width:100%;height:auto;display:block}
+  .rail{fill:none;stroke:var(--ink);stroke-width:5;stroke-linecap:round}
+  .tick{stroke:var(--ink);stroke-width:5}
+  .tick.on{stroke:var(--point);stroke-width:12}
+  .tlab{font-size:20px;font-weight:700;fill:var(--muted);text-anchor:middle}
+  .tlab.on{fill:var(--point);font-size:26px}
   .band{fill:var(--point-soft)}
-  .mark{fill:var(--point);stroke:var(--ink);stroke-width:1.5}
+  .mark{fill:var(--point);stroke:var(--ink);stroke-width:3}
 
   .val{margin-top:3px;text-align:center;font-family:'Courier New',monospace;
     font-size:22px;font-weight:700;color:var(--point)}
@@ -80,7 +80,23 @@
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+
+.guess{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
+.guess b{font-size:13px;color:var(--muted);margin-right:2px}
+.chip{font-family:inherit;cursor:pointer;font-size:15px;font-weight:700;color:var(--ink);background:var(--surface);
+  border:1px solid var(--ink);border-radius:999px;min-height:44px;min-width:52px;padding:6px 12px;box-shadow:var(--hard-sm)}
+.chip[aria-pressed=true]{background:var(--grape-l,#efecfd);border:3px solid var(--grape,#9b8cf2)}
+.flag{stroke:var(--grape,#9b8cf2);stroke-width:4;stroke-dasharray:6 5}
+.flagt{font-size:14px;font-weight:700;fill:var(--grape,#9b8cf2);text-anchor:middle}
+.pair{display:flex;gap:8px;margin-top:8px}
+.slot{flex:1;border:1px solid var(--line);border-radius:var(--r-sm);padding:6px 8px;text-align:center;background:var(--surface);min-height:62px}
+.slot.full{background:var(--sky-l,#e6f3fc);animation:pulse .17s ease-out}
+.slot small{display:block;font-size:11.5px;font-weight:700;color:var(--muted)}
+.slot strong{font-family:'Courier New',monospace;font-size:24px;line-height:1.2}
+.slot em{font-style:normal;font-size:13px;font-weight:700;color:var(--muted)}
+@media (max-width:400px){.chip{min-width:46px;padding:6px 8px}.btn{padding:9px 8px;font-size:14px}}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -101,16 +117,24 @@
       <p><b class="box now" id="now">가</b><span class="cap">지금 걸린 글자</span></p>
     </div>
 
-    <svg class="line" viewBox="0 0 100 22" preserveAspectRatio="none" role="img"
+    <svg class="line" viewBox="0 0 400 80" role="img"
          aria-label="지금 수가 규칙표 네 값 가운데 어디에 있는지">
-      <rect class="band" id="band" x="0" y="8" width="0" height="7" rx="2"></rect>
-      <line class="rail" x1="3" y1="14" x2="97" y2="14"></line>
+      <rect class="band" id="band" x="0" y="44" width="0" height="28" rx="6"></rect>
+      <line class="rail" x1="12" y1="58" x2="388" y2="58"></line>
       <g id="ticks"></g>
+      <line class="flag" id="flag" x1="0" y1="16" x2="0" y2="78" visibility="hidden"></line>
+      <text class="flagt" id="flagt" x="0" y="12" visibility="hidden">예상</text>
       <polygon class="mark" id="mark" points="0,0 0,0 0,0"></polygon>
     </svg>
     <p class="val" id="val">0</p>
     <input type="range" id="slide" min="0" max="99" step="1" aria-label="지금 수" hidden>
 
+    <div class="guess" role="group" aria-label="나올 수 예상"><b>먼저 걸어요</b>
+      <button class="chip" type="button" data-g="20" aria-pressed="false">20</button>
+      <button class="chip" type="button" data-g="40" aria-pressed="false">40</button>
+      <button class="chip" type="button" data-g="60" aria-pressed="false">60</button>
+      <button class="chip" type="button" data-g="80" aria-pressed="false">80</button>
+    </div>
     <p class="say dim" id="say">소리를 내 보세요</p>
     <p class="practice" id="practice" hidden>연습 모드 · 막대로 수를 옮겨요</p>
   </section>
@@ -122,8 +146,11 @@
       <button class="btn" id="next" type="button">다음 글자</button>
       <button class="btn" id="reset" type="button">다시 하기</button>
     </div>
-    <p class="note" id="kept">첫 번째 · 두 번째 ·</p>
-    <p class="note">같은 글자를 두 번 담아 견줘요</p>
+    <div class="pair" id="kept" aria-live="polite">
+      <div class="slot" id="s0"><small>첫 번째</small><strong>·</strong><em></em></div>
+      <div class="slot" id="s1"><small>두 번째</small><strong>·</strong><em></em></div>
+    </div>
+    <p class="note" id="hint">수를 걸고 같은 글자를 두 번 담아 견줘요</p>
     <p class="note">목소리는 저장되지 않아요</p>
   </section>
 </div>
@@ -134,13 +161,15 @@
   var $ = function(id){ return document.getElementById(id); };
   var NS = 'http://www.w3.org/2000/svg';
   var TABLE = [{ n:10, c:'가' }, { n:35, c:'나' }, { n:60, c:'다' }, { n:85, c:'라' }];
-  var X0 = 3, X1 = 97;
+  var X0 = 12, X1 = 388;
 
   var value = 0;
   var want = 2;
   var lastWant = -1;
   var slots = [null, null];
   var lastHit = -1;
+  var guess = null, rounds = 0;
+  function say(t, m){ if (window.Fun) Fun.say(t, m); }
 
   var ticks = [], tlabs = [];
   function px(v){ return X0 + (X1 - X0) * (v / 99); }
@@ -150,10 +179,10 @@
       var x = px(TABLE[i].n);
       var ln = document.createElementNS(NS, 'line');
       ln.setAttribute('class', 'tick');
-      ln.setAttribute('x1', x); ln.setAttribute('y1', '8');
-      ln.setAttribute('x2', x); ln.setAttribute('y2', '21');
+      ln.setAttribute('x1', x); ln.setAttribute('y1', '44');
+      ln.setAttribute('x2', x); ln.setAttribute('y2', '76');
       var tx = document.createElementNS(NS, 'text');
-      tx.setAttribute('class', 'tlab'); tx.setAttribute('x', x); tx.setAttribute('y', '6');
+      tx.setAttribute('class', 'tlab'); tx.setAttribute('x', x); tx.setAttribute('y', '38');
       tx.textContent = TABLE[i].c;
       $('ticks').appendChild(ln); $('ticks').appendChild(tx);
       ticks.push(ln); tlabs.push(tx);
@@ -194,7 +223,7 @@
     $('band').setAttribute('width', (px(bd[1]) - px(bd[0])).toFixed(1));
 
     var x = px(value);
-    $('mark').setAttribute('points', (x - 3.2) + ',12 ' + (x + 3.2) + ',12 ' + x + ',18');
+    $('mark').setAttribute('points', (x - 10) + ',40 ' + (x + 10) + ',40 ' + x + ',56');
 
     if (b !== lastHit){
       lastHit = b;
@@ -206,25 +235,64 @@
     else if (b < want){ s.textContent = '더 크게 내 보세요'; s.className = 'say dim'; }
     else { s.textContent = '더 작게 내 보세요'; s.className = 'say dim'; }
 
-    $('kept').textContent = '첫 번째 ' + (slots[0] === null ? '·' : slots[0]) +
-      ' · 두 번째 ' + (slots[1] === null ? '·' : slots[1]);
-    $('keep').disabled = (slots[1] !== null);
+    for (var k = 0; k < 2; k++){
+      var sl = $('s' + k);
+      sl.querySelector('strong').textContent = slots[k] === null ? '·' : String(slots[k]);
+      sl.querySelector('em').textContent = slots[k] === null ? '' : TABLE[pick(slots[k])].c;
+      sl.classList.toggle('full', slots[k] !== null);
+    }
+    var fl = $('flag'), ft = $('flagt');
+    if (guess === null){ fl.setAttribute('visibility', 'hidden'); ft.setAttribute('visibility', 'hidden'); }
+    else {
+      var gx = px(guess).toFixed(1);
+      fl.setAttribute('x1', gx); fl.setAttribute('x2', gx); ft.setAttribute('x', gx);
+      fl.setAttribute('visibility', 'visible'); ft.setAttribute('visibility', 'visible');
+    }
+    var chips = document.querySelectorAll('.chip');
+    for (var c = 0; c < chips.length; c++) chips[c].setAttribute('aria-pressed', String(+chips[c].dataset.g === guess));
+    $('keep').disabled = (slots[1] !== null) || guess === null;
+    $('hint').textContent = slots[1] !== null ? '두 칸이 찼어요. 다음 글자로 가요' : (guess === null ? '먼저 나올 수를 걸어요' : '같은 글자를 두 번 담아 견줘요');
   }
 
-  function newWord(){
+  function clearRound(){ slots = [null, null]; guess = null; }
+  function newWord(first){
     var w;
     do { w = Math.floor(Math.random() * TABLE.length); } while (w === lastWant);
-    lastWant = w; want = w;
+    lastWant = w; want = w; clearRound();
     render();
+    if (!first) say('새 글자 「' + TABLE[w].c + '」이에요. 몇 쯤 나올지 먼저 걸어요.');
+  }
+
+  var chipEls = document.querySelectorAll('.chip');
+  for (var ci = 0; ci < chipEls.length; ci++){
+    chipEls[ci].addEventListener('click', function(){
+      guess = +this.dataset.g;
+      render();
+      say('「' + TABLE[want].c + '」가 걸리려면 ' + guess + '쯤일 거라고 걸었어요. 소리를 내서 담아 봐요.');
+    });
   }
 
   $('keep').addEventListener('click', function(){
-    if (slots[0] === null) slots[0] = value;
-    else if (slots[1] === null) slots[1] = value;
+    if (guess === null || slots[1] !== null) return;
+    var i = slots[0] === null ? 0 : 1;
+    slots[i] = value;
     render();
+    if (i === 0){
+      say('걸어 둔 수 ' + guess + ', 담은 수 ' + value + '. 같은 소리를 한 번 더 내서 담아 봐요.');
+    } else {
+      var same = pick(slots[0]) === pick(slots[1]);
+      if (same){
+        say('첫 수 ' + slots[0] + ', 둘째 수 ' + slots[1] + '. 글자는 같아요. 수도 같았나요?', 'cheer');
+        if (window.Fun) Fun.burst($('s1'));
+      } else {
+        say('첫 수 ' + slots[0] + ', 둘째 수 ' + slots[1] + '. 글자가 달라졌어요. 같은 소리였는데 어디서 갈렸을까요?', 'think');
+        if (window.Fun) Fun.shake($('s1'));
+      }
+      if (window.Fun) Fun.stamp();
+    }
   });
-  $('next').addEventListener('click', newWord);
-  $('reset').addEventListener('click', function(){ slots = [null, null]; render(); });
+  $('next').addEventListener('click', function(){ newWord(false); });
+  $('reset').addEventListener('click', function(){ clearRound(); render(); say('같은 글자로 다시 해요. 수를 먼저 걸어요.'); });
 
   /* 연습 모드 */
   function usePractice(){
@@ -291,10 +359,10 @@
   });
   window.addEventListener('pagehide', stopMic);
 
-  newWord();
-  render();
+  newWord(true);
   startMic();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B18" data-mission="소리를 내서 목표 글자가 걸리게 해요. 나올 수를 먼저 걸고, 같은 소리를 두 번 담아 견줘요!"></script>
 </body>
 </html>

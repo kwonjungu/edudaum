@@ -7,8 +7,8 @@
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
   :root{--line:#DDDDDD;--line-strong:#C1C1C1;
-    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A;
+    --surface:#FFFFFF;
+    --muted:#6A6A6A;
     --r:14px; --r-sm:8px;
     --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
@@ -46,13 +46,19 @@
     padding:9px;display:inline-flex}
   #led{width:120px;height:120px;display:block}
   .px{fill:#333030}
-  .px.on{fill:var(--point)}
+  .px.on{fill:var(--pink)}
+  .tally{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;margin-top:9px;max-width:300px}
+  .tally i{display:block;aspect-ratio:1;border-radius:50%;border:2px solid var(--line-strong);background:var(--surface);transition:background-color .15s,transform .15s}
+  .tally i.on{background:var(--pink);border-color:var(--pink);transform:scale(1.12)}
+  .tally i.extra{border-style:dashed}
+  .tallyn{font-size:13.5px;font-weight:700;margin-top:4px;color:var(--muted)}
 
   .strip{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;margin-top:2px}
   .c{font-family:inherit;cursor:pointer;background:var(--surface);color:var(--ink);
     border:1px solid var(--line);border-radius:9px;min-height:44px;font-weight:700;font-size:14px}
   .c[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px}
   .c:disabled{opacity:.45;cursor:default}
+  .c:disabled[aria-pressed="true"]{opacity:1;color:var(--ink)}
 
   .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
   .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:700;
@@ -72,7 +78,9 @@
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+.tag{background:var(--point)}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -97,6 +105,8 @@
   <section aria-labelledby="h-g">
     <h2 id="h-g">몇 번 나타날까요</h2>
     <div class="strip" id="strip"></div>
+    <div class="tally" id="tally" aria-hidden="true"></div>
+    <p class="tallyn" id="tallyn" aria-live="polite">나타난 수 0</p>
     <p class="say dim" id="say">띠에서 수를 짚어요</p>
     <div class="acts">
       <button class="btn main" id="go" type="button" disabled>돌려 보기</button>
@@ -157,10 +167,22 @@
     }
   })();
 
+  var tallyEl = $('tally'), tallyN = $('tallyn'), dots = [];
+  for (var d = 0; d < 20; d += 1) { var di = document.createElement('i'); tallyEl.appendChild(di); dots.push(di); }
+  function setTally(k, guessV) {
+    for (var q = 0; q < dots.length; q += 1) {
+      dots[q].classList.toggle('on', q < k);
+      dots[q].classList.toggle('extra', guessV !== null && q + 1 > guessV && q < k);
+    }
+    tallyN.textContent = '나타난 수 ' + k;
+  }
+  function F(t, m) { if (window.Fun) { Fun.say(t, m); } }
+
   var n = 3, m = 3, nested = false, total = 9;
   var guess = null;
   var ran = false;
   var timer = null;
+  var mode = '';
   var lastKey = '';
 
   function clearTimer() { if (timer) { clearTimeout(timer); timer = null; } }
@@ -194,7 +216,7 @@
   }
 
   function newRound() {
-    clearTimer();
+    clearTimer(); mode = '';
     var r = draw();
     var tries = 0;
     while (r.key === lastKey && tries < 8) { r = draw(); tries += 1; }
@@ -204,6 +226,7 @@
     guess = null; ran = false;
     renderCode();
     drawHeart(false);
+    setTally(0, null);
 
     for (var i = 0; i < buttons.length; i += 1) {
       buttons[i].disabled = false;
@@ -213,6 +236,7 @@
     replayBtn.disabled = true;
     sayEl.textContent = '띠에서 수를 짚어요';
     sayEl.className = 'say dim';
+    F('새 판이에요. 블록을 보고 하트가 몇 번 나타날지 먼저 짚어요.');
   }
 
   function pickGuess(v) {
@@ -224,6 +248,7 @@
       b.setAttribute('aria-pressed', Number(b.getAttribute('data-v')) === v ? 'true' : 'false');
     }
     goBtn.disabled = false;
+    F(v + '번이라고 걸었어요. 돌려서 세어 봐요.');
     sayEl.textContent = '돌려 보기를 눌러요';
     sayEl.className = 'say dim';
   }
@@ -231,14 +256,22 @@
   function finish() {
     var diff = total - guess;
     if (diff === 0) {
-      sayEl.textContent = '짚은 대로 나타났어요';
+      sayEl.textContent = '짚은 수와 같은 수로 나타났어요';
     } else if (diff > 0) {
       sayEl.textContent = diff + '번 더 나타났어요';
     } else {
       sayEl.textContent = (-diff) + '번 덜 나타났어요';
     }
     sayEl.className = 'say';
-    ran = true;
+    if (diff === 0) {
+      F('짚은 수와 같아요. 바깥 ' + n + '회에 안쪽 ' + m + '번씩이었어요.', 'cheer');
+      if (window.Fun) { Fun.burst(tallyEl); }
+    } else {
+      F('예상과 다르게 나왔어요. 바깥 ' + n + '회 × 안쪽 ' + m + '번을 따라 세어 봐요.' + (nested ? ' 반복 안의 반복도 같은 수로 나타나요.' : ''), 'think');
+      if (window.Fun) { Fun.shake(tallyEl); }
+    }
+    if (window.Fun) { Fun.stamp(); }
+    ran = true; mode = '';
     goBtn.disabled = true;
     replayBtn.disabled = false;
   }
@@ -247,10 +280,12 @@
     clearTimer();
     var done = 0;
     drawHeart(false);
+    setTally(0, guess);
     var step = function () {
       if (done >= total) { timer = null; if (onFinish) { onFinish(); } return; }
       drawHeart(true);
       done += 1;
+      setTally(done, guess);
       timer = setTimeout(function () {
         drawHeart(false);
         timer = setTimeout(step, 160);
@@ -261,14 +296,14 @@
 
   function run() {
     if (timer !== null || guess === null || ran) { return; }
-    goBtn.disabled = true;
+    goBtn.disabled = true; mode = 'run';
     play(finish);
   }
 
   function replay() {
     if (timer !== null || !ran) { return; }
-    replayBtn.disabled = true;
-    play(function () { replayBtn.disabled = false; });
+    replayBtn.disabled = true; mode = 'replay';
+    play(function () { mode = ''; replayBtn.disabled = false; });
   }
 
   stripEl.addEventListener('click', function (ev) {
@@ -280,11 +315,28 @@
   goBtn.addEventListener('click', run);
   replayBtn.addEventListener('click', replay);
   nextBtn.addEventListener('click', newRound);
-  document.addEventListener('visibilitychange', function () { if (document.hidden) { clearTimer(); } });
-  window.addEventListener('pagehide', clearTimer);
+  function interrupt() {
+    var was = mode;
+    clearTimer();
+    if (!was) { return; }
+    mode = '';
+    drawHeart(false);
+    if (was === 'run') {
+      setTally(0, guess);
+      goBtn.disabled = false;
+      sayEl.textContent = '돌려 보기를 다시 눌러요';
+      sayEl.className = 'say dim';
+    } else {
+      setTally(total, guess);
+      replayBtn.disabled = false;
+    }
+  }
+  document.addEventListener('visibilitychange', function () { if (document.hidden) { interrupt(); } });
+  window.addEventListener('pagehide', interrupt);
 
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B09" data-mission="반복 블록을 보고 하트가 몇 번 나타날지 먼저 짚어요. 돌려서 세어 보고, 판이 바뀌면 또 짚어요!"></script>
 </body>
 </html>

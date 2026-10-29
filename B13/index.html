@@ -6,15 +6,10 @@
 <title>기록 두 장으로 막힌 곳 짚기 — 에듀다움 B13</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
-  :root{--line:#DDDDDD;--line-strong:#C1C1C1;
-    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A; --shade:#F4F4F4;
-    --r:14px; --r-sm:8px;
-    --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
-  }
+  :root{--shade:#f3efe6}
   *{box-sizing:border-box;margin:0;padding:0}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
-    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5}
+    color:var(--ink);font-size:17px;line-height:1.5}
   .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px}
 
   .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:9px}
@@ -38,8 +33,12 @@
   .rec col.c1{width:17%} .rec col.c2{width:17%} .rec col.c3{width:20%}
   .rec tr.hide td{background:var(--shade);color:var(--muted);letter-spacing:.2em}
   .rec tr.new td{animation:pop .35s ease-out}
-  .rec td.stop{color:var(--point);font-weight:700}
-  @keyframes pop{from{background:var(--point-soft)}to{background:transparent}}
+  .rec td.stop{color:#b4532a;font-weight:700}
+  .rec td.ok{color:var(--mint-d);font-weight:700}
+  .rec td.where{font-weight:700}
+  .rec tr.hide td:not(:first-child){background:repeating-linear-gradient(45deg,var(--shade) 0 6px,var(--line) 6px 7px)}
+  @keyframes pop{from{background:var(--sun-l);transform:scale(1.03)}to{background:transparent;transform:none}}
+  .booth svg{width:26px;height:22px;vertical-align:-5px;margin-right:3px}
 
   .q{font-size:15px;font-weight:700;margin-bottom:6px}
   .cands{display:flex;gap:6px;flex-wrap:wrap}
@@ -50,7 +49,7 @@
   .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
   .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .btn:disabled{opacity:.45;cursor:default;box-shadow:none;transform:none}
-  .btn[aria-pressed="true"]{background:var(--point-soft);border:3px solid var(--point)}
+  .btn[aria-pressed="true"]{background:var(--sun-l);border:3px solid var(--point)}
   .btn.main{background:var(--point);border-color:var(--point);color:#fff}
   .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
   .say{margin-top:8px;font-size:14px;font-weight:700}
@@ -59,7 +58,9 @@
   .bars{display:grid;gap:5px;margin-top:8px}
   .bar{display:grid;grid-template-columns:minmax(0,1fr) 110px 34px;gap:6px;align-items:center;font-size:13.5px;font-weight:600}
   .bar i{display:block;height:14px;background:var(--line);border-radius:4px;overflow:hidden}
-  .bar i b{display:block;height:100%;background:var(--point);width:0;transition:width .4s}
+  .bar i b{display:block;height:100%;background:var(--sky);width:0;transition:width .4s}
+  .bar.me i b{background:var(--mint)}
+  .bar.top i b{box-shadow:0 0 0 2px var(--sun) inset}
   .bar em{font-style:normal;font-family:'Courier New',monospace;font-weight:700;text-align:right}
   .bar.me span{text-decoration:underline;text-decoration-color:var(--point);text-decoration-thickness:3px}
 
@@ -67,8 +68,9 @@
   .grid .hd{white-space:pre-line;word-break:keep-all;font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:center;text-align:center}
   .grid .cell{border:1px dashed var(--line-strong);border-radius:6px;min-height:52px;padding:4px;display:flex;
     flex-wrap:wrap;gap:4px;align-content:flex-start}
-  .chip{background:var(--point-soft);border:1px solid var(--point);border-radius:999px;padding:1px 8px;font-weight:700;font-size:12.5px}
+  .chip{background:var(--sky-l);border:1px solid var(--point);border-radius:999px;padding:1px 8px;font-weight:700;font-size:12.5px}
   .chip.pick{background:var(--point);color:#fff}
+  .cell.hot{background:var(--sun-l)}
   .out{margin-top:8px;font-size:13.5px;border:1px dashed var(--line-strong);border-radius:var(--r-sm);
     padding:8px 10px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
   .out b{display:block;font-size:12px;color:var(--muted)}
@@ -80,6 +82,7 @@
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -94,7 +97,7 @@
   </header>
 
   <section aria-labelledby="h-rec">
-    <h2 id="h-rec">활동 기록지 <span class="note" id="booth"></span></h2>
+    <h2 id="h-rec">활동 기록지 <span class="note booth"><svg viewBox="0 0 26 22" aria-hidden="true"><path d="M2 9 L5 2 H21 L24 9Z" fill="#ffc845" stroke="#33302b" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 9h22v2H2z" fill="#5aa9e6" stroke="#33302b" stroke-width="1.5"/><path d="M5 11v9M21 11v9" stroke="#33302b" stroke-width="1.5"/></svg><span id="booth"></span></span></h2>
     <table class="rec">
       <colgroup><col class="c1"><col class="c2"><col class="c3"><col></colgroup>
       <thead><tr><th scope="col">친구</th><th scope="col">결과</th><th scope="col">걸린 시간</th><th scope="col">막힌 곳</th></tr></thead>
@@ -236,9 +239,9 @@
       } else {
         if (r === fresh) { tr.className = 'new'; }
         cell(tr, row.who);
-        cell(tr, row.stop ? '멈춤' : '성공', row.stop ? 'stop' : '');
+        cell(tr, row.stop ? '멈춤' : '성공', row.stop ? 'stop' : 'ok');
         cell(tr, row.sec === null ? '—' : row.sec + '초');
-        cell(tr, row.where < 0 ? '—' : round.cands[row.where].name);
+        cell(tr, row.where < 0 ? '—' : round.cands[row.where].name, 'where');
       }
       rowsEl.appendChild(tr);
     }
@@ -285,6 +288,7 @@
     fixSec.hidden = true; outEl.hidden = true;
     nextBtn.disabled = true;
     setSay('한 곳을 짚어야 펼칠 수 있어요', false);
+    if (window.Fun) { Fun.say(booth === 1 ? '기록 두 장만 보여요. 가장 자주 막힌 곳을 먼저 걸어 봐요.' : '부스 ' + booth + '의 기록이에요. 이번에도 두 장만 보고 걸어 봐요.'); }
   }
 
   // 펼치기 전까지는 다른 곳으로 바꿀 수 있다.
@@ -296,7 +300,7 @@
     setSay('짚은 곳: ' + round.cands[c].name + '. 펼치기 전엔 바꿀 수 있어요', false);
   }
 
-  var tick = null;
+  var tick = null, stamped = false;
   function clearTick() { if (tick) { clearTimeout(tick); tick = null; } }
   var REDUCE = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -313,7 +317,7 @@
     for (i = 0; i < 3; i++) {
       var c = round.order[i];
       var d = document.createElement('div');
-      d.className = 'bar' + (c === guess ? ' me' : '');
+      d.className = 'bar' + (c === guess ? ' me' : '') + (c === round.winner ? ' top' : '');
       var sp = document.createElement('span'); sp.textContent = round.cands[c].name;
       var track = document.createElement('i'); var fill = document.createElement('b');
       track.appendChild(fill);
@@ -324,6 +328,7 @@
     }
     barsEl.hidden = false;
     setSay('세는 중이에요', false);
+    if (window.Fun) { Fun.say('한 줄씩 펼쳐요. 짚은 곳의 막대가 따라잡는지 지켜봐요.', 'think'); }
 
     var upto = SHOWN;
     var countTo = function (k) {
@@ -351,14 +356,17 @@
     var tally = ' 친구 ' + FRIENDS + '명 중 ' + round.success + '명 성공, 1분 안에 ' + round.inMin + '명.';
     if (guess === round.winner) {
       setSay('짚은 곳이 가장 많이 막혔어요(' + topN + '번).' + tally, true);
+      if (window.Fun) { Fun.say('두 장으로 짚은 곳이 다 세어 본 것과 같았어요. 이번엔 두 장이 실제와 같은 쪽을 가리켰네요.', 'cheer'); Fun.burst(barsEl); }
     } else {
       setSay("짚은 곳 " + myN + "번, 가장 많은 곳 '" + top.name + "' " + topN + '번. ' + (topN - myN) +
         '번 차이예요.' + tally, true);
+      if (window.Fun) { Fun.say('두 장으로 짚은 곳과 다 센 결과가 달랐어요. 기록이 적을 때는 어디서 갈릴 수 있을까요?', 'think'); Fun.shake(barsEl); }
     }
     renderGrid();
     candButtons(fixesEl, pickFix);
     fixSec.hidden = false;
     nextBtn.disabled = false;
+    stamped = false;
   }
 
   function renderGrid() {
@@ -391,10 +399,15 @@
     fixPick = c;
     press(fixesEl, c);
     renderGrid();
+    if (window.Fun) { Fun.burst(gridEl); }
     var cand = round.cands[c];
     outText.textContent = '고칠 점: ' + cand.name + ' → ' + cand.fix + ' / 까닭: ' + FRIENDS + '명 중 ' +
       round.counts[c] + '번 막힘, 고치기 ' + (cand.easy ? '쉬움' : '어려움');
     outEl.hidden = false;
+    if (window.Fun) {
+      Fun.say('고칠 점으로 「' + cand.name + '」을 골랐어요. 까닭에 기록의 수가 들어 있는지 살펴봐요.');
+      if (!stamped) { stamped = true; Fun.stamp(); }
+    }
   }
 
   openBtn.addEventListener('click', openAll);
@@ -405,5 +418,6 @@
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B13" data-mission="기록 두 장만 보고 가장 자주 막힌 곳을 먼저 걸어요. 나머지를 펼쳐 세어 보고 고칠 점을 골라요!"></script>
 </body>
 </html>

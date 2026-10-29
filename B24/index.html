@@ -8,7 +8,7 @@
 <style>
   :root{--line:#DDDDDD;--line-strong:#C1C1C1;
     --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF; --soft:#F7F7F7;
-    --point:#FF385C; --point-soft:#FFF0F3; --point-dim:#FFD1DA; --muted:#6A6A6A;
+    --point:#FF385C; --point-soft:#FFF0F3; --point-dim:#b9d9ef; --muted:#6A6A6A;
     --r:14px; --r-sm:8px;
     --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
@@ -51,11 +51,19 @@
   button.tr.chg{box-shadow:inset 6px 0 0 var(--point)}
   button.tr.extra{border-style:dashed;border-color:var(--ink);background:#fff;outline:none}
   .tr .tag2{animation:pop .35s ease-out}
+  .tr .w{display:flex;align-items:center;gap:6px;min-width:0}
+  .tr .w svg{flex:none;width:20px;height:20px}
+  .tr .g{border-radius:8px;padding:3px 2px;border:1px solid transparent}
+  .tr .g.y{background:var(--sky-l);border-color:var(--sky)}
+  .tr .g.n{background:var(--sun-l);border-color:var(--sun)}
+  .tr .g.u{border:1px dashed var(--line-strong);color:var(--muted);font-weight:500}
+  .tr .g.q{color:var(--muted);border:1px dashed var(--line-strong)}
+  .tr .g2.flip{animation:flip .45s ease-out both}
+  @keyframes flip{0%{transform:rotateX(90deg);opacity:0}100%{transform:none;opacity:1}}
   @keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.15);opacity:1}100%{transform:scale(1)}}
   .tr .no{color:var(--muted);font-size:13px}
   .tr .num{text-align:right}
   .tr .g{text-align:center;font-weight:600;font-size:14px}
-  .tr .g2{color:var(--point)}
   .tr .tag2{display:block;font-size:11px;font-weight:600;color:var(--point);text-align:center;line-height:1}
 
   .bars{display:grid;gap:6px}
@@ -76,11 +84,21 @@
   [hidden]{display:none!important}
 
   :focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+  .tr .w span{white-space:nowrap}
+  @media(max-width:430px){
+    .tr{grid-template-columns:minmax(4.6em,1fr) 2.7em 3.1em 3.7em 3.7em;font-size:14px;gap:3px}
+    .tr>:first-child{display:none}
+    button.tr{padding:4px 7px}
+    .th{padding:0 7px}
+    .tr .g{font-size:13px}
+    .tr .w svg{width:18px;height:18px}
+  }
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -144,7 +162,7 @@
   ];
 
   var rows = [], c1 = null, c2 = null, marked = [], checked = false, lastPair = '';
-  var rowEls = [];
+  var rowEls = [], justChecked = false;
 
   function ans(c, r){
     if (c.key === 't' && r.t === null) return null;
@@ -195,13 +213,15 @@
       b.innerHTML = '<span class="no"></span><span class="w"></span><span class="num nt"></span>' +
         '<span class="num nx"></span><span class="g g1"></span><span class="g g2"></span>';
       b.querySelector('.no').textContent = String(i + 1);
-      b.querySelector('.w').textContent = r.w;
+      b.querySelector('.w').innerHTML = icon(r.w) + '<span></span>';
+      b.querySelector('.w span').textContent = r.w;
       b.querySelector('.nt').textContent = r.t === null ? '—' : r.t + '분';
       b.querySelector('.nx').textContent = r.x + '개';
       b.addEventListener('click', function(){
         if (checked) return;
         marked[i] = !marked[i];
         render();
+        if (window.Fun && marked.filter(Boolean).length === 1 && marked[i]) Fun.say('한 줄 짚었어요. 더 있을지 살펴보고, 다 짚으면 확인해요.');
       });
       tbl.appendChild(b);
       rowEls.push(b);
@@ -210,6 +230,16 @@
     $('c2').textContent = c2.text;
   }
 
+  var ICON = {
+    '걸어서': '<circle cx="12" cy="4.5" r="2"/><path d="M12 7v6M12 9l-3 3M12 9l3 2M12 13l-3 6M12 13l3 6"/>',
+    '자전거': '<circle cx="5.5" cy="16" r="3.5"/><circle cx="18.5" cy="16" r="3.5"/><path d="M5.5 16l4-8h5l4 8M9.5 8l5 8M8 6h3"/>',
+    '자동차': '<path d="M3 16v-4l2.5-4h13L21 12v4z"/><circle cx="7.5" cy="17" r="1.8"/><circle cx="16.5" cy="17" r="1.8"/><path d="M3 12h18"/>',
+    '버스':   '<rect x="4" y="4" width="16" height="13" rx="2"/><path d="M4 11h16M8 17v3M16 17v3"/><circle cx="8" cy="14" r=".6"/><circle cx="16" cy="14" r=".6"/>'
+  };
+  function icon(w){
+    return '<svg viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICON[w] + '</svg>';
+  }
+  function gcls(v){ return v === null ? 'u' : v === '예' ? 'y' : 'n'; }
   function g(v){ return v === null ? '못 정함' : v; }
 
   function render(){
@@ -218,9 +248,14 @@
       var el = rowEls[i], ch = changed(r);
       el.setAttribute('aria-pressed', marked[i] ? 'true' : 'false');
       el.disabled = checked;
-      el.querySelector('.g1').textContent = g(ans(c1, r));
+      var g1 = el.querySelector('.g1');
+      g1.textContent = g(ans(c1, r));
+      g1.className = 'g g1 ' + gcls(ans(c1, r));
       var g2 = el.querySelector('.g2');
       g2.textContent = checked ? g(ans(c2, r)) : '?';
+      g2.className = 'g g2 ' + (checked ? gcls(ans(c2, r)) : 'q') + (checked && justChecked ? ' flip' : '');
+      if (checked && justChecked) g2.style.animationDelay = (i * 60) + 'ms';
+      else g2.style.animationDelay = '';
       if (checked && ch){
         var t = document.createElement('span'); t.className = 'tag2'; t.textContent = '달라짐'; g2.appendChild(t);
       }
@@ -253,8 +288,9 @@
       if (extra) say += ' · 그대로인 줄 짚음 ' + extra;
     }
     if (rows.some(function(r){ return ans(c1, r) === null || ans(c2, r) === null; }))
-      say += ' · 빈칸 줄은 어느 묶음에도 넣지 못했어요';
+      say += ' · 빈칸 줄은 이 기준으로 묶음을 정하지 못했어요';
     $('say').textContent = say;
+    return { act:act, hit:hit, miss:miss, extra:extra };
   }
 
   function drawBars(){
@@ -268,7 +304,9 @@
         line.className = 'bline';
         line.innerHTML = '<span></span><span class="track' + (p[2] ? ' p' : '') + '"><i></i></span><span class="v"></span>';
         line.firstChild.textContent = p[1] + ' ' + v;
-        line.querySelector('i').style.width = hide ? '0' : (cnt / ROWS * 100) + '%';
+        var bar = line.querySelector('i'), wd = hide ? '0' : (cnt / ROWS * 100) + '%';
+        bar.style.width = '0';
+        (function(b, w2){ requestAnimationFrame(function(){ requestAnimationFrame(function(){ b.style.width = w2; }); }); })(bar, wd);
         line.querySelector('.v').textContent = hide ? '?' : cnt + '명';
         box.appendChild(line);
       });
@@ -277,16 +315,30 @@
 
   $('checkBtn').addEventListener('click', function(){
     if (checked || !marked.some(Boolean)) return;
-    checked = true; render();
+    checked = true; justChecked = true;
+    var res = render();
+    justChecked = false;
+    if (window.Fun && res){
+      if (res.miss === 0 && res.extra === 0){
+        Fun.say('짚은 줄이 기준2에서 모두 갈렸어요. 기준값과 같은 줄은 어땠는지 다시 봐요.', 'cheer');
+        Fun.burst($('tbl'));
+      } else {
+        Fun.say('예상과 다르게 나온 줄이 있어요. 띠가 붙은 줄과 점선 줄을 견줘 봐요.', 'think');
+        Fun.shake($('tbl'));
+      }
+      Fun.stamp();
+    }
     $('s2').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
-  $('nextBtn').addEventListener('click', function(){ if (checked){ newRound(); window.scrollTo(0, 0); } });
+  $('nextBtn').addEventListener('click', function(){ if (checked){ newRound(); window.scrollTo(0, 0); if (window.Fun) Fun.say('새 표와 새 기준이 나왔어요. 기준2에서 갈릴 줄을 먼저 짚어요.'); } });
   $('resetBtn').addEventListener('click', function(){
     marked = rows.map(function(){ return false; }); checked = false; render(); window.scrollTo(0, 0);
+    if (window.Fun) Fun.say('같은 표로 다시 짚어 봐요. 이번엔 어디가 달라질까요?', 'think');
   });
 
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B24" data-mission="기준을 바꾸면 어느 줄의 묶음이 달라질지, 확인하기 전에 먼저 짚어 봐요!"></script>
 </body>
 </html>

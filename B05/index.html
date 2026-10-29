@@ -90,8 +90,14 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   border:1px solid var(--line);border-radius:999px;padding:6px 14px;
   box-shadow:var(--hard-sm);white-space:nowrap}
 
+.tok{fill:var(--sun);stroke:var(--ink);stroke-width:3;opacity:0;transition:opacity .15s}
+.tok.on{opacity:1}
+.trail{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px;min-height:30px}
+.trail span{font-size:13.5px;font-weight:700;border:1px solid var(--line-strong);border-radius:999px;padding:3px 10px;background:var(--soft,#f3efe6)}
+.trail span.odd{border-style:dashed;border-color:var(--point)}
 /* 에듀다움 통일 테마 2026-09-27 */
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <main>
@@ -154,6 +160,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
             <ellipse class="shape" cx="180" cy="356" rx="46" ry="19"/>
             <text class="cap" x="180" y="362" text-anchor="middle">끝</text>
           </g>
+          <circle id="tok" class="tok" r="9" cx="180" cy="26"/>
         </svg>
       </div>
 
@@ -168,6 +175,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
           <button id="reset" type="button">다시 하기</button>
           <button id="next" type="button">다음 판</button>
         </div>
+        <div class="trail" id="trail" aria-label="지나온 판"></div>
         <p class="rec"><span id="recEl"></span></p>
         <p class="say" id="say" role="status" aria-live="polite"></p>
         <p class="ask">두 끝 가운데 하나를 짚어요</p>
@@ -211,6 +219,11 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   var running = false;
   var ran = false;       // 확인을 눌렀나. 그 뒤로는 짚기가 잠긴다.
   var timer = null;
+  var tok = document.getElementById('tok');
+  var trailEl = document.getElementById('trail');
+  var TOKPOS = { nStart:[180,26], nCheck:[180,77], nAsk:[180,148], nLog:[78,231], nHand:[78,291], nBook:[282,231], nEnd:[180,356] };
+  function moveTok(id){ if (TOKPOS[id]) { tok.setAttribute('cx', TOKPOS[id][0]); tok.setAttribute('cy', TOKPOS[id][1]); tok.classList.add('on'); } }
+  function say(t, m){ if (window.Fun) { Fun.say(t, m); } }
 
   var calm = window.matchMedia
     ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -220,6 +233,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
     for (var i = 0; i < ALL.length; i += 1) {
       document.getElementById(ALL[i]).classList.remove('lit');
     }
+    tok.classList.remove('on');
   }
 
   function pickRound() {
@@ -275,8 +289,19 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
     sayEl.textContent = '';
 
     function finishWalk() {
+      var odd = reached !== guess;
+      var t = document.createElement('span');
+      t.textContent = BOOKS[bookIdx].traits[0] + ' → ' + reached + (swapped ? ' (글자가 뒤바뀐 판)' : '');
+      if (odd) { t.className = 'odd'; }
+      trailEl.appendChild(t);
+      while (trailEl.children.length > 4) { trailEl.removeChild(trailEl.firstChild); }
       recEl.textContent = '→ ' + reached;
       sayEl.textContent = reached === guess ? '짚은 곳에 닿았어요' : '다른 끝으로 갔어요';
+      if (window.Fun) {
+        if (odd) { say('예상과 다른 끝이에요. 마름모에서 예·아니요 글자가 어디에 붙었는지 다시 봐요.', 'think'); Fun.shake(recEl); }
+        else { say('짚은 곳에 닿았어요. 글자가 뒤바뀐 판이면 어떻게 달라질지 다음 판에서 봐요.', 'cheer'); Fun.burst(recEl); }
+        Fun.stamp();
+      }
       running = false;
       lock(false);
     }
@@ -285,6 +310,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
       for (var i = 0; i < path.length; i += 1) {
         document.getElementById(path[i]).classList.add('lit');
       }
+      ran = true; lock(false);
       finishWalk();
       return;
     }
@@ -294,6 +320,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
     lock(true);
     timer = setInterval(function () {
       document.getElementById(path[k]).classList.add('lit');
+      moveTok(path[k]);
       k += 1;
       if (k >= path.length) {
         halt();
@@ -327,6 +354,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
     recEl.textContent = '';
     sayEl.textContent = '';
     lock(false);
+    say(swapped ? '새 책이에요. 예·아니요 글자부터 읽고 끝을 짚어요.' : '새 책이에요. 화살표를 따라가면 어디로 갈지 먼저 짚어요.');
   }
 
   guessHandBtn.addEventListener('click', function () { setGuess('책 건네기'); });
@@ -339,5 +367,6 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   newRound();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B05" data-mission="책 한 권이 순서도를 따라 어느 끝으로 갈지 먼저 짚고, 화살표대로 굴려 확인해요."></script>
 </body>
 </html>

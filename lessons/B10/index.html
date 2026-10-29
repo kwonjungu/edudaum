@@ -5,10 +5,13 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>5학년 19~20차시 값을 저장하고 바꾸는 변수로 흔들기 횟수를 세고, 순차·선택·반복을 모두 쓴 카운터 만들기 — 에듀다움</title>
 <link rel="icon" href="../../assets/brand/favicon.svg">
-<style>/* 에듀다움 디자인 토큰 — 활동지 공통 양식(ws.css)과 한 벌 (2026. 10. 11.). make_site.py가 쪽마다 안에 넣는다.
-   글꼴: 제목 Jua · 본문 고운돋움(Google Fonts). 아이콘: Microsoft Fluent UI System Icons Color(MIT) — assets/icons */
-@import url('https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap');
-:root{--canvas:#fff;--ink:#33302b;--body:#4a463f;--muted:#6f6a62;--muted-soft:#9a948a;
+<style>/* 에듀다움 디자인 토큰 — 책 「손끝에서 시작하는 SW와 AI 수업」·체험 활동 공통 테마(assets/play/fun.css)와 한 벌 (2026. 10. 29.).
+   make_site.py가 쪽마다 안에 넣고, ../../을 쪽 깊이에 맞는 상대 주소로 바꾼다.
+   글꼴: 제목 주아(Jua) · 본문 고운돋움, 긴 글은 시스템 고딕 — 저장소 안 assets/fonts(바깥 글꼴 서버를 쓰지 않는다).
+   아이콘: Microsoft Fluent UI System Icons Color(MIT) — assets/icons. 그림: assets/brand/cover.webp, assets/chars */
+@font-face{font-family:'Jua';src:url('../../assets/fonts/jua.woff2') format('woff2');font-display:swap}
+@font-face{font-family:'Gowun Dodum';src:url('../../assets/fonts/gowun-dodum.woff2') format('woff2');font-display:swap}
+:root{--canvas:#fff;--paper:#f8f6f1;--ink:#33302b;--body:#4a463f;--muted:#6f6a62;--muted-soft:#9a948a;
 --sky:#5aa9e6;--sky-l:#e6f3fc;--sky-d:#2f78b5;
 --sun:#ffc845;--sun-l:#fff6d9;--sun-d:#9a6f00;
 --mint:#4cbf9a;--mint-l:#e3f6ef;--mint-d:#1f7a5c;
@@ -16,20 +19,22 @@
 --grape:#9b8cf2;--grape-l:#efecfd;--grape-d:#5f4fc4;
 --primary:var(--sky-d);--primary-active:#25639a;--primary-disabled:#bcdcf3;--primary-soft:var(--sky-l);
 --gc:var(--sky);--gc-l:var(--sky-l);--gc-d:var(--sky-d);
---soft:#f8f6f1;--strong:#f0ece4;--line:#e3ddd1;--line-soft:#eeeae2;--line-strong:#cfc7b8;
+--soft:#f3efe6;--strong:#ebe5d8;--line:#e3ddd1;--line-soft:#eeeae2;--line-strong:#cfc7b8;
 --r-sm:12px;--r-md:18px;--r-xl:32px;--r-full:9999px;
 --shadow:rgba(51,48,43,.04) 0 0 0 1px,rgba(51,48,43,.05) 0 2px 6px 0,rgba(51,48,43,.08) 0 6px 14px 0;
 --font:'Gowun Dodum','Pretendard','Apple SD Gothic Neo','Malgun Gothic',-apple-system,system-ui,sans-serif;
---title:'Jua','Gowun Dodum','Apple SD Gothic Neo','Malgun Gothic',sans-serif}
+--title:'Jua','Gowun Dodum','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+--read:'Pretendard','Apple SD Gothic Neo','Malgun Gothic','Noto Sans KR',system-ui,sans-serif;
+--lift:0 1px 0 rgba(51,48,43,.06),0 6px 16px rgba(51,48,43,.07)}
 .g5{--gc:var(--sky);--gc-l:var(--sky-l);--gc-d:var(--sky-d)}
 .g6{--gc:var(--grape);--gc-l:var(--grape-l);--gc-d:var(--grape-d)}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
 html{scroll-padding-top:96px}
-body{margin:0;background:var(--canvas);color:var(--ink);font:400 16px/1.5 var(--font);word-break:keep-all;overflow-wrap:anywhere}
+body{margin:0;background:var(--paper) radial-gradient(rgba(51,48,43,.045) 1px,transparent 1px) 0 0/18px 18px;color:var(--ink);font:400 16px/1.5 var(--font);word-break:keep-all;overflow-wrap:anywhere}
 a{color:inherit}
 /* 윗줄 */
-.top{position:sticky;top:0;z-index:10;background:var(--canvas);border-bottom:1px solid var(--line)}
+.top{position:sticky;top:0;z-index:10;background:rgba(248,246,241,.96);border-bottom:1.5px solid var(--line)}
 .top .in{max-width:1280px;margin:0 auto;padding:0 24px;min-height:80px;display:flex;align-items:center;gap:16px}
 .brand{font-family:var(--title);font-weight:400;font-size:24px;color:var(--sky-d);text-decoration:none;display:flex;align-items:center;gap:8px;flex:0 0 auto}
 .brand svg{width:30px;height:30px}
@@ -90,8 +95,8 @@ tr:last-child td{border-bottom:0}
 .muted{color:var(--muted)}
 .small{font-size:14px}
 .note{background:var(--soft);padding:16px 20px;border-radius:var(--r-md);margin:16px 0;font-size:14px;color:var(--body)}
-:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
-footer{border-top:1px solid var(--line)}
+:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+footer{border-top:1.5px solid var(--line);background:var(--strong)}
 footer .in{max-width:1280px;margin:0 auto;padding:32px 24px 48px;font-size:13px;color:var(--muted);line-height:1.6}
 .smap{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:16px 24px;padding-bottom:24px;margin-bottom:20px;border-bottom:1px solid var(--line-soft)}
 .smap div{display:flex;flex-direction:column;gap:2px}
@@ -422,6 +427,104 @@ details.full{margin-top:32px;background:var(--soft)}
 .gcard .gshot{flex:0 0 auto;width:160px;height:auto;aspect-ratio:16/10;object-fit:cover;border-radius:var(--r-sm);border:1px solid var(--line)}
 .gcard .needs{display:flex!important;flex-wrap:wrap;gap:6px;margin-top:6px}
 @media (max-width:560px){.gcard{flex-wrap:wrap}.gcard .gshot{width:100%}}
+
+/* ───── 누리집 새판 (2026. 10. 29.) — 책 표지·캐릭터·미션 지도 ───── */
+.vh{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.act,.res,.md,.qa .ans,.box ul,.rowcard,table{font-family:var(--read)}
+th,.flowt th[scope=row]{font-family:var(--title)}
+.brand{color:var(--ink)}
+.brand svg{width:34px;height:34px}
+footer .lineup{mix-blend-mode:multiply;display:block;width:min(420px,100%);height:auto;margin:-8px auto 20px}
+/* 첫 띠 — 책 표지 그림 */
+.cover{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);align-items:center;gap:8px 28px;
+  background:#fbfaf6;border:1.5px solid var(--line);border-radius:var(--r-xl);overflow:hidden;box-shadow:var(--lift);margin:0 0 20px}
+.ctext{padding:36px 8px 36px 40px}
+.corg{display:inline-flex;align-items:center;gap:8px;font:400 15px var(--title);color:var(--mint-d);background:var(--mint-l);border-radius:var(--r-full);padding:5px 14px 5px 8px}
+.corg svg{width:24px;height:24px;flex:0 0 auto}
+.cover h1{font-size:46px;line-height:1.22;margin:16px 0 10px;color:var(--ink)}
+.csub{font:400 21px/1.4 var(--title);color:var(--sky-d);margin:0 0 12px}
+.cmeta{font-size:15px;color:var(--muted);margin:0 0 6px}
+.cover .btns{margin:20px 0 0}
+.cimg{align-self:stretch}
+.cimg img{display:block;width:100%;height:100%;min-height:380px;max-height:520px;object-fit:cover;object-position:50% 92%}
+@media (max-width:860px){.cover{grid-template-columns:1fr}.ctext{padding:26px 22px 4px}.cover h1{font-size:34px}.csub{font-size:18px}
+  .cimg img{min-height:0;max-height:none;aspect-ratio:1400/1000;height:auto}}
+@media (max-width:420px){.cover h1{font-size:29px}.csub{font-size:16.5px}.ctext{padding:22px 18px 0}.corg{font-size:13px}.cover .btns .btn{padding:10px 16px;font-size:15px}}
+/* 새싹쌤 말풍선 */
+.hsay{display:flex;align-items:flex-end;gap:12px;margin:8px 0;max-width:900px}
+.hsay .face{width:96px;height:96px;flex:0 0 auto;object-fit:contain;transform-origin:50% 100%;animation:hs-bob 3.4s ease-in-out infinite}
+.hsay p{position:relative;flex:1;margin:0 0 14px;background:#fff;border:2px solid var(--ink);border-radius:18px;padding:12px 16px;font-size:16px;line-height:1.55;box-shadow:var(--lift)}
+.hsay p::before{content:"";position:absolute;left:-11px;bottom:14px;border:9px solid transparent;border-right-color:var(--ink);border-left:0}
+.hsay p::after{content:"";position:absolute;left:-7px;bottom:16px;border:7px solid transparent;border-right-color:#fff;border-left:0}
+.hsay b{display:block;font:400 14px var(--title);color:var(--mint-d)}
+@keyframes hs-bob{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-4px) rotate(-2deg)}}
+@media (max-width:420px){.hsay .face{width:64px;height:64px}.hsay p{font-size:14.5px;padding:10px 12px}}
+/* 28블록 미션 지도 — 단원별 징검다리 */
+.road{background:#fff;border:1.5px solid var(--line);border-radius:var(--r-xl);padding:18px 20px 22px;margin:0 0 16px;box-shadow:var(--lift)}
+.road h3{display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;margin:0 0 6px;font-size:22px;color:var(--gc-d)}
+.road h3 .ic{width:32px;height:32px}
+.road h3 small{font:400 14px var(--font);color:var(--muted)}
+.reaches{display:flex;flex-wrap:wrap;gap:4px 18px}
+.reach{flex:0 1 auto;min-width:0;max-width:100%}
+.rname{display:flex;align-items:center;gap:8px;margin:12px 0 0;font:400 16px var(--title);color:var(--ink)}
+.rname .no{width:26px;height:26px;font-size:14px}
+.rname small{font:400 13px var(--font);color:var(--muted)}
+.stones{list-style:none;margin:0;padding:6px 6px 26px;display:flex;flex-wrap:wrap;gap:16px 18px;overflow:hidden}
+.stone{position:relative;width:128px;flex:0 0 auto}
+.stone:nth-child(even){margin-top:22px}
+.stone+.stone::before{content:"";position:absolute;left:-18px;top:46px;width:18px;border-top:3px dotted var(--line-strong)}
+.sgo{display:flex;flex-direction:column;align-items:center;text-align:center;gap:2px;text-decoration:none;color:var(--ink);
+  background:var(--gc-l);border:2px solid transparent;border-radius:46% 54% 44% 56%/40% 42% 58% 60%;padding:10px 8px 14px;min-height:150px;
+  box-shadow:0 5px 0 rgba(51,48,43,.08);transition:transform .15s,border-color .15s,box-shadow .15s}
+.sgo:hover{transform:translateY(-3px);border-color:var(--gc);box-shadow:0 8px 0 rgba(51,48,43,.08)}
+.sgo .face{width:56px;height:56px;border-radius:50%;background:#fff;object-fit:contain;border:2px solid #fff;box-shadow:0 1px 3px rgba(51,48,43,.15)}
+.sgo .bn{font:400 13px var(--title);color:#fff;background:var(--gc-d);border-radius:var(--r-full);padding:0 9px;margin-top:2px}
+.sgo b{font:400 14.5px/1.3 var(--title);word-break:keep-all}
+.slp{display:block;text-align:center;font-size:12.5px;color:var(--muted);margin-top:6px;padding:6px 0;min-height:32px}
+.slp:hover{color:var(--ink)}
+.seal{display:none;position:absolute;right:-4px;top:-4px;z-index:2;width:56px;height:56px;border-radius:50%;place-items:center;text-align:center;
+  font:400 12.5px/1.05 var(--title);color:#c8442f;border:3px double #c8442f;background:rgba(255,255,255,.9);transform:rotate(-14deg);pointer-events:none}
+.done .seal{display:grid;animation:seal-in .6s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes seal-in{0%{transform:rotate(-34deg) scale(1.9);opacity:0}100%{transform:rotate(-14deg) scale(1);opacity:1}}
+@media (max-width:560px){.road{padding:14px 10px 16px}.stones{gap:14px;padding:6px 2px 22px}.stone{width:calc(50% - 7px)}.stone+.stone::before{left:-14px;width:14px}
+  .stone:nth-child(odd)::before{display:none}}
+/* 네 입구 */
+.doors{display:grid;gap:14px;grid-template-columns:repeat(4,minmax(0,1fr));margin:8px 0 20px}
+.door{background:#fff;border:1.5px solid var(--line);border-radius:var(--r-md);overflow:hidden;display:flex;flex-direction:column}
+.dmain{display:flex;flex-direction:column;gap:4px;padding:18px 18px 10px;text-decoration:none;color:var(--ink)}
+.dmain .ic{width:36px;height:36px}
+.dmain b{font:400 20px var(--title)}
+.dmain span{font-size:14px;color:var(--muted)}
+.dmain:hover b{text-decoration:underline}
+.dsub{display:flex;flex-wrap:wrap;gap:6px;margin:auto 0 0;padding:6px 14px 16px}
+.dsub a{display:inline-flex;align-items:center;min-height:36px;border:1px solid var(--line);border-radius:var(--r-full);padding:4px 12px;font-size:13.5px;text-decoration:none;background:var(--paper)}
+.dsub a:hover{border-color:var(--ink)}
+@media (max-width:980px){.doors{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.doors{grid-template-columns:1fr}}
+/* 차시 쪽 — 체험 활동으로 가는 큰 단추 */
+.kplay{display:flex;align-items:center;gap:12px;margin:12px 0 0;background:var(--sun);color:var(--ink);text-decoration:none;border-radius:var(--r-md);padding:8px 16px 8px 8px;box-shadow:0 4px 0 rgba(0,0,0,.14);transition:transform .12s}
+.kplay:hover{transform:translateY(-2px)}
+.kplay .face{width:60px;height:60px;border-radius:50%;background:#fff;object-fit:contain;flex:0 0 auto}
+.kplay>span{flex:1;min-width:0}
+.kplay b{display:block;font:400 21px var(--title)}
+.kplay small{display:block;font-size:14px;color:#5a4a18}
+.kplay i{font:normal 400 26px var(--title);flex:0 0 auto}
+/* 체험 활동 카드 — 캐릭터 얼굴·미션·도장 */
+.pcard .tag{top:10px;bottom:auto}
+.pcard .seal{right:8px;top:8px;width:60px;height:60px;z-index:3}
+.pwho{display:flex;align-items:center;gap:8px;margin:-34px 0 0;position:relative;z-index:3}
+.pwho .face{width:52px;height:52px;border-radius:50%;background:#fff;border:3px solid #fff;box-shadow:0 1px 4px rgba(51,48,43,.2);object-fit:contain}
+.pwho span{font:400 13.5px var(--title);color:var(--gc-d);margin-top:26px}
+.pcard .pm{color:var(--ink);font-size:14.5px}
+.pm b{display:inline-block;font:400 12.5px var(--title);background:var(--sun-l);color:var(--sun-d);border-radius:var(--r-full);padding:0 8px;margin-right:6px}
+.phero h1 em{background:var(--sun-l);color:var(--ink)}
+/* 연구회 소개의 책 한 줄 */
+.booknote{display:flex;align-items:center;gap:10px;background:#fff;border:1.5px dashed var(--line-strong);border-radius:var(--r-md);padding:8px 14px 8px 8px;max-width:780px;font-size:15px}
+.booknote .face{width:48px;height:48px;flex:0 0 auto}
+.banner{background:#fff;border:1.5px solid var(--line);box-shadow:var(--lift)}
+.kband{box-shadow:var(--lift)}
+@media (prefers-reduced-motion:reduce){.hsay .face,.done .seal{animation:none!important}.sgo,.kplay,.pcard{transition:none!important}.sgo:hover,.kplay:hover{transform:none}}
+@media print{.hsay,.lineup,.seal{display:none}}
 </style>
 </head>
 <body>
@@ -434,6 +537,7 @@ details.full{margin-top:32px;background:var(--soft)}
 <span class="ktag"><img class="ic" src="../../assets/icons/g5.svg" alt="" width="24" height="24">5학년 19~20차시 · 변수로 흔들기 카운터</span>
 <h1>값을 저장하고 바꾸는 변수로 흔들기 횟수를 세고, 순차·선택·반복을 모두 쓴 카운터 만들기</h1>
 <p class="ksum">변수로 흔든 횟수를 세고, 순차·선택·반복을 모두 쓴 카운터를 만들어요.</p>
+<a class="kplay" href="../../B10/"><img class="face" src="../../assets/chars/c3.webp" alt="비트쌤" width="60" height="60" loading="lazy"><span><b>체험 활동 열기</b><small>비트쌤과 5~10분 · 처음 값 바꿔 흔든수 예상하기</small></span><i aria-hidden="true">→</i></a>
 </div>
 <div class="kit"><a class="kb" href="../../assets/pdf/B10.pdf" target="_blank" rel="noopener"><img class="ic" src="../../assets/icons/plan.svg" alt="" width="24" height="24"><b>지도안 받기</b><span>PDF</span></a><a class="kb" href="../../assets/sheets/B10.pdf" target="_blank" rel="noopener"><img class="ic" src="../../assets/icons/sheet.svg" alt="" width="24" height="24"><b>활동지</b><span>PDF</span></a><a class="kb" href="../../B10/"><img class="ic" src="../../assets/icons/game.svg" alt="" width="24" height="24"><b>체험 활동</b><span>5~10분</span></a><a class="kb" href="#tools"><img class="ic" src="../../assets/icons/tool.svg" alt="" width="24" height="24"><b>연동 도구</b><span>바로 열기</span></a></div>
 <div class="g5">
@@ -464,7 +568,7 @@ details.full{margin-top:32px;background:var(--soft)}
 <div class="pn"><a class="btn" href="../B09/">← 5학년 17~18차시</a><a class="btn" href="../B11/">5학년 21~24차시 →</a></div>
 
 </main>
-<footer><div class="in"><nav class="smap" aria-label="사이트맵"><div><b>수업 자료</b><a href="../../lessons/">차시별 수업 꾸러미</a><a href="../../topics/">단원별로 보기</a><a href="../../tools/">연동 도구</a></div><div><b>체험 활동</b><a href="../../play/">체험 활동</a></div><div><b>도입 안내</b><a href="../../about/">학교자율시간이란?</a><a href="../../guide/">도입 절차</a><a href="../../forms/">서식 받기</a><a href="../../forms/set/">채운 서식 한 벌</a><a href="../../qna/">자주 묻는 질문</a></div><div><b>연구회</b><a href="../../plan/">연구회 소개</a><a href="../../notice/">알림</a></div><div><b>더 보기</b><a href="../../forms/list/">서식 목록·검색</a><a href="../../forms/versions/">판본 차이·정오표</a><a href="../../search/">검색</a></div></nav><p><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 9. 28.<br>학교자율시간 안내·서식은 경기도교육청 자료를 재구성했어요. 원문과 최신 공문을 함께 확인하세요.<br>학생 이름·점수를 받지 않고, 체험 활동의 카메라·마이크는 화면에만 쓰며 저장하지 않아요.</p></div></footer>
+<footer><div class="in"><img class="lineup" src="../../assets/chars/lineup.webp" alt="" width="600" height="200"><nav class="smap" aria-label="사이트맵"><div><b>수업 자료</b><a href="../../lessons/">차시별 수업 꾸러미</a><a href="../../topics/">단원별로 보기</a><a href="../../tools/">연동 도구</a></div><div><b>체험 활동</b><a href="../../play/">체험 활동</a></div><div><b>도입 안내</b><a href="../../about/">학교자율시간이란?</a><a href="../../guide/">도입 절차</a><a href="../../forms/">서식 받기</a><a href="../../forms/set/">채운 서식 한 벌</a><a href="../../qna/">자주 묻는 질문</a></div><div><b>연구회</b><a href="../../plan/">연구회 소개</a><a href="../../notice/">알림</a></div><div><b>더 보기</b><a href="../../forms/list/">서식 목록·검색</a><a href="../../forms/versions/">판본 차이·정오표</a><a href="../../search/">검색</a></div></nav><p><b>경기 AI 융합교육 에듀다움 교사연구회</b><br>학교자율시간 SW·AI 교육과정 · 5학년 SW 32차시 · 6학년 AI 32차시 · 과정안 기준일 2026. 10. 11.<br>학교자율시간 안내·서식은 경기도교육청 자료를 재구성했어요. 원문과 최신 공문을 함께 확인하세요.<br>학생 이름·점수를 받지 않고, 체험 활동의 카메라·마이크는 화면에만 쓰며 저장하지 않아요.<br>본 자료는 2026년 교육부·17개 시도교육청의 재원으로 한국과학창의재단의 지원을 받아 수행되었음</p></div></footer>
 <script>
 (function(){
   var dd=[].slice.call(document.querySelectorAll('.menu details'));

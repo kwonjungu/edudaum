@@ -8,7 +8,7 @@
 <style>
   :root{--line:#DDDDDD;--line-strong:#C1C1C1;
     --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-    --point:#FF385C; --point-soft:#FFF0F3; --amber:#FFE3E9; --muted:#6A6A6A;
+    --muted:#6A6A6A;
     --r:14px; --r-sm:8px;
     --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
   }
@@ -89,7 +89,16 @@
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+  .panel.wob{animation:wob .38s ease}
+  @keyframes wob{0%,100%{transform:none}20%{transform:translate(-5px,2px) rotate(-4deg)}45%{transform:translate(5px,-2px) rotate(4deg)}70%{transform:translate(-3px,1px) rotate(-2deg)}}
+  .steps span.pop{animation:pop .3s ease}
+  @keyframes pop{0%{transform:scale(.6)}60%{transform:scale(1.25)}100%{transform:scale(1)}}
+  .vbox b.bump{animation:pop .3s ease}
+  .gap{display:none;margin-top:8px}
+  .gap.on{display:block}
+  .gap svg{width:100%;max-width:460px;height:auto;display:block;margin:0 auto}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -129,6 +138,7 @@
       <button class="btn main" id="shake" type="button" disabled>흔들기</button>
     </div>
     <div class="steps" id="steps" aria-label="흔들 때마다 흔든수"></div>
+    <div class="gap" id="gap"></div>
     <p class="say dim" id="say" aria-live="polite">예상을 적어야 흔들 수 있어요</p>
     <div class="acts">
       <button class="btn" id="next" type="button" disabled>다음 판</button>
@@ -159,7 +169,7 @@
   var numEl = $('num'), initEl = $('initV'), askEl = $('askLabel'), diffEl = $('diff');
   var guessEl = $('guess'), minusBtn = $('minus'), plusBtn = $('plus');
   var pickBtn = $('pick'), shakeBtn = $('shake'), nextBtn = $('next'), resetBtn = $('reset');
-  var vboxEl = numEl.parentNode;
+  var vboxEl = numEl.parentNode, panelEl = document.querySelector('.panel'), gapEl = $('gap');
   var stepsEl = $('steps'), sayEl = $('say'), pastEl = $('past');
 
   var cells = [];
@@ -214,6 +224,23 @@
     return v;
   }
 
+  function say(t, mood) { if (window.Fun) { Fun.say(t, mood); } }
+  // 예상과 화면의 수를 수직선 위에 점으로 놓는다.
+  function drawGap(g, v) {
+    var lo = Math.min(g, v, init), hi = Math.max(g, v, init) + 1, span = hi - lo;
+    var X = function (k) { return 20 + (k - lo) / span * 260; };
+    var h = '<svg viewBox="0 0 300 64" role="img" aria-label="예상 ' + g + ', 화면 ' + v + '"><line x1="14" y1="36" x2="286" y2="36" stroke="#cfc6b6" stroke-width="3" stroke-linecap="round"/>';
+    h += '<text x="' + X(init) + '" y="58" text-anchor="middle" font-size="11" fill="#6f6a62">처음 ' + init + '</text>';
+    h += '<circle cx="' + X(v) + '" cy="36" r="9" fill="var(--point)"/><text x="' + X(v) + '" y="14" text-anchor="middle" font-size="12" font-weight="700">화면 ' + v + '</text>';
+    if (g !== v) {
+      h += '<line x1="' + X(g) + '" y1="36" x2="' + X(v) + '" y2="36" stroke="var(--point)" stroke-width="3" stroke-dasharray="5 4"/>';
+    }
+    h += '<circle cx="' + X(g) + '" cy="36" r="7" fill="#fff" stroke="#33302b" stroke-width="3"/>';
+    if (g !== v) { h += '<text x="' + X(g) + '" y="58" text-anchor="middle" font-size="12" font-weight="700">예상 ' + g + '</text>'; }
+    gapEl.innerHTML = h + '</svg>';
+    gapEl.classList.add('on');
+  }
+
   function setSay(t, strong) { sayEl.textContent = t; sayEl.className = strong ? 'say' : 'say dim'; }
 
   function readGuess() {
@@ -229,11 +256,12 @@
   function openRound() {
     clearSeq(); paint(null);
     vboxEl.classList.remove('end');
+    gapEl.classList.remove('on'); gapEl.innerHTML = '';
     init = INITS[half];
     count = init; shaken = 0; guess = null; step = 'guess';
     initEl.textContent = String(init);
     numEl.textContent = String(count);
-    diffEl.textContent = half === 1 ? '지난 판과 다른 것: 처음 값 0 → 10' : '';
+    diffEl.textContent = half === 1 ? '지난 판과 다른 것: 처음 값이 0에서 10으로 바뀌었어요' : '';
     askEl.textContent = '처음 값 ' + init + ', ' + n + '번 흔들면 흔든수는?';
     guessEl.value = '';
     lockGuess(false);
@@ -248,6 +276,8 @@
       stepsEl.appendChild(s);
     }
     setSay('예상을 적어야 흔들 수 있어요', false);
+    say(half === 0 ? '새 판이에요. 처음 값 ' + init + '에서 ' + n + '번 흔들면 어디까지 갈지 먼저 걸어 봐요.' :
+      '같은 ' + n + '번인데 처음 값만 10이에요. 결과가 어떻게 달라질지 걸어 봐요.');
   }
 
   // 예상을 적은 뒤에도 첫 흔들기 전까지는 고칠 수 있다. 고치면 다시 적어야 흔들린다.
@@ -265,7 +295,7 @@
   function nudge(d) {
     if (step !== 'guess' && !(step === 'shake' && shaken === 0)) { return; }
     var g = readGuess();
-    if (g === null) { g = d > 0 ? -1 : 1; }
+    if (g === null) { g = d > 0 ? 0 : 1; }
     g = Math.max(0, Math.min(99, g + d));
     guessEl.value = String(g);
     onInput();
@@ -280,7 +310,8 @@
     pickBtn.disabled = true;
     shakeBtn.disabled = false;
     shakeBtn.textContent = '흔들기 (' + n + ')';
-    setSay(g + '(으)로 적었어요. 흔들기 전엔 고칠 수 있어요', false);
+    setSay('예상: ' + g + '. 흔들기 전엔 고칠 수 있어요', false);
+    say('예상: ' + g + '. 흔들 때마다 흔든수가 어떻게 변하는지 봐요.');
     shakeBtn.focus();
   }
 
@@ -289,10 +320,12 @@
     if (shaken === 0) { lockGuess(true); }
     count += 1; shaken += 1;
     numEl.textContent = String(count);
+    panelEl.classList.remove('wob'); numEl.classList.remove('bump'); void panelEl.offsetWidth;
+    panelEl.classList.add('wob'); numEl.classList.add('bump');
     show(count);
     var box = stepsEl.children[shaken - 1];
     box.textContent = String(count);
-    box.classList.add('on');
+    box.classList.add('on'); box.classList.add('pop');
     if (shaken < n) {
       shakeBtn.textContent = '흔들기 (' + (n - shaken) + ')';
       return;
@@ -304,6 +337,12 @@
     var d = Math.abs(count - guess);
     setSay(d === 0 ? '예상과 화면의 수가 같아요' :
       '예상 ' + guess + ', 화면 ' + count + '. ' + d + ' 떨어졌어요', true);
+    drawGap(guess, count);
+    if (window.Fun) {
+      if (d === 0) { Fun.say('예상과 화면의 수가 같아요. 처음 값이 ' + init + '이고 ' + n + '번 늘었기 때문이에요.', 'cheer'); Fun.burst(vboxEl); }
+      else { Fun.say('예상과 다르게 나왔어요. 처음 값 ' + init + '에서 ' + n + '번 늘린 걸 어디서 다르게 셌는지 봐요.', 'think'); Fun.shake(vboxEl); }
+      Fun.stamp();
+    }
     history.unshift('처음 값 ' + init + ' · ' + n + '번 → ' + count + ' (예상 ' + guess + ')');
     if (history.length > 4) { history.length = 4; }
     renderPast();
@@ -339,7 +378,7 @@
   }
 
   guessEl.addEventListener('input', onInput);
-  guessEl.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') { pick(); } });
+  guessEl.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') { ev.preventDefault(); pick(); } });
   minusBtn.addEventListener('click', function () { nudge(-1); });
   plusBtn.addEventListener('click', function () { nudge(1); });
   pickBtn.addEventListener('click', pick);
@@ -352,5 +391,6 @@
   resetAll();
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B10" data-mission="처음 값과 흔들 횟수를 보고, 흔들기 전에 흔든수를 먼저 예상해 적어요."></script>
 </body>
 </html>

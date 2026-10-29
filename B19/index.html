@@ -84,7 +84,33 @@
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+/* 재미 개편 2026-10-29 */
+.fill{fill:var(--sky)}
+#f1{fill:var(--mint)} #f2{fill:var(--sun)}
+.barrow.top .barname{text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:3px}
+.barrow.top .track{stroke-width:3.5}
+.card{animation:deal .32s ease both}
+.card:nth-child(odd){transform:rotate(-.6deg)}
+.card:nth-child(even){transform:rotate(.6deg)}
+.card.removed{animation:out .4s ease both}
+@keyframes deal{from{opacity:0;transform:translateY(8px) scale(.96)}to{opacity:1}}
+@keyframes out{0%{opacity:1}100%{opacity:.45}}
+.card.removed{transform:translate(0,6px) rotate(3deg)!important}
+.card[aria-pressed="true"]{border-color:var(--point);background:var(--point-soft)}
+.mark{color:var(--point)}
+.card u{border-bottom-color:var(--sun)}
+.bet{margin-top:10px}
+.bet p{font-size:13px;font-weight:700;color:var(--muted);margin-bottom:6px}
+.bets{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.bets button{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;line-height:1.2;
+  background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);min-height:44px;padding:6px 4px;word-break:keep-all}
+.bets button[aria-pressed="true"]{background:var(--sun);border-color:var(--ink);box-shadow:inset 0 0 0 2px var(--ink)}
+.bets button:disabled:not([aria-pressed="true"]){opacity:.45;cursor:default}
+.bets button:disabled{cursor:default}
+@media(max-width:400px){.bets{grid-template-columns:1fr}.btn{padding:9px 6px;font-size:14px}.barname{flex-basis:78px}}
+html,body{overflow-x:hidden}
 </style>
+<link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
 <div class="wrap">
@@ -128,7 +154,16 @@
       </svg>
     </div>
 
-    <p class="ask" id="ask" role="status" aria-live="polite">뺄 카드를 짚어요</p>
+    <div class="bet">
+      <p id="betq">한 장 빼면 어떻게 될까요?</p>
+      <div class="bets" id="bets" role="group" aria-labelledby="betq">
+        <button type="button" data-g="changed" aria-pressed="false">바뀔 것 같아요</button>
+        <button type="button" data-g="same" aria-pressed="false">그대로일 것 같아요</button>
+        <button type="button" data-g="tied" aria-pressed="false">같아질 것 같아요</button>
+      </div>
+    </div>
+
+    <p class="ask" id="ask" role="status" aria-live="polite">예상을 걸고 뺄 카드를 짚어요</p>
   </section>
 
   <section aria-labelledby="h-c">
@@ -154,6 +189,8 @@
   var ADV = ['있어요', '많아요', '생겼어요', '보여요', '두 개 있어요', '새로 생겼어요', '가까워요', '붐벼요'];
   var EASY = [4, 3, 1];
   var HARD_SETS = [[4, 2, 2], [5, 2, 1], [5, 3, 0], [6, 1, 1]];
+  // 처음부터 1등이 둘인 판(같으면 주사위): 한 장을 빼면 다른 말이 1등이 되어 '바뀜'이 나온다.
+  var TIE_SETS = [[3, 3, 2], [4, 4, 0], [3, 3, 2]];
   var MAXW = 196;
 
   var cardsBox = document.getElementById('cards');
@@ -165,8 +202,33 @@
   var resetBtn = document.getElementById('resetBtn');
   var nextBtn = document.getElementById('nextBtn');
 
-  var cards, counts0, winner0, unchangeable, selected, confirmed, lastSig;
+  var cards, counts0, winner0, unchangeable, selected, confirmed, lastSig, guess;
+  var betBtns = document.querySelectorAll('#bets button');
+  var rowEls = document.querySelectorAll('.barrow');
   lastSig = null;
+  function say(t, m) { if (window.Fun) { Fun.say(t, m); } }
+  function renderBets() {
+    Array.prototype.forEach.call(betBtns, function (b) {
+      b.setAttribute('aria-pressed', guess === b.getAttribute('data-g') ? 'true' : 'false');
+      b.disabled = confirmed;
+    });
+  }
+  function refreshConfirm() { confirmBtn.disabled = confirmed || selected === null || guess === null; }
+  function askText() {
+    if (guess === null && selected === null) { return '예상을 걸고 뺄 카드를 짚어요'; }
+    if (guess === null) { return '예상을 걸어요'; }
+    if (selected === null) { return '뺄 카드를 짚어요'; }
+    return '확인하기를 눌러요';
+  }
+  Array.prototype.forEach.call(betBtns, function (b) {
+    b.addEventListener('click', function () {
+      if (confirmed) { return; }
+      guess = b.getAttribute('data-g');
+      renderBets(); refreshConfirm(); askEl.textContent = askText();
+      say(guess === 'changed' ? '1등이 바뀐다고 걸었어요. 어느 카드를 빼야 바뀔지 생각해 봐요.'
+        : (guess === 'same' ? '그대로라고 걸었어요. 1등과 2등 막대 차이를 먼저 봐요.' : '같아진다고 걸었어요. 어느 막대끼리 같아질지 봐요.'));
+    });
+  });
 
   function shuffle(arr) {
     var a = arr.slice();
@@ -190,8 +252,9 @@
   }
 
   function makeRound() {
-    var hard = Math.random() < (1 / 3);
-    var multiset = hard ? HARD_SETS[Math.floor(Math.random() * HARD_SETS.length)] : EASY;
+    var r0 = Math.random();
+    var multiset = r0 < 0.3 ? TIE_SETS[Math.floor(Math.random() * TIE_SETS.length)]
+      : (r0 < 0.55 ? HARD_SETS[Math.floor(Math.random() * HARD_SETS.length)] : EASY);
     var order = shuffle([0, 1, 2]);
     var counts = [0, 0, 0];
     order.forEach(function (wi, i) { counts[wi] = multiset[i]; });
@@ -220,9 +283,11 @@
   }
 
   function renderBars(counts) {
+    var w = winnerOf(counts);
     for (var g = 0; g < 3; g++) {
       countEls[g].textContent = String(counts[g]);
       fillEls[g].setAttribute('width', ((counts[g] / 8) * MAXW).toFixed(2));
+      rowEls[g].className = 'barrow' + (g === w ? ' top' : '');
     }
   }
 
@@ -246,8 +311,8 @@
     if (confirmed) { return; }
     selected = i;
     renderCards();
-    confirmBtn.disabled = false;
-    askEl.textContent = '확인하기를 눌러요';
+    refreshConfirm();
+    askEl.textContent = askText();
   }
 
   function confirmRound() {
@@ -257,25 +322,32 @@
     var after = liveCounts();
     renderBars(after);
     var newLabel = labelOf(after);
-    var origLabel = WORDS[winner0];
-    var tied = winnerOf(after) < 0;
+    var origLabel = labelOf(counts0);
+    var tied = winnerOf(after) < 0 && winner0 >= 0;
     var changed = newLabel !== origLabel;
     resultEl.textContent = newLabel;
     resultEl.classList.remove('pop'); void resultEl.offsetWidth; resultEl.classList.add('pop');
     var msg = tied ? '같아졌어요 · 주사위로 골라요'
-      : (changed ? '고른 말이 바뀌었어요' : (unchangeable ? '어떤 장을 빼도 그대로예요' : '그대로예요'));
+      : (changed ? '고른 말이 바뀌었어요' : (winner0 < 0 ? '그대로예요 · 아직 같아요' : unchangeable ? '어떤 장을 빼도 그대로예요' : '그대로예요'));
     askEl.textContent = msg;
     askEl.className = 'ask done';
-    renderCards();
+    renderCards(); renderBets();
     confirmBtn.disabled = true;
+    var kind = tied ? 'tied' : (changed ? 'changed' : 'same');
+    if (window.Fun) {
+      if (kind === guess) { say('예상한 대로 나왔어요. 막대에서 왜 그런지 짚어 봐요.', 'cheer'); Fun.burst(resultEl); }
+      else { say('예상과 다르게 나왔어요. 어디서 갈렸는지 막대를 봐요.', 'think'); Fun.shake(resultEl); }
+      Fun.stamp();
+    }
   }
 
   function restartRound() {
     cards.forEach(function (cd) { cd.removed = false; });
-    selected = null; confirmed = false;
+    selected = null; confirmed = false; guess = null;
+    renderBets();
     renderBars(counts0);
-    resultEl.textContent = WORDS[winner0];
-    askEl.textContent = '뺄 카드를 짚어요';
+    resultEl.textContent = labelOf(counts0);
+    askEl.textContent = askText();
     askEl.className = 'ask';
     confirmBtn.disabled = true;
     renderCards();
@@ -297,7 +369,9 @@
   nextBtn.addEventListener('click', newRound);
 
   newRound();
+  say('여덟 장이 모였어요. 먼저 한 장 빼면 어떻게 될지 걸어요.');
 })();
 </script>
+<script src="../assets/play/fun.js" data-block="B19" data-mission="예문 카드에서 한 장을 빼면 가장 많이 이어진 말이 바뀔까요? 빼기 전에 예상부터!"></script>
 </body>
 </html>
