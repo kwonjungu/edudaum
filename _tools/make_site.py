@@ -49,8 +49,7 @@ e = html.escape
 # ───────────────────────── 공통 모양
 CSS = (Path(__file__).resolve().parent / 'site.css').read_text(encoding='utf-8')
 
-BRAND = ('<svg viewBox="0 0 32 32" aria-hidden="true"><path fill="currentColor" d="M16 3c7.2 0 13 5.8 13 13s-5.8 13-13 13S3 23.2 3 16 8.8 3 16 3zm0 6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13z"/>'
-         '<circle cx="16" cy="16" r="2.6" fill="currentColor"/></svg>')
+BRAND = ('<svg aria-hidden="true" viewBox="0 0 256 256"><path d="M36 134C65 131 94 139 117 155V218C91 201 65 196 36 200C30 201 26 197 26 191V144C26 138 30 135 36 134Z" fill="#2f78b5" /><path d="M220 134C191 131 162 139 139 155V218C165 201 191 196 220 200C226 201 230 197 230 191V144C230 138 226 135 220 134Z" fill="#2f78b5" /><path d="M119 132C82 128 59 102 64 67C105 66 133 93 127 132Z" fill="#4cbf9a" /><path d="M140 115C134 75 156 44 193 42C199 80 177 110 140 115Z" fill="#4cbf9a" /><circle cx="57" cy="43" r="12" fill="#ffc845"/></svg>')  # 에듀다움 로고(책과 새싹, 2026. 10. 29.)
 
 
 # 윗줄 메뉴 — 넷만 둔다(2026. 10. 11.). 예전 쪽은 지우지 않고 펼침 항목으로 묶는다.
@@ -112,7 +111,7 @@ def page(path: str, title: str, body: str, cur: str, extra_js: str = '') -> None
     up = '../' * depth
     doc = ('<!doctype html>\n<html lang="ko">\n<head>\n<meta charset="utf-8">\n'
            '<meta name="viewport" content="width=device-width,initial-scale=1">\n'
-           '<title>%s</title>\n<link rel="icon" href="%sassets/icons/book-open.svg">\n<style>%s</style>\n</head>\n<body>\n'
+           '<title>%s</title>\n<link rel="icon" href="%sassets/brand/favicon.svg">\n<style>%s</style>\n</head>\n<body>\n'
            '<a class="skip" href="#main">본문 바로가기</a>\n'
            '<header class="top"><div class="in"><a class="brand" href="%s">%s에듀다움</a>%s'
            '<a class="find" href="%ssearch/" aria-label="누리집 검색"%s>%s<span>검색</span></a></div></header>\n'
