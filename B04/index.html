@@ -40,7 +40,7 @@
     background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
     min-height:44px;padding:22px 6px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;
     transition:background .15s,transform .12s}
-  .cut svg{width:72px;height:54px;display:block}
+  .cut .pic img{width:96px;height:96px;display:block;object-fit:contain}
   .cut .cap{font-size:14.5px;font-weight:600;line-height:1.25}
   .cut .no{position:absolute;left:6px;top:5px;width:22px;height:22px;border-radius:50%;
     background:var(--ink);color:#fff;font-size:13px;font-weight:700;line-height:22px}
@@ -79,10 +79,10 @@
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 
 /* 재미 장치: 로봇 셰프 말풍선, 칸 사이 화살표 */
-.cut .bot{display:none;position:absolute;right:6px;top:30px;width:34px;height:34px;pointer-events:none;z-index:1}
+.cut .bot{display:none;position:absolute;right:6px;top:30px;width:40px;height:40px;pointer-events:none;z-index:1}
 .cut.cur .bot{display:block;animation:hop .3s ease-in-out infinite alternate}
 .cut.stop .bot{display:block;animation:wob .5s ease 1}
-.cut .bot svg{width:34px;height:34px;display:block}
+.cut .bot img{width:40px;height:40px;display:block}
 .cut.cur .pic,.cut.stop .pic{opacity:.55}
 .cut:nth-child(1)::before,.cut:nth-child(3)::before{content:"▶";position:absolute;right:-12px;top:50%;margin-top:-8px;font-size:12px;color:var(--point);z-index:3;pointer-events:none}
 .sheet.cooked{background:var(--mint-l);border-color:var(--mint)}
@@ -147,25 +147,25 @@
   function svg(inner) { return '<svg viewBox="0 0 72 54" aria-hidden="true">' + inner + '</svg>'; }
 
   var RECIPES = [
-    { dish: '딸기잼 샌드위치', steps: [
+    { dish: '딸기잼 샌드위치', key: 'sandwich', steps: [
       { cap: '식빵 한 장 놓기', pic: PLATE + BREAD },
       { cap: '식빵에 잼 바르기', pic: PLATE + BREAD + JAM, need: [0], needMsg: '잼을 바를 식빵이 없어요' },
       { cap: '잼 위에 딸기 올리기', pic: PLATE + BREAD + JAM + berry(30, 32) + berry(42, 34) + berry(36, 26), need: [1], needMsg: '딸기를 올릴 잼이 없어요', not: [3], notMsg: '식빵이 덮여 잼이 안 보여요' },
       { cap: '식빵으로 덮기', pic: PLATE + BREAD + '<path d="M14 38 V20 a8 8 0 0 1 4-14 h28 a8 8 0 0 1 4 14 V38 Z" fill="#F2D7A6" ' + K + '/>', need: [0], needMsg: '덮을 식빵이 아래에 없어요' }
     ]},
-    { dish: '주먹밥', steps: [
+    { dish: '주먹밥', key: 'onigiri', steps: [
       { cap: '그릇에 밥 담기', pic: RICE + BOWL },
       { cap: '밥에 깨 섞기', pic: RICE + BOWL + '<path d="M28 20h1M36 18h1M44 21h1M32 23h1M40 23h1" stroke="#222222" stroke-width="3" stroke-linecap="round"/><path d="M50 6 L40 22" ' + K + ' fill="none"/>', need: [0], needMsg: '섞을 밥이 없어요', not: [2], notMsg: '벌써 뭉쳐서 섞을 수 없어요' },
       { cap: '밥을 동그랗게 뭉치기', pic: BALL, need: [0], needMsg: '뭉칠 밥이 없어요' },
       { cap: '김 두르기', pic: BALL + '<rect x="27" y="30" width="18" height="14" fill="#222222"/>', need: [2], needMsg: '김을 두를 주먹밥이 없어요' }
     ]},
-    { dish: '바나나 우유', steps: [
+    { dish: '바나나 우유', key: 'banana', steps: [
       { cap: '바나나 껍질 벗기기', pic: '<path d="M14 36 q22 14 44-8 q-6 20-26 20 q-12 0-18-12 Z" fill="#FDE68A" ' + K + '/><path d="M58 28 l6-10 M58 28 l-2-12" ' + K + ' fill="none"/>' },
       { cap: '믹서에 바나나·우유 넣기', pic: JAR + '<path d="M25 24 h22 l-2 16 h-18 Z" fill="#FFF8E1" ' + K + '/><path d="M28 30 q8 4 16-2" fill="none" stroke="#E0B400" stroke-width="3"/>', need: [0], needMsg: '껍질을 안 벗긴 바나나예요' },
       { cap: '뚜껑 닫고 갈기', pic: JAR + '<rect x="20" y="4" width="32" height="6" rx="2" fill="#222222"/><path d="M25 24 h22 l-2 16 h-18 Z" fill="#FDE68A" ' + K + '/><path d="M8 18 h8 M8 26 h8 M56 18 h8 M56 26 h8" ' + K + '/>', need: [1], needMsg: '믹서가 비어 있어요' },
       { cap: '컵에 따르기', pic: '<path d="M22 12 h28 l-4 34 h-20 Z" fill="#FFFFFF" ' + K + '/><path d="M24 22 h24 l-3 24 h-18 Z" fill="#FDE68A" ' + K + '/>', need: [2], needMsg: '아직 갈지 않았어요' }
     ]},
-    { dish: '토스트', steps: [
+    { dish: '토스트', key: 'toast', steps: [
       { cap: '식빵을 토스터에 넣기', pic: '<path d="M24 26 V10 h22 V26" fill="#F2D7A6" ' + K + '/>' + TOASTER },
       { cap: '레버 내리기', pic: TOASTER + '<rect x="56" y="34" width="8" height="5" rx="1" fill="#222222"/><path d="M60 14 v14 m-4-4 l4 4 l4-4" fill="none" ' + K + '/>', need: [0], needMsg: '토스터가 비어 있어요' },
       { cap: '구운 빵 접시에 놓기', pic: PLATE + TOAST, need: [1], needMsg: '빵이 아직 안 구워졌어요' },
@@ -207,9 +207,9 @@
 
   function drawCut(pos) {
     var b = cuts[pos], s = rec.steps[order[pos]];
-    b.querySelector('.pic').innerHTML = svg(s.pic);
+    b.querySelector('.pic').innerHTML = '<img src="assets/' + rec.key + '_' + (order[pos] + 1) + '.webp" alt="" width="96" height="96">';   // 그림은 그 단계를 막 끝낸 모습
     b.querySelector('.cap').textContent = s.cap;
-    b.querySelector('.bot').innerHTML = BOT;
+    b.querySelector('.bot').innerHTML = '<img src="assets/chef.webp" alt="" width="40" height="40">';
     b.setAttribute('aria-label', (pos + 1) + '번 칸 ' + s.cap);
   }
 

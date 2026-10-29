@@ -98,7 +98,6 @@ STAMP_JS = """<script>
 MENU = [
     ('lessons/', '수업 자료', 'book-open', [('lessons/', '차시별 수업 꾸러미'), ('topics/', '단원별로 보기'), ('tools/', '연동 도구')]),
     ('play/', '체험 활동', 'game', []),
-    ('lab/', 'AI 실험실', 'ai1', []),
     ('about/', '도입 안내', 'lightbulb', [('about/', '학교자율시간이란?'), ('guide/', '도입 절차'), ('forms/', '서식 받기'),
                                      ('forms/set/', '채운 서식 한 벌'), ('qna/', '자주 묻는 질문')]),
     ('plan/', '연구회', 'people-team', [('plan/', '연구회 소개'), ('notice/', '알림')]),
@@ -733,9 +732,11 @@ def build_lesson(code, prev, nxt):
     prep = ('<h2 class="sub">%s준비물</h2><div class="pchips">%s</div>' % (icon('kit', up), chips)) if chips else ''
     gsec = ('<h2 class="sub" id="game">%s체험 활동</h2>%s' % (icon('game', up), gbox)) if gm else ''
     if LAB_OF.get(code):
-        gsec += ('<h2 class="sub" id="lab">%sAI 실험실 <span class="small muted">엔트리·실물 활동 앞뒤에 맛보기</span></h2><div class="labrow">%s</div>'
-                 % (icon('ai1', up), ''.join('<a class="gcard" href="%slab/%s/"><span><b>%s</b><span>%s</span><span class="needs">%s</span></span><span class="go">열기</span></a>'
-                                             % (up, sl, e(t), e(l), e(m)) for sl, t, l, m in LAB_OF[code])))
+        if not gm:
+            gsec = '<h2 class="sub" id="game">%s체험 활동</h2>' % icon('game', up)
+        gsec += ('<h3 class="sub" id="lab" style="font-size:1.05em;margin:14px 0 6px">연계 활동 <span class="small muted">이 차시와 이어서 해 보는 AI 체험</span></h3><div class="labrow">%s</div>'
+                 % (''.join('<a class="gcard" href="%slab/%s/"><img class="gshot" src="%slab/assets/covers/%s.webp" alt="" width="600" height="375" loading="lazy"><span><b>%s</b><span>%s</span><span class="needs">%s</span></span><span class="go">열기</span></a>'
+                                             % (up, sl, up, sl, e(t), e(l), e(m)) for sl, t, l, m in LAB_OF[code])))
     kplay = ('<a class="kplay" href="%s%s/">%s<span><b>체험 활동 열기</b><small>%s과 5~10분 · %s</small></span><i aria-hidden="true">→</i></a>'
              % (up, code, face(code, up, 60), e(cast(code)[1]), e(gm['title']))) if gm else ''
     body = f"""
@@ -905,7 +906,6 @@ def build_play():
     rows = [(c, game(c), need_tags(c)) for c in CODES if game(c)]
     n5 = sum(1 for c, _, _ in rows if grade(c) == 5)
     n6 = sum(1 for c, _, _ in rows if grade(c) == 6)
-    nsen = sum(1 for _, _, t in rows if any(x[2] for x in t))
     cards = []
     for c, gm, tags in rows:
         g = grade(c)
@@ -919,9 +919,22 @@ def build_play():
             '<div class="pbody"><div class="pwho">%s<span>%s</span></div><h3><a href="../%s/">%s</a></h3>'
             '<p class="pm"><b>미션</b>%s</p><div class="needs">%s</div></div></article>'
             % (g, g, sensor, c == 'B03', c, live, img, c, g, label(c), face(c, '../', 52), e(cast(c)[1]), c, e(gm['title']), e(mission(c)), needs(c)))
+    # 연계 활동(lab/)을 첫 차시 체험 활동 바로 뒤에 끼운다
+    at = {}
+    for sl, t, l, bs, m in LAB:
+        at.setdefault(bs[0], []).append((sl, t, l, bs, m))
+    out, nlab = [], 0
+    for (c, _, _), cd in zip(rows, cards):
+        out.append(cd)
+        for sl, t, l, bs, m in at.pop(c, []):
+            out.append(lab_card(sl, t, l, bs, m)); nlab += 1
+    for c in sorted(at):
+        for x in at[c]:
+            out.append(lab_card(*x)); nlab += 1
+    cards = out
     hero = [x for x in ('B18', 'B03', 'B20') if shot(x)]
     collage = ''.join('<img class="h%d" src="../%s" alt="" width="640" height="400">' % (i + 1, shot(x)) for i, x in enumerate(hero))
-    stats = [(len(rows), '체험 활동'), (n5, '5학년'), (n6, '6학년'), (nsen, '센서 쓰는 활동')]
+    stats = [(len(rows), '차시 체험 활동'), (nlab, '연계 활동'), (n5, '5학년'), (n6, '6학년')]
     st = ''.join('<div><b>%d</b><span>%s</span></div>' % (n, e(t)) for n, t in stats)
     filters = [('all', '전체', ''), ('g5', '5학년', 'g5'), ('g6', '6학년', 'g6'),
                ('sensor', '센서(마이크·카메라·흔들기)', 'motion'), ('prep', '교사 준비용', 'clock')]
@@ -935,8 +948,24 @@ def build_play():
             '<span class="small muted" id="pcount" aria-live="polite">%d개</span></div>'
             '<p class="small muted ptip">카드 그림은 체험 활동을 실제로 열어 찍은 화면이에요. 컴퓨터에서 마우스를 올리면 그 카드 하나만 움직여요(카메라·마이크 쓰는 활동은 빼고). 끝까지 해 본 활동에는 도장이 찍혀요(이 브라우저에만 남아요).</p>'
             '<div class="pgrid">%s</div>'
-            '<p class="note">카메라와 마이크는 화면에만 쓰이고 저장되지 않아요. 밖으로 보내는 것도 없어요.</p>') % (st, collage, fl, len(rows), ''.join(cards))
+            '<p class="note">카메라와 마이크는 화면에만 쓰이고 저장되지 않아요. 밖으로 보내는 것도 없어요(연계 활동 「말 알아듣기」만 브라우저의 음성 인식 기능을 빌려 써요).</p>') % (st, collage, fl, len(cards), ''.join(cards))
     page('play', '체험 활동 — 에듀다움', body, 'play/', PLAY_JS + STAMP_JS)
+
+
+LAB_SENSOR = {'camera', 'voice', 'detect'}
+LAB_KEY = {'chart': 'L20', 'pixel': 'L23', 'blocks': 'L21', 'color': 'L24', 'camera': 'L25', 'text': 'L27', 'detect': 'L17', 'voice': 'L18', 'neuron': 'L26'}
+
+
+def lab_card(sl, t, l, bs, m):
+    c = bs[0]; g = grade(c)
+    cv = ROOT / 'lab' / 'assets' / 'covers' / (sl + '.webp')
+    img = ('<img src="../lab/assets/covers/%s.webp" alt="" loading="lazy" width="600" height="375">' % sl) if cv.exists() else icon('ai1', '../', 'ic big')
+    span = bs[0]
+    return ('<article class="pcard g%d" data-g="%d" data-sensor="%d" data-prep="0" data-lab="1" data-b="%s">'
+            '<div class="shot">%s<span class="tag">%s 연계 활동</span><span class="seal" aria-hidden="true">미션<br>도장</span></div>'
+            '<div class="pbody"><div class="pwho">%s<span>%s</span></div><h3><a href="../lab/%s/">%s</a></h3>'
+            '<p class="pm"><b>미션</b>%s</p><div class="needs"><span class="small muted">%s</span></div></div></article>'
+            % (g, g, sl in LAB_SENSOR, LAB_KEY[sl], img, span, face(c, '../', 52), e(cast(c)[1]), sl, e(t), e(l), e(m)))
 
 
 def build_lab():
@@ -964,7 +993,7 @@ def main():
     build_lessons()
     build_tools()
     build_play()
-    build_lab()
+    # build_lab()  — 따로 탭을 두지 않고 차시 연계 활동으로만 건다(2026. 10. 30.)
     import make_hub
     make_hub.main()
     n = len(list((ROOT / 'lessons').glob('B*/index.html')))

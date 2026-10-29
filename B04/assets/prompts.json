@@ -1,0 +1,84 @@
+{
+  "tool": "built-in image_gen",
+  "use_case": "illustration-story",
+  "prompts": [
+    {
+      "file": "sandwich_1.png",
+      "prompt": "Use case: illustration-story. Asset: a single square classroom recipe step illustration for Korean fifth graders. 1024x1024 or larger square. Warm children's picture-book illustration, delicate watercolor-like flat colors, soft gentle outlines, ivory, sky blue, mint and yellow palette. Entire background uniform very pale ivory #f8f6f1, no scenery, no horizon, generous empty margin. Centered objects at consistent scale, slightly elevated three-quarter view looking down at about 30 degrees. Gentle minimal contact shadow. Depict the state immediately after the specified step is finished, readily understandable alone. No humans, hands, faces, lettering, numbers, logos, watermark, brands, dangerous tools. No panels or collage. Subject: one single plain uncut slice of white sandwich bread resting flat in the center of a plain round white plate. Completely bare bread: no spread, no jam, no butter, no fruit. Soft ivory crumb, thin pale golden crust. Plate occupies roughly 62 percent of canvas width. No utensils or other objects."
+    },
+    {
+      "file": "sandwich_2.png",
+      "prompt": "Create the next recipe card by changing only the bread topping in the reference. Same single slice, white plate, position, scale, camera, margins, watercolor style and ivory background. The single bread slice is evenly spread with clearly red strawberry jam, showing a narrow bare crust border. A small butter spreader with a broad rounded blunt tip lies beside the bread on the plate. No sharp knife. No fruit pieces, no butter, no second slice. No people, hands, text, logos.",
+      "reference": "sandwich_1.png"
+    },
+    {
+      "file": "sandwich_3.png",
+      "prompt": "Create the next recipe card by changing only the bread topping in the reference. Same single slice, white plate, position, scale, camera, margins, watercolor style and ivory background. The single bread slice is evenly spread with red strawberry jam and has five recognizable sliced strawberry pieces resting on top of the jam. No whole strawberries, leaves, utensils, butter or second bread slice. No people, hands, text, logos.",
+      "reference": "sandwich_1.png"
+    },
+    {
+      "file": "sandwich_4.png",
+      "prompt": "Create the finished recipe card by making the bread into a sandwich in the reference. Same white plate, position, scale, camera, margins, watercolor style and ivory background. Two aligned slices of white sandwich bread form a closed uncut square sandwich: bottom slice with red strawberry jam and strawberry slices, completely covered by the top bread slice. Top surface plain bare ivory bread. A small thin red jam seam visible at the edge between slices; filling mostly hidden. No cut, no utensils, no people, hands, text or logos.",
+      "reference": "sandwich_1.png"
+    },
+    {
+      "file": "onigiri_1.png",
+      "prompt": "Use case: illustration-story. Asset: a single square classroom recipe step illustration for Korean fifth graders. 1024x1024 or larger square. Warm children's picture-book illustration, delicate watercolor-like flat colors, soft gentle outlines, ivory, sky blue, mint and yellow palette. Entire background uniform very pale ivory #f8f6f1, no scenery, no horizon, generous empty margin. Centered objects at consistent scale, slightly elevated three-quarter view looking down at about 30 degrees. Gentle minimal contact shadow. Depict the state immediately after the specified step is finished, readily understandable alone. No humans, hands, faces, lettering, numbers, logos, watermark, brands, dangerous tools. No panels or collage. Subject: a simple pale sky blue ceramic bowl filled with fluffy cooked white rice, clearly recognizable individual short rice grains. Bowl centered and occupies about 65 percent canvas width. Rice plain with no sesame, seaweed, other ingredients or spoon. No other objects.",
+      "reference": null
+    },
+    {
+      "file": "onigiri_2.png",
+      "prompt": "Edit the reference rice bowl recipe illustration. Keep exactly the same sky blue bowl, white rice amount, composition, camera, scale, warm watercolor picture-book style, soft edges, and ivory background. Sesame seeds have just been added and stirred into the rice: sprinkle a moderate amount of tiny beige and dark brown sesame seeds visibly over and among the rice. A simple rounded spoon rests diagonally IN the bowl with its rounded scoop partly buried in the rice and its handle pointing up to the right. Slight curved furrows in the rice around spoon imply mixing. Show no hands or people. No ingredient jars, text, numbers, face, logo or watermark.",
+      "reference": "onigiri_1.png"
+    },
+    {
+      "file": "onigiri_3.png",
+      "prompt": "Use case: illustration-story. Asset: a single square classroom recipe step illustration for Korean fifth graders. 1024x1024 or larger square. Warm children's picture-book illustration, delicate watercolor-like flat colors, soft gentle outlines, ivory, sky blue, mint and yellow palette. Entire background uniform very pale ivory #f8f6f1, no scenery, no horizon, generous empty margin. Centered objects at consistent scale, slightly elevated three-quarter view looking down at about 30 degrees. Gentle minimal contact shadow. Depict the state immediately after the specified step is finished, readily understandable alone. No humans, hands, faces, lettering, numbers, logos, watermark, brands, dangerous tools. No panels or collage. Subject: ONE single plump triangular white rice ball with softly rounded corners, sitting upright and showing its front and a little top, made of visibly textured short white rice grains. Completely bare white rice, NO seaweed, no filling showing, no sesame, no face. On a plain small round white plate. Plate occupies about 65 percent canvas width, centered, with generous margins. No other objects."
+    },
+    {
+      "file": "onigiri_4.png",
+      "prompt": "Use case: illustration-story. Asset: a single square classroom recipe step illustration for Korean fifth graders. 1024x1024 or larger square. Warm children's picture-book illustration, delicate watercolor-like flat colors, soft gentle outlines, ivory, sky blue, mint and yellow palette. Entire background uniform very pale ivory #f8f6f1, no scenery, no horizon, generous empty margin. Centered objects at consistent scale, slightly elevated three-quarter view looking down at about 30 degrees. Gentle minimal contact shadow. Depict the state immediately after the specified step is finished, readily understandable alone. No humans, hands, faces, lettering, numbers, logos, watermark, brands, dangerous tools. No panels or collage. Subject: ONE single plump triangular white rice ball with softly rounded corners, sitting upright and showing its front and a little top, visibly textured short white rice grains. A single dark green nori seaweed rectangle wraps around the LOWER part, covering the bottom center of front face and curving underneath. White rice exposed across the upper two thirds. No filling showing, no sesame, no face. On a plain small round white plate. Plate occupies about 65 percent canvas width, centered, generous margins. No other objects."
+    },
+    {
+      "file": "banana_1.png",
+      "prompt": "Use case: illustration-story. Asset: a single square classroom recipe step illustration for Korean fifth graders. 1024x1024 or larger square. Warm children's picture-book illustration, delicate watercolor-like flat colors, soft gentle outlines, ivory, sky blue, mint and yellow palette. Entire background uniform very pale ivory #f8f6f1, no scenery, no horizon, generous empty margin. Centered objects at consistent scale, slightly elevated three-quarter view looking down at about 30 degrees. Gentle minimal contact shadow. Depict the state immediately after the specified step is finished, readily understandable alone. No humans, hands, faces, lettering, numbers, logos, watermark, brands, dangerous tools. No panels or collage. Subject: a completely peeled creamy yellow banana lying gently curved in the center; beside it lies its separate empty yellow banana peel with three open flaps. Clearly two objects: edible naked banana and discarded peel. No plates, utensils, extra fruit or other objects. Group occupies about 65 percent of canvas width."
+    },
+    {
+      "file": "banana_2.png",
+      "prompt": "Use case: illustration-story. Asset: a single square classroom recipe step illustration for Korean fifth graders. 1024x1024 or larger square. Warm children's picture-book illustration, delicate watercolor-like flat colors, soft gentle outlines, ivory, sky blue, mint and yellow palette. Entire background uniform very pale ivory #f8f6f1, no scenery, no horizon, generous empty margin. Centered objects at consistent scale, slightly elevated three-quarter view looking down at about 30 degrees. Gentle minimal contact shadow. Depict the state immediately after the specified step is finished, readily understandable alone. No humans, hands, faces, lettering, numbers, logos, watermark, brands, dangerous tools. No panels or collage. Subject: a small generic pastel mint countertop blender, transparent glass jug on a mint motor base. Blender switched OFF, lid removed and lying beside it. Inside the open jug are clearly separate chunky banana slices in white milk filling the bottom half. No blended liquid yet. No control letters/numbers or branding. Both open jug mouth and distinct banana chunks are clearly visible. Blender centered, full object visible, occupies about 65 percent canvas height. Do not include loose ingredients outside jug."
+    },
+    {
+      "file": "banana_3.png",
+      "prompt": "Edit the reference mint blender recipe illustration. Preserve exactly the blender's generic design, camera, scale, warm watercolor picture-book style and ivory background. Place its matching mint lid tightly ON TOP of the jug; remove the spare lid from the side, exactly ONE lid total. Inside the jug all banana pieces are now completely blended into a smooth uniform pale yellow banana milk; no separate chunks or white milk remain. A few gentle curved motion/wobble lines on BOTH SIDES of the jug indicate the blender is operating. Keep full appliance visible and centered. No people, hands, text, letters, numbers, logo or additional objects.",
+      "reference": "banana_2.png"
+    },
+    {
+      "file": "banana_4.png",
+      "prompt": "Use case: illustration-story. Asset: a single square classroom recipe step illustration for Korean fifth graders. 1024x1024 or larger square. Warm children's picture-book illustration, delicate watercolor-like flat colors, soft gentle outlines, ivory, sky blue, mint and yellow palette. Entire background uniform very pale ivory #f8f6f1, no scenery, no horizon, generous empty margin. Centered objects at consistent scale, slightly elevated three-quarter view looking down at about 30 degrees. Gentle minimal contact shadow. Depict the state immediately after the specified step is finished, readily understandable alone. No humans, hands, faces, lettering, numbers, logos, watermark, brands, dangerous tools. No panels or collage. Subject: ONE clear simple drinking glass, filled about three quarters with smooth pale creamy yellow banana milk, a light small foamy rim at its surface. Upright centered glass, full glass visible with generous margins. Slightly elevated three-quarter view reveals oval liquid surface. Glass occupies around 60 percent canvas height. No straw, banana pieces, garnish, ice cubes, blender, jug, hands, text or other objects.",
+      "reference": null
+    },
+    {
+      "file": "toast_1.png",
+      "prompt": "Use case: illustration-story. Asset: a single square classroom recipe step illustration for Korean fifth graders. 1024x1024 or larger square. Warm children's picture-book illustration, delicate watercolor-like flat colors, soft gentle outlines, ivory, sky blue, mint and yellow palette. Entire background uniform very pale ivory #f8f6f1, no scenery, no horizon, generous empty margin. Centered objects at consistent scale, slightly elevated three-quarter view looking down at about 30 degrees. Gentle minimal contact shadow. Depict the state immediately after the specified step is finished, readily understandable alone. No humans, hands, faces, lettering, numbers, logos, watermark, brands, dangerous tools. No panels or collage. Subject: a simple rounded generic pastel sky blue pop-up toaster with a single wide top slot, front three-quarter view slightly from above. One slice of UNTOASTED white bread inserted into the slot and sticking up conspicuously, ivory white center and pale gold crust. Lever on the RIGHT SIDE clearly raised near top of its vertical track. No steam, no heat, not cooking yet. No visible cord, no dial markings, no buttons with letters or numbers. Entire toaster centered occupies about 65 percent canvas width."
+    },
+    {
+      "file": "toast_2.png",
+      "reference": "toast_1.png",
+      "prompt": "Edit the reference toaster recipe illustration. Preserve exactly the same blue toaster body, generic design, slot, perspective, scale, position, warm watercolor picture-book style and ivory background. Change only the state: push the ivory lever on the RIGHT SIDE all the way DOWN to the BOTTOM of its vertical track. The bread has lowered fully INSIDE the toaster, so NO BREAD is visible above the slot. The empty visible slot is dark inside with a very subtle warm amber glow, and two faint rising wavy heat lines above it indicate gentle toasting. No smoke, flames, people, hands, text, letters, numbers, logos or extra objects. It must be obvious that lever is down and bread is hidden."
+    },
+    {
+      "file": "toast_3.png",
+      "reference": "sandwich_1.png",
+      "prompt": "Using the reference image as edit target, keep exactly the white plate, its scale, camera angle, generous margins, ivory background, and warm watercolor picture-book style. Change only the bread to a single golden-brown TOASTED slice with an evenly warm golden center, clear difference from plain white bread. No butter, toppings, utensils, toaster or extra objects. The state shows one finished toasted bread slice on a white plate. No letters, numbers, people, hands, logos."
+    },
+    {
+      "file": "toast_4.png",
+      "reference": "sandwich_1.png",
+      "prompt": "Using the reference image as edit target, keep exactly the white plate, scale, camera angle, generous margins, ivory background and warm watercolor picture-book style. Change only the bread: a single TOASTED slice with a golden-brown center, and one small square pat of pale yellow butter at the center partly melting into a small glossy yellow smear around it. Butter pat remains recognizable, edges softened as it melts. No jam, fruit, utensils, toaster or extra objects. No letters, numbers, people, hands, logos."
+    },
+    {
+      "file": "chef.png",
+      "prompt": "Use case: illustration-story. Single square 1024x1024 or larger illustration. Warm children's picture-book style with delicate watercolor-like flat colors and soft gentle outlines. Uniform pale ivory #f8f6f1 background, no horizon or scenery. A small original friendly rounded robot chef, FULL BODY from white puffy chef hat to both feet, FRONT VIEW. Pearl ivory and pale sky blue robot body, rounded nonthreatening joints, two short arms relaxed beside its body, mitten-like mechanical grippers, short sturdy legs, small rounded feet. White chef hat and pale mint apron with a small pocket. Simple kind robotic face: two dark round eyes and small gentle smile. Tiny yellow accents. Centered, generous empty margin, occupies about 72 percent canvas height. No human, no utensils, no text, letters, numbers, logos, watermarks, resemblance to known characters, branded robots or products."
+    }
+  ]
+}
