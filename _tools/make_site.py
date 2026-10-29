@@ -112,7 +112,7 @@ LAB = [
     ('camera', '나만의 이미지 모델', '그림판이나 카메라로 두 무리를 가르치고, 막대가 어느 쪽으로 기우는지 실험 카드로 견줘요.', ['B24', 'B25', 'B26'], 'MobileNet + KNN'),
     ('text', '문장 분류 모델', '두 무리의 문장을 가르치면, 글자 조각을 세어 새 문장이 어느 무리와 닮았는지 골라요.', ['B25', 'B27'], '나이브 베이즈'),
     ('detect', '물건 찾기: 색 규칙과 AI', '"빨간 것은 사과" 규칙과 물건 80가지를 배운 AI가 같은 사진에서 무엇을 찾는지 견줘요.', ['B17'], 'COCO-SSD'),
-    ('voice', '말 알아듣기 실험실', '같은 문장을 말하는 방법만 바꿔 말하면, 기계의 받아쓰기가 어떻게 달라지는지 먼저 걸고 견줘요.', ['B18', 'B19', 'B28'], 'Whisper'),
+    ('voice', '말 알아듣기 실험실', '같은 문장을 말하는 방법만 바꿔 말하면, 기계의 받아쓰기가 어떻게 달라지는지 먼저 걸고 견줘요.', ['B18', 'B19', 'B28'], '브라우저 음성 인식'),
     ('neuron', '선 긋는 인공 뉴런', '두 무리 점을 가르는 선을 기계가 틀린 점을 보며 조금씩 옮겨 찾아요.', ['B26'], '퍼셉트론'),
 ]
 LAB_OF = {}
@@ -949,9 +949,9 @@ def build_lab():
                      % (sl, img, e(m), sl, e(t), e(l), e(m), ', '.join('<a href="../lessons/%s/">%s</a>' % (b, b) for b in bs)))
     body = ('<section class="phero" style="grid-template-columns:1fr"><div class="ptext"><span class="kick">AI 실험실</span>'
             '<h1>엔트리 전에 <em>맛보는 AI</em></h1>'
-            '<p class="lead">작은 모델을 브라우저 안에서 직접 가르치고 시험해 봐요. 모델 파일까지 모두 이 누리집 안에 있어서, 그림·사진·문장이 밖으로 나가지 않아요. 엔트리 활동과 실물 활동을 대신하지 않고, 그 앞에서 예상하거나 뒤에서 견줄 때 써요.</p></div></section>'
+            '<p class="lead">작은 모델을 브라우저 안에서 직접 가르치고 시험해 봐요. 모델 파일까지 모두 이 누리집 안에 있어서, 그림·사진·문장이 밖으로 나가지 않아요(말 알아듣기 실험실만 브라우저의 음성 인식 기능을 빌려 써요). 엔트리 활동과 실물 활동을 대신하지 않고, 그 앞에서 예상하거나 뒤에서 견줄 때 써요.</p></div></section>'
             '<div class="pgrid">%s</div>'
-            '<p class="note">쓴 오픈소스: Blockly, TensorFlow.js, MobileNet, KNN Classifier, COCO-SSD, transformers.js (Apache 2.0), Whisper, ONNX Runtime (MIT). 라이선스 글은 lab/vendor 폴더에 있어요.</p>') % ''.join(cards)
+            '<p class="note">쓴 오픈소스: Blockly, TensorFlow.js, MobileNet, KNN Classifier, COCO-SSD (Apache 2.0). 말 알아듣기 실험실은 브라우저에 든 음성 인식 기능을 써요. 라이선스 글은 lab/vendor 폴더에 있어요.</p>') % ''.join(cards)
     page('lab', 'AI 실험실 — 에듀다움', body, 'lab/')
 
 

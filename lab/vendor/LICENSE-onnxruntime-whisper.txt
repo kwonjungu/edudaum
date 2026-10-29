@@ -1,2 +1,0 @@
-onnxruntime-web (Microsoft) — MIT License. https://github.com/microsoft/onnxruntime/blob/main/LICENSE
-Whisper small 가중치 (OpenAI) — MIT License. https://github.com/openai/whisper/blob/main/LICENSE (ONNX 변환: onnx-community/whisper-small)
