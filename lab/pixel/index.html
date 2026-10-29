@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>0과 1 그림 탐정 — 에듀다움</title>
+<link rel="icon" href="../../assets/icons/game.svg">
+<link rel="stylesheet" href="../assets/lab.css">
+<style>
+  .board{display:grid;grid-template-columns:auto auto;gap:6px;align-items:start;justify-content:start;margin-top:8px}
+  .grid{display:grid;grid-template-columns:repeat(7,40px);grid-auto-rows:40px;gap:3px}
+  @media (max-width:400px){.grid{grid-template-columns:repeat(7,32px);grid-auto-rows:32px}}
+  .px{border:2px solid var(--ink);border-radius:6px;background:#fff;cursor:pointer;padding:0;transition:background .2s}
+  .px.on{background:#33302b}
+  .px.chk{border-style:dashed;border-color:#c8442f}
+  .px.chk.on{background:#c8442f}
+  .px.hide{visibility:hidden}
+  .px.found{box-shadow:0 0 0 4px var(--sun)}
+  .px.flip{animation:flip .5s ease}
+  @keyframes flip{50%{transform:rotateY(90deg)}}
+  .codes{font-family:Consolas,monospace;font-size:15px;display:grid;grid-auto-rows:43px;align-items:center}
+  @media (max-width:400px){.codes{grid-auto-rows:35px;font-size:12px}}
+  .codes small{color:var(--muted);margin-left:4px;font-family:'Gowun Dodum',sans-serif}
+  .codes div{white-space:nowrap}
+  .codes .bad{color:#c8442f;font-weight:700}
+  .steps{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+</style>
+<link rel="stylesheet" href="../../assets/play/fun.css">
+</head>
+<body>
+<main class="wrap">
+  <div class="nav"><a class="back" href="../">← 실험실</a><span class="tag">B23 디지털 데이터</span></div>
+  <h1>0과 1 그림 탐정</h1>
+  <p class="lead">칸 그림은 0과 1로 바뀌어요. 확인 칸을 붙이면, 보내는 길에 몰래 바뀐 한 칸도 찾아낼 수 있어요.</p>
+
+  <section>
+    <h2 id="title">1. 6×6 그림 그리기</h2>
+    <p class="hint" id="hint">칸을 눌러 까맣게 칠해요. 오른쪽 수가 그 줄의 0과 1이에요. 까만 칸이 1이에요.</p>
+    <div class="board"><div class="grid" id="grid"></div><div class="codes" id="codes" aria-live="polite"></div></div>
+    <div class="steps">
+      <button class="btn main" id="seal">확인 칸 붙이기</button>
+      <button class="btn" id="send" disabled>보내기 (한 칸이 몰래 바뀜)</button>
+      <button class="btn" id="redo">처음부터</button>
+    </div>
+  </section>
+  <p class="note">컴퓨터가 0과 1을 보내고 받을 때 실제로 쓰는 생각(패리티 검사)이에요. 줄마다 까만 칸 수가 짝수가 되도록 확인 칸을 붙여요.</p>
+</main>
+<script>
+(function () {
+  'use strict';
+  var $ = function (s) { return document.querySelector(s); };
+  var N = 6, M = 7, g = [], stage = 'draw', flipped = null, tries = 0, stamped = false;
+  for (var r = 0; r < M; r++) { g.push([]); for (var c = 0; c < M; c++) g[r].push(0); }
+  function sum(a) { return a.reduce(function (x, y) { return x + y; }, 0); }
+  function row(r, n) { return g[r].slice(0, n); }
+  function col(c, n) { var o = []; for (var r = 0; r < n; r++) o.push(g[r][c]); return o; }
+  function draw() {
+    var n = stage === 'draw' ? N : M, h = '';
+    for (var r = 0; r < M; r++) for (var c = 0; c < M; c++) {
+      var chk = r === N || c === N, hide = r >= n || c >= n;
+      h += '<button class="px' + (g[r][c] ? ' on' : '') + (chk ? ' chk' : '') + (hide ? ' hide' : '') + '" data-r="' + r + '" data-c="' + c + '" aria-label="' + (r + 1) + '줄 ' + (c + 1) + '칸 ' + (g[r][c] ? '까만' : '흰') + '"' + (hide ? ' tabindex="-1"' : '') + '></button>';
+    }
+    $('#grid').innerHTML = h;
+    var cs = '';
+    for (r = 0; r < n; r++) {
+      var bits = row(r, n), odd = stage === 'find' && sum(bits) % 2;
+      cs += '<div class="' + (odd ? 'bad' : '') + '">' + bits.join('') + (stage !== 'draw' ? '<small>' + sum(bits) + '개</small>' : '') + '</div>';
+    }
+    $('#codes').innerHTML = cs;
+    $('#grid').querySelectorAll('.px').forEach(function (b) { b.onclick = function () { tap(+b.dataset.r, +b.dataset.c, b); }; });
+  }
+  function tap(r, c, b) {
+    if (stage === 'draw') { if (r < N && c < N) { g[r][c] ^= 1; draw(); } return; }
+    if (stage !== 'find') return;
+    tries++;
+    if (flipped[0] === r && flipped[1] === c) {
+      stage = 'done'; draw();
+      var el = $('#grid').querySelector('[data-r="' + r + '"][data-c="' + c + '"]'); el.classList.add('found');
+      $('#hint').textContent = '바뀐 칸을 찾았어요. 까만 칸 수가 홀수인 줄과 칸의 세로줄이 만나는 곳이에요.';
+      if (window.Fun) { Fun.say(tries === 1 ? '한 번에 짚었어요. 가로줄과 세로줄 가운데 홀수인 곳을 이었나요?' : '두 번째에 짚었어요. 처음 짚은 칸은 홀수인 가로줄이나 세로줄 하나만 맞았을 거예요.', 'cheer'); Fun.burst($('#grid')); if (!stamped) { stamped = true; Fun.stamp(); } }
+      $('#send').disabled = false; $('#send').textContent = '다시 보내기 (다른 칸이 바뀜)';
+    } else if (tries >= 2) {
+      stage = 'done'; draw();
+      $('#grid').querySelector('[data-r="' + flipped[0] + '"][data-c="' + flipped[1] + '"]').classList.add('found');
+      $('#hint').textContent = '두 번 짚을 기회를 다 썼어요. 노란 테두리가 바뀐 칸이에요. 빨간 수 줄을 찾아 세로로도 세어 봐요.';
+      if (window.Fun) { Fun.say('여기였어요. 빨간 가로줄 하나와, 까만 칸이 홀수인 세로줄 하나가 만나는 칸이에요.', 'think'); Fun.shake($('#grid')); }
+      $('#send').disabled = false; $('#send').textContent = '다시 보내기 (다른 칸이 바뀜)';
+    } else {
+      b.classList.add('flip');
+      if (window.Fun) Fun.say('그 칸은 그대로예요. 한 번 더 짚을 수 있어요. 세로줄의 까만 칸도 세어 봐요.', 'think');
+    }
+  }
+  $('#seal').onclick = function () {
+    if (stage !== 'draw') return;
+    if (!sum([].concat.apply([], g.slice(0, N).map(function (x) { return x.slice(0, N); })))) { if (window.Fun) Fun.say('까만 칸이 하나도 없어요. 그림을 먼저 그려요.', 'think'); return; }
+    for (var r = 0; r < N; r++) g[r][N] = sum(row(r, N)) % 2;
+    for (var c = 0; c <= N; c++) g[N][c] = sum(col(c, N)) % 2;
+    stage = 'sealed'; draw();
+    $('#title').textContent = '2. 확인 칸이 붙었어요';
+    $('#hint').textContent = '점선 칸이 확인 칸이에요. 이제 가로줄도 세로줄도 까만 칸 수가 모두 짝수예요. 보내 볼까요?';
+    $('#seal').disabled = true; $('#send').disabled = false;
+    if (window.Fun) Fun.say('확인 칸을 붙였어요. 받는 쪽은 줄마다 까만 칸 수만 세면 돼요.');
+  };
+  $('#send').onclick = function () {
+    if (stage === 'find') return;
+    if (flipped && stage === 'done') g[flipped[0]][flipped[1]] ^= 1;   // 앞에서 바뀐 칸을 되돌린다
+    flipped = [Math.floor(Math.random() * M), Math.floor(Math.random() * M)];
+    g[flipped[0]][flipped[1]] ^= 1; tries = 0; stage = 'find'; draw();
+    $('#grid').querySelectorAll('.px:not(.hide)').forEach(function (b, i) { setTimeout(function () { b.classList.add('flip'); }, i * 12); });
+    $('#title').textContent = '3. 받은 그림에서 바뀐 칸 찾기';
+    $('#hint').textContent = '보내는 길에 한 칸이 몰래 뒤집혔어요. 빨간 수는 까만 칸이 홀수인 가로줄이에요. 두 번 안에 바뀐 칸을 짚어요.';
+    $('#send').disabled = true;
+    if (window.Fun) Fun.say('한 칸이 바뀌었어요. 짚기 전에 가로줄과 세로줄을 모두 세어 봐요.');
+  };
+  $('#redo').onclick = function () {
+    for (var r = 0; r < M; r++) for (var c = 0; c < M; c++) g[r][c] = 0;
+    stage = 'draw'; flipped = null; $('#seal').disabled = false; $('#send').disabled = true; $('#send').textContent = '보내기 (한 칸이 몰래 바뀜)';
+    $('#title').textContent = '1. 6×6 그림 그리기'; $('#hint').textContent = '칸을 눌러 까맣게 칠해요. 오른쪽 수가 그 줄의 0과 1이에요. 까만 칸이 1이에요.';
+    draw();
+  };
+  draw();
+})();
+</script>
+<script src="../../assets/play/fun.js" data-block="L23" data-mission="칸 그림을 그리고 확인 칸을 붙여 보내요. 몰래 바뀐 한 칸을 두 번 안에 짚어 봐요."></script>
+</body>
+</html>

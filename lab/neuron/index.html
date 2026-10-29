@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>선 긋는 인공 뉴런 — 에듀다움</title>
+<link rel="icon" href="../../assets/icons/game.svg">
+<link rel="stylesheet" href="../assets/lab.css">
+<style>
+  .pl svg{width:100%;height:auto;display:block;border:2px solid var(--ink);border-radius:12px;background:#fff;touch-action:manipulation}
+  .ax{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);margin-top:2px}
+  .pt{stroke:#33302b;stroke-width:2}
+  .pt.miss{stroke:#c8442f;stroke-width:3.5}
+  .ln{stroke:#33302b;stroke-width:3;transition:all .25s}
+  .myln{stroke:#9b8cf2;stroke-width:3;stroke-dasharray:7 5}
+  .st{font-family:'Jua',sans-serif;font-size:17px;margin-top:6px}
+  .kit .btn{font-size:14.5px}
+</style>
+<link rel="stylesheet" href="../../assets/play/fun.css">
+</head>
+<body>
+<main class="wrap">
+  <div class="nav"><a class="back" href="../">← 실험실</a><span class="tag">B26 AI가 만들어지는 과정</span></div>
+  <h1>선 긋는 인공 뉴런</h1>
+  <p class="lead">강아지와 고양이 점을 가르는 선을, 기계가 틀린 점을 하나씩 보며 조금씩 옮겨 찾아요.</p>
+
+  <section>
+    <h2>1. 내가 먼저 선 긋기</h2>
+    <p class="hint">판을 두 번 눌러 두 점을 이으면 내 선(보라 점선)이 생겨요. 기계 선(검정)은 처음엔 아무 데나 있어요.</p>
+    <div class="pl"><svg id="pl" viewBox="0 0 320 240" role="img" aria-label="가로는 몸무게, 세로는 귀 길이인 점 판"></svg>
+      <div class="ax"><span>← 가벼움 · 몸무게 · 무거움 →</span><span>위: 귀가 김</span></div></div>
+    <p class="st" id="st"></p>
+  </section>
+
+  <section>
+    <h2>2. 몇 번 고치면 될까 — 먼저 걸기</h2>
+    <p class="hint">기계는 한 번에 틀린 점 하나를 보고 선을 조금 옮겨요. 모든 점을 가를 때까지 몇 번쯤 고칠까요?</p>
+    <div class="row" id="bets" style="margin-top:6px">
+      <button class="btn pick" data-b="10">10번 안</button><button class="btn pick" data-b="40">11~40번</button><button class="btn pick" data-b="999">40번 넘게</button>
+    </div>
+    <div class="row kit" style="margin-top:8px">
+      <button class="btn" id="one" disabled>한 번 고치기</button>
+      <button class="btn" id="run" disabled>끝까지 고치기</button>
+      <button class="btn" id="noise">헷갈리는 점 하나 넣기</button>
+      <button class="btn main" id="new">새 점들</button>
+    </div>
+  </section>
+  <p class="note">점은 이 쪽이 만든 연습용 예시예요(실제 동물 자료가 아니에요). 이 방법은 퍼셉트론이라고 하고, 큰 인공 신경망은 이런 뉴런을 아주 많이 이어 붙인 거예요.</p>
+</main>
+<script>
+(function () {
+  'use strict';
+  var $ = function (s) { return document.querySelector(s); }, pl = $('#pl'), W = 320, H = 240;
+  var pts = [], w = [0, 0, 0], fixes = 0, bet = null, mine = [], timer = null, stamped = false, done = false;
+  function rnd(a, b) { return a + Math.random() * (b - a); }
+  function newPts() {
+    pts = []; fixes = 0; done = false; bet = null; mine = []; clearInterval(timer);
+    // 고양이(-1): 가볍고 귀가 짧은 편 / 강아지(+1): 무겁고 귀가 긴 편, 두 무리 사이에 틈을 둔다
+    var a = rnd(-.6, .6);
+    while (pts.length < 16) {
+      var x = rnd(20, 300), y = rnd(20, 220), s = (x - 160) * Math.cos(a) + (120 - y) * Math.sin(a) * 1.2;
+      if (Math.abs(s) < 22) continue;
+      pts.push({ x: x, y: y, l: s > 0 ? 1 : -1 });
+    }
+    w = [rnd(-1, 1), rnd(-1, 1), rnd(-1, 1)];
+    $('#bets').querySelectorAll('.btn').forEach(function (b) { b.disabled = false; b.setAttribute('aria-pressed', 'false'); });
+    $('#one').disabled = $('#run').disabled = true; $('#noise').disabled = false;
+    draw();
+  }
+  function f(p) { return w[0] * (p.x - 160) / 160 + w[1] * (120 - p.y) / 120 + w[2]; }
+  function miss() { return pts.filter(function (p) { return (f(p) > 0 ? 1 : -1) !== p.l; }); }
+  function lineOf() {   // w0*X + w1*Y + w2 = 0 을 판 위 두 점으로
+    var P = [];
+    [[0, null], [W, null], [null, 0], [null, H]].forEach(function (e) {
+      var X, Y;
+      if (e[0] !== null) { X = (e[0] - 160) / 160; if (Math.abs(w[1]) < 1e-6) return; Y = -(w[0] * X + w[2]) / w[1]; var py = 120 - Y * 120; if (py >= 0 && py <= H) P.push([e[0], py]); }
+      else { Y = (120 - e[1]) / 120; if (Math.abs(w[0]) < 1e-6) return; X = -(w[1] * Y + w[2]) / w[0]; var px = X * 160 + 160; if (px >= 0 && px <= W) P.push([px, e[1]]); }
+    });
+    return P.length >= 2 ? P.slice(0, 2) : null;
+  }
+  function draw() {
+    var m = miss(), s = '', L = lineOf();
+    if (L) s += '<line class="ln" x1="' + L[0][0] + '" y1="' + L[0][1] + '" x2="' + L[1][0] + '" y2="' + L[1][1] + '"/>';
+    if (mine.length === 2) s += '<line class="myln" x1="' + mine[0][0] + '" y1="' + mine[0][1] + '" x2="' + mine[1][0] + '" y2="' + mine[1][1] + '"/>';
+    mine.forEach(function (q) { s += '<circle cx="' + q[0] + '" cy="' + q[1] + '" r="4" fill="#9b8cf2"/>'; });
+    pts.forEach(function (p) {
+      var bad = m.indexOf(p) >= 0;
+      s += p.l > 0 ? '<rect class="pt' + (bad ? ' miss' : '') + '" x="' + (p.x - 8) + '" y="' + (p.y - 8) + '" width="16" height="16" rx="3" fill="#ffc845"/>'
+                   : '<circle class="pt' + (bad ? ' miss' : '') + '" cx="' + p.x + '" cy="' + p.y + '" r="8" fill="#5aa9e6"/>';
+    });
+    pl.innerHTML = s;
+    $('#st').innerHTML = '<span style="color:#b58a00">■ 강아지</span> · <span style="color:#2f78b5">● 고양이</span> — 고친 횟수 ' + fixes + ', 아직 엉뚱한 쪽 점 ' + m.length + '개';
+  }
+  function step() {
+    var m = miss(); if (!m.length) return false;
+    var p = m[Math.floor(Math.random() * m.length)], r = .25;
+    w[0] += r * p.l * (p.x - 160) / 160; w[1] += r * p.l * (120 - p.y) / 120; w[2] += r * p.l;
+    fixes++; draw(); return true;
+  }
+  function end(stuck) {
+    clearInterval(timer); done = true; $('#one').disabled = $('#run').disabled = true;
+    var band = fixes <= 10 ? '10' : fixes <= 40 ? '40' : '999';
+    if (window.Fun) {
+      if (stuck) Fun.say('120번을 고쳐도 다 가르지 못했어요. 헷갈리는 점이 섞이면 곧은 선 하나로는 모두 가를 수 없어요.', 'think');
+      else if (band === bet) Fun.say(fixes + '번 고쳐서 모두 갈랐어요. 건 대로예요. 내 선과 기계 선은 같은 자리에 있나요?', 'cheer');
+      else Fun.say(fixes + '번 고쳐서 모두 갈랐어요. 건 것과 달랐어요. 점이 선에 가까울수록 고칠 일이 많아져요.', 'think');
+      Fun.burst(pl); if (!stamped) { stamped = true; Fun.stamp(); }
+    }
+  }
+  $('#bets').querySelectorAll('.btn').forEach(function (b) {
+    b.onclick = function () {
+      if (bet !== null) return; bet = b.dataset.b;
+      $('#bets').querySelectorAll('.btn').forEach(function (x) { x.disabled = x !== b; x.setAttribute('aria-pressed', String(x === b)); });
+      $('#one').disabled = $('#run').disabled = false; $('#noise').disabled = true;
+      if (window.Fun) Fun.say('빨간 테두리가 엉뚱한 쪽에 있는 점이에요. 고쳐 봐요.');
+    };
+  });
+  $('#one').onclick = function () { if (done) return; if (!step()) end(false); else if (!miss().length) end(false); else if (fixes >= 120) end(true); };
+  $('#run').onclick = function () {
+    $('#one').disabled = $('#run').disabled = true; clearInterval(timer);
+    timer = setInterval(function () { if (!step() || !miss().length) end(false); else if (fixes >= 120) end(true); }, 90);
+  };
+  $('#noise').onclick = function () {
+    if (bet !== null) return;
+    var p = pts[Math.floor(Math.random() * pts.length)];
+    pts.push({ x: p.x + rnd(-6, 6), y: p.y + rnd(-6, 6), l: -p.l }); draw();   // 바로 옆에 다른 무리 점: 곧은 선으로는 못 가른다
+    $('#noise').disabled = true;
+    if (window.Fun) Fun.say('한 점 바로 옆에 다른 무리 점을 넣었어요. 이제도 몇 번이면 될지 걸어요.', 'think');
+  };
+  pl.addEventListener('click', function (e) {
+    var r = pl.getBoundingClientRect(), x = (e.clientX - r.left) * W / r.width, y = (e.clientY - r.top) * H / r.height;
+    if (mine.length >= 2) mine = []; mine.push([x, y]); draw();
+  });
+  $('#new').onclick = function () { newPts(); if (window.Fun) Fun.say('새 점들이에요. 내 선을 먼저 긋고, 몇 번이면 될지 걸어요.'); };
+  newPts();
+})();
+</script>
+<script src="../../assets/play/fun.js" data-block="L26" data-mission="강아지와 고양이 점을 가르는 선을 먼저 그어 봐요. 기계가 몇 번 고쳐야 다 가를지도 먼저 걸어요."></script>
+</body>
+</html>

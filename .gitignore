@@ -14,3 +14,8 @@ _*.mjs
 _tools/_판정/shots/
 _tools/_판정/*.mjs
 _tools/_판정/b*_play*.cjs
+
+# 코덱스 원본 그림(웹에는 webp만)
+**/_png/
+**/contact.png
+**/_지시.md

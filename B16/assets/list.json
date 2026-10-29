@@ -1,0 +1,88 @@
+{
+  "title": "단순한 기계와 인공지능 사례 카드",
+  "generator": "image_gen (built-in)",
+  "reference_images": [
+    "../../assets/brand/cover.webp",
+    "../../assets/chars/c1.webp"
+  ],
+  "background": "#f8f6f1",
+  "format": "PNG",
+  "minimum_size": [
+    1024,
+    1024
+  ],
+  "contact_sheet": "contact.png",
+  "assets": [
+    {
+      "file": "door.png",
+      "title": "자동문",
+      "prompt": "Use case: illustration-story. Create ONE square 1024x1024 or larger PNG illustration for a Korean primary-school educational example card about simple machines and artificial intelligence. Match the warm friendly children's picture-book illustration style of the two reference images, using them only as style references, never copying their people or faces. Flat pastel color fills with slight painterly softness, soft dark brown rounded outlines, clear simple shapes, sky blue, mint green and buttery yellow, warm peach accents if needed. Entire background is a solid ivory #f8f6f1, no gradient, no paper texture, generous margins, isolated central composition occupying about 75% of the image. No text anywhere, no letters, no digits or numerals, no logos, no watermarks, no brand-specific product design, no people or human faces. If a display is needed it uses only geometric icons. No title, no border, no extra panels. An automatic sliding glass entrance door shown front-on. A rounded pale mint doorway frame, two sky-blue transparent glass panels parting outward to create a clearly open central gap. Small dark motion sensor centered above doorway, two short soft yellow detection arcs beneath it. Two simple small outward arrows formed as graphic shapes near the panels subtly communicate opening. A small ivory ground threshold and subtle grounding shadow. No person, no handles suggesting a manual hinged door, no storefront signs.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1183576
+    },
+    {
+      "file": "face_group.png",
+      "title": "사진 앱의 비슷한 얼굴 사진 묶기",
+      "prompt": "Use case: illustration-story. Create ONE square 1024x1024 or larger PNG illustration for a Korean primary-school educational example card about simple machines and artificial intelligence. Match the warm friendly children's picture-book illustration style of the two reference images, using them only as style references, never copying their people or faces. Flat pastel color fills with slight painterly softness, soft dark brown rounded outlines, clear simple shapes, sky blue, mint green and buttery yellow, warm peach accents if needed. Entire background is a solid ivory #f8f6f1, no gradient, no paper texture, generous margins, isolated central composition occupying about 75% of the image. No text anywhere, no letters, no digits or numerals, no logos, no watermarks, no brand-specific product design, no people or human faces. If a display is needed it uses only geometric icons. No title, no border, no extra panels. A generic rounded sky-blue tablet angled only slightly, filling most of the composition. On its screen show a photo organization app with three clearly separated pastel groups, each containing three small photo tiles arranged neatly. Each tile depicts ONLY a completely featureless circular peach head icon above a tiny rounded shoulder silhouette; no eyes, noses, mouths, hair or realistic faces. Within each group the same circular avatar color repeats; between groups use different avatar colors, with mint, blue and yellow grouping frames. A few gentle curved connector lines visually communicate matching and grouping similar photos. No letters, captions, text lines or numbers anywhere.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1328925
+    },
+    {
+      "file": "timer.png",
+      "title": "주방 타이머",
+      "prompt": "Use case: illustration-story. Create ONE square 1024x1024 or larger PNG illustration for a Korean primary-school educational example card about simple machines and artificial intelligence. Match the warm friendly children's picture-book illustration style of the two reference images, using them only as style references, never copying their people or faces. Flat pastel color fills with slight painterly softness, soft dark brown rounded outlines, clear simple shapes, sky blue, mint green and buttery yellow, warm peach accents if needed. Entire background is a solid ivory #f8f6f1, no gradient, no paper texture, generous margins, isolated central composition occupying about 75% of the image. No text anywhere, no letters, no digits or numerals, no logos, no watermarks, no brand-specific product design, no people or human faces. If a display is needed it uses only geometric icons. No title, no border, no extra panels. A simple standalone rounded mechanical kitchen countdown timer sitting on a small ivory countertop indication. Mint green rounded body, pale yellow circular dial with only short dark tick marks and one sky-blue wedge indicating elapsed time, a single chunky dark rounded hand and blue rotary center. A small handle-like top knob. Two small yellow ringing arcs convey an alert. No numerals, no digits, no letters, no clock labels, no food clutter.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1452087
+    },
+    {
+      "file": "recommend.png",
+      "title": "영상 추천 화면",
+      "prompt": "Use case: illustration-story. Create ONE square 1024x1024 or larger PNG illustration for a Korean primary-school educational example card about simple machines and artificial intelligence. Match the warm friendly children's picture-book illustration style of the two reference images, using them only as style references, never copying their people or faces. Flat pastel color fills with slight painterly softness, soft dark brown rounded outlines, clear simple shapes, sky blue, mint green and buttery yellow, warm peach accents if needed. Entire background is a solid ivory #f8f6f1, no gradient, no paper texture, generous margins, isolated central composition occupying about 75% of the image. No text anywhere, no letters, no digits or numerals, no logos, no watermarks, no brand-specific product design, no people or human faces. If a display is needed it uses only geometric icons. No title, no border, no extra panels. A generic rounded sky-blue tablet in front view displaying a video recommendation interface made only from thumbnail rectangles. One larger thumbnail at upper left contains a simple mint leaf and a tiny triangular play icon. A few smaller recommended thumbnails in a neat grid beside and below it contain only friendly nonhuman objects, such as a blue mountain, a yellow flower, a mint plant and colorful geometric blocks; each has a small triangular play icon. A soft curved yellow arrow points from the main selected video to the suggested thumbnails, indicating recommendation. Absolutely no people, no faces, no text, no fake text lines, no letters, no numerals and no branding.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1357561
+    },
+    {
+      "file": "calculator.png",
+      "title": "계산기",
+      "prompt": "Use case: illustration-story. Create ONE square 1024x1024 or larger PNG illustration for a Korean primary-school educational example card about simple machines and artificial intelligence. Match the warm friendly children's picture-book illustration style of the two reference images, using them only as style references, never copying their people or faces. Flat pastel color fills with slight painterly softness, soft dark brown rounded outlines, clear simple shapes, sky blue, mint green and buttery yellow, warm peach accents if needed. Entire background is a solid ivory #f8f6f1, no gradient, no paper texture, generous margins, isolated central composition occupying about 75% of the image. No text anywhere, no letters, no digits or numerals, no logos, no watermarks, no brand-specific product design, no people or human faces. If a display is needed it uses only geometric icons. No title, no border, no extra panels. A friendly simple pocket calculator at a very slight three-quarter angle, large and centered. Rounded sky-blue body with mint side edge, one pale mint display entirely blank except three small softly rounded geometric dots, a tidy 4 by 4 grid of chunky blank rounded square keys in ivory, pale mint and pale yellow. One slightly larger pale yellow key. Every key is completely blank. Make the familiar calculator shape obvious through the small display and key grid. No digits, no numbers, no mathematical symbols, no letters, no labels, no hands.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1411534
+    },
+    {
+      "file": "gesture.png",
+      "title": "손동작을 알아보는 화면",
+      "prompt": "Use case: illustration-story. Create ONE square 1024x1024 or larger PNG illustration for a Korean primary-school educational example card about simple machines and artificial intelligence. Match the warm friendly children's picture-book illustration style of the two reference images, using them only as style references, never copying their people or faces. Flat pastel color fills with slight painterly softness, soft dark brown rounded outlines, clear simple shapes, sky blue, mint green and buttery yellow, warm peach accents if needed. Entire background is a solid ivory #f8f6f1, no gradient, no paper texture, generous margins, isolated central composition occupying about 75% of the image. No text anywhere, no letters, no digits or numerals, no logos, no watermarks, no brand-specific product design, no people or human faces. If a display is needed it uses only geometric icons. No title, no border, no extra panels. A generic sky-blue tablet standing upright, with a peach-colored real hand and wrist visible in front of it making an open-palm gesture with all five fingers extended naturally. Only the hand and short wrist, no person, no body or face. On the tablet screen a simple mint hand silhouette mirrors the open palm inside four rounded corner detection brackets, with five small yellow joint dots and a tiny geometric checkmark indicator. A few yellow soft sensor arcs between actual hand and screen communicate that the device recognizes a gesture. No letters, words, numbers, labels or fake text lines.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1322642
+    },
+    {
+      "file": "hall_light.png",
+      "title": "복도 센서 전등",
+      "prompt": "Use case: illustration-story. Create ONE square 1024x1024 or larger PNG illustration for a Korean primary-school educational example card about simple machines and artificial intelligence. Match the warm friendly children's picture-book illustration style of the two reference images, using them only as style references, never copying their people or faces. Flat pastel color fills with slight painterly softness, soft dark brown rounded outlines, clear simple shapes, sky blue, mint green and buttery yellow, warm peach accents if needed. Entire background is a solid ivory #f8f6f1, no gradient, no paper texture, generous margins, isolated central composition occupying about 75% of the image. No text anywhere, no letters, no digits or numerals, no logos, no watermarks, no brand-specific product design, no people or human faces. If a display is needed it uses only geometric icons. No title, no border, no extra panels. A small clean school hallway vignette in gentle one-point perspective, floating against the solid ivory background with generous margins. Mint walls, light sky-blue doorframes, pale ivory floor. A large rounded ceiling light at the front is glowing soft buttery yellow. Beside it a small blue motion sensor with two gentle yellow detection arcs directed downward. Farther down the hall a second ceiling light is dimmer, clearly showing a sensor light turning on. No people, no faces, no signs, no room labels, no numbers, no text. Limit architectural details, keep rounded shapes and a charming picture-book style.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1409016
+    },
+    {
+      "file": "step.png",
+      "title": "걸음 수를 세는 손목 밴드",
+      "prompt": "Use case: illustration-story. Create ONE square 1024x1024 or larger PNG illustration for a Korean primary-school educational example card about simple machines and artificial intelligence. Match the warm friendly children's picture-book illustration style of the two reference images, using them only as style references, never copying their people or faces. Flat pastel color fills with slight painterly softness, soft dark brown rounded outlines, clear simple shapes, sky blue, mint green and buttery yellow, warm peach accents if needed. Entire background is a solid ivory #f8f6f1, no gradient, no paper texture, generous margins, isolated central composition occupying about 75% of the image. No text anywhere, no letters, no digits or numerals, no logos, no watermarks, no brand-specific product design, no people or human faces. If a display is needed it uses only geometric icons. No title, no border, no extra panels. Close view of a single peach-colored forearm and hand entering diagonally from lower left toward upper right, wearing a mint green fitness wristband. No body and no face. Rounded sky-blue watch display shows ONLY two simple yellow footprint icons and a short row of geometric progress dots, absolutely no digits or letters. Below and beside the wrist, three small softly drawn footprint marks follow a curved path with a few yellow motion strokes, communicating counting steps. Generic unbranded band, clear central readable composition.",
+      "width": 1254,
+      "height": 1254,
+      "bytes": 1382588
+    }
+  ],
+  "contact_layout": {
+    "columns": 4,
+    "rows": 2,
+    "order": "assets array, left to right then top to bottom",
+    "width": 2128,
+    "height": 1072
+  }
+}

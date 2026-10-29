@@ -1,0 +1,146 @@
+[
+  {
+    "id": "dog",
+    "name": "강아지",
+    "file": "dog.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: ONE friendly golden-tan dog with floppy ears, cream muzzle and chest, four natural legs and paws, one gently curved tail, standing in a clear three-quarter side view. Closed gentle smile, warm brown nose. Extremely simple smooth flat-color shapes and clean dark-brown contours like the cat, fox and elephant cards generated in this series; no individual fur strands, no shaggy feathering, no realistic fur texture. This is dog.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "shark",
+    "name": "상어",
+    "file": "shark.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: one friendly sky-blue shark, full-body side view, swimming horizontally. Recognizable shark body, white underside, five short gill slits, triangular dorsal fin, two pectoral fins and asymmetrical vertical crescent tail. Closed gentle smiling mouth, no exposed sharp teeth. No water scenery; keep the plain ivory background. This is shark.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "butterfly",
+    "name": "나비",
+    "file": "butterfly.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: ONE butterfly viewed from above, wings spread symmetrically. Exactly FOUR wings: two large butter-yellow upper wings, two smaller mint lower wings with simple sky-blue spots. One slender segmented dark-brown body, two antennae and exactly SIX clearly separated short insect legs emerging from the thorax, three visible on each side, arranged in the clear gap near the body so they can be counted. No human hands or feet. This is butterfly.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "giraffe",
+    "name": "기린",
+    "file": "giraffe.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: one friendly giraffe standing in three-quarter side view, entire very long neck and both ossicones visible, small ears, butter-yellow coat with natural warm brown irregular patches, four long legs with cloven hooves and one slender tufted tail. Keep all anatomy in frame, no vegetation. This is giraffe.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "chicken",
+    "name": "닭",
+    "file": "chicken.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: one friendly adult chicken hen, full body three-quarter side view. Creamy butter-yellow feathers, small coral-red comb and wattles, short golden beak, two folded wings, short fanned tail feathers, exactly two scaly legs with three forward toes and a small back toe each. Kind black oval eyes. This is chicken.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "fox",
+    "name": "여우",
+    "file": "fox.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: one friendly red fox standing in a relaxed three-quarter side view. Warm muted orange coat, creamy muzzle/chest and a big bushy tail with a cream tip, dark-brown lower legs, four paws visible, two triangular ears and pointed natural muzzle. Simple smooth flat shapes with very few fur lines. This is fox.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "whale",
+    "name": "고래",
+    "file": "whale.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: one friendly blue whale fully submerged and swimming, full body side view, rounded blue-gray body, pale pleated throat, two pectoral flippers, small dorsal fin near tail, broad horizontal two-lobed tail flukes. To show UNDERWATER while preserving the solid ivory card background, enclose the whale in one simple flat pale-mint/sky-blue oval pool-of-water vignette, with a thin wavy water surface above its back and three tiny bubbles. Entire whale below that surface, no spouting, no jumping, no other animal, no seabed or plants. Plain ivory surrounds this small water vignette. This is whale.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "cat",
+    "name": "고양이",
+    "file": "cat.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: one friendly domestic cat standing on four natural paws, full body three-quarter side view. Soft warm golden-orange coat, three simple darker tabby stripes on forehead and tail, cream muzzle and chest, two triangular ears, small pink nose, thin whiskers and one long tail curving upward. Smooth flat shapes, very few fur marks, kind black oval eyes. This is cat.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "bee",
+    "name": "벌",
+    "file": "bee.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: ONE friendly honeybee seen directly from above in a perfectly symmetric educational dorsal view. Head at top, small thorax at center, long rounded yellow abdomen with dark-brown stripes below. EXACTLY SIX LONG JOINTED INSECT LEGS visible, symmetrically splayed onto the ivory background: one front leg pointing upper-left and one upper-right; one middle leg pointing straight left and one straight right; one hind leg pointing lower-left and one lower-right. All six attach to the thorax, no legs hidden behind the body. Exactly four pale sky-blue wings, two large upper wings and two small lower wings, spread to sides behind the legs. Two curved antennae above head, two friendly black eyes. Anatomically six legs is the absolute highest priority. Do not create a three-quarter view. This is bee.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "elephant",
+    "name": "코끼리",
+    "file": "elephant.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: ONE friendly elephant, full body standing in three-quarter side view. Gentle blue-gray skin, large rounded ears, long trunk curving softly downward and then up at the tip, four sturdy legs with toenails, a thin tufted tail, two small cream tusks. Kind oval eyes, closed gentle smile. Simple flat-color picture book shapes, no wrinkles except a few at trunk bends. This is elephant.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "octopus",
+    "name": "문어",
+    "file": "octopus.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: ONE friendly mint/teal octopus viewed mostly from above and slightly from front so its black oval eyes and tiny smile are visible on the rounded mantle. EXACTLY EIGHT complete unbranched arms radiating separately from under the mantle, like eight evenly spaced spokes, with broad ivory gaps between every adjacent arm. Each arm curves gently and has a few small pale suction cups along the underside. Two arms toward upper-left/upper-right, two arms pointing left/right, two arms toward lower-left/lower-right, two arms pointing down-left/down-right. Count EIGHT visible distinct arm tips, no extra arms, no hidden or overlapping arms. All eight attached directly to body, not branching from another arm. This is octopus.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "horse",
+    "name": "말",
+    "file": "horse.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: ONE friendly chestnut-brown horse standing naturally in three-quarter side view, long dark-brown mane and tail, cream blaze on forehead, long muzzle, two pointed ears, exactly four long legs ending in single rounded dark hooves. No saddle, bridle, shoes or tack. Gentle black oval eyes and relaxed closed mouth. Simple smooth flat shapes. This is horse.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "eagle",
+    "name": "독수리",
+    "file": "eagle.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: ONE friendly eagle gliding toward the viewer in a slightly three-quarter view, BOTH broad feathered wings fully spread and completely inside frame. Warm dark-brown body and flight feathers, light cream head and fan-shaped tail, golden hooked beak, two tucked golden legs with small curved talons. Recognizable eagle, calm gentle round black eyes without angry brow, no prey, no aggressive pose. Wing tips have clearly separated long flight feathers, no arms. This is eagle.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "squirrel",
+    "name": "다람쥐",
+    "file": "squirrel.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: ONE friendly Korean chipmunk/squirrel sitting naturally on its haunches, entire body visible, warm brown coat with cream belly and recognizable dark-and-cream longitudinal back stripes, small rounded ears, bright black oval eyes, two small front paws held loosely at chest with no object, two larger hind feet, and ONE large fluffy tail curling up behind it. No acorn, food, branch or other objects. Keep fur simple and flat. This is squirrel.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "tropicalfish",
+    "name": "열대어",
+    "file": "tropicalfish.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: ONE friendly tropical reef fish in full side view, a recognizable yellow butterflyfish with flattened oval body, butter-yellow body, a soft dark-brown vertical band across the eye, a few sky-blue/mint accent bands, small protruding mouth, continuous dorsal fin, clearly visible side pectoral fin, lower fins and a complete fan-shaped tail. Natural fish anatomy, no arms or legs, simple kind black eye. No water vignette, coral, plants, bubbles or other fish, only ivory background. This is tropicalfish.png.",
+    "width": 1254,
+    "height": 1254
+  },
+  {
+    "id": "cow",
+    "name": "소",
+    "file": "cow.png",
+    "generator": "image_gen",
+    "prompt": "Use case: illustration-story. Create ONE square educational animal guessing card, 1024x1024 pixels or larger, PNG. Warm Korean children's picture-book illustration matching the mint-jacket teacher reference image viewed earlier: simple flat color shapes, restrained soft cel shading, smooth dark-brown outlines, friendly solid black oval eyes, rounded natural forms. Do not use detailed furry brushwork, photographic rendering or paper grain. Palette: gentle sky blue, mint and butter yellow accents with warm natural animal colors. Background must be absolutely uniform solid ivory RGB(248,246,241), #f8f6f1, with no texture, gradient, vignette or cast shadow. One animal only, centered and large, entire body including every limb, ear, wing and tail inside the image with at least 12% blank margins. Friendly and anatomically recognizable, no clothing or accessories, no humanization of limb structure. No letters, text, labels, logos, watermarks, border, extra animals, scenery or decorative objects. Subject: ONE friendly dairy cow standing naturally in three-quarter side view. Creamy white coat with a few broad dark warm-brown Holstein patches, broad pink muzzle with two nostrils, two soft ears, two small cream horns, exactly four legs with cloven hooves, small natural udder visible below belly and one thin tail with dark tuft. Kind black oval eyes and a relaxed closed smile. No bell, collar or farm scenery. Simple flat shapes. This is cow.png.",
+    "width": 1254,
+    "height": 1254
+  }
+]

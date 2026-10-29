@@ -518,3 +518,4 @@ footer .lineup{mix-blend-mode:multiply;display:block;width:min(420px,100%);heigh
 .kband{box-shadow:var(--lift)}
 @media (prefers-reduced-motion:reduce){.hsay .face,.done .seal{animation:none!important}.sgo,.kplay,.pcard{transition:none!important}.sgo:hover,.kplay:hover{transform:none}}
 @media print{.hsay,.lineup,.seal{display:none}}
+.labrow{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(260px,1fr))}

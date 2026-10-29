@@ -38,6 +38,7 @@
   .pick{display:flex;align-items:center;gap:7px;width:100%;font-family:inherit;cursor:pointer;
     color:var(--ink);background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
     min-height:44px;padding:4px 9px;box-shadow:var(--hard-sm);text-align:left}
+  .pick img{width:44px;height:44px;flex:none;object-fit:contain;border-radius:6px}
   .pick .nm{flex:1;font-weight:700;font-size:14px}
   .pick .n{font-family:'Courier New',monospace;font-weight:700;font-size:14px;min-width:2.6em;
     text-align:right;color:var(--muted)}
@@ -115,16 +116,16 @@
   ];
   // 쓸 사람과 닮은 줄. 반창고 손은 닮은 줄이 없다.
   var PEOPLE = [
-    { nm:'오른손 · 교실', row:'오른손밝' },
-    { nm:'왼손 · 교실',   row:'왼손밝' },
-    { nm:'긴소매 · 교실', row:'긴소매밝' },
-    { nm:'오른손 · 복도', row:'오른손어' },
-    { nm:'반창고 손 · 교실', row:null }
+    { nm:'오른손 · 교실', row:'오른손밝', img:'right_bright' },
+    { nm:'왼손 · 교실',   row:'왼손밝', img:'left_bright' },
+    { nm:'긴소매 · 교실', row:'긴소매밝', img:'sleeve_bright' },
+    { nm:'오른손 · 복도', row:'오른손어', img:'right_dark' },
+    { nm:'반창고 손 · 교실', row:null, img:'bandage' }
   ];
   var WHERES = [
-    { nm:'왼손 열 장',     row:'왼손밝' },
-    { nm:'긴소매 열 장',   row:'긴소매밝' },
-    { nm:'어두운 곳 열 장', row:'오른손어' }
+    { nm:'왼손 열 장',     row:'왼손밝', img:'add_left' },
+    { nm:'긴소매 열 장',   row:'긴소매밝', img:'add_sleeve' },
+    { nm:'어두운 곳 열 장', row:'오른손어', img:'add_dark' }
   ];
 
   var chosen = [];      // 고른 사람 (셋)
@@ -138,7 +139,7 @@
     PEOPLE.forEach(function(p, i){
       var b = document.createElement('button');
       b.className = 'pick'; b.type = 'button'; b.setAttribute('aria-pressed', 'false');
-      b.innerHTML = '<span class="nm"></span><span class="n"></span><span class="vd"></span>';
+      b.innerHTML = '<img alt="" src="assets/' + p.img + '.webp"><span class="nm"></span><span class="n"></span><span class="vd"></span>';
       b.querySelector('.nm').textContent = p.nm;
       b.addEventListener('click', function(){ tapPerson(i); });
       $('people').appendChild(b); pEls.push(b);
@@ -153,7 +154,7 @@
     WHERES.forEach(function(w, i){
       var b = document.createElement('button');
       b.className = 'pick'; b.type = 'button'; b.setAttribute('aria-pressed', 'false');
-      b.innerHTML = '<span class="nm"></span>';
+      b.innerHTML = '<img alt="" src="assets/' + w.img + '.webp"><span class="nm"></span>';
       b.querySelector('.nm').textContent = w.nm;
       b.addEventListener('click', function(){ tapWhere(i); });
       $('wheres').appendChild(b); wEls.push(b);

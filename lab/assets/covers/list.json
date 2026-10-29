@@ -1,0 +1,134 @@
+{
+  "schema_version": 1,
+  "created": "2026-10-29",
+  "generator": "built-in image_gen.imagegen",
+  "style": "Warm storybook illustration; ivory, sky blue, mint and yellow; reference characters only",
+  "size": {
+    "width": 1200,
+    "height": 750
+  },
+  "contact_sheet": "contact.png",
+  "text_policy": "No readable text; pixel.png contains only the requested binary digits 0 and 1.",
+  "images": [
+    {
+      "file": "chart.png",
+      "title": "그래프 실험",
+      "character": "c6",
+      "width": 1200,
+      "height": 750,
+      "format": "PNG",
+      "bytes": 1024010,
+      "sha256": "a583c6bd31af7e64c1007e2122b97056b3a643afd8c5949a5d454399c3192b53",
+      "reference_images": [
+        "../../../assets/brand/cover.webp",
+        "../../../assets/chars/c6.webp"
+      ],
+      "prompt": "Use case: illustration-story. Create one finished horizontal cover illustration for a Korean children's AI experiment card, landscape aspect ratio 8:5, about 1200x750. Match the provided book-cover visual style: warm polished storybook illustration, delicate paper/grain texture, soft rounded forms, ivory background, sky-blue, mint and sunny-yellow palette. The character reference defines the SAME recurring teacher: preserve face, brown hair and outfit identity, dot eyes and rosy cheeks. Use only this teacher, no additional people or faces. Clear inviting educational scene, generous breathing room, uncluttered composition, all important subjects comfortably inside the edges. No title, no words, no letters, no captions, no watermark. Any charts have only shapes, no labels. The green sweater-vest teacher c6, curly short brown hair, cream shirt, beige trousers, little camera around the neck, stands to one side smiling and pointing at a large mint-framed chalkboard. On the board float three very clear graphic examples: three colored vertical bars; a pie chart divided into blue mint and yellow sectors; a simple pictograph of repeated tiny apples in rows. The graphics are the focus. Warm ivory classroom with very sparse plant accents. Reference image 1 is STYLE ONLY; reference image 2 defines teacher c6 identity. Produce chart.png."
+    },
+    {
+      "file": "blocks.png",
+      "title": "규칙 블록",
+      "character": "c5",
+      "width": 1200,
+      "height": 750,
+      "format": "PNG",
+      "bytes": 1222164,
+      "sha256": "13b155a324ea62481d3fdc9dc1f2d9f83c2cf41e24d2f40c520132104e9f2faf",
+      "reference_images": [
+        "../../../assets/brand/cover.webp",
+        "../../../assets/chars/c5.webp"
+      ],
+      "prompt": "Use case: illustration-story. Create one finished horizontal cover illustration for a Korean children's AI experiment card, landscape aspect ratio 8:5, about 1200x750. Match the provided book-cover visual style: warm polished storybook illustration, delicate paper/grain texture, soft rounded forms, ivory background, sky-blue, mint and sunny-yellow palette. The character reference defines the SAME recurring teacher: preserve face, brown hair and outfit identity, dot eyes and rosy cheeks. Use only this teacher, no additional people or faces. Clear inviting educational scene, generous breathing room, uncluttered composition, all important subjects comfortably inside the edges. No title, no words, no letters, no captions, no watermark. Any charts have only shapes, no labels. Teacher c5 with brown hair in a high bun, round brown glasses, coral-pink cardigan, white shirt and navy trousers, connects chunky colorful interlocking programming blocks. A playful tabletop path made from these blocks carries separate animal picture cards (a cat, a dog, a rabbit) toward two woven baskets. Animal faces appear only as illustrations on cards. The visual focus is the action of fitting blocks and routing cards into baskets. Blocks and baskets have no written labels. Reference image 1 is STYLE ONLY; reference image 2 defines teacher c5 identity. Produce blocks.png."
+    },
+    {
+      "file": "color.png",
+      "title": "바나나 색 분류",
+      "character": "c6",
+      "width": 1200,
+      "height": 750,
+      "format": "PNG",
+      "bytes": 1054705,
+      "sha256": "10b757a3682cdbe79f88f574c6ff78e666be9ac3f5ff768c62a3f8d92ecd1fe1",
+      "reference_images": [
+        "../../../assets/brand/cover.webp",
+        "../../../assets/chars/c6.webp"
+      ],
+      "prompt": "Use case: illustration-story. Create one finished horizontal cover illustration for a Korean children's AI experiment card, landscape aspect ratio 8:5, about 1200x750. Match the provided book-cover visual style: warm polished storybook illustration, delicate paper/grain texture, soft rounded forms, ivory background, sky-blue, mint and sunny-yellow palette. The character reference defines the SAME recurring teacher: preserve face, brown hair and outfit identity, dot eyes and rosy cheeks. Use only this teacher, no additional people or faces. Clear inviting educational scene, generous breathing room, uncluttered composition, all important subjects comfortably inside the edges. No title, no words, no letters, no captions, no watermark. Any charts have only shapes, no labels. The green sweater-vest teacher c6, curly short brown hair, cream shirt, beige trousers, little camera around neck, compares a neat sequence of four separate bananas on an ivory tabletop: green, yellow-green, mostly yellow, and ripe sunny yellow. Beside them is a tilted simple color-dot board with large orderly green, mint, yellow-green and yellow circular swatches. Clearly show the color progression, bananas remain natural curved banana shapes. No labels. Reference image 1 is STYLE ONLY; reference image 2 defines teacher c6 identity. Produce color.png."
+    },
+    {
+      "file": "camera.png",
+      "title": "모양을 보는 로봇",
+      "character": "c1",
+      "width": 1200,
+      "height": 750,
+      "format": "PNG",
+      "bytes": 1169554,
+      "sha256": "b41e60a0ce2f6bc160ac12bc2d1f6ba6af2f1477ba475995fc8fad507e279fd8",
+      "reference_images": [
+        "../../../assets/brand/cover.webp",
+        "../../../assets/chars/c1.webp"
+      ],
+      "prompt": "Use case: illustration-story. Create one finished horizontal cover illustration for a Korean children's AI experiment card, landscape aspect ratio 8:5, about 1200x750. Match the provided book-cover visual style: warm polished storybook illustration, delicate paper/grain texture, soft rounded forms, ivory background, sky-blue, mint and sunny-yellow palette. The character reference defines the SAME recurring teacher: preserve face, brown hair and outfit identity, dot eyes and rosy cheeks. Use only this teacher, no additional people or faces. Clear inviting educational scene, generous breathing room, uncluttered composition, all important subjects comfortably inside the edges. No title, no words, no letters, no captions, no watermark. Any charts have only shapes, no labels. Teacher c1 with short brown bob, mint cardigan, cream shirt and beige cropped trousers guides a SMALL friendly rounded robot on an ivory tabletop. A drawing board displays just a large blue CIRCLE and a yellow TRIANGLE. The little robot's camera eyes look toward that board, and a physical thin lever/bar mounted on a pivot on the robot is visibly tilted diagonally in response. Show a clear circle-and-triangle board, small robot and tilted bar, with mint/sky-blue/yellow details. No new human characters. Reference image 1 is STYLE ONLY; reference image 2 defines teacher c1 identity. Produce camera.png."
+    },
+    {
+      "file": "text.png",
+      "title": "말풍선 분류",
+      "character": "c7",
+      "width": 1200,
+      "height": 750,
+      "format": "PNG",
+      "bytes": 1141169,
+      "sha256": "c2d30926b04cb6011deda1d4c62ee1747d9e9bc461f568f24b900307d56a1794",
+      "reference_images": [
+        "../../../assets/brand/cover.webp",
+        "../../../assets/chars/c7.webp"
+      ],
+      "prompt": "Use case: illustration-story. Create one finished horizontal cover illustration for a Korean children's AI experiment card, landscape aspect ratio 8:5, about 1200x750. Match the provided book-cover visual style: warm polished storybook illustration, delicate paper/grain texture, soft rounded forms, ivory background, sky-blue, mint and sunny-yellow palette. The character reference defines the SAME recurring teacher: preserve face, brown hair and outfit identity, dot eyes and rosy cheeks. Use only this teacher, no additional people or faces. Clear inviting educational scene, generous breathing room, uncluttered composition, all important subjects comfortably inside the edges. No title, no words, no letters, no captions, no watermark. Any charts have only shapes, no labels. Teacher c7 with brown side ponytail, blue cardigan, cream shirt, purple trousers and small mint shield badge guides paper speech-bubble cards into TWO woven baskets on a desk. Several bubbles flow gently in two distinct curved streams, landing in the baskets. The task concerns sorting sentences but the user forbids text: represent sentence content only with a few small abstract short strokes and tiny friendly pictograms, absolutely no readable writing or letters. Keep the two baskets and the splitting flow very clear. Reference image 1 is STYLE ONLY; reference image 2 defines teacher c7 identity. Produce text.png."
+    },
+    {
+      "file": "pixel.png",
+      "title": "비트와 픽셀",
+      "character": "c3",
+      "width": 1200,
+      "height": 750,
+      "format": "PNG",
+      "bytes": 1123861,
+      "sha256": "6fb95a8b491a9cb45cae7ac64194f9dec5015215c664613d8d18aedb73607bd1",
+      "reference_images": [
+        "../../../assets/brand/cover.webp",
+        "../../../assets/chars/c3.webp"
+      ],
+      "prompt": "Use case: illustration-story. Create one finished horizontal cover illustration for a Korean children's AI experiment card, landscape aspect ratio 8:5, about 1200x750. Match the provided book-cover visual style: warm polished storybook illustration, delicate paper/grain texture, soft rounded forms, ivory background, sky-blue, mint and sunny-yellow palette. The character reference defines the SAME recurring teacher: preserve face, brown hair and outfit identity, dot eyes and rosy cheeks. Use only this teacher, no additional people or faces. Clear inviting educational scene, generous breathing room, uncluttered composition, all important subjects comfortably inside the edges. No title, no words, no letters, no captions, no watermark. Any charts have only shapes, no labels. Teacher c3 with tousled short brown hair, yellow jacket, white shirt, blue trousers holds a large magnifying glass over a pixel grid card on an ivory table. The card contains a simple friendly pixel-art leaf formed by mint green filled squares and empty ivory squares. A small enlarged grid at the side uses only binary digits 0 and 1 to show the encoding, with the lens enlarging a few square cells. The digits 0 and 1 are the ONLY permitted characters, no other text or labels. Make pixel squares crisp within the soft storybook medium. Reference image 1 is STYLE ONLY; reference image 2 defines teacher c3 identity. Produce pixel.png."
+    },
+    {
+      "file": "detect.png",
+      "title": "물건 찾기",
+      "character": "c4",
+      "width": 1200,
+      "height": 750,
+      "format": "PNG",
+      "bytes": 1068274,
+      "sha256": "c946ff0a4005a0b959b6748f9c7829d0e38349a97ef33e3647d22d56193afae0",
+      "reference_images": [
+        "../../../assets/brand/cover.webp",
+        "../../../assets/chars/c4.webp"
+      ],
+      "prompt": "Use case: illustration-story. Create one finished horizontal cover illustration for a Korean children's AI experiment card, landscape aspect ratio 8:5, about 1200x750. Match the provided book-cover visual style: warm polished storybook illustration, delicate paper/grain texture, soft rounded forms, ivory background, sky-blue, mint and sunny-yellow palette. The character reference defines the SAME recurring teacher: preserve face, brown hair and outfit identity, dot eyes and rosy cheeks. Use only this teacher, no additional people or faces. Clear inviting educational scene, generous breathing room, uncluttered composition, all important subjects comfortably inside the edges. No title, no words, no letters, no captions, no watermark. Any charts have only shapes, no labels. Teacher c4 with wavy brown bob and a pink hair clip, lavender cardigan, cream shirt, purple trousers, holds a sky-blue tablet and points at a large photo-like picture panel. Within the panel is a simple still life of a red apple, yellow mug, and small potted plant on a table. Draw one distinct thin rounded rectangular detection bounding box around EACH object, in mint, blue and yellow. No labels or numbers and no additional objects outside the boxes that would confuse the detection concept. Entire image remains illustrated, even the picture panel. Reference image 1 is STYLE ONLY; reference image 2 defines teacher c4 identity. Produce detect.png."
+    },
+    {
+      "file": "neuron.png",
+      "title": "점을 나누는 선",
+      "character": "c6",
+      "width": 1200,
+      "height": 750,
+      "format": "PNG",
+      "bytes": 1046900,
+      "sha256": "1869c61f66f268cea629e4e7435962c4751051f59f6e3e4902ce5a7b354e393f",
+      "reference_images": [
+        "../../../assets/brand/cover.webp",
+        "../../../assets/chars/c6.webp"
+      ],
+      "prompt": "Use case: illustration-story. Create one finished horizontal cover illustration for a Korean children's AI experiment card, landscape aspect ratio 8:5, about 1200x750. Match the provided book-cover visual style: warm polished storybook illustration, delicate paper/grain texture, soft rounded forms, ivory background, sky-blue, mint and sunny-yellow palette. The character reference defines the SAME recurring teacher: preserve face, brown hair and outfit identity, dot eyes and rosy cheeks. Use only this teacher, no additional people or faces. Clear inviting educational scene, generous breathing room, uncluttered composition, all important subjects comfortably inside the edges. No title, no words, no letters, no captions, no watermark. Any charts have only shapes, no labels. The green sweater-vest teacher c6, curly short brown hair, cream shirt, beige trousers, little camera around neck, uses a large pencil to draw a single straight diagonal separator line on a broad ivory easel board. Two very distinct clusters of solid colored dots lie on opposite sides: sky-blue dots in the upper left, sunny-yellow dots in the lower right. The mint separator passes cleanly through the wide empty gap and touches no dots. Educational and clear, no axes, text, numbers or labels. Reference image 1 is STYLE ONLY; reference image 2 defines teacher c6 identity. Produce neuron.png."
+    }
+  ]
+}

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우리 반 그래프 실험실 — 에듀다움</title>
+<link rel="icon" href="../../assets/icons/game.svg">
+<link rel="stylesheet" href="../assets/lab.css">
+<style>
+  .q{font-family:'Jua',sans-serif;font-size:20px;line-height:1.3}
+  .tbl{display:grid;gap:6px;margin-top:8px}
+  .tr{display:grid;grid-template-columns:40px 1fr auto;gap:8px;align-items:center}
+  .ico{width:40px;height:40px;border:2px solid var(--line-strong);border-radius:10px;background:#fff;padding:3px;cursor:pointer}
+  .ico img{width:100%;height:100%;display:block}
+  .step{display:flex;align-items:center;gap:4px}
+  .step button{width:40px;height:40px;border-radius:50%;border:2px solid var(--ink);background:#fff;font:inherit;font-size:20px;font-weight:700;cursor:pointer}
+  .step output{min-width:30px;text-align:center;font-family:'Jua',sans-serif;font-size:20px}
+  .charts{display:grid;gap:10px;grid-template-columns:1fr;margin-top:10px}
+  @media (min-width:720px){.charts{grid-template-columns:repeat(3,1fr)}}
+  .chart{border:2px solid var(--line);border-radius:var(--r-sm);padding:8px;background:#fff}
+  .chart.mine{border-color:var(--sun);box-shadow:0 0 0 3px var(--sun-l)}
+  .chart h3{font-family:'Jua',sans-serif;font-weight:400;font-size:16px;margin-bottom:4px}
+  .chart svg{width:100%;height:auto;display:block}
+  .bar{fill:var(--sky);transition:height .5s ease,y .5s ease}
+  .bar.odd{fill:var(--pink)}
+  .ghost{fill:none;stroke:var(--muted);stroke-dasharray:4 3;stroke-width:1.5}
+  .lbl{font-size:11px;fill:var(--ink)}
+  .val{font-size:12px;fill:var(--ink);font-weight:700}
+  .key{font-size:12px;color:var(--muted);margin-top:4px}
+  .pic-row{display:flex;align-items:center;gap:4px;margin:3px 0;min-height:26px}
+  .pic-row b{width:56px;flex:0 0 56px;font-size:12px;font-weight:400;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .pic-row span{display:flex;flex-wrap:wrap;gap:1px}
+  .pic-row img{width:20px;height:20px}
+  .pic-row img.half{clip-path:inset(0 50% 0 0)}
+  .pic-row.odd b{color:#c8442f}
+</style>
+<link rel="stylesheet" href="../../assets/play/fun.css">
+</head>
+<body>
+<main class="wrap">
+  <div class="nav"><a class="back" href="../">← 실험실</a><span class="tag">B23~B26 데이터</span></div>
+  <h1>우리 반 그래프 실험실</h1>
+  <p class="lead">우리 반에서 모은 수를 넣고, 질문에 가장 빨리 답하는 그래프를 찾아요.</p>
+
+  <section id="s1">
+    <h2>1. 우리 반 데이터 넣기</h2>
+    <p class="hint">항목 이름을 쓰고 수를 정해요. 두 줄 이상 채우면 다음으로 가요. 그림을 누르면 그림이 바뀌어요.</p>
+    <div class="tbl" id="tbl"></div>
+  </section>
+
+  <section id="s2" class="off">
+    <h2>2. 질문 카드와 예상</h2>
+    <div class="card"><div class="q" id="q"></div></div>
+    <p class="hint" style="margin-top:8px">이 질문에 가장 빨리 답해 줄 그래프는 무엇일까요? 먼저 걸어요.</p>
+    <div class="row" id="picks" style="margin-top:6px">
+      <button class="btn pick" data-k="bar">막대그래프</button>
+      <button class="btn pick" data-k="pic">그림그래프</button>
+      <button class="btn pick" data-k="pie">원그래프</button>
+    </div>
+  </section>
+
+  <section id="s3" class="off">
+    <h2>3. 세 그래프 견주기</h2>
+    <div class="charts" id="charts"></div>
+    <div class="row" style="margin-top:10px">
+      <button class="btn" id="typo">한 칸 잘못 넣어 보기</button>
+      <button class="btn" id="drop">한 줄 빼 보기</button>
+      <button class="btn main" id="next">새 질문 카드</button>
+    </div>
+    <p class="hint" id="cmp" style="margin-top:6px"></p>
+  </section>
+  <p class="note">수는 우리 반에서 직접 모은 것만 넣어요. 이 쪽은 넣은 수를 어디에도 보내지 않고, 쪽을 닫으면 지워져요.</p>
+</main>
+<script>
+(function () {
+  'use strict';
+  var ICONS = ['apple','banana','grape','strawberry','ball','book','cat','dog','sun','cloud','rain','snow','pencil','bike','heart','star'];
+  var COLORS = ['#5aa9e6','#4cbf9a','#ffc845','#9b8cf2','#ff8fa3'];
+  var N = 5, MAX = 30;
+  var rows = [];
+  for (var i = 0; i < N; i++) rows.push({ name: '', v: 0, ic: i * 3 % ICONS.length });
+  // 질문 카드: 어느 그래프가 무엇을 잘 보여 주는지(상황을 짚는 말만, 판정 말 없음)
+  var QS = [
+    { t: '가장 많은 것은 무엇일까?', say: '막대는 가장 긴 막대를, 원은 가장 큰 조각을 봐요. 어느 쪽이 눈에 먼저 들어왔나요?' },
+    { t: '전체의 절반을 넘는 것이 있을까?', say: '원그래프에는 반으로 가르는 선이 있어요. 막대와 그림에서는 절반을 어떻게 찾았나요?' },
+    { t: '가장 많은 것과 가장 적은 것은 몇 차이일까?', say: '막대 끝의 수나 그림 개수를 세면 차이가 나와요. 원그래프 조각만 보고도 셀 수 있었나요?' },
+    { t: '둘째로 많은 것은 무엇일까?', say: '크기가 비슷한 두 항목은 그래프마다 가려 보이기 쉬운 정도가 달라요. 어디서 헷갈렸나요?' },
+    { t: '우리 반 전체는 모두 몇 명(개)일까?', say: '원그래프는 전체를 한 덩이로 보여 주지만 수는 숨겨요. 그림그래프는 그림을 모두 세면 돼요.' }
+  ];
+  var qi = -1, pick = null, mod = null, stamped = false;
+  var $ = function (s) { return document.querySelector(s); };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function RUL(n) { return [2, 4, 5, 9].indexOf(n % 10) >= 0 ? '를' : '을'; }   // 이·사·오·구는 를, 나머지(일·삼·육·칠·팔·십)는 을
+  function filled(src) { return (src || rows).filter(function (r) { return r.name.trim() && r.v > 0; }); }
+
+  // 1. 표
+  function drawTable() {
+    var t = $('#tbl'); t.innerHTML = '';
+    rows.forEach(function (r, i) {
+      var d = document.createElement('div'); d.className = 'tr';
+      d.innerHTML = '<button class="ico" aria-label="' + (i + 1) + '번째 줄 그림 바꾸기"><img alt="" src="../assets/icons/' + ICONS[r.ic] + '.svg"></button>' +
+        '<input type="text" maxlength="8" placeholder="항목 ' + (i + 1) + '" aria-label="' + (i + 1) + '번째 항목 이름" value="' + esc(r.name) + '">' +
+        '<div class="step"><button aria-label="하나 빼기">−</button><output>' + r.v + '</output><button aria-label="하나 더하기">+</button></div>';
+      var b = d.querySelectorAll('button');
+      b[0].onclick = function () { r.ic = (r.ic + 1) % ICONS.length; b[0].firstChild.src = '../assets/icons/' + ICONS[r.ic] + '.svg'; changed(); };
+      d.querySelector('input').oninput = function (e) { r.name = e.target.value; changed(); };
+      b[1].onclick = function () { r.v = Math.max(0, r.v - 1); d.querySelector('output').textContent = r.v; changed(); };
+      b[2].onclick = function () { r.v = Math.min(MAX, r.v + 1); d.querySelector('output').textContent = r.v; changed(); };
+      t.appendChild(d);
+    });
+  }
+  function changed() {
+    var ok = filled().length >= 2;
+    $('#s2').classList.toggle('off', !ok);
+    if (ok && qi < 0) newQ();
+    if (!ok) { $('#s3').classList.add('off'); pick = null; }
+    if (pick) { mod = null; drawCharts(); }
+  }
+  function newQ() {
+    var n; do { n = Math.floor(Math.random() * QS.length); } while (n === qi && QS.length > 1);
+    qi = n; pick = null; mod = null;
+    $('#q').textContent = QS[qi].t;
+    document.querySelectorAll('#picks .btn').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); b.disabled = false; });
+    $('#s3').classList.add('off'); $('#charts').innerHTML = ''; $('#cmp').textContent = '';
+    if (window.Fun) Fun.say('새 질문이에요. 그래프를 보기 전에 하나를 걸어요.');
+  }
+  document.querySelectorAll('#picks .btn').forEach(function (b) {
+    b.onclick = function () {
+      if (pick) return;
+      pick = b.dataset.k;
+      document.querySelectorAll('#picks .btn').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); x.disabled = x !== b; });
+      $('#s3').classList.remove('off'); drawCharts();
+      if (window.Fun) { Fun.say(QS[qi].say, 'think'); Fun.burst($('#charts')); }
+      $('#typo').disabled = false; $('#drop').disabled = false;
+    };
+  });
+
+  // 2. 그래프 셋
+  function data() {
+    var base = filled().map(function (r, i) { return { name: r.name.trim(), v: r.v, ic: r.ic, c: COLORS[rows.indexOf(r) % COLORS.length], odd: false }; });
+    if (!mod) return { base: base, now: base };
+    var now = base.map(function (d) { return Object.assign({}, d); });
+    if (mod.k === 'typo' && now[mod.i]) { now[mod.i].v = mod.v; now[mod.i].odd = true; }
+    if (mod.k === 'drop') now.splice(mod.i, 1);
+    return { base: base, now: now };
+  }
+  function bar(D) {
+    var w = 300, h = 190, top = Math.max.apply(null, D.now.concat(D.base).map(function (d) { return d.v; })) || 1;
+    var n = D.base.length, bw = (w - 20) / n;
+    var s = '<svg viewBox="0 0 ' + w + ' ' + h + '" role="img" aria-label="막대그래프">';
+    s += '<line x1="10" y1="160" x2="' + (w - 10) + '" y2="160" stroke="#33302b" stroke-width="2"/>';
+    D.base.forEach(function (b, i) {
+      var cur = D.now.filter(function (d) { return d.name === b.name; })[0];
+      var x = 10 + i * bw + bw * .18, bwid = bw * .64;
+      var gh = 140 * b.v / top;
+      if (mod) s += '<rect class="ghost" x="' + x + '" y="' + (160 - gh) + '" width="' + bwid + '" height="' + gh + '"/>';
+      if (cur) { var hh = 140 * cur.v / top; s += '<rect class="bar' + (cur.odd ? ' odd' : '') + '" x="' + x + '" y="' + (160 - hh) + '" width="' + bwid + '" height="' + hh + '" rx="4"/>' +
+        '<text class="val" text-anchor="middle" x="' + (x + bwid / 2) + '" y="' + (155 - hh) + '">' + cur.v + '</text>'; }
+      s += '<text class="lbl" text-anchor="middle" x="' + (x + bwid / 2) + '" y="176">' + esc(b.name.slice(0, 5)) + '</text>';
+    });
+    return s + '</svg>';
+  }
+  function pic(D) {
+    var top = Math.max.apply(null, D.now.map(function (d) { return d.v; })) || 1;
+    var unit = top > 20 ? 5 : top > 10 ? 2 : 1;
+    var s = '';
+    D.now.forEach(function (d) {
+      var full = Math.floor(d.v / unit), half = d.v % unit >= unit / 2 && unit > 1, src = '../assets/icons/' + ICONS[d.ic] + '.svg';
+      var im = ''; for (var k = 0; k < full; k++) im += '<img alt="" src="' + src + '">';
+      if (half) im += '<img alt="" class="half" src="' + src + '">';
+      s += '<div class="pic-row' + (d.odd ? ' odd' : '') + '"><b>' + esc(d.name) + '</b><span>' + im + '</span></div>';
+    });
+    return s + '<p class="key">그림 하나 = ' + unit + (unit > 1 ? '. 반쪽 그림은 ' + unit + '의 반쯤 남았다는 뜻이고, 그보다 적게 남은 수는 그림에 나타나지 않아요.' : '') + '</p>';
+  }
+  function pie(D) {
+    var tot = D.now.reduce(function (a, d) { return a + d.v; }, 0) || 1, a0 = -Math.PI / 2, cx = 100, cy = 95, r = 80;
+    var s = '<svg viewBox="0 0 300 190" role="img" aria-label="원그래프">';
+    D.now.forEach(function (d) {
+      var a1 = a0 + 2 * Math.PI * d.v / tot, big = a1 - a0 > Math.PI ? 1 : 0;
+      var p = D.now.length === 1 ? '<circle cx="' + cx + '" cy="' + cy + '" r="' + r + '"' :
+        '<path d="M' + cx + ' ' + cy + ' L' + (cx + r * Math.cos(a0)) + ' ' + (cy + r * Math.sin(a0)) + ' A' + r + ' ' + r + ' 0 ' + big + ' 1 ' + (cx + r * Math.cos(a1)) + ' ' + (cy + r * Math.sin(a1)) + ' Z"';
+      s += p + ' fill="' + (d.odd ? '#ff8fa3' : d.c) + '" stroke="#fff" stroke-width="2"/>';
+      a0 = a1;
+    });
+    s += '<line x1="' + cx + '" y1="' + (cy - r - 6) + '" x2="' + cx + '" y2="' + (cy + r + 6) + '" stroke="#33302b" stroke-width="1.5" stroke-dasharray="5 4"/>';
+    D.now.forEach(function (d, i) {
+      s += '<rect x="196" y="' + (20 + i * 28) + '" width="14" height="14" rx="3" fill="' + (d.odd ? '#ff8fa3' : d.c) + '"/><text class="lbl" x="216" y="' + (32 + i * 28) + '">' + esc(d.name.slice(0, 6)) + '</text>';
+    });
+    return s + '</svg><p class="key">점선은 원을 반으로 가르는 선이에요. 조각에는 수를 적지 않았어요.</p>';
+  }
+  function drawCharts() {
+    var D = data(), c = $('#charts');
+    var ks = [['bar', '막대그래프', bar], ['pic', '그림그래프', pic], ['pie', '원그래프', pie]];
+    c.innerHTML = ks.map(function (k) { return '<div class="chart' + (k[0] === pick ? ' mine' : '') + '"><h3>' + k[1] + (k[0] === pick ? ' · 내가 건 것' : '') + '</h3>' + k[2](D) + '</div>'; }).join('');
+  }
+
+  // 3. 잘못 넣기·빼기 — 데이터 하나가 그래프를 얼마나 바꾸는지
+  $('#typo').onclick = function () {
+    var f = filled(); var i = Math.floor(Math.random() * f.length), v = f[i].v;
+    var nv = v < 10 ? v * 10 : (v % 11 ? +String(v).split('').reverse().join('') : v + 10);   // 0을 하나 더 누르거나 두 자리를 바꿔 쓴 실수
+    if (nv === v) nv = v + 10;
+    mod = { k: 'typo', i: i, v: nv }; drawCharts();
+    $('#cmp').textContent = '‘' + f[i].name.trim() + '’ 칸에 ' + v + ' 대신 ' + nv + RUL(nv) + ' 넣었다고 해 봐요. 점선이 원래 막대예요. 질문 카드의 답이 바뀌었나요?';
+    if (window.Fun) { Fun.shake($('#charts')); Fun.say('수 하나를 잘못 넣었어요. 어느 그래프에서 가장 크게 달라 보이나요?', 'think'); }
+    finish();
+  };
+  $('#drop').onclick = function () {
+    var f = filled(); if (f.length < 3) { $('#cmp').textContent = '세 줄 이상 채워야 한 줄을 빼 볼 수 있어요.'; return; }
+    var i = Math.floor(Math.random() * f.length);
+    mod = { k: 'drop', i: i }; drawCharts();
+    $('#cmp').textContent = '‘' + f[i].name.trim() + '’ 줄을 빼먹었다고 해 봐요. 원그래프 조각들은 어떻게 바뀌었나요? 다른 항목의 수는 그대로인데도요.';
+    if (window.Fun) { Fun.shake($('#charts')); Fun.say('데이터 한 줄이 빠지면 원그래프는 남은 것끼리 원을 다시 나눠요.', 'think'); }
+    finish();
+  };
+  $('#next').onclick = function () { newQ(); window.scrollTo({ top: $('#s2').offsetTop - 10, behavior: 'smooth' }); };
+  function finish() { if (!stamped && window.Fun) { stamped = true; Fun.stamp(); } }
+  drawTable();
+})();
+</script>
+<script src="../../assets/play/fun.js" data-block="L23" data-mission="우리 반 수를 넣고, 질문 카드에 가장 빨리 답할 그래프를 먼저 걸어 봐요."></script>
+</body>
+</html>

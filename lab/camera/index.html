@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>나만의 이미지 모델 — 에듀다움</title>
+<link rel="icon" href="../../assets/icons/game.svg">
+<link rel="stylesheet" href="../assets/lab.css">
+<style>
+  .src{display:flex;gap:8px;margin-top:6px}
+  .stage{position:relative;margin-top:8px;width:100%;max-width:320px;aspect-ratio:1;border:2px solid var(--ink);border-radius:12px;overflow:hidden;background:#fff}
+  .stage video,.stage canvas{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+  .stage video{transform:scaleX(-1)}
+  .stage canvas{touch-action:none;cursor:crosshair}
+  .stage .msg{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:16px;color:var(--muted);font-size:14px;background:var(--soft)}
+  .cls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+  .cl{border:2px solid var(--line-strong);border-radius:12px;padding:8px;background:#fff}
+  .cl input{width:100%}
+  .cl .btn{width:100%;margin-top:6px}
+  .thumbs{display:flex;flex-wrap:wrap;gap:2px;margin-top:6px;min-height:30px}
+  .thumbs img{width:28px;height:28px;border-radius:4px;border:1px solid var(--line)}
+  .meter{margin-top:8px}
+  .meter .m{display:grid;grid-template-columns:84px 1fr 44px;gap:6px;align-items:center;margin:4px 0;font-size:14px}
+  .meter .m i{display:block;height:18px;border-radius:9px;background:var(--line);overflow:hidden}
+  .meter .m i b{display:block;height:100%;width:0;border-radius:9px;transition:width .25s}
+  .tasks .btn{font-size:14.5px}
+  .layout{display:grid;gap:12px}
+  @media (min-width:700px){.layout{grid-template-columns:320px 1fr}}
+</style>
+<link rel="stylesheet" href="../../assets/play/fun.css">
+</head>
+<body>
+<main class="wrap">
+  <div class="nav"><a class="back" href="../">← 실험실</a><span class="tag">B24~B26 학습</span></div>
+  <h1>나만의 이미지 모델</h1>
+  <p class="lead">두 무리의 예시를 보여 주면, 기계가 새 그림이 어느 무리와 닮았는지 막대로 보여 줘요.</p>
+
+  <section>
+    <h2>1. 무엇으로 보여 줄까</h2>
+    <div class="src" id="src">
+      <button class="btn" data-s="draw" aria-pressed="true">그림판</button>
+      <button class="btn" data-s="cam" aria-pressed="false">카메라</button>
+    </div>
+    <p class="hint" style="margin-top:6px">카메라 화면과 그림은 이 기기 안에서만 쓰고, 어디에도 보내거나 저장하지 않아요.</p>
+  </section>
+
+  <section>
+    <h2>2. 가르치기와 시험</h2>
+    <div class="layout">
+      <div>
+        <div class="stage" id="stage"><canvas id="pad" width="224" height="224" aria-label="그림판"></canvas><div class="msg" id="msg">모델을 불러오는 중이에요…</div></div>
+        <div class="row" style="margin-top:6px"><button class="btn" id="clear">그림 지우기</button></div>
+      </div>
+      <div>
+        <div class="cls" id="cls"></div>
+        <div class="meter" id="meter"></div>
+        <p class="hint" id="state"></p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>3. 실험 카드 — 먼저 걸고 해 보기</h2>
+    <div class="card" id="task"></div>
+    <div class="row tasks" id="bets" style="margin-top:8px"></div>
+    <div class="row" style="margin-top:8px"><button class="btn" id="done" disabled>해 봤어요</button><button class="btn main" id="nexttask">다른 실험 카드</button></div>
+  </section>
+  <p class="note">MobileNet(Apache 2.0)이 그림의 특징을 뽑고, 가장 가까운 이웃(KNN)이 무리를 고릅니다. 모델 파일은 이 누리집 안에 있어요.</p>
+</main>
+<script src="../vendor/tf.min.js"></script>
+<script src="../vendor/mobilenet.min.js"></script>
+<script src="../vendor/knn-classifier.min.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (s) { return document.querySelector(s); };
+  var pad = $('#pad'), ctx = pad.getContext('2d'), video = null, stream = null, src = 'draw', net = null, knn = null;
+  var C = [{ n: '동그라미', c: '#5aa9e6', ex: [] }, { n: '세모', c: '#ff8fa3', ex: [] }];
+  var TASKS = [
+    { t: '한 무리에만 예시를 많이(8장), 다른 무리는 2장만 넣고 애매한 그림을 시험해 봐요. 막대는 어느 쪽으로 기울까요?', b: ['많이 넣은 쪽', '적게 넣은 쪽', '반반'] },
+    { t: '두 무리 모두 같은 크기로만 그려 가르친 뒤, 아주 작게 그려 시험해 봐요. 막대는 어떻게 될까요?', b: ['그대로 잘 가린다', '흔들린다'] },
+    { t: '동그라미 예시 가운데 한 장을 일부러 세모처럼 그려 넣어 봐요. 동그라미를 시험하면 막대는?', b: ['달라지지 않는다', '조금 흔들린다', '크게 바뀐다'] },
+    { t: '두 무리에 없는 전혀 다른 그림(별, 집)을 시험해 봐요. 기계는 뭐라고 할까요?', b: ['모르겠다고 한다', '둘 중 하나를 고른다'] }
+  ];
+  var ti = -1, bet = null, stamped = false, busy = false;
+
+  function blank() { ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, 224, 224); }
+  blank();
+  // 그림판
+  var drawing = false, last = null;
+  function pos(e) { var r = pad.getBoundingClientRect(); return { x: (e.clientX - r.left) * 224 / r.width, y: (e.clientY - r.top) * 224 / r.height }; }
+  pad.addEventListener('pointerdown', function (e) { if (src !== 'draw') return; drawing = true; last = pos(e); pad.setPointerCapture(e.pointerId); });
+  pad.addEventListener('pointermove', function (e) {
+    if (!drawing) return; var p = pos(e);
+    ctx.strokeStyle = '#33302b'; ctx.lineWidth = 9; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(last.x, last.y); ctx.lineTo(p.x, p.y); ctx.stroke(); last = p;
+  });
+  pad.addEventListener('pointerup', function () { if (drawing) { drawing = false; predictSoon(); } });
+  $('#clear').onclick = function () { blank(); predictSoon(); };
+
+  function frame() {   // 지금 보이는 것을 224×224 캔버스로
+    if (src === 'cam' && video && video.readyState >= 2) {
+      var s = Math.min(video.videoWidth, video.videoHeight);
+      ctx.save(); ctx.translate(224, 0); ctx.scale(-1, 1);
+      ctx.drawImage(video, (video.videoWidth - s) / 2, (video.videoHeight - s) / 2, s, s, 0, 0, 224, 224); ctx.restore();
+    }
+    return pad;
+  }
+  function drawClasses() {
+    $('#cls').innerHTML = C.map(function (c, i) {
+      return '<div class="cl" style="border-color:' + c.c + '"><input type="text" maxlength="8" value="' + c.n + '" aria-label="' + (i + 1) + '번 무리 이름">' +
+        '<button class="btn" data-i="' + i + '">넣기 (' + c.ex.length + '장)</button><div class="thumbs">' + c.ex.map(function (u) { return '<img alt="" src="' + u + '">'; }).join('') + '</div></div>';
+    }).join('') + '<button class="btn" id="wipe" style="grid-column:1/-1">예시 모두 비우기</button>';
+    $('#cls').querySelectorAll('input').forEach(function (inp, i) { inp.oninput = function () { C[i].n = inp.value || (i + 1) + '번'; meter(null); }; });
+    $('#cls').querySelectorAll('[data-i]').forEach(function (b) { b.onclick = function () { add(+b.dataset.i); }; });
+    $('#wipe').onclick = function () { C.forEach(function (c) { c.ex = []; }); if (knn) knn.clearAllClasses(); drawClasses(); meter(null); };
+  }
+  function add(i) {
+    if (!net || busy) return;
+    if (C[i].ex.length >= 12) { if (window.Fun) Fun.say('한 무리에 12장까지 넣을 수 있어요.', 'think'); return; }
+    var f = frame();
+    var act = tf.tidy(function () { return net.infer(f, true); });
+    knn.addExample(act, i); act.dispose();
+    C[i].ex.push(f.toDataURL('image/jpeg', .5));
+    if (src === 'draw') blank();
+    drawClasses(); predictSoon();
+  }
+  function meter(p) {
+    var conf = p ? p.confidences : {};
+    $('#meter').innerHTML = C.map(function (c, i) {
+      var v = Math.round(((conf[i] != null ? conf[i] : 0)) * 100);
+      return '<div class="m"><span>' + c.n + '</span><i><b style="width:' + v + '%;background:' + c.c + '"></b></i><span>' + (p ? v + '%' : '') + '</span></div>';
+    }).join('');
+    var n0 = C[0].ex.length, n1 = C[1].ex.length;
+    $('#state').textContent = !net ? '' : (n0 && n1) ? (src === 'draw' ? '그림을 그리면 막대가 움직여요. 막대는 가장 닮은 예시 3장의 표예요.' : '카메라 앞에 보여 주면 막대가 움직여요.') : '두 무리에 예시를 한 장 이상씩 넣어요.';
+  }
+  var t = null;
+  function predictSoon() { clearTimeout(t); t = setTimeout(predict, 60); }
+  async function predict() {
+    if (!net || !knn || !C[0].ex.length || !C[1].ex.length) { meter(null); return; }
+    var f = frame();
+    var act = tf.tidy(function () { return net.infer(f, true); });
+    var p = await knn.predictClass(act, 3); act.dispose();
+    meter(p);
+  }
+  function loop() { if (src === 'cam') { predict(); setTimeout(function () { requestAnimationFrame(loop); }, 250); } }
+
+  $('#src').querySelectorAll('.btn').forEach(function (b) {
+    b.onclick = async function () {
+      var s = b.dataset.s; if (s === src) return;
+      $('#src').querySelectorAll('.btn').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      if (s === 'cam') {
+        try {
+          stream = await navigator.mediaDevices.getUserMedia({ video: { width: 320, height: 320 }, audio: false });
+          video = document.createElement('video'); video.muted = true; video.playsInline = true; video.srcObject = stream; await video.play();
+          $('#stage').insertBefore(video, pad); pad.style.opacity = 0; src = 'cam'; loop();
+          if (window.Fun) Fun.say('카메라 화면이에요. 손 모양이나 물건을 보여 주고 무리에 넣어요.');
+        } catch (e) {
+          $('#src').querySelectorAll('.btn').forEach(function (x) { x.setAttribute('aria-pressed', String(x.dataset.s === 'draw')); });
+          if (window.Fun) Fun.say('카메라를 쓸 수 없어요. 그림판으로 해요. 학교 기기라면 선생님께 카메라 허용을 여쭤봐요.', 'think');
+        }
+      } else {
+        if (stream) stream.getTracks().forEach(function (tr) { tr.stop(); });
+        if (video) video.remove(); video = null; stream = null; pad.style.opacity = 1; src = 'draw'; blank(); predictSoon();
+      }
+      C.forEach(function (c) { c.ex = []; }); if (knn) knn.clearAllClasses(); drawClasses(); meter(null);
+    };
+  });
+
+  function newTask() {
+    var n; do { n = Math.floor(Math.random() * TASKS.length); } while (n === ti); ti = n; bet = null;
+    $('#task').textContent = TASKS[ti].t;
+    $('#bets').innerHTML = TASKS[ti].b.map(function (x, i) { return '<button class="btn pick" data-b="' + i + '">' + x + '</button>'; }).join('');
+    $('#done').disabled = true;
+    $('#bets').querySelectorAll('.btn').forEach(function (b) {
+      b.onclick = function () {
+        if (bet !== null) return; bet = +b.dataset.b;
+        $('#bets').querySelectorAll('.btn').forEach(function (x) { x.disabled = x !== b; x.setAttribute('aria-pressed', String(x === b)); });
+        $('#done').disabled = false;
+        if (window.Fun) Fun.say('걸었어요. 이제 카드대로 해 보고 막대를 지켜봐요.');
+      };
+    });
+  }
+  $('#done').onclick = function () {
+    $('#done').disabled = true;
+    if (window.Fun) {
+      Fun.say('막대가 건 대로 움직였나요? 기계는 예시와 얼마나 닮았는지만 봐요. 예시에 없는 것도 둘 중 하나로 고르는 까닭이에요.', 'cheer');
+      Fun.burst($('#meter')); if (!stamped) { stamped = true; Fun.stamp(); }
+    }
+  };
+  $('#nexttask').onclick = newTask;
+
+  drawClasses(); meter(null); newTask();
+  (async function () {
+    try {
+      net = await mobilenet.load({ version: 2, alpha: 0.5, modelUrl: '../vendor/mobilenet/model.json' });
+      knn = knnClassifier.create();
+      $('#msg').remove(); meter(null);
+      if (window.Fun) Fun.say('준비됐어요. 동그라미를 그려 "넣기"를 눌러 봐요.');
+    } catch (e) { $('#msg').textContent = '모델을 불러오지 못했어요. 쪽을 새로 열어 봐요.'; }
+  })();
+})();
+</script>
+<script src="../../assets/play/fun.js" data-block="L25" data-mission="두 무리를 그려 가르치고, 실험 카드대로 해 보기 전에 막대가 어떻게 기울지 먼저 걸어요."></script>
+</body>
+</html>

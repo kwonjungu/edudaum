@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>규칙 블록 분류기 — 에듀다움</title>
+<link rel="icon" href="../../assets/icons/game.svg">
+<link rel="stylesheet" href="../assets/lab.css">
+<style>
+  #ws{height:400px;border:2px solid var(--line-strong);border-radius:var(--r-sm);overflow:hidden;touch-action:none}
+  .bins{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}
+  .bin{border:2px solid var(--ink);border-radius:12px;background:var(--soft);min-height:118px;padding:4px;display:flex;flex-direction:column;align-items:center}
+  .bin h3{font-family:'Jua',sans-serif;font-weight:400;font-size:15px}
+  .bin.none{border-style:dashed;background:#fff}
+  .bin .in{display:flex;flex-wrap:wrap;gap:3px;justify-content:center}
+  .deck{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .an{width:66px;border:2px solid var(--line-strong);border-radius:10px;background:#fff;text-align:center;font-size:12px;padding:2px;position:relative}
+  .an img{width:100%;aspect-ratio:1;object-fit:contain;display:block;background:var(--paper);border-radius:6px}
+  .an.mini{width:44px;font-size:10px}
+  .an.off{border-color:#c8442f;box-shadow:0 0 0 2px #ffd9d2}
+  .an.off::after{content:'?';position:absolute;right:-6px;top:-8px;width:18px;height:18px;border-radius:50%;background:#c8442f;color:#fff;font-size:12px;line-height:18px}
+  .an.drop{animation:drop .5s ease both}
+  @keyframes drop{from{transform:translateY(-30px);opacity:0}to{transform:none;opacity:1}}
+  .tip{font-size:13px;color:var(--muted)}
+  #why{margin-top:8px}
+  #why li{margin-left:18px;font-size:14.5px}
+  details{margin-top:8px} summary{cursor:pointer;font-weight:700}
+  table.att{border-collapse:collapse;font-size:12.5px;margin-top:6px;width:100%}
+  table.att td,table.att th{border:1px solid var(--line);padding:2px 4px;text-align:center}
+</style>
+<link rel="stylesheet" href="../../assets/play/fun.css">
+</head>
+<body>
+<main class="wrap">
+  <div class="nav"><a class="back" href="../">← 실험실</a><span class="tag">B20~B22 규칙</span></div>
+  <h1>규칙 블록 분류기</h1>
+  <p class="lead">블록으로 규칙을 끼워, 동물 카드를 새·물고기·포유류 바구니로 보내요.</p>
+
+  <section>
+    <h2>1. 이번 카드 묶음</h2>
+    <p class="hint">카드 8장이 위에서부터 규칙을 하나씩 거쳐요. 처음 맞는 규칙의 바구니로 가요.</p>
+    <div class="deck" id="deck"></div>
+    <details><summary>카드의 특징 보기</summary><div id="att"></div></details>
+  </section>
+
+  <section>
+    <h2>2. 규칙 끼우기 <span class="tip">(블록은 4개까지)</span></h2>
+    <p class="hint">위쪽 서랍에서 블록을 꺼내 아래로 이어 붙여요. 위에 있는 규칙이 먼저 따져져요.</p>
+    <div id="ws" aria-label="블록 작업판"></div>
+  </section>
+
+  <section>
+    <h2>3. 흘려보내기 전에 걸기</h2>
+    <p class="hint">이 규칙으로 흘려보내면, 제 무리가 아닌 바구니에 떨어질 카드는 몇 장일까요?</p>
+    <div class="row" id="bets" style="margin-top:6px">
+      <button class="btn pick" data-b="0">하나도 없다</button>
+      <button class="btn pick" data-b="1">1~2장</button>
+      <button class="btn pick" data-b="3">3장 넘게</button>
+    </div>
+    <div class="bins" id="bins"></div>
+    <ul id="why"></ul>
+    <div class="row" style="margin-top:10px">
+      <button class="btn" id="again">규칙 고쳐 다시 흘리기</button>
+      <button class="btn main" id="newdeck">새 카드 묶음</button>
+    </div>
+  </section>
+  <p class="note">블록은 Blockly(Apache 2.0)로 만들었어요. 엔트리 블록과 생김새는 달라도 "만약 ~라면" 생각은 같아요.</p>
+</main>
+<script src="../vendor/blockly/blockly_compressed.js"></script>
+<script src="../vendor/blockly/ko.js"></script>
+<script>
+(function () {
+  'use strict';
+  // 동물 특징(사실 확인: 박쥐는 날개가 있는 포유류, 펭귄·타조는 날지 못하는 새, 고래는 젖을 먹이고 아가미가 없다, 개구리는 양서류라 세 바구니 어디에도 들지 않는다)
+  var A = {
+    sparrow:  { n: '참새',   g: 'bird', f: { feather: 1, wing: 1, fly: 1, gill: 0, legs: 2, milk: 0 } },
+    penguin:  { n: '펭귄',   g: 'bird', f: { feather: 1, wing: 1, fly: 0, gill: 0, legs: 2, milk: 0 } },
+    ostrich:  { n: '타조',   g: 'bird', f: { feather: 1, wing: 1, fly: 0, gill: 0, legs: 2, milk: 0 } },
+    duck:     { n: '오리',   g: 'bird', f: { feather: 1, wing: 1, fly: 1, gill: 0, legs: 2, milk: 0 } },
+    bat:      { n: '박쥐',   g: 'mam',  f: { feather: 0, wing: 1, fly: 1, gill: 0, legs: 2, milk: 1 } },
+    whale:    { n: '고래',   g: 'mam',  f: { feather: 0, wing: 0, fly: 0, gill: 0, legs: 0, milk: 1 } },
+    dog:      { n: '강아지', g: 'mam',  f: { feather: 0, wing: 0, fly: 0, gill: 0, legs: 4, milk: 1 } },
+    mackerel: { n: '고등어', g: 'fish', f: { feather: 0, wing: 0, fly: 0, gill: 1, legs: 0, milk: 0 } },
+    shark:    { n: '상어',   g: 'fish', f: { feather: 0, wing: 0, fly: 0, gill: 1, legs: 0, milk: 0 } },
+    frog:     { n: '개구리', g: 'none', f: { feather: 0, wing: 0, fly: 0, gill: 0, legs: 4, milk: 0 } }
+  };
+  var COND = [['깃털이 있다', 'feather'], ['날개가 있다', 'wing'], ['날 수 있다', 'fly'], ['아가미가 있다', 'gill'],
+    ['다리가 없다', 'legs0'], ['다리가 4개다', 'legs4'], ['새끼에게 젖을 먹인다', 'milk']];
+  var BIN = [['새', 'bird'], ['물고기', 'fish'], ['포유류', 'mam']];
+  var BN = { bird: '새', fish: '물고기', mam: '포유류', none: '어디에도 안 맞음' };
+  var CN = {}; COND.forEach(function (c) { CN[c[1]] = c[0]; });
+  function JO(w, a, b) { var c = w.charCodeAt(w.length - 1) - 0xac00; return w + (c >= 0 && c % 28 ? a : b); }   // 받침에 따라 은/는
+  function test(f, c) { return c === 'legs0' ? f.legs === 0 : c === 'legs4' ? f.legs === 4 : !!f[c]; }
+
+  Blockly.defineBlocksWithJsonArray([
+    { type: 'rule', message0: '만약 %1 이면 %2 바구니로', args0: [
+      { type: 'field_dropdown', name: 'C', options: COND }, { type: 'field_dropdown', name: 'B', options: BIN }],
+      previousStatement: 'r', nextStatement: 'r', colour: 200 },
+    { type: 'rest', message0: '나머지는 모두 %1 바구니로', args0: [{ type: 'field_dropdown', name: 'B', options: BIN }],
+      previousStatement: 'r', colour: 160 }
+  ]);
+  var ws = Blockly.inject('ws', {
+    toolbox: { kind: 'flyoutToolbox', contents: [{ kind: 'block', type: 'rule' }, { kind: 'block', type: 'rest' }] },
+    media: '../vendor/blockly/media/', sounds: false, horizontalLayout: true, toolboxPosition: 'start', maxBlocks: 4, trashcan: true, renderer: 'zelos',
+    zoom: { startScale: window.innerWidth < 500 ? .62 : .8 }, move: { scrollbars: true, drag: true, wheel: false }
+  });
+  // 처음 규칙: 날개만 보고 새로 보낸다(박쥐가 걸린다)
+  Blockly.serialization.workspaces.load({ blocks: { languageVersion: 0, blocks: [{
+    type: 'rule', x: 20, y: 20, fields: { C: 'wing', B: 'bird' },
+    next: { block: { type: 'rule', fields: { C: 'legs0', B: 'fish' }, next: { block: { type: 'rest', fields: { B: 'mam' } } } } } }] } }, ws);
+  setTimeout(function () { var b = ws.getTopBlocks(true)[0]; if (b) ws.scroll(0, 0), b.moveTo(new Blockly.utils.Coordinate(16, 16)); }, 0);
+
+  function rules() {
+    var top = ws.getTopBlocks(true).filter(function (b) { return b.type === 'rule' || b.type === 'rest'; });
+    var out = [], b = top[0];   // 맨 위 묶음 하나만 따른다(떨어진 블록은 쓰지 않는다)
+    while (b) { out.push(b.type === 'rest' ? { rest: 1, b: b.getFieldValue('B') } : { c: b.getFieldValue('C'), b: b.getFieldValue('B') }); b = b.getNextBlock(); }
+    return { list: out, loose: top.length > 1 };
+  }
+  function sort(key, R) {
+    var f = A[key].f;
+    for (var i = 0; i < R.length; i++) { if (R[i].rest || test(f, R[i].c)) return { bin: R[i].b, by: i }; }
+    return { bin: 'none', by: -1 };
+  }
+
+  var keys = Object.keys(A), deck = [], bet = null, stamped = false;
+  var $ = function (s) { return document.querySelector(s); };
+  function card(k, mini, off) { return '<div class="an' + (mini ? ' mini' : '') + (off ? ' off' : '') + (mini ? ' drop' : '') + '"><img alt="" src="../assets/animals/' + k + '.webp" onerror="this.onerror=null;this.src=\'../assets/animals/' + k + '.png\'">' + A[k].n + '</div>'; }
+  function newDeck() {
+    var s = keys.slice(); for (var i = s.length - 1; i > 0; i--) { var j = Math.floor(Math.random() * (i + 1)); var t = s[i]; s[i] = s[j]; s[j] = t; }
+    deck = s.slice(0, 8);
+    $('#deck').innerHTML = deck.map(function (k) { return card(k); }).join('');
+    var yes = function (v) { return v ? '○' : '·'; };
+    $('#att').innerHTML = '<table class="att"><tr><th></th><th>깃털</th><th>날개</th><th>날기</th><th>아가미</th><th>다리</th><th>젖</th></tr>' +
+      deck.map(function (k) { var f = A[k].f; return '<tr><td>' + A[k].n + '</td><td>' + yes(f.feather) + '</td><td>' + yes(f.wing) + '</td><td>' + yes(f.fly) + '</td><td>' + yes(f.gill) + '</td><td>' + f.legs + '</td><td>' + yes(f.milk) + '</td></tr>'; }).join('') + '</table>';
+    reset();
+    if (window.Fun) Fun.say('새 카드 묶음이에요. 앞 묶음에서 쓰던 규칙이 이 묶음에도 통할지 먼저 걸어 봐요.');
+  }
+  function reset() {
+    bet = null; $('#bins').innerHTML = ''; $('#why').innerHTML = '';
+    document.querySelectorAll('#bets .btn').forEach(function (b) { b.disabled = false; b.setAttribute('aria-pressed', 'false'); });
+  }
+  function run() {
+    var R = rules(); if (!R.list.length) { if (window.Fun) Fun.say('작업판에 규칙 블록이 없어요. 서랍에서 하나 꺼내 와요.', 'think'); return false; }
+    var got = { bird: [], fish: [], mam: [], none: [] }, off = 0, why = [];
+    deck.forEach(function (k) {
+      var r = sort(k, R.list), wrong = r.bin !== A[k].g;
+      got[r.bin].push(card(k, true, wrong));
+      if (wrong) { off++; why.push(JO(A[k].n, '은', '는') + ' ' + (A[k].g === 'none' ? '양서류라 세 바구니 어디에도 들지 않는데' : BN[A[k].g] + '인데') + ' ' + (r.by < 0 ? '어느 규칙에도 걸리지 않았어요' : (r.by + 1) + '번째 규칙(' + (R.list[r.by].rest ? '나머지' : CN[R.list[r.by].c]) + ')에서 ' + BN[r.bin] + ' 바구니로 갔어요') + '.'); }
+    });
+    $('#bins').innerHTML = ['bird', 'fish', 'mam', 'none'].map(function (b) { return '<div class="bin' + (b === 'none' ? ' none' : '') + '"><h3>' + (b === 'none' ? '못 감' : BN[b]) + '</h3><div class="in">' + got[b].join('') + '</div></div>'; }).join('');
+    $('#why').innerHTML = why.map(function (w) { return '<li>' + w + '</li>'; }).join('') +
+      (got.none.length && deck.indexOf('frog') >= 0 && sort('frog', R.list).bin === 'none' ? '<li>개구리는 양서류라 "못 감"에 남는 것이 제자리예요.</li>' : '') +
+      (R.loose ? '<li>떨어져 있는 블록은 따지지 않았어요. 맨 위 묶음에 이어 붙여요.</li>' : '');
+    var band = off === 0 ? '0' : off <= 2 ? '1' : '3';
+    if (window.Fun) {
+      if (band === bet) { Fun.say('건 대로 ' + (off ? off + '장이 엉뚱한 바구니로 갔어요. 어느 규칙에서 갈렸는지 찾아 고쳐 봐요.' : '모든 카드가 제 바구니로 갔어요. 새 카드 묶음에도 통할까요?'), 'cheer'); Fun.burst($('#bins')); }
+      else { Fun.say('건 것과 다르게 ' + off + '장이 엉뚱한 바구니로 갔어요. 아래 까닭을 읽고 규칙 순서를 바꿔 봐요.', 'think'); Fun.shake($('#bins')); }
+      if (!stamped) { stamped = true; Fun.stamp(); }
+    }
+    return true;
+  }
+  document.querySelectorAll('#bets .btn').forEach(function (b) {
+    b.onclick = function () {
+      if (bet !== null) return;
+      bet = b.dataset.b;
+      document.querySelectorAll('#bets .btn').forEach(function (x) { x.disabled = x !== b; x.setAttribute('aria-pressed', String(x === b)); });
+      if (!run()) reset();
+    };
+  });
+  $('#again').onclick = function () { reset(); if (window.Fun) Fun.say('규칙을 고쳤으면, 흘리기 전에 다시 걸어요.'); $('#bets').scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+  $('#newdeck').onclick = newDeck;
+  ws.addChangeListener(function (e) { if (!e.isUiEvent && bet !== null) reset(); });   // 규칙을 바꾸면 결과를 지운다
+  newDeck();
+})();
+</script>
+<script src="../../assets/play/fun.js" data-block="L21" data-mission="날개만 보고 새로 보내는 규칙이 있어요. 흘려보내기 전에 몇 장이 엉뚱한 바구니로 갈지 먼저 걸어 봐요."></script>
+</body>
+</html>

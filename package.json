@@ -8,6 +8,12 @@
     "headless": "node _tools/headless.mjs"
   },
   "devDependencies": {
+    "@huggingface/transformers": "^4.3.2",
+    "@tensorflow-models/coco-ssd": "^2.2.3",
+    "@tensorflow-models/knn-classifier": "^1.2.6",
+    "@tensorflow-models/mobilenet": "^2.1.1",
+    "@tensorflow/tfjs": "^4.22.0",
+    "blockly": "^13.4.0",
     "puppeteer-core": "^23.11.1"
   }
 }

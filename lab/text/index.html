@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>문장 분류 모델 — 에듀다움</title>
+<link rel="icon" href="../../assets/icons/game.svg">
+<link rel="stylesheet" href="../assets/lab.css">
+<style>
+  .cls{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+  @media (max-width:520px){.cls{grid-template-columns:1fr}}
+  .cl{border:2px solid var(--line-strong);border-radius:12px;padding:8px;background:#fff}
+  .cl h3{font-family:'Jua',sans-serif;font-weight:400;font-size:16px}
+  .cl .add{display:flex;gap:6px;margin-top:6px}
+  .cl .add input{flex:1}
+  .cl ul{list-style:none;margin-top:6px;max-height:150px;overflow:auto}
+  .cl li{font-size:14px;display:flex;justify-content:space-between;gap:6px;border-bottom:1px dashed var(--line);padding:2px 0}
+  .cl li button{border:0;background:none;color:var(--muted);font-size:16px;cursor:pointer;min-width:28px;min-height:28px}
+  .test{display:flex;gap:6px;margin-top:6px}
+  .test input{flex:1}
+  .bars .m{display:grid;grid-template-columns:90px 1fr 46px;gap:6px;align-items:center;margin:4px 0;font-size:14px}
+  .bars i{display:block;height:20px;border-radius:10px;background:var(--line);overflow:hidden}
+  .bars i b{display:block;height:100%;width:0;transition:width .4s}
+  .pieces{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px}
+  .pc{font-size:14px;border-radius:8px;padding:2px 7px;border:1.5px solid var(--line-strong);background:#fff}
+  .pc small{color:var(--muted);margin-left:3px}
+</style>
+<link rel="stylesheet" href="../../assets/play/fun.css">
+</head>
+<body>
+<main class="wrap">
+  <div class="nav"><a class="back" href="../">← 실험실</a><span class="tag">B25~B27 텍스트</span></div>
+  <h1>문장 분류 모델</h1>
+  <p class="lead">두 무리의 문장을 가르치면, 기계가 글자 조각을 세어 새 문장이 어느 무리와 닮았는지 골라요.</p>
+
+  <section>
+    <h2>1. 무리 정하고 문장 가르치기</h2>
+    <p class="hint">무리 이름을 바꿔도 돼요. 무리마다 문장을 세 개 이상 넣어요. 친구 이름 같은 개인 정보는 넣지 않아요.</p>
+    <div class="cls" id="cls"></div>
+  </section>
+
+  <section id="s2" class="off">
+    <h2>2. 시험 문장 — 먼저 걸기</h2>
+    <div class="test"><input type="text" id="tq" maxlength="40" placeholder="시험할 문장" aria-label="시험할 문장"></div>
+    <p class="hint" style="margin-top:6px">기계가 어느 무리라고 할까요? 먼저 걸면 결과가 나와요.</p>
+    <div class="row" id="bets" style="margin-top:6px"></div>
+    <div class="bars" id="bars"></div>
+    <div class="pieces" id="pieces"></div>
+    <p class="hint" id="why" style="margin-top:6px"></p>
+  </section>
+  <p class="note">글자를 두 개씩 잘라 조각으로 세는 방법이에요(나이브 베이즈). 엔트리 텍스트 모델은 더 큰 방법을 쓰지만, "예시와 닮은 정도로 고른다"는 생각은 같아요. 넣은 문장은 어디에도 보내지 않아요.</p>
+</main>
+<script>
+(function () {
+  'use strict';
+  var $ = function (s) { return document.querySelector(s); };
+  var C = [{ n: '부탁하는 말', c: '#5aa9e6', s: [] }, { n: '고마운 말', c: '#4cbf9a', s: [] }];
+  var bet = null, stamped = false;
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  // 글자 두 개씩(띄어쓰기·문장부호는 빼고 낱말 안에서만)
+  function pieces(t) {
+    var out = [];
+    t.replace(/[^가-힣a-zA-Z0-9\s]/g, ' ').split(/\s+/).filter(Boolean).forEach(function (w) {
+      if (w.length === 1) out.push(w);
+      for (var i = 0; i < w.length - 1; i++) out.push(w.slice(i, i + 2));
+    });
+    return out;
+  }
+  function model() {
+    var V = {}, M = C.map(function (c) {
+      var cnt = {}, tot = 0;
+      c.s.forEach(function (s) { pieces(s).forEach(function (p) { cnt[p] = (cnt[p] || 0) + 1; tot++; V[p] = 1; }); });
+      return { cnt: cnt, tot: tot };
+    });
+    return { M: M, V: Object.keys(V).length };
+  }
+  function classify(t) {
+    var m = model(), ps = pieces(t), nAll = C[0].s.length + C[1].s.length;
+    var lg = m.M.map(function (mm, i) {
+      var l = Math.log(C[i].s.length / nAll);
+      ps.forEach(function (p) { l += Math.log(((mm.cnt[p] || 0) + 1) / (mm.tot + m.V + 1)); });
+      return l;
+    });
+    var mx = Math.max(lg[0], lg[1]), e0 = Math.exp(lg[0] - mx), e1 = Math.exp(lg[1] - mx);
+    var hits = ps.map(function (p) { return { p: p, a: m.M[0].cnt[p] || 0, b: m.M[1].cnt[p] || 0 }; });
+    return { pr: [e0 / (e0 + e1), e1 / (e0 + e1)], hits: hits };
+  }
+  function drawClasses() {
+    $('#cls').innerHTML = C.map(function (c, i) {
+      return '<div class="cl" style="border-color:' + c.c + '"><input type="text" maxlength="10" value="' + esc(c.n) + '" aria-label="' + (i + 1) + '번 무리 이름" style="width:100%;font-family:Jua,sans-serif">' +
+        '<div class="add"><input type="text" maxlength="40" placeholder="문장 넣기" aria-label="' + (i + 1) + '번 무리에 넣을 문장"><button class="btn">넣기</button></div>' +
+        '<ul>' + c.s.map(function (s, j) { return '<li><span>' + esc(s) + '</span><button aria-label="지우기" data-j="' + j + '">×</button></li>'; }).join('') + '</ul></div>';
+    }).join('');
+    $('#cls').querySelectorAll('.cl').forEach(function (el, i) {
+      var nm = el.querySelector('input'), inp = el.querySelector('.add input'), b = el.querySelector('.add .btn');
+      nm.oninput = function () { C[i].n = nm.value.trim() || (i + 1) + '번 무리'; betBtns(); };
+      function put() { var v = inp.value.trim(); if (!v) return; if (C[i].s.length >= 15) { if (window.Fun) Fun.say('한 무리에 15문장까지예요.', 'think'); return; } C[i].s.push(v); drawClasses(); el = null; changed(); var again = $('#cls').querySelectorAll('.add input')[i]; again.focus(); }
+      b.onclick = put; inp.onkeydown = function (e) { if (e.key === 'Enter') put(); };
+      el.querySelectorAll('li button').forEach(function (x) { x.onclick = function () { C[i].s.splice(+x.dataset.j, 1); drawClasses(); changed(); }; });
+    });
+  }
+  function changed() {
+    var ok = C[0].s.length >= 3 && C[1].s.length >= 3;
+    $('#s2').classList.toggle('off', !ok); resetBet();
+  }
+  function betBtns() {
+    $('#bets').innerHTML = C.map(function (c, i) { return '<button class="btn pick" data-b="' + i + '">' + esc(c.n) + '</button>'; }).join('');
+    $('#bets').querySelectorAll('.btn').forEach(function (b) { b.onclick = function () { go(+b.dataset.b); }; });
+  }
+  function resetBet() { bet = null; betBtns(); $('#bars').innerHTML = ''; $('#pieces').innerHTML = ''; $('#why').textContent = ''; }
+  function go(b) {
+    var t = $('#tq').value.trim();
+    if (!t) { if (window.Fun) Fun.say('시험할 문장을 먼저 써요.', 'think'); $('#tq').focus(); return; }
+    if (bet !== null) return; bet = b;
+    $('#bets').querySelectorAll('.btn').forEach(function (x) { x.disabled = +x.dataset.b !== b; x.setAttribute('aria-pressed', String(+x.dataset.b === b)); });
+    var r = classify(t), win = r.pr[0] >= r.pr[1] ? 0 : 1;
+    $('#bars').innerHTML = C.map(function (c, i) { var v = Math.round(r.pr[i] * 100); return '<div class="m"><span>' + esc(c.n) + '</span><i><b style="width:' + v + '%;background:' + c.c + '"></b></i><span>' + v + '%</span></div>'; }).join('');
+    $('#pieces').innerHTML = r.hits.map(function (h) {
+      var col = h.a > h.b ? C[0].c : h.b > h.a ? C[1].c : null;
+      return '<span class="pc"' + (col ? ' style="border-color:' + col + ';background:' + col + '22"' : '') + '>' + esc(h.p) + '<small>' + h.a + '·' + h.b + '</small></span>';
+    }).join('');
+    var unk = r.hits.filter(function (h) { return !h.a && !h.b; }).length;
+    $('#why').textContent = '조각 옆 수는 각 무리 문장에서 그 조각이 나온 횟수예요.' + (unk === r.hits.length ? ' 가르친 문장에 없는 조각뿐이라, 문장 수가 많은 무리 쪽으로 기울었어요.' : unk ? ' 처음 보는 조각 ' + unk + '개는 판단에 거의 쓰이지 않았어요.' : '');
+    if (window.Fun) {
+      if (win === b) { Fun.say('건 대로 ‘' + C[win].n + '’ 쪽으로 기울었어요. 색칠된 조각이 어느 무리에서 왔는지 봐요. 같은 뜻인데 조각이 겹치지 않는 문장도 시험해 봐요.', 'cheer'); Fun.burst($('#bars')); }
+      else { Fun.say('건 것과 다르게 ‘' + C[win].n + '’ 쪽으로 기울었어요. 어느 조각이 그쪽으로 끌었는지 찾아봐요.', 'think'); Fun.shake($('#bars')); }
+      if (!stamped) { stamped = true; Fun.stamp(); }
+    }
+  }
+  $('#tq').addEventListener('input', resetBet);
+  drawClasses(); betBtns();
+})();
+</script>
+<script src="../../assets/play/fun.js" data-block="L27" data-mission="부탁하는 말과 고마운 말을 세 문장씩 가르쳐요. 시험 문장을 쓰고, 기계가 어느 쪽이라 할지 먼저 걸어요."></script>
+</body>
+</html>

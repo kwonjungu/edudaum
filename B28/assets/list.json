@@ -1,0 +1,80 @@
+{
+  "title": "손을 알아보는 AI 도우미 활동 카드",
+  "generator": "image_gen",
+  "style_references": [
+    "../../assets/brand/cover.webp",
+    "../../assets/chars/c1.webp"
+  ],
+  "contact_sheet": "contact.png",
+  "contact_layout": {
+    "columns": 4,
+    "rows": 2,
+    "order": "row-major"
+  },
+  "images": [
+    {
+      "file": "right_bright.png",
+      "prompt": "Create ONE square 1024x1024 or larger PNG educational activity card illustration, filename concept right_bright.png. Warm friendly Korean children's picture-book illustration matching the two reference images' visual style only: flat gently shaded colors, soft dark brown rounded outlines, sky blue mint yellow palette. Do not reproduce characters. Outer canvas solid ivory #f8f6f1, a centered rounded-square classroom vignette occupying about 82% with generous ivory margin. Inside: bright classroom suggested simply by sky-blue sunny window, mint cabinets and pale yellow desk in the background. Foreground a single child's OPEN RIGHT HAND, PALM FACING THE VIEWER, anatomically correct five separate gently spread fingers; thumb on IMAGE LEFT, pinky on IMAGE RIGHT. Light peach skin, small mint cuff at wrist coming from bottom. Hand is dominant and large, entire fingertips visible. Only hand wrist and cuff visible; no person, face, head or body. Match reference painting quality. No text, letters, numbers, logos, watermarks, icons or extra hands. Clean coherent illustration, not a photograph.",
+      "alt": "밝은 교실에서 편 오른손",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG"
+    },
+    {
+      "file": "left_bright.png",
+      "prompt": "Create one square 1024px or larger educational activity illustration left_bright.png, as a companion card matching the reference image's warm children's picture-book drawing, soft dark brown rounded outlines, simple flat gently shaded shapes, sky blue mint and yellow colors, identical generous solid ivory #f8f6f1 outer margin and rounded square scene. Bright classroom with sunny sky-blue window, mint cabinets, pale yellow desks subtly behind. One dominant large OPEN LEFT HAND with PALM FACING VIEWER, medium warm brown skin, five correct gently spread fingers. LEFT hand means THUMB ON IMAGE RIGHT, PINKY ON IMAGE LEFT. Small pale yellow cuff at lower edge. All fingertips inside scene. Only hand wrist and cuff, no face head torso people or other hands. No text numbers letters logos watermarks or extra icons. Keep clean and simple, do not copy an existing character.",
+      "alt": "밝은 교실에서 편 왼손",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG"
+    },
+    {
+      "file": "sleeve_bright.png",
+      "prompt": "Create one square 1024px or larger educational activity illustration sleeve_bright.png. Match the reference card's composition and children's picture-book style, soft dark brown outlines, warm flat gently shaded colors, sky blue mint pale yellow palette, rounded-square classroom vignette with generous solid ivory #f8f6f1 outer canvas. Main subject a single open hand with DEEP BROWN skin, palm facing viewer, anatomically correct five gently spread fingers, thumb image left. Crucially a conspicuously LONG SKY BLUE SWEATER SLEEVE covers the whole lower forearm and wrist and reaches the heel of the palm; show a long substantial section of this sleeve occupying lower third, large softly ribbed cuff. Hand fully visible above sleeve. Bright sunny classroom background, simple window mint cupboards yellow desk, gently subdued behind hand. Only one hand and its long sleeve, no face head body or other people, no extra hands, no text numbers letters logos watermarks or icons. Friendly age-neutral hand, reference is style guide not character to copy.",
+      "alt": "밝은 교실에서 긴소매 옷을 입은 손",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG"
+    },
+    {
+      "file": "right_dark.png",
+      "prompt": "Create one square 1024px or larger educational activity illustration right_dark.png, companion to the reference. Same warm picture-book medium, soft dark rounded outlines and gentle flat shaded colors. Solid ivory #f8f6f1 outer canvas margin, centered rounded-square scene. Inside is clearly a DIM SCHOOL CORRIDOR with blue-gray shadowed walls, mint classroom doors and a very faint small distant yellow ceiling light, simple depth perspective. Large foreground OPEN RIGHT HAND facing palm toward viewer, five anatomically correct spread fingers, thumb IMAGE LEFT and pinky IMAGE RIGHT. Naturally medium tan skin shaded in dim cool blue light, still discernible against background. Short pale yellow sleeve cuff enters from bottom. Lighting noticeably darker than sunny reference, without scary mood. Only one hand wrist and cuff visible, no heads faces bodies people or extra hands. All fingertips visible. No text letters numbers signs logos watermarks symbols. Keep a friendly children's illustration and reference's line work and drawing quality.",
+      "alt": "어두운 복도에서 편 오른손",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG"
+    },
+    {
+      "file": "bandage.png",
+      "prompt": "Create one square 1024px or larger educational activity picture bandage.png, matching reference warm children's picture-book style, soft dark brown outlines, flat gently shaded colors, sky blue mint yellow palette. Outer canvas solid ivory #f8f6f1 with generous margin; centered rounded square sunny classroom vignette, window mint cupboards yellow desk. In foreground a single large OPEN LEFT HAND, PALM FACING VIEWER, five anatomically correct gently spread fingers, thumb ON IMAGE RIGHT pinky ON IMAGE LEFT. Deep chocolate brown skin distinctly darker than medium brown, soft warm palm highlights. A small clearly visible plain pale beige ADHESIVE BANDAGE with central gauze pad, placed diagonally across central palm; tiny perforation dots, no branding or writing. Mint sleeve cuff at bottom. Hand and bandage are dominant, all fingertips visible. Only hand wrist cuff, no face head torso characters people or additional hands. No injury blood distress, no text letters numbers logos watermark or symbols.",
+      "alt": "밝은 교실에서 반창고를 붙인 손",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG"
+    },
+    {
+      "file": "add_left.png",
+      "prompt": "Create ONE square 1024px or larger illustration add_left.png: a BUNDLE OF SEVERAL LEFT-HAND PICTURE PRINTS stacked and slightly fanned out, isolated on perfectly solid ivory #f8f6f1 background. Match reference drawing style: warm children's picture-book, gently shaded flat colors, soft dark brown outlines, sky blue mint yellow. This image depicts THREE square picture prints with thick ivory-white paper borders, overlapping but offset so a meaningful portion of each hand picture is visible. Main front print is largest centered lower right; other two offset upper left and upper center. On each print: one OPEN LEFT PALM with five correct spread fingers and THUMB ON IMAGE RIGHT; ONLY hand wrist cuff with bright classroom simple sky window mint cabinet yellow desk behind. Three diverse skin tones, one light peach, one medium warm tan, one distinctly DEEP DARK BROWN. Front/main hand is deep dark brown with pale yellow cuff. The other prints show partial hands due to paper overlap, not amputated hands. No hands outside picture prints. The paper stack fits fully in canvas with generous ivory margin and very subtle grounding shadow, attractive cohesive composition. These are ILLUSTRATED hand pictures not real photographic people. No faces heads torsos characters. Absolutely no text letters numbers logos watermarks symbols labels writing or UI icons.",
+      "alt": "다양한 피부색의 왼손 사진 세 장 묶음",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG"
+    },
+    {
+      "file": "add_sleeve.png",
+      "prompt": "Create ONE square 1024px or larger illustration add_sleeve.png: THREE slightly fanned overlapping square illustrated picture prints of OPEN HANDS WEARING LONG SWEATER SLEEVES. Warm children's picture-book drawing matches reference, gentle flat shaded colors and soft dark brown outlines, sky blue mint yellow palette. Solid ivory #f8f6f1 outer background, subtle shadow below stack, ample margins. Thick blank ivory-white print borders, front print centered lower right and two prints behind offset left and upper center so their hand images remain partly visible. Each print shows ONLY one open palm with five correct gently spread fingers and a visibly LONG sleeve completely covering wrist/forearm, cuff reaching palm base, sleeve occupying lower third. Hands have three distinct natural skin tones: light peach on main front print, medium warm brown and deep dark brown on back prints. Main long sleeve mint green, back sleeves sky blue and pale yellow. Within each print is a softly simplified sunny classroom backdrop. No face head torso characters or hands outside the prints. Foreground picture is large enough to clearly recognize hand and long sleeve. Entire stack stays within square canvas. No text numbers letters logos watermark labels writing symbols or UI icons.",
+      "alt": "다양한 피부색의 긴소매 손 사진 세 장 묶음",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG"
+    },
+    {
+      "file": "add_dark.png",
+      "prompt": "Create ONE square 1024px or larger illustration add_dark.png: a bundle of THREE slightly fanned overlapping square illustrated picture prints showing OPEN HANDS IN DIM SCHOOL CORRIDORS. Match reference warm children's picture-book medium, simple flat shaded colors, soft dark rounded outlines. Outer canvas is solid ivory #f8f6f1, a generous border around entire stack and subtle shadow under paper. Thick blank ivory-white print borders. Main print centered lower right, two prints behind offset left and upper center, all three recognizably separate and each has its own visible hand picture. Within each print dim blue-gray school hallway, mint doors, very faint warm yellow distant light. Each has ONLY a single anatomically correct open palm with five fingers and a sleeve cuff. Three distinct natural skin tones: front/main medium warm brown, back light peach and deep brown. Cuffs mint sky-blue pale yellow. The hands themselves ALSO show dim light with subdued cool shadows, while remaining recognizable. All three prints must unmistakably show DARK backgrounds unlike sunny classroom cards; friendly quiet mood. No person face head body or actual hand outside prints. Entire stack inside square canvas with no cropping. No text letters numbers signage logos watermarks labels symbols or UI icons.",
+      "alt": "다양한 피부색의 어두운 곳 손 사진 세 장 묶음",
+      "width": 1254,
+      "height": 1254,
+      "format": "PNG"
+    }
+  ]
+}

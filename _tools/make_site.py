@@ -98,10 +98,28 @@ STAMP_JS = """<script>
 MENU = [
     ('lessons/', '수업 자료', 'book-open', [('lessons/', '차시별 수업 꾸러미'), ('topics/', '단원별로 보기'), ('tools/', '연동 도구')]),
     ('play/', '체험 활동', 'game', []),
+    ('lab/', 'AI 실험실', 'ai1', []),
     ('about/', '도입 안내', 'lightbulb', [('about/', '학교자율시간이란?'), ('guide/', '도입 절차'), ('forms/', '서식 받기'),
                                      ('forms/set/', '채운 서식 한 벌'), ('qna/', '자주 묻는 질문')]),
     ('plan/', '연구회', 'people-team', [('plan/', '연구회 소개'), ('notice/', '알림')]),
 ]
+# AI 실험실(lab/) — 엔트리·실물 활동 앞뒤에 붙이는 맛보기 쪽(2026. 10. 29.). 쪽은 손으로 만들고 여기서는 목록과 차시 연결만 한다.
+LAB = [
+    ('chart', '우리 반 그래프 실험실', '반 데이터를 넣고, 질문에 가장 빨리 답하는 그래프를 찾아요. 한 칸 잘못 넣거나 한 줄 빼면 그래프가 어떻게 바뀌는지도 봐요.', ['B23', 'B24', 'B25', 'B26'], '모델 없음'),
+    ('pixel', '0과 1 그림 탐정', '칸 그림을 0과 1로 바꾸고 확인 칸을 붙여 보내요. 보내는 길에 몰래 바뀐 한 칸을 찾아내요.', ['B23'], '모델 없음'),
+    ('blocks', '규칙 블록 분류기', '블록으로 "만약 ~라면" 규칙을 끼워 동물 카드를 새·물고기·포유류로 나눠요. 규칙 순서가 결과를 바꿔요.', ['B20', 'B21', 'B22'], 'Blockly'),
+    ('color', '바나나 익음 감별기', '색 판에 점을 찍어 가르치면, 가장 가까운 이웃에게 물어 새 색을 가려요.', ['B24', 'B25'], 'KNN'),
+    ('camera', '나만의 이미지 모델', '그림판이나 카메라로 두 무리를 가르치고, 막대가 어느 쪽으로 기우는지 실험 카드로 견줘요.', ['B24', 'B25', 'B26'], 'MobileNet + KNN'),
+    ('text', '문장 분류 모델', '두 무리의 문장을 가르치면, 글자 조각을 세어 새 문장이 어느 무리와 닮았는지 골라요.', ['B25', 'B27'], '나이브 베이즈'),
+    ('detect', '물건 찾기: 색 규칙과 AI', '"빨간 것은 사과" 규칙과 물건 80가지를 배운 AI가 같은 사진에서 무엇을 찾는지 견줘요.', ['B17'], 'COCO-SSD'),
+    ('voice', '말 알아듣기 실험실', '같은 문장을 말하는 방법만 바꿔 말하면, 기계의 받아쓰기가 어떻게 달라지는지 먼저 걸고 견줘요.', ['B18', 'B19', 'B28'], 'Whisper'),
+    ('neuron', '선 긋는 인공 뉴런', '두 무리 점을 가르는 선을 기계가 틀린 점을 보며 조금씩 옮겨 찾아요.', ['B26'], '퍼셉트론'),
+]
+LAB_OF = {}
+for _slug, _t, _l, _bs, _m in LAB:
+    for _b in _bs:
+        LAB_OF.setdefault(_b, []).append((_slug, _t, _l, _m))
+
 # 펼침에 없고 바닥 사이트맵에만 두는 쪽
 MORE = [('forms/list/', '서식 목록·검색'), ('forms/versions/', '판본 차이·정오표'), ('search/', '검색')]
 
@@ -714,6 +732,10 @@ def build_lesson(code, prev, nxt):
         ('<a class="btn" href="../%s/">%d학년 %s차시 →</a>' % (nxt, grade(nxt), label(nxt))) if nxt else '')
     prep = ('<h2 class="sub">%s준비물</h2><div class="pchips">%s</div>' % (icon('kit', up), chips)) if chips else ''
     gsec = ('<h2 class="sub" id="game">%s체험 활동</h2>%s' % (icon('game', up), gbox)) if gm else ''
+    if LAB_OF.get(code):
+        gsec += ('<h2 class="sub" id="lab">%sAI 실험실 <span class="small muted">엔트리·실물 활동 앞뒤에 맛보기</span></h2><div class="labrow">%s</div>'
+                 % (icon('ai1', up), ''.join('<a class="gcard" href="%slab/%s/"><span><b>%s</b><span>%s</span><span class="needs">%s</span></span><span class="go">열기</span></a>'
+                                             % (up, sl, e(t), e(l), e(m)) for sl, t, l, m in LAB_OF[code])))
     kplay = ('<a class="kplay" href="%s%s/">%s<span><b>체험 활동 열기</b><small>%s과 5~10분 · %s</small></span><i aria-hidden="true">→</i></a>'
              % (up, code, face(code, up, 60), e(cast(code)[1]), e(gm['title']))) if gm else ''
     body = f"""
@@ -917,6 +939,22 @@ def build_play():
     page('play', '체험 활동 — 에듀다움', body, 'play/', PLAY_JS + STAMP_JS)
 
 
+def build_lab():
+    cards = []
+    for sl, t, l, bs, m in LAB:
+        cv = ROOT / 'lab' / 'assets' / 'covers' / (sl + '.webp')
+        img = ('<img src="assets/covers/%s.webp" alt="" loading="lazy" width="600" height="375">' % sl) if cv.exists() else icon('ai1', '../', 'ic big')
+        cards.append('<article class="pcard" style="--gc:var(--sky);--gc-l:var(--sky-l)"><a class="shot" href="%s/">%s<span class="tag">%s</span></a>'
+                     '<div class="pbody"><h3><a href="%s/">%s</a></h3><p class="pm">%s</p><div class="needs"><span class="small muted">%s · 이어지는 차시 %s</span></div></div></article>'
+                     % (sl, img, e(m), sl, e(t), e(l), e(m), ', '.join('<a href="../lessons/%s/">%s</a>' % (b, b) for b in bs)))
+    body = ('<section class="phero" style="grid-template-columns:1fr"><div class="ptext"><span class="kick">AI 실험실</span>'
+            '<h1>엔트리 전에 <em>맛보는 AI</em></h1>'
+            '<p class="lead">작은 모델을 브라우저 안에서 직접 가르치고 시험해 봐요. 모델 파일까지 모두 이 누리집 안에 있어서, 그림·사진·문장이 밖으로 나가지 않아요. 엔트리 활동과 실물 활동을 대신하지 않고, 그 앞에서 예상하거나 뒤에서 견줄 때 써요.</p></div></section>'
+            '<div class="pgrid">%s</div>'
+            '<p class="note">쓴 오픈소스: Blockly, TensorFlow.js, MobileNet, KNN Classifier, COCO-SSD, transformers.js (Apache 2.0), Whisper, ONNX Runtime (MIT). 라이선스 글은 lab/vendor 폴더에 있어요.</p>') % ''.join(cards)
+    page('lab', 'AI 실험실 — 에듀다움', body, 'lab/')
+
+
 def main():
     import link_games
     link_games.main()
@@ -926,6 +964,7 @@ def main():
     build_lessons()
     build_tools()
     build_play()
+    build_lab()
     import make_hub
     make_hub.main()
     n = len(list((ROOT / 'lessons').glob('B*/index.html')))

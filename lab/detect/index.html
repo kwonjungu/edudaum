@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>물건 찾기: 색 규칙과 AI — 에듀다움</title>
+<link rel="icon" href="../../assets/icons/game.svg">
+<link rel="stylesheet" href="../assets/lab.css">
+<style>
+  .pics{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-top:6px}
+  .pics button{flex:0 0 84px;height:64px;border:2px solid var(--line-strong);border-radius:10px;padding:0;overflow:hidden;background:var(--soft);cursor:pointer}
+  .pics button[aria-pressed=true]{border-color:var(--point);box-shadow:0 0 0 3px var(--point-soft)}
+  .pics img{width:100%;height:100%;object-fit:cover;display:block}
+  .two{display:grid;gap:10px;margin-top:10px}
+  @media (min-width:700px){.two{grid-template-columns:1fr 1fr}}
+  .view{position:relative;border:2px solid var(--ink);border-radius:12px;overflow:hidden;background:var(--soft)}
+  .view h3{font-family:'Jua',sans-serif;font-weight:400;font-size:14px;padding:3px 8px;border-bottom:1.5px solid var(--line);background:#fff}
+  .view canvas{display:block;width:100%;height:auto}
+  .view video{display:none}
+  .list{font-size:14px;margin-top:4px;min-height:22px}
+  .wait{position:absolute;inset:0;display:grid;place-items:center;color:var(--muted);font-size:14px;background:#fffa}
+</style>
+<link rel="stylesheet" href="../../assets/play/fun.css">
+</head>
+<body>
+<main class="wrap">
+  <div class="nav"><a class="back" href="../">← 실험실</a><span class="tag">B17 AI와 기계</span></div>
+  <h1>물건 찾기: 색 규칙과 AI</h1>
+  <p class="lead">"빨간 것은 사과"라는 단순한 규칙과, 사진을 많이 보고 배운 AI가 같은 사진에서 무엇을 찾는지 견줘요.</p>
+
+  <section>
+    <h2>1. 사진 고르기</h2>
+    <div class="pics" id="pics"></div>
+    <div class="row" style="margin-top:6px"><button class="btn" id="cam">카메라로 찍기</button></div>
+  </section>
+
+  <section>
+    <h2>2. 찾기 전에 걸기</h2>
+    <p class="hint">이 사진에서 사과를 더 잘 짚을 쪽은 어디일까요?</p>
+    <div class="row" id="bets" style="margin-top:6px">
+      <button class="btn pick" data-b="rule">색 규칙</button>
+      <button class="btn pick" data-b="ai">AI 모델</button>
+      <button class="btn pick" data-b="same">둘 다 비슷</button>
+    </div>
+    <div class="two">
+      <div><div class="view"><h3>색 규칙: 빨간 덩어리 = 사과</h3><canvas id="cr"></canvas></div><div class="list" id="lr"></div></div>
+      <div><div class="view"><h3>AI 모델(물건 80가지)</h3><canvas id="ca"></canvas><div class="wait" id="wait">모델을 불러오는 중…</div></div><div class="list" id="la"></div></div>
+    </div>
+    <div class="row" style="margin-top:8px"><button class="btn main" id="next">다른 사진</button></div>
+  </section>
+  <p class="note">AI 모델은 COCO-SSD(Apache 2.0)예요. 사람·자동차·고양이·사과처럼 정해진 80가지만 알아요. 사진은 이 기기 안에서만 다뤄요.</p>
+</main>
+<script src="../vendor/tf.min.js"></script>
+<script src="../vendor/coco-ssd.min.js"></script>
+<script>
+(function () {
+  'use strict';
+  var $ = function (s) { return document.querySelector(s); };
+  var KO = { person: '사람', bicycle: '자전거', car: '자동차', motorcycle: '오토바이', airplane: '비행기', bus: '버스', train: '기차', truck: '트럭', boat: '배', 'traffic light': '신호등', 'fire hydrant': '소화전', 'stop sign': '정지 표지판', 'parking meter': '주차 요금기', bench: '벤치', bird: '새', cat: '고양이', dog: '개', horse: '말', sheep: '양', cow: '소', elephant: '코끼리', bear: '곰', zebra: '얼룩말', giraffe: '기린', backpack: '배낭', umbrella: '우산', handbag: '손가방', tie: '넥타이', suitcase: '여행 가방', frisbee: '원반', skis: '스키', snowboard: '스노보드', 'sports ball': '공', kite: '연', 'baseball bat': '야구 방망이', 'baseball glove': '야구 글러브', skateboard: '스케이트보드', surfboard: '서핑보드', 'tennis racket': '테니스 라켓', bottle: '병', 'wine glass': '와인잔', cup: '컵', fork: '포크', knife: '칼', spoon: '숟가락', bowl: '그릇', banana: '바나나', apple: '사과', sandwich: '샌드위치', orange: '오렌지', broccoli: '브로콜리', carrot: '당근', 'hot dog': '핫도그', pizza: '피자', donut: '도넛', cake: '케이크', chair: '의자', couch: '소파', 'potted plant': '화분', bed: '침대', 'dining table': '식탁', toilet: '변기', tv: '텔레비전', laptop: '노트북', mouse: '마우스', remote: '리모컨', keyboard: '키보드', 'cell phone': '휴대 전화', microwave: '전자레인지', oven: '오븐', toaster: '토스터', sink: '개수대', refrigerator: '냉장고', book: '책', clock: '시계', vase: '꽃병', scissors: '가위', 'teddy bear': '곰 인형', 'hair drier': '헤어드라이어', toothbrush: '칫솔' };
+  var PICS = ['desk', 'kitchen', 'living', 'park', 'street', 'red', 'tricky', 'hidden'];
+  var cur = null, img = null, model = null, bet = null, stamped = false, rr = null, ar = null;
+  $('#pics').innerHTML = PICS.map(function (p) { return '<button data-p="' + p + '" aria-pressed="false" aria-label="' + p + ' 사진"><img alt="" src="../assets/scenes/' + p + '.webp" onerror="this.onerror=null;this.src=\'../assets/scenes/' + p + '.png\'"></button>'; }).join('');
+  $('#pics').querySelectorAll('button').forEach(function (b) { b.onclick = function () { pick(b); }; });
+
+  function pick(b) {
+    $('#pics').querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+    var im = new Image(); im.onload = function () { load(im); };
+    im.onerror = function () { if (window.Fun) Fun.say('이 사진을 불러오지 못했어요. 다른 사진을 골라요.', 'think'); };
+    im.src = b.querySelector('img').src;
+  }
+  function fit(c, im) { var w = 480, h = Math.round(w * (im.videoHeight || im.naturalHeight) / (im.videoWidth || im.naturalWidth)); c.width = w; c.height = h; c.getContext('2d').drawImage(im, 0, 0, w, h); }
+  function load(im) {
+    img = im; bet = null; rr = ar = null;
+    fit($('#cr'), im); fit($('#ca'), im); $('#lr').textContent = ''; $('#la').textContent = '';
+    $('#bets').querySelectorAll('.btn').forEach(function (b) { b.disabled = false; b.setAttribute('aria-pressed', 'false'); });
+    if (window.Fun) Fun.say('사진을 골랐어요. 사과를 더 잘 짚을 쪽을 먼저 걸어요.');
+  }
+  // 단순한 기계: 빨간 화소 덩어리를 찾아 "사과"라고 한다
+  function rule() {
+    var c = $('#cr'), x = c.getContext('2d'), W = c.width, H = c.height, d = x.getImageData(0, 0, W, H).data, S = 8, gw = Math.ceil(W / S), gh = Math.ceil(H / S), red = [];
+    for (var gy = 0; gy < gh; gy++) for (var gx = 0; gx < gw; gx++) {
+      var n = 0, t = 0;
+      for (var yy = gy * S; yy < Math.min(H, gy * S + S); yy += 2) for (var xx = gx * S; xx < Math.min(W, gx * S + S); xx += 2) {
+        var i = (yy * W + xx) * 4, r = d[i], g = d[i + 1], b = d[i + 2]; t++; if (r > 140 && r > g * 1.7 && r > b * 1.6) n++;
+      }
+      red[gy * gw + gx] = n / t > .5 ? 1 : 0;
+    }
+    var seen = [], boxes = [];
+    for (var k = 0; k < red.length; k++) if (red[k] && !seen[k]) {   // 이어진 빨간 칸 묶기
+      var q = [k], x0 = 1e9, y0 = 1e9, x1 = 0, y1 = 0, cnt = 0; seen[k] = 1;
+      while (q.length) { var v = q.pop(), vx = v % gw, vy = (v / gw) | 0; cnt++; x0 = Math.min(x0, vx); y0 = Math.min(y0, vy); x1 = Math.max(x1, vx); y1 = Math.max(y1, vy);
+        [[1, 0], [-1, 0], [0, 1], [0, -1]].forEach(function (o) { var nx = vx + o[0], ny = vy + o[1], ni = ny * gw + nx; if (nx >= 0 && ny >= 0 && nx < gw && ny < gh && red[ni] && !seen[ni]) { seen[ni] = 1; q.push(ni); } }); }
+      if (cnt >= 6) boxes.push([x0 * S, y0 * S, (x1 - x0 + 1) * S, (y1 - y0 + 1) * S]);
+    }
+    boxes.forEach(function (bx) { box(x, bx, '사과?', '#c8442f'); });
+    $('#lr').textContent = boxes.length ? '빨간 덩어리 ' + boxes.length + '곳을 모두 "사과"라고 했어요.' : '빨간 덩어리를 찾지 못해 사과가 없다고 했어요.';
+    return boxes.length;
+  }
+  function box(x, b, t, col) {
+    x.lineWidth = 3; x.strokeStyle = col; x.strokeRect(b[0], b[1], b[2], b[3]);
+    x.font = '15px Jua, sans-serif'; var w = x.measureText(t).width + 10;
+    x.fillStyle = col; x.fillRect(b[0], Math.max(0, b[1] - 20), w, 20); x.fillStyle = '#fff'; x.fillText(t, b[0] + 5, Math.max(15, b[1] - 5));
+  }
+  async function ai() {
+    var c = $('#ca'), x = c.getContext('2d');
+    var p = await model.detect(c, 12, 0.4);
+    p.forEach(function (o) { box(x, o.bbox, (KO[o.class] || o.class) + ' ' + Math.round(o.score * 100) + '%', o.class === 'apple' ? '#1f7a5c' : '#2f78b5'); });
+    var names = p.map(function (o) { return KO[o.class] || o.class; });
+    $('#la').textContent = p.length ? '찾은 것: ' + names.join(', ') + '. 퍼센트는 AI가 얼마나 그렇다고 보는지예요.' : '아는 물건을 찾지 못했어요.';
+    return p.filter(function (o) { return o.class === 'apple'; }).length;
+  }
+  $('#bets').querySelectorAll('.btn').forEach(function (b) {
+    b.onclick = async function () {
+      if (!img) { if (window.Fun) Fun.say('사진을 먼저 골라요.', 'think'); return; }
+      if (!model || bet !== null) return;
+      bet = b.dataset.b;
+      $('#bets').querySelectorAll('.btn').forEach(function (x) { x.disabled = x !== b; x.setAttribute('aria-pressed', String(x === b)); });
+      fit($('#cr'), img); fit($('#ca'), img);
+      rr = rule(); ar = await ai();
+      if (window.Fun) {
+        Fun.say('색 규칙은 빨간 것 ' + rr + '곳을 사과라 했고, AI는 사과를 ' + ar + '개 짚었어요. 빨간 컵이나 사과 모양 시계처럼, 규칙이 놓친 것과 AI가 놓친 것을 각각 찾아봐요.', 'cheer');
+        Fun.burst($('#ca')); if (!stamped) { stamped = true; Fun.stamp(); }
+      }
+    };
+  });
+  $('#next').onclick = function () {
+    var bs = [].slice.call($('#pics').querySelectorAll('button')), i = bs.findIndex(function (b) { return b.getAttribute('aria-pressed') === 'true'; });
+    pick(bs[(i + 1) % bs.length]);
+  };
+  $('#cam').onclick = async function () {
+    try {
+      var s = await navigator.mediaDevices.getUserMedia({ video: { width: 640, height: 480 }, audio: false });
+      var v = document.createElement('video'); v.muted = true; v.playsInline = true; v.srcObject = s; await v.play();
+      await new Promise(function (r) { setTimeout(r, 500); });
+      var c = document.createElement('canvas'); c.width = v.videoWidth; c.height = v.videoHeight; c.getContext('2d').drawImage(v, 0, 0);
+      s.getTracks().forEach(function (t) { t.stop(); });
+      var im = new Image(); im.onload = function () { $('#pics').querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', 'false'); }); load(im); }; im.src = c.toDataURL('image/jpeg', .85);
+    } catch (e) { if (window.Fun) Fun.say('카메라를 쓸 수 없어요. 준비된 사진으로 해요.', 'think'); }
+  };
+  cocoSsd.load({ base: 'lite_mobilenet_v2', modelUrl: '../vendor/cocossd/model.json' }).then(function (m) { model = m; $('#wait').remove(); }).catch(function () { $('#wait').textContent = '모델을 불러오지 못했어요.'; });
+  pick($('#pics').querySelector('button'));
+})();
+</script>
+<script src="../../assets/play/fun.js" data-block="L17" data-mission="같은 사진에서 '빨간 것은 사과' 규칙과 AI가 무엇을 찾는지 견줘요. 찾기 전에 어느 쪽이 사과를 더 잘 짚을지 먼저 걸어요."></script>
+</body>
+</html>

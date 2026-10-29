@@ -39,6 +39,7 @@
     font-size:13.5px;font-weight:700;border:2px solid var(--line-strong);border-radius:12px;background:var(--sky-l);
     transition:transform .3s,opacity .3s,background-color .3s}
   .an svg,.an .em{width:30px;height:30px;font-size:26px;line-height:30px;text-align:center}
+  .an .em{width:56px;height:56px}.an .em img{width:100%;height:100%;object-fit:contain;display:block}
   .an.gone{background:var(--surface);color:var(--muted);opacity:.5;transform:scale(.92)}
   .an.gone span.nm{text-decoration:line-through}
   .an.gone::after{content:'';position:absolute;left:8px;right:8px;top:50%;border-top:3px solid var(--muted);transform:rotate(-14deg)}
@@ -130,7 +131,7 @@
     ['벌',    1,0,0,1,0,0], ['코끼리',0,0,1,0,0,1], ['문어',  0,1,0,0,0,0], ['말',    0,0,1,0,1,1],
     ['독수리',1,0,0,0,0,0], ['다람쥐',0,0,1,0,0,0], ['열대어',0,1,0,0,1,0], ['소',    0,0,1,0,1,1]
   ];
-  var EMO = ['🐶','🦈','🦋','🦒','🐔','🦊','🐋','🐱','🐝','🐘','🐙','🐴','🦅','🐿️','🐠','🐮'];
+  var IMG = ['dog','shark','butterfly','giraffe','chicken','fox','whale','cat','bee','elephant','octopus','horse','eagle','squirrel','tropicalfish','cow'];
   var Q = [
     {t:'날개가 있어요?',    i:1},
     {t:'물속에서 살아요?',  i:2},
@@ -219,7 +220,8 @@
       s.className = 'an';
       s.id = 'a' + idx;
       var g = document.createElement('div');
-      g.className = 'em'; g.setAttribute('aria-hidden', 'true'); g.textContent = EMO[idx];
+      g.className = 'em';
+      var im = document.createElement('img'); im.src = 'assets/' + IMG[idx] + '.webp'; im.alt = ''; g.appendChild(im);
       var nm = document.createElement('span');
       nm.className = 'nm'; nm.textContent = A[idx][0];
       s.appendChild(g); s.appendChild(nm);

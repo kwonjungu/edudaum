@@ -52,7 +52,7 @@ h2{font-size:13px;font-weight:700;margin:0 0 7px;color:var(--muted)}
 .bin[data-k="a"][aria-pressed="true"]{background:var(--mint);border-color:var(--ink);color:var(--ink)}
 .bin[data-k="q"][aria-pressed="true"]{background:var(--sun);border-color:var(--ink);color:var(--ink)}
 .bin[aria-pressed="true"]{box-shadow:inset 0 0 0 2px var(--ink)}
-.ico{display:block;width:44px;height:44px;margin:0 0 4px}
+.ico{display:block;width:64px;height:64px;object-fit:contain;margin:0 0 4px}
 .pair.deal .case{animation:deal .32s ease-out both}
 .pair.deal .case:nth-child(2){animation-delay:.08s}
 @keyframes deal{0%{opacity:0;transform:translateY(-14px) rotate(-2deg)}100%{opacity:1;transform:none}}
@@ -150,6 +150,7 @@ main{overflow-x:hidden}
     { n: '걸음 수 세기', pair: 4, sensor: true, io: '몸의 흔들림 → 걸음으로 센다', ref: null }
   ];
   var P = 'fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  var IMG = {"자동문": "door", "사진 속 얼굴 묶기": "face_group", "주방 타이머": "timer", "영상 추천": "recommend", "계산기": "calculator", "손동작 알아보기": "gesture", "복도 전등": "hall_light", "걸음 수 세기": "step"};
   var ICON = {
     '자동문': '<rect x="5" y="6" width="30" height="28" rx="2"/><path d="M20 6v28M14 20l-4 0M26 20l4 0"/>',
     '사진 속 얼굴 묶기': '<circle cx="12" cy="15" r="6"/><circle cx="28" cy="15" r="6"/><path d="M9 14h.1M15 14h.1M25 14h.1M31 14h.1M7 30q13 6 26 0"/>',
@@ -161,9 +162,8 @@ main{overflow-x:hidden}
     '걸음 수 세기': '<ellipse cx="13" cy="25" rx="5" ry="8"/><ellipse cx="27" cy="14" rx="5" ry="8"/>'
   };
   function icon(n) {
-    var d = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    d.setAttribute('class', 'ico'); d.setAttribute('viewBox', '0 0 40 40'); d.setAttribute('aria-hidden', 'true');
-    d.innerHTML = '<g ' + P + '>' + (ICON[n] || '') + '</g>';
+    var d = document.createElement('img');
+    d.className = 'ico'; d.src = 'assets/' + IMG[n] + '.webp'; d.alt = '';
     return d;
   }
   var BINS = [['m', '기계'], ['a', '인공지능'], ['q', '더 알아봐야 함']];

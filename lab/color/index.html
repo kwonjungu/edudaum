@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>바나나 익음 감별기 — 에듀다움</title>
+<link rel="icon" href="../../assets/icons/game.svg">
+<link rel="stylesheet" href="../assets/lab.css">
+<style>
+  .plane{position:relative;margin-top:8px}
+  .plane svg{width:100%;height:auto;display:block;border:2px solid var(--ink);border-radius:12px;cursor:crosshair;touch-action:manipulation}
+  .ax{font-size:12px;color:var(--muted);display:flex;justify-content:space-between;margin-top:2px}
+  .lab{display:flex;gap:8px;margin-top:8px}
+  .lab .btn{flex:1}
+  .ex{stroke:#33302b;stroke-width:2}
+  .ex.ripe{stroke-width:3}
+  .t{stroke:#fff;stroke-width:3;stroke-dasharray:4 3;paint-order:stroke}
+  .t.done{stroke:#33302b}
+  .t.done{stroke-dasharray:none}
+  .nb{stroke:#33302b;stroke-width:1.5;opacity:.55}
+  .tn{font-family:'Jua',sans-serif;font-size:15px;fill:#33302b;stroke:#fff;stroke-width:3px;paint-order:stroke;pointer-events:none}
+  .vote{font-size:14.5px;margin-top:6px}
+  .vote b{font-family:'Jua',sans-serif;font-weight:400}
+  .kk .btn{min-width:64px}
+  .mark{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid #33302b;vertical-align:-2px}
+</style>
+<link rel="stylesheet" href="../../assets/play/fun.css">
+</head>
+<body>
+<main class="wrap">
+  <div class="nav"><a class="back" href="../">← 실험실</a><span class="tag">B24~B25 분류</span></div>
+  <h1>바나나 익음 감별기</h1>
+  <p class="lead">색 판에 점을 찍어 가르치면, 기계가 가까운 점들에게 물어 새 색을 가려요.</p>
+
+  <section>
+    <h2>1. 가르치기</h2>
+    <p class="hint">이름표를 고르고 색 판을 눌러 예시를 찍어요. 이름표마다 두 개 이상. 찍은 점을 다시 누르면 지워져요.</p>
+    <div class="lab" id="lab">
+      <button class="btn" data-l="ripe" aria-pressed="true">● 익었다</button>
+      <button class="btn" data-l="raw" aria-pressed="false">○ 덜 익었다</button>
+    </div>
+    <div class="plane"><svg id="pl" viewBox="0 0 320 200" role="img" aria-label="색 판: 왼쪽은 초록, 오른쪽은 노랑, 위는 밝고 아래는 어둡다"></svg>
+      <div class="ax"><span>← 초록빛</span><span>위: 밝음 · 아래: 어두움</span><span>노란빛 →</span></div></div>
+  </section>
+
+  <section id="s2" class="off">
+    <h2>2. 시험 색 네 개 — 먼저 걸기</h2>
+    <p class="hint">점선 동그라미 네 개가 시험 색이에요. 가까운 예시들의 표가 가장 팽팽하게 갈릴 시험 색은 몇 번일까요?</p>
+    <div class="row" id="bets" style="margin-top:6px"></div>
+    <div id="votes"></div>
+  </section>
+
+  <section id="s3" class="off">
+    <h2>3. 몇 명에게 물을까</h2>
+    <p class="hint">가장 가까운 예시 몇 개에게 물을지 바꿔 봐요. 선이 물어본 예시예요.</p>
+    <div class="row kk" id="kk">
+      <button class="btn" data-k="1">1개</button><button class="btn" data-k="3" aria-pressed="true">3개</button><button class="btn" data-k="5">5개</button>
+      <button class="btn main" id="next">새 시험 색</button>
+    </div>
+  </section>
+  <p class="note">이 방법을 "가장 가까운 이웃(KNN)"이라고 불러요. 엔트리의 숫자 분류 모델에도 같은 방법이 있어요.</p>
+</main>
+<script>
+(function () {
+  'use strict';
+  var W = 320, H = 200, ex = [], tests = [], label = 'ripe', k = 3, bet = null, shown = false, stamped = false;
+  var $ = function (s) { return document.querySelector(s); }, pl = $('#pl'), NS = 'http://www.w3.org/2000/svg';
+  // 가로: 색상 70°(초록빛)~45°(노란빛), 세로: 밝기 72%~38%
+  function col(x, y) { var h = 100 - 52 * x / W, l = 72 - 32 * y / H; return 'hsl(' + h.toFixed(0) + ',75%,' + l.toFixed(0) + '%)'; }
+  function bg() {
+    var s = '<defs><clipPath id="cp"><rect width="' + W + '" height="' + H + '" rx="10"/></clipPath></defs><g clip-path="url(#cp)">';
+    for (var x = 0; x < W; x += 16) for (var y = 0; y < H; y += 20) s += '<rect x="' + x + '" y="' + y + '" width="16" height="20" fill="' + col(x + 8, y + 10) + '"/>';
+    return s + '</g>';
+  }
+  var BG = bg();
+  function d2(a, b) { var dx = a.x - b.x, dy = a.y - b.y; return dx * dx + dy * dy; }
+  function knn(t) {
+    var s = ex.slice().sort(function (a, b) { return d2(a, t) - d2(b, t); }).slice(0, Math.min(k, ex.length));
+    var r = s.filter(function (e) { return e.l === 'ripe'; }).length;
+    return { nb: s, ripe: r, raw: s.length - r, l: r * 2 > s.length ? 'ripe' : r * 2 < s.length ? 'raw' : 'tie' };
+  }
+  function draw() {
+    var s = BG;
+    if (shown) tests.forEach(function (t) { knn(t).nb.forEach(function (e) { s += '<line class="nb" x1="' + t.x + '" y1="' + t.y + '" x2="' + e.x + '" y2="' + e.y + '"/>'; }); });
+    ex.forEach(function (e, i) {
+      s += e.l === 'ripe' ? '<circle class="ex ripe" data-i="' + i + '" cx="' + e.x + '" cy="' + e.y + '" r="8" fill="#33302b"/>' : '<circle class="ex" data-i="' + i + '" cx="' + e.x + '" cy="' + e.y + '" r="8" fill="#fff"/>';
+    });
+    tests.forEach(function (t, i) {
+      var r = shown ? knn(t) : null;
+      s += '<circle class="t' + (r ? ' done' : '') + '" cx="' + t.x + '" cy="' + t.y + '" r="13" style="fill:' + col(t.x, t.y) + '"/>' +
+        '<text class="tn" text-anchor="middle" x="' + t.x + '" y="' + (t.y + 5) + '">' + (i + 1) + '</text>';
+    });
+    pl.innerHTML = s;
+    var n = { ripe: 0, raw: 0 }; ex.forEach(function (e) { n[e.l]++; });
+    var ok = n.ripe >= 2 && n.raw >= 2;
+    $('#s2').classList.toggle('off', !ok);
+    if (ok && !tests.length) newTests();
+    if (shown) votes();
+  }
+  function newTests() {
+    tests = []; bet = null; shown = false;
+    // 시험 색은 예시들 사이 가운데쯤에 뿌린다(가장자리만 나오면 갈림이 안 보인다)
+    for (var i = 0; i < 4; i++) tests.push({ x: Math.round(60 + Math.random() * 200), y: Math.round(30 + Math.random() * 140) });
+    $('#bets').innerHTML = tests.map(function (t, i) { return '<button class="btn pick" data-b="' + i + '">' + (i + 1) + '번</button>'; }).join('');
+    $('#bets').querySelectorAll('.btn').forEach(function (b) { b.onclick = function () { if (bet !== null) return; bet = +b.dataset.b; reveal(); }; });
+    $('#votes').innerHTML = ''; $('#s3').classList.add('off');
+    draw();
+  }
+  function votes() {
+    var gap = tests.map(function (t) { var r = knn(t); return Math.abs(r.ripe - r.raw); });
+    var min = Math.min.apply(null, gap);
+    $('#votes').innerHTML = tests.map(function (t, i) {
+      var r = knn(t), nm = r.l === 'ripe' ? '익었다' : r.l === 'raw' ? '덜 익었다' : '반반이라 못 정함';
+      return '<p class="vote"><span class="mark" style="background:' + col(t.x, t.y) + '"></span> <b>' + (i + 1) + '번</b> 익었다 ' + r.ripe + ' : 덜 익었다 ' + r.raw + ' → ' + nm + (gap[i] === min ? ' (가장 팽팽)' : '') + (i === bet ? ' ← 내가 건 것' : '') + '</p>';
+    }).join('');
+    return gap[bet] === min;
+  }
+  function reveal() {
+    shown = true;
+    $('#bets').querySelectorAll('.btn').forEach(function (b) { b.disabled = +b.dataset.b !== bet; b.setAttribute('aria-pressed', String(+b.dataset.b === bet)); });
+    draw(); $('#s3').classList.remove('off');
+    var same = votes();
+    if (window.Fun) {
+      if (same) { Fun.say('건 시험 색이 가장 팽팽했어요. 이웃 수를 바꾸면 그 색의 결과도 바뀔까요?', 'cheer'); Fun.burst(pl); }
+      else { Fun.say('표가 가장 팽팽한 색은 다른 곳에 있었어요. 선을 따라 어떤 예시에게 물었는지 봐요.', 'think'); Fun.shake(pl); }
+      if (!stamped) { stamped = true; Fun.stamp(); }
+    }
+  }
+  pl.addEventListener('click', function (e) {
+    var hit = e.target.closest && e.target.closest('.ex');
+    if (hit) { ex.splice(+hit.dataset.i, 1); draw(); return; }
+    var r = pl.getBoundingClientRect(), x = (e.clientX - r.left) * W / r.width, y = (e.clientY - r.top) * H / r.height;
+    if (ex.length >= 24) { if (window.Fun) Fun.say('예시는 24개까지예요. 점을 눌러 지우고 다시 찍어요.', 'think'); return; }
+    ex.push({ x: Math.round(x), y: Math.round(y), l: label }); draw();
+  });
+  // 키보드: 색 판에 초점을 두고 방향키로 커서를 옮기고 Enter로 찍는다
+  pl.setAttribute('tabindex', '0');
+  var cur = { x: W / 2, y: H / 2 };
+  pl.addEventListener('keydown', function (e) {
+    var m = { ArrowLeft: [-10, 0], ArrowRight: [10, 0], ArrowUp: [0, -10], ArrowDown: [0, 10] }[e.key];
+    if (m) { e.preventDefault(); cur.x = Math.max(8, Math.min(W - 8, cur.x + m[0])); cur.y = Math.max(8, Math.min(H - 8, cur.y + m[1])); draw(); pl.insertAdjacentHTML('beforeend', '<circle cx="' + cur.x + '" cy="' + cur.y + '" r="10" fill="none" stroke="#2f78b5" stroke-width="3"/>'); }
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (ex.length < 24) { ex.push({ x: cur.x, y: cur.y, l: label }); draw(); } }
+  });
+  $('#lab').querySelectorAll('.btn').forEach(function (b) { b.onclick = function () { label = b.dataset.l; $('#lab').querySelectorAll('.btn').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); }); }; });
+  $('#kk').querySelectorAll('[data-k]').forEach(function (b) {
+    b.onclick = function () {
+      k = +b.dataset.k; $('#kk').querySelectorAll('[data-k]').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      draw(); if (window.Fun) Fun.say('이웃 ' + k + '개에게 물었어요. 결과가 바뀐 시험 색이 있나요?');
+    };
+  });
+  $('#next').onclick = function () { newTests(); if (window.Fun) Fun.say('새 시험 색이에요. 이번엔 어디가 팽팽할지 먼저 걸어요.'); };
+  draw();
+})();
+</script>
+<script src="../../assets/play/fun.js" data-block="L24" data-mission="익은 바나나와 덜 익은 바나나 색을 점으로 가르쳐요. 시험 색 가운데 표가 가장 팽팽하게 갈릴 것을 먼저 걸어 봐요."></script>
+</body>
+</html>
