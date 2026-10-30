@@ -184,17 +184,17 @@
    "title": "카드 뒤집기: 한 물건 속 두 가지",
    "cards": [
     {
-     "img": "../../B01/assets/calculator.webp",
+     "img": "../_assets/B01/card_calculator.webp",
      "front": "계산기",
      "back": "<b>하드웨어</b> 숫자 버튼, 화면, 건전지<br><b>소프트웨어</b> × 버튼을 누르면 두 수를 곱한다"
     },
     {
-     "img": "../../B01/assets/crosswalk.webp",
+     "img": "../_assets/B01/card_crosswalk.webp",
      "front": "보행자 신호등",
      "back": "<b>하드웨어</b> 빨강·초록 불빛, 누름 버튼<br><b>소프트웨어</b> 버튼을 누르면 초록불을 켠다"
     },
     {
-     "img": "../../B01/assets/autodoor.webp",
+     "img": "../_assets/B01/card_autodoor.webp",
      "front": "현관 자동문",
      "back": "<b>하드웨어</b> 유리문, 센서, 모터<br><b>소프트웨어</b> 사람이 다가오면 문을 연다"
     }
