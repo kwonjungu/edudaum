@@ -236,3 +236,5 @@ background:radial-gradient(circle at 20px 46px,var(--grass-l) 26px,transparent 2
 .s > .zoom.ws{display:flex;justify-content:center;align-items:flex-start;background:#fff}
 .s > .zoom.ws .zin{height:100%;max-width:100%;display:flex}
 .s > .zoom.ws img{width:auto!important;max-width:100%!important;height:auto!important;max-height:100%!important;object-fit:contain!important}
+/* 10-31: 순서 카드 그림 칸이 작아 카드 속 글자가 안 읽힘(B06·B12·B15·B17) */
+.oc .pic{height:200px!important}

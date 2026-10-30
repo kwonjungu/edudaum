@@ -1,0 +1,971 @@
+{
+ "block": "B11",
+ "grade": 5,
+ "cha": "21~24차시",
+ "title": "나만의 만보기<br>만들고 무선으로 보내기",
+ "title_plain": "나만의 만보기 만들고 무선으로 보내기",
+ "mission": "해결단 11호 미션",
+ "problem": "나에게 필요한 만보기를 만들어 걸음을 재 보고 고친 뒤, 걸음 수를 무선으로 주고받도록 바꾸어 입력·출력을 다른 기기까지 넓혀 봅시다.",
+ "lead": "c3",
+ "next": "해결단 12호 미션: 무선 도구를 모둠이 함께 만들기",
+ "slides": [
+  {
+   "type": "cover",
+   "img": "../_assets/B11/cover.webp"
+  },
+  {
+   "type": "mission",
+   "img": "../_assets/B11/orig/image1.webp",
+   "contain": true,
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "해결단 여러분, 새 미션이 왔어요! <b>내 만보기</b>를 만들고, 걸음 수를 친구 기기로 보내요."
+    }
+   ]
+  },
+  {
+   "type": "path",
+   "title": "오늘의 길 (21~22차시)",
+   "items": [
+    [
+     "21차시",
+     "",
+     ""
+    ],
+    [
+     "도입",
+     "걸음을 세다 놓친 일",
+     ""
+    ],
+    [
+     "활동1",
+     "설계 카드 쓰기",
+     ""
+    ],
+    [
+     "활동2",
+     "기본 만보기",
+     ""
+    ],
+    [
+     "22차시",
+     "",
+     ""
+    ],
+    [
+     "활동3",
+     "세 가지 걸음",
+     ""
+    ],
+    [
+     "활동4",
+     "한 가지만 고치기",
+     ""
+    ]
+   ],
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "먼저 두 차시 동안 이 길을 가요. 활동지 <b>설계 카드</b>와 <b>걸음 기록지</b>를 옆에 두세요."
+    }
+   ],
+   "img": "../_assets/B11/cover.webp"
+  },
+  {
+   "type": "path",
+   "title": "오늘의 길 (23~24차시)",
+   "items": [
+    [
+     "23차시",
+     "",
+     ""
+    ],
+    [
+     "활동5",
+     "무선으로 수 보내기",
+     ""
+    ],
+    [
+     "활동6",
+     "무선 만보기·걸음 경주",
+     ""
+    ],
+    [
+     "24차시",
+     "",
+     ""
+    ],
+    [
+     "활동7",
+     "[확장] 무선 게임",
+     ""
+    ],
+    [
+     "활동8",
+     "[확장] 버그 고치기",
+     ""
+    ],
+    [
+     "정리",
+     "배운 것 정리",
+     ""
+    ]
+   ],
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "뒤의 두 차시에는 걸음 수를 <b>무선</b>으로 주고받아요. 활동지는 <b>통신 약속표</b>예요."
+    }
+   ],
+   "img": "../_assets/B11/cover.webp"
+  },
+  {
+   "type": "prep",
+   "tag": "준비",
+   "title": "오늘 준비물",
+   "img": "../_assets/B11/orig/image4.webp",
+   "contain": true,
+   "items": [
+    [
+     "선생님",
+     "충전 아닌 데이터 케이블, 배터리 팩, 색 테이프"
+    ],
+    [
+     "모둠",
+     "마이크로비트, 거치대 재료(골판지 띠·벨크로)"
+    ],
+    [
+     "나",
+     "설계 카드, 걸음 기록지, 통신 약속표"
+    ],
+    [
+     "약속",
+     "칼과 글루건은 선생님만 써요"
+    ]
+   ],
+   "bubbles": []
+  },
+  {
+   "type": "video",
+   "tag": "21차시 도입",
+   "title": "만보기 소개 영상 (영어)",
+   "thumb": "../_assets/B11/yt_uAWc5a3PO7k.jpg",
+   "url": "https://youtu.be/uAWc5a3PO7k",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "자막을 켜고 한국어로 번역해서 봐요. 만보기가 <b>무엇을 세는지</b> 눈여겨봐요. (영상: micro:bit 재단 유튜브)"
+    }
+   ]
+  },
+  {
+   "type": "scene",
+   "tag": "21차시 도입",
+   "title": "걸음을 세다가 놓친 적 있나요?",
+   "img": "../_assets/B11/scene_count.webp",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "걸음을 손으로 세다가 <b>수를 놓친</b> 적이 있나요?"
+    },
+    {
+     "c": "c2",
+     "t": "나·동생·할머니 가운데 만보기가 필요한 사람은 누구일까요?",
+     "side": "r"
+    }
+   ]
+  },
+  {
+   "type": "predict",
+   "tag": "21차시 도입",
+   "title": "먼저 예측해요",
+   "q": "지난 시간에 만든 <b>흔들기 카운터</b>.<br>걸음 세기에 쓸 수 있을까요?",
+   "options": [
+    "쓸 수 있어요",
+    "쓸 수 없어요",
+    "고치면 쓸 수 있어요"
+   ],
+   "after": "../_assets/B11/orig/blk_shake.webp",
+   "contain": true,
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "화면의 수는 걸음이 아니라 <b>흔들림을 센 값</b>이에요. 그래도 쓸 수 있을까요?"
+    }
+   ],
+   "note": "기기를 몸에 달고 걸으면 흔들림이 생겨요. 그 흔들림을 세요."
+  },
+  {
+   "type": "predict",
+   "tag": "21차시 도입",
+   "title": "체험 전에 예측해요",
+   "q": "태블릿을 흔들어 수를 세요.<br>목표 수에 <b>딱 멈출 수</b> 있을까요?",
+   "options": [
+    "딱 맞춰요",
+    "모자랄 것 같아요",
+    "넘길 것 같아요"
+   ],
+   "after": "../_shots/B11/z_result.webp",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "흔들기 전에 먼저 고르고 손을 들어요."
+    }
+   ],
+   "note": "체험에서 내 예상과 결과를 견주어 봐요.",
+   "contain": true
+  },
+  {
+   "type": "app",
+   "tag": "21차시 도입",
+   "title": "체험: 흔들어 목표 수에 딱 멈추기",
+   "shots": [
+    [
+     "../_shots/B11/z_start.webp",
+     "① 처음: 목표와 예상"
+    ],
+    [
+     "../_shots/B11/z_pick.webp",
+     "② 예상 고르고 흔드는 중"
+    ],
+    [
+     "../_shots/B11/z_result.webp",
+     "③ 목표에서 멈춘 결과"
+    ]
+   ],
+   "url": "B11/",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "흔들면 수가 1씩 올라요. 목표에 닿는 순간 <b>격자가 모두 켜져요</b>."
+    },
+    {
+     "c": "c2",
+     "t": "걷지 않고 흔들어도 올라가나요?",
+     "side": "r"
+    }
+   ]
+  },
+  {
+   "type": "open",
+   "tag": "21차시 활동1",
+   "title": "쓸 사람 정하고 설계 카드 쓰기",
+   "img": "../_assets/B11/orig/image2.webp",
+   "contain": true,
+   "todo": "만보기를 쓸 <b>사람</b>과 <b>필요</b>를 정하고, 설계 카드 세 칸을 채워요.",
+   "note": "들어가는 것(입력) · 하는 일(처리) · 나오는 것(출력)",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "위 그림은 예시예요. 내 카드는 내가 쓸 사람에 맞게 써요."
+    }
+   ]
+  },
+  {
+   "type": "flip",
+   "tag": "21차시 활동1",
+   "title": "카드 뒤집기: 이 사람에게 필요한 만보기는?",
+   "cards": [
+    {
+     "img": "../_assets/B11/who_me.webp",
+     "front": "나",
+     "back": "오늘 목표 걸음 수를 <b>혼자 확인</b>하고 싶어요."
+    },
+    {
+     "img": "../_assets/B11/who_sibling.webp",
+     "front": "동생",
+     "back": "목표를 채우면 소리나 하트로 <b>알려 주면</b> 좋아요."
+    },
+    {
+     "img": "../_assets/B11/who_grandma.webp",
+     "front": "할머니",
+     "back": "숫자가 흘러가니 몇 번이든 <b>A 버튼으로 다시 볼 수</b> 있으면 좋아요."
+    }
+   ],
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "먼저 필요를 예측하고 카드를 눌러 봐요. 사람마다 <b>필요가 달라요</b>."
+    }
+   ]
+  },
+  {
+   "type": "ws",
+   "tag": "21차시 활동1",
+   "title": "설계 카드 ①: 누가, 무엇이 필요할까?",
+   "img": "../_shots/B11/ws_act1_1a.webp",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "쓸 사람, 그 사람의 필요, 목표 걸음 수를 적어요."
+    },
+    {
+     "c": "c2",
+     "t": "필요를 한 줄로 쓰면 다음 칸이 쉬워져요.",
+     "side": "r"
+    }
+   ],
+   "note": "활동지 1쪽 ①"
+  },
+  {
+   "type": "ws",
+   "tag": "21차시 활동1",
+   "title": "설계 카드 ②: 입력·처리·출력",
+   "img": "../_shots/B11/ws_act1_1b.webp",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "입력은 <b>흔들림·버튼</b>, 처리는 <b>걸음 수 1 더하기</b>예요."
+    },
+    {
+     "c": "c4",
+     "t": "다 쓰면 짝에게 읽어 주고 빠진 칸 하나를 표시받아요.",
+     "side": "r"
+    }
+   ],
+   "note": "활동지 1쪽 ① (아래 세 칸)"
+  },
+  {
+   "type": "open",
+   "tag": "21차시 활동2",
+   "title": "기본 만보기 만들고 기능 하나 더하기",
+   "img": "../_assets/B11/orig/image3.webp",
+   "contain": true,
+   "todo": "지난 시간 흔들기 카운터 파일을 열어 변수 이름을 <b>걸음수</b>로 바꾸고, 기능 카드 한 장을 더해요.",
+   "note": "기능 카드: <a class=\"btn\" style=\"font-size:22px;padding:4px 12px;margin:2px 6px 2px 0\" href=\"https://makecode.microbit.org/_ix6LMp7VV8mv\" target=\"_blank\">목표 알림 ↗</a> <a class=\"btn\" style=\"font-size:22px;padding:4px 12px;margin:2px 6px 2px 0\" href=\"https://makecode.microbit.org/_EcH4hXYdJPpt\" target=\"_blank\">진행 막대 ↗</a><span style=\"display:block;font-size:19px;line-height:1.1;white-space:nowrap;letter-spacing:-.3px\">목표 알림 makecode.microbit.org/_ix6LMp7VV8mv</span><span style=\"display:block;font-size:19px;line-height:1.1;white-space:nowrap;letter-spacing:-.3px\">진행 막대 makecode.microbit.org/_EcH4hXYdJPpt</span>",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "다운로드한 뒤 USB를 빼고 배터리 팩을 끼워 흔들어 봐요."
+    }
+   ],
+   "link": [
+    "기본 뼈대 열기",
+    "https://makecode.microbit.org/S63073-32332-31529-11953"
+   ]
+  },
+  {
+   "type": "order",
+   "tag": "21차시 활동2",
+   "title": "순서 맞추기: 만보기 블록 만들기",
+   "q": "만보기를 만드는 순서대로 블록 카드를 눌러요.",
+   "cards": [
+    [
+     2,
+     {
+      "img": "../_assets/B11/orig/blk_shake.webp",
+      "contain": true,
+      "t": "흔들림 감지될 때: 걸음수 1 증가"
+     }
+    ],
+    [
+     4,
+     {
+      "img": "../_assets/B11/orig/blk_b.webp",
+      "contain": true,
+      "t": "B 버튼: 0 저장하고 숫자 출력"
+     }
+    ],
+    [
+     1,
+     {
+      "img": "../_assets/B11/orig/blk_start.webp",
+      "contain": true,
+      "t": "시작하면: 걸음수에 0 저장"
+     }
+    ],
+    [
+     3,
+     {
+      "img": "../_assets/B11/orig/blk_a.webp",
+      "contain": true,
+      "t": "A 버튼: 숫자 출력 걸음수"
+     }
+    ]
+   ],
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "먼저 순서를 예측하고 눌러 봐요. 다시 누르면 처음부터예요. 놓는 순서예요. 실행은 흔들거나 버튼을 누를 때 일어나요."
+    }
+   ]
+  },
+  {
+   "type": "ws",
+   "tag": "21차시 활동2",
+   "title": "작동 확인과 기능 카드",
+   "img": "../_shots/B11/ws_act2_1.webp",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "네 가지를 확인하고 <b>더한 기능</b>에 표시해요."
+    },
+    {
+     "c": "c4",
+     "t": "안 움직이면 고친 곳을 적어요.",
+     "side": "r"
+    }
+   ],
+   "note": "활동지 1쪽 ②"
+  },
+  {
+   "type": "break",
+   "title": "21차시 끝! 잠깐 쉬어요",
+   "img": "../_assets/B11/cover.webp",
+   "bubbles": [
+    {
+     "c": "c1",
+     "t": "다음 시간에는 만보기를 몸에 달고 걸으며 <b>직접 센 수</b>와 견줘요."
+    }
+   ]
+  },
+  {
+   "type": "open",
+   "tag": "22차시 활동3",
+   "title": "거치대 달고 세 가지 걸음으로 재기",
+   "img": "../_assets/B11/orig/image4.webp",
+   "contain": true,
+   "todo": "손목·신발끈·허리 가운데 달 곳을 골라 <b>거치대</b>로 감싸요.",
+   "note": "LED 화면과 A·B 버튼이 가려지지 않게 해요.",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "걷는·세는·적는 역할을 정하고, 걸음 종류가 바뀔 때마다 걷는 사람을 바꿔요."
+    }
+   ]
+  },
+  {
+   "type": "predict",
+   "tag": "22차시 활동3",
+   "title": "먼저 예측해요",
+   "q": "걷기·빨리 걷기·제자리 뛰기.<br>직접 센 수와 <b>기기 수가 가장 다를 걸음</b>은?",
+   "options": [
+    "걷기",
+    "빨리 걷기",
+    "제자리 뛰기"
+   ],
+   "after": "../_assets/B11/orig/step_rows.webp",
+   "contain": true,
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "출발 전에 예상한 수를 걸음 기록지에 먼저 적어요."
+    }
+   ],
+   "note": "아래는 기록 예시예요. 우리 모둠 결과는 다를 수 있어요."
+  },
+  {
+   "type": "ws",
+   "tag": "22차시 활동3",
+   "title": "걸음 기록지에 적기",
+   "img": "../_shots/B11/ws_act3_1.webp",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "출발할 때마다 B 버튼으로 0을 맞춰요."
+    },
+    {
+     "c": "c5",
+     "t": "예상한 수, 직접 센 수, 기기 수를 한 줄에 적어요.",
+     "side": "r"
+    }
+   ],
+   "note": "활동지 2쪽 ①"
+  },
+  {
+   "type": "open",
+   "tag": "22차시 활동4",
+   "title": "한 가지만 바꾸어 다시 재고 비교하기",
+   "img": "../_assets/B11/orig/step_why.webp",
+   "contain": true,
+   "todo": "차이의 <b>까닭 하나</b>를 고르고, 그에 맞게 <b>한 가지만</b> 고쳐 다시 재요.",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "고치기 전과 고친 뒤를 나란히 적어요. 가까워졌든 멀어졌든 있는 그대로 적어요."
+    }
+   ]
+  },
+  {
+   "type": "flip",
+   "tag": "22차시 활동4",
+   "title": "카드 뒤집기: 수가 다른 까닭",
+   "cards": [
+    {
+     "img": "../_assets/B11/cause_double.webp",
+     "front": "여러 번 셈",
+     "back": "한 걸음인데 기기가 <b>여러 번</b> 셌어요. 세는 방법을 바꿔요."
+    },
+    {
+     "img": "../_assets/B11/cause_miss.webp",
+     "front": "못 셈",
+     "back": "<b>못 센 걸음</b> 때문이면 기준값을 바꿔 봐요."
+    },
+    {
+     "img": "../_assets/B11/cause_loose.webp",
+     "front": "거치대가 헐거움",
+     "back": "기기가 <b>흔들려서</b> 값이 달라졌어요. 거치대를 고쳐요."
+    }
+   ],
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "기기 수가 많을지 적을지 예측하고 카드를 눌러 까닭을 확인해요."
+    }
+   ]
+  },
+  {
+   "type": "ws",
+   "tag": "22차시 활동4",
+   "title": "차이와 까닭 고르기",
+   "img": "../_shots/B11/ws_act4_1.webp",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "직접 센 수와 기기 수의 <b>차이가 가장 컸던 걸음</b>을 찾아요."
+    },
+    {
+     "c": "c5",
+     "t": "기기 수가 더 많은지 적은지 고르고 까닭을 표시해요.",
+     "side": "r"
+    }
+   ],
+   "note": "활동지 2쪽 ②"
+  },
+  {
+   "type": "open",
+   "tag": "22차시 활동4",
+   "title": "기준값 만보기: 바꿀 곳은 한 곳",
+   "img": "../_assets/B11/orig/image6.webp",
+   "contain": true,
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "1500 자리의 수를 도움 카드의 내 거치대 값으로 바꿔요. 세는 방법이 흔들림 감지에서 기준값 비교로 달라졌어요."
+    }
+   ],
+   "todo": "기준값 만보기를 열어 <b>[기준값 에 1500 저장]</b>의 수를 바꿔요.",
+   "link": [
+    "기준값 만보기 열기",
+    "https://makecode.microbit.org/S05040-43115-14563-65326"
+   ]
+  },
+  {
+   "type": "ws",
+   "tag": "22차시 활동4",
+   "title": "고치기 전과 뒤 견주기",
+   "img": "../_shots/B11/ws_act4_2.webp",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "같은 구간을 처음 걸은 걸음으로 다시 걸어요."
+    },
+    {
+     "c": "c4",
+     "t": "고치기 전과 뒤의 차이를 나란히 적어요.",
+     "side": "r"
+    }
+   ],
+   "note": "활동지 2쪽 ②"
+  },
+  {
+   "type": "predict",
+   "tag": "22차시 활동4",
+   "title": "먼저 예측해요: 한 가지 고친 뒤",
+   "q": "고친 뒤에 직접 센 수와 기기 수는<br>어떻게 될까요?",
+   "options": [
+    "가까워져요",
+    "멀어져요",
+    "그대로예요"
+   ],
+   "after": "../_assets/B11/orig/step_rows.webp",
+   "contain": true,
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "예상은 달라도 괜찮아요. 다시 재어 보고 결과를 있는 그대로 적어요."
+    }
+   ],
+   "note": "가까워졌는지 멀어졌는지, 까닭을 말해 봐요."
+  },
+  {
+   "type": "break",
+   "title": "22차시 끝! 잠깐 쉬어요",
+   "img": "../_assets/B11/cover.webp",
+   "bubbles": [
+    {
+     "c": "c1",
+     "t": "다음 시간에는 걸음 수를 <b>무선</b>으로 친구 기기에 보내요."
+    }
+   ]
+  },
+  {
+   "type": "open",
+   "tag": "23차시 활동5",
+   "title": "무선으로 수를 주고받아 보기",
+   "img": "../_assets/B11/hat_game.webp",
+   "todo": "쪽지 몸 놀이로 <b>보내는 쪽·받는 쪽·그룹 번호</b>를 알아봐요.",
+   "note": "모자 색이 그룹 번호예요. 같은 번호끼리만 통해요.",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "만보기 수를 멀리 있는 가족이 보려면 어떻게 할까요?"
+    }
+   ],
+   "link": [
+    "라디오 기초 열기",
+    "https://makecode.microbit.org/S22533-90480-53173-85462"
+   ]
+  },
+  {
+   "type": "predict",
+   "tag": "23차시 활동5",
+   "title": "먼저 예측해요",
+   "q": "내 기기에서 A 버튼을 누르면<br>짝 기기에는 어떻게 될까요?",
+   "options": [
+    "짝 기기에 1이 떠요",
+    "아무 일도 없어요",
+    "내 기기에 1이 떠요"
+   ],
+   "after": "../_assets/B11/orig/rad_sim.webp",
+   "contain": true,
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "그룹 번호가 같다는 약속이 있을 때 일어나는 일이에요."
+    }
+   ],
+   "note": "시뮬레이터에서 기기 한 대가 더 나타나 받은 수를 보여 줘요."
+  },
+  {
+   "type": "order",
+   "tag": "23차시 활동5",
+   "title": "순서 맞추기: 무선으로 수 주고받기",
+   "q": "무선으로 수를 주고받는 코드를 놓는 순서대로 눌러요.",
+   "cards": [
+    [
+     2,
+     {
+      "img": "../_assets/B11/orig/rad_a.webp",
+      "contain": true,
+      "t": "A 버튼: 라디오 전송 수 1"
+     }
+    ],
+    [
+     1,
+     {
+      "img": "../_assets/B11/orig/rad_group.webp",
+      "contain": true,
+      "t": "시작하면: 짝과 같은 그룹 번호로 설정"
+     }
+    ],
+    [
+     4,
+     {
+      "img": "../_assets/B11/orig/rad_recv.webp",
+      "contain": true,
+      "t": "수를 받으면: 받은 수 출력"
+     }
+    ],
+    [
+     3,
+     {
+      "img": "../_assets/B11/orig/rad_b.webp",
+      "contain": true,
+      "t": "B 버튼: 라디오 전송 수 2"
+     }
+    ]
+   ],
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "그룹 번호는 선생님이 짝마다 다르게 줘요. 파일의 1은 짝 번호로 바꿔요. 놓는 순서예요. 실행은 버튼을 누를 때 일어나요."
+    }
+   ]
+  },
+  {
+   "type": "ws",
+   "tag": "23차시 활동5",
+   "title": "통신 약속표: 1과 2의 뜻",
+   "img": "../_shots/B11/ws_act5_1.webp",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "짝과 <b>1과 2의 뜻</b>을 정해 적어요."
+    },
+    {
+     "c": "c4",
+     "t": "그룹 번호는 선생님이 준 번호를 써요.",
+     "side": "r"
+    }
+   ],
+   "note": "활동지 3쪽 ①"
+  },
+  {
+   "type": "open",
+   "tag": "23차시 활동6",
+   "title": "무선 만보기로 걸음 수 보내기와 걸음 경주",
+   "img": "../_assets/B11/orig/image9.webp",
+   "contain": true,
+   "todo": "걸음마다 걸음 수를 <b>보내고</b>, 짝의 걸음을 <b>막대</b>로 받아 봐요.",
+   "note": "<a class=\"btn\" style=\"font-size:22px;padding:4px 12px;margin:2px 6px 2px 0\" href=\"https://makecode.microbit.org/S36376-65310-99086-14455\" target=\"_blank\">고치기 연습 파일 ① ↗</a> <a class=\"btn\" style=\"font-size:22px;padding:4px 12px;margin:2px 6px 2px 0\" href=\"https://makecode.microbit.org/S61769-05185-68242-15823\" target=\"_blank\">고치기 연습 파일 ② ↗</a><span style=\"display:block;font-size:17px;line-height:1.1;white-space:nowrap;letter-spacing:-.3px\">①: makecode.microbit.org/S36376-65310-99086-14455</span><span style=\"display:block;font-size:17px;line-height:1.1;white-space:nowrap;letter-spacing:-.3px\">②: makecode.microbit.org/S61769-05185-68242-15823</span>",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "짝 두 대에 같은 파일을 넣고, 같은 그룹 번호로 맞춰요."
+    }
+   ],
+   "link": [
+    "무선 만보기 기본 파일 열기",
+    "https://makecode.microbit.org/S76691-23285-99288-29953"
+   ]
+  },
+  {
+   "type": "pair",
+   "tag": "23차시 활동6",
+   "title": "둘 중 하나: GOAL 알림이 안 뜨면 어디를 볼까?",
+   "a": {
+    "img": "../_assets/B11/orig/send2.webp",
+    "label": "보내는 부분",
+    "contain": true
+   },
+   "b": {
+    "img": "../_assets/B11/orig/recv2.webp",
+    "label": "받는 부분",
+    "contain": true
+   },
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "알림이 안 뜨면 <b>보낸 쪽·받은 쪽·약속</b> 가운데 어디인지 골라 한 곳만 고쳐요."
+    },
+    {
+     "c": "c5",
+     "t": "그룹 번호와 글자 GOAL이 같은지도 약속이에요.",
+     "side": "r"
+    }
+   ]
+  },
+  {
+   "type": "ws",
+   "tag": "23차시 활동6",
+   "title": "약속 더하기: 걸음 수와 GOAL",
+   "img": "../_shots/B11/ws_act6_1.webp",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "통신 약속표에 <b>걸음 수</b>와 글자 <b>GOAL</b>의 약속을 더해 적어요."
+    },
+    {
+     "c": "c5",
+     "t": "보내는 것이 무엇이고 짝 기기에 무엇이 보일지 한 줄씩 써요.",
+     "side": "r"
+    }
+   ],
+   "note": "활동지 3쪽 ②"
+  },
+  {
+   "type": "predict",
+   "tag": "23차시 활동6",
+   "title": "먼저 예측해요: 걸음 경주",
+   "q": "목표 20으로 제자리 걷기.<br>누구의 GOAL 알림이 짝 기기에 먼저 뜰까요?",
+   "options": [
+    "내 기기",
+    "짝 기기",
+    "거의 같이"
+   ],
+   "after": "../_assets/B11/orig/image10.webp",
+   "contain": true,
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "둘 다 B 버튼으로 0을 맞추고, 출발 신호에 함께 걸어요."
+    }
+   ],
+   "note": "목표에 닿으면 멈춰요. 계속 걸으면 막대가 하트를 덮어요."
+  },
+  {
+   "type": "ws",
+   "tag": "23차시 활동6",
+   "title": "고친 기록과 걸음 경주",
+   "img": "../_shots/B11/ws_act6_2.webp",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "고친 곳과 다시 시험한 결과를 '고친 기록' 칸에 적어요."
+    },
+    {
+     "c": "c4",
+     "t": "걸음 경주에서 GOAL이 먼저 뜬 기기도 표시해요.",
+     "side": "r"
+    }
+   ],
+   "note": "활동지 3쪽 ②"
+  },
+  {
+   "type": "ws",
+   "tag": "23차시 활동6",
+   "title": "설계 카드에 다른 기기에 보일 것",
+   "img": "../_shots/B11/ws_act7_1.webp",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "짝 기기에 보일 <b>걸음 수 막대</b>와 <b>GOAL 알림</b>을 적어요."
+    }
+   ],
+   "note": "활동지 3쪽 ③"
+  },
+  {
+   "type": "break",
+   "title": "23차시 끝! 잠깐 쉬어요",
+   "img": "../_assets/B11/cover.webp",
+   "bubbles": [
+    {
+     "c": "c1",
+     "t": "다음 시간에는 모둠이 고른 <b>무선 게임</b>을 만들어 서로 시험해요."
+    }
+   ]
+  },
+  {
+   "type": "open",
+   "tag": "24차시 활동7",
+   "title": "[확장] 모둠이 고른 무선 게임 하나 만들기",
+   "img": "../_assets/B11/orig/image11.webp",
+   "contain": true,
+   "todo": "<b>가위바위보</b>와 <b>신호 세기 보물찾기</b> 가운데 하나를 골라요.",
+   "note": "보물찾기: <a class=\"btn\" style=\"font-size:22px;padding:6px 14px;margin:2px 6px 2px 0\" href=\"https://makecode.microbit.org/S73687-34793-05312-82553\" target=\"_blank\">보물 기기 ↗</a> <a class=\"btn\" style=\"font-size:22px;padding:6px 14px;margin:2px 6px 2px 0\" href=\"https://makecode.microbit.org/S90898-42976-80637-69469\" target=\"_blank\">찾는 기기 ↗</a><span style=\"display:block;font-size:17px;line-height:1.1;white-space:nowrap;letter-spacing:-.3px\">보물: makecode.microbit.org/S73687-34793-05312-82553</span><span style=\"display:block;font-size:17px;line-height:1.1;white-space:nowrap;letter-spacing:-.3px\">찾는: makecode.microbit.org/S90898-42976-80637-69469</span>",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "그룹 번호는 선생님이 정한 모둠 번호로, 다운로드하기 전에 바꿔요."
+    }
+   ],
+   "link": [
+    "가위바위보 열기",
+    "https://makecode.microbit.org/S71322-17885-01209-06402"
+   ]
+  },
+  {
+   "type": "flip",
+   "tag": "24차시 활동7",
+   "title": "카드 뒤집기: 두 가지 무선 게임",
+   "cards": [
+    {
+     "img": "../_assets/B11/orig/image11.webp",
+     "contain": true,
+     "front": "가위바위보",
+     "back": "흔들면 무작위로 정해지는 수는 <b>0·1·2</b> 가운데 하나예요."
+    },
+    {
+     "img": "../_assets/B11/orig/image12.webp",
+     "contain": true,
+     "front": "보물찾기",
+     "back": "신호가 <b>셀수록 가까워요.</b> LED 줄을 더 많이 켜요."
+    }
+   ],
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "어떤 수를 주고받는지 예측하고 카드를 눌러 확인해요."
+    }
+   ]
+  },
+  {
+   "type": "ws",
+   "tag": "24차시 활동7",
+   "title": "게임 설명서 쓰기",
+   "img": "../_shots/B11/ws_act8_1.webp",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "하는 법, 통신 약속, 주고받는 수와 뜻을 적어요."
+    }
+   ],
+   "note": "활동지 4쪽 ①"
+  },
+  {
+   "type": "open",
+   "tag": "24차시 활동8",
+   "title": "[확장] 게임 테스트 대회와 버그 하나 고치기",
+   "img": "../_assets/B11/orig/bugcard.webp",
+   "contain": true,
+   "todo": "다른 모둠 게임을 <b>설명서만 보고</b> 해 보고, 이상한 점을 버그 카드에 적어요.",
+   "note": "사람 이름 대신 한 일과 뜬 결과만 적어요. <a class=\"btn\" style=\"font-size:22px;padding:6px 14px;margin:2px 6px 2px 0\" href=\"https://makecode.microbit.org/S59531-18677-90255-29572\" target=\"_blank\">버그 파일 ② ↗</a><span style=\"display:block;font-size:19px;line-height:1;margin:-2px 0 2px;white-space:nowrap;letter-spacing:-.3px\">makecode.microbit.org/S59531-18677-90255-29572</span>",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "버그는 잘못된 곳이에요. 찾는 것이 목표예요."
+    }
+   ],
+   "link": [
+    "버그 파일 ① 열기",
+    "https://makecode.microbit.org/_08U78zhmq9Yy"
+   ]
+  },
+  {
+   "type": "predict",
+   "tag": "24차시 활동8",
+   "title": "먼저 예측해요: 버그는 어디?",
+   "q": "게임에서 이상한 점을 찾았어요.<br>어디가 문제일까요?",
+   "options": [
+    "보낸 쪽",
+    "받은 쪽",
+    "약속"
+   ],
+   "after": "../_assets/B11/orig/bugcard.webp",
+   "contain": true,
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "블록 <b>한 곳만</b> 고치고, 다시 시험해 전후를 적어요."
+    }
+   ],
+   "note": "위 세 칸은 버그, 아래 두 칸은 고친 뒤에 적어요."
+  },
+  {
+   "type": "ws",
+   "tag": "24차시 활동8",
+   "title": "버그 카드 쓰기",
+   "img": "../_shots/B11/ws_act9_1.webp",
+   "bubbles": [
+    {
+     "c": "c3",
+     "t": "언제, 무엇을 했더니, 무엇이 떴는지 적어요."
+    },
+    {
+     "c": "c5",
+     "t": "어디 문제인지 고르고 고친 블록 한 곳을 써요.",
+     "side": "r"
+    }
+   ],
+   "note": "활동지 4쪽 ②"
+  },
+  {
+   "type": "wrap",
+   "tag": "24차시 정리",
+   "title": "오늘 배운 것 정리",
+   "img": "../_shots/B11/ws_act10_1.webp",
+   "items": [
+    "설계 카드를 보며 처음 만보기와 무선 만보기에서 <b>들어가는 것·나오는 것</b>이 어떻게 달라졌는지 말해요.",
+    "약속표의 <b>고친 기록</b>으로 고친 곳과 다시 시험한 결과를 한 줄로 말해요.",
+    "파일 이름이 반·번호로만 되어 있는지 확인하고 기기와 배터리를 정리해요."
+   ],
+   "note": "활동지 4쪽 · 블록 돌아보기"
+  },
+  {
+   "type": "done",
+   "img": "../_assets/B11/mission_done.webp",
+   "bubbles": [
+    {
+     "c": "c1",
+     "t": "내 만보기가 걸음 수를 친구 기기까지 보내요! 해결 도장을 찍어요."
+    }
+   ]
+  }
+ ],
+ "ai_orig": [],
+ "not_ai": [
+  "../_assets/B11/yt_uAWc5a3PO7k.jpg"
+ ]
+}
