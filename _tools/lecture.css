@@ -183,7 +183,7 @@ background:radial-gradient(circle at 20px 46px,var(--grass-l) 26px,transparent 2
 .zoom.ws img{object-fit:cover;object-position:left top}
 /* 감수 L2: 활동지 캡처는 너비 전체, 말풍선은 아래 줄 / 잘림 없애기 */
 .zoom.ws{flex:1;min-height:0;margin-bottom:12px}
-.zoom.ws img{width:100%!important;height:auto!important;object-fit:fill!important}
+.zoom.ws img{width:100%!important;height:auto!important;object-fit:fill!important;display:block}
 .t-ws .bubrow,.t-wrap .bubrow{position:static;flex-direction:row;display:grid;grid-template-columns:1fr 1fr;max-width:none;gap:18px}
 .prep li{font-size:22px;line-height:1.35;align-items:flex-start}
 .two > .col{max-height:100%}
@@ -208,3 +208,20 @@ background:radial-gradient(circle at 20px 46px,var(--grass-l) 26px,transparent 2
 .s > .bubrow,.s > .wraprow,.s > .q,.s > h2,.s > .ktag,.s > .bub{flex-shrink:0}
 .pathrow .pic{height:200px}.side .pic{height:185px}
 .s > .aisl.aisl,.s > .pn.pn{position:absolute}
+/* 배운 것 반영: 낱말 안 꺾기, 활동지 가리키기 동그라미 */
+.s{word-break:keep-all;overflow-wrap:anywhere}
+.zin{position:relative}
+.ptr{position:absolute;border:5px solid var(--grass);border-radius:16px;box-shadow:0 0 0 4px #fff9}
+.ptr b{position:absolute;left:-16px;top:-16px;width:34px;height:34px;border-radius:50%;background:var(--grass);color:#fff;font-family:'Jua';font-size:20px;line-height:34px;text-align:center}
+.ptr:not(.hide){animation:pulse 1.2s ease 2}
+
+/* 오늘의 길 칸이 많을 때(9칸 안팎)도 두 줄 안에 */
+.path{gap:8px}.path li{min-width:0;flex:1 1 150px;padding:8px 12px}.path li span{font-size:21px}
+
+.huntwrap{grid-template-columns:2.2fr 1fr}
+@media print{.t-flip .flip .fr .pic{height:140px}}
+
+.wsside{display:grid;grid-template-columns:1fr 330px;gap:22px;flex:1;min-height:0}
+.wsside .zoom.ws{height:100%;margin:0}
+/* 10-30: 가로로 긴(짧은) 활동지 컷은 틀이 컷 높이에 맞게 줄어든다(아래 흰 빈 칸 없애기). side 장은 그대로 장 높이 가득 */
+.s > .zoom.ws{flex:0 1 auto}

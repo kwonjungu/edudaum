@@ -7,6 +7,10 @@ const RECIPE = {
     await p.click('#check').catch(() => {}); await sleep(900); await shotEl(p, 'section', 1, 'z_result'); },
 };
 const B = process.argv[2], OUT = path.resolve(`lecture/_shots/${B}`);
+// 블록별 캡처 방법은 _tools/lecture_recipes/Bxx.cjs (module.exports = async (p, {shot, shotEl, sleep}) => {...}) — 병렬 작업 때 서로 안 겹치게
+const fsx = require('fs'); const RF = path.resolve(`_tools/lecture_recipes/${B}.cjs`);
+if (fsx.existsSync(RF)) { const f = require(RF); RECIPE[B] = p => f(p, { shot, shotEl, sleep }); }
+fsx.mkdirSync(OUT, { recursive: true });
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 let shot;
 const shotEl = async (p, sel, i, n) => { await sleep(400); const els = await p.$$(sel); if (els[i]) { await els[i].screenshot({ path: `${OUT}/${n}.png` }); console.log(n); } };

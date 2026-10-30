@@ -1,0 +1,293 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>B04 강의교안 — 맛있는 코딩과 로봇 셰프 레시피 — 에듀다움</title><style>@font-face{font-family:'Jua';src:url('../../assets/fonts/jua.woff2') format('woff2')}
+@font-face{font-family:'Gowun Dodum';src:url('../../assets/fonts/gowun-dodum.woff2') format('woff2')}
+:root{--paper:#f8f6f1;--card:#fff;--ink:#33302b;--sub:#6f6a62;--grass:#7fb069;--grass-d:#5c8f48;--grass-l:#e7f1df;--sun:#ffc845;--sun-l:#fff3cc;--soil:#a07850;--sky:#5aa9e6;--line:#e3ddd1}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#2f3a2a;height:100%}
+body{font-family:'Gowun Dodum',sans-serif;color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact;overflow:hidden}
+.deck{position:relative;width:100vw;height:100vh}
+.s{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center;background:var(--paper);overflow:hidden;padding:56px 72px 70px;display:none;flex-direction:column}
+.s.cur{display:flex}
+.h{font-family:'Jua',sans-serif;font-weight:400;letter-spacing:-.3px;line-height:1.2}
+h2.h{font-size:46px;margin:10px 0 18px}
+h2.h::before{content:'';display:block;width:40px;height:6px;border-radius:3px;background:var(--grass);margin-bottom:14px}
+.ktag{align-self:flex-start;font-family:'Jua';font-size:20px;background:var(--grass-l);color:var(--grass-d);border:2px solid var(--grass);border-radius:999px;padding:4px 16px}
+.pn{position:absolute;right:40px;bottom:22px;font-size:16px;color:var(--sub);font-family:'Jua';z-index:3}
+.grass{position:absolute;left:0;right:0;bottom:0;height:46px;z-index:0;opacity:.9;
+background:radial-gradient(circle at 20px 46px,var(--grass-l) 26px,transparent 27px) 0 0/48px 46px repeat-x,linear-gradient(transparent 70%,var(--grass-l) 70%)}
+.s > *:not(.grass){position:relative;z-index:1}
+.two.ws{grid-template-columns:1.75fr 1fr}
+.two{display:grid;grid-template-columns:1.15fr 1fr;gap:36px;flex:1;min-height:0;align-items:center}
+.two.wide{grid-template-columns:1.3fr 1fr}
+.col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.pic{position:relative;border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 6px 18px #0002;height:100%;max-height:520px}
+.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.aicap{position:absolute;right:10px;bottom:8px;font-size:13px;color:#fff;background:#0006;border-radius:8px;padding:1px 8px}
+/* 말풍선 */
+.bub{display:flex;gap:14px;align-items:flex-start}
+.bub .face{width:88px;height:88px;border-radius:50%;background:var(--grass-l);border:4px solid #fff;box-shadow:0 3px 10px #0002;object-fit:cover;object-position:top;flex:none}
+.bub .talk{position:relative;background:#fff;border:3px solid var(--ink);border-radius:22px;padding:12px 18px;font-size:24px;line-height:1.4;box-shadow:4px 4px 0 var(--ink)}
+.bub .talk b.nm{display:block;font-family:'Jua';font-weight:400;font-size:19px;color:var(--grass-d)}
+.bub .talk b:not(.nm){color:var(--grass-d)}
+.bubrow{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.bubrow .bub:only-child{grid-column:1/-1}
+.pic.contain img{object-fit:contain;background:#fff}
+.bub .talk::before{content:'';position:absolute;left:-16px;top:30px;border:12px solid transparent;border-right:16px solid var(--ink);border-left:0}
+.bub .talk::after{content:'';position:absolute;left:-10px;top:33px;border:9px solid transparent;border-right:12px solid #fff;border-left:0}
+.bub.r{flex-direction:row-reverse}
+.bub.r .talk::before{left:auto;right:-16px;border-right:0;border-left:16px solid var(--ink)}
+.bub.r .talk::after{left:auto;right:-10px;border-right:0;border-left:12px solid #fff}
+.memo{background:var(--sun-l);border-left:8px solid var(--sun);border-radius:12px;padding:10px 16px;font-size:24px;line-height:1.4}
+/* 표지 */
+.t-cover{padding:0}
+.cover{position:relative;width:100%;height:100%}
+.cover .pic.bg{position:absolute;inset:0;max-height:none;border-radius:0;box-shadow:none}
+.ctext{position:absolute;left:72px;top:70px;background:#fffd;border-radius:28px;padding:30px 40px;max-width:720px}
+.kick{font-family:'Jua';font-size:22px;color:var(--grass-d)}
+.cover h1{font-size:72px;margin:8px 0 10px}
+.lead{font-size:28px;font-family:'Jua';color:var(--soil)}
+.crew{position:absolute;right:56px;bottom:40px;display:flex;gap:8px}
+.crew img{width:190px;height:190px;object-fit:contain;filter:drop-shadow(0 6px 8px #0003)}
+/* 미션 카드 */
+.mcard{background:var(--sun-l);border:3px dashed var(--soil);border-radius:28px;padding:28px 30px;display:flex;flex-direction:column;gap:18px}
+.stamp{align-self:flex-start;font-family:'Jua';font-size:24px;color:#c8442f;border:4px solid #c8442f;border-radius:14px;padding:4px 16px;transform:rotate(-4deg)}
+.mq{font-family:'Jua';font-size:29px;line-height:1.4}
+/* 오늘의 길 */
+.path{list-style:none;display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.path li{background:#fff;border:3px solid var(--grass);border-radius:18px;padding:12px 18px;min-width:150px}
+.path li b{display:block;font-family:'Jua';font-size:20px;color:var(--grass-d)}
+.path li span{display:block;font-size:24px}
+.path li i{font-style:normal;font-size:18px;color:var(--sub)}
+.path li.cha{background:var(--ink);border-color:var(--ink)}.path li.cha b,.path li.cha span{color:#fff}
+/* 활동 열기 */
+.todo{font-family:'Jua';font-size:30px;line-height:1.35}
+.timer{align-self:flex-start;width:112px;height:112px;border-radius:50%;border:7px solid var(--grass);background:#fff;font-family:'Jua';cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.timer span{font-size:30px}.timer small{font-size:15px;color:var(--sub)}
+.timer.run{border-color:var(--sun)}
+/* 예측 */
+.q{font-family:'Jua';font-size:32px;line-height:1.35}
+.opts{display:flex;flex-wrap:wrap;gap:12px}
+.opt{font-family:'Jua';font-size:28px;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:12px 24px;cursor:pointer;box-shadow:4px 4px 0 var(--ink)}
+.opt.pick{background:var(--sun);transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+.pic.after{max-height:420px}
+/* 숨은 그림 찾기 */
+.huntwrap{display:grid;grid-template-columns:1.6fr 1fr;gap:28px;flex:1;min-height:0;align-items:center}
+.hunt{position:relative}
+.hunt .pic{max-height:none;height:auto;aspect-ratio:16/9}
+.spot{position:absolute;aspect-ratio:1;border:6px solid var(--sun);border-radius:50%;box-shadow:0 0 0 4px #fff8;transform:translate(-50%,-50%)}
+.spot em{position:absolute;left:50%;top:100%;transform:translateX(-50%);white-space:nowrap;font-style:normal;font-family:'Jua';font-size:20px;background:var(--ink);color:#fff;border-radius:10px;padding:2px 10px;margin-top:4px}
+/* 카드 뒤집기 */
+.flips{display:flex;gap:22px;flex:1;min-height:0;align-items:stretch;margin-bottom:16px}
+.flip{flex:1;position:relative;perspective:900px;background:none;border:0;cursor:pointer;min-height:290px}
+.flip .fr,.flip .bk{position:absolute;inset:0;border-radius:22px;backface-visibility:hidden;transition:transform .6s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink)}
+.flip .fr{background:#fff}.flip .fr .pic{height:180px;width:100%;box-shadow:none}
+.flip .fr b{font-family:'Jua';font-size:28px;font-weight:400}
+.flip .bk{background:var(--grass-l);transform:rotateY(180deg);font-size:24px;line-height:1.45;text-align:left}
+.flip.on .fr{transform:rotateY(180deg)}.flip.on .bk{transform:rotateY(360deg)}
+/* 둘 중 하나 */
+.pair{display:flex;align-items:center;gap:26px;flex:1;min-height:0;margin-bottom:12px}
+.side{flex:1;background:#fff;border:3px solid var(--ink);border-radius:24px;padding:14px;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:transform .3s}
+.side .pic{height:220px;box-shadow:none}.side b{display:block;font-family:'Jua';font-size:30px;font-weight:400;margin-top:8px}
+.side.pick{transform:scale(1.04);background:var(--sun-l)}
+.vs{font-family:'Jua';font-size:60px;color:var(--soil)}
+/* 활동지 */
+.sheet{background:#fff;border-radius:18px;box-shadow:0 6px 18px #0002;padding:10px;max-height:540px;overflow:hidden;display:flex;align-items:flex-start;justify-content:center}
+.sheet img{width:100%;max-height:520px;object-fit:contain}
+.sheet.small{max-height:500px}
+/* 체험 */
+.phone{justify-self:center;width:300px;height:540px;border-radius:40px;background:#222;padding:14px;box-shadow:0 10px 24px #0004}
+.scr{position:relative;width:100%;height:100%;border-radius:28px;overflow:hidden;background:#fff}
+.scr img{position:absolute;inset:0;width:100%;object-fit:cover;object-position:top;opacity:0;transition:opacity .8s}
+.scr img.on{opacity:1}
+.go{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.btn{font-family:'Jua';font-size:26px;background:var(--grass);color:#fff;text-decoration:none;border-radius:16px;padding:12px 24px;box-shadow:4px 4px 0 var(--grass-d)}
+.qr svg{width:120px;height:120px;background:#fff;border-radius:10px;padding:6px}
+.go small{width:100%;font-size:16px;color:var(--sub)}
+/* 쉬는 시간, 정리, 해결 */
+.brk,.done{display:grid;grid-template-columns:1.2fr 1fr;gap:36px;flex:1;align-items:center}
+.wrapq{list-style:none;counter-reset:w;display:flex;flex-direction:column;gap:12px}
+.wrapq li{counter-increment:w;background:#fff;border:3px solid var(--grass);border-radius:16px;padding:12px 18px 12px 60px;font-size:25px;line-height:1.4;position:relative}
+.wrapq li::before{content:counter(w);position:absolute;left:14px;top:10px;width:34px;height:34px;border-radius:50%;background:var(--grass);color:#fff;font-family:'Jua';text-align:center;line-height:34px}
+.seal{align-self:flex-start;font-family:'Jua';font-size:30px;color:#c8442f;border:5px solid #c8442f;border-radius:50%;padding:30px 16px;transform:rotate(-10deg)}
+.next{font-family:'Jua';font-size:26px;color:var(--soil)}
+/* 단계 */
+[data-step]{transition:opacity .35s,transform .35s}
+.s:not(.print) [data-step].hide{opacity:0;transform:translateY(10px);pointer-events:none}
+.bub:not(.hide) .face{animation:hop .5s ease}
+.spot:not(.hide){animation:pulse 1.2s ease 2}
+.t-done .seal{animation:stamp .7s cubic-bezier(.2,1.6,.4,1)}
+@keyframes hop{40%{transform:translateY(-12px)}}
+@keyframes pulse{50%{box-shadow:0 0 0 14px #ffc84555}}
+@keyframes stamp{0%{transform:rotate(-30deg) scale(2.2);opacity:0}100%{transform:rotate(-10deg) scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.ctl{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);display:flex;gap:10px;align-items:center;background:#0008;color:#fff;border-radius:999px;padding:6px 14px;font-family:'Jua';z-index:9;opacity:.25;transition:opacity .2s}
+.ctl:hover{opacity:1}.ctl button,.ctl a{background:none;border:0;color:#fff;font:inherit;font-size:18px;cursor:pointer;text-decoration:none}
+/* 인쇄: 모든 장, 모든 단계 */
+@page{size:1280px 720px;margin:0}
+@media print{html,body{background:none;overflow:visible;height:auto}.deck{width:auto;height:auto}.s{position:relative;left:0;top:0;transform:none!important;display:flex!important;page-break-after:always;break-after:page}
+[data-step].hide{opacity:1!important;transform:none!important}.ctl{display:none}.scr img{opacity:0}.scr img:last-child{opacity:1}.flip .fr{transform:none}.flip .bk{display:none}.timer small{display:none}}
+/* 2회차: 확대 컷·순서 맞추기·준비물 (2026-10-30 감수 L1) */
+.zoom{position:relative;border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 6px 18px #0002;border:3px solid var(--line)}
+.zoom.ws{height:340px;margin-bottom:14px}
+.zoom.ws img{width:100%;height:100%;object-fit:cover;display:block}
+.zoom .memo.on{position:absolute;right:14px;bottom:14px;box-shadow:0 4px 10px #0003}
+.appz{display:grid;grid-template-columns:820px 1fr;gap:26px;flex:1;min-height:0;align-items:start}
+.zoom.scr{height:430px;width:820px}
+.zoom.scr img{position:absolute;inset:0;width:100%;height:auto;opacity:0;transition:opacity .8s}
+.zoom.scr img.on{opacity:1}
+.zoom.scr .lb{position:absolute;left:14px;top:14px;font-family:'Jua';font-size:22px;background:var(--ink);color:#fff;border-radius:12px;padding:3px 14px;opacity:0;transition:opacity .8s}
+.zoom.scr .lb.on{opacity:1}
+.go{flex-direction:column;align-items:flex-start}
+.spot{translate:-50% -50%;transform:none}
+.pn{background:var(--paper);border-radius:10px;padding:2px 10px}
+.pathrow{display:grid;grid-template-columns:420px 1fr;gap:24px;align-items:center;flex:1;min-height:0}
+.pathrow .pic{height:230px}
+.prep{list-style:none;display:flex;flex-direction:column;gap:10px}
+.prep li{background:#fff;border:3px solid var(--grass);border-radius:16px;padding:10px 16px;font-size:24px;display:flex;gap:12px}
+.prep li b{font-family:'Jua';font-weight:400;color:var(--grass-d);min-width:120px}
+.order{display:flex;gap:16px;flex:1;min-height:0;margin:10px 0 14px}
+.oc{flex:1;background:#fff;border:3px solid var(--ink);border-radius:20px;box-shadow:4px 4px 0 var(--ink);padding:12px;cursor:pointer;display:flex;flex-direction:column;gap:8px;align-items:center;font-size:23px;line-height:1.35;position:relative;transition:transform .3s}
+.oc .pic{height:150px;width:100%;box-shadow:none}
+.oc .n{position:absolute;left:-10px;top:-10px;width:44px;height:44px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);font-family:'Jua';font-size:24px;line-height:38px;display:none}
+.oc.done .n{display:block}.oc.done{background:var(--sun-l);transform:translateY(-6px)}
+@media print{.flip{display:flex;flex-direction:column;gap:8px;min-height:0;perspective:none}.flip .fr,.flip .bk{position:relative;inset:auto;transform:none!important;display:flex!important}.flip .fr .pic{height:120px}.flip .bk{font-size:20px}
+.zoom.scr img{opacity:0!important}.zoom.scr img:last-of-type{opacity:1!important}.zoom.scr .lb{opacity:0!important}.zoom.scr .lb:last-of-type{opacity:1!important}.oc .n{display:block}}
+
+.go{flex-direction:row;align-items:center;flex-wrap:wrap;gap:12px}.qr svg{width:96px;height:96px}.go small{width:100%}
+.prep li{padding:8px 14px;font-size:23px}
+/* 쪽 번호는 맨 아래 풀잎 띠 안에, 내용은 그 위에서 끝난다(2026-10-30) */
+.s{padding-bottom:58px}
+.pn{bottom:8px;right:28px;font-size:14px;padding:1px 8px}
+.two,.huntwrap,.appz,.brk,.done,.pathrow{max-height:100%}
+.pic{max-height:100%}
+.two > .pic,.two.wide > .pic{height:100%;max-height:470px}
+.pic.after{max-height:300px;height:300px}
+.t-open .two > .pic{max-height:430px}
+.t-open .col{gap:10px}
+.timer{width:96px;height:96px}.timer span{font-size:26px}
+/* QR 크게 보기 */
+.qr{cursor:zoom-in}
+.qrbig{position:fixed;inset:0;z-index:20;background:#000c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;cursor:zoom-out}
+.qrbig svg{width:min(70vh,70vw);height:min(70vh,70vw);background:#fff;border-radius:24px;padding:24px}
+.qrbig p{color:#fff;font-family:'Jua';font-size:26px}
+
+.aisl{position:absolute;left:28px;bottom:9px;font-size:14px;color:var(--sub);z-index:3;background:var(--paper);border-radius:10px;padding:1px 8px}
+.ctl{opacity:.55}
+/* 활동지 장: 캡처를 크게(장 높이 대부분), 말풍선은 오른쪽 아래에 겹쳐 놓는다 */
+.t-ws{padding-left:44px;padding-right:44px}
+.t-ws h2.h{margin-bottom:12px}
+.zoom.ws{height:auto;flex:1;min-height:0;margin-bottom:0}
+.zoom.ws img{object-fit:contain;object-position:left top;background:#fff}
+.t-ws .bubrow{position:absolute;right:44px;bottom:66px;display:flex;flex-direction:column;gap:10px;max-width:560px;z-index:4}
+.t-ws .bubrow .bub .talk{box-shadow:4px 4px 0 var(--ink),0 6px 16px #0003}
+.zoom .memo.on{left:14px;right:auto;bottom:14px;top:auto}
+.zoom.ws img{object-fit:cover;object-position:left top}
+/* 감수 L2: 활동지 캡처는 너비 전체, 말풍선은 아래 줄 / 잘림 없애기 */
+.zoom.ws{flex:1;min-height:0;margin-bottom:12px}
+.zoom.ws img{width:100%!important;height:auto!important;object-fit:fill!important;display:block}
+.t-ws .bubrow,.t-wrap .bubrow{position:static;flex-direction:row;display:grid;grid-template-columns:1fr 1fr;max-width:none;gap:18px}
+.prep li{font-size:22px;line-height:1.35;align-items:flex-start}
+.two > .col{max-height:100%}
+.memo{overflow:visible}
+.oc .k{display:none;font-family:'Jua';font-size:20px;color:var(--grass-d)}
+.oc .k:not(.hide){display:block}
+.t-wrap .zoom.ws{max-height:300px}
+.wraprow{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.wraprow li{list-style:none;background:#fff;border:3px solid var(--grass);border-radius:16px;padding:10px 14px;font-size:23px;line-height:1.35}
+.pathrow{grid-template-columns:560px 1fr}.pathrow .pic{height:300px}
+@media print{.t-flip .flips{flex:none}.t-flip .flip .fr .pic{height:96px}.t-flip .flip .bk{font-size:18px;padding:10px}.t-flip .bubrow{display:none}.oc .k{display:block!important}}
+.col > *,.bubrow > *{flex-shrink:0}
+.pathrow .pic{height:250px}
+
+.memo.top{position:absolute;right:44px;top:56px;max-width:600px;font-size:24px;padding:8px 14px;z-index:3}
+/* 감수 L3: 칸 밖으로 넘친 말풍선이 PDF에서 잘리지 않게 */
+.appz{grid-template-columns:720px 1fr}
+.zoom.scr{width:720px;height:440px}
+.t-open .qr svg,.t-scene .qr svg{width:80px;height:80px}
+.t-open .go .btn{font-size:22px;padding:8px 16px}
+.t-open .go small{display:none}
+.s > .bubrow,.s > .wraprow,.s > .q,.s > h2,.s > .ktag,.s > .bub{flex-shrink:0}
+.pathrow .pic{height:200px}.side .pic{height:185px}
+.s > .aisl.aisl,.s > .pn.pn{position:absolute}
+/* 배운 것 반영: 낱말 안 꺾기, 활동지 가리키기 동그라미 */
+.s{word-break:keep-all;overflow-wrap:anywhere}
+.zin{position:relative}
+.ptr{position:absolute;border:5px solid var(--grass);border-radius:16px;box-shadow:0 0 0 4px #fff9}
+.ptr b{position:absolute;left:-16px;top:-16px;width:34px;height:34px;border-radius:50%;background:var(--grass);color:#fff;font-family:'Jua';font-size:20px;line-height:34px;text-align:center}
+.ptr:not(.hide){animation:pulse 1.2s ease 2}
+
+/* 오늘의 길 칸이 많을 때(9칸 안팎)도 두 줄 안에 */
+.path{gap:8px}.path li{min-width:0;flex:1 1 150px;padding:8px 12px}.path li span{font-size:21px}
+
+.huntwrap{grid-template-columns:2.2fr 1fr}
+@media print{.t-flip .flip .fr .pic{height:140px}}
+
+.wsside{display:grid;grid-template-columns:1fr 330px;gap:22px;flex:1;min-height:0}
+.wsside .zoom.ws{height:100%;margin:0}
+</style></head><body><main class="deck"><section class="s t-cover" data-i="0"><div class="cover"><figure class="pic bg" style=""><img src="../_assets/B04/cover.webp" alt="" loading="lazy"></figure><div class="ctext"><span class="kick">5학년 7~8차시 · 블록 수업</span><h1 class="h">맛있는 코딩과<br>로봇 셰프 레시피</h1><p class="lead">해결단 4호 미션</p></div><div class="crew"><img src="../_assets/chars/c1.webp" alt=""><img src="../_assets/chars/c2.webp" alt=""></div></div><div class="grass"></div><span class="aisl">생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 1 / 23</span></section><section class="s t-mission" data-i="1"><div class="two"><figure class="pic contain" style=""><img src="../_assets/B04/robot_order.webp" alt="" loading="lazy"></figure><div class="mcard"><span class="stamp">해결단 4호 미션</span><p class="mq">‘맛있는 코딩’을 즐기며 요리를 완성하는 순서를 찾아보고, 다른 모둠도 같은 순서로 이해할 수 있는 4컷 로봇 셰프 레시피를 만들어 봅시다.</p><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>해결단 여러분, <b>로봇 셰프 긴급 주문</b>이 왔어요! 요리를 어떻게 알려 줘야 할까요?</div></div></div></div><div class="grass"></div><span class="aisl">생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 2 / 23</span></section><section class="s t-path" data-i="2"><h2 class="h">오늘의 길</h2><ol class="path"><li class="cha"><b>7차시</b><span></span></li><li class=""><b>도입</b><span>로봇 셰프 긴급 주문</span></li><li class=""><b>활동1</b><span>과제 고르고 단계 나누기</span></li><li class="cha"><b>8차시</b><span></span></li><li class=""><b>활동2</b><span>4컷 로봇 셰프 레시피</span></li><li class=""><b>정리</b><span>배운 내용 정리</span></li></ol><div class="pathrow"><figure class="pic contain" style=""><img src="../_assets/B04/cover.webp" alt="" loading="lazy"></figure><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>두 시간 동안 이 길을 따라가요. ‘맛있는 코딩’ 보드게임과 빈 A4 한 장을 준비해요.</div></div></div><div class="grass"></div><span class="aisl">생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 3 / 23</span></section><section class="s t-prep" data-i="3"><span class="ktag">준비</span><h2 class="h">오늘 준비물</h2><div class="two wide"><figure class="pic " style=""><img src="../_assets/B04/game_table.webp" alt="" loading="lazy"></figure><div class="col"><ul class="prep"><li><b>선생님</b><span>‘맛있는 코딩’ 보드게임 1세트, 요리 카드 1장</span></li><li><b>모둠</b><span>보드게임 1세트, 빈 A4 1장, 연필·색연필</span></li><li><b>나</b><span>로봇 셰프 활동지, 필기구</span></li><li><b>약속</b><span>게임은 차례를 지키며 함께 의견을 나눠요</span></li></ul></div></div><div class="grass"></div><span class="aisl">생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 4 / 23</span></section><section class="s t-scene" data-i="4"><span class="ktag">7차시 도입</span><h2 class="h">로봇 셰프 긴급 주문!</h2><div class="two wide"><figure class="pic contain" style=""><img src="../_assets/B04/orig/image1.webp" alt="" loading="lazy"></figure><div class="col"><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>로봇 셰프가 이 요리를 완성하려면 <b>무엇부터</b> 해야 할까요?</div></div><div class="bub r" data-step="2"><img class="face" src="../_assets/chars/c4.webp" alt=""><div class="talk"><b class="nm">말랑쌤</b>음… 순서를 모르면 헷갈릴 것 같아요.</div></div></div></div><div class="grass"></div><span class="aisl">그림: B04 교수학습 과정안 · 생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 5 / 23</span></section><section class="s t-scene" data-i="5"><span class="ktag">7차시 도입</span><h2 class="h">영상 속 게임 장면</h2><div class="two wide"><figure class="pic contain" style=""><img src="../_assets/B04/orig/image2.webp" alt="" loading="lazy"></figure><div class="col"><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>영상에서 재료·요리사·요리 카드가 어떻게 이어지는지 살펴봐요.</div></div><div class="memo ">선생님이 미리 준비한 영상을 함께 봐요.</div></div></div><div class="grass"></div><span class="aisl">그림: B04 교수학습 과정안</span><span class="pn">B04 · 6 / 23</span></section><section class="s t-predict" data-i="6"><span class="ktag">7차시 도입</span><h2 class="h">먼저 예측해요</h2><div class="two wide"><div class="col"><p class="q">‘맛있는 코딩’ 게임에서도<br>순서를 생각해야 할까요?</p><div class="opts"><button class="opt">네, 순서가 있어요</button><button class="opt">아니요, 아무렇게나 해요</button><button class="opt">해 보고 알려 줄래요</button></div><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c3.webp" alt=""><div class="talk"><b class="nm">비트쌤</b>영상 속 게임 장면을 떠올리며 골라 봐요. 게임에서 직접 확인해요.</div></div></div><div class="col" data-step="2"><figure class="pic after" style=""><img src="../_assets/B04/game_table.webp" alt="" loading="lazy"></figure><div class="memo ">바로 답을 말하지 않고 <b>게임에서 직접 확인</b>해 봐요.</div></div></div><div class="grass"></div><span class="aisl">생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 7 / 23</span></section><section class="s t-hunt" data-i="7"><span class="ktag">7차시 도입</span><h2 class="h">숨은 그림 찾기: 게임 속 순서의 단서</h2><div class="huntwrap"><div class="hunt"><figure class="pic " style=""><img src="../_assets/B04/orig/image1_wide.webp" alt="" loading="lazy"></figure><i class="spot" data-step="1" style="left:88%;top:38%;width:9%;"><em>재료 카드</em></i><i class="spot" data-step="2" style="left:75%;top:52%;width:9%;"><em>요리사 카드</em></i><i class="spot" data-step="3" style="left:88%;top:67.5%;width:9%;"><em>요리 카드</em></i><i class="spot" data-step="4" style="left:53%;top:54%;width:9%;"><em>단계 카드</em></i><i class="spot" data-step="5" style="left:56%;top:26.4%;width:7%;"><em>재료 칩</em></i></div><div class="col"><div class="bub"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>게임판에서 재료, 요리사, 요리 카드를 찾아 손가락으로 가리켜요. 그림을 누르면 하나씩 나와요.</div></div></div></div><div class="grass"></div><span class="aisl">그림: B04 교수학습 과정안 · 생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 8 / 23</span></section><section class="s t-open" data-i="8"><span class="ktag">7차시 활동1</span><h2 class="h">과제 고르고 단계 나누기</h2><div class="two wide"><figure class="pic " style=""><img src="../_assets/B04/game_table.webp" alt="" loading="lazy"></figure><div class="col"><p class="todo">모둠별로 <b>‘맛있는 코딩’</b>을 충분히 하며 요리를 완성해 봐요.</p><div class="memo ">게임 중에는 기록지를 쓰지 않고 게임에 몰입해요.</div><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c3.webp" alt=""><div class="talk"><b class="nm">비트쌤</b>규칙은 <b>게임 목표, 내 차례, 요리 완성 방법</b>만 먼저 알아봐요. 첫 차례는 함께 해 봐요.</div></div></div></div><div class="grass"></div><span class="aisl">생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 9 / 23</span></section><section class="s t-flip" data-i="9"><span class="ktag">7차시 활동1</span><h2 class="h">카드 뒤집기: 게임 규칙 세 가지</h2><div class="flips"><button class="flip"><span class="fr"><figure class="pic " style=""><img src="../_assets/B04/rule_goal.webp" alt="" loading="lazy"></figure><b>게임 목표</b></span><span class="bk">이 게임에서 무엇을 이루면 될까요? 선생님 설명에서 찾아요.</span></button><button class="flip"><span class="fr"><figure class="pic " style=""><img src="../_assets/B04/rule_turn.webp" alt="" loading="lazy"></figure><b>내 차례</b></span><span class="bk">내 차례에는 무엇을 할 수 있나요? 첫 차례를 함께 해 봐요.</span></button><button class="flip"><span class="fr"><figure class="pic " style=""><img src="../_assets/B04/rule_cook.webp" alt="" loading="lazy"></figure><b>요리 완성 방법</b></span><span class="bk">요리 하나는 어떻게 완성될까요? 필요할 때 더 알아봐요.</span></button></div><div class="bubrow"><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>먼저 뒷면을 예측하고 카드를 눌러 뒤집어 봐요.</div></div></div><div class="grass"></div><span class="aisl">생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 10 / 23</span></section><section class="s t-pair" data-i="10"><span class="ktag">7차시 활동1</span><h2 class="h">둘 중 하나: 어느 쪽이 먼저일까?</h2><div class="pair"><button class="side"><figure class="pic " style=""><img src="../_assets/B04/sandwich_3.webp" alt="" loading="lazy"></figure><b>딸기를 올린 빵</b></button><span class="vs">?</span><button class="side"><figure class="pic " style=""><img src="../_assets/B04/sandwich_4.webp" alt="" loading="lazy"></figure><b>식빵으로 덮은 빵</b></button></div><div class="bubrow"><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>샌드위치를 만들 때 어느 쪽이 먼저일까요? 순서가 바뀌어도 될까요?</div></div><div class="bub r" data-step="2"><img class="face" src="../_assets/chars/c5.webp" alt=""><div class="talk"><b class="nm">규칙쌤</b>게임에서도 순서가 바뀌면 어떻게 될까요?</div></div></div><div class="grass"></div><span class="aisl">생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 11 / 23</span></section><section class="s t-ws" data-i="11"><span class="ktag">7차시 활동1</span><h2 class="h">완성한 요리 되짚기</h2><div class="zoom ws"><div class="zin"><img src="../_shots/B04/ws_act1_1.webp" alt=""></div></div><div class="memo top">활동지 1쪽 ①</div><div class="bubrow"><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>게임이 끝난 뒤, 요리를 완성했을 때 ‘우리가 어떤 순서로 했지?’ 모둠 안에서 짧게 되짚어 봐요.</div></div><div class="bub r" data-step="2"><img class="face" src="../_assets/chars/c4.webp" alt=""><div class="talk"><b class="nm">말랑쌤</b>기억에 남는 요리 하나를 골라 활동지에 처음에 한 일과 완성한 일을 써요.</div></div></div><div class="grass"></div><span class="pn">B04 · 12 / 23</span></section><section class="s t-break" data-i="12"><div class="brk"><figure class="pic " style=""><img src="../_assets/B04/cover.webp" alt="" loading="lazy"></figure><div class="col"><h2 class="h">7차시 끝! 기억에 남는 요리 하나</h2><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c1.webp" alt=""><div class="talk"><b class="nm">새싹쌤</b>다음 시간에는 그 요리를 4컷 로봇 셰프 레시피로 만들어요.</div></div></div></div><div class="grass"></div><span class="aisl">생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 13 / 23</span></section><section class="s t-open" data-i="13"><span class="ktag">8차시 활동2</span><h2 class="h">4컷 로봇 셰프 레시피</h2><div class="two wide"><figure class="pic contain" style=""><img src="../_assets/B04/orig/flow_2.webp" alt="" loading="lazy"></figure><div class="col"><p class="todo"><b>빈 A4 한 장</b>을 반으로 두 번 접어 <b>4칸</b>을 만들고, 요리가 완성되는 순서를 그림과 화살표로 나타내요.</p><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>7차시에 기억에 남은 요리 하나를 골라요. 한 칸에 <b>핵심 행동 한 가지</b>씩 그려요.</div></div></div></div><div class="grass"></div><span class="aisl">그림: B04 교수학습 과정안 · 생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 14 / 23</span></section><section class="s t-order" data-i="14"><span class="ktag">8차시 활동2</span><h2 class="h">순서 맞추기: 4컷 활동 흐름</h2><p class="q">활동 순서대로 카드를 눌러요.</p><div class="order"><button class="oc" data-k="3"><b class="n"></b><figure class="pic " style=""><img src="../_assets/B04/orig/flowc_3.webp" alt="" loading="lazy"></figure><span>옆 모둠과 바꾸고 그림만 보고 이야기하기</span><em class="k" data-step="2">수업 순서 3</em></button><button class="oc" data-k="1"><b class="n"></b><figure class="pic " style=""><img src="../_assets/B04/orig/flowc_1.webp" alt="" loading="lazy"></figure><span>기억에 남는 요리 고르기</span><em class="k" data-step="2">수업 순서 1</em></button><button class="oc" data-k="4"><b class="n"></b><figure class="pic " style=""><img src="../_assets/B04/orig/flowc_4.webp" alt="" loading="lazy"></figure><span>헷갈린 곳에 동그라미, 더 알기 쉽게 고치기</span><em class="k" data-step="2">수업 순서 4</em></button><button class="oc" data-k="2"><b class="n"></b><figure class="pic " style=""><img src="../_assets/B04/orig/flowc_2.webp" alt="" loading="lazy"></figure><span>4칸으로 나누어 그림과 화살표로 그리기</span><em class="k" data-step="2">수업 순서 2</em></button></div><div class="bubrow"><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>어떤 차례로 할지 먼저 예측하고 카드를 눌러 봐요. 어려우면 활동 안내 그림을 다시 봐요.</div></div></div><div class="grass"></div><span class="aisl">그림: B04 교수학습 과정안</span><span class="pn">B04 · 15 / 23</span></section><section class="s t-app" data-i="15"><span class="ktag">8차시 활동2</span><h2 class="h">체험: 로봇 셰프 레시피 고치기</h2><div class="appz"><div class="zoom scr"><img src="../_shots/B04/z_start.webp" alt="" class="on"><span class="lb on">① 처음: 4컷 레시피</span><img src="../_shots/B04/z_pick.webp" alt="" class=""><span class="lb">② 헷갈릴 곳에 동그라미</span><img src="../_shots/B04/z_stop.webp" alt="" class=""><span class="lb">③ 로봇 셰프가 멈춘 곳</span><img src="../_shots/B04/z_result.webp" alt="" class=""><span class="lb">④ 순서를 고쳐 완성</span></div><div class="col"><div class="go"><span class="qr"><svg width="31mm" height="31mm" version="1.1" viewBox="0 0 31 31" xmlns="http://www.w3.org/2000/svg"><path d="M1,1H2V2H1zM2,1H3V2H2zM3,1H4V2H3zM4,1H5V2H4zM5,1H6V2H5zM6,1H7V2H6zM7,1H8V2H7zM9,1H10V2H9zM10,1H11V2H10zM11,1H12V2H11zM14,1H15V2H14zM15,1H16V2H15zM16,1H17V2H16zM19,1H20V2H19zM21,1H22V2H21zM23,1H24V2H23zM24,1H25V2H24zM25,1H26V2H25zM26,1H27V2H26zM27,1H28V2H27zM28,1H29V2H28zM29,1H30V2H29zM1,2H2V3H1zM7,2H8V3H7zM16,2H17V3H16zM18,2H19V3H18zM19,2H20V3H19zM23,2H24V3H23zM29,2H30V3H29zM1,3H2V4H1zM3,3H4V4H3zM4,3H5V4H4zM5,3H6V4H5zM7,3H8V4H7zM9,3H10V4H9zM11,3H12V4H11zM13,3H14V4H13zM14,3H15V4H14zM18,3H19V4H18zM19,3H20V4H19zM20,3H21V4H20zM23,3H24V4H23zM25,3H26V4H25zM26,3H27V4H26zM27,3H28V4H27zM29,3H30V4H29zM1,4H2V5H1zM3,4H4V5H3zM4,4H5V5H4zM5,4H6V5H5zM7,4H8V5H7zM10,4H11V5H10zM11,4H12V5H11zM16,4H17V5H16zM17,4H18V5H17zM18,4H19V5H18zM19,4H20V5H19zM20,4H21V5H20zM23,4H24V5H23zM25,4H26V5H25zM26,4H27V5H26zM27,4H28V5H27zM29,4H30V5H29zM1,5H2V6H1zM3,5H4V6H3zM4,5H5V6H4zM5,5H6V6H5zM7,5H8V6H7zM10,5H11V6H10zM12,5H13V6H12zM13,5H14V6H13zM16,5H17V6H16zM17,5H18V6H17zM18,5H19V6H18zM19,5H20V6H19zM23,5H24V6H23zM25,5H26V6H25zM26,5H27V6H26zM27,5H28V6H27zM29,5H30V6H29zM1,6H2V7H1zM7,6H8V7H7zM9,6H10V7H9zM11,6H12V7H11zM12,6H13V7H12zM13,6H14V7H13zM14,6H15V7H14zM15,6H16V7H15zM17,6H18V7H17zM21,6H22V7H21zM23,6H24V7H23zM29,6H30V7H29zM1,7H2V8H1zM2,7H3V8H2zM3,7H4V8H3zM4,7H5V8H4zM5,7H6V8H5zM6,7H7V8H6zM7,7H8V8H7zM9,7H10V8H9zM11,7H12V8H11zM13,7H14V8H13zM15,7H16V8H15zM17,7H18V8H17zM19,7H20V8H19zM21,7H22V8H21zM23,7H24V8H23zM24,7H25V8H24zM25,7H26V8H25zM26,7H27V8H26zM27,7H28V8H27zM28,7H29V8H28zM29,7H30V8H29zM11,8H12V9H11zM12,8H13V9H12zM14,8H15V9H14zM19,8H20V9H19zM21,8H22V9H21zM1,9H2V10H1zM3,9H4V10H3zM7,9H8V10H7zM8,9H9V10H8zM10,9H11V10H10zM11,9H12V10H11zM13,9H14V10H13zM14,9H15V10H14zM16,9H17V10H16zM17,9H18V10H17zM20,9H21V10H20zM21,9H22V10H21zM24,9H25V10H24zM27,9H28V10H27zM29,9H30V10H29zM1,10H2V11H1zM3,10H4V11H3zM4,10H5V11H4zM6,10H7V11H6zM8,10H9V11H8zM9,10H10V11H9zM13,10H14V11H13zM17,10H18V11H17zM19,10H20V11H19zM20,10H21V11H20zM21,10H22V11H21zM23,10H24V11H23zM24,10H25V11H24zM28,10H29V11H28zM29,10H30V11H29zM2,11H3V12H2zM3,11H4V12H3zM4,11H5V12H4zM5,11H6V12H5zM7,11H8V12H7zM8,11H9V12H8zM9,11H10V12H9zM12,11H13V12H12zM14,11H15V12H14zM15,11H16V12H15zM17,11H18V12H17zM18,11H19V12H18zM19,11H20V12H19zM20,11H21V12H20zM22,11H23V12H22zM23,11H24V12H23zM24,11H25V12H24zM25,11H26V12H25zM26,11H27V12H26zM27,11H28V12H27zM29,11H30V12H29zM2,12H3V13H2zM3,12H4V13H3zM4,12H5V13H4zM5,12H6V13H5zM10,12H11V13H10zM12,12H13V13H12zM15,12H16V13H15zM16,12H17V13H16zM17,12H18V13H17zM20,12H21V13H20zM22,12H23V13H22zM24,12H25V13H24zM26,12H27V13H26zM2,13H3V14H2zM5,13H6V14H5zM7,13H8V14H7zM10,13H11V14H10zM12,13H13V14H12zM14,13H15V14H14zM15,13H16V14H15zM20,13H21V14H20zM21,13H22V14H21zM23,13H24V14H23zM24,13H25V14H24zM29,13H30V14H29zM8,14H9V15H8zM11,14H12V15H11zM12,14H13V15H12zM13,14H14V15H13zM14,14H15V15H14zM15,14H16V15H15zM19,14H20V15H19zM20,14H21V15H20zM21,14H22V15H21zM22,14H23V15H22zM23,14H24V15H23zM24,14H25V15H24zM28,14H29V15H28zM29,14H30V15H29zM3,15H4V16H3zM4,15H5V16H4zM7,15H8V16H7zM9,15H10V16H9zM11,15H12V16H11zM12,15H13V16H12zM16,15H17V16H16zM18,15H19V16H18zM19,15H20V16H19zM20,15H21V16H20zM21,15H22V16H21zM23,15H24V16H23zM25,15H26V16H25zM29,15H30V16H29zM1,16H2V17H1zM4,16H5V17H4zM5,16H6V17H5zM12,16H13V17H12zM13,16H14V17H13zM14,16H15V17H14zM20,16H21V17H20zM22,16H23V17H22zM24,16H25V17H24zM1,17H2V18H1zM4,17H5V18H4zM7,17H8V18H7zM8,17H9V18H8zM13,17H14V18H13zM14,17H15V18H14zM16,17H17V18H16zM17,17H18V18H17zM19,17H20V18H19zM20,17H21V18H20zM23,17H24V18H23zM29,17H30V18H29zM2,18H3V19H2zM3,18H4V19H3zM4,18H5V19H4zM5,18H6V19H5zM8,18H9V19H8zM10,18H11V19H10zM11,18H12V19H11zM12,18H13V19H12zM13,18H14V19H13zM17,18H18V19H17zM18,18H19V19H18zM20,18H21V19H20zM21,18H22V19H21zM23,18H24V19H23zM24,18H25V19H24zM27,18H28V19H27zM28,18H29V19H28zM29,18H30V19H29zM1,19H2V20H1zM2,19H3V20H2zM3,19H4V20H3zM5,19H6V20H5zM7,19H8V20H7zM10,19H11V20H10zM12,19H13V20H12zM14,19H15V20H14zM15,19H16V20H15zM17,19H18V20H17zM20,19H21V20H20zM24,19H25V20H24zM25,19H26V20H25zM26,19H27V20H26zM29,19H30V20H29zM3,20H4V21H3zM4,20H5V21H4zM5,20H6V21H5zM6,20H7V21H6zM8,20H9V21H8zM10,20H11V21H10zM11,20H12V21H11zM12,20H13V21H12zM13,20H14V21H13zM15,20H16V21H15zM16,20H17V21H16zM17,20H18V21H17zM19,20H20V21H19zM21,20H22V21H21zM22,20H23V21H22zM24,20H25V21H24zM1,21H2V22H1zM2,21H3V22H2zM3,21H4V22H3zM4,21H5V22H4zM7,21H8V22H7zM9,21H10V22H9zM10,21H11V22H10zM12,21H13V22H12zM13,21H14V22H13zM14,21H15V22H14zM15,21H16V22H15zM17,21H18V22H17zM18,21H19V22H18zM20,21H21V22H20zM21,21H22V22H21zM22,21H23V22H22zM23,21H24V22H23zM24,21H25V22H24zM25,21H26V22H25zM26,21H27V22H26zM28,21H29V22H28zM9,22H10V23H9zM10,22H11V23H10zM14,22H15V23H14zM15,22H16V23H15zM21,22H22V23H21zM25,22H26V23H25zM26,22H27V23H26zM27,22H28V23H27zM29,22H30V23H29zM1,23H2V24H1zM2,23H3V24H2zM3,23H4V24H3zM4,23H5V24H4zM5,23H6V24H5zM6,23H7V24H6zM7,23H8V24H7zM9,23H10V24H9zM10,23H11V24H10zM12,23H13V24H12zM16,23H17V24H16zM19,23H20V24H19zM21,23H22V24H21zM23,23H24V24H23zM25,23H26V24H25zM29,23H30V24H29zM1,24H2V25H1zM7,24H8V25H7zM10,24H11V25H10zM11,24H12V25H11zM12,24H13V25H12zM13,24H14V25H13zM14,24H15V25H14zM16,24H17V25H16zM17,24H18V25H17zM20,24H21V25H20zM21,24H22V25H21zM25,24H26V25H25zM28,24H29V25H28zM29,24H30V25H29zM1,25H2V26H1zM3,25H4V26H3zM4,25H5V26H4zM5,25H6V26H5zM7,25H8V26H7zM10,25H11V26H10zM11,25H12V26H11zM12,25H13V26H12zM13,25H14V26H13zM14,25H15V26H14zM17,25H18V26H17zM19,25H20V26H19zM20,25H21V26H20zM21,25H22V26H21zM22,25H23V26H22zM23,25H24V26H23zM24,25H25V26H24zM25,25H26V26H25zM26,25H27V26H26zM1,26H2V27H1zM3,26H4V27H3zM4,26H5V27H4zM5,26H6V27H5zM7,26H8V27H7zM11,26H12V27H11zM12,26H13V27H12zM16,26H17V27H16zM19,26H20V27H19zM21,26H22V27H21zM25,26H26V27H25zM26,26H27V27H26zM27,26H28V27H27zM28,26H29V27H28zM1,27H2V28H1zM3,27H4V28H3zM4,27H5V28H4zM5,27H6V28H5zM7,27H8V28H7zM9,27H10V28H9zM12,27H13V28H12zM13,27H14V28H13zM14,27H15V28H14zM16,27H17V28H16zM17,27H18V28H17zM18,27H19V28H18zM19,27H20V28H19zM21,27H22V28H21zM22,27H23V28H22zM25,27H26V28H25zM28,27H29V28H28zM29,27H30V28H29zM1,28H2V29H1zM7,28H8V29H7zM11,28H12V29H11zM13,28H14V29H13zM14,28H15V29H14zM15,28H16V29H15zM17,28H18V29H17zM20,28H21V29H20zM21,28H22V29H21zM22,28H23V29H22zM23,28H24V29H23zM24,28H25V29H24zM26,28H27V29H26zM1,29H2V30H1zM2,29H3V30H2zM3,29H4V30H3zM4,29H5V30H4zM5,29H6V30H5zM6,29H7V30H6zM7,29H8V30H7zM9,29H10V30H9zM15,29H16V30H15zM16,29H17V30H16zM19,29H20V30H19zM21,29H22V30H21zM22,29H23V30H22zM25,29H26V30H25zM26,29H27V30H26zM29,29H30V30H29z" id="qr-path" fill="#000000" fill-opacity="1" fill-rule="nonzero" stroke="none"/></svg></span><a href="https://edudaum.vercel.app/B04/" target="_blank" class="btn">체험 열기 ↗</a><small>https://edudaum.vercel.app/B04/</small></div><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c3.webp" alt=""><div class="talk"><b class="nm">비트쌤</b>고르기, 그리기, 바꾸어 보기, 고치기 차례로 해요. 로봇 셰프가 어디서 멈출지 먼저 동그라미를 쳐 봐요.</div></div></div></div><div class="grass"></div><span class="pn">B04 · 16 / 23</span></section><section class="s t-ws" data-i="16"><span class="ktag">8차시 활동2</span><h2 class="h">4칸에 그려 보기</h2><div class="wsside"><div class="zoom ws"><div class="zin"><img src="../_shots/B04/ws_act2_1a.webp" alt=""></div></div><div class="col"><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>A4의 4칸에 <b>한 가지 행동</b>만 그림, 화살표, 숫자로 나타내요. 활동지 칸은 4칸 모양을 보여 주는 예시예요.</div></div><div class="bub r" data-step="2"><img class="face" src="../_assets/chars/c6.webp" alt=""><div class="talk"><b class="nm">데이터쌤</b>글자보다 그림으로 순서가 보이게 해요.</div></div></div></div><div class="memo top">활동지 1쪽 ② 4칸 모양 보기</div><div class="grass"></div><span class="pn">B04 · 17 / 23</span></section><section class="s t-predict" data-i="17"><span class="ktag">8차시 활동2</span><h2 class="h">먼저 예측해요: 옆 모둠은 이해할까?</h2><div class="two wide"><div class="col"><p class="q">옆 모둠이 내 그림만 보고<br>같은 순서로 이해할 수 있을까요?</p><div class="opts"><button class="opt">모두 이해해요</button><button class="opt">한 곳쯤 헷갈려요</button><button class="opt">잘 모르겠어요</button></div><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c3.webp" alt=""><div class="talk"><b class="nm">비트쌤</b>A4를 바꾸고 그림만 보고 어떤 순서인지 이야기해 봐요.</div></div></div><div class="col" data-step="2"><figure class="pic after" style=""><img src="../_assets/B04/orig/flow_3.webp" alt="" loading="lazy"></figure><div class="memo ">헷갈리는 <b>한 곳</b>에만 동그라미 표시해요.</div></div></div><div class="grass"></div><span class="aisl">그림: B04 교수학습 과정안 · 생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 18 / 23</span></section><section class="s t-ws" data-i="18"><span class="ktag">8차시 활동2</span><h2 class="h">바꾸어 보고 고치기</h2><div class="wsside"><div class="zoom ws"><div class="zin"><img src="../_shots/B04/ws_act3_c.webp" alt=""></div></div><div class="col"><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>옆 모둠이 이해한 순서, 헷갈린 컷, 고친 방법을 써요.</div></div><div class="bub r" data-step="2"><img class="face" src="../_assets/chars/c5.webp" alt=""><div class="talk"><b class="nm">규칙쌤</b>순서가 잘 보이는지 다시 확인해요. 빨리 끝나면 알기 쉬웠던 표현 한 가지를 찾아봐요.</div></div></div></div><div class="memo top">활동지 2쪽 ① 아래 줄 포함</div><div class="grass"></div><span class="pn">B04 · 19 / 23</span></section><section class="s t-scene" data-i="19"><span class="ktag">8차시 정리</span><h2 class="h">발표: 처음 헷갈린 곳, 어떻게 고쳤나요?</h2><div class="two wide"><figure class="pic " style=""><img src="../_assets/B04/recipe_share.webp" alt="" loading="lazy"></figure><div class="col"><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>2~3개 모둠이 ‘처음 헷갈린 곳, 어떻게 고쳤는지’를 한 가지씩 발표해요.</div></div><div class="bub r" data-step="2"><img class="face" src="../_assets/chars/c4.webp" alt=""><div class="talk"><b class="nm">말랑쌤</b>우리는 화살표와 숫자를 더해서 순서를 분명하게 고쳤어요.</div></div></div></div><div class="grass"></div><span class="aisl">생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 20 / 23</span></section><section class="s t-wrap" data-i="20"><span class="ktag">8차시 정리</span><h2 class="h">좋은 알고리즘은?</h2><div class="zoom ws"><img src="../_shots/B04/ws_act4_1a.webp" alt=""></div><div class="memo top">활동지 2쪽 ②</div><ul class="wraprow"><li data-step="1">처음 헷갈린 곳과 고친 방법을 한 문장으로 써요.</li><li data-step="2">좋은 알고리즘은 순서가 분명하고, 다른 사람도 같은 뜻으로 이해할 수 있어야 해요.</li><li data-step="3">아래 두 칸으로 내 레시피를 스스로 점검해요.</li></ul><div class="grass"></div><span class="pn">B04 · 21 / 23</span></section><section class="s t-ws" data-i="21"><span class="ktag">8차시 정리</span><h2 class="h">스스로 점검해요</h2><div class="wsside"><div class="zoom ws"><div class="zin"><img src="../_shots/B04/ws_act4_1b.webp" alt=""></div></div><div class="col"><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>‘잘해요, 보통, 더 해요’ 중 내 마음에 맞는 곳에 표시해요.</div></div><div class="bub r" data-step="2"><img class="face" src="../_assets/chars/c6.webp" alt=""><div class="talk"><b class="nm">데이터쌤</b>잘한 점도, 더 하고 싶은 점도 괜찮아요.</div></div></div></div><div class="memo top">활동지 2쪽 ② 아래 칸</div><div class="grass"></div><span class="pn">B04 · 22 / 23</span></section><section class="s t-done" data-i="22"><div class="done"><figure class="pic " style=""><img src="../_assets/B04/mission_done.webp" alt="" loading="lazy"></figure><div class="col"><span class="seal">미션 해결!</span><h2 class="h">해결단 4호 미션 해결 보고</h2><div class="bub" data-step="1"><img class="face" src="../_assets/chars/c2.webp" alt=""><div class="talk"><b class="nm">순서쌤</b>로봇 셰프 주문 해결! “원하는 재료가 없다면?”처럼 상황에 따라 달라질 때는 <b>갈림길</b>이 필요해요.</div></div><p class="next">다음 미션 · 해결단 5호 미션: 순서도 따라가며 끝 맞히기</p></div></div><div class="grass"></div><span class="aisl">생성형 AI로 만든 그림이 있어요</span><span class="pn">B04 · 23 / 23</span></section></main><nav class="ctl"><button id="prev" title="앞 장">←</button><span id="pg"></span><button id="nextb" title="다음">→</button><button id="fs" title="전체 화면 (F)">⛶ 전체 화면</button><a href="B04_강의교안.pdf">PDF</a></nav><script>(function () {
+  'use strict';
+  var S = [].slice.call(document.querySelectorAll('.s')), cur = 0, pg = document.getElementById('pg');
+  var start = parseInt((location.hash.match(/\d+/) || [1])[0], 10) - 1;
+  function fit() {
+    var k = Math.min(innerWidth / 1280, innerHeight / 720);
+    S.forEach(function (s) { s.style.transform = 'translate(-50%,-50%) scale(' + k + ')'; });
+  }
+  function steps(s) { return [].slice.call(s.querySelectorAll('[data-step]')).sort(function (a, b) { return a.dataset.step - b.dataset.step; }); }
+  function reset(s) { steps(s).forEach(function (x) { x.classList.add('hide'); }); }
+  var cycle = null;
+  function show(i) {
+    if (i < 0 || i >= S.length) return;
+    S[cur].classList.remove('cur'); cur = i; S[cur].classList.add('cur'); reset(S[cur]);
+    pg.textContent = (cur + 1) + ' / ' + S.length; history.replaceState(null, '', '#' + (cur + 1));
+    clearInterval(cycle);
+    var shots = S[cur].querySelectorAll('.scr img'), lbs = S[cur].querySelectorAll('.scr .lb');
+    if (shots.length > 1) { var k = 0; cycle = setInterval(function () { shots[k].classList.remove('on'); if (lbs[k]) lbs[k].classList.remove('on'); k = (k + 1) % shots.length; shots[k].classList.add('on'); if (lbs[k]) lbs[k].classList.add('on'); }, 2600); }
+  }
+  function next() { var h = S[cur].querySelector('[data-step].hide'); if (h) h.classList.remove('hide'); else show(cur + 1); }
+  function prev() { show(cur - 1); }
+  document.addEventListener('keydown', function (ev) {
+    if (ev.key === 'ArrowRight' || ev.key === ' ' || ev.key === 'PageDown') { ev.preventDefault(); next(); }
+    if (ev.key === 'ArrowLeft' || ev.key === 'PageUp') { ev.preventDefault(); prev(); }
+    if (ev.key === 'f' || ev.key === 'F') toggleFs();
+  });
+  document.getElementById('nextb').onclick = next; document.getElementById('prev').onclick = prev;
+  // 전체 화면: 단추나 F 키로 켜고 끈다
+  var fsb = document.getElementById('fs');
+  function toggleFs() { if (document.fullscreenElement) document.exitFullscreen(); else if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen(); }
+  fsb.onclick = toggleFs;
+  document.addEventListener('fullscreenchange', function () { fsb.textContent = document.fullscreenElement ? '⛶ 창으로' : '⛶ 전체 화면'; fit(); });
+  document.querySelector('.deck').addEventListener('click', function (ev) {
+    var t = ev.target.closest('button, a, .qr, .qrbig'); if (t) return; next();
+  });
+  // 게임 부품
+  document.querySelectorAll('.opts').forEach(function (g) { g.addEventListener('click', function (ev) { var b = ev.target.closest('.opt'); if (!b) return; g.querySelectorAll('.opt').forEach(function (x) { x.classList.toggle('pick', x === b); }); }); });
+  document.querySelectorAll('.flip').forEach(function (b) { b.onclick = function () { b.classList.toggle('on'); }; });
+  document.querySelectorAll('.pair').forEach(function (g) { g.addEventListener('click', function (ev) { var b = ev.target.closest('.side'); if (!b) return; g.querySelectorAll('.side').forEach(function (x) { x.classList.toggle('pick', x === b); }); }); });
+  document.querySelectorAll('.hunt').forEach(function (h) { h.addEventListener('click', function (ev) { ev.stopPropagation(); var x = h.querySelector('.spot.hide'); if (x) x.classList.remove('hide'); }); });
+  // QR을 누르면 화면 가득 크게, 다시 누르거나 Esc로 닫기
+  document.querySelectorAll('.qr').forEach(function (q) {
+    q.addEventListener('click', function (ev) {
+      ev.stopPropagation();
+      var o = document.createElement('div'); o.className = 'qrbig';
+      var a = q.parentNode.querySelector('a');
+      o.innerHTML = q.innerHTML + '<p>' + (a ? a.getAttribute('href') : '') + '</p>';
+      o.onclick = function (e) { e.stopPropagation(); o.remove(); };
+      document.body.appendChild(o);
+    });
+  });
+  document.addEventListener('keydown', function (ev) { if (ev.key === 'Escape') document.querySelectorAll('.qrbig').forEach(function (o) { o.remove(); }); });
+  document.querySelectorAll('.order').forEach(function (g) {
+    var n = 0; g.addEventListener('click', function (ev) { var b = ev.target.closest('.oc'); if (!b) return; ev.stopPropagation();
+      if (b.classList.contains('done')) { g.querySelectorAll('.oc').forEach(function (x) { x.classList.remove('done'); }); n = 0; return; }
+      n++; b.classList.add('done'); b.querySelector('.n').textContent = n; });
+  });
+  document.querySelectorAll('.timer').forEach(function (t) {
+    var id = null; t.onclick = function () {
+      if (id) { clearInterval(id); id = null; t.classList.remove('run'); return; }
+      var left = parseInt(t.dataset.min, 10) * 60, sp = t.querySelector('span'); t.classList.add('run');
+      id = setInterval(function () { left--; sp.textContent = Math.floor(left / 60) + ':' + ('0' + left % 60).slice(-2); if (left <= 0) { clearInterval(id); id = null; t.classList.remove('run'); } }, 1000);
+    };
+  });
+  addEventListener('resize', fit); fit();
+  S.forEach(reset); S[0].classList.add('cur'); show(Math.max(0, Math.min(start, S.length - 1)));
+})();
+</script></body></html>

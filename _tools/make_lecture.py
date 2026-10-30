@@ -21,6 +21,7 @@ def ai(src):  # 생성형 AI 그림 표시: 코덱스가 만든 lecture/_assets/
 
 
 AIX = set()   # 과정안이 'AI 생성 삽화'라고 밝힌 원본 그림(원고의 ai_orig)
+NOAI = set()  # _assets에 있어도 AI 그림이 아닌 것(코드·화면 캡처, 영상 썸네일: 원고의 not_ai)
 
 
 USED_AI = [False]   # 이 장에 생성형 AI 그림이 있으면 장 맨 아래에 한 줄로 밝힌다
@@ -28,7 +29,7 @@ USED_ORIG = [False]  # 교수학습 과정안의 원본 그림
 
 
 def img(src, cls='', style=''):
-    if ai(src) or src in AIX: USED_AI[0] = True
+    if (ai(src) and src not in NOAI) or src in AIX: USED_AI[0] = True
     if '/orig/' in src: USED_ORIG[0] = True
     return f'<figure class="pic {cls}" style="{style}"><img src="{src}" alt="" loading="lazy"></figure>'
 
@@ -67,13 +68,13 @@ def slide(s, d):
         cells = ''.join(f'<li class="{"cha" if it[1] == "" else ""}"><b>{e(it[0])}</b><span>{e(it[1])}</span></li>' for it in s['items'])
         body = f'{head(s)}<ol class="path">{cells}</ol><div class="pathrow">{img(s["img"], "contain") if s.get("img") else ""}{bubbles(s.get("bubbles"))}</div>'
     elif t == 'scene':
-        body = f'{head(s)}<div class="two wide">{img(s["img"])}<div class="col">{bubbles(s.get("bubbles"))}{note(s)}</div></div>'
+        body = f'{head(s)}<div class="two wide">{img(s["img"], "contain" if s.get("contain") else "")}<div class="col">{bubbles(s.get("bubbles"))}{note(s)}</div></div>'
     elif t == 'open':
-        body = (f'{head(s)}<div class="two wide">{img(s["img"])}<div class="col"><p class="todo">{s["todo"]}</p>'
+        body = (f'{head(s)}<div class="two wide">{img(s["img"], "contain" if s.get("contain") else "")}<div class="col"><p class="todo">{s["todo"]}</p>'
                 f'{note(s)}{link(s)}{bubbles(s.get("bubbles"))}</div></div>')
     elif t == 'predict':
         opts = ''.join(f'<button class="opt">{e(o)}</button>' for o in s['options'])
-        after = img(s['after'], 'after', '') if s.get('after') else ''
+        after = img(s['after'], 'after contain' if s.get('contain') else 'after', '') if s.get('after') else ''
         body = (f'{head(s)}<div class="two wide"><div class="col"><p class="q">{s["q"]}</p><div class="opts">{opts}</div>'
                 f'{bubbles(s.get("bubbles"))}</div><div class="col" data-step="{len(s.get("bubbles") or []) + 1}">{after}{note(s)}</div></div>')
     elif t == 'hunt':
@@ -81,13 +82,18 @@ def slide(s, d):
         body = (f'{head(s)}<div class="huntwrap"><div class="hunt">{img(s["img"])}{spots}</div>'
                 f'<div class="col">{bubbles([dict(b, step=False) for b in s.get("bubbles", [])])}{note(s)}</div></div>')
     elif t == 'flip':
-        cards = ''.join(f'<button class="flip"><span class="fr">{img(c["img"])}<b>{e(c["front"])}</b></span><span class="bk">{c["back"]}</span></button>' for c in s['cards'])
+        cards = ''.join(f'<button class="flip"><span class="fr">{img(c["img"], "contain" if c.get("contain") else "")}<b>{e(c["front"])}</b></span><span class="bk">{c["back"]}</span></button>' for c in s['cards'])
         body = f'{head(s)}<div class="flips">{cards}</div>{bubbles(s.get("bubbles"), row=True)}'
     elif t == 'pair':
-        body = (f'{head(s)}<div class="pair"><button class="side">{img(s["a"]["img"])}<b>{e(s["a"]["label"])}</b></button>'
-                f'<span class="vs">?</span><button class="side">{img(s["b"]["img"])}<b>{e(s["b"]["label"])}</b></button></div>{bubbles(s.get("bubbles"), row=True)}')
+        body = (f'{head(s)}<div class="pair"><button class="side">{img(s["a"]["img"], "contain" if s["a"].get("contain") else "")}<b>{e(s["a"]["label"])}</b></button>'
+                f'<span class="vs">?</span><button class="side">{img(s["b"]["img"], "contain" if s["b"].get("contain") else "")}<b>{e(s["b"]["label"])}</b></button></div>{bubbles(s.get("bubbles"), row=True)}')
     elif t == 'ws':
-        body = (f'{head(s)}<div class="zoom ws"><img src="{s["img"]}" alt="" style="object-position:{s.get("pos", "top")}">'
+        ptrs = ''.join(f'<i class="ptr" data-step="{i + 1}" style="left:{x}%;top:{y}%;width:{w}%;height:{h}%"><b>{i + 1}</b></i>' for i, (x, y, w, h) in enumerate(s.get('point', [])))
+        if s.get('side'):   # 세로로 긴 활동지 컷: 말풍선은 오른쪽 칸, 캡처는 장 높이 가득
+            body = (f'{head(s)}<div class="wsside"><div class="zoom ws"><div class="zin"><img src="{s["img"]}" alt="">{ptrs}</div></div>'
+                    f'<div class="col">{bubbles(s.get("bubbles"))}</div></div>{note(s, "top")}')
+        else:
+          body = (f'{head(s)}<div class="zoom ws"><div class="zin"><img src="{s["img"]}" alt="">{ptrs}</div>'
                 f'</div>{note(s, "top")}{bubbles(s.get("bubbles"), row=True)}')
     elif t == 'app':
         shots = ''.join(f'<img src="{x}" alt="" class="{"on" if i == 0 else ""}"><span class="lb{" on" if i == 0 else ""}">{e(l)}</span>' for i, (x, l) in enumerate(s['shots']))
@@ -100,9 +106,9 @@ def slide(s, d):
                 f'<div class="go"><a href="{url}" target="_blank" class="btn">▶ 영상 보기 ↗</a><span class="qr">{qr(url)}</span></div></div></div>')
     elif t == 'prep':
         items = ''.join(f'<li><b>{e(a)}</b><span>{e(b)}</span></li>' for a, b in s['items'])
-        body = f'{head(s)}<div class="two wide">{img(s["img"])}<div class="col"><ul class="prep">{items}</ul>{bubbles(s.get("bubbles"))}</div></div>'
+        body = f'{head(s)}<div class="two wide">{img(s["img"], "contain" if s.get("contain") else "")}<div class="col"><ul class="prep">{items}</ul>{bubbles(s.get("bubbles"))}</div></div>'
     elif t == 'order':
-        cards = ''.join(f'<button class="oc" data-k="{k}"><b class="n"></b>{img(c["img"]) if c.get("img") else ""}<span>{e(c["t"])}</span><em class="k" data-step="{len(s.get("bubbles") or []) + 1}">수업 순서 {k}</em></button>' for k, c in s['cards'])
+        cards = ''.join(f'<button class="oc" data-k="{k}"><b class="n"></b>{img(c["img"], "contain" if c.get("contain") else "") if c.get("img") else ""}<span>{e(c["t"])}</span><em class="k" data-step="{len(s.get("bubbles") or []) + 1}">수업 순서 {k}</em></button>' for k, c in s['cards'])
         body = f'{head(s)}<p class="q">{s["q"]}</p><div class="order">{cards}</div>{bubbles(s.get("bubbles"), row=True)}'
     elif t == 'break':
         body = f'<div class="brk">{img(s["img"])}<div class="col"><h2 class="h">{s["title"]}</h2>{bubbles(s.get("bubbles"))}</div></div>'
@@ -133,7 +139,7 @@ def build(B):
     d = json.load(open(os.path.join(ROOT, 'lecture', '_src', B + '.json'), encoding='utf-8'))
     out = os.path.join(ROOT, 'lecture', B); os.makedirs(out, exist_ok=True)
     N = len(d['slides']); parts = []
-    AIX.clear(); AIX.update(d.get('ai_orig', []))
+    AIX.clear(); AIX.update(d.get('ai_orig', [])); NOAI.clear(); NOAI.update(d.get('not_ai', []))
     mins = {s['tag']: s['min'] for s in d['slides'] if s.get('tag') and s.get('min')}
     for s in d['slides']:
         if s.get('tag') in mins and not s.get('min'): s['min'] = mins[s['tag']]

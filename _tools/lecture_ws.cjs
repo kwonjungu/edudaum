@@ -3,7 +3,7 @@
 const puppeteer = require('C:/Users/권준구/projects/edudaum/node_modules/puppeteer-core');
 const path = require('path'); const fs = require('fs'); const { pathToFileURL } = require('url');
 const B = process.argv[2];
-const SRC = `C:/Users/권준구/Desktop/에듀다움_책만들기/work/ws/html/${B}.html`, OUT = path.resolve(`lecture/_shots/${B}`);
+const SRC = `C:/Users/권준구/Desktop/에듀다움_책만들기/work/ws/html/${B}.html`, OUT = path.resolve(`lecture/_shots/${B}`); fs.mkdirSync(OUT, { recursive: true });
 (async () => {
   const b = await puppeteer.launch({ executablePath: 'C:/Program Files/Google/Chrome/Application/chrome.exe', args: ['--allow-file-access-from-files'] });
   const p = await b.newPage(); await p.emulateMediaType('print'); await p.setViewport({ width: 680, height: 983, deviceScaleFactor: 2.5 });
