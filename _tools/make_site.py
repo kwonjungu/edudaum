@@ -114,6 +114,8 @@ LAB = [
     ('voice', '말 알아듣기 실험실', '같은 문장을 말하는 방법만 바꿔 말하면, 기계의 받아쓰기가 어떻게 달라지는지 먼저 예측하고 견줘요.', ['B18', 'B19', 'B28'], '브라우저 음성 인식'),
     ('neuron', '선 긋는 인공 뉴런', '두 무리 점을 가르는 선을 기계가 틀린 점을 보며 조금씩 옮겨 찾아요.', ['B26'], '퍼셉트론'),
 ]
+import json as _json
+LECTURE_PUB = set(_json.load(open(ROOT / 'lecture' / '_published.json', encoding='utf-8'))) if (ROOT / 'lecture' / '_published.json').exists() else set()   # 감수 두 번 연이어 통과해 올린 강의교안
 LAB_OF = {}
 for _slug, _t, _l, _bs, _m in LAB:
     for _b in _bs:
@@ -738,7 +740,7 @@ def build_lesson(code, prev, nxt):
                  % (''.join('<a class="gcard" href="%slab/%s/"><img class="gshot" src="%slab/assets/covers/%s.webp" alt="" width="600" height="375" loading="lazy"><span><b>%s</b><span>%s</span><span class="needs">%s</span></span><span class="go">열기</span></a>'
                                              % (up, sl, up, sl, e(t), e(l), e(m)) for sl, t, l, m in LAB_OF[code])))
     # 강의교안(lecture/Bxx): 감수 두 번 연이어 통과한 블록만 lecture/에 둔다(2026-10-30)
-    if (ROOT / 'lecture' / code / 'index.html').exists():
+    if code in LECTURE_PUB and (ROOT / 'lecture' / code / 'index.html').exists():
         lec = ('<h2 class="sub" id="lecture">%s강의교안 <span class="small muted">미션 해결단 · 수업 화면에 띄워요</span></h2>'
                '<a class="gcard" href="%slecture/%s/"><img class="gshot" src="%slecture/_assets/%s/cover.webp" alt="" width="600" height="338" loading="lazy">'
                '<span><b>%s 강의교안</b><span>교수학습 과정안·활동지·체험 활동을 미션 해결단 이야기로 이어요. 넘기며 예측하고 확인해요.</span>'

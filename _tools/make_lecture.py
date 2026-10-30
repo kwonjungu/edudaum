@@ -117,7 +117,7 @@ def slide(s, d):
         body = f'{head(s)}<div class="zoom ws"><img src="{s["img"]}" alt=""></div>{note(s, "top")}<ul class="wraprow">{items}</ul>'
     elif t == 'done':
         body = (f'<div class="done">{img(s["img"])}<div class="col"><span class="seal">미션 해결!</span><h2 class="h">{e(d["mission"])} 해결 보고</h2>'
-                f'{bubbles(s.get("bubbles"))}<p class="next">다음 미션 · {e(d["next"])}</p></div></div>')
+                f'{bubbles(s.get("bubbles"))}<p class="next"><b>다음</b> {e(d["next"])}</p></div></div>')
     return body
 
 

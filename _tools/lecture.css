@@ -225,3 +225,10 @@ background:radial-gradient(circle at 20px 46px,var(--grass-l) 26px,transparent 2
 .wsside .zoom.ws{height:100%;margin:0}
 /* 10-30: 가로로 긴(짧은) 활동지 컷은 틀이 컷 높이에 맞게 줄어든다(아래 흰 빈 칸 없애기). side 장은 그대로 장 높이 가득 */
 .s > .zoom.ws{flex:0 1 auto}
+/* 10-31: 오늘의 길 그림이 작다(여러 블록 감수) → 남은 높이를 다 쓰고 그림은 채워 자른다 */
+.pathrow{align-items:stretch;grid-template-columns:600px 1fr}.pathrow .pic{height:auto!important;min-height:0}.pathrow .pic img{object-fit:cover!important;width:100%;height:100%}
+.pathrow .col{align-self:center}
+.wsside .zoom.ws img{object-fit:contain!important;object-position:center top!important;height:100%!important;width:100%!important;background:#fff}
+/* 10-31: 메모 속 바로가기 단추가 윗줄 글자를 덮거나 두 줄로 쪼개짐(B11) */
+.memo{line-height:1.7}.memo .btn{display:inline-block;white-space:nowrap;line-height:1.25;margin:4px 6px 4px 0;vertical-align:middle}
+.next b{background:var(--ink);color:#fff;border-radius:10px;padding:1px 10px;margin-right:8px}
