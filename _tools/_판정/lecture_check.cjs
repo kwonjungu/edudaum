@@ -35,5 +35,7 @@ const path = require('path'); const { pathToFileURL } = require('url');
   const wsN = (JSON.parse(require('fs').readFileSync(__dirname + '/ws_pages.json', 'utf8')))[B];
   res.wspage = wsN ? await p.evaluate(n => [...document.querySelectorAll('.s')].flatMap((s, i) => [...s.textContent.matchAll(/활동지\s*(\d+)\s*쪽/g)].filter(m => +m[1] > n).map(m => (i + 1) + ':' + m[0])), wsN) : [];
   res.words = await p.evaluate(() => [...document.querySelectorAll('.s')].flatMap((s, i) => (s.textContent.match(/맞았어요|틀렸어요|잘했어요|정답|오답|대단해요|점수|등수|(?<![가-힣])[한두세네]\s*시간(?![표씩])|\d+\s*(?:분|초)\s*(?:동안|간\b|안에|이내|만에|씩|짜리|발표|말하기|인터뷰|설명|토의|활동)|\(\s*\d+\s*분\s*\)/g) || []).map(w => (i + 1) + ':' + w)));
+  // 원고의 words_ok: 학습 내용 속 값(과정안 예시 등)은 예외로 둔다
+  try { const ok = JSON.parse(require('fs').readFileSync(`lecture/_src/${B}.json`, 'utf8')).words_ok || []; res.words = res.words.filter(w => !ok.some(o => w.endsWith(':' + o) || w.split(':')[1] && o.includes(w.split(':')[1]))); } catch (e) {}
   console.log(JSON.stringify(res)); await b.close();
 })();
