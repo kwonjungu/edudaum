@@ -1,0 +1,210 @@
+@font-face{font-family:'Jua';src:url('../../assets/fonts/jua.woff2') format('woff2')}
+@font-face{font-family:'Gowun Dodum';src:url('../../assets/fonts/gowun-dodum.woff2') format('woff2')}
+:root{--paper:#f8f6f1;--card:#fff;--ink:#33302b;--sub:#6f6a62;--grass:#7fb069;--grass-d:#5c8f48;--grass-l:#e7f1df;--sun:#ffc845;--sun-l:#fff3cc;--soil:#a07850;--sky:#5aa9e6;--line:#e3ddd1}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#2f3a2a;height:100%}
+body{font-family:'Gowun Dodum',sans-serif;color:var(--ink);-webkit-print-color-adjust:exact;print-color-adjust:exact;overflow:hidden}
+.deck{position:relative;width:100vw;height:100vh}
+.s{position:absolute;left:50%;top:50%;width:1280px;height:720px;transform-origin:center;background:var(--paper);overflow:hidden;padding:56px 72px 70px;display:none;flex-direction:column}
+.s.cur{display:flex}
+.h{font-family:'Jua',sans-serif;font-weight:400;letter-spacing:-.3px;line-height:1.2}
+h2.h{font-size:46px;margin:10px 0 18px}
+h2.h::before{content:'';display:block;width:40px;height:6px;border-radius:3px;background:var(--grass);margin-bottom:14px}
+.ktag{align-self:flex-start;font-family:'Jua';font-size:20px;background:var(--grass-l);color:var(--grass-d);border:2px solid var(--grass);border-radius:999px;padding:4px 16px}
+.pn{position:absolute;right:40px;bottom:22px;font-size:16px;color:var(--sub);font-family:'Jua';z-index:3}
+.grass{position:absolute;left:0;right:0;bottom:0;height:46px;z-index:0;opacity:.9;
+background:radial-gradient(circle at 20px 46px,var(--grass-l) 26px,transparent 27px) 0 0/48px 46px repeat-x,linear-gradient(transparent 70%,var(--grass-l) 70%)}
+.s > *:not(.grass){position:relative;z-index:1}
+.two.ws{grid-template-columns:1.75fr 1fr}
+.two{display:grid;grid-template-columns:1.15fr 1fr;gap:36px;flex:1;min-height:0;align-items:center}
+.two.wide{grid-template-columns:1.3fr 1fr}
+.col{display:flex;flex-direction:column;gap:12px;min-width:0}
+.pic{position:relative;border-radius:24px;overflow:hidden;background:#fff;box-shadow:0 6px 18px #0002;height:100%;max-height:520px}
+.pic img{width:100%;height:100%;object-fit:cover;display:block}
+.aicap{position:absolute;right:10px;bottom:8px;font-size:13px;color:#fff;background:#0006;border-radius:8px;padding:1px 8px}
+/* 말풍선 */
+.bub{display:flex;gap:14px;align-items:flex-start}
+.bub .face{width:88px;height:88px;border-radius:50%;background:var(--grass-l);border:4px solid #fff;box-shadow:0 3px 10px #0002;object-fit:cover;object-position:top;flex:none}
+.bub .talk{position:relative;background:#fff;border:3px solid var(--ink);border-radius:22px;padding:12px 18px;font-size:24px;line-height:1.4;box-shadow:4px 4px 0 var(--ink)}
+.bub .talk b.nm{display:block;font-family:'Jua';font-weight:400;font-size:19px;color:var(--grass-d)}
+.bub .talk b:not(.nm){color:var(--grass-d)}
+.bubrow{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+.bubrow .bub:only-child{grid-column:1/-1}
+.pic.contain img{object-fit:contain;background:#fff}
+.bub .talk::before{content:'';position:absolute;left:-16px;top:30px;border:12px solid transparent;border-right:16px solid var(--ink);border-left:0}
+.bub .talk::after{content:'';position:absolute;left:-10px;top:33px;border:9px solid transparent;border-right:12px solid #fff;border-left:0}
+.bub.r{flex-direction:row-reverse}
+.bub.r .talk::before{left:auto;right:-16px;border-right:0;border-left:16px solid var(--ink)}
+.bub.r .talk::after{left:auto;right:-10px;border-right:0;border-left:12px solid #fff}
+.memo{background:var(--sun-l);border-left:8px solid var(--sun);border-radius:12px;padding:10px 16px;font-size:24px;line-height:1.4}
+/* 표지 */
+.t-cover{padding:0}
+.cover{position:relative;width:100%;height:100%}
+.cover .pic.bg{position:absolute;inset:0;max-height:none;border-radius:0;box-shadow:none}
+.ctext{position:absolute;left:72px;top:70px;background:#fffd;border-radius:28px;padding:30px 40px;max-width:720px}
+.kick{font-family:'Jua';font-size:22px;color:var(--grass-d)}
+.cover h1{font-size:72px;margin:8px 0 10px}
+.lead{font-size:28px;font-family:'Jua';color:var(--soil)}
+.crew{position:absolute;right:56px;bottom:40px;display:flex;gap:8px}
+.crew img{width:190px;height:190px;object-fit:contain;filter:drop-shadow(0 6px 8px #0003)}
+/* 미션 카드 */
+.mcard{background:var(--sun-l);border:3px dashed var(--soil);border-radius:28px;padding:28px 30px;display:flex;flex-direction:column;gap:18px}
+.stamp{align-self:flex-start;font-family:'Jua';font-size:24px;color:#c8442f;border:4px solid #c8442f;border-radius:14px;padding:4px 16px;transform:rotate(-4deg)}
+.mq{font-family:'Jua';font-size:29px;line-height:1.4}
+/* 오늘의 길 */
+.path{list-style:none;display:flex;gap:12px;flex-wrap:wrap;margin-bottom:22px}
+.path li{background:#fff;border:3px solid var(--grass);border-radius:18px;padding:12px 18px;min-width:150px}
+.path li b{display:block;font-family:'Jua';font-size:20px;color:var(--grass-d)}
+.path li span{display:block;font-size:24px}
+.path li i{font-style:normal;font-size:18px;color:var(--sub)}
+.path li.cha{background:var(--ink);border-color:var(--ink)}.path li.cha b,.path li.cha span{color:#fff}
+/* 활동 열기 */
+.todo{font-family:'Jua';font-size:30px;line-height:1.35}
+.timer{align-self:flex-start;width:112px;height:112px;border-radius:50%;border:7px solid var(--grass);background:#fff;font-family:'Jua';cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.timer span{font-size:30px}.timer small{font-size:15px;color:var(--sub)}
+.timer.run{border-color:var(--sun)}
+/* 예측 */
+.q{font-family:'Jua';font-size:32px;line-height:1.35}
+.opts{display:flex;flex-wrap:wrap;gap:12px}
+.opt{font-family:'Jua';font-size:28px;background:#fff;border:3px solid var(--ink);border-radius:18px;padding:12px 24px;cursor:pointer;box-shadow:4px 4px 0 var(--ink)}
+.opt.pick{background:var(--sun);transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+.pic.after{max-height:420px}
+/* 숨은 그림 찾기 */
+.huntwrap{display:grid;grid-template-columns:1.6fr 1fr;gap:28px;flex:1;min-height:0;align-items:center}
+.hunt{position:relative}
+.hunt .pic{max-height:none;height:auto;aspect-ratio:16/9}
+.spot{position:absolute;aspect-ratio:1;border:6px solid var(--sun);border-radius:50%;box-shadow:0 0 0 4px #fff8;transform:translate(-50%,-50%)}
+.spot em{position:absolute;left:50%;top:100%;transform:translateX(-50%);white-space:nowrap;font-style:normal;font-family:'Jua';font-size:20px;background:var(--ink);color:#fff;border-radius:10px;padding:2px 10px;margin-top:4px}
+/* 카드 뒤집기 */
+.flips{display:flex;gap:22px;flex:1;min-height:0;align-items:stretch;margin-bottom:16px}
+.flip{flex:1;position:relative;perspective:900px;background:none;border:0;cursor:pointer;min-height:290px}
+.flip .fr,.flip .bk{position:absolute;inset:0;border-radius:22px;backface-visibility:hidden;transition:transform .6s;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:16px;border:3px solid var(--ink);box-shadow:4px 4px 0 var(--ink)}
+.flip .fr{background:#fff}.flip .fr .pic{height:180px;width:100%;box-shadow:none}
+.flip .fr b{font-family:'Jua';font-size:28px;font-weight:400}
+.flip .bk{background:var(--grass-l);transform:rotateY(180deg);font-size:24px;line-height:1.45;text-align:left}
+.flip.on .fr{transform:rotateY(180deg)}.flip.on .bk{transform:rotateY(360deg)}
+/* 둘 중 하나 */
+.pair{display:flex;align-items:center;gap:26px;flex:1;min-height:0;margin-bottom:12px}
+.side{flex:1;background:#fff;border:3px solid var(--ink);border-radius:24px;padding:14px;cursor:pointer;box-shadow:4px 4px 0 var(--ink);transition:transform .3s}
+.side .pic{height:220px;box-shadow:none}.side b{display:block;font-family:'Jua';font-size:30px;font-weight:400;margin-top:8px}
+.side.pick{transform:scale(1.04);background:var(--sun-l)}
+.vs{font-family:'Jua';font-size:60px;color:var(--soil)}
+/* 활동지 */
+.sheet{background:#fff;border-radius:18px;box-shadow:0 6px 18px #0002;padding:10px;max-height:540px;overflow:hidden;display:flex;align-items:flex-start;justify-content:center}
+.sheet img{width:100%;max-height:520px;object-fit:contain}
+.sheet.small{max-height:500px}
+/* 체험 */
+.phone{justify-self:center;width:300px;height:540px;border-radius:40px;background:#222;padding:14px;box-shadow:0 10px 24px #0004}
+.scr{position:relative;width:100%;height:100%;border-radius:28px;overflow:hidden;background:#fff}
+.scr img{position:absolute;inset:0;width:100%;object-fit:cover;object-position:top;opacity:0;transition:opacity .8s}
+.scr img.on{opacity:1}
+.go{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.btn{font-family:'Jua';font-size:26px;background:var(--grass);color:#fff;text-decoration:none;border-radius:16px;padding:12px 24px;box-shadow:4px 4px 0 var(--grass-d)}
+.qr svg{width:120px;height:120px;background:#fff;border-radius:10px;padding:6px}
+.go small{width:100%;font-size:16px;color:var(--sub)}
+/* 쉬는 시간, 정리, 해결 */
+.brk,.done{display:grid;grid-template-columns:1.2fr 1fr;gap:36px;flex:1;align-items:center}
+.wrapq{list-style:none;counter-reset:w;display:flex;flex-direction:column;gap:12px}
+.wrapq li{counter-increment:w;background:#fff;border:3px solid var(--grass);border-radius:16px;padding:12px 18px 12px 60px;font-size:25px;line-height:1.4;position:relative}
+.wrapq li::before{content:counter(w);position:absolute;left:14px;top:10px;width:34px;height:34px;border-radius:50%;background:var(--grass);color:#fff;font-family:'Jua';text-align:center;line-height:34px}
+.seal{align-self:flex-start;font-family:'Jua';font-size:30px;color:#c8442f;border:5px solid #c8442f;border-radius:50%;padding:30px 16px;transform:rotate(-10deg)}
+.next{font-family:'Jua';font-size:26px;color:var(--soil)}
+/* 단계 */
+[data-step]{transition:opacity .35s,transform .35s}
+.s:not(.print) [data-step].hide{opacity:0;transform:translateY(10px);pointer-events:none}
+.bub:not(.hide) .face{animation:hop .5s ease}
+.spot:not(.hide){animation:pulse 1.2s ease 2}
+.t-done .seal{animation:stamp .7s cubic-bezier(.2,1.6,.4,1)}
+@keyframes hop{40%{transform:translateY(-12px)}}
+@keyframes pulse{50%{box-shadow:0 0 0 14px #ffc84555}}
+@keyframes stamp{0%{transform:rotate(-30deg) scale(2.2);opacity:0}100%{transform:rotate(-10deg) scale(1);opacity:1}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+.ctl{position:fixed;left:50%;bottom:10px;transform:translateX(-50%);display:flex;gap:10px;align-items:center;background:#0008;color:#fff;border-radius:999px;padding:6px 14px;font-family:'Jua';z-index:9;opacity:.25;transition:opacity .2s}
+.ctl:hover{opacity:1}.ctl button,.ctl a{background:none;border:0;color:#fff;font:inherit;font-size:18px;cursor:pointer;text-decoration:none}
+/* 인쇄: 모든 장, 모든 단계 */
+@page{size:1280px 720px;margin:0}
+@media print{html,body{background:none;overflow:visible;height:auto}.deck{width:auto;height:auto}.s{position:relative;left:0;top:0;transform:none!important;display:flex!important;page-break-after:always;break-after:page}
+[data-step].hide{opacity:1!important;transform:none!important}.ctl{display:none}.scr img{opacity:0}.scr img:last-child{opacity:1}.flip .fr{transform:none}.flip .bk{display:none}.timer small{display:none}}
+/* 2회차: 확대 컷·순서 맞추기·준비물 (2026-10-30 감수 L1) */
+.zoom{position:relative;border-radius:20px;overflow:hidden;background:#fff;box-shadow:0 6px 18px #0002;border:3px solid var(--line)}
+.zoom.ws{height:340px;margin-bottom:14px}
+.zoom.ws img{width:100%;height:100%;object-fit:cover;display:block}
+.zoom .memo.on{position:absolute;right:14px;bottom:14px;box-shadow:0 4px 10px #0003}
+.appz{display:grid;grid-template-columns:820px 1fr;gap:26px;flex:1;min-height:0;align-items:start}
+.zoom.scr{height:430px;width:820px}
+.zoom.scr img{position:absolute;inset:0;width:100%;height:auto;opacity:0;transition:opacity .8s}
+.zoom.scr img.on{opacity:1}
+.zoom.scr .lb{position:absolute;left:14px;top:14px;font-family:'Jua';font-size:22px;background:var(--ink);color:#fff;border-radius:12px;padding:3px 14px;opacity:0;transition:opacity .8s}
+.zoom.scr .lb.on{opacity:1}
+.go{flex-direction:column;align-items:flex-start}
+.spot{translate:-50% -50%;transform:none}
+.pn{background:var(--paper);border-radius:10px;padding:2px 10px}
+.pathrow{display:grid;grid-template-columns:420px 1fr;gap:24px;align-items:center;flex:1;min-height:0}
+.pathrow .pic{height:230px}
+.prep{list-style:none;display:flex;flex-direction:column;gap:10px}
+.prep li{background:#fff;border:3px solid var(--grass);border-radius:16px;padding:10px 16px;font-size:24px;display:flex;gap:12px}
+.prep li b{font-family:'Jua';font-weight:400;color:var(--grass-d);min-width:120px}
+.order{display:flex;gap:16px;flex:1;min-height:0;margin:10px 0 14px}
+.oc{flex:1;background:#fff;border:3px solid var(--ink);border-radius:20px;box-shadow:4px 4px 0 var(--ink);padding:12px;cursor:pointer;display:flex;flex-direction:column;gap:8px;align-items:center;font-size:23px;line-height:1.35;position:relative;transition:transform .3s}
+.oc .pic{height:150px;width:100%;box-shadow:none}
+.oc .n{position:absolute;left:-10px;top:-10px;width:44px;height:44px;border-radius:50%;background:var(--sun);border:3px solid var(--ink);font-family:'Jua';font-size:24px;line-height:38px;display:none}
+.oc.done .n{display:block}.oc.done{background:var(--sun-l);transform:translateY(-6px)}
+@media print{.flip{display:flex;flex-direction:column;gap:8px;min-height:0;perspective:none}.flip .fr,.flip .bk{position:relative;inset:auto;transform:none!important;display:flex!important}.flip .fr .pic{height:120px}.flip .bk{font-size:20px}
+.zoom.scr img{opacity:0!important}.zoom.scr img:last-of-type{opacity:1!important}.zoom.scr .lb{opacity:0!important}.zoom.scr .lb:last-of-type{opacity:1!important}.oc .n{display:block}}
+
+.go{flex-direction:row;align-items:center;flex-wrap:wrap;gap:12px}.qr svg{width:96px;height:96px}.go small{width:100%}
+.prep li{padding:8px 14px;font-size:23px}
+/* 쪽 번호는 맨 아래 풀잎 띠 안에, 내용은 그 위에서 끝난다(2026-10-30) */
+.s{padding-bottom:58px}
+.pn{bottom:8px;right:28px;font-size:14px;padding:1px 8px}
+.two,.huntwrap,.appz,.brk,.done,.pathrow{max-height:100%}
+.pic{max-height:100%}
+.two > .pic,.two.wide > .pic{height:100%;max-height:470px}
+.pic.after{max-height:300px;height:300px}
+.t-open .two > .pic{max-height:430px}
+.t-open .col{gap:10px}
+.timer{width:96px;height:96px}.timer span{font-size:26px}
+/* QR 크게 보기 */
+.qr{cursor:zoom-in}
+.qrbig{position:fixed;inset:0;z-index:20;background:#000c;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;cursor:zoom-out}
+.qrbig svg{width:min(70vh,70vw);height:min(70vh,70vw);background:#fff;border-radius:24px;padding:24px}
+.qrbig p{color:#fff;font-family:'Jua';font-size:26px}
+
+.aisl{position:absolute;left:28px;bottom:9px;font-size:14px;color:var(--sub);z-index:3;background:var(--paper);border-radius:10px;padding:1px 8px}
+.ctl{opacity:.55}
+/* 활동지 장: 캡처를 크게(장 높이 대부분), 말풍선은 오른쪽 아래에 겹쳐 놓는다 */
+.t-ws{padding-left:44px;padding-right:44px}
+.t-ws h2.h{margin-bottom:12px}
+.zoom.ws{height:auto;flex:1;min-height:0;margin-bottom:0}
+.zoom.ws img{object-fit:contain;object-position:left top;background:#fff}
+.t-ws .bubrow{position:absolute;right:44px;bottom:66px;display:flex;flex-direction:column;gap:10px;max-width:560px;z-index:4}
+.t-ws .bubrow .bub .talk{box-shadow:4px 4px 0 var(--ink),0 6px 16px #0003}
+.zoom .memo.on{left:14px;right:auto;bottom:14px;top:auto}
+.zoom.ws img{object-fit:cover;object-position:left top}
+/* 감수 L2: 활동지 캡처는 너비 전체, 말풍선은 아래 줄 / 잘림 없애기 */
+.zoom.ws{flex:1;min-height:0;margin-bottom:12px}
+.zoom.ws img{width:100%!important;height:auto!important;object-fit:fill!important}
+.t-ws .bubrow,.t-wrap .bubrow{position:static;flex-direction:row;display:grid;grid-template-columns:1fr 1fr;max-width:none;gap:18px}
+.prep li{font-size:22px;line-height:1.35;align-items:flex-start}
+.two > .col{max-height:100%}
+.memo{overflow:visible}
+.oc .k{display:none;font-family:'Jua';font-size:20px;color:var(--grass-d)}
+.oc .k:not(.hide){display:block}
+.t-wrap .zoom.ws{max-height:300px}
+.wraprow{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.wraprow li{list-style:none;background:#fff;border:3px solid var(--grass);border-radius:16px;padding:10px 14px;font-size:23px;line-height:1.35}
+.pathrow{grid-template-columns:560px 1fr}.pathrow .pic{height:300px}
+@media print{.t-flip .flips{flex:none}.t-flip .flip .fr .pic{height:96px}.t-flip .flip .bk{font-size:18px;padding:10px}.t-flip .bubrow{display:none}.oc .k{display:block!important}}
+.col > *,.bubrow > *{flex-shrink:0}
+.pathrow .pic{height:250px}
+
+.memo.top{position:absolute;right:44px;top:56px;max-width:600px;font-size:24px;padding:8px 14px;z-index:3}
+/* 감수 L3: 칸 밖으로 넘친 말풍선이 PDF에서 잘리지 않게 */
+.appz{grid-template-columns:720px 1fr}
+.zoom.scr{width:720px;height:440px}
+.t-open .qr svg,.t-scene .qr svg{width:80px;height:80px}
+.t-open .go .btn{font-size:22px;padding:8px 16px}
+.t-open .go small{display:none}
+.s > .bubrow,.s > .wraprow,.s > .q,.s > h2,.s > .ktag,.s > .bub{flex-shrink:0}
+.pathrow .pic{height:200px}.side .pic{height:185px}
+.s > .aisl.aisl,.s > .pn.pn{position:absolute}

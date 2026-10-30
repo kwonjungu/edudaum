@@ -111,7 +111,7 @@ LAB = [
     ('camera', '나만의 이미지 모델', '그림판이나 카메라로 두 무리를 가르치고, 막대가 어느 쪽으로 기우는지 실험 카드로 견줘요.', ['B24', 'B25', 'B26'], 'MobileNet + KNN'),
     ('text', '문장 분류 모델', '두 무리의 문장을 가르치면, 글자 조각을 세어 새 문장이 어느 무리와 닮았는지 골라요.', ['B25', 'B27'], '나이브 베이즈'),
     ('detect', '물건 찾기: 색 규칙과 AI', '"빨간 것은 사과" 규칙과 물건 80가지를 배운 AI가 같은 사진에서 무엇을 찾는지 견줘요.', ['B17'], 'COCO-SSD'),
-    ('voice', '말 알아듣기 실험실', '같은 문장을 말하는 방법만 바꿔 말하면, 기계의 받아쓰기가 어떻게 달라지는지 먼저 걸고 견줘요.', ['B18', 'B19', 'B28'], '브라우저 음성 인식'),
+    ('voice', '말 알아듣기 실험실', '같은 문장을 말하는 방법만 바꿔 말하면, 기계의 받아쓰기가 어떻게 달라지는지 먼저 예측하고 견줘요.', ['B18', 'B19', 'B28'], '브라우저 음성 인식'),
     ('neuron', '선 긋는 인공 뉴런', '두 무리 점을 가르는 선을 기계가 틀린 점을 보며 조금씩 옮겨 찾아요.', ['B26'], '퍼셉트론'),
 ]
 LAB_OF = {}
@@ -737,6 +737,14 @@ def build_lesson(code, prev, nxt):
         gsec += ('<h3 class="sub" id="lab" style="font-size:1.05em;margin:14px 0 6px">연계 활동 <span class="small muted">이 차시와 이어서 해 보는 AI 체험</span></h3><div class="labrow">%s</div>'
                  % (''.join('<a class="gcard" href="%slab/%s/"><img class="gshot" src="%slab/assets/covers/%s.webp" alt="" width="600" height="375" loading="lazy"><span><b>%s</b><span>%s</span><span class="needs">%s</span></span><span class="go">열기</span></a>'
                                              % (up, sl, up, sl, e(t), e(l), e(m)) for sl, t, l, m in LAB_OF[code])))
+    # 강의교안(lecture/Bxx): 감수 두 번 연이어 통과한 블록만 lecture/에 둔다(2026-10-30)
+    if (ROOT / 'lecture' / code / 'index.html').exists():
+        lec = ('<h2 class="sub" id="lecture">%s강의교안 <span class="small muted">미션 해결단 · 수업 화면에 띄워요</span></h2>'
+               '<a class="gcard" href="%slecture/%s/"><img class="gshot" src="%slecture/_assets/%s/cover.webp" alt="" width="600" height="338" loading="lazy">'
+               '<span><b>%s 강의교안</b><span>교수학습 과정안·활동지·체험 활동을 미션 해결단 이야기로 이어요. 넘기며 예측하고 확인해요.</span>'
+               '</span><span class="go">열기</span></a><p class="small" style="margin:6px 2px 0"><a href="%slecture/%s/%s_강의교안.pdf">강의교안 PDF 받기</a></p>'
+               % (icon('lightbulb', up), up, code, up, code, code, up, code, code))
+        gsec = lec + gsec
     kplay = ('<a class="kplay" href="%s%s/">%s<span><b>체험 활동 열기</b><small>%s과 5~10분 · %s</small></span><i aria-hidden="true">→</i></a>'
              % (up, code, face(code, up, 60), e(cast(code)[1]), e(gm['title']))) if gm else ''
     body = f"""
