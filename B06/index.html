@@ -106,7 +106,7 @@
 
   <section aria-labelledby="h-d">
     <h2 id="h-d">이번 묶음</h2>
-    <p class="cond">△이고 5보다 큰 카드 찾기</p>
+    <p class="cond">△이고 5보다 큰 카드 모두 찾기</p>
     <div class="deck" id="deck"></div>
     <div class="how">
       <p><span class="who">가</span>끝까지 다 본다</p>
@@ -254,7 +254,7 @@
     replayBtn.disabled = true;
     sayEl.textContent = '셋 가운데 하나를 짚어요';
     sayEl.className = 'say dim';
-    if (window.Fun) { Fun.say('새 묶음이에요. 나는 첫 카드를 찾으면 멈춰요. 몇 장을 빠뜨릴지 먼저 걸어 봐요.'); }
+    if (window.Fun) { Fun.say('새 묶음이에요. 나는 첫 카드를 찾으면 멈춰요. 몇 장을 빠뜨릴지 먼저 예측해 봐요.'); }
   }
 
   function pickGuess(g) {
@@ -266,7 +266,7 @@
       b.setAttribute('aria-pressed', b.getAttribute('data-g') === g ? 'true' : 'false');
     }
     runBtn.disabled = false;
-    if (window.Fun) { Fun.say(guess + '장으로 걸었어요. 이제 돌려서 확인해 봐요.'); }
+    if (window.Fun) { Fun.say(guess + '장으로 예측했어요. 이제 돌려서 확인해 봐요.'); }
     sayEl.textContent = '돌려 보기를 눌러요';
     sayEl.className = 'say dim';
   }
@@ -368,6 +368,6 @@
   newRound();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B06" data-mission="같은 여덟 장을 두 절차로 훑어요. 나가 몇 장을 빠뜨릴지 먼저 걸고 확인해요!"></script>
+<script src="../assets/play/fun.js" data-block="B06" data-mission="같은 여덟 장을 두 절차로 훑어요. 나가 몇 장을 빠뜨릴지 먼저 예측하고 확인해요!"></script>
 </body>
 </html>

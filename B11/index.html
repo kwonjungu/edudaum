@@ -174,7 +174,7 @@ body{overflow-x:hidden}
     // 격자는 21차시 활동2 기능 카드 '목표 알림' 모양이다. 목표 아래는 가운데 한 점, 목표 이상은 전체.
     for (var i = 0; i < 25; i++){
       var on = (count < goal) ? (i === CENTER) : true;
-      cells[i].style.fill = on ? '#FF7A00' : '#3A3630';
+      cells[i].style.fill = on ? '#FF3B2F' : '#3A3630';
     }
 
     var s = $('say');
@@ -217,7 +217,7 @@ body{overflow-x:hidden}
     } else if (count === goal){
       var p = $('panel');
       p.classList.remove('hit'); void p.offsetWidth; p.classList.add('hit');
-      if (window.Fun) Fun.say('목표 ' + goal + '에 닿았어요. 여기서 멈출 수 있나요? 한 번 더 흔들면 넘어가요.', 'think');
+      if (window.Fun) Fun.say('목표 ' + goal + '에 닿았어요. 여기서 멈출 수 있나요?', 'think');
     }
     render();
   }

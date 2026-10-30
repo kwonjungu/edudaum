@@ -323,7 +323,7 @@
     for (var v = 0; v <= 6; v++) {
       var vb = document.createElement('button'); vb.type = 'button'; vb.className = 'gb';
       vb.textContent = String(v); vb.setAttribute('aria-label', v + '번'); vb.setAttribute('aria-pressed', 'false');
-      (function (k) { vb.addEventListener('click', function () { if (st.r2 === null) { st.g7 = k; say('여섯 번 가운데 ' + k + '번이라고 걸었어요. 샘플 5개씩 더하면 어떻게 달라질지 확인해 봐요.'); paint(); } }); })(v);
+      (function (k) { vb.addEventListener('click', function () { if (st.r2 === null) { st.g7 = k; say('여섯 번 가운데 ' + k + '번이라고 예측했어요. 샘플 5개씩 더하면 어떻게 달라질지 확인해 봐요.'); paint(); } }); })(v);
       $('g7').appendChild(vb); g7Btns.push(vb);
     }
   })();
@@ -444,7 +444,7 @@
     $('say2').className = 'say'; $('say2').textContent = msg;
     paintBars(res);
     var same = res.pred === g;
-    if (st.ci + 1 >= 6) { say(same ? '짚은 대로 나왔어요. 여섯 장을 다 했어요. 이제 샘플이 8개가 되면 몇 번 알아볼지 걸어 봐요.' : '짚은 것과 다르게 나왔어요. 여섯 장을 다 했어요. 헷갈림 판에서 어디가 갈렸는지 보고, 8개가 되면 어떨지 걸어 봐요.', same ? 'cheer' : 'think'); }
+    if (st.ci + 1 >= 6) { say(same ? '짚은 대로 나왔어요. 여섯 장을 다 했어요. 이제 샘플이 8개가 되면 몇 번 알아볼지 예측해 봐요.' : '짚은 것과 다르게 나왔어요. 여섯 장을 다 했어요. 헷갈림 판에서 어디가 갈렸는지 보고, 8개가 되면 어떨지 예측해 봐요.', same ? 'cheer' : 'think'); }
     else { say(same ? '짚은 대로 알아봤어요. 막대에서 두 번째로 높은 동작도 봐요. 다음 카드도 먼저 짚어 봐요.' : '짚은 것과 다르게 나왔어요. 어디서 갈렸는지 샘플 그래프와 견줘 봐요.', same ? 'cheer' : 'think'); }
     if (window.Fun) { if (same) { Fun.burst($('say2')); } else { Fun.shake($('say2')); } }
     st.cur = null; st.guess = null; st.ci += 1;
@@ -608,6 +608,6 @@
   paint();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B25" data-mission="시도 그래프를 샘플과 견주어, 화면이 무엇으로 알아볼지 먼저 짚어요. 확인 전에 걸어 봐요!"></script>
+<script src="../assets/play/fun.js" data-block="B25" data-mission="시도 그래프를 샘플과 견주어, 화면이 무엇으로 알아볼지 먼저 짚어요. 확인 전에 예측해 봐요!"></script>
 </body>
 </html>

@@ -46,7 +46,7 @@
     padding:9px;display:inline-flex}
   #led{width:120px;height:120px;display:block}
   .px{fill:#333030}
-  .px.on{fill:var(--pink)}
+  .px.on{fill:#FF3B2F;filter:drop-shadow(0 0 2px #FF3B2F)}
   .tally{display:grid;grid-template-columns:repeat(10,1fr);gap:5px;margin-top:9px;max-width:300px}
   .tally i{display:block;aspect-ratio:1;border-radius:50%;border:2px solid var(--line-strong);background:var(--surface);transition:background-color .15s,transform .15s}
   .tally i.on{background:var(--pink);border-color:var(--pink);transform:scale(1.12)}
@@ -100,6 +100,7 @@
       <div id="code"></div>
       <div class="stage"><div class="panel"><svg id="led" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg></div></div>
     </div>
+    <p class="legend" style="margin:2px 0 0;font-size:12.5px;color:var(--muted)">♥ 묶음 = [아이콘 출력 ♥] [일시중지 500ms] [LED 스크린 지우기] [일시중지 500ms] 네 블록을 접어 둔 것</p>
   </section>
 
   <section aria-labelledby="h-g">
@@ -194,7 +195,7 @@
     return { n: nn, m: mm, nested: nest, key: nn + ',' + mm + ',' + nest };
   }
 
-  // 블록 이름은 과정안 그대로다: [반복 ○회], 묶음(하트 보이고 지우기).
+  // 블록 이름은 MakeCode·과정안 그대로다: [○ 번 반복], ♥ 묶음([아이콘 출력 ♥]-[일시중지]-[LED 스크린 지우기]-[일시중지]).
   // 홑겹 판은 반복 안에 같은 묶음이 M줄 늘어서 있고(활동1의 늘어선 코드),
   // 겹침 판은 그 M줄을 다시 [반복 M회]로 감쌌다(활동2의 묶기).
   function line(cls, text) {
@@ -206,12 +207,12 @@
 
   function renderCode() {
     codeEl.innerHTML = '';
-    line('', '반복 ' + n + '회');
+    line('', '[' + n + ' 번 반복]');
     if (nested) {
-      line('in1', '반복 ' + m + '회');
-      line('in2', '하트 보이고 지우기');
+      line('in1', '[' + m + ' 번 반복]');
+      line('in2', '♥ 묶음 (블록 4개)');
     } else {
-      for (var i = 0; i < m; i += 1) { line('in1', '하트 보이고 지우기'); }
+      for (var i = 0; i < m; i += 1) { line('in1', '♥ 묶음 (블록 4개)'); }
     }
   }
 
@@ -248,7 +249,7 @@
       b.setAttribute('aria-pressed', Number(b.getAttribute('data-v')) === v ? 'true' : 'false');
     }
     goBtn.disabled = false;
-    F(v + '번이라고 걸었어요. 돌려서 세어 봐요.');
+    F(v + '번이라고 예측했어요. 돌려서 세어 봐요.');
     sayEl.textContent = '돌려 보기를 눌러요';
     sayEl.className = 'say dim';
   }

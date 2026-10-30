@@ -129,7 +129,7 @@
     <p class="val" id="val">0</p>
     <input type="range" id="slide" min="0" max="99" step="1" aria-label="지금 수" hidden>
 
-    <div class="guess" role="group" aria-label="나올 수 예상"><b>먼저 걸어요</b>
+    <div class="guess" role="group" aria-label="나올 수 예상"><b>먼저 예측해요</b>
       <button class="chip" type="button" data-g="20" aria-pressed="false">20</button>
       <button class="chip" type="button" data-g="40" aria-pressed="false">40</button>
       <button class="chip" type="button" data-g="60" aria-pressed="false">60</button>
@@ -150,8 +150,8 @@
       <div class="slot" id="s0"><small>첫 번째</small><strong>·</strong><em></em></div>
       <div class="slot" id="s1"><small>두 번째</small><strong>·</strong><em></em></div>
     </div>
-    <p class="note" id="hint">수를 걸고 같은 글자를 두 번 담아 견줘요</p>
-    <p class="note">목소리는 저장되지 않아요</p>
+    <p class="note" id="hint">수를 예측하고 같은 글자를 두 번 담아 견줘요</p>
+    <p class="note">이 판의 기계는 마이크로비트처럼 <b>소리 크기 수 하나</b>만 보고 약속표에서 글자를 골라요. 진짜 음성 인식은 크기가 아니라 소리의 무늬(높낮이와 떨림)를 배운 자료와 견줘서, 크게 말해도 같은 글자가 나와요. 목소리는 저장되지 않아요.</p>
   </section>
 </div>
 
@@ -251,7 +251,7 @@
     var chips = document.querySelectorAll('.chip');
     for (var c = 0; c < chips.length; c++) chips[c].setAttribute('aria-pressed', String(+chips[c].dataset.g === guess));
     $('keep').disabled = (slots[1] !== null) || guess === null;
-    $('hint').textContent = slots[1] !== null ? '두 칸이 찼어요. 다음 글자로 가요' : (guess === null ? '먼저 나올 수를 걸어요' : '같은 글자를 두 번 담아 견줘요');
+    $('hint').textContent = slots[1] !== null ? '두 칸이 찼어요. 다음 글자로 가요' : (guess === null ? '먼저 나올 수를 예측해요' : '같은 글자를 두 번 담아 견줘요');
   }
 
   function clearRound(){ slots = [null, null]; guess = null; }
@@ -260,7 +260,7 @@
     do { w = Math.floor(Math.random() * TABLE.length); } while (w === lastWant);
     lastWant = w; want = w; clearRound();
     render();
-    if (!first) say('새 글자 「' + TABLE[w].c + '」이에요. 몇 쯤 나올지 먼저 걸어요.');
+    if (!first) say('새 글자 「' + TABLE[w].c + '」이에요. 몇 쯤 나올지 먼저 예측해요.');
   }
 
   var chipEls = document.querySelectorAll('.chip');
@@ -268,7 +268,7 @@
     chipEls[ci].addEventListener('click', function(){
       guess = +this.dataset.g;
       render();
-      say('「' + TABLE[want].c + '」가 걸리려면 ' + guess + '쯤일 거라고 걸었어요. 소리를 내서 담아 봐요.');
+      say('「' + TABLE[want].c + '」가 걸리려면 ' + guess + '쯤일 거라고 예측했어요. 소리를 내서 담아 봐요.');
     });
   }
 
@@ -278,7 +278,7 @@
     slots[i] = value;
     render();
     if (i === 0){
-      say('걸어 둔 수 ' + guess + ', 담은 수 ' + value + '. 같은 소리를 한 번 더 내서 담아 봐요.');
+      say('예측해 둔 수 ' + guess + ', 담은 수 ' + value + '. 같은 소리를 한 번 더 내서 담아 봐요.');
     } else {
       var same = pick(slots[0]) === pick(slots[1]);
       if (same){
@@ -292,7 +292,7 @@
     }
   });
   $('next').addEventListener('click', function(){ newWord(false); });
-  $('reset').addEventListener('click', function(){ clearRound(); render(); say('같은 글자로 다시 해요. 수를 먼저 걸어요.'); });
+  $('reset').addEventListener('click', function(){ clearRound(); render(); say('같은 글자로 다시 해요. 수를 먼저 예측해요.'); });
 
   /* 연습 모드 */
   function usePractice(){
@@ -363,6 +363,6 @@
   startMic();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B18" data-mission="소리를 내서 목표 글자가 걸리게 해요. 나올 수를 먼저 걸고, 같은 소리를 두 번 담아 견줘요!"></script>
+<script src="../assets/play/fun.js" data-block="B18" data-mission="소리를 내서 목표 글자가 걸리게 해요. 나올 수를 먼저 예측하고, 같은 소리를 두 번 담아 견줘요!"></script>
 </body>
 </html>

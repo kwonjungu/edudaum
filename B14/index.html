@@ -216,7 +216,7 @@
     picked = null;
     confirmed = false;
     render();
-    if (window.Fun) { Fun.say('새 예시예요. 개인정보가 드러난 곳이 있을까요? 먼저 한 곳을 걸어 봐요.'); }
+    if (window.Fun) { Fun.say('새 예시예요. 개인정보가 드러난 곳이 있을까요? 먼저 한 곳을 예측해 봐요.'); }
   }
 
   function choose(i){
@@ -231,8 +231,8 @@
     render();
     if (window.Fun) {
       var hitEl = badIdx === NONE ? statusEl : zones[badIdx].rect;
-      if (picked === badIdx) { Fun.say('걸어 둔 곳에 그대로 드러나 있었어요. 어떤 모습이 단서였는지 짝과 말해 봐요.', 'cheer'); Fun.burst(hitEl); }
-      else { Fun.say('걸어 둔 곳과 달랐어요. 어디서 갈렸는지 칸을 다시 훑어 봐요.', 'think'); Fun.shake(statusEl); }
+      if (picked === badIdx) { Fun.say('예측해 둔 곳에 그대로 드러나 있었어요. 어떤 모습이 단서였는지 짝과 말해 봐요.', 'cheer'); Fun.burst(hitEl); }
+      else { Fun.say('예측해 둔 곳과 달랐어요. 어디서 갈렸는지 칸을 다시 훑어 봐요.', 'think'); Fun.shake(statusEl); }
       Fun.stamp();
     }
     nextBtn.focus({ preventScroll: true });
@@ -240,7 +240,7 @@
 
   function doAgain(){
     // 확인 전이면 고른 것만 지운다. 확인한 뒤에는 다음 예시와 같다(무를 수 없어서).
-    if (!confirmed) { picked = null; render(); if (window.Fun) { Fun.say('고른 것을 지웠어요. 다시 한 곳을 걸어 봐요.'); } return; }
+    if (!confirmed) { picked = null; render(); if (window.Fun) { Fun.say('고른 것을 지웠어요. 다시 한 곳을 예측해 봐요.'); } return; }
     newRound();
   }
 
@@ -322,6 +322,6 @@
   newRound();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B14" data-mission="예시 작품 소개에서 개인정보가 드러난 곳을 먼저 걸고 확인해요. 없을 수도 있어요!"></script>
+<script src="../assets/play/fun.js" data-block="B14" data-mission="예시 작품 소개에서 개인정보가 드러난 곳을 먼저 예측하고 확인해요. 없을 수도 있어요!"></script>
 </body>
 </html>

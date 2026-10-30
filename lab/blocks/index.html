@@ -50,7 +50,7 @@
   </section>
 
   <section>
-    <h2>3. 흘려보내기 전에 걸기</h2>
+    <h2>3. 흘려보내기 전에 예측하기</h2>
     <p class="hint">이 규칙으로 흘려보내면, 제 무리가 아닌 바구니에 떨어질 카드는 몇 장일까요?</p>
     <div class="row" id="bets" style="margin-top:6px">
       <button class="btn pick" data-b="0">하나도 없다</button>
@@ -133,7 +133,7 @@
     $('#att').innerHTML = '<table class="att"><tr><th></th><th>깃털</th><th>날개</th><th>날기</th><th>아가미</th><th>다리</th><th>젖</th></tr>' +
       deck.map(function (k) { var f = A[k].f; return '<tr><td>' + A[k].n + '</td><td>' + yes(f.feather) + '</td><td>' + yes(f.wing) + '</td><td>' + yes(f.fly) + '</td><td>' + yes(f.gill) + '</td><td>' + f.legs + '</td><td>' + yes(f.milk) + '</td></tr>'; }).join('') + '</table>';
     reset();
-    if (window.Fun) Fun.say('새 카드 묶음이에요. 앞 묶음에서 쓰던 규칙이 이 묶음에도 통할지 먼저 걸어 봐요.');
+    if (window.Fun) Fun.say('새 카드 묶음이에요. 앞 묶음에서 쓰던 규칙이 이 묶음에도 통할지 먼저 예측해 봐요.');
   }
   function reset() {
     bet = null; $('#bins').innerHTML = ''; $('#why').innerHTML = '';
@@ -153,8 +153,8 @@
       (R.loose ? '<li>떨어져 있는 블록은 따지지 않았어요. 맨 위 묶음에 이어 붙여요.</li>' : '');
     var band = off === 0 ? '0' : off <= 2 ? '1' : '3';
     if (window.Fun) {
-      if (band === bet) { Fun.say('건 대로 ' + (off ? off + '장이 엉뚱한 바구니로 갔어요. 어느 규칙에서 갈렸는지 찾아 고쳐 봐요.' : '모든 카드가 제 바구니로 갔어요. 새 카드 묶음에도 통할까요?'), 'cheer'); Fun.burst($('#bins')); }
-      else { Fun.say('건 것과 다르게 ' + off + '장이 엉뚱한 바구니로 갔어요. 아래 까닭을 읽고 규칙 순서를 바꿔 봐요.', 'think'); Fun.shake($('#bins')); }
+      if (band === bet) { Fun.say('예측한 대로 ' + (off ? off + '장이 엉뚱한 바구니로 갔어요. 어느 규칙에서 갈렸는지 찾아 고쳐 봐요.' : '모든 카드가 제 바구니로 갔어요. 새 카드 묶음에도 통할까요?'), 'cheer'); Fun.burst($('#bins')); }
+      else { Fun.say('예측한 것과 다르게 ' + off + '장이 엉뚱한 바구니로 갔어요. 아래 까닭을 읽고 규칙 순서를 바꿔 봐요.', 'think'); Fun.shake($('#bins')); }
       if (!stamped) { stamped = true; Fun.stamp(); }
     }
     return true;
@@ -167,12 +167,12 @@
       if (!run()) reset();
     };
   });
-  $('#again').onclick = function () { reset(); if (window.Fun) Fun.say('규칙을 고쳤으면, 흘리기 전에 다시 걸어요.'); $('#bets').scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+  $('#again').onclick = function () { reset(); if (window.Fun) Fun.say('규칙을 고쳤으면, 흘리기 전에 다시 예측해요.'); $('#bets').scrollIntoView({ behavior: 'smooth', block: 'center' }); };
   $('#newdeck').onclick = newDeck;
   ws.addChangeListener(function (e) { if (!e.isUiEvent && bet !== null) reset(); });   // 규칙을 바꾸면 결과를 지운다
   newDeck();
 })();
 </script>
-<script src="../../assets/play/fun.js" data-block="L21" data-mission="날개만 보고 새로 보내는 규칙이 있어요. 흘려보내기 전에 몇 장이 엉뚱한 바구니로 갈지 먼저 걸어 봐요."></script>
+<script src="../../assets/play/fun.js" data-block="L21" data-mission="날개만 보고 새로 보내는 규칙이 있어요. 흘려보내기 전에 몇 장이 엉뚱한 바구니로 갈지 먼저 예측해 봐요."></script>
 </body>
 </html>

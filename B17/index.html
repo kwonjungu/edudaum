@@ -143,7 +143,7 @@ main{overflow-x:hidden}
     <div class="dial">
       <div class="row"><span class="nm" id="cname">고르지 않음</span><span class="badge" id="clv">-</span></div>
       <input id="rng" type="range" min="0" max="3" step="1" value="0" aria-label="고른 조건의 단계" disabled>
-      <div class="ends"><span>기준</span><span>많이</span></div>
+      <div class="ends"><span>기준</span><span>많이 바꿈 (멀리, 복잡하게, 어둡게)</span></div>
     </div>
 
     <div class="stage">
@@ -364,7 +364,7 @@ main{overflow-x:hidden}
     if (confirmed) { return; }
     guess = g;
     renderUI();
-    say(g === 'clear' ? '공이 앞선다고 걸었어요. 숫자는 확인하기에서 나와요.' : '모자랄 것 같다고 걸었어요. 숫자는 확인하기에서 나와요.', 'think');
+    say(g === 'clear' ? '공이 앞선다고 예측했어요. 숫자는 확인하기에서 나와요.' : '모자랄 것 같다고 예측했어요. 숫자는 확인하기에서 나와요.', 'think');
   }
 
   function moveSlider() {
@@ -428,7 +428,7 @@ main{overflow-x:hidden}
     restartRound();
     render(ctx0, 'ball', start);
     drawPreview();
-    say('새 사진이에요. 세 조건이 이미 어긋나 있어요. 하나만 골라 움직여 봐요.');
+    say('새 사진이에요. 기준 사진과 몇 가지 조건이 다르게 찍혔어요. 조건을 하나만 골라 움직여 봐요.');
   }
 
   tabs.forEach(function (t) { t.addEventListener('click', function () { pickAxis(t.getAttribute('data-c')); }); });
@@ -445,6 +445,6 @@ main{overflow-x:hidden}
   newRound();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B17" data-mission="조건 하나만 바꿔 공을 알아보게 해요. 움직이기 전에 예상부터 걸어요!"></script>
+<script src="../assets/play/fun.js" data-block="B17" data-mission="조건 하나만 바꿔 공을 알아보게 해요. 움직이기 전에 결과부터 예상해요!"></script>
 </body>
 </html>

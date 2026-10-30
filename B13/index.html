@@ -288,7 +288,7 @@
     fixSec.hidden = true; outEl.hidden = true;
     nextBtn.disabled = true;
     setSay('한 곳을 짚어야 펼칠 수 있어요', false);
-    if (window.Fun) { Fun.say(booth === 1 ? '기록 두 장만 보여요. 가장 자주 막힌 곳을 먼저 걸어 봐요.' : '부스 ' + booth + '의 기록이에요. 이번에도 두 장만 보고 걸어 봐요.'); }
+    if (window.Fun) { Fun.say(booth === 1 ? '기록 두 장만 보여요. 가장 자주 막힌 곳을 먼저 예측해 봐요.' : '부스 ' + booth + '의 기록이에요. 이번에도 두 장만 보고 예측해 봐요.'); }
   }
 
   // 펼치기 전까지는 다른 곳으로 바꿀 수 있다.
@@ -405,7 +405,7 @@
       round.counts[c] + '번 막힘, 고치기 ' + (cand.easy ? '쉬움' : '어려움');
     outEl.hidden = false;
     if (window.Fun) {
-      Fun.say('고칠 점으로 「' + cand.name + '」을 골랐어요. 까닭에 기록의 수가 들어 있는지 살펴봐요.');
+      Fun.say('고칠 점으로 「' + cand.name + '」' + ((cand.name.charCodeAt(cand.name.length - 1) - 44032) % 28 ? '을' : '를') + ' 골랐어요. 까닭에 기록의 수가 들어 있는지 살펴봐요.');
       if (!stamped) { stamped = true; Fun.stamp(); }
     }
   }
@@ -418,6 +418,6 @@
   newRound();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B13" data-mission="기록 두 장만 보고 가장 자주 막힌 곳을 먼저 걸어요. 나머지를 펼쳐 세어 보고 고칠 점을 골라요!"></script>
+<script src="../assets/play/fun.js" data-block="B13" data-mission="기록 두 장만 보고 가장 자주 막힌 곳을 먼저 예측해요. 나머지를 펼쳐 세어 보고 고칠 점을 골라요!"></script>
 </body>
 </html>

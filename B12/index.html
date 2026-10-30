@@ -53,6 +53,8 @@
   .blk{margin-top:4px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--grape);border-radius:8px;
     padding:4px 8px;font-size:13.5px;font-weight:600;line-height:1.35;animation:pop .3s ease both}
   .blk.send{border-left-color:var(--pink)}
+  .blk.ev{background:transparent;border:0;padding:4px 0 0;font-weight:700;font-size:12.5px;color:var(--muted)}
+  .blk.in{margin-left:14px}
   .blk.recv{border-left-color:var(--sky)}
   @keyframes pop{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
   .blk b{font-family:'Courier New',monospace;font-weight:700}
@@ -95,6 +97,15 @@
   button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:var(--hard-sm)}
   .go{flex:1 1 130px;max-width:180px;font-size:16px;background:var(--point);color:#fff}
   .lamp.c1{background:var(--pink)} .lamp.c0{background:var(--mint)}
+  /* 마이크로비트 LED 5×5: 빨간 LED만 있어 글자 대신 아이콘으로 보인다 */
+  .led{display:inline-grid;grid-template-columns:repeat(5,7px);gap:3px;padding:4px;background:#222;border-radius:4px;flex:0 0 auto;vertical-align:middle}
+  .led i{width:7px;height:7px;border-radius:1px;background:#4a4540}
+  .led i.on{background:#ff3b2f;box-shadow:0 0 4px #ff3b2f}
+  .led.s{grid-template-columns:repeat(5,4px);gap:1px;padding:3px}
+  .led.s i{width:4px;height:4px;border-radius:0}
+  .scr .led{grid-template-columns:repeat(5,8px);gap:4px;padding:2px;background:transparent}
+  .scr .led i{width:8px;height:8px}
+  .scr .mean{font-size:13px;color:#d9d4c8;font-weight:600}
   .sub{flex:0 0 auto;min-width:88px;font-size:14px;padding:0 14px}
 
   .note{margin-top:9px;text-align:center;font-size:12.5px;font-weight:700;color:var(--muted)}
@@ -132,7 +143,7 @@
     <div class="rx">
       <div class="dev" id="devTx"><svg width="54" height="46" viewBox="0 0 54 46" aria-hidden="true"><rect x="2" y="2" width="50" height="42" rx="8" fill="#fff" stroke="#222" stroke-width="2.5"/><circle cx="14" cy="23" r="6" class="abtn" fill="#eee" stroke="#222" stroke-width="2"/><text x="14" y="26" font-size="8" font-weight="700" text-anchor="middle" fill="#222">A</text><g fill="#bbb"><circle cx="30" cy="14" r="2.4"/><circle cx="38" cy="14" r="2.4"/><circle cx="46" cy="14" r="2.4"/><circle cx="34" cy="23" r="2.4"/><circle cx="42" cy="23" r="2.4"/><circle cx="30" cy="32" r="2.4"/><circle cx="38" cy="32" r="2.4"/></g></svg>송신기</div>
       <div class="track" id="track" aria-hidden="true"><i></i></div>
-      <div class="rcv"><div class="scr" id="scr" role="status" aria-live="polite"></div><span class="cap">수신 화면</span></div>
+      <div class="rcv"><div class="scr" id="scr" role="status" aria-live="polite"></div><span class="cap" id="cap">수신 화면</span></div>
     </div>
   </section>
 
@@ -179,11 +190,20 @@
   var scrEl = $('scr'), statusEl = $('status'), picksEl = $('picks');
   var sendBtn = $('send'), replayBtn = $('replay'), nextBtn = $('next');
 
-  function blk(text, cls) {
+  function blk(text, cls, icon) {
     var d = document.createElement('div');
     d.className = 'blk' + (cls ? ' ' + cls : '');
     d.textContent = text;
+    if (icon) { d.appendChild(document.createTextNode(' 아이콘 출력 ')); d.insertAdjacentHTML('beforeend', ledOf(icon, true)); }
     return d;
+  }
+  // 1 쪽 표시는 ✕, 0 쪽 표시는 ✓ 아이콘으로 정한다(마이크로비트 기본 아이콘 NO·YES 모양)
+  var PAT = { X: '1000101010001000101010001', V: '0000000001000101010001000' };
+  function iconOf(label) { return label === tool.one ? 'X' : 'V'; }
+  function ledOf(label, small) {
+    var p = label === null ? '0000000000000000000000000' : PAT[iconOf(label)], h = '';
+    for (var i = 0; i < 25; i++) h += '<i' + (p[i] === '1' ? ' class="on"' : '') + '></i>';
+    return '<span class="led' + (small ? ' s' : '') + '" aria-hidden="true">' + h + '</span>';
   }
 
   function clearTimer() { if (timer) { clearTimeout(timer); timer = null; } }
@@ -224,14 +244,20 @@
     }
 
     $('tool').textContent = tool.name;
-    $('deal').textContent = '1 → ' + tool.one + ' · 0 → ' + tool.zero;
+    $('deal').innerHTML = '1 → ' + ledOf(tool.one, true) + ' ' + tool.one + ', 0 → ' + ledOf(tool.zero, true) + ' ' + tool.zero;
     var tx = $('tx'), rx = $('rxcode');
     tx.innerHTML = ''; rx.innerHTML = '';
-    tx.appendChild(blk('라디오 그룹 ' + gTx));
-    tx.appendChild(blk('A 누르면: 수 ' + num + ' 전송', 'send'));
-    rx.appendChild(blk('라디오 그룹 ' + gRx));
+    // 블록 이름은 MakeCode 그대로: [시작하면] 안 [라디오 그룹을 ( ) 로 설정], [A 버튼 누를 때] 안 [라디오 전송: 수],
+    // [라디오 숫자 수신시] 안 [만약 receivedNumber = ( ) 이면 실행] → [아이콘 출력]
+    tx.appendChild(blk('시작하면', 'ev'));
+    tx.appendChild(blk('라디오 그룹을 ' + gTx + ' 로 설정', 'in'));
+    tx.appendChild(blk('A 버튼 누를 때', 'ev'));
+    tx.appendChild(blk('라디오 전송: 수 ' + num, 'send in'));
+    rx.appendChild(blk('시작하면', 'ev'));
+    rx.appendChild(blk('라디오 그룹을 ' + gRx + ' 로 설정', 'in'));
+    rx.appendChild(blk('라디오 숫자 수신시 (receivedNumber)', 'ev'));
     rules.forEach(function (ru) {
-      rx.appendChild(blk('받은 수 = ' + ru.v + ' 이면 ' + ru.shown, 'recv'));
+      rx.appendChild(blk('만약 receivedNumber = ' + ru.v + ' 이면', 'recv in', ru.shown));
     });
 
     // 짚기 버튼: 약속표의 두 표시와 '안 뜸'
@@ -242,10 +268,7 @@
       b.setAttribute('aria-pressed', 'false');
       b.setAttribute('data-v', val);
       if (val !== NONE) {
-        var lp = document.createElement('span');
-        lp.className = 'lamp c' + (val === tool.one ? 1 : 0);
-        lp.setAttribute('aria-hidden', 'true');
-        b.appendChild(lp);
+        b.insertAdjacentHTML('beforeend', ledOf(val, true));
       }
       b.appendChild(document.createTextNode(val === NONE ? '안 뜸' : val));
       picksEl.appendChild(b);
@@ -255,35 +278,30 @@
     $('devTx').classList.remove('pressed');
     $('track').classList.remove('fly');
     render();
-    say('새 판이에요. 「' + tool.name + '」 약속표와 두 코드 카드를 읽고, 무엇이 뜰지 먼저 걸어요.');
+    say('새 판이에요. 「' + tool.name + '」 약속표와 두 코드 카드를 읽고, 무엇이 뜰지 먼저 예측해요.');
   }
 
   function say(text, mood) { if (window.Fun) { Fun.say(text, mood); } }
-
-  function lampOf(label) {
-    return '<span class="lamp c' + (label === tool.one ? 1 : 0) + '" aria-hidden="true"></span>';
-  }
 
   function pick(val) {
     if (guess !== null || sent) return;   // 짚기는 판마다 한 번
     guess = val;
     render();
-    say(val === NONE ? '아무것도 안 뜬다고 걸었어요. A를 눌러 보내 봐요.' : '「' + val + '」 표시가 뜬다고 걸었어요. A를 눌러 보내 봐요.');
+    say(val === NONE ? '아무것도 안 뜬다고 예측했어요. A를 눌러 보내 봐요.' : '「' + val + '」 표시가 뜬다고 예측했어요. A를 눌러 보내 봐요.');
   }
 
   function showResult(done) {
     clearTimer();
-    scrEl.innerHTML = '<span class="dim">받는 중</span>';
+    scrEl.innerHTML = ledOf(null); $('cap').textContent = '수신 화면 · 받는 중';
     var trk = $('track');
     trk.classList.remove('fly'); void trk.offsetWidth; trk.classList.add('fly');
     timer = setTimeout(function () {
       timer = null;
       trk.classList.remove('fly');
       if (actual === NONE) {
-        scrEl.innerHTML = '<span class="dim">(아무것도 없음)</span>';
+        scrEl.innerHTML = ledOf(null); $('cap').textContent = '수신 화면 · 모두 꺼짐';
       } else {
-        scrEl.innerHTML = lampOf(actual) + '<span id="shown"></span>';
-        $('shown').textContent = actual;
+        scrEl.innerHTML = ledOf(actual); $('cap').textContent = '수신 화면 · 뜻: ' + actual;   // 기기 화면에는 LED만, 뜻은 밖에
       }
       scrEl.classList.remove('arrive'); void scrEl.offsetWidth; scrEl.classList.add('arrive');
       if (done) done();
@@ -299,10 +317,10 @@
       $('devTx').classList.remove('pressed');
       if (guess === actual) {
         statusEl.textContent = actual === NONE ? '짚은 대로 아무것도 안 떴어요' : '짚은 대로 떴어요';
-        say(actual === NONE ? '걸어 둔 대로 아무것도 안 떴어요. 왜 안 떴는지 두 코드 카드에서 찾아봐요.' : '걸어 둔 대로 떴어요. 기기로도 같게 뜨는지 보내 봐요.', 'cheer');
+        say(actual === NONE ? '예측해 둔 대로 아무것도 안 떴어요. 왜 안 떴는지 두 코드 카드에서 찾아봐요.' : '예측해 둔 대로 떴어요. 기기로도 같게 뜨는지 보내 봐요.', 'cheer');
         if (window.Fun) { Fun.burst(scrEl); }
       } else {
-        statusEl.textContent = actual === NONE ? '아무것도 안 떴어요' : '수신 화면에 ' + actual + ' 떴어요';
+        statusEl.textContent = actual === NONE ? '아무것도 안 떴어요' : '수신 화면에 「' + actual + '」 뜻의 아이콘이 떴어요';
         say('예상과 다르게 나왔어요. 송신기와 수신기 코드 카드를 줄마다 견주어 어디서 갈렸는지 찾아봐요.', 'think');
         if (window.Fun) { Fun.shake(scrEl); }
       }
@@ -320,7 +338,7 @@
   }
 
   function render() {
-    if (!sent) scrEl.innerHTML = '<span class="dim">?</span>';
+    if (!sent) { scrEl.innerHTML = ledOf(null); $('cap').textContent = '수신 화면'; }
     var btns = picksEl.querySelectorAll('.pk');
     for (var i = 0; i < btns.length; i++) {
       var b = btns[i];
@@ -347,6 +365,6 @@
   newRound();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B12" data-mission="약속표와 송신기·수신기 코드를 읽고, A를 누르면 수신 화면에 무엇이 뜰지 먼저 걸어요!"></script>
+<script src="../assets/play/fun.js" data-block="B12" data-mission="약속표와 송신기·수신기 코드를 읽고, A를 누르면 수신 화면에 무엇이 뜰지 먼저 예측해요!"></script>
 </body>
 </html>

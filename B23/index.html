@@ -152,7 +152,7 @@
     }
     pick = -1; checked = false;
     render();
-    if (window.Fun) Fun.say('새 기록이에요. 30초마다만 적으면 가장 크게 놓칠 막대를 먼저 걸어 봐요.');
+    if (window.Fun) Fun.say('새 기록이에요. 30초마다만 적으면 가장 크게 놓칠 막대를 먼저 예측해 봐요.');
   }
 
   function drawChart(box, opt){
@@ -167,7 +167,7 @@
       var el = document.createElement('button');
       el.type = 'button';
       (function(k){ el.addEventListener('click', function(){ if (!checked && !is30(k)){ pick = k; render();
-        if (window.Fun) Fun.say(sec(k) + ' 막대를 걸었어요. 확인하기를 누르면 30초 기록이 나와요. 마음이 바뀌면 다른 막대를 눌러도 돼요.'); } }); })(i);
+        if (window.Fun) Fun.say(sec(k) + ' 막대를 예측했어요. 확인하기를 누르면 30초 기록이 나와요. 마음이 바뀌면 다른 막대를 눌러도 돼요.'); } }); })(i);
       el.disabled = is30(i) || checked;
       el.setAttribute('aria-pressed', i === pick ? 'true' : 'false');
       el.className = 'bar' + (is30(i) ? ' is30' : '') + (i === pick ? ' pick' : '') + (i === most ? ' most' : '');
@@ -214,9 +214,9 @@
     if (!window.Fun) return;
     var m = mostIdx(), mv = Math.round(miss(m));
     var box = document.getElementById('s3');
-    if (mv <= 12){ Fun.say('이 기록은 출렁임이 거의 없어요. 30초 기록으로도 모양이 거의 같은데, 늘 그럴까요? 다음 판도 걸어 봐요.', 'think'); }
-    else if (m === pick){ Fun.say('걸어 둔 곳과 같은 자리예요. 분홍 선과 막대 사이가 벌어진 걸 봐요.', 'cheer'); Fun.burst($('chart10').children[m]); }
-    else { Fun.say('예상과 다르게 나왔어요. 걸어 둔 막대와 점선 막대의 분홍 선을 견주어 봐요.', 'think'); Fun.shake(box); }
+    if (mv <= 12){ Fun.say('이 기록은 출렁임이 거의 없어요. 30초 기록으로도 모양이 거의 같은데, 늘 그럴까요? 다음 판도 예측해 봐요.', 'think'); }
+    else if (m === pick){ Fun.say('예측해 둔 곳과 같은 자리예요. 분홍 선과 막대 사이가 벌어진 걸 봐요.', 'cheer'); Fun.burst($('chart10').children[m]); }
+    else { Fun.say('예상과 다르게 나왔어요. 예측해 둔 막대와 점선 막대의 분홍 선을 견주어 봐요.', 'think'); Fun.shake(box); }
     Fun.stamp();
   }
 
@@ -227,11 +227,11 @@
   });
   $('nextBtn').addEventListener('click', function(){ if (checked){ newRound(); window.scrollTo(0, 0); } });
   $('resetBtn').addEventListener('click', function(){ pick = -1; checked = false; render(); window.scrollTo(0, 0);
-    if (window.Fun) Fun.say('같은 기록을 처음부터 봐요. 다시 걸어 봐요.'); });
+    if (window.Fun) Fun.say('같은 기록을 처음부터 봐요. 다시 예측해 봐요.'); });
 
   newRound();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B23" data-mission="10초 기록에서 30초 기록이 가장 크게 놓칠 막대를 먼저 걸어 봐요."></script>
+<script src="../assets/play/fun.js" data-block="B23" data-mission="10초 기록에서 30초 기록이 가장 크게 놓칠 막대를 먼저 예측해 봐요."></script>
 </body>
 </html>

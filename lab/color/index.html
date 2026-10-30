@@ -44,7 +44,7 @@
   </section>
 
   <section id="s2" class="off">
-    <h2>2. 시험 색 네 개 — 먼저 걸기</h2>
+    <h2>2. 시험 색 네 개 — 먼저 예측하기</h2>
     <p class="hint">점선 동그라미 네 개가 시험 색이에요. 가까운 예시들의 표가 가장 팽팽하게 갈릴 시험 색은 몇 번일까요?</p>
     <div class="row" id="bets" style="margin-top:6px"></div>
     <div id="votes"></div>
@@ -111,7 +111,7 @@
     var min = Math.min.apply(null, gap);
     $('#votes').innerHTML = tests.map(function (t, i) {
       var r = knn(t), nm = r.l === 'ripe' ? '익었다' : r.l === 'raw' ? '덜 익었다' : '반반이라 못 정함';
-      return '<p class="vote"><span class="mark" style="background:' + col(t.x, t.y) + '"></span> <b>' + (i + 1) + '번</b> 익었다 ' + r.ripe + ' : 덜 익었다 ' + r.raw + ' → ' + nm + (gap[i] === min ? ' (가장 팽팽)' : '') + (i === bet ? ' ← 내가 건 것' : '') + '</p>';
+      return '<p class="vote"><span class="mark" style="background:' + col(t.x, t.y) + '"></span> <b>' + (i + 1) + '번</b> 익었다 ' + r.ripe + ' : 덜 익었다 ' + r.raw + ' → ' + nm + (gap[i] === min ? ' (가장 팽팽)' : '') + (i === bet ? ' ← 내가 예측한 것' : '') + '</p>';
     }).join('');
     return gap[bet] === min;
   }
@@ -121,7 +121,7 @@
     draw(); $('#s3').classList.remove('off');
     var same = votes();
     if (window.Fun) {
-      if (same) { Fun.say('건 시험 색이 가장 팽팽했어요. 이웃 수를 바꾸면 그 색의 결과도 바뀔까요?', 'cheer'); Fun.burst(pl); }
+      if (same) { Fun.say('예측한 시험 색이 가장 팽팽했어요. 이웃 수를 바꾸면 그 색의 결과도 바뀔까요?', 'cheer'); Fun.burst(pl); }
       else { Fun.say('표가 가장 팽팽한 색은 다른 곳에 있었어요. 선을 따라 어떤 예시에게 물었는지 봐요.', 'think'); Fun.shake(pl); }
       if (!stamped) { stamped = true; Fun.stamp(); }
     }
@@ -148,10 +148,10 @@
       draw(); if (window.Fun) Fun.say('이웃 ' + k + '개에게 물었어요. 결과가 바뀐 시험 색이 있나요?');
     };
   });
-  $('#next').onclick = function () { newTests(); if (window.Fun) Fun.say('새 시험 색이에요. 이번엔 어디가 팽팽할지 먼저 걸어요.'); };
+  $('#next').onclick = function () { newTests(); if (window.Fun) Fun.say('새 시험 색이에요. 이번엔 어디가 팽팽할지 먼저 예측해요.'); };
   draw();
 })();
 </script>
-<script src="../../assets/play/fun.js" data-block="L24" data-mission="익은 바나나와 덜 익은 바나나 색을 점으로 가르쳐요. 시험 색 가운데 표가 가장 팽팽하게 갈릴 것을 먼저 걸어 봐요."></script>
+<script src="../../assets/play/fun.js" data-block="L24" data-mission="익은 바나나와 덜 익은 바나나 색을 점으로 가르쳐요. 시험 색 가운데 표가 가장 팽팽하게 갈릴 것을 먼저 예측해 봐요."></script>
 </body>
 </html>

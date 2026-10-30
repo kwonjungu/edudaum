@@ -113,8 +113,8 @@
       <p class="vb"><span class="lb">누른 횟수</span><b id="num">0</b></p>
     </div>
     <div class="acts">
-      <button class="btn" id="left" type="button">왼쪽</button>
-      <button class="btn main" id="right" type="button">오른쪽</button>
+      <button class="btn" id="left" type="button">A 버튼 +1</button>
+      <button class="btn main" id="right" type="button">B 버튼 판정</button>
       <button class="btn" id="reset" type="button">다시 시작</button>
       <button class="btn" id="next" type="button">다음 판</button>
     </div>
@@ -166,7 +166,7 @@
   function icon(kind){
     if (!kind) return '';
     return kind === 'heart'
-      ? '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 17S2 12 2 7a4 4 0 018-1 4 4 0 018 1c0 5-8 10-8 10z" fill="#e0457b" stroke="#222222" stroke-width="1.6"/></svg>'
+      ? '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 17S2 12 2 7a4 4 0 018-1 4 4 0 018 1c0 5-8 10-8 10z" fill="#FF3B2F" stroke="#222222" stroke-width="1.6"/></svg>'
       : '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="#222222" stroke-width="3" stroke-linecap="round"/></svg>';
   }
 
@@ -194,7 +194,7 @@
     guess = v;
     cells[v].classList.remove('pick'); void cells[v].offsetWidth; cells[v].classList.add('pick');
     render();
-    say(v + '칸을 짚었어요. 이제 왼쪽으로 횟수를 올리고 오른쪽으로 시험해요');
+    say(v + '칸을 짚었어요. 이제 A 버튼으로 횟수를 올리고 B 버튼으로 시험해요');
   }
 
   $('left').addEventListener('click', function(){
@@ -236,7 +236,7 @@
     var tested = tried.some(function(x){ return x !== null; });
     $('num').textContent = String(value);
     var pic = shown === 'heart' ? HEART : (shown === 'cross' ? CROSS : null);
-    for (var i = 0; i < 25; i++) leds[i].setAttribute('fill', pic && pic[i] ? '#e0457b' : '#3A3630');
+    for (var i = 0; i < 25; i++) leds[i].setAttribute('fill', pic && pic[i] ? '#FF3B2F' : '#3A3630');
 
     for (var v = 0; v <= MAXV; v++){
       var c = cells[v];

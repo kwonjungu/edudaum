@@ -27,7 +27,7 @@
 <main class="wrap">
   <div class="nav"><a class="back" href="../../play/">← 체험 활동</a><span class="tag">B18~B19·B28 음성</span></div>
   <h1>말 알아듣기 실험실</h1>
-  <p class="lead">내 말을 기계가 글자로 받아써요. 말하는 방법을 바꾸면 받아쓰기가 어떻게 달라지는지 먼저 걸고 견줘요.</p>
+  <p class="lead">내 말을 기계가 글자로 받아써요. 말하는 방법을 바꾸면 받아쓰기가 어떻게 달라지는지 먼저 예측하고 견줘요.</p>
 
   <section id="gate" class="gate" hidden>
     <h2>이 브라우저에서는 음성 인식이 안 돼요</h2>
@@ -37,14 +37,14 @@
   <section id="s1">
     <h2>1. 실험 카드</h2>
     <div class="card"><div class="say" id="say"></div><div class="how" id="how"></div></div>
-    <p class="hint" style="margin-top:8px">카드대로 말하면, 받아쓴 글이 카드 문장과 얼마나 같을까요? 먼저 걸어요.</p>
+    <p class="hint" style="margin-top:8px">카드대로 말하면, 받아쓴 글이 카드 문장과 얼마나 같을까요? 먼저 예측해요.</p>
     <div class="row" id="bets" style="margin-top:6px">
       <button class="btn pick" data-b="0">글자 그대로</button>
       <button class="btn pick" data-b="1">한두 군데 다름</button>
       <button class="btn pick" data-b="2">많이 다름</button>
     </div>
     <button class="mic" id="mic" disabled aria-label="말하기 시작과 멈춤"><svg viewBox="0 0 24 24" fill="none" stroke="#33302b" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg></button>
-    <p class="live" id="live" aria-live="polite">먼저 걸면 마이크 단추가 켜져요.</p>
+    <p class="live" id="live" aria-live="polite">먼저 예측하면 마이크 단추가 켜져요.</p>
   </section>
 
   <section id="s2" class="off">
@@ -90,7 +90,7 @@ function newCard(same) {
   if (!same) { let n; do { n = Math.floor(Math.random() * CARDS.length); } while (n === ci); ci = n; }
   bet = null; $('#say').textContent = '“' + CARDS[ci].s + '”'; $('#how').textContent = CARDS[ci].h;
   $('#bets').querySelectorAll('.btn').forEach(b => { b.disabled = false; b.setAttribute('aria-pressed', 'false'); });
-  $('#mic').disabled = true; $('#live').textContent = '먼저 걸면 마이크 단추가 켜져요.';
+  $('#mic').disabled = true; $('#live').textContent = '먼저 예측하면 마이크 단추가 켜져요.';
   $('#s2').classList.add('off'); $('#cmp').innerHTML = ''; $('#meta').textContent = '';
 }
 $('#bets').querySelectorAll('.btn').forEach(b => b.onclick = () => {
@@ -128,8 +128,8 @@ function show(text, sec) {
   $('#meta').textContent = '마이크를 켠 뒤 ' + sec.toFixed(1) + '초 만에 받아쓰기가 끝났어요.';
   if (window.Fun) {
     const lines = ['글자 그대로 받아썼어요.', '한두 군데가 달랐어요.', '많이 달랐어요.'];
-    if (band === bet) { Fun.say('건 대로 ' + lines[band] + ' 같은 문장을 다른 방법으로 말하는 카드와 견줘 봐요.', 'cheer'); Fun.burst($('#cmp')); }
-    else { Fun.say('건 것과 다르게 ' + lines[band] + ' 빨간 칸이 어떤 소리였는지 떠올려 봐요.', 'think'); Fun.shake($('#cmp')); }
+    if (band === bet) { Fun.say('예측한 대로 ' + lines[band] + ' 같은 문장을 다른 방법으로 말하는 카드와 견줘 봐요.', 'cheer'); Fun.burst($('#cmp')); }
+    else { Fun.say('예측한 것과 다르게 ' + lines[band] + ' 빨간 칸이 어떤 소리였는지 떠올려 봐요.', 'think'); Fun.shake($('#cmp')); }
     if (!stamped) { stamped = true; Fun.stamp(); }
   }
 }
@@ -139,6 +139,6 @@ if (!SR) { $('#gate').hidden = false; $('#s1').classList.add('off'); }
 newCard(false);
 })();
 </script>
-<script src="../../assets/play/fun.js" data-block="L18" data-mission="같은 문장을 말하는 방법만 바꿔요. 받아쓰기가 카드 문장과 얼마나 같을지 먼저 걸고 말해 봐요."></script>
+<script src="../../assets/play/fun.js" data-block="L18" data-mission="같은 문장을 말하는 방법만 바꿔요. 받아쓰기가 카드 문장과 얼마나 같을지 먼저 예측하고 말해 봐요."></script>
 </body>
 </html>

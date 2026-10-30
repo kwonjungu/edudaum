@@ -38,7 +38,7 @@
   .pick{display:flex;align-items:center;gap:7px;width:100%;font-family:inherit;cursor:pointer;
     color:var(--ink);background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
     min-height:44px;padding:4px 9px;box-shadow:var(--hard-sm);text-align:left}
-  .pick img{width:44px;height:44px;flex:none;object-fit:contain;border-radius:6px}
+  .pick img{width:56px;height:56px;flex:none;object-fit:contain;border-radius:6px}
   .pick .nm{flex:1;font-weight:700;font-size:14px}
   .pick .n{font-family:'Courier New',monospace;font-weight:700;font-size:14px;min-width:2.6em;
     text-align:right;color:var(--muted)}
@@ -78,7 +78,7 @@
 
   <header>
     <h1>학습에서 빠질 사람 짚기</h1>
-    <p class="lead">넣어도 그대로일 사람을 짚어요</p>
+    <p class="lead">열 장을 넣어도 여전히 못 알아볼 사람을 짚어요</p>
   </header>
 
   <section aria-labelledby="h-p">
@@ -98,7 +98,7 @@
       <button class="btn main" id="go" type="button" disabled>넣어 보기</button>
       <button class="btn" id="reset" type="button">다시 하기</button>
     </div>
-    <p class="note">우리 도우미를 왼손으로 써 봐요</p>
+    <p class="note">우리 도우미를 왼손으로 써 봐요. 이 도우미는 수업용으로 만든 가상 도우미예요.</p>
   </section>
 </div>
 
@@ -114,13 +114,13 @@
     { key:'긴소매밝', nm:'긴소매 · 밝은 곳', n:2 },
     { key:'오른손어', nm:'오른손 · 어두운 곳', n:0 }
   ];
-  // 쓸 사람과 닮은 줄. 반창고 손은 닮은 줄이 없다.
+  // 쓸 사람과 닮은 줄. 털장갑 손은 학습 사진에 맨손밖에 없어 닮은 줄이 없다(반창고 손은 오른손과 너무 닮아 2026-10-30 바꿈).
   var PEOPLE = [
     { nm:'오른손 · 교실', row:'오른손밝', img:'right_bright' },
     { nm:'왼손 · 교실',   row:'왼손밝', img:'left_bright' },
     { nm:'긴소매 · 교실', row:'긴소매밝', img:'sleeve_bright' },
     { nm:'오른손 · 복도', row:'오른손어', img:'right_dark' },
-    { nm:'반창고 손 · 교실', row:null, img:'bandage' }
+    { nm:'털장갑 낀 손 · 교실', row:null, img:'glove' }
   ];
   var WHERES = [
     { nm:'왼손 열 장',     row:'왼손밝', img:'add_left' },
@@ -208,7 +208,7 @@
       var box = $('people');
       var jo = function(w, a, b){ var k = w.charCodeAt(w.length - 1) - 0xAC00; return w + (k >= 0 && k % 28 ? a : b); };
       var lead = ok ? '' : '짚은 것과 달랐어요. ';
-      if (stuck.length === 0) { Fun.say(lead + jo(WHERES[where].nm, '을', '를') + ' 넣으니 고른 세 사람 모두 닮은 사진이 생겼어요. 다른 셋을 골라도 그럴까요?', ok ? 'cheer' : 'think'); if (ok) Fun.burst(box); else Fun.shake(box); }
+      if (stuck.length === 0) { Fun.say(lead + jo(WHERES[where].nm, '을', '를') + ' 넣으니 고른 세 사람 모두 닮은 사진이 충분해졌어요. 다른 셋을 골라도 그럴까요?', ok ? 'cheer' : 'think'); if (ok) Fun.burst(box); else Fun.shake(box); }
       else { Fun.say(lead + jo(stuck.map(function(i){ return PEOPLE[i].nm; }).join(', '), '은', '는') + ' 넣은 뒤에도 닮은 사진이 없어요. 장수 칸을 보며 누구의 사진이 더 필요한지 짝과 말해 봐요.', 'think'); Fun.shake(box); }
       Fun.stamp();
     }
@@ -250,13 +250,13 @@
     var s = $('say');
     if (chosen.length < 3){ s.textContent = '쓸 사람 셋을 골라요'; s.className = 'say dim'; }
     else if (where === null){ s.textContent = '열 장 넣을 곳을 골라요'; s.className = 'say dim'; }
-    else if (guess === null){ s.textContent = '넣어도 그대로일 사람을 짚어요'; s.className = 'say dim'; }
+    else if (guess === null){ s.textContent = '열 장을 넣어도 여전히 못 알아볼 사람을 짚어요'; s.className = 'say dim'; }
     else if (!done){ s.textContent = '넣어 보기를 눌러요'; s.className = 'say dim'; }
     else {
       var ok = (guess === -1) ? (stuck.length === 0) : (stuck.indexOf(guess) >= 0);
-      if (ok) s.textContent = '짚은 대로 그대로예요';
-      else if (stuck.length === 0) s.textContent = '그대로인 사람은 없었어요';
-      else s.textContent = '다른 사람이 그대로였어요';
+      if (ok) s.textContent = guess === -1 ? '예상대로 모두 알아보게 됐어요' : '예상대로 이 사람은 여전히 못 알아봐요';
+      else if (stuck.length === 0) s.textContent = '여전히 못 알아볼 사람은 없었어요';
+      else s.textContent = '다른 사람이 여전히 못 알아봐요';
       s.className = 'say';
     }
 
@@ -266,6 +266,6 @@
   render();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B28" data-mission="도우미가 알아보기 어려운 사람이 없게 사진 열 장을 어디에 더 넣을지 골라요. 넣기 전에, 넣어도 그대로일 사람을 먼저 짚어요."></script>
+<script src="../assets/play/fun.js" data-block="B28" data-mission="도우미가 알아보기 어려운 사람이 없게 사진 열 장을 어디에 더 넣을지 골라요. 넣기 전에, 열 장을 넣어도 여전히 못 알아볼 사람을 먼저 짚어요."></script>
 </body>
 </html>

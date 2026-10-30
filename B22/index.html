@@ -112,7 +112,7 @@
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 .cardtop{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:4px}
 .cardtop .cn{margin-bottom:0}
-.wicon{flex:0 0 auto;width:56px;height:46px}
+.wicon{flex:0 0 auto;width:64px;height:64px;object-fit:contain}
 .card.flip{animation:cflip .38s ease}
 @keyframes cflip{0%{transform:rotateX(75deg) translateY(-6px);opacity:.15}100%{transform:none;opacity:1}}
 .row.fresh{animation:rowin .22s ease-out}
@@ -121,7 +121,7 @@
 @keyframes rowhit{0%{transform:scale(.95)}60%{transform:scale(1.025)}100%{transform:none}}
 .row.no .n{background:var(--muted)}
 .opt.hit{background:var(--point)}
-@media (max-width:400px){.opt{font-size:13.5px;padding:6px 3px}.row .cd,.row .to{font-size:13px}.wicon{width:48px;height:40px}}
+@media (max-width:400px){.opt{font-size:13.5px;padding:6px 3px}.row .cd,.row .to{font-size:13px}.wicon{width:54px;height:54px}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -139,7 +139,7 @@
   <section aria-labelledby="h-t">
     <h2 id="h-t">이번 카드 · 확인 순서</h2>
     <div class="card" id="cardbox">
-      <div class="cardtop"><p class="cn" id="cn">날씨 카드</p><svg class="wicon" id="wicon" viewBox="0 0 56 46" aria-hidden="true" fill="none" stroke="var(--ink)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></svg></div>
+      <div class="cardtop"><p class="cn" id="cn">날씨 카드</p><img class="wicon" id="wicon" src="" alt="" width="64" height="64"></div>
       <div class="vals">
         <p class="val"><span class="k">날씨</span><span class="v" id="vw">-</span></p>
         <p class="val"><span class="k">미세먼지</span><span class="v" id="vd">-</span></p>
@@ -210,18 +210,11 @@
   try { reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
   function icon(c){
-    var sun = '<circle cx="28" cy="23" r="9" fill="#ffc845"/><path d="M28 6v5M28 35v5M11 23h5M40 23h5M16 11l3 3M37 32l3 3M40 11l-3 3M19 32l-3 3"/>';
-    var cl = function(x, y, f){ return '<path d="M' + (x+8) + ' ' + (y+14) + 'a7 7 0 0 1 0-14 9 9 0 0 1 17-2 7 7 0 0 1 2 16z" fill="' + f + '"/>'; };
-    var w = c.w, n = c.note || '', g = '';
-    if (/천둥/.test(n)) g = cl(8, 6, '#e3ddd1') + '<path d="M29 24l-6 9h6l-3 9 9-12h-6l3-6z" fill="#ffc845"/>';
-    else if (/강풍/.test(n)) g = sun.replace('cx="28"', 'cx="22"').replace(/M28 6v5M28 35v5/, 'M22 6v5M22 35v5').replace('M11 23h5M40 23h5', 'M5 23h5') + '<path d="M26 18h22a4 4 0 1 0-4-4M24 26h26a4 4 0 1 1-4 4M26 34h14"/>';
-    else if (w === '맑음') g = sun;
-    else if (w === '구름조금') g = '<circle cx="21" cy="17" r="8" fill="#ffc845"/><path d="M21 4v3M9 17H6M33 17h3M12 8l2 2M30 8l-2 2"/>' + cl(14, 16, '#fff');
-    else if (w === '구름많음') g = cl(6, 6, '#e3ddd1') + cl(18, 14, '#fff');
-    else if (w === '흐림') g = cl(8, 8, '#cfc6b6');
-    else if (w === '비') g = cl(8, 4, '#cfe6f7') + '<path d="M19 30l-2 6M28 30l-2 6M37 30l-2 6" stroke="#2f78b5"/>';
-    else if (w === '눈') g = cl(8, 4, '#e6f3fc') + '<path d="M19 33v6M16 36h6M30 33v6M27 36h6M41 33v6M38 36h6" stroke="#5aa9e6"/>';
-    $('wicon').innerHTML = g;
+    var w = c.w, n = c.note || '', f;
+    if (/천둥/.test(n)) f = 'thunder';
+    else if (/강풍/.test(n)) f = 'wind';
+    else f = { '맑음': 'sunny', '구름조금': 'partly', '구름많음': 'mostly', '흐림': 'cloudy', '비': 'rain', '눈': 'snow' }[w];
+    $('wicon').src = 'assets/' + f + '.webp';
   }
 
   function shuffle(a){

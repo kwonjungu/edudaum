@@ -163,7 +163,7 @@ html,body{overflow-x:hidden}
       </div>
     </div>
 
-    <p class="ask" id="ask" role="status" aria-live="polite">예상을 걸고 뺄 카드를 짚어요</p>
+    <p class="ask" id="ask" role="status" aria-live="polite">결과를 예상하고 뺄 카드를 짚어요</p>
   </section>
 
   <section aria-labelledby="h-c">
@@ -215,8 +215,8 @@ html,body{overflow-x:hidden}
   }
   function refreshConfirm() { confirmBtn.disabled = confirmed || selected === null || guess === null; }
   function askText() {
-    if (guess === null && selected === null) { return '예상을 걸고 뺄 카드를 짚어요'; }
-    if (guess === null) { return '예상을 걸어요'; }
+    if (guess === null && selected === null) { return '결과를 예상하고 뺄 카드를 짚어요'; }
+    if (guess === null) { return '결과를 예상해요'; }
     if (selected === null) { return '뺄 카드를 짚어요'; }
     return '확인하기를 눌러요';
   }
@@ -225,8 +225,8 @@ html,body{overflow-x:hidden}
       if (confirmed) { return; }
       guess = b.getAttribute('data-g');
       renderBets(); refreshConfirm(); askEl.textContent = askText();
-      say(guess === 'changed' ? '1등이 바뀐다고 걸었어요. 어느 카드를 빼야 바뀔지 생각해 봐요.'
-        : (guess === 'same' ? '그대로라고 걸었어요. 1등과 2등 막대 차이를 먼저 봐요.' : '같아진다고 걸었어요. 어느 막대끼리 같아질지 봐요.'));
+      say(guess === 'changed' ? '1등이 바뀐다고 예측했어요. 어느 카드를 빼야 바뀔지 생각해 봐요.'
+        : (guess === 'same' ? '그대로라고 예측했어요. 1등과 2등 막대 차이를 먼저 봐요.' : '같아진다고 예측했어요. 어느 막대끼리 같아질지 봐요.'));
     });
   });
 
@@ -369,7 +369,7 @@ html,body{overflow-x:hidden}
   nextBtn.addEventListener('click', newRound);
 
   newRound();
-  say('여덟 장이 모였어요. 먼저 한 장 빼면 어떻게 될지 걸어요.');
+  say('여덟 장이 모였어요. 먼저 한 장 빼면 어떻게 될지 예측해요.');
 })();
 </script>
 <script src="../assets/play/fun.js" data-block="B19" data-mission="예문 카드에서 한 장을 빼면 가장 많이 이어진 말이 바뀔까요? 빼기 전에 예상부터!"></script>

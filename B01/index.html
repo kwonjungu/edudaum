@@ -121,7 +121,7 @@ main{overflow-x:hidden}
   <section aria-labelledby="h-card">
     <h2 id="h-card">물건 카드</h2>
     <div class="card">
-      <svg id="cardicon" width="52" height="52" viewBox="0 0 40 40" aria-hidden="true" fill="none" stroke="var(--ink)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></svg>
+      <img id="cardicon" src="" alt="" width="64" height="64" style="object-fit:contain;mix-blend-mode:multiply;border-radius:10px">
       <span class="cardname" id="cardname"></span>
     </div>
     <p class="ask" id="ask">이 물건엔 무엇이 들어 있을까?</p>
@@ -165,7 +165,7 @@ main{overflow-x:hidden}
       hw: ['숫자 버튼', '숫자가 뜨는 화면', '플라스틱 몸체', '안에 든 건전지'],
       sw: ['× 버튼을 누르면 → 두 수를 곱한다', '= 버튼을 누르면 → 답을 화면에 띄운다', '한참 안 쓰면 → 화면을 끈다'] },
     { name: '보행자 신호등',
-      hw: ['빨강·초록 전구', '건너기 누름 버튼', '쇠기둥'],
+      hw: ['빨강·초록 불빛(LED)', '건너기 누름 버튼', '쇠기둥'],
       sw: ['누름 버튼을 누르면 → 초록불을 켠다', '초록불 20초가 지나면 → 빨간불로 바꾼다', '끝나기 5초 전 → 초록불을 깜빡인다'] },
     { name: '현관 자동문',
       hw: ['유리문', '사람을 알아채는 센서', '문을 미는 모터'],
@@ -180,14 +180,7 @@ main{overflow-x:hidden}
       hw: ['칼날', '돌리는 손잡이', '톱니바퀴', '가루 통'],
       sw: [] }
   ];
-  var ICON = {
-    '계산기': '<rect x="9" y="4" width="22" height="32" rx="3"/><rect x="13" y="8" width="14" height="6"/><path d="M14 20h2M19 20h2M24 20h2M14 25h2M19 25h2M24 25h2M14 30h2M19 30h2M24 30h2"/>',
-    '보행자 신호등': '<rect x="12" y="3" width="16" height="22" rx="3"/><circle cx="20" cy="10" r="3"/><circle cx="20" cy="18" r="3"/><path d="M20 25v12"/>',
-    '현관 자동문': '<path d="M5 6h30M5 36h30"/><rect x="8" y="8" width="11" height="28"/><rect x="21" y="8" width="11" height="28"/><path d="M20 3v3"/>',
-    '보건실 체온계': '<rect x="5" y="15" width="30" height="10" rx="5"/><circle cx="12" cy="20" r="2"/><path d="M20 20h10"/>',
-    '마이크로비트': '<rect x="4" y="8" width="32" height="24" rx="3"/><circle cx="12" cy="20" r="2.5"/><circle cx="28" cy="20" r="2.5"/><path d="M17 17h6v6h-6z"/>',
-    '손으로 돌리는 연필깎이': '<rect x="8" y="14" width="22" height="18" rx="3"/><path d="M30 20h5M35 20v8M12 14l4-6h8l2 6"/>'
-  };
+  var IMG = { '계산기': 'calculator', '보행자 신호등': 'crosswalk', '현관 자동문': 'autodoor', '보건실 체온계': 'thermometer', '마이크로비트': 'microbit', '손으로 돌리는 연필깎이': 'sharpener' };
   var TAG = { hw: '만질 수 있는 몸체·부품', sw: '사람이 미리 정해 준 명령' };
   var NUM = ['', '한', '두', '세', '네'];
 
@@ -306,7 +299,7 @@ main{overflow-x:hidden}
     guess = g;
     if (held === null) { held = firstLoose(); }
     render();
-    if (window.Fun) { Fun.say(guess === 'both' ? '둘 다 들어 있을 거라고 걸었어요. 조각을 나눠 확인해 봐요.' : '한쪽만이라고 걸었어요. 조각을 나눠 보면 알 수 있어요.'); }
+    if (window.Fun) { Fun.say(guess === 'both' ? '둘 다 들어 있을 거라고 예측했어요. 조각을 나눠 확인해 봐요.' : '한쪽만이라고 예측했어요. 조각을 나눠 보면 알 수 있어요.'); }
   }
 
   function hold(i) {
@@ -351,7 +344,7 @@ main{overflow-x:hidden}
     out.classList.add('show');
     out.classList.remove('pop'); void out.offsetWidth; out.classList.add('pop');
     if (window.Fun) {
-      if (moved === 0) { Fun.say('넣은 칸 그대로예요. 이 물건에서는 두 칸이 어떻게 찼나요? 다음 물건도 걸어 봐요.', 'cheer'); Fun.burst(out); }
+      if (moved === 0) { Fun.say('넣은 칸 그대로예요. 이 물건에서는 두 칸이 어떻게 찼나요? 다음 물건도 예측해 봐요.', 'cheer'); Fun.burst(out); }
       else { Fun.say('옮겨 간 조각이 있어요. 그 조각이 왜 그 칸인지 짝과 말해 봐요.', 'think'); Fun.shake(out); }
       Fun.stamp();
     }
@@ -377,7 +370,7 @@ main{overflow-x:hidden}
     cardIdx = pickCard();
     var card = CARDS[cardIdx];
     cardname.textContent = card.name;
-    cardicon.innerHTML = ICON[card.name] || '';
+    cardicon.src = 'assets/' + IMG[card.name] + '.webp';
     cardBox.classList.remove('flip'); void cardBox.offsetWidth; cardBox.classList.add('flip');
     if (window.Fun && pieces.length) { Fun.say('새 물건 「' + card.name + '」이에요. 먼저 예상을 골라요.'); }
     pieces = dealPieces(card);

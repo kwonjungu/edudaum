@@ -116,9 +116,9 @@ main{overflow-x:hidden}
   <section aria-labelledby="h-pair">
     <h2 id="h-pair">이번 짝 <span class="round" id="round"></span></h2>
     <div class="track" id="track" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-    <p class="ask">정해진 조건 하나로 반응하나요, 여러 가지를 보고 스스로 판단하나요?</p>
+    <p class="ask">정해진 조건 하나로 반응하나요, 데이터로 배운 대로 여러 가지를 보고 판단하나요?</p>
     <div class="pair" id="pair"></div>
-    <p class="key">기계: 단순히 반응하는 기계 · 인공지능: 스스로 판단하는 인공지능</p>
+    <p class="key">기계: 단순히 반응하는 기계 · 인공지능: 데이터로 배운 대로 여러 가지를 보고 판단하는 인공지능</p>
   </section>
 
   <section aria-labelledby="h-chk">
@@ -239,7 +239,7 @@ main{overflow-x:hidden}
     setTimeout(function () { pairEl.classList.remove('deal'); }, 600);
     if (window.Fun) {
       var both = CARDS[cur[0]].sensor && CARDS[cur[1]].sensor;
-      Fun.say(both ? '두 장 다 센서가 있어요. 센서가 있으면 모두 인공지능일까요? 먼저 걸어 봐요.' : '새 짝은 「' + CARDS[cur[0]].n + '」' + wa(CARDS[cur[0]].n) + ' 「' + CARDS[cur[1]].n + '」' + iyo(CARDS[cur[1]].n) + '. 칸을 먼저 짚어 봐요.');
+      Fun.say(both ? '두 장 다 센서가 있어요. 센서가 있으면 모두 인공지능일까요? 먼저 예측해 봐요.' : '새 짝은 「' + CARDS[cur[0]].n + '」' + wa(CARDS[cur[0]].n) + ' 「' + CARDS[cur[1]].n + '」' + iyo(CARDS[cur[1]].n) + '. 칸을 먼저 짚어 봐요.');
     }
   }
 
@@ -363,7 +363,7 @@ main{overflow-x:hidden}
   resetBtn.addEventListener('click', function () {
     if (confirmed) { return; }
     guess = [null, null]; render();
-    if (window.Fun) { Fun.say('이 판의 짚기를 지웠어요. 다시 걸어 봐요.'); }
+    if (window.Fun) { Fun.say('이 판의 짚기를 지웠어요. 다시 예측해 봐요.'); }
   });
   nextBtn.addEventListener('click', newRound);
 

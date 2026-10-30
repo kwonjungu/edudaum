@@ -261,16 +261,17 @@
     if (angle !== null && back !== null && !source) msg = '카메라를 켜는 중이에요';
     else if (!ready) msg = '조건을 먼저 골라요';
     else if (full && have < order.n) msg = '스무 장이 찼어요';
-    else if (have >= order.n){
-      msg = '약속대로 담았어요';
-      if (other > 0) msg += ' · 다른 조건 ' + other + '장이 섞였어요';
-    } else msg = (order.n - have) + '장 더 담아요';
+    // 약속한 장수와 조건은 넘으면 안 되는 상한이다. 딱 맞고 섞인 것이 없을 때만 "약속대로"라고 쓴다.
+    else if (have === order.n && other === 0) msg = '약속대로 담았어요';
+    else if (have > order.n) msg = '약속보다 ' + (have - order.n) + '장 더 담았어요. 넘친 것은 지워요';
+    else if (have === order.n) msg = '장수는 맞지만 다른 조건 ' + other + '장이 섞였어요. 섞인 것은 지워요';
+    else msg = (order.n - have) + '장 더 담아요';
     $('why').textContent = msg;
     var cur = $('cur');
     if (angle !== null && back !== null){ cur.textContent = NAME[angle] + ' · ' + NAME[back]; cur.hidden = false; }
     else if (angle !== null || back !== null){ cur.textContent = NAME[angle !== null ? angle : back] + ' · ?'; cur.hidden = false; }
     else cur.hidden = true;
-    $('next').classList.toggle('go', have >= order.n);
+    $('next').classList.toggle('go', have === order.n && other === 0);
   }
 
   function renderTray(){
@@ -337,6 +338,9 @@
     render();
     if (!isT){
       say('약속과 다른 조건으로 담겼어요. 줄에서 노란 점선 칸을 찾아봐요.', 'think');
+      if (window.Fun) Fun.shake($('tray'));
+    } else if (have > order.n){
+      say('약속한 ' + order.n + '장을 넘었어요. 약속보다 많이 모으면 안 돼요. 넘친 칸을 지워요.', 'think');
       if (window.Fun) Fun.shake($('tray'));
     } else if (have >= order.n && !done){
       done = true;

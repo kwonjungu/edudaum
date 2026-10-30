@@ -51,7 +51,7 @@
   <section id="s2" class="off">
     <h2>2. 질문 카드와 예상</h2>
     <div class="card"><div class="q" id="q"></div></div>
-    <p class="hint" style="margin-top:8px">이 질문에 가장 빨리 답해 줄 그래프는 무엇일까요? 먼저 걸어요.</p>
+    <p class="hint" style="margin-top:8px">이 질문에 가장 빨리 답해 줄 그래프는 무엇일까요? 먼저 예측해요.</p>
     <div class="row" id="picks" style="margin-top:6px">
       <button class="btn pick" data-k="bar">막대그래프</button>
       <button class="btn pick" data-k="pic">그림그래프</button>
@@ -122,7 +122,7 @@
     $('#q').textContent = QS[qi].t;
     document.querySelectorAll('#picks .btn').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); b.disabled = false; });
     $('#s3').classList.add('off'); $('#charts').innerHTML = ''; $('#cmp').textContent = '';
-    if (window.Fun) Fun.say('새 질문이에요. 그래프를 보기 전에 하나를 걸어요.');
+    if (window.Fun) Fun.say('새 질문이에요. 그래프를 보기 전에 하나를 예측해요.');
   }
   document.querySelectorAll('#picks .btn').forEach(function (b) {
     b.onclick = function () {
@@ -191,7 +191,7 @@
   function drawCharts() {
     var D = data(), c = $('#charts');
     var ks = [['bar', '막대그래프', bar], ['pic', '그림그래프', pic], ['pie', '원그래프', pie]];
-    c.innerHTML = ks.map(function (k) { return '<div class="chart' + (k[0] === pick ? ' mine' : '') + '"><h3>' + k[1] + (k[0] === pick ? ' · 내가 건 것' : '') + '</h3>' + k[2](D) + '</div>'; }).join('');
+    c.innerHTML = ks.map(function (k) { return '<div class="chart' + (k[0] === pick ? ' mine' : '') + '"><h3>' + k[1] + (k[0] === pick ? ' · 내가 예측한 것' : '') + '</h3>' + k[2](D) + '</div>'; }).join('');
   }
 
   // 3. 잘못 넣기·빼기 — 데이터 하나가 그래프를 얼마나 바꾸는지
@@ -217,6 +217,6 @@
   drawTable();
 })();
 </script>
-<script src="../../assets/play/fun.js" data-block="L20" data-mission="우리 반 수를 넣고, 질문 카드에 가장 빨리 답할 그래프를 먼저 걸어 봐요."></script>
+<script src="../../assets/play/fun.js" data-block="L20" data-mission="우리 반 수를 넣고, 질문 카드에 가장 빨리 답할 그래프를 먼저 예측해 봐요."></script>
 </body>
 </html>

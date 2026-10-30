@@ -36,7 +36,7 @@
     padding:9px;display:flex;align-items:center;justify-content:center}
   #led{width:100%;max-width:140px;height:auto;display:block}
   .px{fill:#333030}
-  .px.on{fill:var(--point)}
+  .px.on{fill:#FF3B2F;filter:drop-shadow(0 0 2px #FF3B2F)}
   .vbox{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm);
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
   .vbox span{font-size:12px;font-weight:700}
@@ -204,12 +204,22 @@
   function clearSeq() { if (seq) { clearTimeout(seq); seq = null; } }
   function show(v) {
     clearSeq();
-    var s = String(v), i = 0;
+    var s = String(v);
+    if (s.length === 1) { paint(s); return; }   // 한 자리 수는 그대로 멈춰 보인다
+    // 두 자리 이상은 실제 마이크로비트처럼 왼쪽으로 흘러가고, 다 지나가면 화면이 빈다
+    var cols = [], k, r;
+    for (k = 0; k < 5; k++) cols.push('00000');
+    for (var d = 0; d < s.length; d++) {
+      var g = GLYPH[s.charAt(d)];
+      for (var c = 0; c < 3; c++) { var col = ''; for (r = 0; r < 5; r++) col += g.charAt(r * 3 + c); cols.push(col); }
+      cols.push('00000');
+    }
+    for (k = 0; k < 5; k++) cols.push('00000');
+    var x = 0;
     var next = function () {
-      paint(s.charAt(i));
-      i += 1;
-      if (i >= s.length) { seq = null; return; }
-      seq = setTimeout(function () { paint(null); seq = setTimeout(next, 150); }, 620);
+      for (var i = 0; i < cells.length; i++) cells[i].classList.toggle('on', cols[x + (i % 5)].charAt((i / 5) | 0) === '1');
+      x += 1;
+      seq = x + 5 <= cols.length ? setTimeout(next, 140) : null;
     };
     next();
   }
@@ -276,8 +286,8 @@
       stepsEl.appendChild(s);
     }
     setSay('예상을 적어야 흔들 수 있어요', false);
-    say(half === 0 ? '새 판이에요. 처음 값 ' + init + '에서 ' + n + '번 흔들면 어디까지 갈지 먼저 걸어 봐요.' :
-      '같은 ' + n + '번인데 처음 값만 10이에요. 결과가 어떻게 달라질지 걸어 봐요.');
+    say(half === 0 ? '새 판이에요. 처음 값 ' + init + '에서 ' + n + '번 흔들면 어디까지 갈지 먼저 예측해 봐요.' :
+      '같은 ' + n + '번인데 처음 값만 10이에요. 결과가 어떻게 달라질지 예측해 봐요.');
   }
 
   // 예상을 적은 뒤에도 첫 흔들기 전까지는 고칠 수 있다. 고치면 다시 적어야 흔들린다.

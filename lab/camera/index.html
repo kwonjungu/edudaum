@@ -60,7 +60,7 @@
   </section>
 
   <section>
-    <h2>3. 실험 카드 — 먼저 걸고 해 보기</h2>
+    <h2>3. 실험 카드 — 먼저 예측하고 해 보기</h2>
     <div class="card" id="task"></div>
     <div class="row tasks" id="bets" style="margin-top:8px"></div>
     <div class="row" style="margin-top:8px"><button class="btn" id="done" disabled>해 봤어요</button><button class="btn main" id="nexttask">다른 실험 카드</button></div>
@@ -176,14 +176,14 @@
         if (bet !== null) return; bet = +b.dataset.b;
         $('#bets').querySelectorAll('.btn').forEach(function (x) { x.disabled = x !== b; x.setAttribute('aria-pressed', String(x === b)); });
         $('#done').disabled = false;
-        if (window.Fun) Fun.say('걸었어요. 이제 카드대로 해 보고 막대를 지켜봐요.');
+        if (window.Fun) Fun.say('예측했어요. 이제 카드대로 해 보고 막대를 지켜봐요.');
       };
     });
   }
   $('#done').onclick = function () {
     $('#done').disabled = true;
     if (window.Fun) {
-      Fun.say('막대가 건 대로 움직였나요? 기계는 예시와 얼마나 닮았는지만 봐요. 예시에 없는 것도 둘 중 하나로 고르는 까닭이에요.', 'cheer');
+      Fun.say('막대가 내가 예측한 대로 움직였나요? 기계는 예시와 얼마나 닮았는지만 봐요. 예시에 없는 것도 둘 중 하나로 고르는 까닭이에요.', 'cheer');
       Fun.burst($('#meter')); if (!stamped) { stamped = true; Fun.stamp(); }
     }
   };
@@ -200,6 +200,6 @@
   })();
 })();
 </script>
-<script src="../../assets/play/fun.js" data-block="L25" data-mission="두 무리를 그려 가르치고, 실험 카드대로 해 보기 전에 막대가 어떻게 기울지 먼저 걸어요."></script>
+<script src="../../assets/play/fun.js" data-block="L25" data-mission="두 무리를 그려 가르치고, 실험 카드대로 해 보기 전에 막대가 어떻게 기울지 먼저 예측해요."></script>
 </body>
 </html>

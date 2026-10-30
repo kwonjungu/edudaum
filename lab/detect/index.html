@@ -35,7 +35,7 @@
   </section>
 
   <section>
-    <h2>2. 찾기 전에 걸기</h2>
+    <h2>2. 찾기 전에 예측하기</h2>
     <p class="hint">이 사진에서 사과를 더 잘 짚을 쪽은 어디일까요?</p>
     <div class="row" id="bets" style="margin-top:6px">
       <button class="btn pick" data-b="rule">색 규칙</button>
@@ -73,7 +73,7 @@
     img = im; bet = null; rr = ar = null;
     fit($('#cr'), im); fit($('#ca'), im); $('#lr').textContent = ''; $('#la').textContent = '';
     $('#bets').querySelectorAll('.btn').forEach(function (b) { b.disabled = false; b.setAttribute('aria-pressed', 'false'); });
-    if (window.Fun) Fun.say('사진을 골랐어요. 사과를 더 잘 짚을 쪽을 먼저 걸어요.');
+    if (window.Fun) Fun.say('사진을 골랐어요. 사과를 더 잘 짚을 쪽을 먼저 예측해요.');
   }
   // 단순한 기계: 빨간 화소 덩어리를 찾아 "사과"라고 한다
   function rule() {
@@ -141,6 +141,6 @@
   pick($('#pics').querySelector('button'));
 })();
 </script>
-<script src="../../assets/play/fun.js" data-block="L17" data-mission="같은 사진에서 '빨간 것은 사과' 규칙과 AI가 무엇을 찾는지 견줘요. 찾기 전에 어느 쪽이 사과를 더 잘 짚을지 먼저 걸어요."></script>
+<script src="../../assets/play/fun.js" data-block="L17" data-mission="같은 사진에서 '빨간 것은 사과' 규칙과 AI가 무엇을 찾는지 견줘요. 찾기 전에 어느 쪽이 사과를 더 잘 짚을지 먼저 예측해요."></script>
 </body>
 </html>

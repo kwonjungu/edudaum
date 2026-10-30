@@ -92,7 +92,7 @@
   </header>
 
   <section aria-labelledby="h-pred" id="predBox">
-    <h2 id="h-pred">먼저 걸어요: 몇 번이면 하나만 남을까요?</h2>
+    <h2 id="h-pred">먼저 예측해요: 몇 번이면 하나만 남을까요?</h2>
     <div class="pred" id="pred" role="group" aria-label="예상"></div>
   </section>
 
@@ -124,11 +124,11 @@
   'use strict';
   var $ = function(id){ return document.getElementById(id); };
 
-  // 동물 16마리는 과정안 활동1 속성표와 같다. 속성: 날개 / 물속 / 다리넷 / 다리여섯 / 사람이 기름 / 사람보다 큼. 거북·펭귄·개미는 활동4 새 카드라 넣지 않는다.
+  // 벌은 양봉으로 사람이 기르므로 '사람이 기름'을 1로 둔다(2026. 10. 30. 감사). 동물 16마리는 과정안 활동1 속성표와 같다. 속성: 날개 / 물속 / 다리넷 / 다리여섯 / 사람이 기름 / 사람보다 큼. 거북·펭귄·개미는 활동4 새 카드라 넣지 않는다.
   var A = [
     ['강아지',0,0,1,0,1,0], ['상어',  0,1,0,0,0,1], ['나비',  1,0,0,1,0,0], ['기린',  0,0,1,0,0,1],
     ['닭',    1,0,0,0,1,0], ['여우',  0,0,1,0,0,0], ['고래',  0,1,0,0,0,1], ['고양이',0,0,1,0,1,0],
-    ['벌',    1,0,0,1,0,0], ['코끼리',0,0,1,0,0,1], ['문어',  0,1,0,0,0,0], ['말',    0,0,1,0,1,1],
+    ['벌',    1,0,0,1,1,0], ['코끼리',0,0,1,0,0,1], ['문어',  0,1,0,0,0,0], ['말',    0,0,1,0,1,1],
     ['독수리',1,0,0,0,0,0], ['다람쥐',0,0,1,0,0,0], ['열대어',0,1,0,0,1,0], ['소',    0,0,1,0,1,1]
   ];
   var IMG = ['dog','shark','butterfly','giraffe','chicken','fox','whale','cat','bee','elephant','octopus','horse','eagle','squirrel','tropicalfish','cow'];
@@ -207,8 +207,8 @@
     buildPool();
     render();
     if (fx()){
-      if (fresh) Fun.say('새 판이에요. 동물 ' + subset.length + '마리 가운데 한 마리를 몰래 골랐어요. 몇 번이면 될지 먼저 걸어요.');
-      else Fun.say('같은 동물이에요. 이번엔 다른 질문 순서로 해 봐요. 몇 번이면 될지 다시 걸어요.', 'think');
+      if (fresh) Fun.say('새 판이에요. 동물 ' + subset.length + '마리 가운데 한 마리를 몰래 골랐어요. 몇 번이면 될지 먼저 예측해요.');
+      else Fun.say('같은 동물이에요. 이번엔 다른 질문 순서로 해 봐요. 몇 번이면 될지 다시 예측해요.', 'think');
     }
   }
 
@@ -235,8 +235,8 @@
     if (pred !== null || locked) return;
     pred = v;
     if (fx()){
-      Fun.say(v === 'x' ? '다 좁히지 못할 거라고 걸었어요. 질문을 골라서 확인해 봐요.'
-                         : v + '번 안에 한 마리가 될 거라고 걸었어요. 질문을 골라 봐요.');
+      Fun.say(v === 'x' ? '다 좁히지 못할 거라고 예측했어요. 질문을 골라서 확인해 봐요.'
+                         : v + '번 안에 한 마리가 될 거라고 예측했어요. 질문을 골라 봐요.');
     }
     render();
   }
@@ -282,10 +282,10 @@
     var one = pool.length === 1;
     var shown = A[target][0];
     var cmp;
-    if (pred !== 'x' && one) cmp = ' 걸었던 ' + pred + '번과 견줘 봐요.';
-    else if (pred === 'x' && one) cmp = ' 못 좁힐 거라 걸었는데 달라졌어요. 왜 그랬을까요?';
-    else if (pred !== 'x') cmp = ' ' + pred + '번이면 될 거라 걸었는데 달랐어요. 어디서 갈렸는지 봐요.';
-    else cmp = ' 못 좁힐 거라 걸었던 대로예요.';
+    if (pred !== 'x' && one) cmp = ' 예측했던 ' + pred + '번과 견줘 봐요.';
+    else if (pred === 'x' && one) cmp = ' 못 좁힐 거라 예측했는데 달라졌어요. 왜 그랬을까요?';
+    else if (pred !== 'x') cmp = ' ' + pred + '번이면 될 거라 예측했는데 달랐어요. 어디서 갈렸는지 봐요.';
+    else cmp = ' 못 좁힐 거라 예측했던 대로예요.';
     var tail;
     if (one) tail = qn + '번 만에 한 마리가 남았어요. 몰래 고른 동물은 ' + shown + '.';
     else if (qn < MAXQ) tail = pool.length + '마리가 남았어요. 더 갈라 줄 질문이 없어요. 남은 둘은 이름을 물어서 가려요. 몰래 고른 동물은 ' + shown + '.';
@@ -355,6 +355,6 @@
   newRound();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B21" data-mission="몰래 고른 동물을 질문 다섯 번 안에 찾아요. 먼저 몇 번이면 될지 걸어 봐요!"></script>
+<script src="../assets/play/fun.js" data-block="B21" data-mission="몰래 고른 동물을 질문 다섯 번 안에 찾아요. 먼저 몇 번이면 될지 예측해 봐요!"></script>
 </body>
 </html>

@@ -52,7 +52,7 @@
   button.tr.extra{border-style:dashed;border-color:var(--ink);background:#fff;outline:none}
   .tr .tag2{animation:pop .35s ease-out}
   .tr .w{display:flex;align-items:center;gap:6px;min-width:0}
-  .tr .w svg{flex:none;width:20px;height:20px}
+  .tr .w img{flex:none;width:30px;height:30px;object-fit:contain}
   .tr .g{border-radius:8px;padding:3px 2px;border:1px solid transparent}
   .tr .g.y{background:var(--sky-l);border-color:var(--sky)}
   .tr .g.n{background:var(--sun-l);border-color:var(--sun)}
@@ -91,7 +91,7 @@
     button.tr{padding:4px 7px}
     .th{padding:0 7px}
     .tr .g{font-size:13px}
-    .tr .w svg{width:18px;height:18px}
+    .tr .w img{width:26px;height:26px}
   }
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
@@ -230,14 +230,9 @@
     $('c2').textContent = c2.text;
   }
 
-  var ICON = {
-    '걸어서': '<circle cx="12" cy="4.5" r="2"/><path d="M12 7v6M12 9l-3 3M12 9l3 2M12 13l-3 6M12 13l3 6"/>',
-    '자전거': '<circle cx="5.5" cy="16" r="3.5"/><circle cx="18.5" cy="16" r="3.5"/><path d="M5.5 16l4-8h5l4 8M9.5 8l5 8M8 6h3"/>',
-    '자동차': '<path d="M3 16v-4l2.5-4h13L21 12v4z"/><circle cx="7.5" cy="17" r="1.8"/><circle cx="16.5" cy="17" r="1.8"/><path d="M3 12h18"/>',
-    '버스':   '<rect x="4" y="4" width="16" height="13" rx="2"/><path d="M4 11h16M8 17v3M16 17v3"/><circle cx="8" cy="14" r=".6"/><circle cx="16" cy="14" r=".6"/>'
-  };
+  var IMG = { '걸어서': 'walk', '자전거': 'bike', '자동차': 'car', '버스': 'bus' };
   function icon(w){
-    return '<svg viewBox="0 0 24 24" fill="none" stroke="var(--ink)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">' + ICON[w] + '</svg>';
+    return '<img src="assets/' + IMG[w] + '.webp" alt="" width="30" height="30">';
   }
   function gcls(v){ return v === null ? 'u' : v === '예' ? 'y' : 'n'; }
   function g(v){ return v === null ? '못 정함' : v; }

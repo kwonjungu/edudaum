@@ -33,7 +33,7 @@
   h2{font-size:13px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted);text-align:center}
 
   .scene{display:flex;align-items:center;justify-content:center;gap:10px;font-size:17px;font-weight:700;margin-bottom:10px}
-  .scene svg{flex:0 0 auto;width:64px;height:64px;background:var(--sky-l,#e6f3fc);border-radius:16px}
+  .scene img{flex:0 0 auto;width:72px;height:72px;display:block;border-radius:16px;object-fit:contain;background:#f8f6f1}
   .scene.flip{animation:b15flip .42s ease}
   @keyframes b15flip{0%{transform:rotateX(80deg);opacity:.2}100%{transform:none;opacity:1}}
 
@@ -134,12 +134,7 @@
   ];
   var NUM = ['', '한', '두', '세'];
   var ST = 'fill="none" stroke="#33302b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"';
-  var ICONS = [
-    '<svg viewBox="0 0 64 64"><rect x="14" y="10" width="20" height="30" rx="10" fill="#fff6d9" stroke="#33302b" stroke-width="2.5"/><path d="M10 34a14 14 0 0 0 28 0M24 48v6M17 54h14" ' + ST + '/><path d="M44 22q5 6 0 12M50 17q9 11 0 22" ' + ST + '/></svg>',
-    '<svg viewBox="0 0 64 64"><rect x="8" y="14" width="30" height="26" rx="4" fill="#fff" stroke="#33302b" stroke-width="2.5"/><rect x="26" y="26" width="30" height="26" rx="4" fill="#e3f6ef" stroke="#33302b" stroke-width="2.5"/><circle cx="41" cy="36" r="6" fill="#fff" stroke="#33302b" stroke-width="2.5"/><path d="M31 50q10-9 20 0" ' + ST + '/><circle cx="19" cy="24" r="4" fill="#ffc845" stroke="#33302b" stroke-width="2"/></svg>',
-    '<svg viewBox="0 0 64 64"><path d="M22 54V30l-4-6a3 3 0 0 1 5-3l3 5V12a3 3 0 0 1 6 0v14V10a3 3 0 0 1 6 0v16V14a3 3 0 0 1 6 0v18l3-5a3 3 0 0 1 5 3l-6 14v13z" fill="#ffeef1" stroke="#33302b" stroke-width="2.5" stroke-linejoin="round"/></svg>',
-    '<svg viewBox="0 0 64 64"><rect x="8" y="14" width="48" height="32" rx="6" fill="#efecfd" stroke="#33302b" stroke-width="2.5"/><path d="M28 23l12 7-12 7z" fill="#ffc845" stroke="#33302b" stroke-width="2.5" stroke-linejoin="round"/><path d="M14 54h36M22 50v4M42 50v4" ' + ST + '/></svg>'
-  ];
+  var ICONS = ['weather', 'faces', 'hand', 'video'].map(function (n) { return '<img src="assets/' + n + '.webp" alt="" width="72" height="72">'; });
 
   var sceneIdx = -1, order = [0, 1, 2];
   var slots = [null, null, null];   // 칸마다 놓인 카드(제 칸 번호)

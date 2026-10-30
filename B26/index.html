@@ -300,7 +300,7 @@
     if (st.left === 0 || allOk(st.now) || st.fixed.indexOf(FIX[i].k) >= 0) return;
     st.pick = i;
     render(false);
-    if (window.Fun) Fun.say(FIX[i].nm + ' 카드를 짚었어요. 이 부분만 고치면 어느 칸이 달라질까요? 걸어 보고 다시 시험해요.');
+    if (window.Fun) Fun.say(FIX[i].nm + ' 카드를 짚었어요. 이 부분만 고치면 어느 칸이 달라질까요? 예측해 보고 다시 시험해요.');
   }
 
   function retest(){
@@ -425,6 +425,6 @@
   start(pickBoard());
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B26" data-mission="사용 조건 카드의 시험 기록을 보고 원인 카드를 하나 짚어요. 짚기 전에 어느 칸이 달라질지 먼저 걸어 봐요!"></script>
+<script src="../assets/play/fun.js" data-block="B26" data-mission="사용 조건 카드의 시험 기록을 보고 원인 카드를 하나 짚어요. 짚기 전에 어느 칸이 달라질지 먼저 예측해 봐요!"></script>
 </body>
 </html>

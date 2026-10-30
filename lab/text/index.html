@@ -40,9 +40,9 @@
   </section>
 
   <section id="s2" class="off">
-    <h2>2. 시험 문장 — 먼저 걸기</h2>
+    <h2>2. 시험 문장 — 먼저 예측하기</h2>
     <div class="test"><input type="text" id="tq" maxlength="40" placeholder="시험할 문장" aria-label="시험할 문장"></div>
-    <p class="hint" style="margin-top:6px">기계가 어느 무리라고 할까요? 먼저 걸면 결과가 나와요.</p>
+    <p class="hint" style="margin-top:6px">기계가 어느 무리라고 할까요? 먼저 예측하면 결과가 나와요.</p>
     <div class="row" id="bets" style="margin-top:6px"></div>
     <div class="bars" id="bars"></div>
     <div class="pieces" id="pieces"></div>
@@ -122,8 +122,8 @@
     var unk = r.hits.filter(function (h) { return !h.a && !h.b; }).length;
     $('#why').textContent = '조각 옆 수는 각 무리 문장에서 그 조각이 나온 횟수예요.' + (unk === r.hits.length ? ' 가르친 문장에 없는 조각뿐이라, 문장 수가 많은 무리 쪽으로 기울었어요.' : unk ? ' 처음 보는 조각 ' + unk + '개는 판단에 거의 쓰이지 않았어요.' : '');
     if (window.Fun) {
-      if (win === b) { Fun.say('건 대로 ‘' + C[win].n + '’ 쪽으로 기울었어요. 색칠된 조각이 어느 무리에서 왔는지 봐요. 같은 뜻인데 조각이 겹치지 않는 문장도 시험해 봐요.', 'cheer'); Fun.burst($('#bars')); }
-      else { Fun.say('건 것과 다르게 ‘' + C[win].n + '’ 쪽으로 기울었어요. 어느 조각이 그쪽으로 끌었는지 찾아봐요.', 'think'); Fun.shake($('#bars')); }
+      if (win === b) { Fun.say('예측한 대로 ‘' + C[win].n + '’ 쪽으로 기울었어요. 색칠된 조각이 어느 무리에서 왔는지 봐요. 같은 뜻인데 조각이 겹치지 않는 문장도 시험해 봐요.', 'cheer'); Fun.burst($('#bars')); }
+      else { Fun.say('예측한 것과 다르게 ‘' + C[win].n + '’ 쪽으로 기울었어요. 어느 조각이 그쪽으로 끌었는지 찾아봐요.', 'think'); Fun.shake($('#bars')); }
       if (!stamped) { stamped = true; Fun.stamp(); }
     }
   }
@@ -131,6 +131,6 @@
   drawClasses(); betBtns();
 })();
 </script>
-<script src="../../assets/play/fun.js" data-block="L27" data-mission="부탁하는 말과 고마운 말을 세 문장씩 가르쳐요. 시험 문장을 쓰고, 기계가 어느 쪽이라 할지 먼저 걸어요."></script>
+<script src="../../assets/play/fun.js" data-block="L27" data-mission="부탁하는 말과 고마운 말을 세 문장씩 가르쳐요. 시험 문장을 쓰고, 기계가 어느 쪽이라 할지 먼저 예측해요."></script>
 </body>
 </html>
