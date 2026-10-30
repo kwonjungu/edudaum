@@ -109,7 +109,7 @@ def slide(s, d):
         items = ''.join(f'<li><b>{e(a)}</b><span>{e(b)}</span></li>' for a, b in s['items'])
         body = f'{head(s)}<div class="two wide">{img(s["img"], "contain" if s.get("contain") else "")}<div class="col"><ul class="prep">{items}</ul>{bubbles(s.get("bubbles"))}</div></div>'
     elif t == 'order':
-        cards = ''.join(f'<button class="oc" data-k="{k}"><b class="n"></b>{img(c["img"], "contain" if c.get("contain") else "") if c.get("img") else ""}<span>{e(c["t"])}</span><em class="k" data-step="{len(s.get("bubbles") or []) + 1}">수업 순서 {k}</em></button>' for k, c in s['cards'])
+        cards = ''.join(f'<button class="oc" data-k="{k}"><b class="n"></b>{img(c["img"], "contain" if c.get("contain") else "") if c.get("img") else ""}<span>{e(c["t"])}</span><em class="k" data-step="{len(s.get("bubbles") or []) + 1}">순서 {k}</em></button>' for k, c in s['cards'])
         body = f'{head(s)}<p class="q">{s["q"]}</p><div class="order">{cards}</div>{bubbles(s.get("bubbles"), row=True)}'
     elif t == 'break':
         body = f'<div class="brk">{img(s["img"])}<div class="col"><h2 class="h">{s["title"]}</h2>{bubbles(s.get("bubbles"))}</div></div>'

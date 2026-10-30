@@ -7,6 +7,7 @@ const path = require('path'); const { pathToFileURL } = require('url');
   const p = await b.newPage(); await p.setViewport({ width: 1280, height: 720 });
   p.on('pageerror', e => res.errors.push(e.message.slice(0, 120)));
   p.on('console', m => { if (m.type() === 'error') res.errors.push(m.text().slice(0, 120)); });
+  p.on('requestfailed', r => res.errors.push('없는 파일: ' + decodeURIComponent(r.url()).split('/').slice(-3).join('/')));
   p.on('request', r => { const u = r.url(); if (!u.startsWith('file:') && !u.startsWith('data:')) res.external.push(u.slice(0, 80)); });
   await p.goto(pathToFileURL(path.resolve(`lecture/${B}/index.html`)).href, { waitUntil: 'networkidle0' });
   res.slides = await p.$$eval('.s', x => x.length);
@@ -33,6 +34,6 @@ const path = require('path'); const { pathToFileURL } = require('url');
   // 활동지 쪽: 새 판 PDF 쪽 수(ws_pages.json)보다 큰 쪽을 가리키면 잡는다
   const wsN = (JSON.parse(require('fs').readFileSync(__dirname + '/ws_pages.json', 'utf8')))[B];
   res.wspage = wsN ? await p.evaluate(n => [...document.querySelectorAll('.s')].flatMap((s, i) => [...s.textContent.matchAll(/활동지\s*(\d+)\s*쪽/g)].filter(m => +m[1] > n).map(m => (i + 1) + ':' + m[0])), wsN) : [];
-  res.words = await p.evaluate(() => [...document.querySelectorAll('.s')].flatMap((s, i) => (s.textContent.match(/맞았어요|틀렸어요|잘했어요|정답|오답|대단해요|점수|등수|[한두세네]\s*시간(?![표씩])|\d+\s*(?:분|초)(?![류석량야리배])/g) || []).map(w => (i + 1) + ':' + w)));
+  res.words = await p.evaluate(() => [...document.querySelectorAll('.s')].flatMap((s, i) => (s.textContent.match(/맞았어요|틀렸어요|잘했어요|정답|오답|대단해요|점수|등수|(?<![가-힣])[한두세네]\s*시간(?![표씩])|\d+\s*(?:분|초)\s*(?:동안|간\b|안에|이내|만에|씩|짜리|발표|말하기|인터뷰|설명|토의|활동)|\(\s*\d+\s*분\s*\)/g) || []).map(w => (i + 1) + ':' + w)));
   console.log(JSON.stringify(res)); await b.close();
 })();
