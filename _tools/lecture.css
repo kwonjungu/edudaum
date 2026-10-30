@@ -232,3 +232,7 @@ background:radial-gradient(circle at 20px 46px,var(--grass-l) 26px,transparent 2
 /* 10-31: 메모 속 바로가기 단추가 윗줄 글자를 덮거나 두 줄로 쪼개짐(B11) */
 .memo{line-height:1.7}.memo .btn{display:inline-block;white-space:nowrap;line-height:1.25;margin:4px 6px 4px 0;vertical-align:middle}
 .next b{background:var(--ink);color:#fff;border-radius:10px;padding:1px 10px;margin-right:8px}
+/* 10-31: 일반 ws 장에서 컷이 틀보다 세로로 길면 아래가 잘림(B17 등) → 잘리지 않고 틀 안으로 줄어든다 */
+.s > .zoom.ws{display:flex;justify-content:center;align-items:flex-start;background:#fff}
+.s > .zoom.ws .zin{height:100%;max-width:100%;display:flex}
+.s > .zoom.ws img{width:auto!important;max-width:100%!important;height:auto!important;max-height:100%!important;object-fit:contain!important}
