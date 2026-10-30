@@ -88,6 +88,7 @@ def slide(s, d):
         body = (f'{head(s)}<div class="pair"><button class="side">{img(s["a"]["img"], "contain" if s["a"].get("contain") else "")}<b>{e(s["a"]["label"])}</b></button>'
                 f'<span class="vs">?</span><button class="side">{img(s["b"]["img"], "contain" if s["b"].get("contain") else "")}<b>{e(s["b"]["label"])}</b></button></div>{bubbles(s.get("bubbles"), row=True)}')
     elif t == 'ws':
+        if s['img'] in AIX: USED_AI[0] = True   # 활동지 컷에 생성 그림을 붙인 경우
         ptrs = ''.join(f'<i class="ptr" data-step="{i + 1}" style="left:{x}%;top:{y}%;width:{w}%;height:{h}%"><b>{i + 1}</b></i>' for i, (x, y, w, h) in enumerate(s.get('point', [])))
         if s.get('side'):   # 세로로 긴 활동지 컷: 말풍선은 오른쪽 칸, 캡처는 장 높이 가득
             body = (f'{head(s)}<div class="wsside"><div class="zoom ws"><div class="zin"><img src="{s["img"]}" alt="">{ptrs}</div></div>'
