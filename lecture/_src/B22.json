@@ -276,7 +276,7 @@
     [
      4,
      {
-      "img": "../_assets/B22/card_partly.webp",
+      "img": "../_assets/B22/card_temp28.webp",
       "contain": true,
       "t": "28도 이상인지"
      }
@@ -292,7 +292,7 @@
     [
      3,
      {
-      "img": "../_assets/B22/card_sunny.webp",
+      "img": "../_assets/B22/card_temp33.webp",
       "contain": true,
       "t": "최고기온이 33도 이상인지"
      }
@@ -300,7 +300,7 @@
     [
      2,
      {
-      "img": "../_assets/B22/card_mostly.webp",
+      "img": "../_assets/B22/card_dust.webp",
       "contain": true,
       "t": "미세먼지가 나쁨 또는 매우나쁨인지"
      }
