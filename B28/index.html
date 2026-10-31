@@ -15,9 +15,7 @@
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
-    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.45;
-    
-    background-position:-11px -11px}
+    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.45}
   .wrap{max-width:640px;margin:0 auto;padding:9px 14px 18px}
 
   .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}
@@ -28,37 +26,39 @@
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
   h1{font-size:clamp(20px,4.8vw,26px);font-weight:700;letter-spacing:-.035em;line-height:1.08}
-  .lead{font-size:13.5px;color:var(--muted);margin-top:2px;font-weight:700}
+  .lead{font-size:14px;color:var(--muted);margin-top:2px;font-weight:700}
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
-    box-shadow:var(--hard);padding:8px 9px;margin-top:7px}
-  h2{font-size:12.5px;font-weight:700;margin-bottom:5px;color:var(--muted)}
+    box-shadow:var(--hard);padding:9px 10px;margin-top:8px}
+  h2{font-size:15px;font-weight:700;margin-bottom:6px}
+  h3{font-size:14px;font-weight:700;margin:6px 0 4px;color:var(--muted)}
 
-  .rows{display:grid;gap:3px}
-  .pick{display:flex;align-items:center;gap:7px;width:100%;font-family:inherit;cursor:pointer;
+  .rows{display:grid;gap:4px}
+  .pick{display:flex;align-items:center;gap:8px;width:100%;font-family:inherit;cursor:pointer;
     color:var(--ink);background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
-    min-height:44px;padding:4px 9px;box-shadow:var(--hard-sm);text-align:left}
-  .pick img{width:56px;height:56px;flex:none;object-fit:contain;border-radius:6px}
-  .pick .nm{flex:1;font-weight:700;font-size:14px}
-  .pick .n{font-family:'Courier New',monospace;font-weight:700;font-size:14px;min-width:2.6em;
-    text-align:right;color:var(--muted)}
-  .pick .vd{font-weight:700;font-size:12.5px;min-width:6.4em;text-align:right}
+    min-height:48px;padding:4px 9px;box-shadow:var(--hard-sm);text-align:left}
+  .pick img{width:56px;height:56px;flex:none;object-fit:cover;border-radius:6px}
+  .pick .tx{flex:1;min-width:0;display:flex;flex-direction:column}
+  .pick .nm{font-weight:700;font-size:15px;word-break:keep-all}
+  .pick .vd{font-weight:700;font-size:14px;color:var(--muted)}
+  .pick .n{font-family:'Courier New',monospace;font-weight:700;font-size:15px;min-width:2.6em;text-align:right;color:var(--muted)}
   .pick[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px}
   .pick:disabled{opacity:.45;cursor:default;box-shadow:none}
+  .pick:disabled[aria-pressed="true"]{opacity:1}
+  .pick.rv-good{background:#e3f6ef}.pick.rv-mid{background:#fff3cc}.pick.rv-bad{background:#ffe0e6}
+  .pick .vd b{color:var(--point)}
   .pick.guess{box-shadow:inset 6px 0 0 var(--point), var(--hard-sm)}
 
-
-  .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:7px}
+  .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
   .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:700;
     background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
-    min-height:44px;padding:8px 12px;box-shadow:var(--hard-sm);flex:1 1 90px}
+    min-height:46px;padding:8px 12px;box-shadow:var(--hard-sm);flex:1 1 110px;word-break:keep-all}
   .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .btn.main{background:var(--point);color:#fff}
   .btn:disabled{opacity:.4;cursor:default;box-shadow:none}
 
-  .say{margin-top:6px;font-size:13.5px;font-weight:700;min-height:1.4em}
-  .say.dim{color:var(--muted);font-weight:700;font-size:12.5px}
-  .note{margin-top:4px;font-size:12px;font-weight:700;color:var(--muted)}
+  .say{margin-top:6px;font-size:14.5px;font-weight:700;min-height:1.4em}
+  .say.dim{color:var(--muted)}
   [hidden]{display:none!important}
 
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
@@ -66,6 +66,50 @@
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+
+/* 체험 개선 2026-10-31: 안내·개념·미션 사다리 */
+.how{margin-top:8px;background:var(--sun-l,#fff6d9);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:15px;font-weight:700;line-height:1.45}
+.concept{margin-top:10px;background:var(--grape-l,#efecfd);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:14.5px;line-height:1.5}
+.concept b{display:block;font-size:14px;color:var(--point);margin-bottom:2px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.sb{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;min-height:46px;padding:5px 6px;line-height:1.2;
+  background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-sm);box-shadow:var(--hard-sm);word-break:keep-all}
+.sb[aria-current="step"]{background:var(--point);border-color:var(--point);color:#fff}
+.sb .ck{display:none}
+.sb.done .ck{display:inline}
+.pic{display:block;width:100%;height:72px;object-fit:cover;object-position:50% 45%;border-radius:var(--r-sm);margin-bottom:8px;border:1px solid var(--line)}
+.learn{margin-top:9px;background:var(--mint-l,#e3f6ef);border-radius:var(--r-sm);padding:8px 11px;font-size:14.5px;font-weight:700;color:var(--ink)}
+.nx{margin-top:9px}
+.ask2{font-size:14.5px;font-weight:700;margin:2px 0 8px}
+.faces{display:grid;grid-template-columns:repeat(4,1fr);gap:5px;margin-bottom:8px}
+.faces figure{text-align:center;font-size:14px;font-weight:700;line-height:1.2;word-break:keep-all}
+.faces img{display:block;width:100%;aspect-ratio:1;object-fit:cover;border-radius:6px;margin-bottom:2px}
+.sets{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.setb{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:700;min-height:70px;padding:8px;line-height:1.3;
+  background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);box-shadow:var(--hard-sm);word-break:keep-all}
+.setb small{display:block;font-size:14px;color:var(--muted)}
+.setb:disabled{cursor:default;box-shadow:none}
+.setb.pk{border-width:3.5px;background:var(--point-soft);opacity:1}
+.res2{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
+.res2 h3{margin:0 0 3px}
+.bar{display:grid;grid-template-columns:72px 1fr;gap:4px;align-items:center;margin-bottom:5px;font-size:14px;font-weight:700;line-height:1.2}
+.bar .b{height:24px;border-radius:5px;background:#eee;position:relative;overflow:hidden}
+.bar .b i{position:absolute;left:0;top:0;bottom:0;display:block;border-radius:5px}
+.bar .b span{position:relative;padding-left:5px;font-size:14px;line-height:24px;white-space:nowrap}
+.v-good i{background:#bfe8d6}
+.v-mid i{background:#ffe7a3}
+.v-bad i{background:#ffc9d2}
+.ctl{display:flex;align-items:center;gap:5px;flex:none}
+.ctl button{font-family:inherit;cursor:pointer;font-size:15px;font-weight:700;min-width:48px;min-height:46px;border:1px solid var(--ink);border-radius:var(--r-sm);background:var(--surface);box-shadow:var(--hard-sm)}
+.ctl button:disabled{opacity:.35;cursor:default;box-shadow:none}
+.row3{display:flex;align-items:center;gap:7px;border:1px solid var(--line);border-radius:var(--r-sm);padding:4px 7px;min-height:56px}
+.row3 img{width:48px;height:48px;object-fit:cover;border-radius:6px;flex:none}
+.row3 .tx{flex:1;min-width:0;display:flex;flex-direction:column}
+.row3 .nm{font-weight:700;font-size:14.5px;word-break:keep-all}
+.row3 .vd{font-weight:700;font-size:14px;color:var(--muted);word-break:keep-all}
+.row3 .cnt{font-family:'Courier New',monospace;font-weight:700;font-size:15px;min-width:2.8em;text-align:center}
+.ainote{margin-top:14px;font-size:14px;color:var(--muted)}
+@media(max-width:400px){.bar{grid-template-columns:76px 1fr}.sets,.res2{grid-template-columns:1fr}.pick img{width:48px;height:48px}.row3 .nm{font-size:14px}.row3{gap:4px}.ctl{gap:3px}.ctl button{min-width:44px}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -78,194 +122,392 @@
 
   <header>
     <h1>학습에서 빠질 사람 짚기</h1>
-    <p class="lead">열 장을 넣어도 여전히 못 알아볼 사람을 짚어요</p>
+    <p class="lead">도우미가 못 알아볼 사람은 누구일까요</p>
   </header>
 
-  <section aria-labelledby="h-p">
-    <h2 id="h-p">쓸 사람 셋</h2>
+  <p class="how" id="how">쓸 사람 셋을 먼저 골라요. 다음 안내가 아래에 나와요.</p>
+
+  <div class="steps" id="steps" role="group" aria-label="미션 고르기">
+    <button class="sb" type="button" data-go="1" aria-current="step">① 빠진 사람<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="2">② 장수 함정<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="3">③ 나눠 모으기<span class="ck"> ✓</span></button>
+  </div>
+
+  <section aria-labelledby="h-1" data-step="1" id="m1">
+    <img class="pic" src="../lecture/_assets/B28/case_helper_v2.webp" width="1600" height="900" alt="복도에서 한 학생이 도우미 앞에서 손을 들어 보이는 두 장면">
+    <h2 id="h-1">미션 1 · 빠진 사람 찾기</h2>
+    <p class="say dim" id="tot1"></p>
+    <h3 id="h3p">쓸 사람 셋을 골라요</h3>
     <div class="rows" id="people"></div>
-  </section>
-
-  <section aria-labelledby="h-w">
-    <h2 id="h-w">열 장 더 넣을 곳</h2>
+    <h3>사진 열 장을 넣을 곳 하나</h3>
     <div class="rows" id="wheres"></div>
-  </section>
-
-  <section aria-labelledby="h-c">
-    <h2 id="h-c">확인</h2>
-    <p class="say dim" id="say">쓸 사람 셋을 골라요</p>
+    <p class="say dim" id="say1">쓸 사람 셋을 골라요</p>
     <div class="acts">
       <button class="btn main" id="go" type="button" disabled>넣어 보기</button>
       <button class="btn" id="reset" type="button">다시 하기</button>
     </div>
-    <p class="note">우리 도우미를 왼손으로 써 봐요. 이 도우미는 수업용으로 만든 가상 도우미예요.</p>
+    <p class="learn" id="learn1" hidden></p>
+    <div class="acts nx" id="nx1" hidden><button class="btn main" type="button" data-next="2">다음 미션 ②</button></div>
   </section>
+
+  <section aria-labelledby="h-2" data-step="2" id="m2" hidden>
+    <h2 id="h-2">미션 2 · 사진 장수 함정</h2>
+    <p class="ask2" id="ask2">네 사람 모두를 알아볼 상자를 골라요.</p>
+    <div class="faces" id="faces2"></div>
+    <div class="sets" id="sets2"></div>
+    <p class="say dim" id="say2">상자를 하나 눌러요</p>
+    <div class="res2" id="res2" hidden></div>
+    <div class="acts"><button class="btn" id="again2" type="button" hidden>다시 하기</button></div>
+    <p class="learn" id="learn2" hidden></p>
+    <div class="acts nx" id="nx2" hidden><button class="btn main" type="button" data-next="3">다음 미션 ③</button></div>
+  </section>
+
+  <section aria-labelledby="h-3" data-step="3" id="m3" hidden>
+    <h2 id="h-3">미션 3 · 고르게 모으기</h2>
+    <p class="say" id="budget3"></p>
+    <div class="rows" id="rows3"></div>
+    <p class="say dim" id="say3"></p>
+    <div class="acts">
+      <button class="btn main" id="check3" type="button">확인</button>
+      <button class="btn" id="again3" type="button">다시 하기</button>
+    </div>
+    <p class="learn" id="learn3" hidden></p>
+  </section>
+
+  <div class="concept" id="concept"><b>알아 둘 것</b>AI는 학습 사진에 많이 나온 모습은 잘 알아보고, 적게 나온 모습은 놓쳐요. 그래서 사진이 모두 몇 장인지보다 어떤 사람이 몇 장씩 들어 있는지를 봐야 해요.</div>
+
+  <p class="ainote">그림 일부는 생성형 AI로 만들었어요. 도우미는 수업용으로 만든 가상 도우미예요.</p>
 </div>
 
 <script>
 (function(){
   'use strict';
   var $ = function(id){ return document.getElementById(id); };
+  function rnd(a, b){ return a + Math.floor(Math.random() * (b - a + 1)); }
+  function shuffle(a){ for (var i = a.length - 1; i > 0; i--){ var j = rnd(0, i), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function jo(w, a, b){ var k = w.charCodeAt(w.length - 1) - 0xAC00; return w + (k >= 0 && k % 28 ? a : b); }
+  function say(t, m){ if (window.Fun) Fun.say(t, m); }
 
-  // 31차시 활동2 가상 도우미 학습 사진 서른 장(오른손 스물네 장). 줄마다 장수.
-  var BASE = [
-    { key:'오른손밝', nm:'오른손 · 밝은 곳', n:24 },
-    { key:'왼손밝',   nm:'왼손 · 밝은 곳',   n:4 },
-    { key:'긴소매밝', nm:'긴소매 · 밝은 곳', n:2 },
-    { key:'오른손어', nm:'오른손 · 어두운 곳', n:0 }
+  // 쓸 사람과 그림. 손 그림은 모두 같은 피부색으로 맞췄다(피부색이 이유로 읽히지 않게).
+  // 피부색을 맞춘 새 그림(right_dark_same, add_dark_same)이 오면 아래 두 줄만 바꾼다.
+  var DARK_IMG = 'right_dark_same', DARK_ADD = 'add_dark_same';
+  var P = {
+    r: { nm:'오른손 · 교실', img:'right_same' },
+    l: { nm:'왼손 · 교실',   img:'left_same' },
+    s: { nm:'긴소매 · 교실', img:'sleeve_bright' },
+    h: { nm:'오른손 · 복도', img:DARK_IMG },
+    g: { nm:'털장갑 낀 손',  img:'glove' }
+  };
+  function src(k){ return 'assets/' + P[k].img + '.webp'; }
+  // 닮은 사진이 몇 장인지로만 갈린다. 미리 적어 두지 않는다.
+  function verdict(n){ return n >= 8 ? '잘 알아봐요' : n >= 1 ? '자주 놓쳐요' : '거의 못 알아봐요'; }
+  function vcls(n){ return n >= 8 ? 'v-good' : n >= 1 ? 'v-mid' : 'v-bad'; }
+
+  // ───────── 미션 사다리 ─────────
+  var HOW = [
+    '',
+    '쓸 사람 셋을 먼저 골라요. 다음 안내가 아래에 나와요.',
+    '두 상자 가운데 네 사람 모두를 알아볼 상자를 골라요. 고르면 줄마다 장수가 나와요.',
+    '+4장과 −4장을 눌러 사진을 나눠요. 모든 줄이 8장 이상이 되면 확인을 눌러요.'
   ];
-  // 쓸 사람과 닮은 줄. 털장갑 손은 학습 사진에 맨손밖에 없어 닮은 줄이 없다(반창고 손은 오른손과 너무 닮아 2026-10-30 바꿈).
-  var PEOPLE = [
-    { nm:'오른손 · 교실', row:'오른손밝', img:'right_bright' },
-    { nm:'왼손 · 교실',   row:'왼손밝', img:'left_bright' },
-    { nm:'긴소매 · 교실', row:'긴소매밝', img:'sleeve_bright' },
-    { nm:'오른손 · 복도', row:'오른손어', img:'right_dark' },
-    { nm:'털장갑 낀 손 · 교실', row:null, img:'glove' }
+  var howEl = $('how'), steps = document.querySelectorAll('.sb');
+  var panels = [null, $('m1'), $('m2'), $('m3')];
+  var done = [false, false, false, false], stamped = false;
+  var started = [false, false, false, false];
+
+  function go(n, quiet){
+    for (var i = 1; i <= 3; i++){
+      panels[i].hidden = (i !== n);
+      steps[i - 1].setAttribute('aria-current', i === n ? 'step' : 'false');
+    }
+    howEl.textContent = HOW[n];
+    if (n === 1) render1();
+    if (n === 2 && !started[2]){ started[2] = true; round2(); }
+    if (n === 3 && !started[3]){ started[3] = true; round3(); }
+    if (!quiet) say(n === 1 ? '① 사진을 한 곳에만 넣으면 누가 남는지 봐요.' : n === 2 ? '② 사진이 많은 상자가 늘 좋을까요?' : '③ 사진 묶음을 나눠서 모두가 잘 알아보게 해 봐요.');
+  }
+  for (var si = 0; si < steps.length; si++) (function(n){ steps[n - 1].addEventListener('click', function(){ go(n); }); })(si + 1);
+  Array.prototype.forEach.call(document.querySelectorAll('[data-next]'), function(b){
+    b.addEventListener('click', function(){ go(+b.getAttribute('data-next')); });
+  });
+
+  function finish(n, learned, extra, mood){
+    done[n] = true;
+    steps[n - 1].classList.add('done');
+    var L = $('learn' + n); L.textContent = '알게 된 것: ' + learned; L.hidden = false;
+    if ($('nx' + n)) $('nx' + n).hidden = false;
+    var all = done[1] && done[2] && done[3];
+    say((extra ? extra + ' ' : '') + '알게 된 것: ' + learned + (all && !stamped ? ' 세 미션을 모두 했어요.' : ''), mood || 'cheer');
+    if (all && !stamped && window.Fun){ stamped = true; Fun.stamp(); }
+  }
+
+  // ───────── 미션 1: 빠진 사람 찾기 ─────────
+  var BASE, ORDER, WH = [
+    { nm:'왼손 열 장',      row:'l', img:'add_left_same' },
+    { nm:'긴소매 열 장',    row:'s', img:'add_sleeve' },
+    { nm:'어두운 곳 열 장', row:'h', img:DARK_ADD }
   ];
-  var WHERES = [
-    { nm:'왼손 열 장',     row:'왼손밝', img:'add_left' },
-    { nm:'긴소매 열 장',   row:'긴소매밝', img:'add_sleeve' },
-    { nm:'어두운 곳 열 장', row:'오른손어', img:'add_dark' }
-  ];
+  var chosen, where, guess, d1, shown, final1, first1 = true, pEls, wEls;
 
-  var chosen = [];      // 고른 사람 (셋)
-  var where = null;     // 넣을 곳
-  var guess = null;     // 그대로일 사람. 사람 번호 또는 -1(없어요)
-  var done = false;
+  function counts1(){
+    var c = { r:BASE.r, l:BASE.l, s:BASE.s, h:BASE.h };
+    if (shown && where !== null) c[WH[where].row] += 10;
+    return c;
+  }
+  function num1(k, c){ return k === 'g' ? 0 : c[k]; }
 
-  var pEls = [], wEls = [];
-
-  (function build(){
-    PEOPLE.forEach(function(p, i){
+  function round1(){
+    BASE = first1 ? { r:24, l:4, s:2, h:0 } : { r:24, l:rnd(2, 5), s:rnd(0, 3), h:0 };
+    first1 = false;
+    $('tot1').textContent = '학습 사진 모두 ' + (BASE.r + BASE.l + BASE.s + BASE.h) + '장';
+    ORDER = shuffle(['r', 'l', 's', 'h', 'g']);
+    chosen = []; where = null; guess = null; d1 = false; shown = false; final1 = ''; pEls = []; wEls = [];
+    $('people').innerHTML = ''; $('wheres').innerHTML = '';
+    ORDER.forEach(function(k, i){
       var b = document.createElement('button');
       b.className = 'pick'; b.type = 'button'; b.setAttribute('aria-pressed', 'false');
-      b.innerHTML = '<img alt="" src="assets/' + p.img + '.webp"><span class="nm"></span><span class="n"></span><span class="vd"></span>';
-      b.querySelector('.nm').textContent = p.nm;
+      b.innerHTML = '<img alt="" width="56" height="56" src="' + src(k) + '"><span class="tx"><span class="nm"></span><span class="vd"></span></span><span class="n"></span>';
+      b.querySelector('.nm').textContent = P[k].nm;
       b.addEventListener('click', function(){ tapPerson(i); });
       $('people').appendChild(b); pEls.push(b);
     });
-    // '없어요'도 짚을 수 있는 한 갈래다
     var none = document.createElement('button');
     none.className = 'pick'; none.type = 'button'; none.setAttribute('aria-pressed', 'false');
-    none.innerHTML = '<span class="nm">그런 사람 없어요</span>';
+    none.innerHTML = '<span class="tx"><span class="nm">그런 사람 없어요</span><span class="vd"></span></span>';
     none.addEventListener('click', function(){ tapPerson(-1); });
     $('people').appendChild(none); pEls.push(none);
-
-    WHERES.forEach(function(w, i){
+    WH.forEach(function(w, i){
       var b = document.createElement('button');
       b.className = 'pick'; b.type = 'button'; b.setAttribute('aria-pressed', 'false');
-      b.innerHTML = '<img alt="" src="assets/' + w.img + '.webp"><span class="nm"></span>';
+      b.innerHTML = '<img alt="" width="56" height="56" src="assets/' + w.img + '.webp"><span class="tx"><span class="nm"></span></span>';
       b.querySelector('.nm').textContent = w.nm;
       b.addEventListener('click', function(){ tapWhere(i); });
       $('wheres').appendChild(b); wEls.push(b);
     });
-
-  })();
-
-  function counts(){
-    var c = {};
-    BASE.forEach(function(r){ c[r.key] = r.n; });
-    if (done && where !== null) c[WHERES[where].row] += 10;
-    return c;
-  }
-
-  // 판정은 닮은 사진이 몇 장인지로만 갈린다. 미리 적어 두지 않는다.
-  function verdict(p, c){
-    if (p.row === null) return '거의 못 알아봐요';
-    var n = c[p.row];
-    if (n >= 8) return '잘 알아봐요';
-    if (n >= 1) return '자주 놓쳐요';
-    return '거의 못 알아봐요';
+    render1();
   }
 
   function tapPerson(i){
-    if (done) return;
-    if (chosen.length < 3){
-      if (i < 0) return;                       // 셋을 다 고르기 전엔 '없어요'를 못 짚는다
+    if (d1) return;
+    if (chosen.length < 3 || where === null){
+      if (i < 0) return;
+      if (chosen.length >= 3 && chosen.indexOf(i) < 0) return;
       var k = chosen.indexOf(i);
       if (k >= 0) chosen.splice(k, 1); else chosen.push(i);
-      render(); return;
+      render1(); return;
     }
-    if (where === null) return;                // 넣을 곳을 고른 뒤에 짚는다
-    // 넣어 보기 전까지는 바꿀 수 있다.
     if (i >= 0 && chosen.indexOf(i) < 0) return;
-    guess = i;
-    render();
+    guess = (guess === i) ? null : i; render1();
   }
   function tapWhere(i){
-    if (done || chosen.length < 3) return;
+    if (d1 || chosen.length < 3) return;
     where = (where === i) ? null : i;
-    render();
+    shown = false; guess = null;
+    render1();
+  }
+  function stuck1(){
+    var c = counts1();
+    return chosen.filter(function(i){ return verdict(num1(ORDER[i], c)) === '거의 못 알아봐요'; });
   }
 
   $('go').addEventListener('click', function(){
-    if (chosen.length < 3 || where === null || guess === null) return;
-    done = true;
-    render();
-    if (window.Fun) {
-      var c = counts(), stuck = chosen.filter(function(i){ return verdict(PEOPLE[i], c) === '거의 못 알아봐요'; });
-      var ok = (guess === -1) ? (stuck.length === 0) : (stuck.indexOf(guess) >= 0);
-      var box = $('people');
-      var jo = function(w, a, b){ var k = w.charCodeAt(w.length - 1) - 0xAC00; return w + (k >= 0 && k % 28 ? a : b); };
-      var lead = ok ? '' : '짚은 것과 달랐어요. ';
-      if (stuck.length === 0) { Fun.say(lead + jo(WHERES[where].nm, '을', '를') + ' 넣으니 고른 세 사람 모두 닮은 사진이 충분해졌어요. 다른 셋을 골라도 그럴까요?', ok ? 'cheer' : 'think'); if (ok) Fun.burst(box); else Fun.shake(box); }
-      else { Fun.say(lead + jo(stuck.map(function(i){ return PEOPLE[i].nm; }).join(', '), '은', '는') + ' 넣은 뒤에도 닮은 사진이 없어요. 장수 칸을 보며 누구의 사진이 더 필요한지 짝과 말해 봐요.', 'think'); Fun.shake(box); }
-      Fun.stamp();
+    if (d1 || chosen.length < 3 || where === null || guess === null) return;
+    shown = true;
+    var st = stuck1(), c = counts1();
+    var mid = chosen.filter(function(i){ return verdict(num1(ORDER[i], c)) === '자주 놓쳐요'; });
+    var ok = (guess === -1) ? (st.length === 0) : (st.indexOf(guess) >= 0);
+    var box = $('people');
+    var names = function(a){ return a.map(function(i){ return P[ORDER[i]].nm; }).join(', '); };
+    var learned = '사진을 더 넣은 줄의 사람만 나아져요. 넣지 않은 줄은 그대로예요.';
+    if (!ok){
+      guess = null; render1();
+      $('say1').textContent = '예상과 달랐어요. 줄마다 판정을 보고 다시 짚어 봐요.'; $('say1').className = 'say';
+      say('예상과 달랐어요. 줄마다 판정을 보고 다시 짚어 봐요.', 'think'); Fun.shake(box);
+      return;
     }
+    d1 = true;
+    var msg;
+    if (st.length === 0){
+      msg = mid.length ? '거의 못 알아볼 사람은 없어요. 그래도 ' + jo(names(mid), '은', '는') + ' 자주 놓쳐요.'
+                       : jo(WH[where].nm, '을', '를') + ' 넣으니 고른 세 사람 모두 잘 알아봐요.';
+    } else {
+      msg = jo(names(st), '은', '는') + ' 넣은 뒤에도 닮은 사진이 없어요.';
+    }
+    final1 = '예상대로예요. ' + msg;
+    render1();
+    finish(1, learned, final1, 'cheer');
+    Fun.burst(box);
   });
   $('reset').addEventListener('click', function(){
-    chosen = []; where = null; guess = null; done = false;
-    render();
-    if (window.Fun) Fun.say('이번에는 다른 세 사람과 다른 곳으로 해 봐요.');
+    round1();
+    $('learn1').hidden = true;
+    say('새 판이에요. 이번에는 다른 세 사람과 다른 곳으로 해 봐요.');
   });
 
-  function render(){
-    var c = counts();
-    var stuck = [];    // 넣은 뒤에도 거의 못 알아보는 사람
-    if (done){
-      chosen.forEach(function(i){
-        if (verdict(PEOPLE[i], c) === '거의 못 알아봐요') stuck.push(i);
-      });
-    }
-
-    PEOPLE.forEach(function(p, i){
-      var b = pEls[i];
-      b.setAttribute('aria-pressed', chosen.indexOf(i) >= 0 ? 'true' : 'false');
+  function render1(){
+    var c = counts1();
+    ORDER.forEach(function(k, i){
+      var b = pEls[i], pk = chosen.indexOf(i) >= 0, v = pk ? verdict(num1(k, c)) : '';
+      b.setAttribute('aria-pressed', pk ? 'true' : 'false');
       b.classList.toggle('guess', guess === i);
-      b.querySelector('.n').textContent = (p.row === null) ? '0장' : (c[p.row] + '장');
-      b.querySelector('.vd').textContent = done && chosen.indexOf(i) >= 0 ? verdict(p, c) : '';
-      b.disabled = done || (chosen.length >= 3 && chosen.indexOf(i) < 0 && guess === null && where === null);
+      b.querySelector('.n').textContent = (k === 'g') ? '0장' : (c[k] + '장');
+      b.querySelector('.vd').textContent = (guess === i ? '내 예상' : '') + (guess === i && shown ? ', ' : '') + (shown ? v : '');
+      ['rv-good', 'rv-mid', 'rv-bad'].forEach(function(x){ b.classList.remove(x); });
+      if (shown && pk) b.classList.add('r' + vcls(num1(k, c)));
+      b.disabled = d1 || (chosen.length >= 3 && !pk);
     });
-    var noneEl = pEls[PEOPLE.length];
-    noneEl.setAttribute('aria-pressed', guess === -1 ? 'true' : 'false');
-    noneEl.classList.toggle('guess', guess === -1);
-    noneEl.disabled = done || chosen.length < 3 || where === null;
-
-    WHERES.forEach(function(w, i){
+    var ne = pEls[ORDER.length];
+    ne.setAttribute('aria-pressed', guess === -1 ? 'true' : 'false');
+    ne.classList.toggle('guess', guess === -1);
+    ne.querySelector('.vd').textContent = guess === -1 ? '내 예상' : '';
+    ne.disabled = d1 || chosen.length < 3 || where === null;
+    WH.forEach(function(w, i){
       wEls[i].setAttribute('aria-pressed', where === i ? 'true' : 'false');
-      wEls[i].disabled = done || chosen.length < 3;
+      wEls[i].disabled = d1 || chosen.length < 3;
     });
-
-
-    var s = $('say');
-    if (chosen.length < 3){ s.textContent = '쓸 사람 셋을 골라요'; s.className = 'say dim'; }
-    else if (where === null){ s.textContent = '열 장 넣을 곳을 골라요'; s.className = 'say dim'; }
-    else if (guess === null){ s.textContent = '열 장을 넣어도 여전히 못 알아볼 사람을 짚어요'; s.className = 'say dim'; }
-    else if (!done){ s.textContent = '넣어 보기를 눌러요'; s.className = 'say dim'; }
-    else {
-      var ok = (guess === -1) ? (stuck.length === 0) : (stuck.indexOf(guess) >= 0);
-      if (ok) s.textContent = guess === -1 ? '예상대로 모두 알아보게 됐어요' : '예상대로 이 사람은 여전히 못 알아봐요';
-      else if (stuck.length === 0) s.textContent = '여전히 못 알아볼 사람은 없었어요';
-      else s.textContent = '다른 사람이 여전히 못 알아봐요';
-      s.className = 'say';
-    }
-
-    $('go').disabled = done || guess === null;
+    $('h3p').textContent = (chosen.length >= 3 && where !== null) ? '여전히 못 알아볼 사람을 짚어요' : '쓸 사람 셋을 골라요';
+    $('how').textContent = (chosen.length >= 3 && where !== null) ? '못 알아볼 사람을 짚고 넣어 보기를 눌러요.' : chosen.length >= 3 ? '사진 열 장을 넣을 곳을 골라요.' : HOW[1];
+    var s = $('say1');
+    if (d1){ s.textContent = final1; s.className = 'say'; }
+    else if (chosen.length < 3){ s.textContent = '쓸 사람 셋을 골라요'; s.className = 'say dim'; }
+    else if (where === null){ s.textContent = '사진 열 장을 넣을 곳을 골라요'; s.className = 'say dim'; }
+    else if (guess === null){ s.textContent = shown ? '예상과 달랐어요. 줄마다 판정을 보고 다시 짚어 봐요.' : '넣어도 여전히 못 알아볼 사람을 짚어요'; s.className = 'say dim'; }
+    else { s.textContent = '넣어 보기를 눌러요'; s.className = 'say dim'; }
+    $('go').disabled = d1 || guess === null;
   }
 
-  render();
+  // ───────── 미션 2: 사진 장수 함정 ─────────
+  var KEYS4 = ['r', 'l', 's', 'h'], S2, pick2 = null, solved2 = false;
+  function even(lo, hi){ var o = {}; KEYS4.forEach(function(k){ o[k] = rnd(lo, hi); }); return o; }
+  function lop(minTotal){
+    var oth = shuffle([rnd(1, 3), rnd(0, 2), 0]), o = { r:0, l:oth[0], s:oth[1], h:oth[2] };
+    o.r = Math.max(14, minTotal - (o.l + o.s + o.h));
+    return o;
+  }
+  function tot(o){ return o.r + o.l + o.s + o.h; }
+  function allGood(o){ return KEYS4.every(function(k){ return o[k] >= 8; }); }
+  function round2(){
+    var trap = Math.random() < 0.65, A, B;
+    if (trap){ B = even(8, 10); A = lop(tot(B) + rnd(6, 12)); }      // 많은 쪽이 한 줄에 몰림
+    else { A = even(12, 14); B = lop(tot(A) - rnd(6, 10)); }         // 많은 쪽이 고름
+    S2 = shuffle([A, B]); pick2 = null; solved2 = false;
+    $('faces2').innerHTML = '';
+    KEYS4.forEach(function(k){
+      var f = document.createElement('figure');
+      f.innerHTML = '<img alt="" width="96" height="96" src="' + src(k) + '"><figcaption></figcaption>';
+      f.querySelector('figcaption').textContent = P[k].nm;
+      $('faces2').appendChild(f);
+    });
+    $('sets2').innerHTML = '';
+    S2.forEach(function(o, i){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'setb';
+      b.innerHTML = '<span></span><small></small>';
+      b.firstChild.textContent = '상자 ' + (i ? 'B' : 'A');
+      b.querySelector('small').textContent = '사진 모두 ' + tot(o) + '장';
+      b.addEventListener('click', function(){ choose2(i); });
+      $('sets2').appendChild(b);
+    });
+    $('res2').hidden = true; $('res2').innerHTML = '';
+    $('again2').hidden = true; $('learn2').hidden = true;
+    $('say2').textContent = '상자를 하나 눌러요'; $('say2').className = 'say dim';
+  }
+  function choose2(i){
+    if (solved2 || pick2 === i) return;
+    pick2 = i;
+    var good = allGood(S2[i]);
+    solved2 = good;
+    var btns = $('sets2').children;
+    for (var j = 0; j < btns.length; j++){ btns[j].disabled = good || j === i; btns[j].classList.toggle('pk', j === i); }
+    var res = $('res2'); res.innerHTML = '';
+    S2.forEach(function(o, j){
+      var d = document.createElement('div');
+      var h = document.createElement('h3'); h.textContent = '상자 ' + (j ? 'B' : 'A') + (j === i ? ' (내가 고른 상자)' : '');
+      d.appendChild(h);
+      var mx = Math.max(o.r, o.l, o.s, o.h, 1);
+      KEYS4.forEach(function(k){
+        var r = document.createElement('div'); r.className = 'bar ' + vcls(o[k]);
+        r.innerHTML = '<span></span><div class="b"><i></i><span></span></div>';
+        r.firstChild.textContent = P[k].nm.replace(' · ', ' ');
+        r.querySelector('i').style.width = Math.round(o[k] / mx * 100) + '%';
+        r.querySelector('.b span').textContent = o[k] + '장 · ' + verdict(o[k]);
+        d.appendChild(r);
+      });
+      res.appendChild(d);
+    });
+    res.hidden = false; $('again2').hidden = false;
+    var mine = S2[i];
+    var msg = good ? '이 상자는 네 사람 모두 닮은 사진이 충분해요.' : '이 상자는 못 알아볼 사람이 남아 있어요. 줄마다 장수를 봐요.';
+    if (tot(mine) < tot(S2[1 - i])) msg = '사진이 더 적은 상자를 골랐어요. ' + msg;
+    if (!good) msg += ' 다른 상자를 눌러 봐요.';
+    $('say2').textContent = msg; $('say2').className = 'say';
+    if (good) finish(2, '사진이 많아도 한 줄에 몰리면 빠진 사람이 생겨요. 모두 몇 장인지보다 줄마다 장수를 봐요.', msg, 'cheer');
+    else { say(msg, 'think'); Fun.shake(res); }
+  }
+  $('again2').addEventListener('click', function(){ round2(); say('새 판이에요. 이번에도 줄마다 장수가 숨어 있어요.'); });
+
+  // ───────── 미션 3: 고르게 모으기 ─────────
+  var R3, add3, left3, K3, checked3, el3;
+  function round3(){
+    var tries = 0, need;
+    do {
+      K3 = shuffle(['r', 'l', 's', 'h', 'g']).slice(0, rnd(3, 4));
+      R3 = {}; need = 0;
+      K3.forEach(function(k){ R3[k] = [0, 0, 4, 8][rnd(0, 3)]; need += Math.max(0, Math.ceil((8 - R3[k]) / 4)); });
+      tries++;
+    } while (need < 3 && tries < 30);
+    left3 = need + 1; add3 = {}; K3.forEach(function(k){ add3[k] = 0; });
+    checked3 = false; el3 = {};
+    $('rows3').innerHTML = '';
+    K3.forEach(function(k){
+      var d = document.createElement('div'); d.className = 'row3';
+      d.innerHTML = '<img alt="" width="48" height="48" src="' + src(k) + '"><span class="tx"><span class="nm"></span><span class="vd"></span></span>' +
+        '<span class="ctl"><button type="button" class="mi">−4장</button><span class="cnt"></span><button type="button" class="pl">+4장</button></span>';
+      d.querySelector('.nm').textContent = P[k].nm;
+      d.querySelector('.mi').setAttribute('aria-label', P[k].nm + ' 사진 4장 빼기');
+      d.querySelector('.pl').setAttribute('aria-label', P[k].nm + ' 사진 4장 넣기');
+      d.querySelector('.mi').addEventListener('click', function(){ if (add3[k] > 0){ add3[k]--; left3++; checked3 = false; render3(); } });
+      d.querySelector('.pl').addEventListener('click', function(){ if (left3 > 0){ add3[k]++; left3--; checked3 = false; render3(); } });
+      $('rows3').appendChild(d); el3[k] = d;
+    });
+    $('learn3').hidden = true;
+    render3();
+  }
+  function n3(k){ return R3[k] + add3[k] * 4; }
+  function render3(){
+    $('budget3').textContent = '나눌 4장 묶음: ' + left3 + '개 남았어요';
+    K3.forEach(function(k){
+      var d = el3[k];
+      d.querySelector('.cnt').textContent = n3(k) + '장';
+      d.querySelector('.mi').disabled = add3[k] === 0;
+      d.querySelector('.pl').disabled = left3 === 0;
+      d.querySelector('.vd').textContent = checked3 ? verdict(n3(k)) : '';
+    });
+    if (!checked3){ $('say3').textContent = '묶음은 남겨도 돼요. 다 나눴으면 확인을 눌러요.'; $('say3').className = 'say dim'; }
+  }
+  $('check3').addEventListener('click', function(){
+    var moved = K3.some(function(k){ return add3[k] > 0; });
+    if (!moved){
+      $('say3').textContent = '+4장을 먼저 눌러 봐요. 사진 묶음을 옮겨야 해요.'; $('say3').className = 'say';
+      say('+4장을 먼저 눌러 봐요.', 'think'); return;
+    }
+    checked3 = true; render3();
+    var bad = K3.filter(function(k){ return n3(k) < 8; });
+    var learned = '사진은 가장 적은 줄부터 채워야 모두가 알아봐요. 처음부터 자료에 없던 사람은 새로 모아야 해요.';
+    if (bad.length === 0){
+      $('say3').textContent = '모든 줄이 8장 이상이 됐어요. 남은 묶음은 ' + left3 + '개예요.'; $('say3').className = 'say';
+      finish(3, learned, '', 'cheer'); Fun.burst($('rows3'));
+    } else {
+      var t = jo(bad.map(function(k){ return P[k].nm; }).join(', '), '이', '가') + ' 아직 8장이 안 돼요. 묶음을 옮겨서 다시 확인해 봐요.';
+      $('say3').textContent = t; $('say3').className = 'say';
+      say(t, 'think'); Fun.shake($('rows3'));
+    }
+  });
+  $('again3').addEventListener('click', function(){ round3(); say('새 판이에요. 사람도 장수도 달라졌어요.'); });
+
+  round1();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B28" data-mission="도우미가 알아보기 어려운 사람이 없게 사진 열 장을 어디에 더 넣을지 골라요. 넣기 전에, 열 장을 넣어도 여전히 못 알아볼 사람을 먼저 짚어요."></script>
+<script src="../assets/play/fun.js" data-block="B28" data-mission="도우미가 알아보기 어려운 사람이 없게 사진을 어떻게 모을지 세 미션으로 해 봐요."></script>
 </body>
 </html>
