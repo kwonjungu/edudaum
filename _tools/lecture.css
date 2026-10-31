@@ -238,3 +238,8 @@ background:radial-gradient(circle at 20px 46px,var(--grass-l) 26px,transparent 2
 .s > .zoom.ws img{width:auto!important;max-width:100%!important;height:auto!important;max-height:100%!important;object-fit:contain!important}
 /* 10-31: 순서 카드 그림 칸이 작아 카드 속 글자가 안 읽힘(B06·B12·B15·B17) */
 .oc .pic{height:200px!important}
+/* 10-31: 누른 뒤 붙는 번호 동그라미가 카드 글 첫 글자를 가림(B19) → 카드 위쪽 바깥 가운데로 */
+.oc .n{left:50%!important;top:-24px!important;transform:translateX(-50%);z-index:2}
+.order{padding-top:16px}
+/* 10-31: side 장 그리드 줄 높이가 없어 세로로 긴 컷이 틀 밖으로 자라 잘림(B21) */
+.wsside{grid-template-rows:minmax(0,1fr)}.wsside .zoom.ws{min-height:0;overflow:hidden}.wsside .zin{height:100%}
