@@ -17,7 +17,6 @@
   body{
     font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    
     background-position:-11px -11px;
   }
   .wrap{max-width:640px;margin:0 auto;padding:12px 16px 28px}
@@ -31,7 +30,7 @@
   .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;white-space:nowrap;
     border:1px solid var(--line);border-radius:999px;padding:5px 14px;box-shadow:var(--hard-sm)}
 
-  .kicker{display:inline-block;font-weight:700;font-size:11.5px;letter-spacing:.06em;
+  .kicker{display:inline-block;font-weight:700;font-size:14px;letter-spacing:.02em;
     background:var(--sun-l);border:1px solid var(--line);border-radius:8px;
     padding:3px 9px;box-shadow:var(--hard-sm);margin-bottom:8px}
   h1{font-size:clamp(23px,5.4vw,32px);font-weight:700;letter-spacing:-.035em;line-height:1.06}
@@ -39,29 +38,54 @@
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:12px 13px;margin-top:12px}
-  h2{font-size:13px;font-weight:700;letter-spacing:-.02em;text-align:center;color:var(--muted)}
+  h2{font-size:14px;font-weight:700;letter-spacing:-.02em;text-align:center;color:var(--muted)}
+
+  /* 시작 안내·미션 사다리·개념 */
+  .how{margin-top:10px;font-size:15px;font-weight:700;background:var(--point-soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 11px}
+  .ladder{list-style:none;display:flex;gap:6px;margin-top:10px}
+  .ladder li{flex:1 1 0;min-width:0}
+  .ladder button{width:100%;min-height:46px;padding:0 4px;font-size:14px;line-height:1.2}
+  .ladder button[aria-current="step"]{background:var(--point);color:#fff;border-width:2px}
+  .ladder button.is-done:not([aria-current="step"]){background:var(--point-soft)}
+  .concept{margin-top:10px;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:7px 11px;font-size:14px;color:var(--ink)}
+  .concept b{display:block;font-size:14px;color:var(--muted)}
+  .learned{margin-top:8px;font-size:14px;font-weight:700;list-style:none}
+  .learned li{padding:3px 0 3px 8px;border-left:4px solid var(--point);margin-top:4px}
+  .banner{display:block;width:100%;height:auto;max-height:90px;object-position:center 70%;object-fit:cover;border-radius:var(--r-sm);border:1px solid var(--line);margin-top:8px}
+  .goal{margin-top:8px;text-align:center;font-size:15px;font-weight:700}
+  .goal .led{margin:0 4px}
+  .hint{margin-top:6px;text-align:center;font-size:14px;font-weight:700;color:var(--muted)}
 
   /* 약속표 */
   .deal{margin-top:8px;background:var(--point-soft);border:1px solid var(--line);
     border-radius:var(--r-sm);padding:7px 10px;text-align:center;font-weight:700;font-size:15px}
-  .deal .tool{display:block;font-size:12px;color:var(--muted);font-weight:600}
+  .deal .tool{display:block;font-size:14px;color:var(--muted);font-weight:600}
 
   /* 송신기·수신기 코드 */
   .codes{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:9px}
   .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm);padding:7px 9px}
-  .card .who{display:block;font-size:11.5px;font-weight:700;color:var(--muted)}
+  .card .who{display:block;font-size:14px;font-weight:700;color:var(--muted)}
   .blk{margin-top:4px;background:var(--surface);border:1px solid var(--line);border-left:6px solid var(--grape);border-radius:8px;
-    padding:4px 8px;font-size:13.5px;font-weight:600;line-height:1.35;animation:pop .3s ease both}
+    padding:4px 8px;font-size:14px;font-weight:600;line-height:1.35;animation:pop .3s ease both}
   .blk.send{border-left-color:var(--pink)}
-  .blk.ev{background:transparent;border:0;padding:4px 0 0;font-weight:700;font-size:12.5px;color:var(--muted)}
+  .blk.ev{background:transparent;border:0;padding:4px 0 0;font-weight:700;font-size:14px;color:var(--muted)}
   .blk.in{margin-left:14px}
   .blk.recv{border-left-color:var(--sky)}
   @keyframes pop{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:none}}
   .blk b{font-family:'Courier New',monospace;font-weight:700}
+  button.blk{display:block;width:calc(100% - 14px);text-align:left;font-family:inherit;color:var(--ink);cursor:pointer;min-height:44px;box-shadow:none}
+  button.blk.ev{border:1px dashed var(--line-strong);background:var(--paper);width:100%;margin-left:0}
+  button.blk.flash{background:var(--point-soft)}
+  .stepper{display:flex;align-items:center;gap:6px;margin-top:4px;flex-wrap:wrap;font-size:14px;font-weight:600}
+  .stepper button{min-width:44px;padding:0 10px}
+  .stepper .lbl{flex:0 0 100%}
+  .m1box{margin-top:8px;padding-top:8px;border-top:1px dashed var(--line-strong)}
+  .stepper .num{min-width:2ch;text-align:center;font-weight:700;font-family:'Courier New',monospace;font-size:17px}
+  .cyc{display:flex;align-items:center;gap:7px}
 
   /* 수신 화면 */
   .rx{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px}
-  .dev{flex:0 0 auto;text-align:center;font-size:11.5px;font-weight:700;color:var(--muted)}
+  .dev{flex:0 0 auto;text-align:center;font-size:14px;font-weight:700;color:var(--muted)}
   .dev svg{display:block;margin:0 auto 2px}
   .abtn{transition:fill .15s}
   .dev.pressed .abtn{fill:var(--pink)}
@@ -71,17 +95,14 @@
   .track.fly i{animation:fly .45s linear forwards}
   @keyframes fly{0%{left:0;opacity:1}85%{opacity:1}100%{left:calc(100% - 14px);opacity:0}}
   .rcv{flex:1 1 130px;max-width:210px;min-width:0;text-align:center}
-  .rcv .cap{display:block;margin-top:2px;font-size:11.5px;font-weight:700;color:var(--muted)}
+  .rcv .cap{display:block;margin-top:2px;font-size:14px;font-weight:700;color:var(--muted)}
   .scr{width:100%;gap:8px;min-width:0;min-height:52px;background:var(--ink);color:var(--paper);border-radius:var(--r-sm);
     display:flex;align-items:center;justify-content:center;padding:6px 12px;font-weight:700;font-size:16px}
-  .scr .lamp{width:16px;height:16px;border-radius:50%;flex:0 0 auto;border:2px solid #fff}
   .scr.arrive{animation:arrive .35s ease}
   @keyframes arrive{0%{transform:scale(.9)}60%{transform:scale(1.06)}100%{transform:none}}
-  .scr .dim{color:#9C978C;font-weight:600;font-size:13px}
 
   .picks{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:9px}
-  .pk{flex:1 1 100px;max-width:170px;display:inline-flex;align-items:center;justify-content:center;gap:7px}
-  .pk .lamp{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink);flex:0 0 auto}
+  .pk{flex:1 1 84px;max-width:170px;display:inline-flex;align-items:center;justify-content:center;gap:4px;word-break:keep-all;white-space:nowrap;padding:0 6px}
   .pk[aria-pressed="true"]{background:var(--point-soft);border-width:3.5px;border-color:var(--point)}
   .pk[aria-pressed="true"]:disabled{opacity:1}
 
@@ -95,8 +116,7 @@
   button:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
   button:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   button:disabled{opacity:.42;cursor:not-allowed;transform:none;box-shadow:var(--hard-sm)}
-  .go{flex:1 1 130px;max-width:180px;font-size:16px;background:var(--point);color:#fff}
-  .lamp.c1{background:var(--pink)} .lamp.c0{background:var(--mint)}
+  .go{flex:1 1 130px;max-width:190px;font-size:16px;background:var(--point);color:#fff}
   /* 마이크로비트 LED 5×5: 빨간 LED만 있어 글자 대신 아이콘으로 보인다 */
   .led{display:inline-grid;grid-template-columns:repeat(5,7px);gap:3px;padding:4px;background:#222;border-radius:4px;flex:0 0 auto;vertical-align:middle}
   .led i{width:7px;height:7px;border-radius:1px;background:#4a4540}
@@ -105,13 +125,76 @@
   .led.s i{width:4px;height:4px;border-radius:0}
   .scr .led{grid-template-columns:repeat(5,8px);gap:4px;padding:2px;background:transparent}
   .scr .led i{width:8px;height:8px}
-  .scr .mean{font-size:13px;color:#d9d4c8;font-weight:600}
   .sub{flex:0 0 auto;min-width:88px;font-size:14px;padding:0 14px}
 
-  .note{margin-top:9px;text-align:center;font-size:12.5px;font-weight:700;color:var(--muted)}
-  .foot{margin-top:18px;text-align:center}
+  .res{margin-top:8px;font-size:14px;font-weight:700;list-style:none}
+  .res li{padding:2px 0}
+  .note{margin-top:9px;text-align:center;font-size:14px;font-weight:700;color:var(--muted)}
+  .done-fig{margin-top:10px}
+  .done-fig img{display:block;width:100%;height:auto;max-height:190px;object-fit:cover;border-radius:var(--r-sm);border:1px solid var(--line)}
+  .done-fig p{margin-top:6px;text-align:center;font-weight:700;font-size:15px}
+  .aino{margin-top:12px;text-align:center;font-size:14px;color:var(--muted)}
+  .foot{margin-top:14px;text-align:center}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
-  @media (max-width:420px){ .codes{grid-template-columns:1fr} .scr{min-width:0} }
+  [hidden]{display:none!important}
+  button.blk[data-fix]{border:1px dashed var(--ink);cursor:pointer;position:relative;padding-right:52px}
+  button.blk[data-fix]::after{content:'누르기';position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:var(--muted);border:1px solid var(--line-strong);border-radius:6px;padding:0 5px;background:var(--paper)}
+  button.blk[data-fix].flash{border-style:solid}
+  .pair{display:flex;flex-direction:column}
+  .pair .codes{order:-1;margin-top:9px}
+  .pair .m1box{order:0}
+  .banner#banner{margin-top:8px}
+  .cyc{border:1px dashed var(--ink);position:relative;padding-right:52px;cursor:pointer}
+  .cyc::after{content:'누르기';position:absolute;right:6px;top:50%;transform:translateY(-50%);font-size:12px;font-weight:700;color:var(--muted);border:1px solid var(--line-strong);border-radius:6px;padding:0 5px;background:var(--paper)}
+  @media (min-width:900px){
+    .wrap{max-width:920px}
+    .pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
+    .pair .codes{order:0;grid-template-columns:1fr;margin-top:9px}
+    .pair .m1box{margin-top:9px;padding-top:0;border-top:0}
+    .pair:has(#sec-m1[hidden]){grid-template-columns:1fr}
+    .pair:has(#sec-m1[hidden]) .codes{grid-template-columns:1fr 1fr}
+  }
+  @media (max-width:480px){ #sec-m3 .codes{grid-template-columns:1fr} }
+  @media (max-width:420px){ .codes{grid-template-columns:1fr} .scr{min-width:0} .ladder button{font-size:14px} .fun-stamp{top:auto!important;bottom:8px;right:6px} }
+  @media (max-width:400px){
+    .wrap{padding-top:8px}
+    .nav{margin-bottom:4px}
+    .kicker,.lead{display:none}
+    h1{font-size:21px}
+    .how{margin-top:6px;padding:5px 9px;font-size:14px}
+    .ladder{margin-top:6px}
+    .ladder button{min-height:40px}
+    section{margin-top:8px;padding:8px 10px}
+    #h-c{display:none}
+    .deal{margin-top:0;padding:4px 8px;font-size:14px}
+    .deal .tool{display:inline;margin-right:6px}
+    .rx{margin-top:6px}
+    .m1box{margin-top:4px;padding-top:4px;border-top:0}
+    .goal{margin-top:2px;font-size:14px}
+    .picks{margin-top:5px}
+    #banner{display:none}
+    body .fun-guide{margin:0 0 4px;min-height:0}
+    body .fun-guide img{width:44px;height:44px}
+    body .fun-say{padding:5px 9px;font-size:14px}
+    #devTx,#track,#cap{display:none}
+    .rx{margin-top:4px}
+    .rcv{max-width:none;flex:1 1 100%}
+    .scr{min-height:44px}
+    .pair .codes{margin-top:4px;gap:5px}
+    .pair .card{padding:3px 8px}
+    .pair .blk{margin-top:2px;padding:2px 8px;min-height:0}
+    .pair button.blk{min-height:44px}
+    .pair .card{position:relative}
+    .pair .card .who{position:absolute;right:8px;top:3px;font-size:14px}
+    #h-p{display:none}
+    .deal{padding:2px 8px}
+    .how{padding:3px 9px}
+    .ladder{margin-top:4px}
+    .pair .codes{margin-top:2px}
+    .rx{margin-top:3px}
+    .scr{min-height:38px;padding:3px 10px}
+    #mimg{max-height:60px}
+  }
   body{overflow-x:hidden}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
@@ -133,31 +216,87 @@
   <h1>보내기 전 수신 화면 맞히기</h1>
   <p class="lead">보내기 전에 수신 화면을 짚어요</p>
 
-  <section aria-labelledby="h-c">
-    <h2 id="h-c">통신 약속표와 코드</h2>
+  <p class="how" id="how"></p>
+  <ol class="ladder" id="ladder" aria-label="미션 사다리">
+    <li><button type="button" data-step="1" aria-current="step">① 짚어 보기</button></li>
+    <li><button type="button" data-step="2" disabled>② 고쳐 보기</button></li>
+    <li><button type="button" data-step="3" disabled>③ 만들어 보기</button></li>
+  </ol>
+  <ul class="learned" id="learned" aria-label="알게 된 것"></ul>
+
+  <section aria-labelledby="h-c" id="sec-code">
+    <h2 id="h-c">약속표와 코드</h2>
     <p class="deal"><span class="tool" id="tool"></span><span id="deal"></span></p>
-    <div class="codes">
-      <div class="card"><span class="who">송신기</span><div id="tx"></div></div>
-      <div class="card"><span class="who">수신기</span><div id="rxcode"></div></div>
-    </div>
     <div class="rx">
       <div class="dev" id="devTx"><svg width="54" height="46" viewBox="0 0 54 46" aria-hidden="true"><rect x="2" y="2" width="50" height="42" rx="8" fill="#fff" stroke="#222" stroke-width="2.5"/><circle cx="14" cy="23" r="6" class="abtn" fill="#eee" stroke="#222" stroke-width="2"/><text x="14" y="26" font-size="8" font-weight="700" text-anchor="middle" fill="#222">A</text><g fill="#bbb"><circle cx="30" cy="14" r="2.4"/><circle cx="38" cy="14" r="2.4"/><circle cx="46" cy="14" r="2.4"/><circle cx="34" cy="23" r="2.4"/><circle cx="42" cy="23" r="2.4"/><circle cx="30" cy="32" r="2.4"/><circle cx="38" cy="32" r="2.4"/></g></svg>송신기</div>
       <div class="track" id="track" aria-hidden="true"><i></i></div>
       <div class="rcv"><div class="scr" id="scr" role="status" aria-live="polite"></div><span class="cap" id="cap">수신 화면</span></div>
     </div>
+    <div class="pair">
+    <div class="m1box" id="sec-m1" data-panel="1">
+      <p class="goal" id="h-p">위 코드 카드를 읽고 여기서 골라요</p>
+      <div class="picks" id="picks"></div>
+      <p class="status dim" id="status"></p>
+      <div class="row">
+        <button class="go" id="send" type="button" disabled>A 누르기</button>
+        <button class="sub" id="replay" type="button" disabled>다시 보기</button>
+        <button class="sub" id="next" type="button">다음 판</button>
+      </div>
+      <p class="note" id="round1"></p>
+    </div>
+    <div class="codes" id="codes">
+      <div class="card"><span class="who">송신기</span><div id="tx"></div></div>
+      <div class="card"><span class="who">수신기</span><div id="rxcode"></div></div>
+    </div>
+    </div>
+    <img class="banner" id="banner" src="../lecture/_assets/B12/card_noise.webp" width="1600" height="900" alt="" loading="lazy">
   </section>
 
-  <section aria-labelledby="h-p">
-    <h2 id="h-p">A를 누르면 무엇이 뜰까요</h2>
-    <div class="picks" id="picks"></div>
-    <p class="status dim" id="status"></p>
+  <section aria-labelledby="h-f" id="sec-m2" data-panel="2" hidden>
+    <h2 id="h-f">고칠 줄을 눌러요</h2>
+    <p class="goal" id="goal2"></p>
+    <p class="hint">위 수신기 카드에서 고칠 줄을 눌러요. 점선 칸이 눌리는 줄이에요</p>
+    <p class="status dim" id="status2"></p>
     <div class="row">
-      <button class="go" id="send" type="button" disabled>A 누르기</button>
-      <button class="sub" id="replay" type="button" disabled>다시 보기</button>
-      <button class="sub" id="next" type="button">다음 판</button>
+      <button class="go" id="send2" type="button">A 누르기</button>
+      <button class="sub" id="next2" type="button">다음 판</button>
     </div>
-    <p class="note">기기로 다시 보내 봐요</p>
+    <p class="note" id="round2"></p>
   </section>
+
+  <section aria-labelledby="h-b" id="sec-m3" data-panel="3" hidden>
+    <h2 id="h-b">내 수신기 만들기</h2>
+    <p class="goal" id="goal3"></p>
+    <div class="codes">
+      <div class="card"><span class="who">송신기 · 그룹 <span id="g3tx"></span></span>
+        <div class="blk ev">A 버튼 누를 때</div><div class="blk send in">라디오 전송: 수 1</div>
+        <div class="blk ev">B 버튼 누를 때</div><div class="blk send in">라디오 전송: 수 0</div>
+      </div>
+      <div class="card"><span class="who">내 수신기</span>
+        <div class="stepper"><span class="lbl">라디오 그룹</span><button type="button" id="gMinus" aria-label="그룹 번호 줄이기">-</button><span class="num" id="g3rx">1</span><button type="button" id="gPlus" aria-label="그룹 번호 늘리기">+</button></div>
+        <div class="blk ev">라디오 숫자 수신시 (receivedNumber)</div>
+<div id="cycs"></div>
+      </div>
+    </div>
+    <p class="hint" id="hint3">receivedNumber는 받은 숫자예요. 표시 줄을 누르면 줄 없음, 표시 하나, 표시 둘이 돌아가며 바뀌어요</p>
+    <div class="row">
+      <button class="go" id="a3" type="button">A: 수 1 보내기</button>
+      <button class="go" id="b3" type="button">B: 수 0 보내기</button>
+    </div>
+    <ul class="res" id="res3"></ul>
+    <p class="hint">안 뜨면 그룹 번호, 만약 줄, 표시 순서로 살펴봐요</p>
+    <div class="row"><button class="sub" id="next3" type="button" hidden>다른 약속으로</button></div>
+  </section>
+
+  <div class="concept"><b>알아 둘 것</b>수신기는 라디오 그룹 번호가 같고, 보낸 수에 맞는 만약 줄이 있을 때만 화면을 바꿔요. receivedNumber는 받은 숫자예요.</div>
+  <img class="banner" id="mimg" src="../lecture/_assets/B12/scene_test.webp" width="1600" height="900" alt="" style="margin-bottom:4px">
+  <div class="row"><button class="go" id="gonext" type="button" hidden></button></div>
+  <figure class="done-fig" id="doneFig" hidden>
+    <img src="../lecture/_assets/B12/prep_pair.webp" width="1600" height="900" alt="탁자 위에 빨간 불이 켜진 마이크로비트 두 대가 놓여 있는 그림" loading="lazy">
+    <p>미션 셋을 모두 해 봤어요. 이제 마이크로비트 두 대로 같은 일을 해 봐요.</p>
+  </figure>
+  <p class="note">기기로 다시 보내 봐요</p>
+  <p class="aino">그림 일부는 생성형 AI로 만들었어요</p>
 
   <div class="foot">
     <a class="back" href="../play/">
@@ -172,199 +311,394 @@
 
   // 과정안 25차시 도구 후보에서 가져온 무선 도구. 약속: 1 → one, 0 → zero.
   var TOOLS = [
-    { name: '교실 소음 신호등', one: '빨간불', zero: '초록불' },
-    { name: '사용 중 알림판', one: '사용 중', zero: '비었어요' },
-    { name: '보건실 호출기', one: '와 주세요', zero: '괜찮아요' }
+    { name: '교실 소음 신호등', one: '빨간불', zero: '초록불', img: 'card_noise' },
+    { name: '사용 중 알림판', one: '사용 중', zero: '비었어요', img: 'card_busy' },
+    { name: '보건실 호출기', one: '와 주세요', zero: '괜찮아요', img: 'card_nurse' }
   ];
-  // 판의 갈래. ok가 반, 나머지는 코드 살펴보기 세 항목 가운데 앞의 둘에 걸리는 판이다.
-  //   group   : 수신기 그룹 번호가 다르다 → 아무것도 안 뜬다
-  //   missing : 보낸 수에 대한 [만약]이 없다 → 아무것도 안 뜬다
-  //   swap    : [만약]의 표시가 약속표와 뒤바뀌었다 → 다른 표시가 뜬다
-  var KINDS = ['ok', 'ok', 'ok', 'group', 'missing', 'swap'];
+  var KINDS1 = ['ok', 'ok', 'ok', 'group', 'missing', 'swap'];   // 미션 1: 바른 판 셋에 걸리는 판 셋
+  var KINDS2 = ['group', 'missing', 'swap'];                      // 미션 2: 걸리는 판만
   var NONE = 'none';
+  var HOW = {
+    1: '코드 카드 두 장을 읽고, 무엇이 뜰지 골라요. 그다음 A 누르기를 눌러요.',
+    2: '수신기가 약속대로 뜨지 않아요. 위 수신기 카드에서 고칠 줄 하나를 눌러 고치고, 아래 A 누르기로 다시 보내요.',
+    3: '내 수신기를 만들어요. 그룹 번호와 표시를 정하고, A와 B를 눌러 두 수를 모두 보내 봐요.'
+  };
+  var LEARN = {
+    1: '미션 1에서 알게 된 것: 그룹 번호가 같고 보낸 수의 만약 줄이 있을 때만 수신 화면이 바뀌어요.',
+    2: '미션 2에서 알게 된 것: 안 뜨면 그룹 번호, 만약 줄, 표시 순서로 코드를 살펴봐요.',
+    3: '미션 3에서 알게 된 것: 보내는 수마다 만약 줄을 하나씩 만들고 그룹 번호를 맞추면 약속대로 떠요.'
+  };
 
-  var tool = null, num = 1, gTx = 1, gRx = 1, kind = 'ok', actual = NONE;
-  var guess = null, sent = false, timer = null, lastKey = '';
+  var mode = 1;
+  var unlocked = { 1: true, 2: false, 3: false };
+  var finished = { 1: false, 2: false, 3: false };
+  var n1 = 0, n2 = 0;                    // 이번 미션에서 보낸 판 수(진행 표시용, 점수 아님)
+  var tool = null, num = 1, gTx = 1, gRx = 1, kind = 'ok', rules = [];
+  var guess = null, sent = false, timer = null, lastKey = '', fixedThisRound = false, roundDone = false;
+  var promised = null, wrongTouch = false;
+  var res3 = { 1: null, 0: null };       // 미션 3: 마지막으로 보낸 결과(null=아직)
 
   var $ = function (id) { return document.getElementById(id); };
   var scrEl = $('scr'), statusEl = $('status'), picksEl = $('picks');
   var sendBtn = $('send'), replayBtn = $('replay'), nextBtn = $('next');
 
-  function blk(text, cls, icon) {
-    var d = document.createElement('div');
+  function say(text, m) { if (window.Fun) { Fun.say(text, m); } }
+  function clearTimer() { if (timer) { clearTimeout(timer); timer = null; } }
+  function rnd(n) { return Math.floor(Math.random() * n); }
+  function labelOf(v) { return v === 1 ? tool.one : tool.zero; }
+
+  // 1 쪽 표시는 ✕, 0 쪽 표시는 ✓ 아이콘(마이크로비트 기본 아이콘 NO·YES 모양)
+  var PAT = { X: '1000101010001000101010001', V: '0000000001000101010001000' };
+  function ledOf(label, small) {
+    var p = label === null ? '0000000000000000000000000' : PAT[label === tool.one ? 'X' : 'V'], h = '';
+    for (var i = 0; i < 25; i++) h += '<i' + (p[i] === '1' ? ' class="on"' : '') + '></i>';
+    return '<span class="led' + (small ? ' s' : '') + '" aria-hidden="true">' + h + '</span>';
+  }
+  function blk(text, cls, icon, tag) {
+    var d = document.createElement(tag || 'div');
+    if (tag) d.type = 'button';
     d.className = 'blk' + (cls ? ' ' + cls : '');
     d.textContent = text;
     if (icon) { d.appendChild(document.createTextNode(' 아이콘 출력 ')); d.insertAdjacentHTML('beforeend', ledOf(icon, true)); }
     return d;
   }
-  // 1 쪽 표시는 ✕, 0 쪽 표시는 ✓ 아이콘으로 정한다(마이크로비트 기본 아이콘 NO·YES 모양)
-  var PAT = { X: '1000101010001000101010001', V: '0000000001000101010001000' };
-  function iconOf(label) { return label === tool.one ? 'X' : 'V'; }
-  function ledOf(label, small) {
-    var p = label === null ? '0000000000000000000000000' : PAT[iconOf(label)], h = '';
-    for (var i = 0; i < 25; i++) h += '<i' + (p[i] === '1' ? ' class="on"' : '') + '></i>';
-    return '<span class="led' + (small ? ' s' : '') + '" aria-hidden="true">' + h + '</span>';
+
+  function actualOf(v) {
+    if (gRx !== gTx) return NONE;
+    for (var i = 0; i < rules.length; i++) { if (rules[i].v === v && rules[i].shown !== null) return rules[i].shown; }
+    return NONE;
   }
 
-  function clearTimer() { if (timer) { clearTimeout(timer); timer = null; } }
-
-  function draw() {
-    var t = Math.floor(Math.random() * TOOLS.length);
-    var n = Math.random() < 0.5 ? 1 : 0;
-    var k = KINDS[Math.floor(Math.random() * KINDS.length)];
-    return { t: t, n: n, k: k, key: t + ',' + n + ',' + k };
-  }
-
-  function labelOf(v) { return v === 1 ? tool.one : tool.zero; }
-
-  function newRound() {
-    clearTimer();
-    var r = draw(), tries = 0;
-    while (r.key === lastKey && tries < 8) { r = draw(); tries += 1; }
-    lastKey = r.key;
-
-    tool = TOOLS[r.t]; num = r.n; kind = r.k;
-    gTx = 1 + Math.floor(Math.random() * 9);                 // 1~9
-    gRx = gTx;
-    if (kind === 'group') {
-      do { gRx = 1 + Math.floor(Math.random() * 9); } while (gRx === gTx);
-    }
-
-    // 수신기 [만약] 줄: 1과 0 차례. missing이면 보낸 수의 줄이 빠진다.
-    var rules = [];
-    [1, 0].forEach(function (v) {
-      if (kind === 'missing' && v === num) return;
-      var shown = kind === 'swap' ? labelOf(1 - v) : labelOf(v);
-      rules.push({ v: v, shown: shown });
-    });
-
-    actual = NONE;
-    if (gRx === gTx) {
-      rules.forEach(function (ru) { if (ru.v === num) actual = ru.shown; });
-    }
-
+  function setTool(t) {
+    tool = TOOLS[t];
     $('tool').textContent = tool.name;
     $('deal').innerHTML = '1 → ' + ledOf(tool.one, true) + ' ' + tool.one + ', 0 → ' + ledOf(tool.zero, true) + ' ' + tool.zero;
+    var b = $('banner'); b.src = '../lecture/_assets/B12/' + tool.img + '.webp';
+  }
+
+  function drawCodes(editable) {
     var tx = $('tx'), rx = $('rxcode');
     tx.innerHTML = ''; rx.innerHTML = '';
-    // 블록 이름은 MakeCode 그대로: [시작하면] 안 [라디오 그룹을 ( ) 로 설정], [A 버튼 누를 때] 안 [라디오 전송: 수],
-    // [라디오 숫자 수신시] 안 [만약 receivedNumber = ( ) 이면 실행] → [아이콘 출력]
     tx.appendChild(blk('시작하면', 'ev'));
     tx.appendChild(blk('라디오 그룹을 ' + gTx + ' 로 설정', 'in'));
     tx.appendChild(blk('A 버튼 누를 때', 'ev'));
     tx.appendChild(blk('라디오 전송: 수 ' + num, 'send in'));
     rx.appendChild(blk('시작하면', 'ev'));
-    rx.appendChild(blk('라디오 그룹을 ' + gRx + ' 로 설정', 'in'));
+    if (editable) {
+      var g = blk('라디오 그룹을 ' + gRx + ' 로 설정', 'in', null, 'button'); g.setAttribute('data-fix', 'g'); rx.appendChild(g);
+    } else rx.appendChild(blk('라디오 그룹을 ' + gRx + ' 로 설정', 'in'));
     rx.appendChild(blk('라디오 숫자 수신시 (receivedNumber)', 'ev'));
     rules.forEach(function (ru) {
-      rx.appendChild(blk('만약 receivedNumber = ' + ru.v + ' 이면', 'recv in', ru.shown));
+      if (ru.shown === null) return;
+      if (editable) { var b = blk('만약 receivedNumber = ' + ru.v + ' 이면', 'recv in', ru.shown, 'button'); b.setAttribute('data-fix', 'r' + ru.v); rx.appendChild(b); }
+      else rx.appendChild(blk('만약 receivedNumber = ' + ru.v + ' 이면', 'recv in', ru.shown));
     });
-
-    // 짚기 버튼: 약속표의 두 표시와 '안 뜸'
-    picksEl.innerHTML = '';
-    [tool.one, tool.zero, NONE].forEach(function (val) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'pk';
-      b.setAttribute('aria-pressed', 'false');
-      b.setAttribute('data-v', val);
-      if (val !== NONE) {
-        b.insertAdjacentHTML('beforeend', ledOf(val, true));
-      }
-      b.appendChild(document.createTextNode(val === NONE ? '안 뜸' : val));
-      picksEl.appendChild(b);
-    });
-
-    guess = null; sent = false;
-    $('devTx').classList.remove('pressed');
-    $('track').classList.remove('fly');
-    render();
-    say('새 판이에요. 「' + tool.name + '」 약속표와 두 코드 카드를 읽고, 무엇이 뜰지 먼저 예측해요.');
+    if (editable && rules.some(function (r) { return r.shown === null; })) {
+      var add = blk('+ 만약 줄 더하기', 'recv in', null, 'button'); add.setAttribute('data-fix', 'add'); rx.appendChild(add);
+    }
   }
 
-  function say(text, mood) { if (window.Fun) { Fun.say(text, mood); } }
-
-  function pick(val) {
-    if (guess !== null || sent) return;   // 짚기는 판마다 한 번
-    guess = val;
-    render();
-    say(val === NONE ? '아무것도 안 뜬다고 예측했어요. A를 눌러 보내 봐요.' : '「' + val + '」 표시가 뜬다고 예측했어요. A를 눌러 보내 봐요.');
+  function resetScreen() {
+    scrEl.innerHTML = ledOf(null); $('cap').textContent = '수신 화면';
+    $('devTx').classList.remove('pressed'); $('track').classList.remove('fly');
   }
 
-  function showResult(done) {
+  function showResult(act, done) {
     clearTimer();
-    scrEl.innerHTML = ledOf(null); $('cap').textContent = '수신 화면 · 받는 중';
+    if (mode !== 3) scrEl.innerHTML = ledOf(null);   // 미션 3은 앞 표시를 그대로 둔다(맞는 줄이 없으면 기기도 그대로)
+    $('cap').textContent = '수신 화면 · 받는 중';
+    $('devTx').classList.add('pressed');
     var trk = $('track');
     trk.classList.remove('fly'); void trk.offsetWidth; trk.classList.add('fly');
     timer = setTimeout(function () {
       timer = null;
-      trk.classList.remove('fly');
-      if (actual === NONE) {
-        scrEl.innerHTML = ledOf(null); $('cap').textContent = '수신 화면 · 모두 꺼짐';
-      } else {
-        scrEl.innerHTML = ledOf(actual); $('cap').textContent = '수신 화면 · 뜻: ' + actual;   // 기기 화면에는 LED만, 뜻은 밖에
-      }
+      trk.classList.remove('fly'); $('devTx').classList.remove('pressed');
+      if (act === NONE) { $('cap').textContent = '수신 화면 · 새로 바뀐 것 없음'; }
+      else { scrEl.innerHTML = ledOf(act); $('cap').textContent = '수신 화면 · 뜻: ' + act; }
       scrEl.classList.remove('arrive'); void scrEl.offsetWidth; scrEl.classList.add('arrive');
       if (done) done();
     }, 450);
   }
 
-  function send() {
+  /* ---------- 미션 1: 짚어 보기 ---------- */
+  function newRound1() {
+    clearTimer();
+    var t, n, k, key, tries = 0;
+    do { t = rnd(3); n = rnd(2); k = KINDS1[rnd(KINDS1.length)]; key = t + ',' + n + ',' + k; tries++; } while (key === lastKey && tries < 8);
+    lastKey = key;
+    setTool(t); num = n; kind = k;
+    gTx = 1 + rnd(9); gRx = gTx;
+    if (kind === 'group') { do { gRx = 1 + rnd(9); } while (gRx === gTx); }
+    rules = [];
+    [1, 0].forEach(function (v) {
+      if (kind === 'missing' && v === num) rules.push({ v: v, shown: null });
+      else rules.push({ v: v, shown: kind === 'swap' ? labelOf(1 - v) : labelOf(v) });
+    });
+    drawCodes(false);
+    picksEl.innerHTML = '';
+    [tool.one, tool.zero, NONE].forEach(function (val) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'pk'; b.setAttribute('aria-pressed', 'false'); b.setAttribute('data-v', val);
+      if (val !== NONE) b.insertAdjacentHTML('beforeend', ledOf(val, true));
+      b.appendChild(document.createTextNode(val === NONE ? '안 뜸' : val));
+      picksEl.appendChild(b);
+    });
+    guess = null; sent = false;
+    resetScreen(); render1();
+    say('새 판이에요. 약속표와 두 코드 카드를 읽고, 무엇이 뜰지 먼저 골라요.');
+  }
+
+  function render1() {
+    var btns = picksEl.querySelectorAll('.pk');
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].setAttribute('aria-pressed', btns[i].getAttribute('data-v') === guess ? 'true' : 'false');
+      btns[i].disabled = guess !== null;
+    }
+    sendBtn.disabled = guess === null || sent;
+    nextBtn.disabled = !sent || !!timer;
+    if (!sent) {
+      replayBtn.disabled = true;
+      statusEl.textContent = guess === null ? '무엇이 뜰지 먼저 골라요' : 'A 누르기로 보내요';
+      statusEl.className = 'status dim';
+    }
+    $('round1').textContent = finished[1] ? '미션 1 끝. 더 해 보고 싶으면 다음 판을 눌러요' : '알아본 판 ' + n1 + ' / 3';
+  }
+
+  function pick(val) {
+    if (guess !== null || sent) return;
+    guess = val; render1();
+    say(val === NONE ? '아무것도 안 뜬다고 예상했어요. A를 눌러 보내 봐요.' : '「' + val + '」 표시가 뜬다고 예상했어요. A를 눌러 보내 봐요.');
+  }
+
+  function send1() {
     if (guess === null || sent || timer) return;
-    sent = true;
-    $('devTx').classList.add('pressed');
-    render();
-    showResult(function () {
-      $('devTx').classList.remove('pressed');
-      if (guess === actual) {
-        statusEl.textContent = actual === NONE ? '짚은 대로 아무것도 안 떴어요' : '짚은 대로 떴어요';
-        say(actual === NONE ? '예측해 둔 대로 아무것도 안 떴어요. 왜 안 떴는지 두 코드 카드에서 찾아봐요.' : '예측해 둔 대로 떴어요. 기기로도 같게 뜨는지 보내 봐요.', 'cheer');
-        if (window.Fun) { Fun.burst(scrEl); }
+    sent = true; render1();
+    var act = actualOf(num);
+    showResult(act, function () {
+      if (guess === act) {
+        statusEl.textContent = act === NONE ? '예상대로 아무것도 안 떴어요' : '예상대로 떴어요';
+        say(act === NONE ? '예상한 대로 아무것도 안 떴어요. 왜 안 떴는지 두 코드 카드에서 찾아봐요.' : '예상한 대로 떴어요. 기기로도 같게 뜨는지 보내 봐요.', 'cheer');
+        if (window.Fun) Fun.burst(scrEl);
       } else {
-        statusEl.textContent = actual === NONE ? '아무것도 안 떴어요' : '수신 화면에 「' + actual + '」 뜻의 아이콘이 떴어요';
-        say('예상과 다르게 나왔어요. 송신기와 수신기 코드 카드를 줄마다 견주어 어디서 갈렸는지 찾아봐요.', 'think');
-        if (window.Fun) { Fun.shake(scrEl); }
+        statusEl.textContent = act === NONE ? '아무것도 안 떴어요' : '수신 화면에 「' + act + '」 뜻의 아이콘이 떴어요';
+        say('예상과 다르게 나왔어요. 송신기와 수신기 코드 카드를 줄마다 견주어 어디서 갈렸는지 봐요.', 'think');
+        if (window.Fun) Fun.shake(scrEl);
       }
-      if (window.Fun) { Fun.stamp(); }
       statusEl.className = 'status';
       replayBtn.disabled = false;
+      if (guess === act) { n1 += 1; if (n1 >= 3 && !finished[1]) finishMission(1); }
+      else { statusEl.textContent += '. 어느 줄에서 갈렸는지 코드 카드에서 찾아봐요'; }
+      render1Count();
+    });
+  }
+  function render1Count() { $('round1').textContent = finished[1] ? '미션 1 끝. 더 해 보고 싶으면 다음 판을 눌러요' : '알아본 판 ' + n1 + ' / 3'; }
+
+  function replay1() {
+    if (!sent || timer) return;
+    replayBtn.disabled = true;
+    showResult(actualOf(num), function () { replayBtn.disabled = false; });
+  }
+
+  /* ---------- 미션 2: 고쳐 보기 ---------- */
+  function newRound2() {
+    clearTimer();
+    var t, n, k, key, tries = 0;
+    do { t = rnd(3); n = rnd(2); k = KINDS2[rnd(KINDS2.length)]; key = t + ',' + n + ',' + k; tries++; } while (key === lastKey && tries < 8);
+    lastKey = key;
+    setTool(t); num = n; kind = k;
+    gTx = 1 + rnd(9); gRx = gTx;
+    if (kind === 'group') { do { gRx = 1 + rnd(9); } while (gRx === gTx); }
+    rules = [];
+    [1, 0].forEach(function (v) {
+      if (kind === 'missing' && v === num) rules.push({ v: v, shown: null });
+      else rules.push({ v: v, shown: kind === 'swap' ? labelOf(1 - v) : labelOf(v) });
+    });
+    promised = labelOf(num);
+    roundDone = false; wrongTouch = false;
+    drawCodes(true);
+    resetScreen();
+    $('goal2').innerHTML = 'A를 누르면 수신 화면에 ' + ledOf(promised, true) + ' 「' + promised + '」 표시가 떠야 해요';
+    $('status2').textContent = '먼저 A를 눌러 지금 무엇이 뜨는지 봐요'; $('status2').className = 'status dim';
+    $('send2').disabled = false;
+    $('round2').textContent = finished[2] ? '미션 2 끝. 더 해 보고 싶으면 다음 판을 눌러요' : '고친 판 ' + n2 + ' / 2';
+    say('수신기가 약속대로 뜨지 않아요. 고칠 줄을 찾아 눌러 봐요.');
+  }
+
+  function fixLine(key) {
+    if (roundDone || timer) return;
+    var msg = '', changed = false, keep = '이 줄은 그대로 뒀어요. A로 보내 보고 달라지는지 봐요.';
+    if (key === 'g') {
+      if (gRx !== gTx) { gRx = gTx; changed = true; msg = '그룹 번호를 송신기와 같게 했어요. A로 다시 보내 봐요.'; }
+      else { msg = keep; wrongTouch = true; }
+    } else if (key === 'add') {
+      rules.forEach(function (r) { if (r.shown === null) { r.shown = labelOf(r.v); changed = true; } });
+      msg = '빠진 만약 줄을 더했어요. A로 다시 보내 봐요.';
+    } else {
+      var v = +key.slice(1), r = rules.filter(function (x) { return x.v === v; })[0];
+      if (r && r.shown !== null && r.shown !== labelOf(v)) {
+        r.shown = labelOf(v);
+        changed = true; msg = '이 줄의 표시를 약속표대로 바꿨어요. A로 다시 보내 봐요.';
+      } else { msg = keep; wrongTouch = true; }
+    }
+    if (wrongTouch && !changed) msg = '그 줄은 고칠 줄이 아니에요. 이 판은 세지 않아요. 한 줄만 골라 봐요.';
+    drawCodes(true);
+    if (changed) {
+      var f = $('rxcode').querySelector('[data-fix="' + key + '"]'); if (f) f.classList.add('flash');
+      if (window.Fun) Fun.burst($('rxcode'));
+    }
+    $('status2').textContent = msg; $('status2').className = 'status';
+    say(msg);
+  }
+
+  function send2() {
+    if (roundDone || timer) return;
+    var act = actualOf(num);
+    showResult(act, function () {
+      var allOk = rules.every(function (r) { return r.shown === labelOf(r.v); });
+      if (act === promised && !allOk) {
+        $('status2').textContent = '이 수는 약속대로 떴어요. 그런데 다른 만약 줄도 약속표와 달라요. 그 줄도 눌러 고쳐요.'; $('status2').className = 'status';
+        say('다른 줄도 바뀌어 있어요. 약속표와 견주어 그 줄도 고쳐요.', 'think');
+        if (window.Fun) Fun.shake(scrEl);
+      } else if (act === promised) {
+        roundDone = true;
+        $('send2').disabled = true;
+        if (wrongTouch) {
+          $('status2').textContent = '떴어요. 하지만 이번에는 고칠 줄이 아닌 줄도 눌렀어요. 이 판은 세지 않아요. 다음 판에서 한 줄만 골라 봐요.'; $('status2').className = 'status';
+          say('이번 판은 세지 않아요. 다음 판에서는 고칠 줄만 골라 눌러 봐요.', 'think');
+        } else {
+          $('status2').textContent = '「' + promised + '」 표시가 떴어요. 약속표와 같아요.'; $('status2').className = 'status';
+          say('「' + promised + '」 표시가 약속대로 떴어요.', 'cheer');
+          if (window.Fun) Fun.burst(scrEl);
+          n2 += 1;
+          if (n2 >= 2 && !finished[2]) finishMission(2);
+        }
+        $('round2').textContent = finished[2] ? '미션 2 끝. 더 해 보고 싶으면 다음 판을 눌러요' : '고친 판 ' + n2 + ' / 2';
+      } else {
+        $('status2').textContent = act === NONE ? '아직 아무것도 안 떴어요. 수신기 줄을 다시 봐요.' : '아직 다른 표시가 떴어요. 수신기 줄을 다시 봐요.';
+        $('status2').className = 'status';
+        say('예상과 다르게 나왔어요. 그룹 번호, 만약 줄, 표시 순서로 살펴봐요.', 'think');
+        if (window.Fun) Fun.shake(scrEl);
+      }
     });
   }
 
-  function replay() {
-    if (!sent || timer) return;
-    replayBtn.disabled = true;
-    $('devTx').classList.add('pressed');
-    showResult(function () { $('devTx').classList.remove('pressed'); replayBtn.disabled = false; });
+  /* ---------- 미션 3: 만들어 보기 ---------- */
+  var cyc = { 1: null, 0: null };        // 내 수신기 줄: null(줄 없음) | 표시
+  function newRound3() {
+    clearTimer();
+    var t = rnd(3);
+    setTool(t);
+    gTx = 1 + rnd(9);
+    do { gRx = 1 + rnd(9); } while (gRx === gTx);
+    cyc = { 1: null, 0: null };
+    res3 = { 1: null, 0: null };
+    $('g3tx').textContent = gTx;
+    $('hint3').textContent = 'receivedNumber는 받은 숫자예요. 표시 줄을 누르면 줄 없음, 「' + tool.one + '」, 「' + tool.zero + '」 순서로 돌아가며 바뀌어요';
+    $('goal3').textContent = '송신기가 1을 보내면 「' + tool.one + '」, 0을 보내면 「' + tool.zero + '」 표시가 뜨게 만들어요';
+    $('next3').hidden = !finished[3];
+    resetScreen(); render3();
+    say('송신기는 그룹 ' + gTx + '로 보내요. 내 수신기 그룹 번호와 표시 줄을 정해 봐요.');
+  }
+  function syncRules3() { rules = [{ v: 1, shown: cyc[1] }, { v: 0, shown: cyc[0] }]; }
+  function render3() {
+    $('g3rx').textContent = gRx;
+    [1, 0].forEach(function (v) {
+      var b = $('cyc' + v);
+      b.innerHTML = '';
+      b.appendChild(document.createTextNode('만약 receivedNumber = ' + v + ' 이면 : '));
+      if (cyc[v] === null) b.appendChild(document.createTextNode('줄 없음'));
+      else { b.insertAdjacentHTML('beforeend', ledOf(cyc[v], true)); b.appendChild(document.createTextNode(' ' + cyc[v])); }
+    });
+    var ul = $('res3'); ul.innerHTML = '';
+    [1, 0].forEach(function (v) {
+      var li = document.createElement('li'), r = res3[v];
+      li.textContent = r === null ? '수 ' + v + ': 아직 안 보냈어요'
+        : r === NONE ? '수 ' + v + ': 새로 바뀐 것이 없어요(앞 표시 그대로)' : '수 ' + v + ': 「' + r + '」 표시가 떴어요' + (r === labelOf(v) ? ' (약속표와 같아요)' : ' (약속표와 달라요)');
+      ul.appendChild(li);
+    });
+  }
+  function edit3() { res3 = { 1: null, 0: null }; resetScreen(); }
+  function test3(v) {
+    if (timer) return;
+    syncRules3();
+    num = v;
+    var act = actualOf(v);
+    showResult(act, function () {
+      res3[v] = act; render3();
+      if (act === labelOf(v)) say('수 ' + v + '을 보냈더니 「' + act + '」 표시가 떴어요. 약속표와 같아요.', 'cheer');
+      else say('예상과 다르게 나왔어요. 그룹 번호, 만약 줄, 표시를 차례로 살펴봐요.', 'think');
+      if (res3[1] === labelOf(1) && res3[0] === labelOf(0)) {
+        if (window.Fun) Fun.burst(scrEl);
+        if (!finished[3]) finishMission(3); else say('이번 약속도 두 수가 모두 약속대로 떴어요.', 'cheer');
+        $('next3').hidden = false;
+      }
+    });
   }
 
-  function render() {
-    if (!sent) { scrEl.innerHTML = ledOf(null); $('cap').textContent = '수신 화면'; }
-    var btns = picksEl.querySelectorAll('.pk');
-    for (var i = 0; i < btns.length; i++) {
-      var b = btns[i];
-      b.setAttribute('aria-pressed', b.getAttribute('data-v') === guess ? 'true' : 'false');
-      b.disabled = guess !== null;
+  /* ---------- 사다리 ---------- */
+  function finishMission(m) {
+    finished[m] = true;
+    var li = document.createElement('li'); li.textContent = LEARN[m]; $('learned').appendChild(li);
+    var step = document.querySelector('.ladder [data-step="' + m + '"]'); step.classList.add('is-done');
+    if (m < 3) { unlocked[m + 1] = true; document.querySelector('.ladder [data-step="' + (m + 1) + '"]').disabled = false; }
+    say(LEARN[m], 'cheer');
+    if (m < 3) { var g = $('gonext'); g.textContent = '미션 ' + (m + 1) + '로 가기'; g.hidden = false; }
+    else { $('doneFig').hidden = false; if (window.Fun) Fun.stamp(); }
+  }
+
+  function setMode(m) {
+    if (!unlocked[m]) return;
+    clearTimer();
+    mode = m;
+    $('how').textContent = HOW[m];
+    $('mimg').src = '../lecture/_assets/B12/' + ['', 'scene_test', 'scene_swap', 'scene_roles'][m] + '.webp';
+    var steps = document.querySelectorAll('.ladder [data-step]');
+    for (var i = 0; i < steps.length; i++) {
+      if (+steps[i].getAttribute('data-step') === m) steps[i].setAttribute('aria-current', 'step'); else steps[i].removeAttribute('aria-current');
     }
-    sendBtn.disabled = guess === null || sent;
-    if (!sent) {
-      replayBtn.disabled = true;
-      statusEl.textContent = guess === null ? '무엇이 뜰지 먼저 짚어요' : 'A 누르기로 보내요';
-      statusEl.className = 'status dim';
-    }
+    [1, 2, 3].forEach(function (k) { $('sec-m' + k).hidden = k !== m; });
+    $('codes').hidden = m === 3;
+    $('gonext').hidden = !(finished[m] && m < 3);
+    if (finished[m] && m < 3) $('gonext').textContent = '미션 ' + (m + 1) + '로 가기';
+    if (m === 1) { n1 = finished[1] ? n1 : 0; newRound1(); }
+    else if (m === 2) { n2 = finished[2] ? n2 : 0; newRound2(); }
+    else newRound3();
   }
 
   picksEl.addEventListener('click', function (ev) {
     var b = ev.target.closest ? ev.target.closest('.pk') : null;
     if (b) pick(b.getAttribute('data-v'));
   });
-  sendBtn.addEventListener('click', send);
-  replayBtn.addEventListener('click', replay);
-  nextBtn.addEventListener('click', newRound);
+  $('rxcode').addEventListener('click', function (ev) {
+    var b = ev.target.closest ? ev.target.closest('[data-fix]') : null;
+    if (b && mode === 2) fixLine(b.getAttribute('data-fix'));
+  });
+  sendBtn.addEventListener('click', send1);
+  replayBtn.addEventListener('click', replay1);
+  nextBtn.addEventListener('click', newRound1);
+  $('send2').addEventListener('click', send2);
+  $('next2').addEventListener('click', newRound2);
+  $('next3').addEventListener('click', newRound3);
+  $('a3').addEventListener('click', function () { test3(1); });
+  $('b3').addEventListener('click', function () { test3(0); });
+  $('gPlus').addEventListener('click', function () { gRx = gRx % 9 + 1; edit3(); render3(); });
+  $('gMinus').addEventListener('click', function () { gRx = (gRx + 7) % 9 + 1; edit3(); render3(); });
+  [1, 0].forEach(function (v) {
+    var cb = document.createElement('button'); cb.type = 'button'; cb.className = 'blk recv in cyc'; cb.id = 'cyc' + v; $('cycs').appendChild(cb);
+    $('cyc' + v).addEventListener('click', function () {
+      var order = [null, tool.one, tool.zero], i = order.indexOf(cyc[v]);
+      cyc[v] = order[(i + 1) % 3]; edit3(); render3();
+    });
+  });
+  $('gonext').addEventListener('click', function () { setMode(mode + 1); });
+  document.querySelectorAll('.ladder [data-step]').forEach(function (b) {
+    b.addEventListener('click', function () { setMode(+b.getAttribute('data-step')); });
+  });
   window.addEventListener('pagehide', clearTimer);
 
-  newRound();
+  setMode(1);
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B12" data-mission="약속표와 송신기·수신기 코드를 읽고, A를 누르면 수신 화면에 무엇이 뜰지 먼저 예측해요!"></script>
+<script src="../assets/play/fun.js" data-block="B12" data-mission="약속표와 송신기·수신기 코드를 읽고, A를 누르면 수신 화면에 무엇이 뜰지 먼저 예상해요!"></script>
 </body>
 </html>
