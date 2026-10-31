@@ -47,6 +47,7 @@
 button.tile{padding:0;cursor:pointer;font-family:inherit}
 button.tile:hover{border-color:var(--point)}
 
+  .how,.legend,.note,.learned,.priv,.wait,.concept p,.fin p,.kinds span,.fun-say{word-break:keep-all;overflow-wrap:break-word}
   .order{word-break:keep-all;overflow-wrap:break-word;font-size:14px;font-weight:700;background:var(--point-soft);border:1px solid var(--line);
     border-radius:var(--r-sm);padding:6px 9px;margin-bottom:6px}
 
@@ -292,7 +293,7 @@ button.pt{cursor:pointer}
   var fills = [], nums = [], barEls = [];
 
   /* 판마다 새로 뽑는 수집 약속. 직전 판과 같으면 다시 뽑는다. */
-  var CNTWORD = { 3:'세 장', 4:'네 장', 5:'다섯 장', 6:'여섯 장' };
+  var CNTWORD = { 3:'세 장', 4:'네 장', 5:'다섯 장', 6:'여섯 장' };
   function say(t, m){ if (window.Fun) Fun.say(t, m); }
   var NAME = { '위':'위에서', '옆':'옆에서', '흰':'흰 종이', '책상':'책상' };
   var order = null;
@@ -710,13 +711,13 @@ button.pt{cursor:pointer}
       if (m3.b !== m3.sit.b) why.push(m3.sit.noB || '지금 상황에 맞는 배경을 다시 골라요');
       kinds.textContent = '';
       if (why.length){
-        res.textContent = '이 자리에서는 지키기 어려워요. ' + why.join('. ') + '. 다시 골라요.';
+        res.textContent = (m3.a !== m3.sit.a ? '이 자리에서는 지키기 어려워요. ' : '이 자리에 더 맞는 약속이 있어요. ') + why.join('. ') + '. 다시 골라요.';
         say('상황과 약속이 안 어울려요. 상황 글을 다시 읽어 봐요.', 'think');
         if (window.Fun) Fun.shake(box);
         return;
       }
       var bg = m3.b === '흰' ? '흰 종이' : '책상';
-      res.textContent = '약속 · ' + NAME[m3.a] + ' · ' + bg + ' · 각자 세 장';
+      res.textContent = '약속 · ' + NAME[m3.a] + ' · ' + bg + ' · 각자 세 장';
       kinds.appendChild(mk('span', '', '모둠 네 명이 같은 약속이면 한 칸에 12장'));
       kinds.appendChild(mk('span', '', '모둠 네 명이 제각각이면 네 칸에 3장씩'));
       missionDone(3, '상황에 맞는 약속을 먼저 정하면 모두가 같은 조건으로 모을 수 있어요. 실제 수업에서도 약속을 먼저 정하고 모아요.');
