@@ -1,0 +1,10 @@
+# 배포에서 빼는 것: 만들기 도구·설계 문서·원고(공개 쪽에서 쓰지 않음) — 2026-10-31
+_tools/
+_설계/
+_forms/
+_data/
+lecture/_src/
+*.md
+*.py
+package.json
+package-lock.json

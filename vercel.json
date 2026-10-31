@@ -1,0 +1,4 @@
+{
+  "installCommand": "echo skip-install",
+  "buildCommand": "echo static-site"
+}
