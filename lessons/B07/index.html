@@ -316,8 +316,8 @@ figcaption{font-size:13px;color:var(--muted);margin-top:6px}
 .lmain .tag{position:absolute;left:8px;top:8px;background:var(--gc-d);color:#fff;border-radius:var(--r-full);padding:2px 10px;font:400 13px var(--title)}
 .lmain .lt{display:block;padding:8px 10px 4px;font-weight:400;font-family:var(--title);font-size:16.5px;line-height:1.35}
 .lmain:hover .lt{text-decoration:underline}
-.lico{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-soft)}
-.lico a,.lico .off{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:52px;text-decoration:none;font-size:12px;color:var(--body)}
+.lico{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line-soft)}
+.lico a,.lico .off{white-space:nowrap;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:52px;text-decoration:none;font-size:12px;color:var(--body)}
 .lico a:hover{background:var(--gc-l)}
 .lico .off{opacity:.38}
 .lico .ic{width:22px;height:22px}
@@ -331,7 +331,8 @@ h2.sub{display:flex;align-items:center;gap:8px;font-size:20px;margin:32px 0 10px
 .kband h1{color:#fff;font-size:24px;margin:10px 0 6px;text-shadow:0 1px 2px rgba(0,0,0,.18)}
 .kband .ksum{margin:0;font-size:17px;line-height:1.5;background:rgba(255,255,255,.92);color:var(--ink);border-radius:var(--r-md);padding:10px 14px}
 .kband.g5{background:var(--sky-d)}.kband.g6{background:var(--grape-d)}
-.kit{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 8px}
+.kit{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0 0 8px}
+@media (max-width:560px){.kit{grid-template-columns:repeat(3,1fr)}}
 .kb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:88px;border:1.5px solid var(--line);border-radius:var(--r-md);background:#fff;text-decoration:none;color:var(--ink);text-align:center;padding:8px 4px}
 .kb .ic{width:32px;height:32px}
 .kb b{font:400 15.5px var(--title)}
@@ -540,7 +541,7 @@ footer .lineup{mix-blend-mode:multiply;display:block;width:min(420px,100%);heigh
 <p class="ksum">LED 그림 두 개를 차례로 띄우고, 순서를 바꾸면 어떻게 되는지 봐요.</p>
 <a class="kplay" href="../../B07/"><img class="face" src="../../assets/chars/c3.webp" alt="비트쌤" width="60" height="60" loading="lazy"><span><b>체험 활동 열기</b><small>비트쌤과 5~10분 · 순서 바꾸면 남는 그림 맞히기</small></span><i aria-hidden="true">→</i></a>
 </div>
-<div class="kit"><a class="kb" href="../../assets/pdf/B07.pdf" target="_blank" rel="noopener"><img class="ic" src="../../assets/icons/plan.svg" alt="" width="24" height="24"><b>지도안 받기</b><span>PDF</span></a><a class="kb" href="../../assets/sheets/B07.pdf" target="_blank" rel="noopener"><img class="ic" src="../../assets/icons/sheet.svg" alt="" width="24" height="24"><b>활동지</b><span>PDF</span></a><a class="kb" href="../../B07/"><img class="ic" src="../../assets/icons/game.svg" alt="" width="24" height="24"><b>체험 활동</b><span>5~10분</span></a><a class="kb" href="#tools"><img class="ic" src="../../assets/icons/tool.svg" alt="" width="24" height="24"><b>연동 도구</b><span>바로 열기</span></a></div>
+<div class="kit"><a class="kb" href="../../assets/pdf/B07.pdf" target="_blank" rel="noopener"><img class="ic" src="../../assets/icons/plan.svg" alt="" width="24" height="24"><b>지도안 받기</b><span>PDF</span></a><a class="kb" href="../../assets/sheets/B07.pdf" target="_blank" rel="noopener"><img class="ic" src="../../assets/icons/sheet.svg" alt="" width="24" height="24"><b>활동지</b><span>PDF</span></a><a class="kb" href="../../lecture/B07/" target="_blank" rel="noopener"><img class="ic" src="../../assets/icons/video.svg" alt="" width="24" height="24"><b>강의교안</b><span>수업 화면</span></a><a class="kb" href="../../B07/"><img class="ic" src="../../assets/icons/game.svg" alt="" width="24" height="24"><b>체험 활동</b><span>5~10분</span></a><a class="kb" href="#tools"><img class="ic" src="../../assets/icons/tool.svg" alt="" width="24" height="24"><b>연동 도구</b><span>바로 열기</span></a></div>
 <div class="g5">
 <h2 class="sub"><img class="ic" src="../../assets/icons/clock.svg" alt="" width="24" height="24">수업 흐름</h2>
 <div class="tw flowt"><table><tr><th>단계</th><th>시간</th><th>핵심 활동</th></tr><tr class="st-start"><th scope="row"><img class="ic" src="../../assets/icons/start.svg" alt="" width="24" height="24"><span>도입</span><small>13차시</small></th><td class="tm">8분</td><td><ul><li>영상 ‘내 아이가 살아갈 로봇 세상’을 보고 순서를 바꾸면 결과가 달라지는 일 하나씩 떠올리기</li></ul></td></tr><tr class="st-do"><th scope="row"><img class="ic" src="../../assets/icons/do.svg" alt="" width="24" height="24"><span>전개</span><small>13차시</small></th><td class="tm">32분</td><td><ul><li><span class="ano">활동1</span>마이크로비트 살펴보고 연결하기 <span class="min">12분</span></li><li><span class="ano">활동2</span>LED 그림 세 개 차례로 표시하기 <span class="min">20분</span></li></ul></td></tr><tr class="st-do"><th scope="row"><img class="ic" src="../../assets/icons/do.svg" alt="" width="24" height="24"><span>전개</span><small>14차시</small></th><td class="tm">33분</td><td><ul><li><span class="ano">활동3</span>표시 순서 바꾸고 맞히기 놀이 <span class="min">15분</span></li><li><span class="ano">활동4</span>나만의 LED 이름표 만들어 목에 걸기 <span class="min">20분</span></li></ul></td></tr><tr class="st-end"><th scope="row"><img class="ic" src="../../assets/icons/end.svg" alt="" width="24" height="24"><span>정리</span><small>14차시</small></th><td class="tm">7분</td><td><ul><li>이름표를 목에 걸고 모둠 안에서 차례로 켜 보며 완성된 작품 공유하기</li><li>버튼으로 바꾼 값에 따라 LED가 달라지는 다음 활동 안내 듣기</li></ul></td></tr></table></div>

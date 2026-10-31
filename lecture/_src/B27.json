@@ -9,7 +9,7 @@
  "lead": "c7",
  "next": "해결단 28호 미션: 전달 전 안전 점검 회의",
  "ai_orig": [],
- "not_ai": ["../_assets/B27/pred28_u.webp", "../_assets/B27/pred30_u.webp", "../_assets/B27/pred33_u.webp", "../_assets/B27/pred28_test.webp", "../_assets/B27/pred30_wrong.webp", "../_assets/B27/pred33_compare.webp"],
+ "not_ai": ["../_assets/B27/pred28_u.webp", "../_assets/B27/pred30_u.webp", "../_assets/B27/pred33_u_v2.webp", "../_assets/B27/pred28_test.webp", "../_assets/B27/pred30_wrong.webp", "../_assets/B27/pred33_compare.webp"],
  "slides": [
   {
    "type": "cover",
@@ -477,11 +477,11 @@
      "① 처음: 약속과 조건"
     ],
     [
-     "../_shots/B27/zc_pick_big.webp",
+     "../_shots/B27/zc_pick_big_v3.webp",
      "② 조건 맞춰 담기"
     ],
     [
-     "../_shots/B27/zc_result_big.webp",
+     "../_shots/B27/zc_result_big_v3.webp",
      "③ 섞인 조건 찾기"
     ]
    ],
@@ -655,7 +655,7 @@
     }
    ],
    "note": "오르지 않은 결과도 소중한 기록이에요.",
-   "after": "../_assets/B27/pred33_u.webp",
+   "after": "../_assets/B27/pred33_u_v2.webp",
    "contain": true
   },
   {

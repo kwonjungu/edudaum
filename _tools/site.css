@@ -309,8 +309,8 @@ figcaption{font-size:13px;color:var(--muted);margin-top:6px}
 .lmain .tag{position:absolute;left:8px;top:8px;background:var(--gc-d);color:#fff;border-radius:var(--r-full);padding:2px 10px;font:400 13px var(--title)}
 .lmain .lt{display:block;padding:8px 10px 4px;font-weight:400;font-family:var(--title);font-size:16.5px;line-height:1.35}
 .lmain:hover .lt{text-decoration:underline}
-.lico{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line-soft)}
-.lico a,.lico .off{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:52px;text-decoration:none;font-size:12px;color:var(--body)}
+.lico{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line-soft)}
+.lico a,.lico .off{white-space:nowrap;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;min-height:52px;text-decoration:none;font-size:12px;color:var(--body)}
 .lico a:hover{background:var(--gc-l)}
 .lico .off{opacity:.38}
 .lico .ic{width:22px;height:22px}
@@ -324,7 +324,8 @@ h2.sub{display:flex;align-items:center;gap:8px;font-size:20px;margin:32px 0 10px
 .kband h1{color:#fff;font-size:24px;margin:10px 0 6px;text-shadow:0 1px 2px rgba(0,0,0,.18)}
 .kband .ksum{margin:0;font-size:17px;line-height:1.5;background:rgba(255,255,255,.92);color:var(--ink);border-radius:var(--r-md);padding:10px 14px}
 .kband.g5{background:var(--sky-d)}.kband.g6{background:var(--grape-d)}
-.kit{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:0 0 8px}
+.kit{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:0 0 8px}
+@media (max-width:560px){.kit{grid-template-columns:repeat(3,1fr)}}
 .kb{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:88px;border:1.5px solid var(--line);border-radius:var(--r-md);background:#fff;text-decoration:none;color:var(--ink);text-align:center;padding:8px 4px}
 .kb .ic{width:32px;height:32px}
 .kb b{font:400 15.5px var(--title)}

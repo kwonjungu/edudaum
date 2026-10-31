@@ -13,5 +13,9 @@ module.exports = async (p, { shot, shotEl, sleep }) => {
   await p.click('.case:nth-child(2) .bin[data-k="a"]'); await sleep(200);
   await grab('z_pick', '.key');
   await p.click('#confirmBtn'); await sleep(2500);
-  await p.addStyleTag({ content: '.key{display:none} #confirmBtn{display:none} .btn{display:none}' }); await grab('z_result', 'section:nth-of-type(2)');
+  await p.addStyleTag({ content: '.key{display:none} #confirmBtn{display:none} .btn{display:none}' });
+  // z_result_v2: 장 틀(720px)에 배율 1로 들어가도록 화면 폭 720, 아래 두 줄·확인 칸 글을 20px 안팎으로. 아이콘은 이름 옆으로 올려 높이를 줄인다.
+  await p.setViewport({ width: 720, height: 900, deviceScaleFactor: 2 });
+  await p.addStyleTag({ content: 'main{padding:0 10px} section{padding:8px;margin:0 0 8px} .case{display:flex;flex-wrap:wrap;align-items:center;padding:8px;gap:0 8px} .ico{width:52px;height:52px;margin:0} .name{font-size:22px;margin:0;flex:1} .bins,.io,.tag{flex-basis:100%} .bins{margin-top:6px;gap:5px} .bin{font-size:21px;min-height:38px} .io{font-size:19px;margin:6px 0 0;line-height:1.3} .tag{font-size:19px;margin:4px 0 0;line-height:1.3} .sensor{display:none} section h2{font-size:18px;margin:0 0 4px} #msg{font-size:22px;margin:0} section:nth-of-type(2) *{font-size:22px!important} section:nth-of-type(2) h2{font-size:18px!important}' });
+  await grab('z_result_v2', 'section:nth-of-type(2)');
 };

@@ -245,7 +245,7 @@
    "type": "ws",
    "tag": "9차시 활동1",
    "title": "마이크로비트로 말 뽑기",
-   "img": "../_shots/B19/ws_act2.webp",
+   "img": "../_shots/B19/ws_act2_tbl.webp",
    "bubbles": [
     {
      "c": "c4",
@@ -467,7 +467,7 @@
    "type": "open",
    "tag": "9차시 활동2",
    "title": "학급 판정 모으기",
-   "img": "../_assets/B19/orig/image6_key.webp",
+   "img": "../_assets/B19/orig/image6_recv.webp",
    "contain": true,
    "todo": "교사가 주장을 읽으면 모둠 보드로 A·B·A+B를 보내고, 교사 보드가 라디오(그룹 19)로 받아 세어요.",
    "bubbles": [
@@ -571,11 +571,11 @@
    "title": "연계 체험: 말 알아듣기 실험실",
    "shots": [
     [
-     "../_shots/B19/lab_card.webp",
+     "../_shots/B19/lab_card_v2.webp",
      "① 같은 문장, 말하는 방법만 바꾸기"
     ],
     [
-     "../_shots/B19/lab_pick.webp",
+     "../_shots/B19/lab_pick_v2.webp",
      "② 예측하고 비교하기"
     ]
    ],
@@ -689,7 +689,7 @@
    "type": "open",
    "tag": "10차시 활동4",
    "title": "그림을 숫자로 LED에 표시하기",
-   "img": "../_assets/B19/orig/code_led_big.webp",
+   "img": "../_assets/B19/orig/code_led_big_v3.webp",
    "contain": true,
    "todo": "공유 링크를 열고 '그림' 글자 중 숫자 하나를 0으로 바꿔 어느 칸이 꺼지는지 확인해요. 핵심 블록은 <b>LED 켜기: x y 밝기</b>예요.",
    "bubbles": [

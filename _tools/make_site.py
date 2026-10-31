@@ -283,10 +283,11 @@ def sheet_href(code):
 
 
 def res_icons(code, up):
-    """카드 아래 아이콘 셋 — 지도안·활동지·활동. 아직 없는 자료는 흐리게 두고 누르지 않는다."""
+    """카드 아래 아이콘 넷 — 지도안·활동지·강의교안·활동. 아직 없는 자료는 흐리게 두고 누르지 않는다."""
     out = []
     items = [('plan', '지도안', 'assets/pdf/%s.pdf' % code, True),
              ('sheet', '활동지', sheet_href(code), True),
+             ('video', '교안', 'lecture/%s/' % code if code in LECTURE_PUB and (ROOT / 'lecture' / code / 'index.html').exists() else '', True),
              ('game', '활동', '%s/' % code if game(code) else '', False)]
     for ic, name, href, newtab in items:
         if href and ic == 'game' and shot(code):
@@ -693,6 +694,9 @@ def kit_buttons(code, up, gm, has_tools):
     sh = sheet_href(code)
     b.append(('<a class="kb" href="%s%s" target="_blank" rel="noopener">%s<b>활동지</b><span>PDF</span></a>' % (up, sh, icon('sheet', up)))
              if sh else '<span class="kb off" title="활동지는 곧 올려요">%s<b>활동지</b><span>준비 중</span></span>' % icon('sheet', up))
+    lec = code in LECTURE_PUB and (ROOT / 'lecture' / code / 'index.html').exists()   # 강의교안: 감수 통과해 올린 블록만
+    b.append(('<a class="kb" href="%slecture/%s/" target="_blank" rel="noopener">%s<b>강의교안</b><span>수업 화면</span></a>' % (up, code, icon('video', up)))
+             if lec else '<span class="kb off" title="강의교안은 곧 올려요">%s<b>강의교안</b><span>준비 중</span></span>' % icon('video', up))
     b.append(('<a class="kb" href="%s%s/">%s<b>체험 활동</b><span>5~10분</span></a>' % (up, code, icon('game', up)))
              if gm else '<span class="kb off">%s<b>체험 활동</b><span>없음</span></span>' % icon('game', up))
     b.append('<a class="kb" href="#tools">%s<b>연동 도구</b><span>%s</span></a>' % (icon('tool', up), '바로 열기' if has_tools else '종이·실물'))

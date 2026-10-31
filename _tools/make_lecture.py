@@ -111,7 +111,7 @@ def slide(s, d):
     elif t == 'order':
         oc = list(s['cards'])
         if [k for k, _ in oc] == sorted(k for k, _ in oc): oc.sort(key=lambda kc: (kc[0] % 2 == 0, -kc[0]))   # 정답 순서로 적혀 있으면 섞어 보인다(3·1·4·2)
-        cards = ''.join(f'<button class="oc" data-k="{k}"><b class="n"></b>{img(c["img"], "contain" if c.get("contain") else "") if c.get("img") else ""}<span>{e(c["t"])}</span><em class="k" data-step="{len(s.get("bubbles") or []) + 1}">순서 {k}</em></button>' for k, c in oc)
+        cards = ''.join(f'<button class="oc{'' if c.get("img") else ' txt'}" data-k="{k}"><b class="n"></b>{img(c["img"], "contain" if c.get("contain") else "") if c.get("img") else ""}<span>{e(c["t"])}</span><em class="k" data-step="{len(s.get("bubbles") or []) + 1}">순서 {k}</em></button>' for k, c in oc)
         body = f'{head(s)}<p class="q">{s["q"]}</p><div class="order">{cards}</div>{bubbles(s.get("bubbles"), row=True)}'
     elif t == 'break':
         body = f'<div class="brk">{img(s["img"])}<div class="col"><h2 class="h">{s["title"]}</h2>{bubbles(s.get("bubbles"))}</div></div>'
@@ -149,6 +149,7 @@ def build(B):
     for i, s in enumerate(d['slides']):
         USED_AI[0] = False; USED_ORIG[0] = False; body = slide(s, d)
         src = ([f'그림: {B} 교수학습 과정안'] if USED_ORIG[0] else []) + (['생성형 AI로 만든 그림이 있어요'] if USED_AI[0] else [])
+        if s.get('src') is not None: src = [s['src']] if isinstance(s['src'], str) and s['src'] else list(s['src'] or [])   # 원고에서 출처 줄을 직접 지정(빈 값이면 줄 없음)
         aim = f'<span class="aisl">{" · ".join(src)}</span>' if src else ''
         parts.append(f'<section class="s t-{s["type"]}" data-i="{i}">{body}'
                      f'<div class="grass"></div>{aim}<span class="pn">{B} · {i + 1} / {N}</span></section>')
