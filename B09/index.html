@@ -79,6 +79,54 @@
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 .tag{background:var(--point)}
+
+/* 체험 개선 2026-10-31: 안내·개념·미션 사다리 */
+.how{margin-top:8px;background:var(--sun-l,#fff6d9);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:15px;font-weight:700;line-height:1.45}
+.concept{margin-top:10px;background:var(--grape-l,#efecfd);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:14.5px;line-height:1.5}
+.concept b{display:block;font-size:14px;color:var(--point);margin-bottom:2px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.sb{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;min-height:46px;padding:5px 6px;line-height:1.2;
+  background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-sm);box-shadow:var(--hard-sm);word-break:keep-all}
+.sb[aria-current="step"]{background:var(--point);border-color:var(--point);color:#fff}
+.sb .ck{display:none}
+.sb.done .ck{display:inline}
+.pic{display:block;width:100%;height:104px;object-fit:cover;border-radius:var(--r-sm);margin-bottom:8px;border:1px solid var(--line)}
+section[hidden]{display:none}
+.learn{margin-top:9px;background:var(--mint-l,#e3f6ef);border-radius:var(--r-sm);padding:8px 11px;font-size:14.5px;font-weight:700;color:var(--ink)}
+.learn[hidden],.nx[hidden],.fin[hidden],.btn[hidden]{display:none}
+.nx{margin-top:9px}
+.ask{font-size:15px;font-weight:700;margin:2px 0 8px}
+.legend{margin:6px 0 0;font-size:14px;color:var(--muted)}
+.strip{grid-template-columns:repeat(4,1fr);gap:6px}
+.c{font-size:19px;min-height:52px}
+.tally{grid-template-columns:repeat(12,1fr);max-width:340px}
+.tally i.hide{display:none}
+.say{font-size:14.5px}
+.dots{display:flex;gap:6px;margin:0 0 8px}
+.dots i{width:22px;height:8px;border-radius:4px;background:var(--line-strong);display:block}
+.dots i.now{background:var(--point)}
+.dots i.ok{background:var(--pink)}
+.chips{display:grid;grid-template-columns:repeat(2,1fr);gap:4px}
+.chips .blkline{margin:0;font-size:14px;padding:4px 8px}
+.opts{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.opt{font-family:inherit;cursor:pointer;text-align:left;color:var(--ink);background:var(--surface);border:1px solid var(--line-strong);
+  border-radius:var(--r-sm);padding:8px;min-height:92px;font-size:14px;font-weight:700;box-shadow:var(--hard-sm)}
+.opt[aria-pressed="true"]{background:var(--point-soft);border:3px solid var(--point)}
+.opt:disabled{opacity:.55;cursor:default}
+.opt:disabled[aria-pressed="true"]{opacity:1}
+.opt .blkline{margin:3px 0 0;font-size:14px;padding:3px 8px}
+.ctl{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.ctl.blkline{padding:5px 10px}
+.pic.fit{object-fit:contain;background:#f5f8ff}
+.st{font-family:inherit;cursor:pointer;width:46px;height:46px;font-size:22px;font-weight:700;color:var(--ink);background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);box-shadow:var(--hard-sm)}
+.st:disabled{opacity:.4;cursor:default;box-shadow:none}
+.val{min-width:38px;text-align:center;font-size:22px;font-weight:700}
+.fin{margin-top:10px}
+.fin p{margin-top:6px;font-size:14.5px;font-weight:700}
+.ainote{margin-top:14px;font-size:14px;color:var(--muted)}
+.row2{display:flex;align-items:center;gap:10px}
+.row2 > .chips,.row2 > .grow{flex:1 1 auto;min-width:0}
+@media(max-width:420px){.wrap{display:flex;flex-direction:column}.concept{order:5}.ainote{order:6}.pic{height:60px;margin-bottom:6px}.top{flex-direction:row;align-items:flex-start}.top .stage{margin-top:0}.top #led{width:84px;height:84px}.top .panel{padding:6px}.legend{font-size:13.5px}.opts{grid-template-columns:1fr}.opt{min-height:0}.row2{flex-direction:column;align-items:stretch}.row2 .stage{margin-top:4px}.tally{max-width:none}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -94,27 +142,84 @@
     <p class="lead">몇 번 나타날지 짚어요</p>
   </header>
 
-  <section aria-labelledby="h-b">
-    <h2 id="h-b">이번 반복</h2>
+  <p class="how" id="how">하트가 몇 번 나타날지 하나 고르고, 돌려 보기를 눌러 세어 봐요.</p>
+
+  <div class="steps" id="steps" role="group" aria-label="미션 고르기">
+    <button class="sb" type="button" data-go="1" aria-current="step">① 짚어 보기<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="2">② 줄여 보기<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="3">③ 만들어 보기<span class="ck"> ✓</span></button>
+  </div>
+
+  <div class="concept" id="concept"><b>알아 둘 것</b>반복 블록은 같은 묶음을 정한 횟수만큼 되풀이해요. 반복 안에 반복이 또 있으면 하트는 바깥 횟수 × 안쪽 횟수만큼 나타나요. 반복으로 묶으면 같은 결과를 더 적은 블록으로 만들 수 있어요.</div>
+
+  <section aria-labelledby="h-1" data-step="1" id="m1">
+    <img class="pic" src="../lecture/_assets/B09/step_count.webp" width="1600" height="900" alt="두 학생이 책상 위 마이크로비트의 하트를 보며 손뼉을 치는 모습">
+    <h2 id="h-1">미션 1 · 몇 번 나타날지 짚어 보기</h2>
     <div class="top">
       <div id="code"></div>
-      <div class="stage"><div class="panel"><svg id="led" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg></div></div>
+      <div class="stage" id="slotLed1"></div>
     </div>
-    <p class="legend" style="margin:2px 0 0;font-size:12.5px;color:var(--muted)">♥ 묶음 = [아이콘 출력 ♥] [일시중지 500ms] [LED 스크린 지우기] [일시중지 500ms] 네 블록을 접어 둔 것</p>
-  </section>
-
-  <section aria-labelledby="h-g">
-    <h2 id="h-g">몇 번 나타날까요</h2>
-    <div class="strip" id="strip"></div>
-    <div class="tally" id="tally" aria-hidden="true"></div>
-    <p class="tallyn" id="tallyn" aria-live="polite">나타난 수 0</p>
-    <p class="say dim" id="say">띠에서 수를 짚어요</p>
+    <p class="legend">♥ 묶음은 [아이콘 출력 ♥] [일시중지] [LED 스크린 지우기] [일시중지] 네 블록이에요.</p>
+    <div class="strip" id="strip" role="group" aria-label="나타날 횟수 고르기"></div>
+    <div id="slotTally1"></div>
+    <p class="say dim" id="say">블록을 읽고 횟수를 하나 골라요</p>
     <div class="acts">
       <button class="btn main" id="go" type="button" disabled>돌려 보기</button>
       <button class="btn" id="replay" type="button" disabled>다시 보기</button>
       <button class="btn" id="next" type="button">다음 판</button>
     </div>
+    <p class="learn" id="learn1" hidden></p>
+    <button class="btn main nx" id="nx1" type="button" hidden>다음 미션 ›</button>
   </section>
+
+  <section aria-labelledby="h-2" data-step="2" id="m2" hidden>
+    <img class="pic fit" src="../lecture/_assets/B09/hunt_code.webp" width="1600" height="900" alt="아이콘 출력 하트와 일시중지, LED 스크린 지우기 블록이 두 줄로 길게 이어진 코드">
+    <h2 id="h-2">미션 2 · 짧은 코드로 줄여 보기</h2>
+    <div class="dots" id="dots2" aria-hidden="true"><i></i><i></i><i></i></div>
+    <p class="ask" id="ask2">긴 코드와 같은 결과가 나오는 짧은 코드를 골라요.</p>
+    <div class="row2">
+      <div class="chips" id="long2" role="group" aria-label="길게 늘어선 코드"></div>
+      <div class="stage" id="slotLed2"></div>
+    </div>
+    <div id="slotTally2"></div>
+    <div class="opts" id="opts2" role="group" aria-label="짧은 코드 고르기"></div>
+    <p class="say dim" id="say2">긴 코드에서 ♥ 묶음이 몇 줄인지 세어 봐요</p>
+    <div class="acts">
+      <button class="btn main" id="next2" type="button" hidden>다음 카드 ›</button>
+      <button class="btn" id="again2" type="button" hidden>새 카드 세 장</button>
+    </div>
+    <p class="learn" id="learn2" hidden></p>
+    <button class="btn main nx" id="nx2" type="button" hidden>다음 미션 ›</button>
+  </section>
+
+  <section aria-labelledby="h-3" data-step="3" id="m3" hidden>
+    <img class="pic" src="../lecture/_assets/B09/picket_rubberband.webp" width="1600" height="900" alt="골판지 응원 피켓에 마이크로비트와 배터리 팩을 고무줄로 단 모습">
+    <h2 id="h-3">미션 3 · 응원 하트 만들어 보기</h2>
+    <p class="ask" id="goal3"></p>
+    <div class="row2">
+      <div class="grow" id="code3"></div>
+      <div class="stage" id="slotLed3"></div>
+    </div>
+    <div id="slotTally3"></div>
+    <p class="say dim" id="say3">− + 단추로 횟수를 정하고 돌려 봐요</p>
+    <div class="acts">
+      <button class="btn main" id="go3" type="button">돌려 보기</button>
+      <button class="btn" id="deal3" type="button">새 목표 받기</button>
+    </div>
+    <p class="learn" id="learn3" hidden></p>
+    <div class="fin" id="fin" hidden>
+      <img class="pic" src="../lecture/_assets/B09/mission_done.webp" width="1600" height="900" alt="새싹 도장이 찍힌 종이와 하트가 켜진 마이크로비트">
+      <p>세 미션을 모두 해 봤어요. 이제 마이크로비트에서 횟수를 바꿔 하트를 세어 봐요.</p>
+    </div>
+  </section>
+
+  <p class="ainote">그림 일부는 생성형 AI로 만들었어요</p>
+
+  <!-- 하트 화면과 센 점은 하나만 두고 지금 미션 자리로 옮겨 쓴다 -->
+  <div id="parts">
+    <div class="panel" id="ledBox"><svg id="led" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg></div>
+    <div id="tallyBox"><div class="tally" id="tally" aria-hidden="true"></div><p class="tallyn" id="tallyn" aria-live="polite">나타난 수 0</p></div>
+  </div>
 </div>
 
 <script>
@@ -123,14 +228,11 @@
   var NS = 'http://www.w3.org/2000/svg';
   var $ = function (id) { return document.getElementById(id); };
   var HEART = [[0,1,0,1,0],[1,1,1,1,1],[1,1,1,1,1],[0,1,1,1,0],[0,0,1,0,0]];
+  function F(t, m) { if (window.Fun) { Fun.say(t, m); } }
+  function rnd(k) { return Math.floor(Math.random() * k); }
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
 
-  var codeEl = $('code');
-  var stripEl = $('strip');
-  var goBtn = $('go');
-  var replayBtn = $('replay');
-  var nextBtn = $('next');
-  var sayEl = $('say');
-
+  /* ---------- 하트 화면과 센 점(미션 사이에 옮겨 가며 쓴다) ---------- */
   var cells = [];
   (function buildLed() {
     var led = $('led');
@@ -148,196 +250,360 @@
       }
     }
   })();
-
   function drawHeart(on) {
     for (var i = 0; i < cells.length; i++) {
-      var lit = on && HEART[(i / 5) | 0][i % 5] === 1;
-      cells[i].classList.toggle('on', lit);
+      cells[i].classList.toggle('on', on && HEART[(i / 5) | 0][i % 5] === 1);
     }
   }
-
-  var buttons = [];
-  (function buildStrip() {
-    for (var v = 1; v <= 20; v += 1) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'c'; b.textContent = String(v);
-      b.setAttribute('data-v', String(v));
-      b.setAttribute('aria-pressed', 'false');
-      stripEl.appendChild(b);
-      buttons.push(b);
-    }
-  })();
-
   var tallyEl = $('tally'), tallyN = $('tallyn'), dots = [];
-  for (var d = 0; d < 20; d += 1) { var di = document.createElement('i'); tallyEl.appendChild(di); dots.push(di); }
-  function setTally(k, guessV) {
-    for (var q = 0; q < dots.length; q += 1) {
+  for (var d = 0; d < 36; d++) { var di = document.createElement('i'); tallyEl.appendChild(di); dots.push(di); }
+  function setCap(k) { for (var q = 0; q < dots.length; q++) { dots[q].classList.toggle('hide', q >= k); } }
+  function setTally(k, ref) {
+    for (var q = 0; q < dots.length; q++) {
       dots[q].classList.toggle('on', q < k);
-      dots[q].classList.toggle('extra', guessV !== null && q + 1 > guessV && q < k);
+      dots[q].classList.toggle('extra', ref !== null && q + 1 > ref && q < k);
     }
     tallyN.textContent = '나타난 수 ' + k;
   }
-  function F(t, m) { if (window.Fun) { Fun.say(t, m); } }
 
-  var n = 3, m = 3, nested = false, total = 9;
-  var guess = null;
-  var ran = false;
-  var timer = null;
-  var mode = '';
-  var lastKey = '';
-
+  var timer = null, abortFn = null;
   function clearTimer() { if (timer) { clearTimeout(timer); timer = null; } }
-
-  function draw() {
-    var nn = 2 + Math.floor(Math.random() * 4);   // 2~5
-    var mm = 1 + Math.floor(Math.random() * 4);   // 1~4
-    var nest = Math.random() < (1 / 3);
-    return { n: nn, m: mm, nested: nest, key: nn + ',' + mm + ',' + nest };
-  }
-
-  // 블록 이름은 MakeCode·과정안 그대로다: [○ 번 반복], ♥ 묶음([아이콘 출력 ♥]-[일시중지]-[LED 스크린 지우기]-[일시중지]).
-  // 홑겹 판은 반복 안에 같은 묶음이 M줄 늘어서 있고(활동1의 늘어선 코드),
-  // 겹침 판은 그 M줄을 다시 [반복 M회]로 감쌌다(활동2의 묶기).
-  function line(cls, text) {
-    var el = document.createElement('div');
-    el.className = 'blkline' + (cls ? ' ' + cls : '');
-    el.textContent = text;
-    codeEl.appendChild(el);
-  }
-
-  function renderCode() {
-    codeEl.innerHTML = '';
-    line('', '[' + n + ' 번 반복]');
-    if (nested) {
-      line('in1', '[' + m + ' 번 반복]');
-      line('in2', '♥ 묶음 (블록 4개)');
-    } else {
-      for (var i = 0; i < m; i += 1) { line('in1', '♥ 묶음 (블록 4개)'); }
-    }
-  }
-
-  function newRound() {
-    clearTimer(); mode = '';
-    var r = draw();
-    var tries = 0;
-    while (r.key === lastKey && tries < 8) { r = draw(); tries += 1; }
-    lastKey = r.key;
-
-    n = r.n; m = r.m; nested = r.nested; total = n * m;
-    guess = null; ran = false;
-    renderCode();
-    drawHeart(false);
-    setTally(0, null);
-
-    for (var i = 0; i < buttons.length; i += 1) {
-      buttons[i].disabled = false;
-      buttons[i].setAttribute('aria-pressed', 'false');
-    }
-    goBtn.disabled = true;
-    replayBtn.disabled = true;
-    sayEl.textContent = '띠에서 수를 짚어요';
-    sayEl.className = 'say dim';
-    F('새 판이에요. 블록을 보고 하트가 몇 번 나타날지 먼저 짚어요.');
-  }
-
-  function pickGuess(v) {
-    if (guess !== null || ran) { return; }
-    guess = v;
-    for (var i = 0; i < buttons.length; i += 1) {
-      var b = buttons[i];
-      b.disabled = true;
-      b.setAttribute('aria-pressed', Number(b.getAttribute('data-v')) === v ? 'true' : 'false');
-    }
-    goBtn.disabled = false;
-    F(v + '번이라고 예측했어요. 돌려서 세어 봐요.');
-    sayEl.textContent = '돌려 보기를 눌러요';
-    sayEl.className = 'say dim';
-  }
-
-  function finish() {
-    var diff = total - guess;
-    if (diff === 0) {
-      sayEl.textContent = '짚은 수와 같은 수로 나타났어요';
-    } else if (diff > 0) {
-      sayEl.textContent = diff + '번 더 나타났어요';
-    } else {
-      sayEl.textContent = (-diff) + '번 덜 나타났어요';
-    }
-    sayEl.className = 'say';
-    if (diff === 0) {
-      F('짚은 수와 같아요. 바깥 ' + n + '회에 안쪽 ' + m + '번씩이었어요.', 'cheer');
-      if (window.Fun) { Fun.burst(tallyEl); }
-    } else {
-      F('예상과 다르게 나왔어요. 바깥 ' + n + '회 × 안쪽 ' + m + '번을 따라 세어 봐요.' + (nested ? ' 반복 안의 반복도 같은 수로 나타나요.' : ''), 'think');
-      if (window.Fun) { Fun.shake(tallyEl); }
-    }
-    if (window.Fun) { Fun.stamp(); }
-    ran = true; mode = '';
-    goBtn.disabled = true;
-    replayBtn.disabled = false;
-  }
-
-  function play(onFinish) {
+  function timing(k) { return k <= 12 ? [300, 160] : (k <= 20 ? [200, 100] : [120, 60]); }
+  // 하트를 count번 켰다 끄며 센다. 끝나면 onDone, 도중에 멈추면 onAbort.
+  function play(count, ref, onDone, onAbort) {
     clearTimer();
-    var done = 0;
+    var n = 0, t = timing(count);
+    abortFn = onAbort || null;
     drawHeart(false);
-    setTally(0, guess);
+    setTally(0, ref);
     var step = function () {
-      if (done >= total) { timer = null; if (onFinish) { onFinish(); } return; }
+      if (n >= count) { timer = null; abortFn = null; if (onDone) { onDone(); } return; }
       drawHeart(true);
-      done += 1;
-      setTally(done, guess);
+      n += 1;
+      setTally(n, ref);
       timer = setTimeout(function () {
         drawHeart(false);
-        timer = setTimeout(step, 160);
-      }, 300);
+        timer = setTimeout(step, t[1]);
+      }, t[0]);
     };
     step();
   }
-
-  function run() {
-    if (timer !== null || guess === null || ran) { return; }
-    goBtn.disabled = true; mode = 'run';
-    play(finish);
-  }
-
-  function replay() {
-    if (timer !== null || !ran) { return; }
-    replayBtn.disabled = true; mode = 'replay';
-    play(function () { mode = ''; replayBtn.disabled = false; });
-  }
-
-  stripEl.addEventListener('click', function (ev) {
-    var btn = ev.target.closest ? ev.target.closest('.c') : null;
-    if (!btn) { return; }
-    pickGuess(Number(btn.getAttribute('data-v')));
-  });
-
-  goBtn.addEventListener('click', run);
-  replayBtn.addEventListener('click', replay);
-  nextBtn.addEventListener('click', newRound);
   function interrupt() {
-    var was = mode;
-    clearTimer();
-    if (!was) { return; }
-    mode = '';
-    drawHeart(false);
-    if (was === 'run') {
-      setTally(0, guess);
-      goBtn.disabled = false;
-      sayEl.textContent = '돌려 보기를 다시 눌러요';
-      sayEl.className = 'say dim';
-    } else {
-      setTally(total, guess);
-      replayBtn.disabled = false;
-    }
+    var f = abortFn;
+    clearTimer(); abortFn = null;
+    if (f) { drawHeart(false); f(); }
   }
   document.addEventListener('visibilitychange', function () { if (document.hidden) { interrupt(); } });
   window.addEventListener('pagehide', interrupt);
 
-  newRound();
+  function line(host, cls, text) {
+    var el = document.createElement('div');
+    el.className = 'blkline' + (cls ? ' ' + cls : '');
+    el.textContent = text;
+    host.appendChild(el);
+  }
+
+  /* ---------- 미션 사다리 ---------- */
+  var cur = 1, done = { 1: false, 2: false, 3: false }, stamped = false;
+  var secs = { 1: $('m1'), 2: $('m2'), 3: $('m3') };
+  var stepBtns = document.querySelectorAll('#steps .sb');
+  var started2 = false, started3 = false;
+  function markDone(n) {
+    done[n] = true;
+    for (var i = 0; i < stepBtns.length; i++) {
+      if (Number(stepBtns[i].getAttribute('data-go')) === n) { stepBtns[i].classList.add('done'); }
+    }
+    if (done[1] && done[2] && done[3] && !stamped) { stamped = true; if (window.Fun) { Fun.stamp(); } }
+  }
+  function go(n) {
+    interrupt();
+    cur = n;
+    for (var k = 1; k <= 3; k++) { secs[k].hidden = (k !== n); }
+    for (var i = 0; i < stepBtns.length; i++) {
+      var on = Number(stepBtns[i].getAttribute('data-go')) === n;
+      if (on) { stepBtns[i].setAttribute('aria-current', 'step'); } else { stepBtns[i].removeAttribute('aria-current'); }
+    }
+    $('slotLed' + n).appendChild($('ledBox'));
+    $('slotTally' + n).appendChild($('tallyBox'));
+    drawHeart(false);
+    var hows = { 1: '하트가 몇 번 나타날지 하나 고르고, 돌려 보기를 눌러 세어 봐요.', 2: '긴 코드와 같은 결과가 나오는 짧은 코드 카드를 골라요.', 3: '− + 로 바깥과 안쪽 횟수를 정하고 돌려 봐요.' };
+    $('how').textContent = hows[n];
+    if (n === 1) { setCap(cap1); setTally(ran1 ? total : 0, guess); F(ran1 ? '한 판 더 하려면 다음 판을 눌러요.' : '블록을 읽고 하트가 몇 번 나타날지 먼저 골라요.'); }
+    if (n === 2) { setCap(12); setTally(0, null); if (!started2) { started2 = true; deal2(); } else { F('긴 코드와 같은 결과가 나오는 짧은 코드를 골라요.'); } }
+    if (n === 3) { cap3(); setTally(0, null); if (!started3) { started3 = true; deal3(); } else { F('목표 횟수가 되도록 바깥과 안쪽 횟수를 정해요.'); } }
+  }
+  for (var si = 0; si < stepBtns.length; si++) {
+    stepBtns[si].addEventListener('click', function () { go(Number(this.getAttribute('data-go'))); });
+  }
+  $('nx1').addEventListener('click', function () { go(2); });
+  $('nx2').addEventListener('click', function () { go(3); });
+
+  /* ---------- 미션 1: 몇 번 나타날지 짚기 ---------- */
+  var codeEl = $('code'), stripEl = $('strip');
+  var goBtn = $('go'), replayBtn = $('replay'), nextBtn = $('next'), sayEl = $('say');
+  var cap1 = 12, n1 = 3, m1 = 3, nested = false, total = 9, guess = null, ran1 = false, lastKey1 = '';
+  var optBtns = [];
+
+  function renderCode1() {
+    codeEl.innerHTML = '';
+    line(codeEl, '', '[' + n1 + ' 번 반복]');
+    if (nested) {
+      line(codeEl, 'in1', '[' + m1 + ' 번 반복]');
+      line(codeEl, 'in2', '♥ 묶음');
+    } else {
+      for (var i = 0; i < m1; i++) { line(codeEl, 'in1', '♥ 묶음'); }
+    }
+  }
+  function buildOptions1() {
+    var seen = {}, vals = [total];
+    seen[total] = true;
+    // 자주 하는 생각: 바깥만 세기, 더하기, 한 번 덜 세기
+    var wrong = shuffle([n1 + m1, n1, m1, total + n1, total - m1, total + 1]);
+    for (var i = 0; i < wrong.length && vals.length < 4; i++) {
+      var v = wrong[i];
+      if (v >= 1 && v <= 20 && !seen[v]) { seen[v] = true; vals.push(v); }
+    }
+    for (var u = 1; vals.length < 4; u++) { if (!seen[u]) { seen[u] = true; vals.push(u); } }
+    vals.sort(function (a, b) { return a - b; });
+    cap1 = vals[vals.length - 1] > total ? vals[vals.length - 1] : total;
+    if (cur === 1) { setCap(cap1); }
+    stripEl.innerHTML = ''; optBtns = [];
+    for (var j = 0; j < vals.length; j++) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'c'; b.textContent = vals[j] + '번';
+      b.setAttribute('data-v', String(vals[j]));
+      b.setAttribute('aria-pressed', 'false');
+      stripEl.appendChild(b); optBtns.push(b);
+    }
+  }
+  function draw1() {
+    var nn = 2 + rnd(4), nest = Math.random() < (1 / 3), mm = nest ? 2 + rnd(3) : 1 + rnd(4);
+    return { n: nn, m: mm, nested: nest, key: nn + ',' + mm + ',' + nest };
+  }
+  function newRound1() {
+    interrupt();
+    var r = draw1(), tries = 0;
+    while (r.key === lastKey1 && tries < 8) { r = draw1(); tries++; }
+    lastKey1 = r.key;
+    n1 = r.n; m1 = r.m; nested = r.nested; total = n1 * m1;
+    guess = null; ran1 = false;
+    renderCode1(); buildOptions1(); drawHeart(false); setTally(0, null);
+    goBtn.disabled = true; replayBtn.disabled = true; nextBtn.disabled = true;
+    sayEl.textContent = '블록을 읽고 횟수를 하나 골라요'; sayEl.className = 'say dim';
+    if (cur === 1) { F('새 판이에요. 블록을 보고 하트가 몇 번 나타날지 먼저 골라요.'); }
+  }
+  function pick1(v) {
+    if (guess !== null || ran1) { return; }
+    guess = v;
+    for (var i = 0; i < optBtns.length; i++) {
+      optBtns[i].disabled = true;
+      optBtns[i].setAttribute('aria-pressed', Number(optBtns[i].getAttribute('data-v')) === v ? 'true' : 'false');
+    }
+    goBtn.disabled = false;
+    F(v + '번이라고 예상했어요. 돌려서 세어 봐요.');
+    sayEl.textContent = '돌려 보기를 눌러요'; sayEl.className = 'say dim';
+  }
+  function finish1() {
+    var diff = total - guess;
+    sayEl.textContent = diff === 0 ? '고른 수와 같은 수로 나타났어요'
+      : (diff > 0 ? diff + '번 더 나타났어요' : (-diff) + '번 덜 나타났어요');
+    sayEl.className = 'say';
+    ran1 = true;
+    goBtn.disabled = true; replayBtn.disabled = false; nextBtn.disabled = false;
+    var tail = (nested ? '바깥 ' + n1 + '회 × 안쪽 ' + m1 + '회 = ' + total + '번이에요. 반복 안의 반복도 곱해서 세요.' : '반복 ' + n1 + '회 × 안에 든 ♥ 묶음 ' + m1 + '줄 = ' + total + '번이에요.');
+    sayEl.textContent += '. ' + tail;
+    if (diff !== 0) { sayEl.textContent += ' 다음 판을 눌러 새 블록으로 다시 짚어 봐요.'; }
+    if (diff === 0) { if (window.Fun) { Fun.burst(tallyEl); } } else if (window.Fun) { Fun.shake(tallyEl); }
+    var learn = '알게 된 것: 반복은 (반복 횟수) × (안에 든 ♥ 묶음 수)만큼 나타나요. 반복 안에 반복이 있어도 곱해서 세요.';
+    if (diff === 0) { $('learn1').textContent = learn; $('learn1').hidden = false; $('nx1').hidden = false; }
+    if (diff === 0 && !done[1]) { markDone(1); F(learn, 'cheer'); }
+    else { F((diff === 0 ? '예상한 수와 같아요. ' : '예상과 다르게 나왔어요. 어디서 갈렸는지 봐요. ') + tail, diff === 0 ? 'cheer' : 'think'); }
+  }
+  function run1() {
+    if (timer !== null || guess === null || ran1) { return; }
+    goBtn.disabled = true;
+    play(total, guess, finish1, function () {
+      setTally(0, guess); goBtn.disabled = false;
+      sayEl.textContent = '돌려 보기를 다시 눌러요'; sayEl.className = 'say dim';
+    });
+  }
+  function replay1() {
+    if (timer !== null || !ran1) { return; }
+    replayBtn.disabled = true;
+    play(total, guess, function () { replayBtn.disabled = false; },
+      function () { setTally(total, guess); replayBtn.disabled = false; });
+  }
+  stripEl.addEventListener('click', function (ev) {
+    var btn = ev.target.closest ? ev.target.closest('.c') : null;
+    if (btn) { pick1(Number(btn.getAttribute('data-v'))); }
+  });
+  goBtn.addEventListener('click', run1);
+  replayBtn.addEventListener('click', replay1);
+  nextBtn.addEventListener('click', newRound1);
+
+  /* ---------- 미션 2: 긴 코드를 짧은 코드로 줄이기 ---------- */
+  var deck2 = [], idx2 = 0, K2 = 3, locked2 = false;
+  var optsEl = $('opts2'), say2 = $('say2'), next2 = $('next2'), again2 = $('again2');
+  function dots2() {
+    var el = $('dots2').children;
+    for (var i = 0; i < el.length; i++) { el[i].className = i < idx2 ? 'ok' : (i === idx2 ? 'now' : ''); }
+  }
+  function deal2() {
+    interrupt();
+    deck2 = shuffle([3, 4, 5, 6]).slice(0, 3); idx2 = 0;
+    $('learn2').hidden = true;
+    showCard2();
+  }
+  function showCard2() {
+    interrupt();
+    K2 = deck2[idx2]; locked2 = false;
+    dots2(); next2.hidden = true; again2.hidden = true;
+    var long = $('long2'); long.innerHTML = '';
+    for (var i = 0; i < K2; i++) { line(long, '', '♥ 묶음'); }
+    // 같은 결과 1개 + 빗나가는 코드 2개: 횟수가 크다, 안에 묶음이 둘이다, 횟수가 작다
+    var right = { n: K2, k: 1 };
+    var traps = shuffle([{ n: K2 + 2, k: 1 }, { n: K2, k: 2 }, { n: K2 > 3 ? K2 - 1 : K2 + 1, k: 1 }]).slice(0, 2);
+    var list = shuffle([right, traps[0], traps[1]]);
+    optsEl.innerHTML = '';
+    for (var j = 0; j < list.length; j++) {
+      var o = list[j], b = document.createElement('button');
+      b.type = 'button'; b.className = 'opt'; b.setAttribute('aria-pressed', 'false');
+      b.setAttribute('data-n', String(o.n)); b.setAttribute('data-k', String(o.k));
+      line(b, '', '[' + o.n + ' 번 반복]');
+      for (var q = 0; q < o.k; q++) { line(b, 'in1', '♥ 묶음'); }
+      optsEl.appendChild(b);
+    }
+    drawHeart(false); setTally(0, null);
+    say2.textContent = '긴 코드에서 ♥ 묶음이 몇 줄인지 세어 봐요'; say2.className = 'say dim';
+    if (cur === 2) { F('긴 코드는 ♥ 묶음이 ' + K2 + '줄이에요. 같은 결과가 나오는 짧은 코드를 골라요.'); }
+  }
+  function lockOpts(on, chosen) {
+    var bs = optsEl.children;
+    for (var i = 0; i < bs.length; i++) {
+      bs[i].disabled = on;
+      bs[i].setAttribute('aria-pressed', bs[i] === chosen ? 'true' : 'false');
+    }
+  }
+  function pick2(btn) {
+    if (locked2) { return; }
+    locked2 = true;
+    var n = Number(btn.getAttribute('data-n')), k = Number(btn.getAttribute('data-k'));
+    var cnt = n * k, blocks = 1 + 4 * k, longBlocks = 4 * K2;
+    lockOpts(true, btn);
+    say2.textContent = '고른 코드를 돌리는 중이에요'; say2.className = 'say dim';
+    play(cnt, K2, function () {
+      var same = cnt === K2;
+      say2.className = 'say';
+      say2.textContent = same
+        ? '하트가 ' + cnt + '번 나타나요. 긴 코드와 같은 결과예요. 블록은 ' + longBlocks + '개에서 ' + blocks + '개로 줄었어요.'
+        : '예상과 다르게 나왔어요. 이 코드는 ' + cnt + '번, 긴 코드는 ' + K2 + '번이에요. 어디서 갈렸는지 봐요.';
+      if (same) { if (window.Fun) { Fun.burst(tallyEl); } } else if (window.Fun) { Fun.shake(tallyEl); }
+      if (!same) {
+        lockOpts(false, null); btn.disabled = true; locked2 = false;
+        say2.textContent += ' 다른 코드를 골라 다시 돌려 봐요.';
+        return;
+      }
+      idx2 += 1; dots2();
+      if (idx2 < 3) { next2.hidden = false; }
+      else {
+        again2.hidden = false;
+        var learn = '알게 된 것: 같은 묶음이 줄지어 있으면 반복 블록 하나로 묶을 수 있고, 결과는 같아요.';
+        $('learn2').textContent = learn; $('learn2').hidden = false; $('nx2').hidden = false;
+        if (!done[2]) { markDone(2); F(learn, 'cheer'); }
+      }
+    }, function () {
+      lockOpts(false, null); locked2 = false; setTally(0, null);
+      say2.textContent = '하나 골라서 다시 돌려 봐요'; say2.className = 'say dim';
+    });
+  }
+  optsEl.addEventListener('click', function (ev) {
+    var b = ev.target.closest ? ev.target.closest('.opt') : null;
+    if (b && !b.disabled) { pick2(b); }
+  });
+  next2.addEventListener('click', showCard2);
+  again2.addEventListener('click', deal2);
+
+  /* ---------- 미션 3: 스스로 반복 횟수 정하기 ---------- */
+  var target3 = 0, fixedN = 0, outer = 1, inner = 1, tries3 = 0, lastKey3 = '', busy3 = false;
+  var code3 = $('code3'), say3 = $('say3'), goal3 = $('goal3'), go3 = $('go3');
+  var rows3 = [];
+  function stepper(label, get, set, fixed, cls) {
+    var row = document.createElement('div');
+    row.className = 'ctl blkline ' + cls;
+    var minus = document.createElement('button'); minus.type = 'button'; minus.className = 'st'; minus.textContent = '−';
+    minus.setAttribute('aria-label', label + ' 줄이기');
+    var val = document.createElement('span'); val.className = 'val'; val.setAttribute('aria-live', 'polite');
+    var plus = document.createElement('button'); plus.type = 'button'; plus.className = 'st'; plus.textContent = '+';
+    plus.setAttribute('aria-label', label + ' 늘리기');
+    var suf = document.createElement('span'); suf.textContent = ' 번 반복';
+    function sync() { val.textContent = String(get()); minus.disabled = fixed || busy3 || get() <= 1; plus.disabled = fixed || busy3 || get() >= 6; }
+    minus.addEventListener('click', function () { set(get() - 1); sync(); changed3(); });
+    plus.addEventListener('click', function () { set(get() + 1); sync(); changed3(); });
+    row.appendChild(minus); row.appendChild(val); row.appendChild(plus); row.appendChild(suf);
+    row.sync = sync; sync();
+    rows3.push(row);
+    return row;
+  }
+  function renderCode3() {
+    code3.innerHTML = ''; rows3 = [];
+    code3.appendChild(stepper('바깥 반복', function () { return outer; }, function (v) { outer = v; }, fixedN > 0, ''));
+    code3.appendChild(stepper('안쪽 반복', function () { return inner; }, function (v) { inner = v; }, false, 'in1'));
+    line(code3, 'in2', '♥ 묶음');
+  }
+  function cap3() { setCap(Math.max(target3, outer * inner)); }
+  function syncAll3() { for (var i = 0; i < rows3.length; i++) { rows3[i].sync(); } }
+  function changed3() { if (timer === null) { cap3(); drawHeart(false); setTally(0, null); } }
+  function deal3() {
+    interrupt(); busy3 = false;
+    var r, tries = 0;
+    do {
+      var a = 2 + rnd(5), b = 2 + rnd(5);
+      if (a * b > 24) { a = 3; b = 2 + rnd(3); }
+      r = { a: a, b: b, fix: Math.random() < 0.5, key: a + 'x' + b };
+      tries++;
+    } while (r.key === lastKey3 && tries < 8);
+    lastKey3 = r.key; target3 = r.a * r.b; fixedN = r.fix ? r.a : 0;
+    outer = r.fix ? r.a : 1; inner = 1; tries3 = 0;
+    goal3.textContent = '목표: 하트가 ' + target3 + '번 나타나게 해요.' + (fixedN ? ' 바깥 반복은 ' + fixedN + '번으로 정해져 있어요.' : '');
+    renderCode3(); cap3();
+    go3.disabled = false;
+    drawHeart(false); setTally(0, null);
+    say3.textContent = '− + 단추로 횟수를 정하고 돌려 봐요'; say3.className = 'say dim';
+    if (cur === 3) { F('목표는 ' + target3 + '번이에요. 바깥과 안쪽 횟수를 어떻게 정할까요?'); }
+  }
+  function run3() {
+    if (timer !== null || busy3) { return; }
+    var cnt = outer * inner;
+    busy3 = true; go3.disabled = true; syncAll3();
+    say3.textContent = '세는 중이에요'; say3.className = 'say dim';
+    play(cnt, target3, function () {
+      busy3 = false; go3.disabled = false; syncAll3(); say3.className = 'say';
+      if (cnt === target3) {
+        say3.textContent = '바깥 ' + outer + ' × 안쪽 ' + inner + ' = ' + cnt + '번. 목표와 같아요. 새 목표에서 다른 짝도 찾아봐요.';
+        if (window.Fun) { Fun.burst(tallyEl); }
+        var learn = '알게 된 것: 목표 횟수는 바깥 × 안쪽 짝으로 만들 수 있고, 짝은 여러 가지예요.';
+        $('learn3').textContent = learn; $('learn3').hidden = false; $('fin').hidden = false;
+        if (!done[3]) { markDone(3); F(learn, 'cheer'); }
+      } else {
+        tries3 += 1;
+        say3.textContent = '예상과 다르게 나왔어요. 바깥 ' + outer + ' × 안쪽 ' + inner + ' = ' + cnt + '번이에요. 목표 ' + target3 + '번과 어디서 갈렸는지 봐요.'
+          + (tries3 >= 2 ? ' 힌트: 목표를 바깥 횟수로 나누어 봐요.' : '');
+        if (window.Fun) { Fun.shake(tallyEl); }
+        F('예상과 다르게 나왔어요. 곱을 목표와 견주어 봐요.', 'think');
+      }
+    }, function () {
+      busy3 = false; go3.disabled = false; syncAll3(); setTally(0, null);
+      say3.textContent = '돌려 보기를 다시 눌러요'; say3.className = 'say dim';
+    });
+  }
+  go3.addEventListener('click', run3);
+  $('deal3').addEventListener('click', deal3);
+
+  /* 시작 */
+  newRound1();
+  go(1);
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B09" data-mission="반복 블록을 보고 하트가 몇 번 나타날지 먼저 짚어요. 돌려서 세어 보고, 판이 바뀌면 또 짚어요!"></script>
+<script src="../assets/play/fun.js" data-block="B09" data-mission="블록을 읽고 하트가 몇 번 나타날지 골라요. 세 미션을 차례로 해 봐요!"></script>
 </body>
 </html>

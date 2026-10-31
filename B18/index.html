@@ -32,7 +32,7 @@
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:10px;margin-top:9px}
-  h2{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--muted)}
+  h2{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--muted)}
 
   .duo{display:flex;align-items:flex-start;justify-content:center;gap:14px}
   .box{display:block;border:1px solid var(--line);border-radius:var(--r-sm);min-width:2.1em;
@@ -42,25 +42,27 @@
   .box.same{background:var(--point);color:#fff}
   .box.pulse{animation:pulse .17s ease-out}
   @keyframes pulse{0%{transform:scale(1)}45%{transform:scale(1.15)}100%{transform:scale(1)}}
-  .cap{display:block;font-size:11.5px;font-weight:700;color:var(--muted);text-align:center;margin-top:2px}
+  .cap{display:block;font-size:14px;font-weight:700;color:var(--muted);text-align:center;margin-top:2px}
 
-  .line{margin-top:8px;width:100%;height:auto;display:block}
+  .line{margin-top:6px;width:100%;height:auto;display:block}
   .rail{fill:none;stroke:var(--ink);stroke-width:5;stroke-linecap:round}
   .tick{stroke:var(--ink);stroke-width:5}
   .tick.on{stroke:var(--point);stroke-width:12}
-  .tlab{font-size:20px;font-weight:700;fill:var(--muted);text-anchor:middle}
-  .tlab.on{fill:var(--point);font-size:26px}
+  .tlab{font-size:22px;font-weight:700;fill:var(--muted);text-anchor:middle}
+  .tlab.on{fill:var(--point);font-size:24px}
   .band{fill:var(--point-soft)}
   .mark{fill:var(--point);stroke:var(--ink);stroke-width:3}
 
-  .val{margin-top:3px;text-align:center;font-family:'Courier New',monospace;
-    font-size:22px;font-weight:700;color:var(--point)}
+  .box.num{font-family:'Courier New',monospace;color:var(--point);min-width:2.1em}
+  .tnum{font-size:15px;font-weight:700;fill:var(--muted);text-anchor:middle}
+  .shift{display:flex;gap:8px;margin-top:8px}
+  .shift .btn{font-size:15px}
 
   input[type=range]{width:100%;margin-top:7px;min-height:44px;accent-color:var(--point)}
   input[type=range][hidden]{display:none}
 
   .say{margin-top:6px;font-size:14.5px;font-weight:700;text-align:center;min-height:1.5em}
-  .say.dim{color:var(--muted);font-weight:700;font-size:13px}
+  .say.dim{color:var(--muted);font-weight:700;font-size:14px}
 
   .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
   .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:700;
@@ -70,9 +72,9 @@
   .btn.main{background:var(--point);color:#fff}
   .btn:disabled{opacity:.4;cursor:default;box-shadow:none}
 
-  .practice{margin-top:6px;display:inline-flex;font-size:12.5px;font-weight:700;color:var(--ink);
+  .practice{margin-top:6px;display:inline-flex;font-size:14px;font-weight:700;color:var(--ink);
     background:var(--point-soft);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
-  .note{margin-top:5px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .note{margin-top:5px;font-size:14px;font-weight:700;color:var(--muted)}
   [hidden]{display:none!important}
 
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
@@ -82,7 +84,7 @@
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 
 .guess{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
-.guess b{font-size:13px;color:var(--muted);margin-right:2px}
+.guess b{font-size:14px;color:var(--muted);margin-right:2px}
 .chip{font-family:inherit;cursor:pointer;font-size:15px;font-weight:700;color:var(--ink);background:var(--surface);
   border:1px solid var(--ink);border-radius:999px;min-height:44px;min-width:52px;padding:6px 12px;box-shadow:var(--hard-sm)}
 .chip[aria-pressed=true]{background:var(--grape-l,#efecfd);border:3px solid var(--grape,#9b8cf2)}
@@ -91,10 +93,41 @@
 .pair{display:flex;gap:8px;margin-top:8px}
 .slot{flex:1;border:1px solid var(--line);border-radius:var(--r-sm);padding:6px 8px;text-align:center;background:var(--surface);min-height:62px}
 .slot.full{background:var(--sky-l,#e6f3fc);animation:pulse .17s ease-out}
-.slot small{display:block;font-size:11.5px;font-weight:700;color:var(--muted)}
+.slot small{display:block;font-size:14px;font-weight:700;color:var(--muted)}
 .slot strong{font-family:'Courier New',monospace;font-size:24px;line-height:1.2}
-.slot em{font-style:normal;font-size:13px;font-weight:700;color:var(--muted)}
+.slot em{font-style:normal;font-size:14px;font-weight:700;color:var(--muted)}
 @media (max-width:400px){.chip{min-width:46px;padding:6px 8px}.btn{padding:9px 8px;font-size:14px}}
+
+/* 체험 개선 2026-10-31: 시작 안내·미션 사다리·개념 카드 */
+.how{margin:10px 0 0;font-size:16px;font-weight:600;background:var(--sun-l,#fff6d9);border-radius:var(--r-sm);padding:8px 12px}
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:9px 0 0}
+.ladder button{font-family:inherit;cursor:pointer;min-height:44px;padding:4px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+  background:var(--surface);color:var(--ink);font-size:14.5px;font-weight:700;line-height:1.2}
+.ladder button[aria-current="step"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ladder button.done::after{content:" 끝";font-weight:600;color:#1f7a5c}
+.ladder button.done[aria-current="step"]::after{color:#fff}
+.concept{margin-top:9px;display:flex;gap:10px;align-items:center;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 12px;background:var(--surface)}
+.concept img{flex:0 0 auto;width:96px;height:54px;object-fit:cover;border-radius:8px}
+.concept b{display:block;font-size:14px;color:var(--point)}
+.concept p{margin:2px 0 0;font-size:15px;font-weight:600}
+.scene{display:flex;align-items:center;gap:10px;margin:0 0 8px}
+.scene img{flex:0 0 auto;width:112px;height:63px;object-fit:cover;border-radius:8px;background:var(--point-soft)}
+.scene .sc-text{flex:1;min-width:0;font-size:15.5px;font-weight:600}
+.scene .sc-text b{display:block;font-size:17px;letter-spacing:-.02em}
+.learned{margin-top:8px;padding:8px 12px;border-radius:var(--r-sm);background:#e3f6ef;font-size:15px;font-weight:700}
+.learned:empty{display:none}
+.tickb{stroke:#b4721c;stroke-width:4}
+.concept{margin-bottom:4px}
+.tickb.on{stroke-width:10}
+.tlabb{font-size:18px;font-weight:700;fill:#b4721c;text-anchor:middle}
+.tlabb.on{font-size:24px}
+.sidelab{font-size:18px;font-weight:700;fill:var(--muted);text-anchor:end}
+.duo .cap{max-width:9em}
+.fin{display:flex;gap:10px;align-items:center;margin-top:9px}
+.fin img{flex:0 0 auto;width:128px;height:72px;object-fit:cover;border-radius:8px}
+.fin p{font-size:15px;font-weight:700}
+.ai{margin-top:10px;font-size:14px;color:var(--muted);font-weight:700}
+@media (max-width:400px){.scene{margin-bottom:6px}.scene img{width:72px;height:40px}.concept img{width:70px;height:40px}.fin img{width:96px;height:54px}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -106,53 +139,95 @@
   </nav>
 
   <header>
-    <h1>소리 내어 목표 글자 맞추기</h1>
-    <p class="lead">이 글자가 걸리게 소리를 내요</p>
+    <h1>소리를 수로 바꾸기</h1>
+    <p class="lead">소리를 내면 수와 글자가 바뀌어요</p>
   </header>
 
-  <section aria-labelledby="h-n">
-    <h2 id="h-n">맞출 글자</h2>
-    <div class="duo">
-      <p><b class="box want" id="want">다</b><span class="cap">맞출 글자</span></p>
-      <p><b class="box now" id="now">가</b><span class="cap">지금 걸린 글자</span></p>
-    </div>
+  <p class="how" id="how">먼저 나올 수를 하나 골라요. 소리를 내서 맞출 글자가 걸리면 담아요.</p>
 
-    <svg class="line" viewBox="0 0 400 80" role="img"
-         aria-label="지금 수가 규칙표 네 값 가운데 어디에 있는지">
+  <nav class="ladder" id="ladder" aria-label="미션 순서">
+    <button type="button" data-go="1" aria-current="step">① 찾기</button>
+    <button type="button" data-go="2">② 바꾸기</button>
+    <button type="button" data-go="3">③ 갈라보기</button>
+  </nav>
+
+  <section data-step="1" id="m1" aria-labelledby="h-m1">
+    <h2 id="h-m1">미션 1 · 목표 글자를 걸어요</h2>
+    <div class="scene"><img src="../lecture/_assets/B18/step1_in.webp" alt="소리를 내는 사람과 공책" width="112" height="63">
+      <p class="sc-text"><b>먼저 예측해요</b>글자가 걸릴 수를 고른 뒤 소리를 내요.</p></div>
+    <div class="guess" role="group" aria-label="나올 수 예측"><b>예측</b>
+      <button class="chip" type="button" data-g="20" aria-pressed="false">20</button>
+      <button class="chip" type="button" data-g="40" aria-pressed="false">40</button>
+      <button class="chip" type="button" data-g="60" aria-pressed="false">60</button>
+      <button class="chip" type="button" data-g="80" aria-pressed="false">80</button>
+    </div>
+    <p class="learned" id="learn1"></p>
+  </section>
+
+  <section data-step="2" id="m2" hidden aria-labelledby="h-m2">
+    <h2 id="h-m2">미션 2 · 약속표를 옮겨 봐요</h2>
+    <div class="scene"><img src="../lecture/_assets/B18/translate_board.webp" alt="두 태블릿에 초록과 노랑 말풍선이 떠 있는 교실" width="112" height="63">
+      <p class="sc-text"><b>표가 두 개예요</b>B표를 옮겨 같은 소리가 다른 글자가 되게 해요. 글자 쌍이 다른 소리를 두 번 담아요.</p></div>
+    <div class="shift"><button class="btn" id="bl" type="button">◀ B표 왼쪽으로</button><button class="btn" id="br" type="button">B표 오른쪽으로 ▶</button></div>
+    <p class="learned" id="learn2"></p>
+  </section>
+
+  <section data-step="3" id="m3" hidden aria-labelledby="h-m3">
+    <h2 id="h-m3">미션 3 · 경계에서 갈라 봐요</h2>
+    <div class="scene"><img src="../lecture/_assets/B18/step3_find.webp" alt="나란한 두 그림을 돋보기로 살펴보는 그림" width="112" height="63">
+      <p class="sc-text"><b>가까운 두 소리</b>색칠된 구간에서 수는 비슷하고 글자는 다른 두 소리를 담아요.</p></div>
+    <p class="learned" id="learn3"></p>
+  </section>
+
+  <section aria-labelledby="h-n">
+    <h2 id="h-n">소리 막대</h2>
+    <div class="duo">
+      <p><b class="box want" id="want">다</b><span class="cap" id="cap1">맞출 글자</span></p>
+      <p><b class="box num" id="val">0</b><span class="cap">지금 수</span></p>
+      <p><b class="box now" id="now">가</b><span class="cap" id="cap2">지금 걸린 글자</span></p>
+    </div>
+    <p class="practice" id="practice" hidden>연습 모드 · 막대로 수를 옮겨요. 막대는 몇 번을 해도 같은 수가 나와요.</p>
+    <input type="range" id="slide" min="0" max="99" step="1" aria-label="지금 수" hidden>
+    <div class="acts">
+      <button class="btn main" id="keep" type="button">담기</button>
+      <button class="btn" id="next" type="button">새 판</button>
+      <button class="btn" id="reset" type="button">다시 하기</button>
+    </div>
+    <svg class="line" viewBox="-26 0 426 100" role="img"
+         aria-label="지금 수가 약속표 값 가운데 어디에 있는지">
       <rect class="band" id="band" x="0" y="44" width="0" height="28" rx="6"></rect>
       <line class="rail" x1="12" y1="58" x2="388" y2="58"></line>
       <g id="ticks"></g>
       <line class="flag" id="flag" x1="0" y1="16" x2="0" y2="78" visibility="hidden"></line>
       <text class="flagt" id="flagt" x="0" y="12" visibility="hidden">예상</text>
       <polygon class="mark" id="mark" points="0,0 0,0 0,0"></polygon>
+      <text class="sidelab" id="sideA" x="-6" y="36" visibility="hidden">A</text>
+      <text class="sidelab" id="sideB" x="-6" y="94" visibility="hidden">B</text>
     </svg>
-    <p class="val" id="val">0</p>
-    <input type="range" id="slide" min="0" max="99" step="1" aria-label="지금 수" hidden>
-
-    <div class="guess" role="group" aria-label="나올 수 예상"><b>먼저 예측해요</b>
-      <button class="chip" type="button" data-g="20" aria-pressed="false">20</button>
-      <button class="chip" type="button" data-g="40" aria-pressed="false">40</button>
-      <button class="chip" type="button" data-g="60" aria-pressed="false">60</button>
-      <button class="chip" type="button" data-g="80" aria-pressed="false">80</button>
-    </div>
     <p class="say dim" id="say">소리를 내 보세요</p>
-    <p class="practice" id="practice" hidden>연습 모드 · 막대로 수를 옮겨요</p>
   </section>
 
   <section aria-labelledby="h-k">
     <h2 id="h-k">담은 수</h2>
-    <div class="acts">
-      <button class="btn main" id="keep" type="button">담기</button>
-      <button class="btn" id="next" type="button">다음 글자</button>
-      <button class="btn" id="reset" type="button">다시 하기</button>
-    </div>
     <div class="pair" id="kept" aria-live="polite">
       <div class="slot" id="s0"><small>첫 번째</small><strong>·</strong><em></em></div>
       <div class="slot" id="s1"><small>두 번째</small><strong>·</strong><em></em></div>
     </div>
-    <p class="note" id="hint">수를 예측하고 같은 글자를 두 번 담아 견줘요</p>
-    <p class="note">이 판의 기계는 마이크로비트처럼 <b>소리 크기 수 하나</b>만 보고 약속표에서 글자를 골라요. 진짜 음성 인식은 크기가 아니라 소리의 무늬(높낮이와 떨림)를 배운 자료와 견줘서, 크게 말해도 같은 글자가 나와요. 목소리는 저장되지 않아요.</p>
+    <p class="note" id="hint">수를 예측하고 소리를 내서 담아요</p>
+    <p class="note">이 판의 기계는 소리 크기 수 하나만 봐요. 목소리는 저장되지 않아요.</p>
   </section>
+
+  <section id="fin" hidden aria-label="마무리">
+    <div class="fin"><img src="../lecture/_assets/B18/voice_test.webp" alt="교실 앞 스마트폰과 스피커를 향해 소리를 내는 아이들 뒷모습" width="128" height="72">
+      <p>세 미션을 끝냈어요. 받아쓰기는 공용 기기로 이어서 해요.</p></div>
+  </section>
+
+  <aside class="concept" aria-label="개념 설명">
+    <img src="../lecture/_assets/B18/relay_game.webp" alt="친구들이 소리 카드를 넘기는 네 단계 릴레이 놀이" width="96" height="54">
+    <div><b>알아 둘 말</b>
+    <p>이 판의 기계는 소리 크기만 수로 바꿔, 약속표(수마다 글자를 정해 둔 표)에서 가장 가까운 줄의 글자를 골라요. 진짜 받아쓰기 기계는 소리에서 수를 아주 많이 뽑아 글자를 찾아요.</p></div>
+  </aside>
+  <p class="ai">그림 일부는 생성형 AI로 만들었어요.</p>
 </div>
 
 <script>
@@ -160,107 +235,199 @@
   'use strict';
   var $ = function(id){ return document.getElementById(id); };
   var NS = 'http://www.w3.org/2000/svg';
-  var TABLE = [{ n:10, c:'가' }, { n:35, c:'나' }, { n:60, c:'다' }, { n:85, c:'라' }];
+  var LET = ['가', '나', '다', '라'];
+  var TA = [10, 35, 60, 85];
+  var TB = [10, 35, 60, 85];
   var X0 = 12, X1 = 388;
 
-  var value = 0;
-  var want = 2;
-  var lastWant = -1;
-  var slots = [null, null];
-  var lastHit = -1;
-  var guess = null, rounds = 0;
+  var value = 0, cur = 1;
+  var want = 2, lastWant = -1;
+  var pairI = 0, lastPair = -1;
+  var shift = 5, lastShift = 0;
+  var slots = [null, null], slotTxt = ['', ''], pairKey = [-1, -1];
+  var lastHit = '';
+  var guess = null;
+  var roundDone = false;
+  var doneM = { 1: false, 2: false, 3: false }, stamped = false;
   function say(t, m){ if (window.Fun) Fun.say(t, m); }
-
-  var ticks = [], tlabs = [];
+  // 숫자 끝자리 받침: 0·1·3·6·7·8은 있음
+  function jb(n){ return '013678'.indexOf(String(Math.abs(n)).slice(-1)) >= 0; }
+  function iyo(n){ return n + (jb(n) ? '이에요' : '예요'); }
+  function eun(n){ return n + (jb(n) ? '은' : '는'); }
   function px(v){ return X0 + (X1 - X0) * (v / 99); }
+  function mk(tag, attrs){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
 
+  var ticksA = [], labsA = [], ticksB = [], labsB = [];
   (function build(){
-    for (var i = 0; i < TABLE.length; i++){
-      var x = px(TABLE[i].n);
-      var ln = document.createElementNS(NS, 'line');
-      ln.setAttribute('class', 'tick');
-      ln.setAttribute('x1', x); ln.setAttribute('y1', '44');
-      ln.setAttribute('x2', x); ln.setAttribute('y2', '76');
-      var tx = document.createElementNS(NS, 'text');
-      tx.setAttribute('class', 'tlab'); tx.setAttribute('x', x); tx.setAttribute('y', '38');
-      tx.textContent = TABLE[i].c;
-      $('ticks').appendChild(ln); $('ticks').appendChild(tx);
-      ticks.push(ln); tlabs.push(tx);
+    for (var i = 0; i < 4; i++){
+      var xa = px(TA[i]);
+      var la = mk('line', { 'class': 'tick', x1: xa, y1: 44, x2: xa, y2: 58 });
+      var ta = mk('text', { 'class': 'tlab', x: xa, y: 38 }); ta.textContent = LET[i];
+      var na = mk('text', { 'class': 'tnum', x: xa, y: 12 }); na.textContent = String(TA[i]);
+      var lb = mk('line', { 'class': 'tickb', x1: xa, y1: 58, x2: xa, y2: 74, visibility: 'hidden' });
+      var tb = mk('text', { 'class': 'tlabb', x: xa, y: 94, visibility: 'hidden' }); tb.textContent = LET[i];
+      var g = $('ticks'); g.appendChild(la); g.appendChild(ta); g.appendChild(na); g.appendChild(lb); g.appendChild(tb);
+      ticksA.push(la); labsA.push(ta); ticksB.push(lb); labsB.push(tb);
     }
   })();
 
   // 차이가 가장 작은 줄 하나. 같으면 위쪽 줄.
-  function pick(v){
-    var best = 0, bd = Math.abs(v - TABLE[0].n);
-    for (var i = 1; i < TABLE.length; i++){
-      var d = Math.abs(v - TABLE[i].n);
+  function pick(T, v){
+    var best = 0, bd = Math.abs(v - T[0]);
+    for (var i = 1; i < T.length; i++){
+      var d = Math.abs(v - T[i]);
       if (d < bd){ bd = d; best = i; }
     }
     return best;
   }
-
-  // 맞출 글자가 걸리는 수의 구간. 이웃과의 한가운데가 경계다.
   function bandOf(i){
-    var lo = (i === 0) ? 0 : (TABLE[i - 1].n + TABLE[i].n) / 2;
-    var hi = (i === TABLE.length - 1) ? 99 : (TABLE[i].n + TABLE[i + 1].n) / 2;
+    var lo = (i === 0) ? 0 : (TA[i - 1] + TA[i]) / 2;
+    var hi = (i === 3) ? 99 : (TA[i] + TA[i + 1]) / 2;
     return [lo, hi];
+  }
+  function setShift(sh){
+    shift = sh;
+    for (var i = 0; i < 4; i++){
+      TB[i] = TA[i] + sh;
+      var x = px(TB[i]).toFixed(1);
+      ticksB[i].setAttribute('x1', x); ticksB[i].setAttribute('x2', x); labsB[i].setAttribute('x', x);
+    }
+  }
+  function vis(on){ return on ? 'visible' : 'hidden'; }
+  function showB(on){
+    for (var i = 0; i < 4; i++){
+      ticksB[i].setAttribute('visibility', vis(on)); labsB[i].setAttribute('visibility', vis(on));
+    }
+    $('sideA').setAttribute('visibility', vis(on)); $('sideB').setAttribute('visibility', vis(on));
+  }
+
+  function setFlag(x, label){
+    var fl = $('flag'), ft = $('flagt');
+    if (x === null){ fl.setAttribute('visibility', 'hidden'); ft.setAttribute('visibility', 'hidden'); return; }
+    var gx = px(x).toFixed(1);
+    fl.setAttribute('x1', gx); fl.setAttribute('x2', gx); ft.setAttribute('x', gx);
+    ft.textContent = label;
+    fl.setAttribute('visibility', 'visible'); ft.setAttribute('visibility', 'visible');
   }
 
   function render(){
     $('val').textContent = String(value);
-    var b = pick(value);
-    for (var i = 0; i < TABLE.length; i++){
-      ticks[i].classList.toggle('on', i === b);
-      tlabs[i].classList.toggle('on', i === b);
+    var bA = pick(TA, value), bB = pick(TB, value);
+    for (var i = 0; i < 4; i++){
+      ticksA[i].classList.toggle('on', i === bA); labsA[i].classList.toggle('on', i === bA);
+      ticksB[i].classList.toggle('on', i === bB); labsB[i].classList.toggle('on', i === bB);
     }
-    $('want').textContent = TABLE[want].c;
-    var nowEl = $('now');
-    nowEl.textContent = TABLE[b].c;
-    nowEl.className = 'box ' + (b === want ? 'same' : 'now');
-
-    var bd = bandOf(want);
-    $('band').setAttribute('x', px(bd[0]).toFixed(1));
-    $('band').setAttribute('width', (px(bd[1]) - px(bd[0])).toFixed(1));
+    var w = $('want'), n = $('now'), s = $('say');
+    var band = [0, 0];
+    if (cur === 1){
+      $('cap1').textContent = '맞출 글자'; $('cap2').textContent = '지금 걸린 글자';
+      w.textContent = LET[want]; w.className = 'box want';
+      n.textContent = LET[bA]; n.className = 'box ' + (bA === want ? 'same' : 'now');
+      band = bandOf(want);
+      if (bA === want){ s.textContent = '이 글자가 걸렸어요. 담아요'; s.className = 'say'; }
+      else if (bA < want){ s.textContent = '더 크게 내 보세요'; s.className = 'say dim'; }
+      else { s.textContent = '더 작게 내 보세요'; s.className = 'say dim'; }
+    } else if (cur === 2){
+      $('cap1').textContent = 'A표 글자'; $('cap2').textContent = 'B표 글자';
+      w.textContent = LET[bA]; w.className = 'box want';
+      n.textContent = LET[bB]; n.className = 'box ' + (bA !== bB ? 'same' : 'now');
+      s.textContent = bA !== bB ? '두 표의 글자가 달라요. 담아요' : '두 표의 글자가 같아요';
+      s.className = bA !== bB ? 'say' : 'say dim';
+    } else {
+      var inPair = (bA === pairI || bA === pairI + 1);
+      $('cap1').textContent = '갈라 볼 글자'; $('cap2').textContent = '지금 걸린 글자';
+      w.textContent = LET[pairI] + '|' + LET[pairI + 1]; w.className = 'box want';
+      n.textContent = LET[bA]; n.className = 'box ' + (inPair ? 'same' : 'now');
+      band = [TA[pairI], TA[pairI + 1]];
+      s.textContent = inPair ? '색칠된 구간이에요' : '구간 밖이에요. 소리를 조절해요';
+      s.className = inPair ? 'say' : 'say dim';
+    }
+    $('band').setAttribute('x', px(band[0]).toFixed(1));
+    $('band').setAttribute('width', Math.max(0, px(band[1]) - px(band[0])).toFixed(1));
 
     var x = px(value);
     $('mark').setAttribute('points', (x - 10) + ',40 ' + (x + 10) + ',40 ' + x + ',56');
 
-    if (b !== lastHit){
-      lastHit = b;
-      nowEl.classList.remove('pulse'); void nowEl.offsetWidth; nowEl.classList.add('pulse');
+    var key = cur + ':' + bA + ':' + bB;
+    if (key !== lastHit){
+      lastHit = key;
+      n.classList.remove('pulse'); void n.offsetWidth; n.classList.add('pulse');
     }
-
-    var s = $('say');
-    if (b === want){ s.textContent = '이 글자가 걸렸어요'; s.className = 'say'; }
-    else if (b < want){ s.textContent = '더 크게 내 보세요'; s.className = 'say dim'; }
-    else { s.textContent = '더 작게 내 보세요'; s.className = 'say dim'; }
 
     for (var k = 0; k < 2; k++){
       var sl = $('s' + k);
       sl.querySelector('strong').textContent = slots[k] === null ? '·' : String(slots[k]);
-      sl.querySelector('em').textContent = slots[k] === null ? '' : TABLE[pick(slots[k])].c;
+      sl.querySelector('em').textContent = slots[k] === null ? '' : slotTxt[k];
       sl.classList.toggle('full', slots[k] !== null);
-    }
-    var fl = $('flag'), ft = $('flagt');
-    if (guess === null){ fl.setAttribute('visibility', 'hidden'); ft.setAttribute('visibility', 'hidden'); }
-    else {
-      var gx = px(guess).toFixed(1);
-      fl.setAttribute('x1', gx); fl.setAttribute('x2', gx); ft.setAttribute('x', gx);
-      fl.setAttribute('visibility', 'visible'); ft.setAttribute('visibility', 'visible');
     }
     var chips = document.querySelectorAll('.chip');
     for (var c = 0; c < chips.length; c++) chips[c].setAttribute('aria-pressed', String(+chips[c].dataset.g === guess));
-    $('keep').disabled = (slots[1] !== null) || guess === null;
-    $('hint').textContent = slots[1] !== null ? '두 칸이 찼어요. 다음 글자로 가요' : (guess === null ? '먼저 나올 수를 예측해요' : '같은 글자를 두 번 담아 견줘요');
+
+    var full = slots[1] !== null;
+    $('keep').disabled = full || (cur === 1 && guess === null);
+    $('next').disabled = !roundDone;
+    $('bl').disabled = shift <= -10; $('br').disabled = shift >= 10;
+    if (cur === 1){
+      $('hint').textContent = roundDone ? '두 칸이 찼어요. 새 판으로 가요' : (guess === null ? '먼저 나올 수를 예측해요' : '「' + LET[want] + '」가 걸리는 수를 두 번 담아요');
+    } else if (cur === 2){
+      $('hint').textContent = roundDone ? '두 칸이 찼어요. 새 판이나 미션 3으로 가요' :
+        (shift === 0 ? 'B표가 A표와 같은 자리예요. ◀ ▶로 옮겨 봐요' : 'B표는 A표보다 ' + (shift > 0 ? '오른쪽' : '왼쪽') + '으로 ' + Math.abs(shift) + '만큼 옮겨져 있어요. 글자 쌍이 다른 소리를 두 번 담아요');
+    } else {
+      $('hint').textContent = roundDone ? '두 칸이 찼어요. 새 판으로 가요' : (full ? '두 칸이 찼어요. 다시 하기로 비워요' : '구간 안에서 두 번 담아요');
+    }
   }
 
-  function clearRound(){ slots = [null, null]; guess = null; }
-  function newWord(first){
-    var w;
-    do { w = Math.floor(Math.random() * TABLE.length); } while (w === lastWant);
-    lastWant = w; want = w; clearRound();
-    render();
-    if (!first) say('새 글자 「' + TABLE[w].c + '」이에요. 몇 쯤 나올지 먼저 예측해요.');
+  /* ---- 미션 사다리 ---- */
+  var ladderBtns = Array.prototype.slice.call(document.querySelectorAll('#ladder button'));
+  var INTRO = {
+    1: '먼저 나올 수를 하나 골라요. 소리를 내서 맞출 글자가 걸리면 담아요.',
+    2: '◀ ▶로 B표를 옮겨요. 소리를 내서 A표와 B표 글자가 다를 때 담아요.',
+    3: '색칠된 구간 안에서 수는 비슷한데 글자는 다른 두 소리를 담아요.'
+  };
+  function syncLadder(){
+    ladderBtns.forEach(function(b){
+      var k = +b.getAttribute('data-go');
+      if (k === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+      b.classList.toggle('done', doneM[k]);
+    });
+    $('fin').hidden = !(doneM[1] && doneM[2] && doneM[3]);
+  }
+  function newRound(){
+    slots = [null, null]; slotTxt = ['', '']; pairKey = [-1, -1]; guess = null; lastHit = ''; roundDone = false;
+    var i;
+    setFlag(null, '');
+    if (cur === 1){
+      do { i = 1 + Math.floor(Math.random() * 3); } while (i === lastWant);
+      lastWant = i; want = i;
+    } else if (cur === 2){
+      var opts = [-10, -5, 5, 10];
+      do { i = opts[Math.floor(Math.random() * 4)]; } while (i === lastShift);
+      lastShift = i; setShift(i);
+    } else {
+      do { i = Math.floor(Math.random() * 3); } while (i === lastPair);
+      lastPair = i; pairI = i;
+    }
+  }
+  function showMission(n, noSay){
+    cur = n;
+    [1, 2, 3].forEach(function(k){ $('m' + k).hidden = (k !== n); });
+    showB(n === 2);
+    newRound();
+    $('how').textContent = INTRO[n];
+    syncLadder(); render();
+    if (!noSay) say(INTRO[n]);
+  }
+  ladderBtns.forEach(function(b){ b.addEventListener('click', function(){ showMission(+b.getAttribute('data-go')); }); });
+
+  function missionDone(n, line){
+    doneM[n] = true; roundDone = true;
+    $('learn' + n).textContent = '알게 된 것: ' + line;
+    syncLadder(); render();
+    say('알게 된 것: ' + line + (n < 3 ? ' 위에서 미션 ' + (n + 1) + (n === 2 ? '으로' : '로') + ' 가 봐요.' : ' 받아쓰기는 공용 기기로 이어서 해요.'), 'cheer');
+    if (doneM[1] && doneM[2] && doneM[3] && !stamped){
+      stamped = true;
+      if (window.Fun) Fun.stamp();
+    }
   }
 
   var chipEls = document.querySelectorAll('.chip');
@@ -268,31 +435,78 @@
     chipEls[ci].addEventListener('click', function(){
       guess = +this.dataset.g;
       render();
-      say('「' + TABLE[want].c + '」가 걸리려면 ' + guess + '쯤일 거라고 예측했어요. 소리를 내서 담아 봐요.');
+      say('「' + LET[want] + '」가 걸리려면 ' + guess + '쯤일 거라고 예측했어요. 소리를 내서 담아 봐요.');
     });
   }
+  $('bl').addEventListener('click', function(){ if (shift > -10){ setShift(shift - 5); render(); say('B표를 왼쪽으로 옮겼어요. 같은 소리의 B표 글자가 어떻게 달라지는지 봐요.'); } });
+  $('br').addEventListener('click', function(){ if (shift < 10){ setShift(shift + 5); render(); say('B표를 오른쪽으로 옮겼어요. 같은 소리의 B표 글자가 어떻게 달라지는지 봐요.'); } });
 
   $('keep').addEventListener('click', function(){
-    if (guess === null || slots[1] !== null) return;
-    var i = slots[0] === null ? 0 : 1;
-    slots[i] = value;
-    render();
-    if (i === 0){
-      say('예측해 둔 수 ' + guess + ', 담은 수 ' + value + '. 같은 소리를 한 번 더 내서 담아 봐요.');
-    } else {
-      var same = pick(slots[0]) === pick(slots[1]);
-      if (same){
-        say('첫 수 ' + slots[0] + ', 둘째 수 ' + slots[1] + '. 글자는 같아요. 수도 같았나요?', 'cheer');
-        if (window.Fun) Fun.burst($('s1'));
-      } else {
-        say('첫 수 ' + slots[0] + ', 둘째 수 ' + slots[1] + '. 글자가 달라졌어요. 같은 소리였는데 어디서 갈렸을까요?', 'think');
-        if (window.Fun) Fun.shake($('s1'));
+    if (slots[1] !== null) return;
+    var a = pick(TA, value), b = pick(TB, value);
+    var j = slots[0] === null ? 0 : 1;
+    if (cur === 1){
+      if (guess === null) return;
+      if (a !== want){
+        if (window.Fun) Fun.shake($('keep'));
+        say('지금 수 ' + eun(value) + ' 「' + LET[a] + '」예요. 「' + LET[want] + '」가 걸리게 ' + (a < want ? '더 크게' : '더 작게') + ' 내서 다시 담아요.', 'think');
+        return;
       }
-      if (window.Fun) Fun.stamp();
+      slots[j] = value; slotTxt[j] = LET[a]; render();
+      if (j === 0){
+        var gap = value - guess;
+        say('예측 ' + guess + ', 담은 수 ' + value + '. ' + (Math.abs(gap) <= 8 ? '예측과 가까워요.' : '예측보다 ' + Math.abs(gap) + (gap > 0 ? ' 커요.' : ' 작아요.')) + ' 「' + LET[want] + '」가 걸리는 소리를 한 번 더 담아 봐요.');
+      } else {
+        if (window.Fun) Fun.burst($('s1'));
+        missionDone(1, slots[0] === slots[1]
+          ? '두 수가 같아요. 막대는 늘 같은 수지만 진짜 소리는 낼 때마다 조금씩 달라요.'
+          : '같은 글자도 수는 조금 달라요. 글자는 수에서 가장 가까운 줄이 정해요.');
+      }
+    } else if (cur === 2){
+      if (a === b){
+        say('두 표 모두 「' + LET[a] + '」예요. ◀ ▶로 B표를 옮기거나 소리를 바꿔 글자가 다르게 해 봐요.', 'think');
+        return;
+      }
+      var key = a * 4 + b;
+      if (j === 1 && key === pairKey[0]){
+        say('앞에 담은 글자 쌍(A 「' + LET[a] + '」, B 「' + LET[b] + '」)과 같아요. 다른 글자 쌍이 되게 소리나 B표를 바꿔 봐요.', 'think');
+        return;
+      }
+      slots[j] = value; slotTxt[j] = 'A ' + LET[a] + ' / B ' + LET[b]; pairKey[j] = key; render();
+      if (j === 0){
+        say('같은 소리 ' + value + '에서 A표는 「' + LET[a] + '」, B표는 「' + LET[b] + '」예요. 다른 글자 쌍을 한 번 더 담아 봐요.');
+      } else {
+        if (window.Fun) Fun.burst($('s1'));
+        missionDone(2, '같은 소리도 약속표가 바뀌면 다른 글자가 돼요. 규칙을 바꾸면 결과도 바뀌어요.');
+      }
+    } else {
+      slots[j] = value; slotTxt[j] = LET[a]; render();
+      var pl = LET[pairI], pr = LET[pairI + 1];
+      if (j === 0){
+        say('첫 수 ' + eun(value) + ' 「' + LET[a] + '」예요. 반대쪽 글자가 걸리는 가까운 수를 한 번 더 담아요.');
+      } else {
+        var ga = pick(TA, slots[0]), gb = a;
+        var diff = Math.abs(slots[0] - slots[1]);
+        var isPair = (ga !== gb) && (ga === pairI || ga === pairI + 1) && (gb === pairI || gb === pairI + 1);
+        if (isPair && diff <= 8){
+          setFlag((TA[pairI] + TA[pairI + 1]) / 2, '경계');
+          if (window.Fun) Fun.burst($('s1'));
+          missionDone(3, '수가 ' + diff + '밖에 안 달라도 경계를 넘으면 글자가 바뀌어요. 기계는 경계에서 딱 갈라요.');
+        } else if (ga === gb){
+          say('두 수 모두 「' + LET[ga] + '」예요. 경계 반대쪽 소리를 내서 다시 해 봐요. 다시 하기를 눌러요.', 'think');
+        } else if (!isPair){
+          say('글자는 달랐지만 「' + pl + '」와 「' + pr + '」가 아니에요. 다시 하기를 눌러요.', 'think');
+        } else {
+          say('글자는 갈렸지만 수 차이가 ' + iyo(diff) + '. 더 가까운 두 소리로 다시 해 봐요. 다시 하기를 눌러요.', 'think');
+        }
+      }
     }
   });
-  $('next').addEventListener('click', function(){ newWord(false); });
-  $('reset').addEventListener('click', function(){ clearRound(); render(); say('같은 글자로 다시 해요. 수를 먼저 예측해요.'); });
+  $('next').addEventListener('click', function(){ if (!roundDone) return; newRound(); render(); say('새 판이에요. ' + INTRO[cur]); });
+  $('reset').addEventListener('click', function(){
+    slots = [null, null]; slotTxt = ['', '']; pairKey = [-1, -1]; guess = null; roundDone = false; setFlag(null, ''); render();
+    say('같은 판으로 다시 해요. ' + (cur === 1 ? '수를 먼저 예측해요.' : '소리를 내서 담아 봐요.'));
+  });
 
   /* 연습 모드 */
   function usePractice(){
@@ -359,10 +573,10 @@
   });
   window.addEventListener('pagehide', stopMic);
 
-  newWord(true);
+  showMission(1, true);
   startMic();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B18" data-mission="소리를 내서 목표 글자가 걸리게 해요. 나올 수를 먼저 예측하고, 같은 소리를 두 번 담아 견줘요!"></script>
+<script src="../assets/play/fun.js" data-block="B18" data-mission="먼저 나올 수를 골라요. 그다음 소리를 내서 글자를 맞춰요."></script>
 </body>
 </html>

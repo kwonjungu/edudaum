@@ -122,6 +122,41 @@
 .row.no .n{background:var(--muted)}
 .opt.hit{background:var(--point)}
 @media (max-width:400px){.opt{font-size:13.5px;padding:6px 3px}.row .cd,.row .to{font-size:13px}.wicon{width:54px;height:54px}}
+
+/* 체험 개선 2026-10-31: 안내·개념·미션 사다리 */
+.how{margin-top:8px;background:var(--sun-l,#fff6d9);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:15px;font-weight:700;line-height:1.45}
+.concept{margin-top:10px;background:var(--grape-l,#efecfd);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:14.5px;line-height:1.5}
+.concept b{display:block;font-size:14px;color:var(--point);margin-bottom:2px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.sb{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;min-height:46px;padding:5px 6px;line-height:1.2;
+  background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-sm);box-shadow:var(--hard-sm);word-break:keep-all}
+.sb[aria-current="step"]{background:var(--point);border-color:var(--point);color:#fff}
+.sb .ck{display:none}
+.sb.done .ck{display:inline}
+.pic{display:block;width:100%;height:118px;object-fit:cover;border-radius:var(--r-sm);margin-bottom:10px;border:1px solid var(--line)}
+.pic.res{margin:9px 0 0;height:104px}
+.learn{margin-top:9px;background:var(--mint-l,#e3f6ef);border-radius:var(--r-sm);padding:8px 11px;font-size:14.5px;font-weight:700;color:var(--ink)}
+.learn[hidden]{display:none}
+.nx{margin-top:9px}
+.dots{display:flex;gap:6px;margin:0 0 8px}
+.dots i{width:22px;height:8px;border-radius:4px;background:var(--line-strong);display:block}
+.dots i.on{background:var(--point)}
+.ask2{font-size:14.5px;font-weight:700;margin:2px 0 8px}
+.ainote{margin-top:14px;font-size:14px;color:var(--muted)}
+.mini{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.mini span{font-size:14px;font-weight:700;border:1px solid var(--line);border-radius:999px;padding:3px 10px;background:var(--surface)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
+.two div{border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:7px 9px;font-size:14px;font-weight:700;word-break:keep-all}
+.two div small{display:block;color:var(--muted);font-size:14px}
+.two2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.row .up{flex:0 0 44px;min-height:44px;min-width:44px;border:1px solid var(--ink);background:var(--surface);border-radius:var(--r-sm);font-size:16px;font-weight:700;box-shadow:var(--hard-sm)}
+.row .up:disabled{opacity:.35;box-shadow:none}
+.row.mv{animation:rowin .22s ease-out}
+.val .k,.cardtop .cn,.ord,.row .n,.row .yn,.note{font-size:14px}
+.opts.two2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.card .cn,.val .k,.ord,.row .n,.row .yn,.note,.row .cd,.row .to{font-size:14px}
+@media (max-width:400px){.opt{font-size:14px}.row .cd,.row .to{font-size:14px}}
+.row .yn{flex-basis:52px;white-space:nowrap}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -136,8 +171,18 @@
     <p class="lead">규칙표를 위에서부터 따라가 결론을 짚어요</p>
   </header>
 
+  <p class="how" id="how">카드를 보고 결론을 먼저 골라요. 규칙표를 따라가 확인해 봐요.</p>
+
+  <div class="steps" id="steps" role="group" aria-label="미션 고르기">
+    <button class="sb" type="button" data-go="1" aria-current="step">① 따라가기<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="2">② 순서 바꾸기<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="3">③ 줄 옮기기<span class="ck"> ✓</span></button>
+  </div>
+
+  <div data-step="1" id="m1">
   <section aria-labelledby="h-t">
-    <h2 id="h-t">이번 카드 · 확인 순서</h2>
+    <h2 id="h-t">미션 1 · 따라가기</h2>
+    <div class="dots" id="dots1" aria-hidden="true"><i></i><i></i><i></i></div>
     <div class="card" id="cardbox">
       <div class="cardtop"><p class="cn" id="cn">날씨 카드</p><img class="wicon" id="wicon" src="" alt="" width="64" height="64"></div>
       <div class="vals">
@@ -147,22 +192,68 @@
       </div>
       <p class="warn" id="warn" hidden></p>
     </div>
-    <p class="ord" id="ord">원래 순서</p>
-    <div class="rows" id="rows"></div>
-  </section>
-
-  <section aria-labelledby="h-o">
-    <h2 id="h-o">결론 고르기</h2>
+    <h2 id="h-o">먼저 결론을 하나 골라요</h2>
     <div class="opts" id="opts"></div>
     <div class="tools">
       <button class="btn main" id="check" type="button" disabled>확인하기</button>
       <button class="btn" id="reset" type="button">다시 하기</button>
-      <button class="btn" id="next" type="button">다음 카드</button>
+      <button class="btn" id="next" type="button" disabled>다음 카드</button>
     </div>
     <p class="say dim" id="say" role="status" aria-live="polite">결론을 하나 짚어요</p>
-    <p class="say lim" id="lim" hidden>규칙표에 없는 날씨예요 · 알맞은 결론일까요?</p>
-    <p class="note">실행 결과는 엔트리 도우미로 넣어 적어요</p>
+    <p class="ord" id="ord">원래 순서</p>
+    <div class="rows" id="rows"></div>
   </section>
+
+  <section aria-label="결과">
+    <p class="say lim" id="lim" hidden>규칙표에 없는 날씨예요 · 알맞은 결론일까요?</p>
+    <img class="pic res" id="pl1" src="" alt="" width="1600" height="900" hidden>
+    <p class="note">실행 결과는 엔트리 도우미로 넣어 적어요</p>
+    <p class="learn" id="learn1" hidden></p>
+    <button class="btn main nx" id="nx1" type="button" hidden>다음 미션 ›</button>
+    <img class="pic" id="end1" hidden src="../lecture/_assets/B22/coach_sky.webp" width="1600" height="900" alt="비구름과 해가 함께 보이는 운동장에서 선생님이 하늘을 올려다보는 모습">
+  </section>
+  </div>
+
+  <div data-step="2" id="m2" hidden>
+  <section aria-labelledby="h-2">
+    <img class="pic" src="../lecture/_assets/B22/card_temp33.webp" width="1600" height="900" alt="해와 온도계가 33도를 가리키는 그림">
+    <h2 id="h-2">미션 2 · 순서 바꾸기</h2>
+    <div class="dots" id="dots2" aria-hidden="true"><i></i><i></i><i></i></div>
+    <p class="ask2">기온 규칙 두 줄을 맨 앞으로 옮기면, 이 카드의 결론이 달라질까요?</p>
+    <div class="mini" id="mini2"></div>
+    <div class="card" id="card2"><div class="vals" id="vals2"></div></div>
+    <div class="opts two2" id="ch2"></div>
+    <div id="res2"></div>
+    <p class="say" id="say2" role="status" aria-live="polite"></p>
+    <div class="tools">
+      <button class="btn main" id="next2" type="button" hidden>다음 카드 ›</button>
+      <button class="btn" id="again2" type="button" hidden>새 카드 세 장</button>
+    </div>
+    <p class="learn" id="learn2" hidden></p>
+    <button class="btn main nx" id="nx2" type="button" hidden>다음 미션 ›</button>
+  </section>
+  </div>
+
+  <div data-step="3" id="m3" hidden>
+  <section aria-labelledby="h-3">
+    <h2 id="h-3">미션 3 · 줄 옮기기</h2>
+    <p class="ask2" id="goal3">목표 결론이 나오게 ▲로 줄을 옮겨요</p>
+    <div class="card" id="card3"><div class="vals" id="vals3"></div></div>
+    <div class="rows" id="rows3"></div>
+    <div class="tools">
+      <button class="btn main" id="test3" type="button">시험하기</button>
+      <button class="btn" id="new3" type="button">새 카드</button>
+    </div>
+    <p class="say" id="say3" role="status" aria-live="polite"></p>
+    <img class="pic res" id="pl3" src="" alt="" width="1600" height="900" hidden>
+    <p class="learn" id="learn3" hidden></p>
+    <img class="pic" id="end3" hidden src="../lecture/_assets/B22/mission_done.webp" width="1600" height="900" alt="날씨 도장이 찍힌 카드와 호루라기가 놓인 책상">
+  </section>
+  </div>
+
+  <div class="concept" id="concept"><b>알아 둘 것</b>규칙표는 위 줄부터 하나씩 살펴요. 처음으로 '예'가 나온 줄에서 멈추고, 그 줄의 결론을 따라요. 그 아래 줄은 보지 않아요.</div>
+
+  <p class="ainote">그림 일부는 생성형 AI로 만들었어요</p>
 </div>
 
 <script>
@@ -299,23 +390,23 @@
 
   function finish(hit){
     var mine = posOfOpt(cur, picked);
-    if (mine === hit) say.textContent = '짚은 대로 ' + LINE[hit] + '에서 정해졌어요';
+    if (mine === hit) say.textContent = '짚은 대로 ' + LINE[hit] + '에서 정해졌어요 · 모은 카드 ' + Math.min(m1count + 1, 3) + '/3';
     else say.textContent = LINE[hit] + '에서 정해졌어요 · 짚은 결론은 ' + LINE[mine] + '이에요';
     say.className = 'say';
   }
   function react(hit, mine){
+    var n = roundDone(hit === mine), prog = ' 같은 카드를 세 장 모아요 (' + Math.min(n, 3) + '/3).';
     if (window.Fun){
-      var rowEl = rowsBox.children[hit];
+      var rowEl = rowsBox.children[hit], lim = cur.limit ? ' 규칙표에 없는 날씨예요. 이 결론이 알맞은지 짝과 이야기해 봐요.' : '';
       if (mine === hit){
-        Fun.say('짚은 줄과 정해진 줄이 같아요. 이 카드는 ' + LINE[hit] + '에서 멈췄어요.' + (cur.limit ? ' 그런데 규칙표에 없는 날씨였어요.' : ''), 'cheer');
         Fun.burst(rowEl);
+        if (n < 3) Fun.say('짚은 줄과 정해진 줄이 같아요. 이 카드는 ' + LINE[hit] + '에서 멈췄어요.' + lim + ' (' + n + '/3)', 'cheer');
       } else {
-        Fun.say('예상과 다르게 나왔어요. 짚은 결론은 ' + LINE[mine] + ', 실제는 ' + LINE[hit] + '이에요. 어디서 갈렸는지 줄을 따라 봐요.', 'think');
         Fun.shake(rowEl);
+        Fun.say('예상과 다르게 나왔어요. 짚은 결론은 ' + LINE[mine] + ', 실제는 ' + LINE[hit] + '이에요. 어디서 갈렸는지 줄을 따라 봐요.' + lim + ' 짚은 줄과' + prog, 'think');
       }
-      if (cur.limit) Fun.say('규칙표에 없는 날씨예요. 이 결론이 알맞은지 짝과 이야기해 봐요.', 'think');
-      Fun.stamp();
     }
+    if (n >= 3 && !done[1]) finishM(1, '규칙표는 위 줄부터 보고, 처음 걸린 줄에서 멈춰요.');
   }
 
   function render(){
@@ -364,8 +455,9 @@
 
     checkBtn.disabled = confirmed || picked === null;
     resetBtn.disabled = confirmed || picked === null;
-    nextBtn.disabled = revealing;
+    nextBtn.disabled = revealing || !confirmed;
     nextBtn.classList.toggle('go', done);
+    if (!done) $('pl1').hidden = true;
     if (!confirmed){
       say.textContent = picked === null ? '결론을 하나 짚어요' : '확인하기를 눌러요';
       say.className = 'say dim';
@@ -377,9 +469,210 @@
     if (window.Fun) Fun.say('짚은 것을 지웠어요. 규칙표를 다시 따라가 봐요.', 'think'); });
   nextBtn.addEventListener('click', newRound);
 
+  // ───────── 미션 사다리 ─────────
+  var PLACE = {'강당 수업':'place_gym','교실 수업':'place_class','실내 수업':'place_indoor','그늘에서 짧게':'place_shade','운동장 수업':'place_ground'};
+  function placeSrc(ms){ return '../lecture/_assets/B22/' + PLACE[ms] + '.webp'; }
+  var HOW = ['',
+    '카드를 보고 결론을 먼저 골라요. 짚은 줄과 정해진 줄이 같은 카드를 세 장 모아요.',
+    '순서를 바꾸면 결론이 달라질지 골라요. 예상과 결과가 같은 카드를 세 장 모아요.',
+    '목표 결론이 나오도록 ▲를 눌러 줄을 위로 옮겨요. 다 옮기면 시험하기를 눌러요.'];
+  var howEl = $('how'), sbs = document.querySelectorAll('.sb');
+  var panels = [null, $('m1'), $('m2'), $('m3')];
+  var learnEl = [null, $('learn1'), $('learn2'), $('learn3')];
+  var nxEl = [null, $('nx1'), $('nx2'), null];
+  var done = [false, false, false, false], stamped = false, m1count = 0, started2 = false, started3 = false;
+
+  function go(n, quiet){
+    for (var i = 1; i <= 3; i++){
+      panels[i].hidden = (i !== n);
+      sbs[i - 1].setAttribute('aria-current', i === n ? 'step' : 'false');
+    }
+    howEl.textContent = HOW[n];
+    if (!quiet && window.Fun) Fun.say(n === 1 ? '① 따라가기예요. 규칙표를 위에서부터 따라가 봐요.' : n === 2 ? '② 순서 바꾸기예요. 줄 순서가 결론에 영향을 주는지 봐요.' : '③ 줄 옮기기예요. 이번에는 내가 줄 순서를 정해요.');
+    if (n === 2 && !started2){ started2 = true; round2(); }
+    if (n === 3 && !started3){ started3 = true; card3(); }
+  }
+  for (var si = 0; si < sbs.length; si++) (function(n){ sbs[n - 1].addEventListener('click', function(){ go(n); }); })(si + 1);
+  for (var ni = 1; ni <= 2; ni++) (function(n){ nxEl[n].addEventListener('click', function(){ go(n + 1); }); })(ni);
+
+  function finishM(n, learned, extra, mood){
+    var first = !done[n];
+    done[n] = true;
+    sbs[n - 1].classList.add('done');
+    learnEl[n].textContent = '알게 된 것: ' + learned;
+    learnEl[n].hidden = false;
+    if (nxEl[n]) nxEl[n].hidden = false;
+    if (n === 1) $('end1').hidden = false;
+    if (n === 3) $('end3').hidden = false;
+    var all = done[1] && done[2] && done[3];
+    if (window.Fun && first){
+      Fun.say((extra ? extra + ' ' : '') + '알게 된 것: ' + learned + (all && !stamped ? ' 세 미션을 모두 했어요.' : ''), mood || 'cheer');
+      if (all && !stamped){ stamped = true; Fun.stamp(); }
+    }
+  }
+
+  // 미션 1: 짚은 줄과 정해진 줄이 같은 카드를 세 장 모으면 끝
+  function dotsOf(id, n){ var d = $(id).children; for (var i = 0; i < 3; i++) d[i].className = i < n ? 'on' : ''; }
+  function roundDone(same){
+    var ms = lineAt(cur, firePos(cur)).ms;
+    $('pl1').src = placeSrc(ms);
+    $('pl1').alt = ms + ' 장면';
+    $('pl1').hidden = false;
+    if (same) m1count++;
+    dotsOf('dots1', m1count);
+    return m1count;
+  }
+
+  // 공통: 카드가 걸리는 줄들
+  function matches(c){ var m = []; for (var i = 0; i < 4; i++){ if (RULES[i].f(c)) m.push(i); } return m; }
+  function resultMs(c, order){ for (var i = 0; i < 4; i++){ if (RULES[order[i]].f(c)) return RULES[order[i]].ms; } return ELSE.ms; }
+  function randCard(){
+    var rain = Math.random() < 0.35;
+    return {w: rain ? '비' : any(WEATHER), d: any(DUST), t: 15 + Math.floor(Math.random() * 23)};
+  }
+  function cardVals(box, c){
+    box.textContent = '';
+    [['날씨', c.w], ['미세먼지', c.d], ['최고기온', c.t + '℃']].forEach(function(p){
+      var e = document.createElement('p'); e.className = 'val';
+      e.innerHTML = '<span class="k">' + p[0] + '</span><span class="v">' + p[1] + '</span>';
+      box.appendChild(e);
+    });
+  }
+  function hasJong(w){ var c = w.charCodeAt(w.length - 1) - 44032; return c >= 0 && c < 11172 && c % 28 !== 0; }
+  function lineNames(m){ return m.map(function(i){ return NUM[i]; }).join(', '); }
+
+  // 미션 2: 순서가 영향을 줄까
+  var MINI = ['① 비 → 강당', '② 먼지 나쁨 이상 → 교실', '③ 33도 이상 → 실내', '④ 28도 이상 → 그늘', '그 밖 → 운동장'];
+  MINI.forEach(function(t){ var s = document.createElement('span'); s.textContent = t; $('mini2').appendChild(s); });
+  var c2 = {queue: [], got: 0, retry: false, cur: null, answered: false};
+  var ch2 = $('ch2');
+  var ch2btn = ['같아요', '달라져요'].map(function(txt, k){
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'opt'; b.textContent = txt;
+    b.addEventListener('click', function(){ answer2(k === 1); });
+    ch2.appendChild(b); return b;
+  });
+  function differs(c){ return resultMs(c, BASE) !== resultMs(c, TEMP_FIRST); }
+  function pickCard2(want){
+    for (var n = 0; n < 400; n++){
+      var c = randCard();
+      if (differs(c) === want) return c;
+    }
+    return {w:'비', d:'보통', t:30};
+  }
+  var KN = ['', '한', '두', '세', '네'];
+  function round2(){
+    var rest = shuffle(['B', 'C', 'D', 'E']);
+    c2.queue = [CARDS.A, CARDS[rest[0]], pickCard2(Math.random() < 0.5)];
+    c2.got = 0; c2.retry = false; c2.cur = null;
+    show2();
+  }
+  function show2(){
+    var c;
+    if (c2.retry || !c2.queue.length) c = pickCard2(Math.random() < 0.5);
+    else c = c2.queue.shift();
+    c2.cur = c; c2.fresh = c2.retry; c2.retry = false;
+    c2.answered = false;
+    cardVals($('vals2'), c);
+    $('res2').textContent = ''; $('say2').textContent = '';
+    ch2btn.forEach(function(b){ b.disabled = false; b.classList.remove('pick'); });
+    $('next2').hidden = true; $('again2').hidden = true;
+    dotsOf('dots2', c2.got);
+  }
+  function answer2(guessDiff){
+    if (c2.answered) return;
+    c2.answered = true;
+    var c = c2.cur, real = differs(c), m = matches(c);
+    ch2btn.forEach(function(b, k){ b.disabled = true; b.classList.toggle('pick', (k === 1) === guessDiff); });
+    var res = $('res2'); res.textContent = '';
+    var box = document.createElement('div'); box.className = 'two';
+    [['원래 순서', resultMs(c, BASE)], ['기온 먼저 순서', resultMs(c, TEMP_FIRST)]].forEach(function(p){
+      var d = document.createElement('div'); d.innerHTML = '<small>' + p[0] + '</small>' + p[1]; box.appendChild(d);
+    });
+    res.appendChild(box);
+    var cnt = '걸리는 줄이 ' + lineNames(m) + '번 ' + KN[m.length] + ' 줄';
+    var why = m.length === 0 ? '걸리는 줄이 없어서 마지막 줄이에요.'
+      : real ? cnt + '이고 결론이 달라서, 순서가 결과를 바꿔요.'
+      : m.length > 1 ? cnt + '이어도, 먼저 걸리는 줄이 같아요.'
+      : '걸리는 줄이 ' + lineNames(m) + '번 하나뿐이라 순서를 바꿔도 같아요.';
+    var same = guessDiff === real;
+    dotsOf('dots2', c2.got + (same ? 1 : 0));
+    var msg;
+    if (same){
+      c2.got++;
+      msg = '예상과 결과가 같아요. ' + why + ' (' + c2.got + '/3)';
+    } else {
+      c2.retry = true; if (!c2.fresh) c2.queue.unshift(c);
+      msg = '예상과 다르게 나왔어요. ' + why + ' 새 카드로 다시 해 봐요 (' + c2.got + '/3).';
+    }
+    $('say2').textContent = msg;
+    if (c2.got >= 3){
+      $('again2').hidden = false;
+      finishM(2, '걸리는 줄이 둘 이상이고 결론이 다를 때만, 줄 순서가 결과를 바꿔요.', msg);
+    } else {
+      $('next2').textContent = same ? '다음 카드 ›' : '새 카드 ›';
+      $('next2').hidden = false;
+      if (window.Fun) Fun.say(msg, same ? 'cheer' : 'think');
+    }
+  }
+  $('next2').addEventListener('click', show2);
+  $('again2').addEventListener('click', round2);
+
+  // 미션 3: 줄을 옮겨 목표 만들기
+  var o3 = BASE.slice(), t3 = null, c3 = null, hit3 = -1;
+  function card3(){
+    var c, m, base, tries = 0;
+    do {
+      c = randCard(); m = matches(c); base = resultMs(c, BASE); tries++;
+    } while (tries < 500 && !(m.length >= 2 && RULES[m[1]].ms !== base));
+    var cand = m.filter(function(i){ return RULES[i].ms !== base; });
+    c3 = c; t3 = RULES[any(cand)].ms; o3 = BASE.slice(); hit3 = -1;
+    cardVals($('vals3'), c);
+    $('goal3').textContent = '이 카드가 [' + t3 + ']' + (hasJong(t3) ? '으로' : '로') + ' 가도록 ▲로 줄을 옮겨요';
+    $('say3').textContent = ''; $('pl3').hidden = true;
+    rows3();
+  }
+  function rows3(){
+    var box = $('rows3'); box.textContent = '';
+    for (var i = 0; i < 5; i++){
+      var r = i === 4 ? ELSE : RULES[o3[i]];
+      var row = document.createElement('div'); row.className = 'row' + (i === hit3 ? ' hit' : '');
+      row.innerHTML = '<span class="n" aria-hidden="true">' + (i === 4 ? '-' : NUM[o3[i]]) + '</span><span class="cd">' + r.cd + '</span><span class="to">→ ' + r.ms + '</span>';
+      if (i < 4){
+        var b = document.createElement('button'); b.type = 'button'; b.className = 'up'; b.textContent = '▲';
+        b.setAttribute('aria-label', (i + 1) + '번째 줄 위로 옮기기'); b.disabled = (i === 0);
+        (function(k){ b.addEventListener('click', function(){ up3(k); }); })(i);
+        row.appendChild(b);
+      }
+      box.appendChild(row);
+    }
+  }
+  function up3(k){
+    var t = o3[k]; o3[k] = o3[k - 1]; o3[k - 1] = t; hit3 = -1;
+    $('say3').textContent = ''; $('pl3').hidden = true;
+    rows3();
+    var rr = $('rows3').children[k - 1]; if (rr) rr.classList.add('mv');
+  }
+  $('test3').addEventListener('click', function(){
+    var i, p = 4;
+    for (i = 0; i < 4; i++){ if (RULES[o3[i]].f(c3)){ p = i; break; } }
+    hit3 = p; rows3();
+    var ms = p === 4 ? ELSE.ms : RULES[o3[p]].ms;
+    $('pl3').src = placeSrc(ms); $('pl3').alt = ms + ' 장면'; $('pl3').hidden = false;
+    var r = $('rows3').children[p];
+    if (ms === t3){
+      $('say3').textContent = '목표 결론이 나왔어요. 위로 올린 줄이 먼저 걸렸어요.';
+      if (window.Fun){ Fun.burst(r); }
+      finishM(3, '규칙의 순서도 규칙이에요. 줄을 어디에 두느냐로 결론을 바꿀 수 있어요.');
+    } else {
+      $('say3').textContent = '지금은 [' + ms + ']' + (hasJong(ms) ? '이' : '가') + ' 나와요. 목표와 달라요. 어느 줄을 위로 올릴지 봐요.';
+      if (window.Fun){ Fun.shake(r); Fun.say($('say3').textContent, 'think'); }
+    }
+  });
+  $('new3').addEventListener('click', card3);
+
   newRound();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B22" data-mission="날씨 카드가 나오면 규칙표를 위에서부터 따라가 결론을 먼저 짚어요. 확인하면 어느 줄에서 정해졌는지 보여요."></script>
+<script src="../assets/play/fun.js" data-block="B22" data-mission="날씨 카드를 보고 규칙표를 따라가 결론을 짚어요. 세 미션을 차례로 해 봐요."></script>
 </body>
 </html>

@@ -27,17 +27,17 @@
 
   h1{font-size:clamp(21px,5vw,28px);font-weight:700;letter-spacing:-.035em;line-height:1.08}
   .lead{font-size:14px;color:var(--muted);margin-top:3px;font-weight:700}
-  .safe{display:inline-flex;margin-top:6px;font-size:12.5px;font-weight:700;
+  .safe{display:inline-flex;margin-top:6px;font-size:14px;font-weight:700;
     background:var(--ink);color:var(--paper);border-radius:999px;padding:6px 12px}
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:10px;margin-top:9px}
-  h2{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--muted)}
+  h2{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--muted)}
 
   /* 목표 */
   .goal{display:flex;align-items:baseline;justify-content:center;gap:8px;
     background:var(--point-soft);border:1px solid var(--line);border-radius:var(--r-sm);padding:7px}
-  .goal span{font-size:13px;font-weight:700;color:var(--muted)}
+  .goal span{font-size:14px;font-weight:700;color:var(--muted)}
   .goal b{font-family:'Courier New',monospace;font-size:30px;font-weight:700;line-height:1}
 
   /* 지금 값 + 격자 */
@@ -55,7 +55,7 @@
   @keyframes hit{0%{background:var(--point)}100%{background:var(--ink)}}
 
   .say{margin-top:8px;font-size:15px;font-weight:700;min-height:1.5em}
-  .say.dim{color:var(--muted);font-weight:700;font-size:13.5px}
+  .say.dim{color:var(--muted);font-weight:700;font-size:14px}
   .say.over{color:var(--muted)}
 
   .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
@@ -68,9 +68,9 @@
   .btn.main{background:var(--point)}
   .btn:disabled{opacity:.4;cursor:default;box-shadow:none}
 
-  .practice{margin-top:7px;display:inline-flex;font-size:12.5px;font-weight:700;color:var(--ink);
+  .practice{margin-top:7px;display:inline-flex;font-size:14px;font-weight:700;color:var(--ink);
     background:var(--point-soft);border:1px solid var(--line);border-radius:999px;padding:5px 11px}
-  .note{margin-top:6px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .note{margin-top:6px;font-size:14px;font-weight:700;color:var(--muted)}
   [hidden]{display:none!important}
 
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
@@ -86,10 +86,55 @@
 .track i{width:16px;height:16px;border-radius:50%;background:var(--soft);border:2px solid var(--line-strong)}
 .track i.on{background:var(--mint);border-color:var(--mint-d)}
 .track i.goalmark{border-color:var(--ink)}
-.track em{font-style:normal;font-weight:700;font-size:13px;color:var(--muted);margin-left:4px}
+.track em{font-style:normal;font-weight:700;font-size:14px;color:var(--muted);margin-left:4px}
 .btn.main{background:var(--point)}
 @media(max-width:400px){.btn{flex:1 1 44%}.goal b{font-size:26px}}
 body{overflow-x:hidden}
+
+/* 체험 개선 2026-10-31: 시작 안내·미션 사다리·개념 카드·미션 2·3 */
+.how{margin:9px 0 0;font-size:16px;font-weight:600;background:var(--sun-l);border-radius:var(--r-sm);padding:8px 12px}
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:9px 0 0}
+.ladder button{font-family:inherit;cursor:pointer;min-height:44px;padding:4px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+  background:var(--surface);color:var(--ink);font-size:14.5px;font-weight:700;line-height:1.2}
+.ladder button[aria-current="step"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ladder button.done::after{content:" ✓";font-weight:700;color:var(--mint-d)}
+.ladder button.done[aria-current="step"]::after{color:#fff}
+.concept{margin:9px 0 0;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 12px;background:var(--surface)}
+.concept b{display:block;font-size:14px;color:var(--point)}
+.concept p{margin:2px 0 0;font-size:15px;font-weight:600}
+.learned{margin:8px 0 0;padding:8px 12px;border-radius:var(--r-sm);background:var(--mint-l);font-size:15px;font-weight:700}
+.learned:empty{display:none}
+.scene{display:flex;align-items:center;gap:10px;margin:0 0 8px}
+.scene img{flex:0 0 auto;width:112px;height:63px;object-fit:cover;border-radius:10px;background:var(--sun-l)}
+.scene p{flex:1;min-width:0;font-size:15px;font-weight:600}
+.scene p b{display:block;font-size:17px}
+.ask{font-size:15px;font-weight:700;margin:8px 0 4px}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.opts.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+.opts .chip{min-width:0;border-radius:var(--r-sm);padding:6px 6px;font-size:14px;line-height:1.25}
+.beats{position:relative;display:flex;gap:4px;align-items:flex-end;height:112px;margin:8px 0 0;padding:4px 4px 0 4px;background:var(--soft);border-radius:var(--r-sm)}
+.beat{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center}
+.beat i{display:block;width:70%;background:var(--line-strong);border-radius:4px 4px 0 0}
+.beat.on i{background:var(--mint)}
+.beat span{font-size:14px;font-weight:700;color:var(--muted);margin-top:2px;white-space:nowrap}
+.beat.hand span{color:#b4462f}
+.thrline{position:absolute;left:0;right:0;height:0;border-top:2px dashed var(--ink);pointer-events:none}
+.out{margin:8px 0 0;font-size:15px;font-weight:700;min-height:1.4em}
+.sim{display:flex;gap:10px;align-items:center;margin-top:8px;flex-wrap:wrap}
+.sim .vbox2{font-family:'Courier New',monospace;font-size:38px;font-weight:700;color:var(--point);min-width:64px;text-align:center}
+.sim .bar{display:flex;gap:3px;flex-wrap:wrap;flex:1;min-width:90px}
+.sim .bar i{width:14px;height:14px;border-radius:3px;background:var(--soft);border:2px solid var(--line-strong)}
+.sim .bar i.on{background:var(--mint);border-color:var(--mint-d)}
+.mini{display:grid;grid-template-columns:repeat(5,1fr);gap:3px;width:70px;padding:5px;border-radius:8px;background:var(--ink)}
+.mini i{display:block;aspect-ratio:1;border-radius:50%;background:#3A3630}
+.mini i.on{background:#FF3B2F}
+.req{margin:6px 0 0;padding:8px 12px;border-radius:var(--r-sm);background:var(--pink-l);font-size:15.5px;font-weight:700}
+.fin{margin:12px 0 0;text-align:center}
+.fin img{width:100%;max-width:420px;height:auto;border-radius:var(--r-sm)}
+.fin p{margin:6px 0 0;font-size:16px;font-weight:700}
+.ai{font-size:14px;color:var(--muted);font-weight:600;margin:10px 0 0}
+.nextrow{margin-top:10px}
+@media(max-width:400px){.lead{display:none}h1{font-size:19px}.safe{margin-top:3px;padding:3px 10px;font-size:13px}.nav{margin-bottom:4px}.back{min-height:40px;padding:6px 12px}.how{font-size:14.5px;padding:5px 10px;margin-top:5px}.ladder{margin-top:5px}section{margin-top:6px}#m1 h2{display:none}#gq{display:none}.track{margin-top:4px;gap:3px}.track i{width:12px;height:12px}.acts{margin-top:4px}.scene img{width:64px!important;height:36px!important}.vbox b{font-size:40px}#grid{width:56px!important;height:56px!important}.ladder button{min-height:40px}.opts.three{grid-template-columns:1fr}.scene img{width:80px;height:45px}.scene{margin-bottom:4px}#grid{width:72px;height:72px}.stage{margin-top:4px}.scene p b{font-size:16px}.guess .chip{min-width:0;padding:6px 4px}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -106,15 +151,22 @@ body{overflow-x:hidden}
     <p class="safe">두 손으로 잡고 흔들어요</p>
   </header>
 
-  <section aria-labelledby="h-g">
-    <h2 id="h-g">이번 목표</h2>
-    <p class="goal"><span>목표</span><b id="goal">12</b></p>
-    <p class="note" id="gq" style="margin-top:8px">먼저 예상을 골라요. 흔들기 전에만 바꿀 수 있어요</p>
-    <div class="guess" role="group" aria-labelledby="gq">
-      <button class="chip" type="button" data-g="exact" aria-pressed="false">딱 맞출 것 같아요</button>
-      <button class="chip" type="button" data-g="short" aria-pressed="false">모자랄 것 같아요</button>
-      <button class="chip" type="button" data-g="over" aria-pressed="false">넘길 것 같아요</button>
+  <p class="how">목표 수만큼 흔들고 멈춰요. 흔들 수 없으면 흔들기 단추를 눌러요.</p>
+
+  <nav class="ladder" id="ladder" aria-label="미션 순서">
+    <button type="button" data-go="1" aria-current="step">① 세기</button>
+    <button type="button" data-go="2">② 기준</button>
+    <button type="button" data-go="3">③ 규칙</button>
+  </nav>
+
+  <section data-step="1" id="m1" aria-labelledby="h-g">
+    <h2 id="h-g">미션 1 · 흔들어서 목표에 멈춰요</h2>
+    <div class="scene">
+      <img src="../lecture/_assets/B11/scene_count.webp" alt="만보기를 단 아이가 운동장 트랙을 걸어요" width="112" height="63">
+      <p><b>목표 <span id="goal">12</span></b>흔들고 멈춰요.</p>
     </div>
+    <p class="note" id="gq">흔들기 전에 예상을 골라요</p>
+    <div class="guess" id="gbox" role="group" aria-labelledby="gq"></div>
     <div class="track" id="track" role="img" aria-label="흔든 횟수와 목표"></div>
     <div class="stage">
       <p class="vbox"><b id="num" aria-live="off">0</b></p>
@@ -123,20 +175,72 @@ body{overflow-x:hidden}
       </div>
     </div>
     <p class="say dim" id="say">흔들어서 목표에 멈춰요</p>
-    <p class="practice" id="practice" hidden>연습 모드 · 버튼을 눌러 세요</p>
-  </section>
-
-  <section aria-labelledby="h-a">
-    <h2 id="h-a">손</h2>
     <div class="acts">
       <button class="btn main" id="shake" type="button">흔들기</button>
       <button class="btn" id="stop" type="button">멈추기</button>
       <button class="btn" id="again" type="button">다시 하기</button>
       <button class="btn" id="next" type="button">다음 판</button>
     </div>
-    <p class="note">걷지 않고 흔들어도 올라가나요</p>
-    <p class="note">마이크로비트로 다시 만들어요</p>
+    <p class="practice" id="practice" hidden>연습 모드 · 흔들기 단추를 눌러요</p>
+    <p class="out" id="m1out" role="status" aria-live="polite"></p>
+    <p class="learned" id="learn1" aria-live="polite"></p>
   </section>
+
+  <section data-step="2" id="m2" hidden aria-labelledby="h-m2">
+    <h2 id="h-m2">미션 2 · 기준을 바꿔 걸음만 세요</h2>
+    <div class="scene">
+      <img src="../lecture/_assets/B11/cause_miss.webp" alt="허리에 마이크로비트를 달고 걷는 아이" width="112" height="63">
+      <p><b>걸음만 세요</b>손 털기는 세면 안 돼요. 기준을 골라 기준선을 바꿔 봐요.</p>
+    </div>
+    <p class="ask" id="m2ask">어느 기준으로 셀까요?</p>
+    <div class="opts" id="m2opts" role="group" aria-labelledby="m2ask"></div>
+    <div class="beats" id="beats" role="img" aria-label="흔들림 여덟 번의 세기와 기준선"></div>
+    <p class="note">막대가 높을수록 센 흔들림이에요. 점선(기준선)에 닿거나 넘는 막대만 세요. 기준 ①이 가장 낮고 ④가 가장 높아요.</p>
+    <div class="acts">
+      <button class="btn main" id="m2run" type="button">시험하기</button>
+      <button class="btn" id="m2new" type="button">다른 걸음으로</button>
+    </div>
+    <p class="out" id="m2out" role="status" aria-live="polite"></p>
+    <p class="learned" id="learn2" aria-live="polite"></p>
+  </section>
+
+  <section data-step="3" id="m3" hidden aria-labelledby="h-m3">
+    <h2 id="h-m3">미션 3 · 규칙을 스스로 만들어요</h2>
+    <div class="scene">
+      <img src="../lecture/_assets/B11/mission_done.webp" alt="불빛이 모두 켜진 마이크로비트 두 대" width="112" height="63">
+      <p><b>만보기에 기능 더하기</b>친구 부탁대로 규칙을 만들어요.</p>
+    </div>
+    <p class="req" id="m3req"></p>
+    <p class="ask" id="m3a1">언제?</p>
+    <div class="opts three" id="m3when" role="group" aria-labelledby="m3a1"></div>
+    <p class="ask" id="m3a2">무엇을 해요?</p>
+    <div class="opts three" id="m3what" role="group" aria-labelledby="m3a2"></div>
+    <div class="sim" aria-label="규칙을 해 보는 칸">
+      <p class="vbox2" id="m3num">0</p>
+      <div class="mini" id="m3mini" aria-hidden="true"></div>
+      <div class="bar" id="m3bar" aria-hidden="true"></div>
+    </div>
+    <div class="acts">
+      <button class="btn" id="m3shake" type="button">흔들기</button>
+      <button class="btn" id="m3b" type="button">B 버튼</button>
+      <button class="btn" id="m3reset" type="button">처음부터</button>
+      <button class="btn main" id="m3check" type="button">되는지 보기</button>
+    </div>
+    <p class="out" id="m3out" role="status" aria-live="polite"></p>
+    <p class="learned" id="learn3" aria-live="polite"></p>
+    <div class="fin" id="fin" hidden>
+      <img src="../lecture/_assets/B11/cause_double.webp" alt="손목과 신발에 마이크로비트를 단 아이가 걸어요" width="420" height="236">
+      <p>세 미션을 모두 했어요. 수는 흔들림을 세고, 기준과 규칙이 기기의 일을 정해요.</p>
+    </div>
+  </section>
+
+  <div class="nextrow"><button class="btn main" id="goNext" type="button" hidden></button></div>
+  <aside class="concept" aria-label="개념 설명">
+    <b>알아 둘 말</b>
+    <p>[흔들림 감지될 때] 블록 안에 1 더하기를 넣으면 수가 하나씩 늘어요. 기준값 만보기에서는 얼마나 세게 흔들려야 셀지 기준을 바꿀 수 있어요.</p>
+  </aside>
+  <p class="note">이 쪽은 마이크로비트로 만들기 전에 해 보는 연습이에요. 실제 기기에서는 직접 만들어 확인해요.</p>
+  <p class="ai">그림 일부는 생성형 AI로 만들었어요.</p>
 </div>
 
 <script>
@@ -145,17 +249,58 @@ body{overflow-x:hidden}
   var $ = function(id){ return document.getElementById(id); };
   var NS = 'http://www.w3.org/2000/svg';
   var CENTER = 12, CAP = 99;
+  function rnd(n){ return Math.floor(Math.random() * n); }
+  function shuffle(a){ for (var i = a.length - 1; i > 0; i--){ var j = rnd(i + 1), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function say(t, m){ if (window.Fun) Fun.say(t, m); }
+  function mk(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
 
-  var goal = 12;
-  var count = 0;
-  var done = false;      // 멈췄거나 넘겨서 이 판이 끝났나
-  var over = false;      // 목표를 넘겼나
-  var lastGoal = 0;
+  /* ───────── 미션 사다리 ───────── */
+  var cur = 1, doneM = {1:false, 2:false, 3:false}, stamped = false;
+  var secs = {1:$('m1'), 2:$('m2'), 3:$('m3')};
+  var ladderBtns = Array.prototype.slice.call(document.querySelectorAll('#ladder button'));
+  var NAMES = ['', '세기', '기준 바꾸기', '규칙 만들기'];
+  function syncLadder(){
+    ladderBtns.forEach(function(b){
+      var k = +b.getAttribute('data-go');
+      if (k === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+      b.classList.toggle('done', doneM[k]);
+    });
+    var gn = $('goNext');
+    if (doneM[cur] && cur < 3){ gn.hidden = false; gn.textContent = '미션 ' + (cur + 1) + ' ' + NAMES[cur + 1] + '로 가기'; }
+    else gn.hidden = true;
+    $('fin').hidden = !(doneM[1] && doneM[2] && doneM[3]);
+  }
+  var HOW = ['', '목표 수만큼 흔들고 멈춰요. 흔들 수 없으면 흔들기 단추를 눌러요.', '걸음만 세는 기준을 골라 시험해요.', '부탁을 읽고 언제와 무엇을 골라요. 흔들기나 B 버튼으로 해 본 뒤 되는지 보기를 눌러요.'];
+  function showMission(n){
+    cur = n;
+    var hw = document.querySelector('.how'), sf = document.querySelector('.safe');
+    if (hw) hw.textContent = HOW[n];
+    if (sf) sf.hidden = (n !== 1);
+    [1,2,3].forEach(function(k){ secs[k].hidden = (k !== n); });
+    if (n === 2 && !m2.ready) m2New();
+    if (n === 3 && !m3.ready) m3New();
+    syncLadder();
+    try { window.scrollTo(0, 0); } catch (e) {}
+  }
+  function missionDone(n, line){
+    doneM[n] = true;
+    $('learn' + n).textContent = '알게 된 것: ' + line;
+    say('알게 된 것: ' + line, 'cheer');
+    syncLadder();
+    if (doneM[1] && doneM[2] && doneM[3] && !stamped){ stamped = true; if (window.Fun) Fun.stamp(); }
+  }
+  ladderBtns.forEach(function(b){ b.addEventListener('click', function(){ showMission(+b.getAttribute('data-go')); }); });
+  $('goNext').addEventListener('click', function(){ showMission(cur + 1); });
 
-  var guess = null;
+  /* ───────── 미션 1: 흔들어서 목표에 멈추기 ───────── */
+  var goal = 12, count = 0, done = false, over = false, lastGoal = 0, guess = null;
   var lastShake = 0, prev = null, latest = null, hasNew = false;
   var sawMotion = false, sensorAttached = false, waitTimer = null, permissionAsked = false;
 
+  [['exact','딱 맞아요'],['short','모자라요'],['over','넘쳐요']].forEach(function(o){
+    var b = mk('button', 'chip', o[1]); b.type = 'button'; b.setAttribute('data-g', o[0]); b.setAttribute('aria-pressed', 'false');
+    $('gbox').appendChild(b);
+  });
   var cells = [];
   (function build(){
     for (var r = 0; r < 5; r++) for (var c = 0; c < 5; c++){
@@ -170,24 +315,22 @@ body{overflow-x:hidden}
   function render(){
     $('num').textContent = String(count);
     $('goal').textContent = String(goal);
-
-    // 격자는 21차시 활동2 기능 카드 '목표 알림' 모양이다. 목표 아래는 가운데 한 점, 목표 이상은 전체.
+    if (!done && count === 0) $('m1out').textContent = '';
     for (var i = 0; i < 25; i++){
       var on = (count < goal) ? (i === CENTER) : true;
       cells[i].style.fill = on ? '#FF3B2F' : '#3A3630';
     }
-
     var s = $('say');
-    if (!done){ s.textContent = '흔들어서 목표에 멈춰요'; s.className = 'say dim'; }
+    if (!done && count === goal){ s.textContent = '목표에 닿았어요. 멈출까요?'; s.className = 'say'; }
+    else if (!done){ s.textContent = '흔들어서 목표에 멈춰요'; s.className = 'say dim'; }
     else if (count === goal){ s.textContent = '목표에 딱 멈췄어요'; s.className = 'say'; }
     else if (over){ s.textContent = (count - goal) + '번 더 흔들렸어요'; s.className = 'say over'; }
     else { s.textContent = (goal - count) + '번 모자라요'; s.className = 'say over'; }
-
-    var tr = $('track'), h = '';
+    var h = '';
     for (var k = 1; k <= goal; k++) h += '<i class="' + (k <= count ? 'on' : '') + (k === goal ? ' goalmark' : '') + '"></i>';
     if (count > goal) h += '<em>+' + (count - goal) + '</em>';
-    tr.innerHTML = h;
-    var chips = document.querySelectorAll('.chip');
+    $('track').innerHTML = h;
+    var chips = document.querySelectorAll('#m1 .chip');
     for (var c = 0; c < chips.length; c++){
       chips[c].setAttribute('aria-pressed', chips[c].getAttribute('data-g') === guess ? 'true' : 'false');
       chips[c].disabled = count > 0 || done;
@@ -195,67 +338,63 @@ body{overflow-x:hidden}
     $('shake').disabled = done;
     $('stop').disabled = done || count === 0;
   }
-
   function newRound(){
     var g;
-    do { g = 8 + Math.floor(Math.random() * 18); } while (g === lastGoal);   // 8~25
+    do { g = 8 + rnd(18); } while (g === lastGoal);
     lastGoal = g; goal = g;
     count = 0; done = false; over = false; prev = null; latest = null; hasNew = false; guess = null;
     render();
-    if (window.Fun) Fun.say('목표는 ' + goal + '이에요. 흔들기 전에 예상부터 골라요.');
+    say('목표는 ' + goal + '이에요. 흔들기 전에 예상부터 골라요.');
   }
-
   function bump(){
     if (done) return;
     lastShake = Date.now();
     count = Math.min(count + 1, CAP);
-    var n = $('num');
-    n.classList.remove('pop'); void n.offsetWidth; n.classList.add('pop');
-    // 목표를 넘기는 그 순간 판이 끝난다. 되돌릴 수 없다.
-    if (count > goal){
-      done = true; over = true; render(); finish();
-    } else if (count === goal){
-      var p = $('panel');
-      p.classList.remove('hit'); void p.offsetWidth; p.classList.add('hit');
-      if (window.Fun) Fun.say('목표 ' + goal + '에 닿았어요. 여기서 멈출 수 있나요?', 'think');
+    var n = $('num'); n.classList.remove('pop'); void n.offsetWidth; n.classList.add('pop');
+    if (count > goal){ done = true; over = true; render(); finish(); }
+    else if (count === goal){
+      var p = $('panel'); p.classList.remove('hit'); void p.offsetWidth; p.classList.add('hit');
+      say('목표 ' + goal + '에 닿았어요. 여기서 멈출 수 있나요?', 'think');
     }
     render();
   }
-
-  // 예상과 결과를 견주어 짚는다. 판정·칭찬 말은 쓰지 않는다.
   function finish(){
-    if (!window.Fun) return;
     var res = count === goal ? 'exact' : (over ? 'over' : 'short');
-    var nm = { exact:'딱 맞춘 것', short:'모자란 것', over:'넘긴 것' };
+    var nm = {exact:'딱 맞춘 것', short:'모자란 것', over:'넘긴 것'};
     var diff = count === goal ? '목표와 같은 ' + goal + '번이에요.' : (over ? (count - goal) + '번 더 흔들렸어요.' : (goal - count) + '번 모자랐어요.');
-    if (guess === null) Fun.say('멈췄어요. ' + diff + ' 다음에는 흔들기 전에 예상을 골라 봐요.', 'think');
-    else if (guess === res) { Fun.say('예상은 ' + nm[guess] + '이었고 결과도 같아요. ' + diff + ' 어떻게 멈출 때를 알았나요?', 'cheer'); Fun.burst($('num')); }
-    else { Fun.say('예상은 ' + nm[guess] + '이었는데 결과는 ' + nm[res] + '이에요. ' + diff + ' 어디서 갈렸는지 봐요.', 'think'); Fun.shake($('num')); }
-    Fun.stamp();
+    var msg, head = over ? '목표를 넘었어요. ' : '';
+    if (guess === null) msg = (over ? head : '멈췄어요. ') + diff + ' 다음에는 예상을 먼저 골라 봐요.';
+    else if (guess === res) msg = head + '예상은 ' + nm[guess] + '이었고 결과도 같아요. ' + diff;
+    else msg = head + '예상은 ' + nm[guess] + '이었는데 결과는 ' + nm[res] + '이에요. ' + diff + ' 어디서 갈렸는지 봐요.';
+    if (window.Fun){ if (guess !== null && guess === res) Fun.burst($('num')); else Fun.shake($('num')); }
+    $('m1out').textContent = msg;
+    if (res === 'exact'){
+      if (!doneM[1]) missionDone(1, '흔들림 한 번마다 수가 1 늘어요. 수는 흔든 만큼만 바뀌어요.');
+      else say(msg, 'think');
+    } else {
+      $('m1out').textContent = msg + ' 목표에 딱 멈추면 다음 미션이 열려요. 다시 하기나 다음 판을 눌러요.';
+      say(msg, 'think');
+    }
   }
   $('stop').addEventListener('click', function(){
     if (done || count === 0) return;
-    done = true; over = false;
-    render(); finish();
+    done = true; over = false; render(); finish();
   });
-  var chipEls = document.querySelectorAll('.chip');
+  var chipEls = document.querySelectorAll('#m1 .chip');
   for (var ci = 0; ci < chipEls.length; ci++) chipEls[ci].addEventListener('click', function(){
     if (count > 0 || done) return;
     guess = this.getAttribute('data-g'); render();
   });
-  // 같은 목표로 한 번 더. 넘겼을 때 다시 해 볼 길을 열어 둔다.
   $('again').addEventListener('click', function(){
     count = 0; done = false; over = false; prev = null; latest = null; hasNew = false; guess = null;
-    render();
-    if (window.Fun) Fun.say('목표는 ' + goal + '이에요. 흔들기 전에 예상부터 골라요.');
+    render(); say('목표는 ' + goal + '이에요. 흔들기 전에 예상부터 골라요.');
   });
   $('next').addEventListener('click', newRound);
 
-  /* 흔들림 — 임계 16, 잠금 250ms, 50ms 틱 */
   function onMotion(e){
     var a = e.accelerationIncludingGravity;
     if (!a || a.x === null || a.x === undefined) return;
-    latest = { x:a.x, y:a.y, z:a.z }; hasNew = true;
+    latest = {x:a.x, y:a.y, z:a.z}; hasNew = true;
     if (!sawMotion){ sawMotion = true; $('practice').hidden = true; }
   }
   setInterval(function(){
@@ -263,11 +402,10 @@ body{overflow-x:hidden}
     hasNew = false;
     if (prev){
       var d = Math.abs(latest.x - prev.x) + Math.abs(latest.y - prev.y) + Math.abs(latest.z - prev.z);
-      if (d > 16 && Date.now() - lastShake > 250) bump();
+      if (d > 16 && Date.now() - lastShake > 250 && cur === 1) bump();
     }
     prev = latest;
   }, 50);
-
   function attachSensor(){
     if (sensorAttached) return;
     window.addEventListener('devicemotion', onMotion);
@@ -282,30 +420,178 @@ body{overflow-x:hidden}
     if (waitTimer){ clearTimeout(waitTimer); waitTimer = null; }
   }
   $('shake').addEventListener('click', function(){
-    // 권한을 묻더라도 이 누름은 먹는다. 첫 누름이 삼켜지면 아이는 고장인 줄 안다.
-    // iOS 사파리와 헤드리스 엣지가 requestPermission을 내놓는다.
     if (!sensorAttached && typeof DeviceMotionEvent !== 'undefined' &&
         typeof DeviceMotionEvent.requestPermission === 'function' && !permissionAsked){
       permissionAsked = true;
-      DeviceMotionEvent.requestPermission().then(function(r){
-        if (r === 'granted') attachSensor();
-      }).catch(function(){});
+      DeviceMotionEvent.requestPermission().then(function(r){ if (r === 'granted') attachSensor(); }).catch(function(){});
     }
     bump();
   });
   if (typeof DeviceMotionEvent === 'undefined') $('practice').hidden = false;
   else if (typeof DeviceMotionEvent.requestPermission === 'function') $('practice').hidden = false;
   else attachSensor();
-
   document.addEventListener('visibilitychange', function(){
-    if (document.hidden) detachSensor();
-    else if (sawMotion) attachSensor();
+    if (document.hidden) detachSensor(); else if (sawMotion) attachSensor();
   });
   window.addEventListener('pagehide', detachSensor);
+
+  /* ───────── 미션 2: 기준 바꾸기 ───────── */
+  // 걸음 5번과 손 털기 3번이 섞여 온다. 기준 이상만 센다.
+  // 판마다 손 털기 세기·걸음 세기·네 기준 값이 바뀌어, 걸음만 세는 기준은 한 판에 하나뿐이다.
+  var TLAB = ['기준 ①', '기준 ②', '기준 ③', '기준 ④'];
+  var m2 = {ready:false, lastC:-1, lastV:-1, beats:[], thr:null, opts:[], good:-1};
+  function m2Draw(lit){
+    var box = $('beats'); box.innerHTML = '';
+    m2.beats.forEach(function(b){
+      var d = mk('div', 'beat' + (b.hand ? ' hand' : '') + (lit && b.on ? ' on' : ''));
+      var bar = document.createElement('i'); bar.style.height = Math.round(b.s / 30 * 78) + 'px';
+      d.appendChild(bar); d.appendChild(mk('span', '', b.hand ? '털기' : '걸음'));
+      box.appendChild(d);
+    });
+    if (m2.thr !== null){
+      var line = mk('div', 'thrline'); line.style.bottom = (Math.round(m2.thr / 30 * 78) + 18) + 'px';
+      box.appendChild(line);
+    }
+  }
+  function m2Opts(){
+    var box = $('m2opts'); box.innerHTML = '';
+    m2.opts.forEach(function(v, i){
+      var b = mk('button', 'chip', TLAB[i] + ' · ' + v); b.type = 'button';
+      b.setAttribute('aria-pressed', m2.thr === v ? 'true' : 'false');
+      b.addEventListener('click', function(){ m2.thr = v; m2Opts(); m2Draw(false); $('m2out').textContent = '기준을 골랐어요. 시험하기를 눌러요.'; });
+      box.appendChild(b);
+    });
+  }
+  function m2Pick(n, lo, hi){ // lo~hi 사이 서로 다른 정수 n개(오름차순)
+    var pool = []; for (var x = lo; x <= hi; x++) pool.push(x);
+    return shuffle(pool).slice(0, n).sort(function(p, q){ return p - q; });
+  }
+  function m2New(){
+    var c, smin, hmax, vc, lows, highs, tries = 0;
+    for (;;){
+      tries++;
+      c = rnd(4);                                  // 걸음만 세는 기준이 네 칸 가운데 몇 째인지
+      smin = 11 + rnd(14);                         // 걸음 가장 약한 세기 11~24
+      hmax = Math.max(c + 3, 4 + rnd(smin - 6));   // 손 털기 가장 센 세기
+      if (hmax > smin - 3) continue;
+      vc = hmax + 1 + rnd(smin - hmax);            // (hmax, smin] 안
+      lows = c ? m2Pick(c, 2, hmax) : [];
+      highs = (3 - c) ? m2Pick(3 - c, smin + 1, 29) : [];
+      if (tries > 300 || (c !== m2.lastC && vc !== m2.lastV)) break;
+    }
+    m2.lastC = c; m2.lastV = vc; m2.good = c;
+    m2.opts = lows.concat([vc], highs);
+    m2.ready = true; m2.thr = null;
+    var list = [], i, ssum;
+    for (i = 0; i < 5; i++) list.push({hand:false, s:smin + (i === 0 ? 0 : rnd(5))});
+    for (i = 0; i < 3; i++) list.push({hand:true, s:(i === 0 ? hmax : Math.max(2, hmax - rnd(4)))});
+    m2.beats = shuffle(list);
+    m2Opts(); m2Draw(false);
+    $('m2out').textContent = '기준을 하나 골라요.';
+    say('걸음은 세고 손 털기는 세지 않는 기준을 찾아봐요.');
+  }
+  $('m2new').addEventListener('click', m2New);
+  $('m2run').addEventListener('click', function(){
+    if (m2.thr === null){ $('m2out').textContent = '먼저 기준을 하나 골라요.'; return; }
+    var steps = 0, hands = 0;
+    m2.beats.forEach(function(b){
+      b.on = b.s >= m2.thr;
+      if (b.on){ if (b.hand) hands++; else steps++; }
+    });
+    m2Draw(true);
+    var txt = '센 걸음 ' + steps + '/5 · 센 손 털기 ' + hands + '/3. ';
+    if (steps === 5 && hands === 0){
+      $('m2out').textContent = txt + '걸음만 세었어요.';
+      if (!doneM[2]) missionDone(2, '기준이 너무 낮으면 손 털기까지 세고, 너무 높으면 걸음을 놓쳐요.');
+      else say('걸음만 세었어요. 다른 걸음으로도 해 봐요.', 'cheer');
+    } else if (hands > 0){
+      $('m2out').textContent = txt + '손 털기까지 셌어요. 기준을 올려 봐요.';
+      say('예상과 다르게 나왔어요. 손 털기까지 세었어요.', 'think');
+    } else {
+      $('m2out').textContent = txt + '걸음을 놓쳤어요. 기준을 내려 봐요.';
+      say('예상과 다르게 나왔어요. 걸음을 놓쳤어요.', 'think');
+    }
+  });
+
+  /* ───────── 미션 3: 규칙 만들기 ───────── */
+  var WHEN = [{k:'shake', t:'흔들 때마다'}, {k:'goal', t:'목표에 닿으면'}, {k:'b', t:'B 버튼을 누르면'}];
+  var WHAT = [{k:'lit', t:'불빛을 모두 켜요'}, {k:'zero', t:'수를 0으로 되돌려요'}, {k:'bar', t:'막대를 한 칸 채워요'}];
+  var m3 = {ready:false, g:6, lastQ:-1, q:0, tried:false, when:null, what:null, n:0, lit:false, bar:0};
+  var REQ = [
+    {when:'goal', what:'lit',  t:function(g){ return '친구 부탁: 수가 ' + g + '에 닿으면 불빛을 모두 켜 주세요.'; }},
+    {when:'b',    what:'zero', t:function(){ return '친구 부탁: 잘못 셌을 때 B 버튼으로 0부터 다시 세게 해 주세요.'; }},
+    {when:'shake',what:'bar',  t:function(){ return '친구 부탁: 흔들 때마다 막대가 한 칸씩 차게 해 주세요.'; }},
+    {when:'goal', what:'zero', t:function(g){ return '친구 부탁: 수가 ' + g + '에 닿으면 저절로 0부터 다시 세게 해 주세요.'; }},
+    {when:'b',    what:'bar',  t:function(){ return '친구 부탁: B 버튼을 누를 때마다 막대가 한 칸씩 차게 해 주세요.'; }},
+    {when:'shake',what:'lit',  t:function(){ return '친구 부탁: 흔들면 바로 불빛이 모두 켜지게 해 주세요.'; }}
+  ];
+  function m3Opts(id, list, key){
+    var box = $(id); box.innerHTML = '';
+    list.forEach(function(o){
+      var b = mk('button', 'chip', o.t); b.type = 'button';
+      b.setAttribute('aria-pressed', m3[key] === o.k ? 'true' : 'false');
+      b.addEventListener('click', function(){ m3[key] = o.k; m3.tried = false; m3Reset(); m3Opts(id, list, key); $('m3out').textContent = ''; });
+      box.appendChild(b);
+    });
+  }
+  function m3Draw(){
+    $('m3num').textContent = String(m3.n);
+    var mini = $('m3mini'); mini.innerHTML = '';
+    for (var i = 0; i < 25; i++){ var d = document.createElement('i'); if (m3.lit || i === CENTER) d.className = 'on'; mini.appendChild(d); }
+    var bar = $('m3bar'); bar.innerHTML = '';
+    for (var k = 0; k < m3.g; k++){ var e = document.createElement('i'); if (k < m3.bar) e.className = 'on'; bar.appendChild(e); }
+  }
+  function m3Reset(){ m3.n = 0; m3.lit = false; m3.bar = 0; m3Draw(); }
+  function m3Apply(what){
+    if (what === 'lit') m3.lit = true;
+    else if (what === 'zero'){ m3.n = 0; m3.lit = false; m3.bar = 0; }
+    else if (what === 'bar') m3.bar = Math.min(m3.bar + 1, m3.g);
+  }
+  function m3New(){
+    var q; do { q = rnd(REQ.length); } while (q === m3.lastQ);
+    m3.lastQ = q; m3.q = q; m3.ready = true; m3.tried = false; m3.when = null; m3.what = null;
+    m3.g = 5 + rnd(5);
+    $('m3req').textContent = REQ[q].t(m3.g);
+    m3Opts('m3when', WHEN, 'when'); m3Opts('m3what', WHAT, 'what');
+    m3Reset(); $('m3out').textContent = '언제와 무엇을 골라 보고, 흔들기나 B 버튼으로 해 봐요.';
+    say(REQ[q].t(m3.g));
+  }
+  var m3nb = mk('button', 'btn', '다른 부탁'); m3nb.type = 'button'; m3nb.id = 'm3newq';
+  $('m3check').parentNode.appendChild(m3nb);
+  m3nb.addEventListener('click', m3New);
+  $('m3shake').addEventListener('click', function(){
+    if (m3.n < CAP) m3.n++;
+    var rw = REQ[m3.q].when;
+    if (rw === 'shake' || (rw === 'goal' && m3.n >= m3.g)) m3.tried = true;
+    if (m3.when === 'shake') m3Apply(m3.what);
+    if (m3.when === 'goal' && m3.n === m3.g) m3Apply(m3.what);
+    m3Draw();
+  });
+  $('m3b').addEventListener('click', function(){
+    if (REQ[m3.q].when === 'b') m3.tried = true;
+    if (m3.when === 'b') m3Apply(m3.what);
+    m3Draw();
+  });
+  $('m3reset').addEventListener('click', function(){ m3Reset(); $('m3out').textContent = ''; });
+  $('m3check').addEventListener('click', function(){
+    if (!m3.when || !m3.what){ $('m3out').textContent = '언제와 무엇을 모두 골라요.'; return; }
+    if (!m3.tried){ $('m3out').textContent = ({shake:'먼저 흔들기를 눌러 해 봐요.', goal:'먼저 수가 목표에 닿을 때까지 흔들기를 눌러 봐요.', b:'먼저 B 버튼을 눌러 해 봐요.'})[REQ[m3.q].when]; return; }
+    var rq = REQ[m3.q], bad = [];
+    if (m3.when !== rq.when) bad.push('언제');
+    if (m3.what !== rq.what) bad.push('하는 일');
+    if (!bad.length){
+      $('m3out').textContent = '부탁대로 움직여요.';
+      if (!doneM[3]) missionDone(3, '"언제"와 "무엇을"을 짝지으면 기기가 하는 일을 내가 정할 수 있어요.');
+      else say('부탁대로 움직여요. 다른 부탁 단추로 새 부탁을 받아 봐요.', 'cheer');
+    } else {
+      $('m3out').textContent = '예상과 다르게 움직여요. 부탁과 다른 곳: ' + bad.join(', ') + '. 해 보면서 다시 골라요.';
+      say('부탁을 다시 읽고, 흔들기와 B 버튼으로 해 봐요.', 'think');
+    }
+  });
 
   newRound();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B11" data-mission="태블릿을 흔들어 목표 수에 딱 멈춰 봐요. 흔들기 전에 예상부터!"></script>
+<script src="../assets/play/fun.js" data-block="B11" data-mission="목표 수만큼 흔들고 멈춰요. 흔들기 전에 예상부터!"></script>
 </body>
 </html>

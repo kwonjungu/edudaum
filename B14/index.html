@@ -30,14 +30,14 @@
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:12px;margin-top:11px}
-  h2{font-size:13px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted);text-align:center}
+  h2{font-size:14px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted);text-align:center}
 
   #scene{width:100%;max-width:360px;height:auto;display:block;margin:0 auto}
   .zbg{fill:var(--surface);stroke:var(--line-strong);stroke-width:1.5}
   .zone{cursor:pointer}
   .zbg.pick{stroke:var(--ink);stroke-width:2.5;stroke-dasharray:6 4}
   .zbg.hit{fill:var(--point-soft);stroke:var(--point);stroke-width:4;stroke-dasharray:none}
-  .zlabel{font:600 11px 'Malgun Gothic',sans-serif;fill:var(--muted)}
+  .zlabel{font:600 14px 'Malgun Gothic',sans-serif;fill:var(--muted)}
   .zval{font:700 14px 'Malgun Gothic',sans-serif;fill:var(--ink)}
 
   .status{margin-top:9px;text-align:center;font-size:15px;font-weight:700;min-height:1.5em}
@@ -62,7 +62,7 @@
   .btn.sub{flex:1 1 100px}
   .btn:disabled{opacity:.45;cursor:not-allowed}
 
-  .note{margin-top:8px;font-size:13px;font-weight:600;color:var(--muted)}
+  .note{margin-top:8px;font-size:14px;font-weight:600;color:var(--muted)}
 
   button, a{outline-offset:3px}
   :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
@@ -70,6 +70,53 @@
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+
+/* 체험 개선 2026-10-31: 시작 안내·미션 사다리·개념 카드·미션 2·3 */
+.how{margin:10px 0 8px;font-size:16px;font-weight:600;background:var(--sun-l);border-radius:var(--r-sm);padding:8px 12px}
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0 0 8px}
+.ladder button{cursor:pointer;min-height:44px;padding:4px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+  background:var(--surface);color:var(--ink);font-family:inherit;font-size:14.5px;font-weight:700;line-height:1.2}
+.ladder button[aria-current="step"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ladder button.done::after{content:" 끝";font-weight:600;color:var(--mint-d)}
+.ladder button.done[aria-current="step"]::after{color:#fff}
+.concept{margin:0 0 4px;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 12px;background:var(--surface)}
+.concept b{display:block;font-size:14px;color:var(--point)}
+.concept p{margin:2px 0 0;font-size:15px;font-weight:600}
+.scene{display:block;margin:0 0 10px}
+.scene img{display:block;width:100%;height:112px;object-fit:cover;border-radius:10px;background:var(--sun-l)}
+.scene .sc-text{margin-top:6px;font-size:15px;font-weight:600}
+#m1 .scene{margin:12px 0 0}
+.learned{margin:10px 0 0;padding:8px 12px;border-radius:var(--r-sm);background:var(--mint-l);font-size:15px;font-weight:700}
+.learned:empty{display:none}
+.out{margin-top:9px;text-align:center;font-size:15px;font-weight:700;min-height:1.5em}
+.prog{margin-top:6px;text-align:center;font-size:14px;font-weight:600;color:var(--muted)}
+.photo{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;padding:10px;border-radius:12px;background:linear-gradient(var(--sky-l) 0 55%,var(--soft) 55%)}
+.cell{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;min-height:96px;padding:8px 4px;
+  border:2px solid var(--line-strong);border-radius:10px;background:#fff;font-family:inherit;font-size:14px;font-weight:700;color:var(--ink);cursor:pointer}
+.cell svg{width:44px;height:44px}
+.cell .lab,.cell .st{word-break:keep-all;overflow-wrap:normal;text-align:center;line-height:1.25}
+.cell .st{display:block;font-size:13px}
+.cell .st[hidden]{display:none}
+.cell[aria-pressed="true"]{background:#8a857c;color:#fff;border-color:var(--ink)}
+.cell[aria-pressed="true"] svg{opacity:.12}
+.cell.leak{border-color:var(--point);border-width:4px;background:var(--point-soft)}
+.cell:disabled{cursor:not-allowed}
+.picks.one{grid-template-columns:1fr}
+.pk{min-height:48px;font-size:15px}
+.sum{display:grid;gap:6px;margin-top:10px}
+.srow{width:100%;display:grid;grid-template-columns:6.5em 1fr;gap:8px;align-items:center;text-align:left;font-family:inherit;color:var(--ink);
+  min-height:46px;padding:6px 10px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface);cursor:pointer}
+.srow .k{font-size:14px;font-weight:700;color:var(--muted)}
+.srow .v{font-size:15px;font-weight:700;line-height:1.3}
+.srow .w{display:block;font-size:14px;font-weight:600;color:var(--point)}
+.srow.cur{border:2px dashed var(--ink)}
+.srow.bad{border:3px solid var(--point);background:var(--point-soft)}
+.srow.ok{border-color:var(--mint);background:var(--mint-l)}
+.srow:disabled{cursor:default}
+.fin{margin-top:12px;text-align:center;font-size:15.5px;font-weight:700}
+.fin img{width:100%;max-width:360px;height:auto;border-radius:12px;display:block;margin:0 auto 6px}
+.ai{margin:12px 0 0;text-align:center;font-size:14px;font-weight:600;color:var(--muted)}
+@media(max-width:400px),(max-height:900px){.lead{display:none}.scene img{height:80px}.scene .sc-text{font-size:14px}#scene{max-width:250px}section{margin-top:6px;padding:8px}.how{margin:4px 0;padding:4px 10px;font-size:15px}.ladder{margin-bottom:6px}.ladder button{min-height:44px}.status{margin-top:0;min-height:1.1em;font-size:14px}h2{margin-bottom:4px}#h-p{margin-top:0!important}.picks{gap:5px}.pk{min-height:44px;padding:4px 10px}.acts{margin-top:4px}.btn{min-height:44px}.nav{margin-bottom:2px}.back{min-height:44px;padding:6px 12px}h1{font-size:20px}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -84,23 +131,80 @@
     <h1>드러난 개인정보 찾기 활동</h1>
     <p class="lead">예시 작품 소개에서 개인정보가 드러난 곳을 짚어요</p>
   </header>
+  <p class="how" id="how">드러난 칸 하나를 짚고 확인하기를 눌러요. 없으면 '드러난 곳 없음'을 짚어요.</p>
 
-  <section aria-labelledby="h-s">
-    <h2 id="h-s">예시 작품 소개</h2>
+  <nav class="ladder" id="ladder" aria-label="미션 순서">
+    <button type="button" data-go="1" aria-current="step">① 찾기</button>
+    <button type="button" data-go="2">② 가리기</button>
+    <button type="button" data-go="3">③ 만들기</button>
+  </nav>
+
+  <section data-step="1" id="m1" aria-labelledby="h-s">
+    <h2 id="h-s">미션 1 · 드러난 곳 찾기</h2>
     <svg id="scene" viewBox="0 0 300 196" role="img" aria-label="예시 작품 소개의 네 칸"></svg>
-    <p class="status dim" id="status" aria-live="polite">칸을 눌러 짚어요. 없을 수도 있어요</p>
-  </section>
-
-  <section aria-labelledby="h-p">
-    <h2 id="h-p">어디에 드러났나요</h2>
+    <p class="status dim" id="status" aria-live="polite">칸을 눌러 짚어요</p>
+    <h2 id="h-p" style="margin-top:12px">어디에 드러났나요</h2>
     <div class="picks" id="picks"></div>
     <div class="acts">
       <button class="btn main" id="checkBtn" type="button" disabled>확인하기</button>
       <button class="btn sub" id="againBtn" type="button">다시 하기</button>
-      <button class="btn sub" id="nextBtn" type="button">다음 예시</button>
+      <button class="btn sub" id="nextBtn" type="button" disabled>다음 예시</button>
     </div>
-    <p class="note">짝 모둠 작품은 활동2 약속으로 확인해요</p>
+    <p class="prog" id="prog1" aria-live="polite">찾은 예시 0/2</p>
+    <p class="learned" id="learn1" aria-live="polite"></p>
+    <div class="scene">
+      <img src="../lecture/_assets/B14/scene_check_v2.webp" alt="두 친구가 태블릿의 작품 소개를 돋보기로 살펴보는 모습" width="1600" height="900">
+      <div class="sc-text">짝 모둠 소개를 보기 전에, 예시로 눈을 익혀요. 드러난 곳이 없을 수도 있어요.</div>
+    </div>
   </section>
+
+  <section data-step="2" id="m2" hidden aria-labelledby="h-m2">
+    <h2 id="h-m2">미션 2 · 사진 속에서 가려요</h2>
+    <div class="scene">
+      <img src="../lecture/_assets/B14/scene_photo_v2.webp" alt="태블릿으로 기기와 종이 틀만 찍는 모습" width="1600" height="900">
+      <div class="sc-text">사진을 올리기 전에, 누군지 알 수 있는 것을 눌러 가려요. 작품은 남겨요.</div>
+    </div>
+    <div class="photo" id="photo" role="group" aria-label="사진 속에 보이는 것"></div>
+    <p class="status dim" id="m2status" aria-live="polite"></p>
+    <div class="acts">
+      <button class="btn main" id="up2" type="button">올리기</button>
+      <button class="btn sub" id="fix2" type="button" hidden>고치기</button>
+      <button class="btn sub" id="next2" type="button" disabled>다음 사진</button>
+    </div>
+    <div class="out" id="m2out" role="status" aria-live="polite"></div>
+    <p class="learned" id="learn2" aria-live="polite"></p>
+  </section>
+
+  <section data-step="3" id="m3" hidden aria-labelledby="h-m3">
+    <h2 id="h-m3">미션 3 · 소개글을 만들어요</h2>
+    <div class="scene">
+      <img src="../lecture/_assets/B14/scene_upload_v2.webp" alt="작품 소개를 올리려고 태블릿의 올리기 단추를 누르는 모습" width="1600" height="900">
+      <div class="sc-text">칸마다 하나씩 골라 소개글을 완성해요.</div>
+    </div>
+    <p class="status" id="m3ask" aria-live="polite"></p>
+    <div class="picks one" id="m3opts" role="group" aria-labelledby="m3ask"></div>
+    <div class="sum" id="m3sum"></div>
+    <div class="acts">
+      <button class="btn main" id="up3" type="button" disabled>올리기</button>
+      <button class="btn sub" id="fix3" type="button" hidden>고치기</button>
+      <button class="btn sub" id="next3" type="button" disabled>새 소개글</button>
+    </div>
+    <div class="out" id="m3out" role="status" aria-live="polite"></div>
+    <p class="learned" id="learn3" aria-live="polite"></p>
+    <div class="fin" id="fin" hidden>
+      <img src="../lecture/_assets/B14/mission_done.webp" alt="초록 깃발과 도장이 찍힌 종이, 마이크로비트 두 개" width="1600" height="900" loading="lazy">
+      세 미션을 마쳤어요. 올리기 전에 한 번 더 살펴요.
+    </div>
+  </section>
+
+  <aside class="concept" aria-label="개념 설명">
+    <b>알아 둘 말</b>
+    <p>개인정보는 누구인지 알아볼 수 있는 정보예요. 이름, 얼굴, 학교 이름, 사는 곳이 그래요. 한 줄은 괜찮아 보여도 여러 줄이 모이면 누군지 알 수 있어요.</p>
+  </aside>
+
+  <div class="acts"><button class="btn main" id="goNext" type="button" hidden></button></div>
+  <p class="note">짝 모둠 작품은 활동2 약속으로 확인해요</p>
+  <p class="ai">그림 일부는 생성형 AI로 만들었어요.</p>
 </div>
 
 <script>
@@ -108,73 +212,96 @@
   'use strict';
 
   var NS = 'http://www.w3.org/2000/svg';
-  // 지도안 32차시 활동3-2: 해결한 문제·해결 방법·작동 순서·다음에 고칠 점, 실제 이름 대신 모둠 이름.
+  function $(id){ return document.getElementById(id); }
+  function rnd(n){ return Math.floor(Math.random() * n); }
+  function any(arr){ return arr[rnd(arr.length)]; }
+  function shuffle(a){ for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function say(t, m){ if (window.Fun) { Fun.say(t, m); } }
+  function mk(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function el(tag, attrs){ var e = document.createElementNS(NS, tag); for (var k in attrs) e.setAttribute(k, attrs[k]); return e; }
+  function josa(word){
+    var c = word.charCodeAt(word.length - 1);
+    if (c < 0xAC00 || c > 0xD7A3) return '이';
+    return ((c - 0xAC00) % 28) ? '이' : '가';
+  }
+
+  /* ───────── 미션 사다리 ───────── */
+  var cur = 1, doneM = { 1: false, 2: false, 3: false }, stamped = false;
+  var secs = { 1: $('m1'), 2: $('m2'), 3: $('m3') };
+  var ladderBtns = Array.prototype.slice.call(document.querySelectorAll('#ladder button'));
+  var goNext = $('goNext');
+  var NAMES = ['', '찾기', '가리기', '만들기'];
+  var LEARN = {
+    1: '이름, 얼굴, 학교 이름, 사는 곳은 소개글 어느 칸에든 드러날 수 있어요.',
+    2: '사진은 올리기 전에 보이는 것을 하나씩 살펴요. 작품은 남기고 누군지 알 것만 가려요.',
+    3: '일부만 가리거나 돌려 말해도 누군지 알 수 있으면 개인정보가 드러난 거예요.'
+  };
+  var HOW = ['', '드러난 칸 하나를 짚고 확인하기를 눌러요. 없으면 \'드러난 곳 없음\'을 짚어요.', '가릴 것을 모두 누르고 올리기를 눌러요.', '칸마다 글을 하나씩 고르고 올리기를 눌러요.'];
+  function showMission(n){
+    cur = n;
+    [1, 2, 3].forEach(function (k) { secs[k].hidden = (k !== n); });
+    if (n === 2 && !m2.cells) m2New();
+    if (n === 3 && !m3.opts) m3New();
+    $('how').textContent = HOW[n];
+    syncLadder();
+    try { window.scrollTo(0, 0); } catch (e) { /* 위치를 못 옮겨도 괜찮다 */ }
+    if (n > 1) say('미션 ' + n + (n === 2 ? '를' : '을') + ' 시작해요. ' + (n === 2 ? '사진에서 가릴 것을 골라요.' : '칸마다 하나씩 골라 소개글을 만들어요.'));
+  }
+  function syncLadder(){
+    ladderBtns.forEach(function (b) {
+      var k = +b.getAttribute('data-go');
+      if (k === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+      b.classList.toggle('done', doneM[k]);
+    });
+    if (doneM[cur] && cur < 3) { goNext.hidden = false; goNext.textContent = '미션 ' + (cur + 1) + (cur === 1 ? '로' : '으로') + ' 가기'; }
+    else goNext.hidden = true;
+    $('fin').hidden = !(doneM[1] && doneM[2] && doneM[3]);
+  }
+  function missionDone(n){
+    if (doneM[n]) return;
+    doneM[n] = true;
+    $('learn' + n).textContent = '알게 된 것: ' + LEARN[n];
+    say('알게 된 것: ' + LEARN[n], 'cheer');
+    syncLadder(); if (n === 1) $('prog1').textContent = '찾은 예시 2/2 · 미션 1을 끝냈어요';
+    if (doneM[1] && doneM[2] && doneM[3] && !stamped) { stamped = true; if (window.Fun) Fun.stamp(); }
+  }
+  ladderBtns.forEach(function (b) { b.addEventListener('click', function () { showMission(+b.getAttribute('data-go')); }); });
+  goNext.addEventListener('click', function () { showMission(cur + 1); });
+
+  /* ───────── 미션 1: 드러난 곳 찾기 ───────── */
   var LABELS = ['만든 사람', '작품 사진', '해결한 문제', '다음에 고칠 점'];
   var NONE = 4;
-  // 바른 값. 실제 사람·학교·동네 이름을 쓰지 않는다(드러난 이름은 지어낸 이름, 학교·동네는 ㅇㅇ).
   var OK = [
     ['반짝 모둠', '별빛 모둠', '바람 모둠'],
     ['기기와 틀만 찍힘', '수신기와 틀만 찍힘'],
     ['복도에서 뛰는 친구 알리기', '쉬는 시간 끝 알리기'],
     ['소리를 더 크게 하기', '틀을 더 튼튼하게 하기']
   ];
-  // 드러난 값과 드러난 것의 이름. 활동3-1(얼굴·이름표·교실 게시물·창밖), 활동3-2(이름·얼굴·학교 이름·사는 곳).
   var BAD = [
     [['김하늘, 이바다', '실제 이름'], ['박나래온, 최솔', '실제 이름']],
     [['얼굴이 함께 찍힘', '얼굴'], ['이름표가 보임', '이름표'], ['창밖 건물이 보임', '창밖'], ['교실 게시물이 보임', '교실 게시물']],
     [['ㅇㅇ초 5학년 복도 문제', '학교 이름'], ['ㅇㅇ초 쉬는 시간 문제', '학교 이름']],
     [['ㅇㅇ동 우리 집 앞에서 다시 시험', '사는 곳'], ['ㅇㅇ아파트 놀이터에서 다시 시험', '사는 곳']]
   ];
-  function any(arr){ return arr[Math.floor(Math.random() * arr.length)]; }
-  function josa(word){
-    // 받침이 있으면 '이', 없으면 '가'
-    var c = word.charCodeAt(word.length - 1);
-    if (c < 0xAC00 || c > 0xD7A3) return '이';
-    return ((c - 0xAC00) % 28) ? '이' : '가';
-  }
-
   var shown = ['', '', '', ''];
   var badIdx = NONE, prevBad = -1, badName = '';
-  var picked = null, confirmed = false;
+  var picked = null, confirmed = false, m1Found = 0, m1Real = 0;
 
-  var sceneEl = document.getElementById('scene');
-  var statusEl = document.getElementById('status');
-  var picksEl = document.getElementById('picks');
-  var checkBtn = document.getElementById('checkBtn');
-  var againBtn = document.getElementById('againBtn');
-  var nextBtn = document.getElementById('nextBtn');
+  var sceneEl = $('scene'), statusEl = $('status'), picksEl = $('picks');
+  var checkBtn = $('checkBtn'), againBtn = $('againBtn'), nextBtn = $('nextBtn');
 
-  var rowH = 48, top = 2;
-  var zones = [];
+  var rowH = 48, top = 2, zones = [];
   (function buildScene(){
     for (var i = 0; i < 4; i++) {
       var y = top + i * rowH;
-      var g = document.createElementNS(NS, 'g');
-      g.setAttribute('class', 'zone');
+      var g = el('g', { 'class': 'zone' });
       (function (idx) { g.addEventListener('click', function () { choose(idx); }); })(i);
       sceneEl.appendChild(g);
-      var rect = document.createElementNS(NS, 'rect');
-      rect.setAttribute('class', 'zbg');
-      rect.setAttribute('x', 4); rect.setAttribute('y', y);
-      rect.setAttribute('width', 292); rect.setAttribute('height', rowH - 6);
-      rect.setAttribute('rx', 8);
+      var rect = el('rect', { 'class': 'zbg', x: 4, y: y, width: 292, height: rowH - 6, rx: 8 });
       g.appendChild(rect);
-
-      var label = document.createElementNS(NS, 'text');
-      label.setAttribute('class', 'zlabel');
-      label.setAttribute('x', 14); label.setAttribute('y', y + 15);
-      label.textContent = LABELS[i];
-      g.appendChild(label);
-
-      var val = document.createElementNS(NS, 'text');
-      val.setAttribute('class', 'zval');
-      val.setAttribute('x', 14); val.setAttribute('y', y + 34);
-      g.appendChild(val);
-
-      var th = document.createElementNS(NS, 'g');
-      th.setAttribute('transform', 'translate(254,' + (y + 4) + ')');
-      th.setAttribute('aria-hidden', 'true');
-      g.appendChild(th);
+      var label = el('text', { 'class': 'zlabel', x: 14, y: y + 15 }); label.textContent = LABELS[i]; g.appendChild(label);
+      var val = el('text', { 'class': 'zval', x: 14, y: y + 34 }); g.appendChild(val);
+      var th = el('g', { transform: 'translate(254,' + (y + 4) + ')', 'aria-hidden': 'true' }); g.appendChild(th);
       zones.push({ rect: rect, val: val, th: th });
     }
   })();
@@ -183,67 +310,43 @@
   (function buildPicks(){
     var names = LABELS.concat(['드러난 곳 없음']);
     for (var i = 0; i < names.length; i++) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'pk' + (i === NONE ? ' none' : '');
-      b.setAttribute('aria-pressed', 'false');
-      b.innerHTML = '<span class="dot" aria-hidden="true"></span><span>' + names[i] + '</span>';
+      var b = mk('button', 'pk' + (i === NONE ? ' none' : ''));
+      b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+      b.appendChild(mk('span', 'dot')); b.firstChild.setAttribute('aria-hidden', 'true');
+      b.appendChild(mk('span', null, names[i]));
       (function (idx) { b.addEventListener('click', function () { choose(idx); }); })(i);
-      picksEl.appendChild(b);
-      pkBtns.push(b);
+      picksEl.appendChild(b); pkBtns.push(b);
     }
   })();
 
   function pickBad(){
     var i;
-    do {
-      i = Math.random() < 0.25 ? NONE : Math.floor(Math.random() * 4);
-    } while (i === prevBad);
-    prevBad = i;
-    return i;
+    do { i = (Math.random() < 0.25 && !(m1Found >= 1 && m1Real === 0)) ? NONE : rnd(4); } while (i === prevBad);
+    prevBad = i; return i;
   }
-
   function newRound(){
-    badIdx = pickBad();
-    badName = '';
+    badIdx = pickBad(); badName = '';
     for (var i = 0; i < 4; i++) {
-      if (i === badIdx) {
-        var b = any(BAD[i]);
-        shown[i] = b[0]; badName = b[1];
-      } else {
-        shown[i] = any(OK[i]);
-      }
+      if (i === badIdx) { var b = any(BAD[i]); shown[i] = b[0]; badName = b[1]; }
+      else shown[i] = any(OK[i]);
     }
-    picked = null;
-    confirmed = false;
-    render();
-    if (window.Fun) { Fun.say('새 예시예요. 개인정보가 드러난 곳이 있을까요? 먼저 한 곳을 예측해 봐요.'); }
+    picked = null; confirmed = false; render();
+    say('새 예시예요. 개인정보가 드러난 곳이 있을까요? 한 곳을 먼저 짚어 봐요.');
   }
-
-  function choose(i){
-    if (confirmed) return;
-    picked = i;
-    render();
-  }
-
+  function choose(i){ if (confirmed) return; picked = i; render(); }
   function doCheck(){
     if (confirmed || picked === null) return;
-    confirmed = true;
-    render();
-    if (window.Fun) {
-      var hitEl = badIdx === NONE ? statusEl : zones[badIdx].rect;
-      if (picked === badIdx) { Fun.say('예측해 둔 곳에 그대로 드러나 있었어요. 어떤 모습이 단서였는지 짝과 말해 봐요.', 'cheer'); Fun.burst(hitEl); }
-      else { Fun.say('예측해 둔 곳과 달랐어요. 어디서 갈렸는지 칸을 다시 훑어 봐요.', 'think'); Fun.shake(statusEl); }
-      Fun.stamp();
-    }
+    confirmed = true; if (picked === badIdx) { m1Found++; if (badIdx !== NONE) m1Real++; } render();
+    var hitEl = badIdx === NONE ? statusEl : zones[badIdx].rect;
+    if (picked === badIdx) { say('짚은 곳에 그대로 드러나 있었어요. 어떤 모습이 단서였는지 짝과 말해 봐요.', 'cheer'); if (window.Fun) Fun.burst(hitEl); }
+    else { say('다른 칸이었어요. 어디서 갈렸는지 살펴보고, 다음 예시로 한 번 더 찾아요.', 'think'); if (window.Fun) Fun.shake(statusEl); }
+    if (m1Found >= 2 && m1Real >= 1) missionDone(1);
     nextBtn.focus({ preventScroll: true });
   }
-
   function doAgain(){
-    // 확인 전이면 고른 것만 지운다. 확인한 뒤에는 다음 예시와 같다(무를 수 없어서).
-    if (!confirmed) { picked = null; render(); if (window.Fun) { Fun.say('고른 것을 지웠어요. 다시 한 곳을 예측해 봐요.'); } return; }
+    if (!confirmed) { picked = null; render(); say('고른 것을 지웠어요. 다시 한 곳을 짚어 봐요.'); return; }
     newRound();
   }
-
   checkBtn.addEventListener('click', doCheck);
   againBtn.addEventListener('click', doAgain);
   nextBtn.addEventListener('click', newRound);
@@ -251,49 +354,32 @@
   var NUM = ['', '한', '두', '세'];
   function resultText(){
     var what = badName + josa(badName);
-    if (badIdx === NONE) {
-      return picked === NONE ? '짚은 대로 드러난 곳이 없었어요' : '이 예시는 드러난 곳이 없었어요';
-    }
+    if (badIdx === NONE) return picked === NONE ? '짚은 대로 드러난 곳이 없었어요' : '이 예시는 드러난 곳이 없었어요';
     if (picked === badIdx) return '짚은 칸에 ' + what + ' 드러나 있었어요';
     if (picked === NONE) return LABELS[badIdx] + ' 칸에 ' + what + ' 드러나 있었어요';
     var d = badIdx - picked;
     return NUM[Math.abs(d)] + ' 칸 ' + (d > 0 ? '아래' : '위') + '에 ' + what + ' 드러나 있었어요';
   }
-
-  function el(tag, attrs){
-    var e = document.createElementNS(NS, tag);
-    for (var k in attrs) e.setAttribute(k, attrs[k]);
-    return e;
-  }
-  // 칸마다 작은 그림. 드러난 값이면 그림에도 그것이 나타난다.
   function drawThumb(i){
-    var g = zones[i].th, t = shown[i];
+    var g = zones[i].th;
     while (g.firstChild) g.removeChild(g.firstChild);
-    g.appendChild(el('rect', {x:0, y:0, width:36, height:34, rx:5, fill:'#fff', stroke:'#C1C1C1'}));
+    g.appendChild(el('rect', { x: 0, y: 0, width: 36, height: 34, rx: 5, fill: '#fff', stroke: '#C1C1C1' }));
     if (i === 0) {
-      g.appendChild(el('circle', {cx:12, cy:13, r:5, fill:'#8FD3F4'}));
-      g.appendChild(el('circle', {cx:25, cy:13, r:5, fill:'#9BE3C4'}));
-      g.appendChild(el('rect', {x:6, y:21, width:12, height:7, rx:3, fill:'#8FD3F4'}));
-      g.appendChild(el('rect', {x:19, y:21, width:12, height:7, rx:3, fill:'#9BE3C4'}));
-      if (t.indexOf('모둠') < 0) g.appendChild(el('rect', {x:10, y:29, width:16, height:3, rx:1, fill:'#222'}));
+      g.appendChild(el('circle', { cx: 12, cy: 13, r: 5, fill: '#8FD3F4' }));
+      g.appendChild(el('circle', { cx: 25, cy: 13, r: 5, fill: '#9BE3C4' }));
+      g.appendChild(el('rect', { x: 6, y: 21, width: 12, height: 7, rx: 3, fill: '#8FD3F4' }));
+      g.appendChild(el('rect', { x: 19, y: 21, width: 12, height: 7, rx: 3, fill: '#9BE3C4' }));
     } else if (i === 1) {
-      g.appendChild(el('rect', {x:8, y:16, width:20, height:12, rx:2, fill:'#FFD84D', stroke:'#222'}));
-      g.appendChild(el('rect', {x:12, y:20, width:12, height:4, fill:'#222'}));
-      if (t.indexOf('얼굴') >= 0) g.appendChild(el('circle', {cx:18, cy:9, r:5, fill:'#FFC9A8', stroke:'#222'}));
-      if (t.indexOf('이름표') >= 0) g.appendChild(el('rect', {x:3, y:3, width:14, height:7, fill:'#fff', stroke:'#222'}));
-      if (t.indexOf('창밖') >= 0) { g.appendChild(el('rect', {x:20, y:3, width:13, height:11, fill:'#BFE6FA', stroke:'#222'})); }
-      if (t.indexOf('게시물') >= 0) g.appendChild(el('rect', {x:3, y:3, width:12, height:10, fill:'#FFF3B0', stroke:'#222'}));
+      g.appendChild(el('rect', { x: 8, y: 12, width: 20, height: 14, rx: 2, fill: '#FFD84D', stroke: '#222' }));
+      g.appendChild(el('rect', { x: 12, y: 17, width: 12, height: 4, fill: '#222' }));
     } else if (i === 2) {
-      g.appendChild(el('path', {d:'M18 6 L30 26 L6 26 Z', fill:'#FFD84D', stroke:'#222'}));
-      g.appendChild(el('rect', {x:17, y:12, width:2, height:8, fill:'#222'}));
-      if (t.indexOf('초') >= 0) g.appendChild(el('rect', {x:6, y:28, width:24, height:4, fill:'#222'}));
+      g.appendChild(el('path', { d: 'M18 6 L30 26 L6 26 Z', fill: '#FFD84D', stroke: '#222' }));
+      g.appendChild(el('rect', { x: 17, y: 12, width: 2, height: 8, fill: '#222' }));
     } else {
-      g.appendChild(el('rect', {x:8, y:17, width:20, height:11, fill:'#9BE3C4', stroke:'#222'}));
-      g.appendChild(el('path', {d:'M6 17 L18 6 L30 17 Z', fill:'#8FD3F4', stroke:'#222'}));
-      if (t.indexOf('ㅇㅇ') >= 0) g.appendChild(el('rect', {x:6, y:29, width:24, height:4, fill:'#222'}));
+      g.appendChild(el('path', { d: 'M8 26 L10 20 L24 6 L28 10 L14 24 Z', fill: '#FFD84D', stroke: '#222' }));
+      g.appendChild(el('path', { d: 'M8 26 L10 20 L14 24 Z', fill: '#9BE3C4', stroke: '#222' }));
     }
   }
-
   function render(){
     for (var i = 0; i < 4; i++) {
       zones[i].val.textContent = shown[i];
@@ -306,22 +392,210 @@
       pkBtns[j].disabled = confirmed;
     }
     checkBtn.disabled = confirmed || picked === null;
-    // 확인한 뒤에는 '다음 예시'가 주 단추가 된다.
     checkBtn.className = 'btn ' + (confirmed ? 'sub' : 'main');
     nextBtn.className = 'btn ' + (confirmed ? 'main' : 'sub');
-
-    if (!confirmed) {
-      statusEl.textContent = picked === null ? '칸을 눌러 짚어요. 없을 수도 있어요' : '확인하면 드러나요';
-      statusEl.className = 'status dim';
-    } else {
-      statusEl.textContent = resultText();
-      statusEl.className = 'status';
-    }
+    nextBtn.disabled = !confirmed;
+    if (!confirmed) { statusEl.textContent = picked === null ? '칸을 눌러 짚어요' : '확인하면 드러나요'; statusEl.className = 'status dim'; }
+    else { statusEl.textContent = resultText() + (picked === badIdx ? '' : '. 다음 예시로 한 번 더 찾아요'); statusEl.className = 'status'; }
+    $('prog1').textContent = '찾은 예시 ' + Math.min(m1Found, 2) + '/2' + (doneM[1] ? ' · 미션 1을 끝냈어요' : '');
   }
 
+  /* ───────── 미션 2: 사진 속에서 가리기 ───────── */
+  var EX = [
+    { k: 'face', n: '얼굴', lab: '친구 얼굴' },
+    { k: 'tag', n: '이름표', lab: '이름표' },
+    { k: 'win', n: '창밖 건물', lab: '창밖 건물' },
+    { k: 'board', n: '교실 게시물', lab: '교실 게시물' }
+  ];
+  var m2 = { cells: null, locked: false };
+  function icon(k){
+    var s = el('svg', { viewBox: '0 0 40 40', 'aria-hidden': 'true', focusable: 'false' });
+    if (k === 'work') {
+      s.appendChild(el('rect', { x: 5, y: 12, width: 30, height: 20, rx: 3, fill: '#FFF3B0', stroke: '#222', 'stroke-width': 1.5 }));
+      s.appendChild(el('rect', { x: 12, y: 18, width: 7, height: 9, rx: 1.5, fill: '#222' }));
+      s.appendChild(el('rect', { x: 22, y: 18, width: 7, height: 9, rx: 1.5, fill: '#222' }));
+      s.appendChild(el('circle', { cx: 15.5, cy: 22.5, r: 1.6, fill: '#ff4b4b' }));
+      s.appendChild(el('circle', { cx: 25.5, cy: 22.5, r: 1.6, fill: '#ff4b4b' }));
+    } else if (k === 'face') {
+      s.appendChild(el('circle', { cx: 20, cy: 20, r: 14, fill: '#FFC9A8', stroke: '#222', 'stroke-width': 1.5 }));
+      s.appendChild(el('circle', { cx: 15, cy: 18, r: 1.8, fill: '#222' }));
+      s.appendChild(el('circle', { cx: 25, cy: 18, r: 1.8, fill: '#222' }));
+      s.appendChild(el('path', { d: 'M14 25 Q20 30 26 25', fill: 'none', stroke: '#222', 'stroke-width': 1.5 }));
+    } else if (k === 'tag') {
+      s.appendChild(el('path', { d: 'M14 3 L20 14 L26 3', fill: 'none', stroke: '#2f78b5', 'stroke-width': 3 }));
+      s.appendChild(el('rect', { x: 8, y: 14, width: 24, height: 20, rx: 3, fill: '#fff', stroke: '#222', 'stroke-width': 1.5 }));
+      s.appendChild(el('rect', { x: 12, y: 21, width: 16, height: 3, fill: '#222' }));
+      s.appendChild(el('rect', { x: 12, y: 27, width: 10, height: 3, fill: '#222' }));
+    } else if (k === 'win') {
+      s.appendChild(el('rect', { x: 5, y: 5, width: 30, height: 30, rx: 2, fill: '#BFE6FA', stroke: '#222', 'stroke-width': 1.5 }));
+      s.appendChild(el('rect', { x: 10, y: 17, width: 9, height: 18, fill: '#C1C1C1', stroke: '#222' }));
+      s.appendChild(el('rect', { x: 21, y: 11, width: 9, height: 24, fill: '#DDD', stroke: '#222' }));
+      s.appendChild(el('path', { d: 'M20 5 V35 M5 20 H35', stroke: '#222', 'stroke-width': 1.5 }));
+    } else {
+      s.appendChild(el('rect', { x: 6, y: 5, width: 28, height: 30, rx: 2, fill: '#FFF3B0', stroke: '#222', 'stroke-width': 1.5 }));
+      s.appendChild(el('path', { d: 'M11 13 H29 M11 20 H29 M11 27 H22', stroke: '#222', 'stroke-width': 2 }));
+    }
+    return s;
+  }
+  function m2New(){
+    var n = 2 + rnd(3);
+    var chosen = shuffle(EX.slice()).slice(0, n);
+    var items = shuffle([{ k: 'work', n: '작품', lab: '기기와 틀', bad: false }].concat(chosen.map(function (c) { return { k: c.k, n: c.n, lab: c.lab, bad: true }; })));
+    m2.cells = items.map(function (it) { it.cov = false; return it; });
+    m2.locked = false;
+    var box = $('photo'); box.textContent = '';
+    m2.cells.forEach(function (it, idx) {
+      var b = mk('button', 'cell'); b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+      b.appendChild(icon(it.k)); b.appendChild(mk('span', 'lab', it.lab)); b.appendChild(mk('span', 'st', ''));
+      b.addEventListener('click', function () { if (m2.locked) return; it.cov = !it.cov; m2Paint(); });
+      it.btn = b; box.appendChild(b);
+    });
+    $('m2out').textContent = ''; $('fix2').hidden = true;
+    m2Paint();
+    say('새 사진이에요. 사진에 보이는 것 가운데 가릴 것을 눌러요.');
+  }
+  function m2Paint(){
+    m2.cells.forEach(function (it) {
+      it.btn.setAttribute('aria-pressed', it.cov ? 'true' : 'false');
+      it.btn.disabled = m2.locked;
+      it.btn.lastChild.textContent = it.cov ? '가렸어요' : ''; it.btn.lastChild.hidden = !it.cov;
+    });
+    $('up2').disabled = m2.locked; $('next2').disabled = !m2.locked;
+    $('m2status').textContent = m2.locked ? '' : '가릴 것을 누르고 올리기를 눌러요';
+  }
+  function m2Up(){
+    if (m2.locked) return;
+    m2.locked = true;
+    var work = m2.cells.filter(function (c) { return c.k === 'work'; })[0];
+    var leaks = m2.cells.filter(function (c) { return c.bad && !c.cov; });
+    var hidden = m2.cells.filter(function (c) { return c.bad && c.cov; }).length;
+    m2Paint();
+    leaks.forEach(function (c) { c.btn.classList.add('leak'); });
+    var out = $('m2out'), fix = $('fix2');
+    if (work.cov) {
+      out.textContent = '작품까지 가려서 사진이 비었어요. 작품은 남기고 다시 올려요.';
+      fix.hidden = false; say('작품까지 가렸어요. 소개하려는 작품은 보여야 해요.', 'think');
+    } else if (leaks.length) {
+      out.textContent = '올린 사진에 보이는 것: ' + leaks.map(function (c) { return c.n; }).join(', ') + '. 올린 뒤에는 거두기 어려워요.';
+      fix.hidden = false; say('아직 보이는 것이 있어요. 테두리가 진한 곳을 살펴봐요.', 'think'); if (window.Fun) Fun.shake(out);
+    } else {
+      out.textContent = '작품만 남았어요. 가린 곳은 ' + hidden + '곳이에요.';
+      fix.hidden = true; say(out.textContent, 'cheer'); if (window.Fun) Fun.burst($('up2'));
+      missionDone(2);
+    }
+    if (!fix.hidden) fix.focus({ preventScroll: true }); else $('next2').focus({ preventScroll: true });
+    if (out.scrollIntoView) out.scrollIntoView({ block: 'nearest' });
+  }
+  function m2Fix(){
+    m2.locked = false; $('fix2').hidden = true; $('m2out').textContent = '';
+    m2.cells.forEach(function (c) { c.btn.classList.remove('leak'); });
+    m2Paint(); say('사진을 내렸어요. 가릴 곳을 다시 골라요.');
+  }
+  $('up2').addEventListener('click', m2Up);
+  $('fix2').addEventListener('click', m2Fix);
+  $('next2').addEventListener('click', m2New);
+
+  /* ───────── 미션 3: 소개글 만들기 ───────── */
+  // 칸마다 [글, 까닭]. 바른 글 / 대놓고 드러난 글 / 겉보기엔 괜찮아 보이는 함정 글
+  var POOL = [
+    { ok: ['반짝 모둠', '별빛 모둠', '바람 모둠', '구름 모둠'],
+      bad: [['김하늘, 이바다', '실제 이름'], ['박나래온, 최솔', '실제 이름'], ['윤새봄, 서이든', '실제 이름']],
+      trap: [['김ㅇ늘 외 1명', '일부만 가려도 이름을 짐작할 수 있어요'], ['박ㅇ온 외 1명', '일부만 가려도 이름을 짐작할 수 있어요']] },
+    { ok: ['기기와 틀만 찍은 사진', '수신기와 틀만 찍은 사진'],
+      bad: [['친구 얼굴이 나온 사진', '얼굴이 보여요'], ['이름표가 보이는 사진', '이름표가 보여요']],
+      trap: [['창밖 건물이 나온 사진', '창밖 건물로 학교를 알 수 있어요'], ['교실 게시물이 나온 사진', '게시물로 몇 반인지 알 수 있어요']] },
+    { ok: ['복도에서 뛰는 친구 알리기', '쉬는 시간 끝 알리기'],
+      bad: [['ㅇㅇ초 5학년 복도 문제', '학교 이름이 보여요'], ['ㅇㅇ초 쉬는 시간 문제', '학교 이름이 보여요']],
+      trap: [['3번 친구가 뛰는 복도 문제', '번호로도 누군지 알 수 있어요'], ['4번 친구가 줄 서는 복도 문제', '번호로도 누군지 알 수 있어요']] },
+    { ok: ['소리를 더 크게 하기', '틀을 더 튼튼하게 하기'],
+      bad: [['ㅇㅇ동 우리 집 앞에서 다시 시험', '사는 곳이 보여요'], ['ㅇㅇ아파트 놀이터에서 다시 시험', '사는 곳이 보여요']],
+      trap: [['우리 집 앞 파란 지붕 가게 옆에서 시험', '동네 모습으로도 사는 곳을 알 수 있어요'], ['우리 동 앞 놀이터에서 다시 시험', '동네 모습으로도 사는 곳을 알 수 있어요']] }
+  ];
+  var m3 = { opts: null, pick: [-1, -1, -1, -1], at: 0, locked: false };
+  function m3New(){
+    m3.opts = POOL.map(function (p) {
+      var b = any(p.bad), t = any(p.trap);
+      return shuffle([{ t: any(p.ok), kind: 'ok', why: '' }, { t: b[0], kind: 'bad', why: b[1] }, { t: t[0], kind: 'trap', why: t[1] }]);
+    });
+    m3.pick = [-1, -1, -1, -1]; m3.at = 0; m3.locked = false;
+    $('m3out').textContent = ''; $('fix3').hidden = true;
+    m3Paint();
+    say('새 소개글이에요. 칸마다 하나씩 골라요.');
+  }
+  function firstEmpty(){ for (var i = 0; i < 4; i++) if (m3.pick[i] < 0) return i; return -1; }
+  function m3Paint(){
+    var empty = firstEmpty(), allSet = empty < 0, ask = $('m3ask'), box = $('m3opts');
+    box.textContent = '';
+    if (m3.locked) { ask.textContent = '올렸어요'; ask.className = 'status dim'; }
+    else if (m3.at >= 0 && (!allSet || m3.at !== -1)) {
+      ask.textContent = '칸 ' + (m3.at + 1) + '/4 · ' + LABELS[m3.at] + '에 쓸 글을 골라요';
+      ask.className = 'status';
+      m3.opts[m3.at].forEach(function (o, i) {
+        var b = mk('button', 'pk'); b.type = 'button';
+        b.setAttribute('aria-pressed', m3.pick[m3.at] === i ? 'true' : 'false');
+        b.appendChild(mk('span', 'dot')); b.firstChild.setAttribute('aria-hidden', 'true');
+        b.appendChild(mk('span', null, o.t));
+        b.addEventListener('click', function () {
+          m3.pick[m3.at] = i;
+          var e = firstEmpty();
+          m3.at = e;            // 다 골랐으면 -1
+          m3Paint();
+        });
+        box.appendChild(b);
+      });
+    } else { ask.textContent = '다 골랐어요. 올리기 전에 칸을 눌러 바꿀 수 있어요'; ask.className = 'status dim'; }
+    var sum = $('m3sum'); sum.textContent = '';
+    for (var i = 0; i < 4; i++) {
+      (function (idx) {
+        var r = mk('button', 'srow'); r.type = 'button';
+        var o = m3.pick[idx] >= 0 ? m3.opts[idx][m3.pick[idx]] : null;
+        r.appendChild(mk('span', 'k', LABELS[idx]));
+        var v = mk('span', 'v', o ? o.t : '—');
+        if (m3.locked && o) {
+          var w = mk('span', 'w', o.kind === 'ok' ? '드러난 것 없음' : o.why);
+          if (o.kind === 'ok') w.style.color = 'var(--mint-d)';
+          v.appendChild(w);
+          r.classList.add(o.kind === 'ok' ? 'ok' : 'bad');
+        }
+        r.appendChild(v);
+        if (!m3.locked && m3.at === idx) r.classList.add('cur');
+        r.disabled = m3.locked;
+        r.addEventListener('click', function () { if (m3.locked) return; m3.at = idx; m3Paint(); });
+        sum.appendChild(r);
+      })(i);
+    }
+    $('up3').disabled = m3.locked || !allSet; $('next3').disabled = !m3.locked;
+  }
+  function m3Up(){
+    if (m3.locked || firstEmpty() >= 0) return;
+    m3.locked = true;
+    var bad = 0;
+    for (var i = 0; i < 4; i++) if (m3.opts[i][m3.pick[i]].kind !== 'ok') bad++;
+    m3Paint();
+    var out = $('m3out'), fix = $('fix3');
+    if (!bad) {
+      out.textContent = '드러난 것이 없는 소개글이 됐어요.';
+      fix.hidden = true; say(out.textContent, 'cheer'); if (window.Fun) Fun.burst($('up3'));
+      missionDone(3); $('next3').focus({ preventScroll: true });
+    } else {
+      out.textContent = '드러난 곳이 ' + bad + '곳 있어요. 진한 테두리 칸을 고쳐요.';
+      fix.hidden = false; say('드러난 곳이 남았어요. 칸마다 까닭을 읽어 봐요.', 'think');
+      if (window.Fun) Fun.shake(out); fix.focus({ preventScroll: true });
+    }
+  }
+  function m3Fix(){
+    for (var i = 0; i < 4; i++) if (m3.opts[i][m3.pick[i]].kind !== 'ok') m3.pick[i] = -1;
+    m3.locked = false; m3.at = firstEmpty(); $('fix3').hidden = true; $('m3out').textContent = '';
+    m3Paint(); say('걸린 칸을 비웠어요. 다시 골라요.');
+  }
+  $('up3').addEventListener('click', m3Up);
+  $('fix3').addEventListener('click', m3Fix);
+  $('next3').addEventListener('click', m3New);
+
   newRound();
+  syncLadder();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B14" data-mission="예시 작품 소개에서 개인정보가 드러난 곳을 먼저 예측하고 확인해요. 없을 수도 있어요!"></script>
+<script src="../assets/play/fun.js" data-block="B14" data-mission="예시 작품 소개에서 개인정보가 드러난 곳을 찾아요. 없을 수도 있어요!"></script>
 </body>
 </html>

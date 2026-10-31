@@ -33,17 +33,17 @@
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:13px 12px;margin-top:12px}
-  h2{font-size:13.5px;font-weight:700;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
+  h2{font-size:14px;font-weight:700;letter-spacing:-.02em;margin-bottom:9px;color:var(--muted)}
 
   .tbl{display:grid;grid-template-columns:74px repeat(3,minmax(44px,1fr)) 34px;gap:5px}
   .cell{display:flex;align-items:center;justify-content:center;text-align:center;
-    min-height:44px;border-radius:var(--r-sm);padding:3px;font-size:11.5px;line-height:1.15}
+    min-height:44px;border-radius:var(--r-sm);padding:3px;font-size:14px;line-height:1.15}
   button.cell.mark.m-O{background:var(--mint-l,#e3f6ef);color:var(--mint-d,#1f7a5c)}
   button.cell.mark.m-V{background:var(--sun-l,#fff6d9);color:#8a6200}
   button.cell.mark.m-X{background:var(--pink-l,#ffeef1);color:#b3243f}
   .cell.hot{box-shadow:0 0 0 3px var(--sun,#ffc845)}
   .cell.head{word-break:keep-all}
-  .cell.corner{background:transparent;color:var(--muted);font-weight:600;font-size:10.5px}
+  .cell.corner{background:transparent;color:var(--muted);font-weight:600;font-size:14px}
   .cell.head{background:var(--ink);color:var(--paper);font-weight:700;border:1px solid var(--line)}
   .cell.rowlabel{background:var(--surface);border:1px solid var(--line);font-weight:600;color:var(--ink)}
   .cell.count{background:var(--surface);border:1px solid var(--line);font-weight:700;color:var(--point);
@@ -55,11 +55,13 @@
   button.cell.mark:active{transform:translate(2px,2px);box-shadow:0 0 0 var(--ink)}
 
   .tbl.th{grid-template-columns:60px repeat(3,minmax(0,1fr))}
-  .tbl.tv{grid-template-columns:92px repeat(3,minmax(44px,1fr)) 34px}
-  .tbl.th .cell.rowlabel{font-size:12.5px}
-  .tbl.tv .cell.rowlabel{font-size:11.5px;word-break:keep-all}
+  .tbl.tv{grid-template-columns:92px repeat(3,minmax(44px,1fr)) 42px}
+  .tbl.tv .cell{white-space:nowrap}
+  .tbl.tv .cell.rowlabel{white-space:normal}
+  .tbl.th .cell.rowlabel{font-size:14px}
+  .tbl.tv .cell.rowlabel{font-size:14px;word-break:keep-all}
   button.cell.named{flex-direction:column;min-height:62px;gap:2px;word-break:keep-all}
-  button.cell.named .lb{font-size:11px;font-weight:600;color:var(--ink);line-height:1.15}
+  button.cell.named .lb{font-size:14px;font-weight:600;color:var(--ink);line-height:1.15}
   button.cell.named .mk{font-size:22px;line-height:1.1;min-height:26px}
   button.cell.mark:disabled{cursor:default;opacity:1;transform:none;box-shadow:none}
   .cell.rowlabel.hot{box-shadow:0 0 0 3px var(--sun,#ffc845)}
@@ -67,7 +69,7 @@
   .gb:disabled:not([aria-pressed="true"]){opacity:.4}
   .gb[aria-pressed="true"]:disabled{opacity:1}
   .btn:disabled{opacity:.6}
-  .ask{margin-top:10px;font-size:13.5px;font-weight:600;color:var(--muted)}
+  .ask{margin-top:10px;font-size:14px;font-weight:600;color:var(--muted)}
 
   .acts{display:flex;gap:8px;flex-wrap:wrap}
   .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:700;
@@ -83,7 +85,7 @@
   .btn:disabled{opacity:.45;cursor:default}
   .gb.hit{border-color:var(--ink);border-width:3.5px}
 
-  .note{margin-top:9px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .note{margin-top:9px;font-size:14px;font-weight:700;color:var(--muted)}
 
   button, a{outline-offset:3px}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
@@ -91,18 +93,62 @@
     .flip{animation:flip .26s ease-out}
   @keyframes flip{0%{transform:rotate(-2.5deg) scale(.97)}100%{transform:none}}
   .guess{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:7px}
-  .gb{font-family:inherit;cursor:pointer;color:var(--ink);font-size:13px;font-weight:700;
+  .gb{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;
     background:var(--surface);border:1px solid var(--line);border-radius:var(--r-sm);
     min-height:46px;padding:5px 6px;box-shadow:var(--hard-sm);line-height:1.2}
   .gb[aria-pressed="true"]{background:var(--point);color:#fff;border-width:3.5px}
   .gb:disabled{opacity:.42;cursor:default;box-shadow:none}
-  .say{margin-top:7px;font-size:13.5px;font-weight:700;min-height:1.4em}
-  .say.dim{color:var(--muted);font-weight:700;font-size:12.5px}
-  @media(max-width:400px){.tbl.th{grid-template-columns:52px repeat(3,minmax(0,1fr));gap:4px}.tbl.tv{grid-template-columns:78px repeat(3,minmax(40px,1fr)) 28px;gap:4px}.cell{font-size:10.5px}button.cell.named .lb{font-size:10px}}
+  .say{margin-top:7px;font-size:14px;font-weight:700;min-height:1.4em}
+  .say.dim{color:var(--muted);font-weight:700;font-size:14px}
+  @media(max-width:400px){.tbl.th{grid-template-columns:52px repeat(3,minmax(0,1fr));gap:4px}.tbl.tv{grid-template-columns:78px repeat(3,minmax(40px,1fr)) 40px;gap:4px}.cell{font-size:14px}button.cell.named .lb{font-size:14px}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+
+/* 체험 개선 2026-10-31: 안내·개념·미션 사다리 */
+.how{margin-top:8px;background:var(--sun-l,#fff6d9);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:15px;font-weight:700;line-height:1.45}
+.concept{margin-top:10px;background:var(--grape-l,#efecfd);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:14.5px;line-height:1.5}
+.concept b{display:block;font-size:14px;color:var(--point);margin-bottom:2px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.sb{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;min-height:46px;padding:5px 6px;line-height:1.2;
+  background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-sm);box-shadow:var(--hard-sm);word-break:keep-all}
+.sb[aria-current="step"]{background:var(--point);border-color:var(--point);color:#fff}
+.sb .ck{display:none}
+.sb.done .ck{display:inline}
+.pic{display:block;width:100%;height:118px;object-fit:cover;border-radius:var(--r-sm);margin-bottom:10px;border:1px solid var(--line)}
+.learn{margin-top:9px;background:var(--mint-l,#e3f6ef);border-radius:var(--r-sm);padding:8px 11px;font-size:14.5px;font-weight:700;color:var(--ink)}
+.learn[hidden]{display:none}
+.nx{margin-top:9px}
+.nx[hidden]{display:none}
+.ask2{font-size:14.5px;font-weight:700;margin:2px 0 8px}
+.card2{background:var(--soft,#f3efe6);border:2px solid var(--ink);border-radius:var(--r);padding:14px 13px;font-size:18px;font-weight:700;line-height:1.4;min-height:84px;display:flex;align-items:center}
+.dots{display:flex;gap:6px;margin:0 0 8px}
+.dots i{width:22px;height:8px;border-radius:4px;background:var(--line-strong);display:block}
+.dots i.on{background:var(--point)}
+.dots i.now{outline:2px solid var(--ink);outline-offset:1px}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:9px}
+.ch{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;min-height:48px;padding:6px 8px;line-height:1.2;
+  background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);box-shadow:var(--hard-sm);word-break:keep-all}
+.ch:disabled{cursor:default;opacity:.55;box-shadow:none}
+.ch.pick{opacity:1;border-width:3px;background:var(--sun-l,#fff6d9)}
+.r3{display:grid;grid-template-columns:62px repeat(3,minmax(0,1fr));gap:5px;margin-top:2px}
+.r3 .c{display:flex;align-items:center;justify-content:center;text-align:center;min-height:46px;border-radius:var(--r-sm);font-size:20px;font-weight:700;border:1px solid var(--line);background:var(--surface)}
+.r3 .c.lab{font-size:14px;font-weight:700;flex-direction:column;gap:1px;word-break:keep-all}
+.r3 .c.lab em{font-style:normal;font-size:14px;color:#b3243f}
+.r3 .c.lab:empty{border:0;background:none}
+.r3 .c.m-O{background:var(--mint-l,#e3f6ef);color:var(--mint-d,#1f7a5c)}
+.r3 .c.m-V{background:var(--sun-l,#fff6d9);color:#8a6200}
+.r3 .c.m-X{background:var(--pink-l,#ffeef1);color:#b3243f}
+.r3 .c.hd{font-size:13px;line-height:1.15;background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.r3 .c.hot{box-shadow:0 0 0 3px var(--sun,#ffc845)}
+.r3 .gone{opacity:.38;text-decoration:line-through}
+.rb{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;min-height:62px;padding:5px 4px;line-height:1.2;
+  background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);box-shadow:var(--hard-sm);word-break:keep-all}
+.rb[aria-pressed="true"]{background:var(--point);color:#fff;border-width:3px}
+.rb .st{display:block;font-size:14px;margin-top:2px}
+.ainote{margin-top:14px;font-size:14px;color:var(--muted)}
+@media(max-width:400px){.choices{grid-template-columns:1fr}.r3{grid-template-columns:50px repeat(3,minmax(0,1fr));gap:4px}.card2{font-size:17px}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -118,23 +164,67 @@
     <p class="lead">어느 기준이 자주 걸렸나요</p>
   </header>
 
-  <section aria-labelledby="h-t">
-    <h2 id="h-t">표</h2>
-    <div class="tbl" id="table" role="group" aria-labelledby="h-t"></div>
-    <div class="guess" id="guess" role="group" aria-label="✕가 가장 많은 기준 짚기"></div>
-    <p class="say dim" id="say">아홉 칸을 모두 채워요</p>
-  </section>
+  <p class="how" id="how">새 판 받기를 눌러 표를 받아요. ✕가 가장 많을 기준을 짚고 세로로 보기를 눌러요.</p>
 
-  <section aria-labelledby="h-a">
-    <h2 id="h-a">보기</h2>
+  <div class="steps" id="steps" role="group" aria-label="미션 고르기">
+    <button class="sb" type="button" data-go="1" aria-current="step">① 표 읽기<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="2">② 걸림 찾기<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="3">③ 후보 줄이기<span class="ck"> ✓</span></button>
+  </div>
+
+  <div class="concept" id="concept"><b>알아 둘 것</b>문제를 고를 때는 세 기준으로 따져 봐요. 자주 일어나는지, 하는 순서를 말할 수 있는지, 우리가 직접 확인할 수 있는지예요. ✕가 많이 모인 기준이 보완할 곳이에요.</div>
+
+  <section aria-labelledby="h-t" data-step="1" id="m1">
+    <img class="pic" style="height:90px" src="../lecture/_assets/B02/audition.webp" width="1600" height="900" alt="교실에서 학생들이 ○ △ ✕ 카드를 들고 심사하는 모습">
+    <h2 id="h-t">미션 1 · 표 읽기</h2>
+    <div class="acts" style="margin-bottom:10px"><button class="btn main deal" id="deal" type="button">새 판 받기</button></div>
+    <div class="tbl" id="table" role="group" aria-labelledby="h-t"></div>
+    <p class="ask2" id="askg">✕가 가장 많을 기준은?</p>
+    <div class="guess" id="guess" role="group" aria-label="✕가 가장 많은 기준 짚기"></div>
+    <p class="say dim" id="say">새 판을 받거나, 칸을 눌러 직접 채워도 돼요</p>
     <div class="acts">
       <button class="btn main" id="flip" type="button" aria-pressed="false" disabled>세로로 보기</button>
-      <button class="btn sub deal" id="deal" type="button">새 판 받기</button>
       <button class="btn sub" id="reset" type="button">다시 하기</button>
     </div>
     <p class="note">세로로 보면 달라지나요</p>
-    <p class="note">문제는 모둠에서 정해요</p>
+    <p class="learn" id="learn1" hidden></p>
+    <button class="btn main nx" id="nx1" type="button" hidden>다음 미션 ›</button>
   </section>
+
+  <section aria-labelledby="h-2" data-step="2" id="m2" hidden>
+    <img class="pic" src="../lecture/_assets/B02/class_noisy.webp" width="1600" height="900" alt="모둠 활동 때 시끄러운 교실에서 선생님이 말하는 모습">
+    <h2 id="h-2">미션 2 · 걸림 찾기</h2>
+    <div class="dots" id="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    <p class="ask2" id="ask2">이 문장은 어느 기준에서 걸릴까요?</p>
+    <div class="card2" id="card2" aria-live="polite"></div>
+    <div class="choices" id="choices" role="group" aria-label="걸리는 기준 고르기"></div>
+    <p class="say" id="say2"></p>
+    <div class="acts nx">
+      <button class="btn main" id="next2" type="button" hidden>다음 카드 ›</button>
+      <button class="btn deal" id="again2" type="button" hidden>새 카드 세 장</button>
+    </div>
+    <p class="learn" id="learn2" hidden></p>
+    <button class="btn main nx" id="nx2" type="button" hidden>다음 미션 ›</button>
+  </section>
+
+  <section aria-labelledby="h-3" data-step="3" id="m3" hidden>
+    <img class="pic" src="../lecture/_assets/B02/empathy_notes.webp" width="1600" height="900" alt="모둠 친구들이 큰 종이에 쪽지를 묶어 나누는 모습">
+    <h2 id="h-3">미션 3 · 후보 줄이기</h2>
+    <p class="ask2" id="ask3">세 기준은 늘 그대로예요. 후보 빼기를 눌러 순서를 말할 수 없는 후보부터 빼요.</p>
+    <div class="r3" id="r3"></div>
+    <div class="acts">
+      <button class="btn main" id="step3" type="button">후보 빼기</button>
+    </div>
+    <p class="ask2 pk" id="pkask" hidden>남은 후보 가운데 ✕가 적을 후보는?</p>
+    <div class="choices" id="pk3" role="group" aria-label="✕가 적을 후보 짚기" hidden></div>
+    <p class="say" id="say3"></p>
+    <div class="acts">
+      <button class="btn deal" id="deal3" type="button">새 후보 받기</button>
+    </div>
+    <p class="learn" id="learn3" hidden></p>
+  </section>
+
+  <p class="ainote">그림 일부는 생성형 AI로 만들었어요</p>
 </div>
 
 <script>
@@ -192,11 +282,11 @@
     }
     tableEl.appendChild(makeCell('div', 'cell corner'));
     for (c = 0; c < 3; c++) tableEl.appendChild(makeCell('div', 'cell head', CAND[c]));
-    tableEl.appendChild(makeCell('div', 'cell corner', '○ 수'));
+    tableEl.appendChild(makeCell('div', 'cell corner', '✕ 수'));
     for (r = 0; r < 3; r++) {
       tableEl.appendChild(makeCell('div', 'cell rowlabel', CRIT[r]));
       for (c = 0; c < 3; c++) tableEl.appendChild(makeMark(r, c, false));
-      cnt = makeCell('div', 'cell count', String(rowCount(r)));
+      cnt = makeCell('div', 'cell count', String(xCount(r)));
       tableEl.appendChild(cnt);
     }
   }
@@ -289,7 +379,7 @@
     markHot();
 
     var s = document.getElementById('say');
-    if (!ok){ s.textContent = '아홉 칸을 모두 채워요'; s.className = 'say dim'; }
+    if (!ok){ s.textContent = '아홉 칸이 다 차야 짚을 수 있어요'; s.className = 'say dim'; }
     else if (guess === null){ s.textContent = '✕가 가장 많을 기준을 짚어요'; s.className = 'say dim'; }
     else if (!vertical){ s.textContent = '예측했어요. 세로로 보기를 눌러요'; s.className = 'say dim'; }
     else {
@@ -321,13 +411,12 @@
     var t = document.getElementById('table');
     t.classList.remove('flip'); void t.offsetWidth; t.classList.add('flip');
     renderGuess();
-    if (!window.Fun) return;
-    var m = mostX();
-    if (m.n === 0){ Fun.say('✕가 한 칸도 없어요. 어느 기준이 약한지 다른 말로 짝과 이야기해 봐요.', 'think'); }
-    else if (m.tie){ Fun.say('✕가 가장 많은 기준이 둘이에요. 모둠에서 어느 쪽부터 볼지 말해 봐요.', 'think'); Fun.shake(tableEl); }
-    else if (m.c === guess){ Fun.say('예측했던 기준에 ✕가 가장 많이 모였어요. 세로로 세우니 한눈에 보이죠?', 'cheer'); Fun.burst(tableEl); }
-    else { Fun.say('예측했던 기준과 ✕가 ' + (m.n - xCount(guess)) + '칸 차이가 났어요. 가로로 볼 때 어디를 놓쳤는지 짚어 봐요.', 'think'); Fun.shake(tableEl); }
-    Fun.stamp();
+    var m = mostX(), tail = '', mood = 'think', ln = '같은 표도 세로로 세우면 어느 기준에 ✕가 모이는지 보여요.';
+    if (m.n === 0){ tail = '✕가 한 칸도 없어요.'; }
+    else if (m.tie){ tail = '✕가 가장 많은 기준이 둘이에요.'; if (window.Fun) Fun.shake(tableEl); }
+    else if (m.c === guess){ tail = '짚은 기준에 ✕가 가장 많이 모였어요.'; mood = 'cheer'; if (window.Fun) Fun.burst(tableEl); }
+    else { tail = '짚은 기준과 ✕가 ' + (m.n - xCount(guess)) + '칸 차이가 났어요. 가로로 볼 때 어디를 놓쳤는지 봐요.'; if (window.Fun) Fun.shake(tableEl); }
+    finish(1, ln, tail, mood);
   });
 
   resetBtn.addEventListener('click', function(){
@@ -335,6 +424,7 @@
     guess = null; vertical = false;
     flipBtn.setAttribute('aria-pressed', 'false');
     render(); renderGuess();
+    learn1.hidden = true;
     say('아홉 칸이 비었어요. 칸을 눌러 ○, △, ✕를 넣어 봐요.');
   });
 
@@ -356,13 +446,201 @@
     dealBoard(); guess = null; vertical = false;
     flipBtn.setAttribute('aria-pressed', 'false');
     render(); renderGuess();
-    say('새 판이에요. 칸을 읽고, ✕가 가장 많을 기준을 예측해요. 예측하면 무를 수 없어요.', 'think');
+    learn1.hidden = true;
+    say('새 판이에요. 칸을 읽고, ✕가 가장 많을 기준을 짚어요. 짚으면 무를 수 없어요.', 'think');
   });
+
+  // ───────── 미션 사다리 ─────────
+  var HOW = [
+    '',
+    '새 판 받기를 눌러 표를 받아요. ✕가 가장 많을 기준을 짚고 세로로 보기를 눌러요.',
+    '문장 카드를 읽고, 어느 기준에서 걸리는지 눌러요. 걸리는 곳이 없으면 맨 아래 단추를 눌러요.',
+    '세 기준은 그대로예요. 후보 빼기를 눌러 한 단계씩 줄여 봐요.'
+  ];
+  var howEl = document.getElementById('how');
+  var steps = document.querySelectorAll('.sb');
+  var panels = [null, document.getElementById('m1'), document.getElementById('m2'), document.getElementById('m3')];
+  var learnEl = [null, document.getElementById('learn1'), document.getElementById('learn2'), document.getElementById('learn3')];
+  var nxEl = [null, document.getElementById('nx1'), document.getElementById('nx2'), null];
+  var learn1 = learnEl[1];
+  var done = [false, false, false, false], stamped = false, cur = 1;
+
+  function go(n, quiet){
+    cur = n;
+    for (var i = 1; i <= 3; i++){
+      panels[i].hidden = (i !== n);
+      steps[i - 1].setAttribute('aria-current', i === n ? 'step' : 'false');
+    }
+    howEl.textContent = HOW[n];
+    if (!quiet && window.Fun) Fun.say(n === 1 ? '① 표 읽기예요. 칸을 채우고 기준을 짚어 봐요.' : n === 2 ? '② 걸림 찾기예요. 문장을 기준에 하나씩 대 봐요.' : '③ 후보 줄이기예요. 순서를 말할 수 없는 후보를 먼저 빼 봐요.');
+    if (n === 2 && !c2.cards) newRound2();
+    if (n === 3 && !b3) newBoard3();
+  }
+  for (var si = 0; si < steps.length; si++) (function(n){ steps[n - 1].addEventListener('click', function(){ go(n); }); })(si + 1);
+  for (var ni = 1; ni <= 2; ni++) (function(n){ nxEl[n].addEventListener('click', function(){ go(n + 1); }); })(ni);
+
+  function finish(n, learned, extra, mood){
+    done[n] = true;
+    steps[n - 1].classList.add('done');
+    learnEl[n].textContent = '알게 된 것: ' + learned;
+    learnEl[n].hidden = false;
+    if (nxEl[n]) nxEl[n].hidden = false;
+    var allDone = done[1] && done[2] && done[3];
+    if (window.Fun){
+      Fun.say((extra ? extra + ' ' : '') + '알게 된 것: ' + learned + (allDone && !stamped ? ' 세 미션을 모두 했어요.' : ''), mood || 'cheer');
+      if (allDone && !stamped){ stamped = true; Fun.stamp(); }
+    }
+  }
+
+  // ───────── 미션 2: 걸림 찾기 ─────────
+  // ok: 걸림으로 볼 수 있는 기준 번호(0 자주, 1 순서, 2 확인), -1은 걸리는 기준 없음
+  var POOL = [
+    { t: '일 년에 한 번 운동회 날 운동장이 붐벼요', ok: [0], why: '일 년에 한 번이라 자주 일어나는 일이 아니에요.' },
+    { t: '졸업식 날에만 강당 의자가 모자라요', ok: [0], why: '졸업식 날에만 생기는 일이라 자주 일어나지 않아요.' },
+    { t: '우리 학교가 더 즐거웠으면 좋겠어요', ok: [1, 2], why: '무엇을 어떤 순서로 할지 말하기 어렵고, 나아졌는지 직접 확인하기도 어려워요.' },
+    { t: '친구들 마음이 더 따뜻해졌으면 좋겠어요', ok: [1, 2], why: '무엇을 어떤 순서로 할지 말하기 어렵고, 나아졌는지 직접 확인하기도 어려워요.' },
+    { t: '옆 동네 학교 복도가 어둡다고 들었어요', ok: [2], why: '우리가 가서 볼 수 없어서 확인하기 어려워요.' },
+    { t: '다른 학교 급식실 줄이 길다고 해요', ok: [2], why: '우리가 직접 볼 수 없어서 확인하기 어려워요.' },
+    { t: '모둠 활동 때 교실이 시끄러워 말이 안 들려요', ok: [-1], why: '자주 일어나고, 소리를 재서 알리는 순서를 말할 수 있고, 소리 크기를 직접 확인할 수 있어요.' },
+    { t: '급식실 줄이 매일 길어서 기다린 시간을 재 보고 싶어요', ok: [-1], why: '매일 일어나고, 순서를 말할 수 있고, 우리가 시간을 직접 잴 수 있어요.' },
+    { t: '비어 있는 교실에 불이 켜진 채로 있어요', ok: [-1], why: '자주 일어나고, 켜졌는지 보고 알리는 순서를 말할 수 있고, 우리가 직접 볼 수 있어요.' }
+  ];
+  var CH = ['자주 일어나나', '순서를 말할 수 있나', '우리가 확인할 수 있나', '걸리는 기준 없음'];
+  var c2 = { cards: null, i: 0, picked: false };
+  var card2 = document.getElementById('card2'), choices = document.getElementById('choices');
+  var say2 = document.getElementById('say2'), next2 = document.getElementById('next2'), again2 = document.getElementById('again2');
+  var dots = document.getElementById('dots').children, chEls = [];
+  (function(){
+    for (var k = 0; k < 4; k++){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'ch'; b.textContent = CH[k];
+      (function(kk, bb){ bb.addEventListener('click', function(){ pick2(kk === 3 ? -1 : kk, bb); }); })(k, b);
+      choices.appendChild(b); chEls.push(b);
+    }
+  })();
+  function showCard2(){
+    var d = c2.cards[c2.i], k;
+    card2.textContent = d.t;
+    c2.picked = false;
+    say2.textContent = ''; say2.className = 'say';
+    next2.hidden = true; again2.hidden = true;
+    for (k = 0; k < 4; k++){ chEls[k].disabled = false; chEls[k].classList.remove('pick'); }
+    for (k = 0; k < 3; k++){ dots[k].className = k < c2.i ? 'on' : (k === c2.i ? 'now' : ''); }
+  }
+  function newRound2(){
+    c2.cards = shuffle(POOL.slice()).slice(0, 3); c2.i = 0;
+    learnEl[2].hidden = true;
+    showCard2();
+  }
+  function pick2(k, btn){
+    if (c2.picked) return;
+    c2.picked = true;
+    var d = c2.cards[c2.i], same = d.ok.indexOf(k) >= 0, j, line;
+    for (j = 0; j < 4; j++) chEls[j].disabled = true;
+    btn.classList.add('pick');
+    if (d.ok[0] === -1) line = same ? '걸리는 기준이 없어요. ' + d.why : '예상과 달라요. 이 문장은 걸리는 기준이 없어요. ' + d.why;
+    else line = same ? '「' + CH[k] + '」에서 걸려요. ' + d.why : '예상과 달라요. 이 문장은 「' + CH[d.ok[0]] + '」에서 걸려요. ' + d.why;
+    say2.textContent = line; say2.className = 'say';
+    dots[c2.i].className = 'on';
+    if (window.Fun){ if (same) Fun.burst(card2); else Fun.shake(card2); }
+    if (c2.i < 2) next2.hidden = false;
+    else {
+      again2.hidden = false;
+      finish(2, '문장을 기준에 하나씩 대 보면 어디서 걸리는지 알 수 있어요.', '', 'cheer');
+    }
+  }
+  next2.addEventListener('click', function(){ c2.i++; showCard2(); });
+  again2.addEventListener('click', function(){ newRound2(); if (window.Fun) Fun.say('새 카드 세 장이에요. 이번에는 어디서 걸릴까요?', 'think'); });
+
+  // ───────── 미션 3: 후보 줄이기 ─────────
+  // 세 기준은 늘 켜 둔다. 1단계: 순서를 말할 수 없는 후보(✕) 빼기 → 2단계: 남은 후보의 ✕ 수 견주기
+  var b3 = null, stage3 = 0, out3 = [];
+  var r3 = document.getElementById('r3'), say3 = document.getElementById('say3');
+  var step3 = document.getElementById('step3'), pkask = document.getElementById('pkask'), pk3El = document.getElementById('pk3');
+  function xRow(b, c){ var n = 0, q; for (q = 0; q < 3; q++) if (b[c][q] === 'X') n++; return n; }
+  function goodBoard(b){
+    var gone = 0, left = [], c, i, j;
+    for (c = 0; c < 3; c++){ if (b[c][1] === 'X') gone++; else left.push(c); }
+    if (gone < 1 || left.length < 2) return false;
+    for (i = 0; i < left.length; i++) for (j = i + 1; j < left.length; j++) if (xRow(b, left[i]) === xRow(b, left[j])) return false;
+    return true;
+  }
+  function newBoard3(){
+    var b, t = 0, c, d, row, nx;
+    do {
+      b = [];
+      for (c = 0; c < 3; c++){
+        row = [];
+        nx = rnd(3);
+        for (d = 0; d < 3; d++) row.push(d < nx ? 'X' : (rnd(3) ? 'O' : 'V'));
+        b.push(shuffle(row));
+      }
+      t++;
+    } while (!goodBoard(b) && t < 600);
+    if (!goodBoard(b)) b = [['O', 'X', 'V'], ['X', 'O', 'O'], ['X', 'V', 'X']];
+    b3 = b; stage3 = 0; out3 = [];
+    learnEl[3].hidden = true;
+    step3.hidden = false;
+    pkask.hidden = true; pk3El.hidden = true; pk3El.textContent = '';
+    draw3();
+    say3.textContent = '둘째 기준 「순서를 말할 수 있나」에 ✕가 있는 후보부터 빼요.';
+  }
+  function makeDiv(cls, t){ var e = document.createElement('div'); e.className = cls; if (t) e.textContent = t; return e; }
+  function draw3(){
+    var c, q, lb, em, gone, showN;
+    r3.textContent = '';
+    r3.appendChild(makeDiv('c lab', ''));
+    for (q = 0; q < 3; q++) r3.appendChild(makeDiv('c lab hd' + (q === 1 && stage3 === 0 ? ' hot' : ''), CRIT[q]));
+    for (c = 0; c < 3; c++){
+      gone = out3.indexOf(c) >= 0;
+      showN = stage3 >= 2 && !gone;
+      lb = makeDiv('c lab' + (gone ? ' gone' : ''), CAND[c]);
+      if (gone || showN){ em = document.createElement('em'); em.textContent = gone ? '빠짐' : '✕ ' + xRow(b3, c) + '개'; lb.appendChild(em); }
+      r3.appendChild(lb);
+      for (q = 0; q < 3; q++) r3.appendChild(makeDiv('c m-' + b3[c][q] + (gone ? ' gone' : '') + (stage3 === 0 && q === 1 && b3[c][q] === 'X' ? ' hot' : ''), DISPLAY[b3[c][q]]));
+    }
+  }
+  function leftOf(){ var o = [], c; for (c = 0; c < 3; c++) if (out3.indexOf(c) < 0) o.push(c); return o; }
+  step3.addEventListener('click', function(){
+    if (stage3 !== 0) return;
+    var c, names = [], left, i, b;
+    for (c = 0; c < 3; c++) if (b3[c][1] === 'X'){ out3.push(c); names.push(CAND[c]); }
+    stage3 = 1;
+    left = leftOf();
+    step3.hidden = true;
+    draw3();
+    say3.textContent = names.join(', ') + ' 후보는 순서를 말할 수 없어서 빠졌어요. 남은 후보를 세 기준으로 견줘요.';
+    if (window.Fun) Fun.shake(r3);
+    pkask.hidden = false; pk3El.hidden = false; pk3El.textContent = '';
+    for (i = 0; i < left.length; i++){
+      b = document.createElement('button');
+      b.type = 'button'; b.className = 'ch'; b.textContent = CAND[left[i]];
+      b.setAttribute('aria-label', CAND[left[i]] + ' 후보에 ✕가 가장 적다고 짚기');
+      (function(cc, bb){ bb.addEventListener('click', function(){ pick3(cc, bb); }); })(left[i], b);
+      pk3El.appendChild(b);
+    }
+  });
+  function pick3(c, btn){
+    if (stage3 !== 1) return;
+    stage3 = 2;
+    var left = leftOf(), best = left[0], i, bs, txt = [], hit;
+    for (i = 1; i < left.length; i++) if (xRow(b3, left[i]) < xRow(b3, best)) best = left[i];
+    bs = pk3El.querySelectorAll('button');
+    for (i = 0; i < bs.length; i++) bs[i].disabled = true;
+    btn.classList.add('pick');
+    draw3();
+    for (i = 0; i < left.length; i++) txt.push(CAND[left[i]] + ' ✕ ' + xRow(b3, left[i]) + '개');
+    hit = (c === best);
+    say3.textContent = (hit ? '' : '예상과 달라요. ') + txt.join(', ') + '. ' + CAND[best] + ' 후보에 ✕가 가장 적어요. 세 기준을 모두 따져 견줬어요.';
+    if (window.Fun){ if (hit) Fun.burst(r3); else Fun.shake(r3); }
+    finish(3, '순서를 말할 수 없는 후보는 먼저 빼고, 남은 후보는 세 기준을 모두 따져 견줘요.', '', 'cheer');
+  }
+  document.getElementById('deal3').addEventListener('click', function(){ newBoard3(); if (window.Fun) Fun.say('새 후보예요. 순서를 말할 수 없는 후보부터 빼 봐요.', 'think'); });
 
   render();
   renderGuess();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B02" data-mission="표시를 넣고, ✕가 가장 많을 기준을 예측해요. 예측하면 무를 수 없어요. 세로로 세워 확인해요!"></script>
+<script src="../assets/play/fun.js" data-block="B02" data-mission="미션이 셋 있어요. 먼저 ① 표 읽기부터 해 봐요."></script>
 </body>
 </html>

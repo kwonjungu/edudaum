@@ -36,7 +36,7 @@
 
   .pool{display:grid;grid-template-columns:repeat(auto-fill,minmax(74px,1fr));gap:8px;margin-top:11px}
   .an{position:relative;display:flex;flex-direction:column;align-items:center;gap:2px;padding:7px 4px 6px;
-    font-size:13.5px;font-weight:700;border:2px solid var(--line-strong);border-radius:12px;background:var(--sky-l);
+    font-size:14px;font-weight:700;border:2px solid var(--line-strong);border-radius:12px;background:var(--sky-l);
     transition:transform .3s,opacity .3s,background-color .3s}
   .an svg,.an .em{width:30px;height:30px;font-size:26px;line-height:30px;text-align:center}
   .an .em{width:56px;height:56px}.an .em img{width:100%;height:100%;object-fit:contain;display:block}
@@ -66,13 +66,85 @@
   .path li{position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px;padding:8px 10px 8px 34px;
     border-left:4px solid var(--sky);margin-left:10px;font-size:14px;font-weight:600;animation:slide .35s ease}
   .path li::before{content:'';position:absolute;left:-11px;top:50%;width:18px;height:18px;margin-top:-9px;border-radius:50%;background:var(--surface);border:4px solid var(--sky)}
-  .path .ans{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:1px 10px;border:2px solid var(--ink);font-size:13px}
+  .path .ans{display:inline-flex;align-items:center;gap:4px;border-radius:999px;padding:1px 10px;border:2px solid var(--ink);font-size:14px}
   .path .ans.y{background:var(--mint-l)}
   .path .ans.n{background:var(--pink-l)}
   .path .ct{margin-left:auto;font-variant-numeric:tabular-nums}
   .path .empty{color:var(--muted);border-left-style:dashed}
   .path .empty::before{border-style:dashed}
   @keyframes slide{from{opacity:0;transform:translateX(-10px)}to{opacity:1;transform:none}}
+
+  .how{margin:12px 0 0;font-size:16px;font-weight:600;background:var(--sun-l);border-radius:var(--r-sm);padding:8px 12px}
+  .ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:10px 0 0}
+  .ladder button{min-height:44px;padding:4px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+    background:var(--surface);font-size:14.5px;font-weight:700;line-height:1.2}
+  .ladder button[aria-current="step"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .ladder button.done::after{content:" 끝";font-weight:600;color:var(--mint-d,#1a7f5a)}
+  .ladder button.done[aria-current="step"]::after{color:#fff}
+  .concept{margin:10px 0 0;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 12px;background:var(--surface)}
+  .concept b{display:block;font-size:14px;color:var(--point)}
+  .concept p{margin:2px 0 0;font-size:15px;font-weight:600}
+  .learned{margin-top:12px;padding:8px 12px;border-radius:var(--r-sm);background:var(--mint-l);font-size:15px;font-weight:700}
+  .learned:empty{display:none}
+  .step-row{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  .note,.ai{font-size:14px;color:var(--muted);font-weight:600;margin-top:10px}
+  .ask{font-size:15px;font-weight:700;margin:0 0 8px}
+  .bars{display:grid;gap:8px;margin-top:10px}
+  .bar{border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:8px 10px;background:var(--surface)}
+  .bar.mine{border:3px solid var(--ink);background:var(--sun-l)}
+  .bar .t{display:flex;justify-content:space-between;gap:8px;font-size:14.5px;font-weight:700}
+  .bar .seg{display:flex;height:16px;margin-top:6px;border-radius:8px;overflow:hidden;border:1px solid var(--line-strong)}
+  .bar .seg i{display:block;height:100%}
+  .bar .seg .y{background:var(--mint-l)}.bar .seg .n{background:var(--pink-l)}
+  .sel{display:grid;gap:8px}
+  .sel .q[aria-pressed=true]{background:var(--sun);border:3px solid var(--ink)}
+  .grp{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:6px 8px;margin-top:8px;background:var(--surface)}
+  #m3groups{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  #m3groups .grp{margin-top:0}
+  .grp.tie{border:3px dashed var(--ink);background:var(--pink-l)}
+  .grp .an{min-width:70px;padding:4px}
+  .grp .an .em{width:44px;height:44px}
+  .pool.small{margin-top:4px}
+  .fin{margin-top:12px;text-align:center}
+  .fin p{font-size:16px;font-weight:700;margin-top:6px}
+  .fin .mini{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .fin .mini img{width:64px;height:64px;object-fit:contain}
+
+  .how{margin:12px 0 0;font-size:16px;font-weight:600;background:var(--sun-l);border-radius:var(--r-sm);padding:8px 12px}
+  .ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:10px 0 0}
+  .ladder button{min-height:44px;padding:4px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+    background:var(--surface);font-size:14.5px;font-weight:700;line-height:1.2}
+  .ladder button[aria-current="step"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .ladder button.done::after{content:" 끝";font-weight:600;color:var(--mint-d,#1a7f5a)}
+  .ladder button.done[aria-current="step"]::after{color:#fff}
+  .concept{margin:10px 0 0;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 12px;background:var(--surface)}
+  .concept b{display:block;font-size:14px;color:var(--point)}
+  .concept p{margin:2px 0 0;font-size:15px;font-weight:600}
+  .learned{margin-top:12px;padding:8px 12px;border-radius:var(--r-sm);background:var(--mint-l);font-size:15px;font-weight:700}
+  .learned:empty{display:none}
+  .step-row{margin-top:12px;display:flex;gap:8px;flex-wrap:wrap}
+  .note,.ai{font-size:14px;color:var(--muted);font-weight:600;margin-top:10px}
+  .ask{font-size:15px;font-weight:700;margin:0 0 8px}
+  .bars{display:grid;gap:8px;margin-top:10px}
+  .bar{border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:8px 10px;background:var(--surface)}
+  .bar.mine{border:3px solid var(--ink);background:var(--sun-l)}
+  .bar .t{display:flex;justify-content:space-between;flex-wrap:wrap;gap:4px 8px;font-size:14.5px;font-weight:700}
+  .bar .seg{display:flex;height:16px;margin-top:6px;border-radius:8px;overflow:hidden;border:1px solid var(--line-strong)}
+  .bar .seg i{display:block;height:100%}
+  .bar .seg .y{background:var(--mint-l)}.bar .seg .n{background:var(--pink-l)}
+  .sel{display:grid;gap:8px}
+  .sel .q[aria-pressed=true]{background:var(--sun);border:3px solid var(--ink)}
+  .grp{display:flex;flex-wrap:wrap;gap:6px;align-items:center;border:1px solid var(--line-strong);border-radius:var(--r-sm);padding:6px 8px;margin-top:8px;background:var(--surface);font-size:14px;font-weight:700}
+  #m3groups{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+  #m3groups .grp{margin-top:0}
+  .grp.tie{border:3px dashed var(--ink);background:var(--pink-l)}
+  .grp .an{min-width:70px;padding:4px}
+  .grp .an .em{width:44px;height:44px}
+  .pool.small{margin-top:4px}
+  .fin{margin-top:12px;text-align:center}
+  .fin p{font-size:16px;font-weight:700;margin-top:6px}
+  .fin .mini{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+  .fin .mini img{width:64px;height:64px;object-fit:contain}
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
   [hidden]{display:none!important}
   @media (max-width:420px){.wrap{padding:12px 10px 40px}.pool{grid-template-columns:repeat(auto-fill,minmax(66px,1fr));gap:6px}.path li{padding-left:30px}}
@@ -82,17 +154,28 @@
 </head>
 <body>
 <div class="wrap">
-  <nav class="nav">
+  <nav class="nav topnav">
     <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">체험 목록</a><a class="back" href="../lessons/B21/">과정안</a></span>
     <span class="tag">13~14</span>
   </nav>
   <header>
     <h1>질문 다섯 번에 동물 찾기</h1>
-    <p class="lead">다섯 번 안에 하나만 남겨요</p>
+    <p class="lead">좋은 질문으로 후보를 빨리 줄여요</p>
   </header>
+  <p class="how">몇 번이면 될지 먼저 예상하고, 질문을 눌러 동물을 좁혀요. 미션은 모두 셋이에요.</p>
+  <nav class="ladder" id="ladder" aria-label="미션 순서">
+    <button type="button" data-go="1" aria-current="step">① 찾기</button>
+    <button type="button" data-go="2">② 고르기</button>
+    <button type="button" data-go="3">③ 짜기</button>
+  </nav>
+  <aside class="concept" aria-label="개념 설명">
+    <b>알아 둘 말</b>
+    <p>좋은 질문은 남은 후보를 반쯤 나눠요. 모두 "예"거나 모두 "아니요"인 질문은 한 마리도 못 갈라요.</p>
+  </aside>
 
+  <div data-step="1" id="m1">
   <section aria-labelledby="h-pred" id="predBox">
-    <h2 id="h-pred">먼저 예측해요: 몇 번이면 하나만 남을까요?</h2>
+    <h2 id="h-pred">미션 1 · 몇 번이면 하나만 남을까요?</h2>
     <div class="pred" id="pred" role="group" aria-label="예상"></div>
   </section>
 
@@ -111,12 +194,49 @@
       <button class="btn" id="again" type="button">다시 하기</button>
       <button class="btn main" id="next" type="button">다음 판</button>
     </div>
+    <p class="learned" id="learn1" aria-live="polite"></p>
   </section>
 
   <section aria-labelledby="h-path">
     <h2 id="h-path">지나온 길</h2>
     <ol class="path" id="path"></ol>
   </section>
+  </div>
+
+  <div data-step="2" id="m2" hidden>
+  <section aria-labelledby="h-m2">
+    <h2 id="h-m2">미션 2 · 반반 가르는 질문은?</h2>
+    <p class="ask" id="m2ask">후보를 가장 고르게 나눌 질문을 하나 골라요</p>
+    <p class="readout" id="m2cnt" aria-live="polite">판 <b>1</b>/3</p>
+    <div class="pool small" id="m2pool"></div>
+    <div class="qs" id="m2qs" role="group" aria-labelledby="m2ask" style="margin-top:10px"></div>
+    <div class="bars" id="m2bars" aria-live="polite"></div>
+    <p class="say" id="m2say" aria-live="polite"></p>
+    <div class="step-row" id="m2row"></div>
+    <p class="learned" id="learn2" aria-live="polite"></p>
+  </section>
+  </div>
+
+  <div data-step="3" id="m3" hidden>
+  <section aria-labelledby="h-m3">
+    <h2 id="h-m3">미션 3 · 질문 세 개를 미리 짜요</h2>
+    <p class="ask" id="m3ask">질문 세 개를 골라요. 모든 동물에게 같이 물어서 하나씩 갈라 봐요</p>
+    <div class="pool small" id="m3pool"></div>
+    <div class="sel" id="m3qs" role="group" aria-labelledby="m3ask" style="margin-top:10px"></div>
+    <div class="step-row" id="m3row"></div>
+    <div id="m3groups" aria-live="polite"></div>
+    <p class="say" id="m3say" aria-live="polite"></p>
+    <p class="learned" id="learn3" aria-live="polite"></p>
+    <div class="fin" id="fin" hidden>
+      <div class="mini" id="finimgs"></div>
+      <p>세 미션을 모두 했어요. 질문 하나하나가 후보를 얼마나 가르는지 알게 됐어요.</p>
+    </div>
+  </section>
+  </div>
+
+  <div class="step-row"><button class="btn main" id="goNext" type="button" hidden></button></div>
+  <p class="note">동물 속성표는 종이 활동에서 직접 채워요. 이 쪽은 질문을 연습해 보는 곳이에요.</p>
+  <p class="ai">그림 일부는 생성형 AI로 만들었어요.</p>
 </div>
 
 <script>
@@ -265,6 +385,7 @@
     steps.push({q: Q[qi].t, ans: ans, from: before, to: pool.length});
     if (pool.length <= 1 || qn >= MAXQ || !canSplit()) locked = true;
     render(dropped);
+    if (locked) missionDone(1, '질문마다 후보를 줄이는 만큼이 달라요. 많이 줄이는 질문이 좋은 질문이에요.');
 
     if (!fx()) return;
     var a = ans ? '예' : '아니요';
@@ -290,9 +411,10 @@
     if (one) tail = qn + '번 만에 한 마리가 남았어요. 몰래 고른 동물은 ' + shown + '.';
     else if (qn < MAXQ) tail = pool.length + '마리가 남았어요. 더 갈라 줄 질문이 없어요. 남은 둘은 이름을 물어서 가려요. 몰래 고른 동물은 ' + shown + '.';
     else tail = pool.length + '마리가 남았어요. 질문을 다 썼어요. 몰래 고른 동물은 ' + shown + '.';
+    say.textContent = (one ? qn + '번 만에 한 마리가 남았어요. ' : pool.length + '마리가 남았어요. ') + '몰래 고른 동물은 ' + shown + '.' + cmp;
+    say.className = 'say';
     Fun.say(tail + cmp, one ? 'cheer' : 'think');
     if (one) Fun.burst(document.getElementById('a' + target)); else Fun.shake($('pool'));
-    Fun.stamp();
   }
 
   function render(dropped){
@@ -351,6 +473,211 @@
 
   $('again').addEventListener('click', function(){ startRound(false); });
   $('next').addEventListener('click', newRound);
+
+  /* ───────── 미션 사다리 ───────── */
+  var cur = 1, doneM = {1:false, 2:false, 3:false}, stamped = false;
+  var stepBox = {1: $('m1'), 2: $('m2'), 3: $('m3')};
+  var ladderBtns = Array.prototype.slice.call(document.querySelectorAll('#ladder button'));
+  var goNext = $('goNext');
+  var NAMES = ['', '찾기', '고르기', '짜기'];
+  function showMission(n){
+    cur = n;
+    [1,2,3].forEach(function(k){ stepBox[k].hidden = (k !== n); });
+    if (n === 2 && !m2.pool) m2New();
+    if (n === 3 && !m3.pool) m3New();
+    syncLadder();
+    try { window.scrollTo(0, 0); } catch (e) { /* 위치를 못 옮겨도 괜찮다 */ }
+  }
+  function syncLadder(){
+    ladderBtns.forEach(function(b){
+      var k = +b.getAttribute('data-go');
+      if (k === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+      b.classList.toggle('done', doneM[k]);
+    });
+    if (doneM[cur] && cur < 3){
+      goNext.hidden = false;
+      goNext.textContent = '미션 ' + (cur + 1) + ' (' + NAMES[cur + 1] + ')';
+    } else goNext.hidden = true;
+    $('fin').hidden = !(doneM[1] && doneM[2] && doneM[3]);
+  }
+  function missionDone(n, line){
+    doneM[n] = true;
+    $('learn' + n).textContent = '알게 된 것: ' + line;
+    syncLadder();
+    if (doneM[1] && doneM[2] && doneM[3] && !stamped){
+      stamped = true;
+      if (fx()) Fun.stamp();
+    }
+  }
+  ladderBtns.forEach(function(b){ b.addEventListener('click', function(){ showMission(+b.getAttribute('data-go')); }); });
+  goNext.addEventListener('click', function(){ showMission(cur + 1); });
+
+  function mk(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function chip(idx){
+    var s = mk('div', 'an'); var g = mk('div', 'em');
+    var im = document.createElement('img'); im.src = 'assets/' + IMG[idx] + '.webp'; im.alt = ''; im.width = 56; im.height = 56;
+    g.appendChild(im); s.appendChild(g); s.appendChild(mk('span', 'nm', A[idx][0]));
+    return s;
+  }
+  function pick(n){ return shuffle([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15]).slice(0, n); }
+  function yesCount(set, qi){ var y = 0; for (var i = 0; i < set.length; i++) if (A[set[i]][Q[qi].i]) y++; return y; }
+
+  /* ───────── 미션 2: 반반 가르는 질문 고르기 ───────── */
+  var m2 = {pool: null, round: 0, answered: false, btns: []};
+  var m2qs = $('m2qs'), m2bars = $('m2bars'), m2say = $('m2say'), m2row = $('m2row');
+  var m2next = mk('button', 'btn main', '다음 판'); m2next.type = 'button'; m2next.hidden = true;
+  m2row.appendChild(m2next);
+  for (var q2 = 0; q2 < Q.length; q2++){
+    (function(qi){
+      var b = mk('button', 'q'); b.type = 'button';
+      b.appendChild(mk('span', null, Q[qi].t));
+      b.addEventListener('click', function(){ m2Pick(qi); });
+      m2qs.appendChild(b); m2.btns.push(b);
+    })(q2);
+  }
+  function m2New(){
+    var set, ds, ok;
+    do {
+      set = pick(8 + Math.floor(Math.random() * 3));
+      ds = Q.map(function(_, qi){ return Math.abs(yesCount(set, qi) * 2 - set.length); });
+      ok = Math.min.apply(null, ds) < Math.max.apply(null, ds) && Math.min.apply(null, ds) <= 2;
+    } while (!ok);
+    m2.pool = set; m2.answered = false;
+    $('m2pool').textContent = '';
+    set.forEach(function(i){ $('m2pool').appendChild(chip(i)); });
+    m2bars.textContent = '';
+    m2say.textContent = '질문 하나를 골라요. 고르고 나면 질문 여섯 개가 어떻게 갈랐는지 보여요.';
+    m2.btns.forEach(function(b){ b.disabled = false; b.classList.remove('asked'); });
+    m2next.hidden = true;
+    $('m2cnt').innerHTML = m2.round >= 3 ? '<b>더 해 보기</b>' : '판 <b>' + (m2.round + 1) + '</b>/3';
+    if (fx()) Fun.say('동물 ' + set.length + '마리예요. 한 번에 가장 고르게 나눌 것 같은 질문을 먼저 골라요.');
+  }
+  function m2Pick(qi){
+    if (m2.answered) return;
+    m2.answered = true; m2.round += 1;
+    var n = m2.pool.length, rows = [], best = 0;
+    for (var k = 0; k < Q.length; k++) rows.push(yesCount(m2.pool, k));
+    for (var k2 = 1; k2 < Q.length; k2++) if (Math.abs(rows[k2] * 2 - n) < Math.abs(rows[best] * 2 - n)) best = k2;
+    m2bars.textContent = '';
+    for (var r = 0; r < Q.length; r++){
+      var y2 = rows[r];
+      var bar = mk('div', 'bar' + (r === qi ? ' mine' : ''));
+      var t = mk('div', 't'); t.appendChild(mk('span', null, Q[r].t + (r === qi ? ' (내 선택)' : '')));
+      t.appendChild(mk('span', null, '예 ' + y2 + ' · 아니요 ' + (n - y2)));
+      var seg = mk('div', 'seg'); seg.setAttribute('aria-hidden', 'true');
+      var iy = mk('i', 'y'); iy.style.width = (y2 / n * 100) + '%';
+      var inn = mk('i', 'n'); inn.style.width = ((n - y2) / n * 100) + '%';
+      seg.appendChild(iy); seg.appendChild(inn);
+      bar.appendChild(t); bar.appendChild(seg); m2bars.appendChild(bar);
+    }
+    m2.btns.forEach(function(b){ b.disabled = true; });
+    m2.btns[qi].classList.add('asked');
+    var mine = rows[qi], gap = Math.abs(mine * 2 - n);
+    var msg;
+    if (mine === 0 || mine === n) msg = '고른 질문은 ' + mine + ' 대 ' + (n - mine) + ' 모양이에요. 한 마리도 못 갈랐어요. 이런 질문은 물어도 후보가 그대로예요.';
+    else if (gap <= Math.abs(rows[best] * 2 - n)) msg = '고른 질문은 ' + mine + ' 대 ' + (n - mine) + ' 모양이에요. 이 판에서 가장 고르게 가른 질문이에요.';
+    else msg = '고른 질문은 ' + mine + ' 대 ' + (n - mine) + ' 모양이에요. 다른 질문과 견줘 봐요. 「' + Q[best].t + '」는 ' + rows[best] + ' 대 ' + (n - rows[best]) + ' 모양이라 더 고르게 갈라요.';
+    m2say.textContent = msg;
+    if (fx()) Fun.say(msg, 'think');
+    if (m2.round >= 3){
+      missionDone(2, '반쯤 가르는 질문이 후보를 가장 많이 줄여요. 한쪽으로 쏠린 질문은 조금만 줄여요.');
+      m2next.textContent = '한 판 더';
+    } else m2next.textContent = '다음 판';
+    m2next.hidden = false;
+  }
+  m2next.addEventListener('click', m2New);
+
+  /* ───────── 미션 3: 질문 세 개를 미리 짜기 ───────── */
+  var m3 = {pool: null, sel: [], tries: 0, btns: []};
+  var m3qs = $('m3qs'), m3groups = $('m3groups'), m3say = $('m3say'), m3row = $('m3row');
+  var m3go = mk('button', 'btn main', '나눠 보기'); m3go.type = 'button'; m3go.disabled = true;
+  var m3new = mk('button', 'btn', '새 동물로'); m3new.type = 'button';
+  m3row.appendChild(m3go); m3row.appendChild(m3new);
+  for (var q3 = 0; q3 < Q.length; q3++){
+    (function(qi){
+      var b = mk('button', 'q'); b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+      b.appendChild(mk('span', null, Q[qi].t));
+      b.addEventListener('click', function(){ m3Toggle(qi); });
+      m3qs.appendChild(b); m3.btns.push(b);
+    })(q3);
+  }
+  function sigOf(a, qs){ return qs.map(function(qi){ return A[a][Q[qi].i] ? 1 : 0; }).join(''); }
+  function perfectTriples(set){
+    var c = 0;
+    for (var a = 0; a < 6; a++) for (var b = a + 1; b < 6; b++) for (var d = b + 1; d < 6; d++){
+      var seen = {}, u = 0;
+      set.forEach(function(x){ var s = sigOf(x, [a,b,d]); if (!seen[s]){ seen[s] = 1; u++; } });
+      if (u === set.length) c++;
+    }
+    return c;
+  }
+  function m3New(){
+    var set, c, t = 0;
+    do {
+      set = pick(6); t++;
+      var seen = {}, uniq = 0;
+      set.forEach(function(x){ var s = A[x].slice(1).join(''); if (!seen[s]){ seen[s] = 1; uniq++; } });
+      c = uniq === 6 ? perfectTriples(set) : 0;
+    } while (!(c >= 1 && c <= 4) && t < 3000);
+    m3.pool = set; m3.sel = []; m3.tries = 0;
+    $('m3pool').textContent = '';
+    set.forEach(function(i){ $('m3pool').appendChild(chip(i)); });
+    m3groups.textContent = '';
+    m3say.textContent = '동물 6마리예요. 질문 세 개로 모두 다르게 가를 수 있을까요?';
+    m3Paint();
+    if (fx()) Fun.say('질문 세 개를 골라서 6마리를 모두 갈라 봐요. 같은 답이 나온 동물은 한 모둠이 돼요.');
+  }
+  function m3Paint(){
+    m3.btns.forEach(function(b, qi){
+      var on = m3.sel.indexOf(qi) >= 0;
+      b.setAttribute('aria-pressed', String(on));
+      b.disabled = !on && m3.sel.length >= 3;
+    });
+    m3go.disabled = m3.sel.length !== 3;
+  }
+  function m3Toggle(qi){
+    var at = m3.sel.indexOf(qi);
+    if (at >= 0) m3.sel.splice(at, 1); else if (m3.sel.length < 3) m3.sel.push(qi);
+    m3Paint();
+  }
+  m3go.addEventListener('click', function(){
+    if (m3.sel.length !== 3) return;
+    m3.tries += 1;
+    var groups = {}, order = [];
+    m3.pool.forEach(function(a){
+      var s = sigOf(a, m3.sel);
+      if (!groups[s]){ groups[s] = []; order.push(s); }
+      groups[s].push(a);
+    });
+    m3groups.textContent = '';
+    var ties = 0;
+    order.forEach(function(s){
+      var g = groups[s];
+      var box = mk('div', 'grp' + (g.length > 1 ? ' tie' : ''));
+      g.forEach(function(a){ box.appendChild(chip(a)); });
+      if (g.length > 1){ ties++; box.appendChild(mk('span', null, '같은 답')); }
+      m3groups.appendChild(box);
+    });
+    var msg;
+    if (!ties){
+      msg = '6마리가 모두 다른 모둠이 됐어요. 질문 세 개만으로 한 마리씩 갈랐어요.';
+      m3say.textContent = msg;
+      if (fx()){ Fun.say(msg, 'cheer'); Fun.burst(m3go); }
+      missionDone(3, '서로 다른 면을 가르는 질문을 고르면 적은 질문으로도 모두 가를 수 있어요.');
+    } else {
+      msg = order.length + '모둠으로 나뉘었어요. 점선 모둠은 질문 세 개로 못 가른 동물이에요.' +
+        (m3.tries >= 2 ? ' 점선 모둠 안 두 동물을 가를 질문을 찾아봐요.' : ' 질문을 바꿔서 다시 나눠 봐요.');
+      m3say.textContent = msg;
+      if (fx()){ Fun.say(msg, 'think'); Fun.shake(m3groups); }
+    }
+  });
+  m3new.addEventListener('click', m3New);
+  (function(){
+    var box = $('finimgs');
+    [0, 3, 8, 12].forEach(function(i){
+      var im = document.createElement('img'); im.src = 'assets/' + IMG[i] + '.webp'; im.alt = ''; im.width = 64; im.height = 64; box.appendChild(im);
+    });
+  })();
 
   newRound();
 })();

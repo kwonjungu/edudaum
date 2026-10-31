@@ -44,7 +44,7 @@
   .cut .cap{font-size:14.5px;font-weight:600;line-height:1.25}
   .cut .no{position:absolute;left:6px;top:5px;width:22px;height:22px;border-radius:50%;
     background:var(--ink);color:#fff;font-size:13px;font-weight:700;line-height:22px}
-  .cut .st{position:absolute;right:6px;top:5px;font-size:12px;font-weight:700;padding:0 6px;border-radius:999px}
+  .cut .st{position:absolute;right:6px;top:5px;font-size:14px;font-weight:700;padding:0 6px;border-radius:999px}
   .cut .st{z-index:2;background:var(--surface)}
   .cut .st:empty{display:none}
   .cut.did .st{background:var(--soft);border:1px solid var(--line-strong)}
@@ -53,7 +53,7 @@
   .cut.cur{background:var(--point-soft)}
   .cut.lift{transform:translateY(-3px);border:2px solid var(--point)}
   .cut.lift .st{background:var(--point);color:#fff}
-  .cut.circled::after{content:"";position:absolute;inset:-6px;border:3px dashed var(--point);border-radius:50%;pointer-events:none}
+  .cut.circled::after{content:"";position:absolute;inset:-4px;border:3px dashed var(--point);border-radius:var(--r-sm);pointer-events:none}
   .cut:disabled{cursor:default}
 
   .say{margin-top:10px;font-size:14.5px;font-weight:600;color:var(--point);min-height:21px}
@@ -88,6 +88,38 @@
 .sheet.cooked{background:var(--mint-l);border-color:var(--mint)}
 @keyframes hop{from{transform:translateY(0)}to{transform:translateY(-6px)}}
 @keyframes wob{0%,100%{transform:rotate(0)}25%{transform:rotate(-14deg)}75%{transform:rotate(14deg)}}
+
+/* 체험 개선 2026-10-31: 안내·개념·미션 사다리 */
+.how{margin-top:8px;background:var(--sun-l,#fff6d9);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:15px;font-weight:700;line-height:1.45}
+.concept{margin-top:10px;background:var(--grape-l,#efecfd);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:14.5px;line-height:1.5}
+.concept b{display:block;font-size:14px;color:var(--point);margin-bottom:2px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:10px}
+.sb{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;min-height:46px;padding:5px 6px;line-height:1.2;
+  background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-sm);box-shadow:var(--hard-sm);word-break:keep-all}
+.sb[aria-current="step"]{background:var(--point);border-color:var(--point);color:#fff}
+.sb .ck{display:none}
+.sb.done .ck{display:inline}
+.hero{display:block;width:100%;height:112px;object-fit:cover;object-position:center 28%;border-radius:var(--r-sm);margin-bottom:10px;border:1px solid var(--line)}
+.ask2{font-size:14.5px;font-weight:700;margin:2px 0 8px}
+.learn{margin-top:9px;background:var(--mint-l,#e3f6ef);border-radius:var(--r-sm);padding:8px 11px;font-size:14.5px;font-weight:700}
+.learn[hidden],.nx[hidden]{display:none}
+.nx{margin-top:9px;width:100%}
+.cut .pic{display:block;min-height:96px}
+.cut.empty{border-style:dashed;background:var(--soft)}
+.cut .q{display:block;font-size:44px;font-weight:700;color:var(--muted);line-height:96px}
+.tray{display:flex;gap:8px;margin-top:10px}
+.tcard{flex:1 1 0;min-width:0;font-family:inherit;color:var(--ink);cursor:pointer;background:var(--surface);border:1px solid var(--line-strong);
+  border-radius:var(--r-sm);min-height:44px;padding:6px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;box-shadow:var(--hard-sm)}
+.tcard img{display:block;width:100%;max-width:80px;height:auto;aspect-ratio:1;object-fit:contain;mix-blend-mode:multiply}
+.tcap{font-size:14px;font-weight:600;line-height:1.25;text-align:center}
+.tcard.used{opacity:.3}
+.tcard.sel{border:2px solid var(--point);background:var(--point-soft)}
+.tcard:disabled{cursor:default}
+.ai{margin-top:14px;text-align:center}
+#m2:not(.shown) .cap,#m2:not(.shown) .tcap{display:none}
+#m3:not(.shown) .cut:not(.empty) .cap,#m3:not(.shown) .tcap{display:none}
+@media(max-width:480px){.hero{height:72px;margin-bottom:6px}.concept{padding:7px 10px;font-size:14px;line-height:1.4;margin-top:8px}.how{padding:7px 10px}section{margin-top:8px}.cut{padding-top:20px}}
+@media(min-width:700px){.hero{height:160px}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -103,8 +135,19 @@
     <p class="lead">로봇 셰프가 헷갈릴 한 곳에 동그라미 치고 고쳐요</p>
   </header>
 
-  <section aria-labelledby="h-r">
-    <h2 id="h-r">옆 모둠 4컷 레시피</h2>
+  <p class="how" id="how">미션 세 개를 차례로 해요. 먼저 로봇 셰프가 멈출 칸에 동그라미를 치고 보여 주기를 눌러요.</p>
+
+  <div class="steps" id="steps" role="group" aria-label="미션 고르기">
+    <button class="sb" type="button" data-go="1" aria-current="step">① 멈춤 찾기<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="2">② 순서 세우기<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="3">③ 빠진 칸<span class="ck"> ✓</span></button>
+  </div>
+
+  <div class="concept" id="concept"><b>알아 둘 것</b>로봇 셰프는 그림에 있는 순서 그대로만 해요. 칸이 뒤바뀌거나 빠지면 로봇 셰프는 한 곳에서 멈춰요. 순서를 분명하게 그려야 누가 봐도 같은 요리가 나와요.</div>
+
+  <section aria-labelledby="h-1" data-step="1" id="m1">
+    <img class="hero" src="../lecture/_assets/B04/robot_order.webp" width="1600" height="900" alt="요리사 모자를 쓴 로봇이 그림 카드를 들고 있는 모습">
+    <h2 id="h-1">미션 1. 멈춤 찾기</h2>
     <p class="dish" id="dish"></p>
     <div class="sheet" id="sheet">
       <button class="cut" type="button" id="cut-0"><span class="no">1</span><span class="st"></span><span class="pic"></span><span class="bot" aria-hidden="true"></span><span class="cap"></span></button>
@@ -113,10 +156,6 @@
       <button class="cut" type="button" id="cut-3"><span class="no">4</span><span class="st"></span><span class="pic"></span><span class="bot" aria-hidden="true"></span><span class="cap"></span></button>
     </div>
     <p class="say" id="say" aria-live="polite"></p>
-  </section>
-
-  <section aria-labelledby="h-a">
-    <h2 id="h-a">로봇 셰프</h2>
     <div class="acts">
       <button class="btn main" id="run" type="button">보여 주기</button>
       <button class="btn" id="reset" type="button">처음으로</button>
@@ -124,7 +163,36 @@
     </div>
     <div class="out" id="out" role="status" aria-live="polite"></div>
     <p class="note">우리 레시피는 A4로 옆 모둠과 바꿔 봐요</p>
+    <p class="learn" id="learn1" hidden></p>
   </section>
+
+  <section aria-labelledby="h-2" data-step="2" id="m2" hidden>
+    <img class="hero" src="../lecture/_assets/B04/recipe_share.webp" width="1600" height="900" alt="아이들이 벽에 붙은 레시피 그림을 가리키는 모습">
+    <h2 id="h-2">미션 2. 순서 세우기</h2>
+    <p class="dish" id="dish2"></p>
+    <p class="ask2">글은 가렸어요. 그림을 보고 1번 칸부터 차례로 놓아요.</p>
+    <div class="sheet" id="sheet2"></div>
+    <div class="tray" id="tray2" role="group" aria-label="섞인 그림 카드"></div>
+    <p class="say" id="say2" aria-live="polite"></p>
+    <div class="acts" id="acts2"></div>
+    <div class="out" id="out2" role="status" aria-live="polite"></div>
+    <p class="learn" id="learn2" hidden></p>
+  </section>
+
+  <section aria-labelledby="h-3" data-step="3" id="m3" hidden>
+    <img class="hero" src="../lecture/_assets/B04/game_table.webp" width="1600" height="900" alt="아이들이 식탁에 그림 카드를 늘어놓은 모습">
+    <h2 id="h-3">미션 3. 빠진 칸 두 개</h2>
+    <p class="dish" id="dish3"></p>
+    <p class="ask2">두 칸이 비었어요. 알맞은 그림 두 장을 골라 끼워요.</p>
+    <div class="sheet" id="sheet3"></div>
+    <div class="tray" id="tray3" role="group" aria-label="끼울 그림 고르기"></div>
+    <p class="say" id="say3" aria-live="polite"></p>
+    <div class="acts" id="acts3"></div>
+    <div class="out" id="out3" role="status" aria-live="polite"></div>
+    <p class="learn" id="learn3" hidden></p>
+  </section>
+
+  <p class="note ai">그림 일부는 생성형 AI로 만들었어요</p>
 </div>
 
 <script>
@@ -193,10 +261,11 @@
 
   function rnd(n) { return Math.floor(Math.random() * n); }
 
-  function simulate(ord) {
+  function simulate(ord, r) {
+    r = r || rec;
     var did = {};
     for (var pos = 0; pos < ord.length; pos++) {
-      var s = rec.steps[ord[pos]];
+      var s = r.steps[ord[pos]];
       var need = s.need || [], not = s.not || [];
       for (var i = 0; i < need.length; i++) { if (!did[need[i]]) { return { stop: pos, why: s.needMsg }; } }
       for (var j = 0; j < not.length; j++) { if (did[not[j]]) { return { stop: pos, why: s.notMsg }; } }
@@ -278,14 +347,15 @@
     if (res.stop === null) {
       phase = 'done';
       var msg = ['요리가 나왔어요: ' + rec.dish];
-      if (firstStop !== null) { msg.push('처음 헷갈린 곳: ' + (firstStop + 1) + '번 칸 → 자리를 바꿔 고쳤어요'); }
+      if (firstStop !== null) { msg.push('처음에는 ' + (firstStop + 1) + '번 칸에서 멈췄어요. 자리를 바꿔 고쳤어요'); }
       lines(msg);
       sheet.classList.add('cooked');
       bump(sheet);
       if (window.Fun) {
         Fun.say(firstStop !== null ? '로봇 셰프가 멈추던 ' + (firstStop + 1) + '번 칸을 지나 끝까지 했어요. 어느 두 칸을 바꿨는지 말해 봐요.' : '바로 끝까지 갔어요. 이 판은 순서가 이미 이어져 있었어요.', 'cheer');
-        Fun.burst(sheet); Fun.stamp();
+        Fun.burst(sheet);
       }
+      missionDone(1);
     } else {
       marks[res.stop] = 'stop';
       var m = [(res.stop + 1) + '번 칸: ' + res.why];
@@ -298,6 +368,7 @@
         } else { Fun.say((res.stop + 1) + '번 칸에서 또 멈췄어요. 두 칸 가운데 무엇이 먼저여야 할지 따져 봐요.', 'think'); Fun.shake(sheet); }
       }
       phase = 'fix';
+      $('how').textContent = '로봇 셰프가 멈춘 칸을 보고, 자리를 바꿀 두 칸을 차례로 눌러요.';
     }
     render();
     try { out.scrollIntoView({ block: 'nearest', behavior: reduced ? 'auto' : 'smooth' }); } catch (e) { /* 결과는 그대로 보인다 */ }
@@ -337,6 +408,7 @@
 
   function clearRound() {
     startOrder();
+    $('how').textContent = HOW[1];
     circle = null; lift = null; phase = 'circle'; firstStop = null;
     marks = ['', '', '', ''];
     out.textContent = ''; out.classList.remove('show');
@@ -361,9 +433,218 @@
   resetBtn.addEventListener('click', function () { if (!running) { clearRound(); } });
   nextBtn.addEventListener('click', function () { if (!running) { newRound(); } });
 
+  // ── 미션 사다리
+  var LEARN = {
+    1: '로봇 셰프는 그림 순서 그대로만 해요. 두 칸이 뒤바뀌면 그 가운데 한 곳에서 멈춰요.',
+    2: '먼저 되어 있어야 할 일이 앞에 와야 로봇 셰프가 끝까지 가요.',
+    3: '칸이 빠지면 순서가 끊겨요. 비슷해 보여도 다른 단계 그림은 안 되고, 칸 하나하나가 모두 필요해요.'
+  };
+  var HOW = {
+    1: '미션 세 개를 차례로 해요. 먼저 로봇 셰프가 멈출 칸에 동그라미를 치고 보여 주기를 눌러요.',
+    2: '글을 가렸어요. 그림만 보고 1번 칸부터 차례로 놓은 뒤 보여 주기를 눌러요.',
+    3: '비어 있는 두 칸에 알맞은 그림을 끼워요. 두 칸을 다 채운 뒤 보여 주기를 눌러요.'
+  };
+  var doneSet = {}, stamped = false;
+  var sbs = [].slice.call(document.querySelectorAll('.sb'));
+  function go(n) {
+    [1, 2, 3].forEach(function (i) { $('m' + i).hidden = i !== n; });
+    sbs.forEach(function (b) {
+      if (+b.getAttribute('data-go') === n) { b.setAttribute('aria-current', 'step'); } else { b.removeAttribute('aria-current'); }
+    });
+    $('how').textContent = (n === 1 && phase === 'fix') ? '로봇 셰프가 멈춘 칸을 보고, 자리를 바꿀 두 칸을 차례로 눌러요.' : HOW[n];
+    if (window.Fun) { Fun.say(n === 1 && phase === 'fix' ? '로봇 셰프가 멈춘 칸을 보고 자리를 바꿀 두 칸을 골라 봐요.' : HOW[n]); }
+    if (n === 2 && !rec2) { newRound2(); }
+    if (n === 3 && !rec3) { newRound3(); }
+  }
+  sbs.forEach(function (b) { b.addEventListener('click', function () { go(+b.getAttribute('data-go')); }); });
+  function missionDone(n) {
+    var first = !doneSet[n];
+    doneSet[n] = true;
+    sbs[n - 1].classList.add('done');
+    var l = $('learn' + n);
+    l.textContent = '알게 된 것: ' + LEARN[n];
+    l.hidden = false;
+    if (n < 3 && !$('nx' + n)) {
+      var nb = document.createElement('button');
+      nb.type = 'button'; nb.id = 'nx' + n; nb.className = 'btn main nx'; nb.textContent = '다음 미션 ›';
+      nb.addEventListener('click', function () { go(n + 1); window.scrollTo(0, 0); });
+      l.insertAdjacentElement('afterend', nb);
+    }
+    if (window.Fun && first) {
+      Fun.say('알게 된 것: ' + LEARN[n], 'cheer');
+      if (doneSet[1] && doneSet[2] && doneSet[3] && !stamped) { stamped = true; Fun.stamp(); }
+    }
+  }
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function pickRecipe(prev) { var r; do { r = RECIPES[rnd(RECIPES.length)]; } while (r === prev); return r; }
+  function imgOf(r, i, w) { return '<img src="assets/' + r.key + '_' + (i + 1) + '.webp" alt="" width="' + w + '" height="' + w + '">'; }
+  function slotHTML(n) { return '<span class="no">' + n + '</span><span class="st"></span><span class="pic"></span><span class="bot" aria-hidden="true"><img src="assets/chef.webp" alt="" width="40" height="40"></span><span class="cap"></span>'; }
+  function buildSlots(box, onTap) {
+    box.innerHTML = '';
+    return [0, 1, 2, 3].map(function (i) {
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'cut empty'; b.innerHTML = slotHTML(i + 1);
+      b.addEventListener('click', function () { onTap(i); });
+      box.appendChild(b); return b;
+    });
+  }
+  function showSlot(b, r, idx, n) {
+    if (idx === null || idx === undefined) {
+      b.classList.add('empty'); b.querySelector('.pic').innerHTML = '<span class="q" aria-hidden="true">?</span>'; b.querySelector('.cap').textContent = '빈 칸';
+      b.setAttribute('aria-label', n + '번 칸 비었어요');
+    } else {
+      b.classList.remove('empty'); b.querySelector('.pic').innerHTML = imgOf(r, idx, 96); b.querySelector('.cap').textContent = r.steps[idx].cap;
+      b.setAttribute('aria-label', n + '번 칸 ' + r.steps[idx].cap);
+    }
+  }
+  function mkAct(box, label, main, fn) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'btn' + (main ? ' main' : ''); b.textContent = label; b.addEventListener('click', fn);
+    box.appendChild(b); return b;
+  }
+  function plain(box, arr) {
+    box.textContent = '';
+    arr.forEach(function (t) { var p = document.createElement('p'); p.textContent = t; box.appendChild(p); });
+    box.classList.toggle('show', arr.length > 0);
+  }
+  function mark(slots, stop) {
+    slots.forEach(function (b, i) {
+      b.classList.toggle('stop', i === stop);
+      b.classList.toggle('did', stop === null || i < stop);
+      b.querySelector('.st').textContent = i === stop ? '멈춤' : ((stop === null || i < stop) ? '함' : '');
+    });
+  }
+  function unmark(slots) { slots.forEach(function (b) { b.classList.remove('stop', 'did'); b.querySelector('.st').textContent = ''; }); }
+
+  // ── 미션 2: 섞인 그림 카드로 순서 세우기 (글은 끝나기 전까지 가림)
+  var rec2 = null, slots2 = [], put2 = [], tray2 = [], run2 = null, done2 = false;
+  function filled2() { var n = 0; for (var i = 0; i < 4; i++) { if (put2[i] !== undefined) { n++; } } return n; }
+  function firstEmpty2() { for (var i = 0; i < 4; i++) { if (put2[i] === undefined) { return i; } } return -1; }
+  function drawTray2() {
+    var box = $('tray2'); box.innerHTML = '';
+    tray2.forEach(function (idx) {
+      var b = document.createElement('button');
+      var used = put2.indexOf(idx) >= 0;
+      b.type = 'button'; b.className = 'tcard' + (used ? ' used' : '');
+      b.innerHTML = imgOf(rec2, idx, 80) + '<span class="tcap"></span>';
+      b.querySelector('.tcap').textContent = rec2.steps[idx].cap;
+      b.setAttribute('aria-label', rec2.steps[idx].cap + (used ? ' (이미 놓았어요)' : ''));
+      b.disabled = used || done2;
+      b.addEventListener('click', function () { var e = firstEmpty2(); if (e >= 0) { put2[e] = idx; unmark(slots2); plain($('out2'), []); draw2(); } });
+      box.appendChild(b);
+    });
+  }
+  function draw2() {
+    for (var i = 0; i < 4; i++) { showSlot(slots2[i], rec2, put2[i], i + 1); slots2[i].disabled = done2 || put2[i] === undefined; }
+    drawTray2();
+    var n = filled2(), e = firstEmpty2();
+    run2.disabled = n < 4 || done2;
+    $('say2').textContent = done2 ? '' : (n < 4 ? '그림을 눌러 ' + (e + 1) + '번 칸에 놓아요' : '보여 주기를 눌러요');
+  }
+  function newRound2() {
+    rec2 = pickRecipe(rec2); put2 = []; done2 = false;
+    $('m2').classList.remove('shown');
+    do { tray2 = shuffle([0, 1, 2, 3]); } while (tray2.join() === '0,1,2,3');
+    $('dish2').textContent = rec2.dish;
+    slots2 = buildSlots($('sheet2'), function (i) { if (put2[i] !== undefined && !done2) { put2[i] = undefined; unmark(slots2); plain($('out2'), []); draw2(); } });
+    $('sheet2').classList.remove('cooked');
+    var acts = $('acts2'); acts.innerHTML = '';
+    run2 = mkAct(acts, '보여 주기', true, function () {
+      var res = simulate(put2, rec2);
+      if (res.stop === null) {
+        done2 = true; mark(slots2, null); $('sheet2').classList.add('cooked'); $('m2').classList.add('shown');
+        plain($('out2'), ['요리가 나왔어요: ' + rec2.dish]);
+        if (window.Fun) { Fun.burst($('sheet2')); }
+        missionDone(2);
+      } else {
+        mark(slots2, res.stop);
+        plain($('out2'), [(res.stop + 1) + '번 칸: ' + res.why, '멈춘 칸을 눌러 비우고 다른 그림을 놓아요']);
+        if (window.Fun) { Fun.say('로봇 셰프가 ' + (res.stop + 1) + '번 칸에서 멈췄어요. 어느 그림이 먼저여야 할지 봐요.', 'think'); Fun.shake($('sheet2')); }
+      }
+      draw2();
+    });
+    mkAct(acts, '비우기', false, function () { if (!done2) { put2 = []; unmark(slots2); plain($('out2'), []); draw2(); } });
+    mkAct(acts, '다른 레시피', false, function () { newRound2(); });
+    plain($('out2'), []);
+    draw2();
+  }
+
+  // ── 미션 3: 빠진 칸 두 개 채우기 (이미 있는 그림, 다른 요리 그림이 섞임)
+  var rec3 = null, slots3 = [], holes = [0, 1], cand = [], fill3 = [null, null], done3 = false, run3 = null;
+  function holeOf(pos) { return holes.indexOf(pos); }
+  function draw3() {
+    for (var i = 0; i < 4; i++) {
+      var h = holeOf(i);
+      if (h >= 0) {
+        if (fill3[h] === null) { showSlot(slots3[i], rec3, null, i + 1); }
+        else { var c = cand[fill3[h]]; showSlot(slots3[i], RECIPES[c.r], c.i, i + 1); }
+        slots3[i].disabled = done3 || fill3[h] === null;
+      } else { showSlot(slots3[i], rec3, i, i + 1); slots3[i].disabled = true; }
+    }
+    var box = $('tray3'); box.innerHTML = '';
+    cand.forEach(function (c, k) {
+      var b = document.createElement('button');
+      var used = fill3.indexOf(k) >= 0;
+      b.type = 'button'; b.className = 'tcard' + (used ? ' used' : '');
+      b.innerHTML = imgOf(RECIPES[c.r], c.i, 80) + '<span class="tcap"></span>';
+      b.querySelector('.tcap').textContent = RECIPES[c.r].steps[c.i].cap;
+      b.disabled = done3 || used;
+      b.addEventListener('click', function () {
+        var e = fill3.indexOf(null); if (e < 0) { return; }
+        fill3[e] = k; unmark(slots3); plain($('out3'), []); draw3();
+      });
+      box.appendChild(b);
+    });
+    var e2 = fill3.indexOf(null);
+    run3.disabled = e2 >= 0 || done3;
+    $('say3').textContent = done3 ? '' : (e2 >= 0 ? '끼울 그림을 눌러 ' + (holes[e2] + 1) + '번 칸에 놓아요' : '보여 주기를 눌러요');
+  }
+  function newRound3() {
+    rec3 = pickRecipe(rec3); done3 = false; $('m3').classList.remove('shown'); fill3 = [null, null];
+    var a = rnd(4), b2; do { b2 = rnd(4); } while (b2 === a);
+    holes = a < b2 ? [a, b2] : [b2, a];
+    var mine = RECIPES.indexOf(rec3);
+    var seen = [0, 1, 2, 3].filter(function (x) { return holes.indexOf(x) < 0; });
+    var dup = seen[rnd(seen.length)];
+    var other = RECIPES.filter(function (r) { return r !== rec3; });
+    var o = other[rnd(other.length)];
+    cand = shuffle([{ r: mine, i: holes[0] }, { r: mine, i: holes[1] }, { r: mine, i: dup }, { r: RECIPES.indexOf(o), i: rnd(4) }]);
+    $('dish3').textContent = rec3.dish;
+    slots3 = buildSlots($('sheet3'), function (i) { var h = holeOf(i); if (h >= 0 && !done3 && fill3[h] !== null) { fill3[h] = null; unmark(slots3); plain($('out3'), []); draw3(); } });
+    $('sheet3').classList.remove('cooked');
+    var acts = $('acts3'); acts.innerHTML = '';
+    run3 = mkAct(acts, '보여 주기', true, function () {
+      var ord = [0, 1, 2, 3], stop = null, why = '';
+      for (var h = 0; h < 2 && stop === null; h++) {
+        var c = cand[fill3[h]];
+        if (c.r !== mine) { stop = holes[h]; why = '이 그림은 「' + RECIPES[c.r].dish + '」 그림이에요. 이 레시피와 이어지지 않아요'; }
+        else if (holes.indexOf(c.i) < 0) { stop = holes[h]; why = '이 그림은 이미 ' + (c.i + 1) + '번 칸에 있어요. 빠진 단계가 아니에요'; }
+        else { ord[holes[h]] = c.i; }
+      }
+      if (stop === null) {
+        var res = simulate(ord, rec3);
+        if (res.stop !== null) { stop = res.stop; why = res.why; }
+      }
+      if (stop === null) {
+        done3 = true; $('m3').classList.add('shown'); mark(slots3, null); $('sheet3').classList.add('cooked');
+        plain($('out3'), ['요리가 나왔어요: ' + rec3.dish]);
+        if (window.Fun) { Fun.burst($('sheet3')); }
+        missionDone(3);
+      } else {
+        mark(slots3, stop);
+        plain($('out3'), [(stop + 1) + '번 칸: ' + why, '멈춘 칸을 눌러 비우고 다른 그림을 끼워요']);
+        if (window.Fun) { Fun.say('로봇 셰프가 ' + (stop + 1) + '번 칸에서 멈췄어요. 앞뒤 칸 그림을 다시 봐요.', 'think'); Fun.shake($('sheet3')); }
+      }
+      draw3();
+    });
+    mkAct(acts, '다른 레시피', false, function () { newRound3(); });
+    plain($('out3'), []);
+    draw3();
+  }
+
   newRound();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B04" data-mission="그림 순서 그대로만 하는 로봇 셰프가 어디서 멈출지 먼저 동그라미 쳐요. 그리고 두 칸 자리를 바꿔 끝까지 요리하게 고쳐요!"></script>
+<script src="../assets/play/fun.js" data-block="B04" data-mission="로봇 셰프는 그림 순서 그대로만 해요. 어디서 멈출지 먼저 짚어 봐요!"></script>
 </body>
 </html>

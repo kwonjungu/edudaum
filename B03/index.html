@@ -2,310 +2,563 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>로봇 명령 되감아 버그 찾기 — 에듀다움</title>
 <link rel="icon" href="../assets/icons/game.svg">
 <style>
-  :root{--line:#DDDDDD;--line-strong:#C1C1C1;
-    --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
-    --point:#FF385C; --point-soft:#FFF0F3; --muted:#6A6A6A;
-    --r:14px; --r-sm:8px;
-    --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
-  }
-  *{box-sizing:border-box;margin:0;padding:0}
-  html{-webkit-text-size-adjust:100%}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
-    background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
-    
-    background-position:-11px -11px}
-  .wrap{max-width:640px;margin:0 auto;padding:8px 14px 14px}
+:root{--line:#DDDDDD;--line-strong:#C1C1C1;
+  --ink:#222222; --paper:#FFFFFF; --surface:#FFFFFF;
+  --point:#FF385C; --point-soft:#FFF0F3; --soft:#F7F7F7;
+  --muted:#6A6A6A;
+  --r:14px; --r-sm:8px;
+  --hard:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0; --hard-sm:0 1px 2px rgba(0,0,0,.08);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--paper);color:var(--ink);
+  font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  font-size:17px;line-height:1.45;-webkit-text-size-adjust:100%}
+main{max-width:640px;margin:0 auto;padding:16px 16px 28px;overflow-x:hidden}
+h1{font-size:clamp(22px,5.2vw,30px);font-weight:700;letter-spacing:-.035em;margin:0 0 4px}
+.lead{font-size:15px;color:var(--muted);margin:0 0 12px;font-weight:600}
 
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:600;
-    font-size:14px;background:var(--surface);border:1px solid var(--ink);border-radius:999px;
-    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm);transition:transform .12s,box-shadow .12s}
-  .back:hover{transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
-  .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;border:1px solid var(--line);
-    border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 12px}
+.topnav a{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);
+  font-weight:600;font-size:14px;background:var(--surface);border:1px solid var(--ink);
+  border-radius:999px;padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
+.topnav b{font-weight:700;font-size:14px;background:var(--point);color:#fff;
+  border:1px solid var(--line);border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
-  h1{font-size:clamp(20px,4.8vw,26px);font-weight:700;letter-spacing:-.035em;line-height:1.08}
-  .lead{font-size:15px;color:var(--muted);margin-top:5px;font-weight:700}
-  .only{display:inline-flex;align-items:center;gap:7px;margin-top:9px;font-size:13px;font-weight:700;
-    background:var(--ink);color:var(--paper);border-radius:999px;padding:7px 13px}
+section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
+  box-shadow:var(--hard);padding:12px;margin:0 0 12px}
+h2{font-size:15px;font-weight:700;letter-spacing:-.02em;margin:0 0 6px;color:var(--muted)}
+button{font-family:inherit}
+[hidden]{display:none !important}
+:focus-visible{outline:3px solid var(--point);outline-offset:3px}
 
-  section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
-    box-shadow:var(--hard);padding:8px;margin-top:7px}
-  h2{font-size:13.5px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted)}
+.how{margin:0 0 10px;font-size:16px;font-weight:600;background:var(--sun-l,#fff6d9);border-radius:var(--r-sm);padding:8px 12px}
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0 0 10px}
+.ladder button{cursor:pointer;min-height:44px;padding:4px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+  background:var(--surface);color:var(--ink);font-size:14.5px;font-weight:700;line-height:1.2}
+.ladder button[aria-current="step"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ladder button.done::after{content:" 끝";font-weight:600;color:#1f7a5c}
+.ladder button.done[aria-current="step"]::after{color:#fff}
+.concept{margin:12px 0 0;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 12px;background:var(--surface)}
+.concept b{display:block;font-size:14px;color:var(--point)}
+.concept p{margin:2px 0 0;font-size:15px;font-weight:600}
 
-  .board{display:block;width:100%;max-width:190px;margin:0 auto;height:auto}
-  .cellbg{fill:var(--surface);stroke:var(--ink);stroke-width:1.5}
-  .goal{fill:var(--point-soft)}
-  .cellbg{cursor:pointer}
-  .cellbg:focus-visible{outline:none;stroke:var(--point);stroke-width:3}
-  .guess{fill:none;stroke:var(--ink);stroke-width:2;stroke-dasharray:3 2.5;pointer-events:none}
-  .tip{font-size:13px;font-weight:700;color:var(--muted);text-align:center;margin-top:5px}
-  .legend{margin:6px 0 0;text-align:center;font-size:15px;font-weight:600}
-  .legend i{display:inline-block;width:14px;height:14px;border:1px solid var(--line);vertical-align:-2px;margin:0 4px 0 8px}
-  .legend .li{border-radius:50%;background:var(--point)}
-  .legend .lg{background:var(--point-soft)}
-  .item{fill:var(--point);stroke:var(--ink);stroke-width:2}
-  .bot{fill:#fff;stroke:var(--ink);stroke-width:2.5}
-  .botdir{fill:var(--point);stroke:var(--ink);stroke-width:2}
-  .trail{fill:var(--point);opacity:.22}
-  #bot{transition:transform .18s ease-out}
-  @media(prefers-reduced-motion:reduce){#bot{transition:none}}
+.scene{display:flex;align-items:center;gap:10px}
+@media(max-width:480px){main{padding-top:10px}.topnav{margin-bottom:8px}.how{margin-bottom:8px}section[data-step]{padding:6px 12px;margin-bottom:8px}section[data-step] h2{margin:0}.ladder{margin-bottom:8px}.scene{display:none}.legend,.tip{margin-top:2px}}
+.scene img{flex:0 0 auto;width:112px;height:63px;object-fit:cover;border-radius:10px;background:#fff6d9}
+.scene .sc-text{flex:1;min-width:0;font-size:15.5px;font-weight:600}
+.scene .sc-text b{display:block;font-size:17px;letter-spacing:-.02em}
 
-  .rows{display:grid;gap:3px}
-  .row{display:flex;align-items:center;gap:6px}
-  .row .no{width:1.3em;font-family:'Courier New',monospace;font-weight:700;font-size:14px;color:var(--muted)}
-  .row .cmds{display:flex;gap:4px;flex:1}
-  .row.done{background:var(--point-soft);border-radius:8px}
-  .row.done .no{color:var(--ink)}
-  .cmd{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:700;
-    background:var(--surface);border:1px solid var(--line);border-radius:999px;
-    min-height:44px;padding:6px 14px;flex:1;text-align:left;box-shadow:var(--hard-sm)}
-  .cmd.set{background:var(--point);color:#fff;border-width:3px}
-  .cmd.empty{color:var(--muted)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:0}
+.board{display:block;width:100%;max-width:130px;margin:0 auto;height:auto}
+.cellbg{fill:var(--surface);stroke:var(--ink);stroke-width:1.5}
+.cellbg.goal{fill:#bfe0f7;stroke-width:2.5}
+.cellbg.pick{cursor:pointer}
+.cellbg.pick:focus-visible{outline:none;stroke:var(--point);stroke-width:3}
+.guess{fill:none;stroke:var(--ink);stroke-width:2;stroke-dasharray:3 2.5;pointer-events:none}
+.item{fill:var(--point);stroke:var(--ink);stroke-width:2}
+.bot{fill:#fff;stroke:var(--ink);stroke-width:2.5}
+.botdir{fill:var(--point);stroke:var(--ink);stroke-width:2}
+.trail{fill:var(--point);opacity:.22}
+.route{fill:none;stroke:var(--ink);stroke-width:2;stroke-dasharray:4 3;opacity:.45}
+.ghost{fill:none;stroke:var(--ink);stroke-width:2.5;stroke-dasharray:3 2}
+.ghostdir{fill:#8a8a8a;stroke:none}
+#bot,#item,#ghost,#trail{pointer-events:none}
+#bot{transition:transform .18s ease-out}
+@media(prefers-reduced-motion:reduce){#bot{transition:none}}
+.tip{font-size:14.5px;font-weight:700;color:var(--muted);text-align:center;margin:6px 0 0}
+.legend{margin:4px 0 0;text-align:center;font-size:14.5px;font-weight:600}
+.legend i{display:inline-block;width:14px;height:14px;border:1px solid var(--line-strong);vertical-align:-2px;margin:0 4px 0 8px}
+.legend .li{border-radius:50%;background:var(--point)}
+.legend .lg{background:#bfe0f7}
+.legend .lr{border-radius:50%;border:2px dashed var(--ink);background:#fff}
 
-  .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:9px}
-  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:700;
-    background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
-    min-height:44px;padding:9px 14px;box-shadow:var(--hard-sm);flex:1 1 92px;
-    transition:transform .1s,box-shadow .1s}
-  .btn:hover:not(:disabled){transform:translate(-1px,-1px);box-shadow:rgba(0,0,0,.02) 0 0 0 1px,rgba(0,0,0,.04) 0 2px 6px 0,rgba(0,0,0,.1) 0 4px 8px 0}
-  .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
-  .btn.main{background:var(--point);color:#fff}
-  .btn:disabled{opacity:.42;cursor:default;box-shadow:none}
+.play{display:grid;grid-template-columns:140px minmax(0,1fr);gap:8px;align-items:start}
+.play .board{max-width:140px;margin:0}
+.rows{display:grid;gap:4px;margin-top:0}
+.play .cmd{font-size:14px;padding:4px 8px;line-height:1.2}
+.play .row{gap:3px}
+.play .row .no{width:1em;font-size:14px}
+.play .here{min-width:44px;padding:4px 2px;font-size:14px}
+@media(min-width:481px){.play{grid-template-columns:200px minmax(0,1fr)}.play .board{max-width:200px}.play .cmd{font-size:15.5px;padding:6px 14px}}
+.row{display:flex;align-items:center;gap:6px;border-radius:8px}
+.row .no{width:1.3em;font-family:'Courier New',monospace;font-weight:700;font-size:15px;color:var(--muted);text-align:right}
+.row.done{background:var(--point-soft)}
+.row.done .no{color:var(--ink)}
+.cmd{cursor:pointer;color:var(--ink);font-size:15.5px;font-weight:700;background:var(--surface);
+  border:1px solid var(--line-strong);border-radius:999px;min-height:44px;padding:6px 14px;flex:1;min-width:0;text-align:left;box-shadow:var(--hard-sm)}
+.cmd.set{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cmd.empty{color:var(--muted)}
+.cmd:disabled{cursor:default;opacity:1}
+.here:disabled{opacity:.35;cursor:default}
+.here{cursor:pointer;flex:0 0 auto;min-height:44px;min-width:56px;border:1px solid var(--ink);border-radius:var(--r-sm);
+  background:var(--surface);color:var(--ink);font-size:14.5px;font-weight:700;padding:4px 8px}
+.here.sel{background:var(--point);border-color:var(--point);color:#fff}
 
-  .note{margin-top:8px;font-size:12.5px;font-weight:700;color:var(--muted)}
-  .note b{font-weight:700;color:var(--ink)}
-  [hidden]{display:none!important}
-
-  :focus-visible{outline:3px solid var(--point);outline-offset:3px}
-  @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-
-/* 에듀다움 통일 테마 2026-09-27 */
+.acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.btn{cursor:pointer;font-size:16px;font-weight:700;color:var(--ink);min-height:46px;padding:9px 12px;flex:1 1 84px;white-space:nowrap;
+  border:1px solid var(--ink);border-radius:var(--r-sm);background:var(--surface);box-shadow:var(--hard-sm)}
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+.btn:disabled{opacity:.42;cursor:default;box-shadow:none}
+.out{margin:10px 0 0;border-radius:var(--r-sm);padding:9px 12px;min-height:44px;background:var(--soft);font-size:15.5px;font-weight:600}
+.out:empty{display:none}
+.learned{margin:10px 0 0;padding:9px 12px;border-radius:var(--r-sm);background:var(--mint-l,#e3f6ef);font-size:15.5px;font-weight:700}
+.learned:empty{display:none}
+.fin{margin:12px 0 0;text-align:center}
+.fin img{width:100%;max-width:360px;height:auto;border-radius:var(--r-sm)}
+.fin p{margin:6px 0 0;font-size:16px;font-weight:700}
+.note{font-size:14px;color:var(--muted);font-weight:600;margin:10px 0 0}
+.ai{font-size:14px;color:var(--muted);font-weight:600;margin:4px 0 0}
+@media(prefers-reduced-motion:reduce){*{animation:none !important;transition:none !important}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
-<div class="wrap">
-  <nav class="nav">
-    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">← 체험 목록</a><a class="back" href="../lessons/B03/">과정안</a></span>
-    <span class="tag">5~6</span>
+<main>
+  <nav class="topnav"><span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a href="../play/">← 체험 목록</a><a href="../lessons/B03/">과정안</a></span><b>5~6</b></nav>
+  <h1>로봇 명령 되감아 버그 찾기</h1>
+  <p class="lead" hidden>한 줄씩 따라가며 어디서 달라지는지 찾아요</p>
+  <p class="how" id="how">칸을 눌러 설 곳을 예상하고, 한 줄 더로 따라가요.</p>
+
+  <nav class="ladder" id="ladder" aria-label="미션 순서">
+    <button type="button" data-go="1" aria-current="step">① 따라가기</button>
+    <button type="button" data-go="2">② 버그 찾기</button>
+    <button type="button" data-go="3">③ 만들기</button>
   </nav>
 
-  <header>
-    <h1>로봇 명령 되감아 버그 찾기</h1>
-    <p class="lead">한 줄씩 되감아 봐요</p>
-    <p class="only">교사 준비용</p>
-  </header>
+  <section data-step="1" id="m1" aria-labelledby="h1m">
+    <h2 id="h1m">미션 1 · 따라가 보기</h2>
+    <div class="scene">
+      <img src="assets/lost_floor.webp" alt="바닥에 테이프로 붙인 네모 칸과 명령 카드" width="112" height="63">
+      <div class="sc-text"><b>줄 따라 움직이는 로봇</b>줄 여섯 개를 읽고 로봇이 설 칸을 찍어요.</div>
+    </div>
+  </section>
+  <section data-step="2" id="m2" hidden aria-labelledby="h2m">
+    <h2 id="h2m">미션 2 · 버그 찾기</h2>
+    <div class="scene">
+      <img src="assets/pair_vague.webp" alt="로봇이 잼 병을 빵 위에 올려 둔 모습" width="112" height="63">
+      <div class="sc-text"><b>목표 길과 갈라지는 줄</b>점선 길이 목표예요. 빈 동그라미와 로봇이 갈라지는 줄에서 여기를 눌러요.</div>
+    </div>
+  </section>
+  <section data-step="3" id="m3" hidden aria-labelledby="h3m">
+    <h2 id="h3m">미션 3 · 직접 만들기</h2>
+    <div class="scene">
+      <img src="assets/lost_result.webp" alt="칸 위에 선 로봇과 분실물" width="112" height="63">
+      <div class="sc-text"><b>분실물 가져다 놓기</b>분실물을 집어 분실물함 칸에 두는 여섯 줄을 만들어요. 줄을 누르면 명령이 바뀌어요.</div>
+    </div>
+  </section>
 
   <section aria-labelledby="h-b">
-    <h2 id="h-b">놀이판</h2>
-    <svg class="board" viewBox="0 0 100 100" role="img" aria-label="4×4 놀이판과 분실물 로봇, 분실물, 분실물함 칸">
+    <h2 id="h-b" class="sr">놀이판</h2>
+    <div class="play">
+    <svg class="board" viewBox="0 0 100 100" role="img" aria-label="4×4 놀이판과 로봇, 분실물, 분실물함 칸">
       <g id="cells"></g>
+      <polyline class="route" id="route" points="" style="display:none"></polyline>
       <g id="trail"></g>
       <circle class="guess" id="guess" cx="0" cy="0" r="9" style="display:none"></circle>
+      <g id="ghost" style="display:none"><circle class="ghost" cx="0" cy="0" r="7"></circle><polygon class="ghostdir" points="0,-6 3.5,0.5 -3.5,0.5"></polygon></g>
       <circle class="item" id="item" cx="0" cy="0" r="5"></circle>
       <g id="bot">
         <circle class="bot" cx="0" cy="0" r="8"></circle>
         <polygon class="botdir" points="0,-7 4,1 -4,1"></polygon>
       </g>
     </svg>
-    <p class="tip" id="tip">끝 칸을 예상해 칸을 눌러 두고, 한 줄씩 가 봐요</p>
-    <p class="legend"><i class="li"></i>분실물<i class="lg"></i>분실물함</p>
-    <p class="note" id="stop" role="status" hidden><b>판을 벗어나 멈췄어요</b></p>
-  </section>
-
-  <section aria-labelledby="h-c">
-    <h2 id="h-c">명령</h2>
     <div class="rows" id="rows"></div>
+    </div>
+
     <div class="acts">
       <button class="btn main" id="fwd" type="button">한 줄 더</button>
+      <button class="btn" id="all" type="button">끝까지</button>
       <button class="btn" id="back" type="button">한 줄 뒤로</button>
       <button class="btn" id="reset" type="button">처음으로</button>
       <button class="btn" id="fresh" type="button">새 판</button>
     </div>
-    <p class="note"><b>수업 중에는 종이와 몸으로 해요</b></p>
+    <p class="tip" id="tip"></p>
+    <p class="legend" id="legend"></p>
+    <div class="out" id="out" role="status" aria-live="polite"></div>
+    <p class="learned" id="learned" aria-live="polite"></p>
+    <div class="acts"><button class="btn main" id="goNext" type="button" hidden></button></div>
+    <div class="fin" id="fin" hidden>
+      <img src="assets/mission_done.webp" alt="해결단 도장이 찍힌 종이와 작은 로봇" width="360" height="203" loading="lazy">
+      <p>세 미션을 모두 했어요. 로봇은 적힌 줄만 그대로 해요.</p>
+    </div>
   </section>
-</div>
+
+  <aside class="concept" aria-label="개념 설명">
+    <b>알아 둘 말</b>
+    <p>알고리즘은 문제를 풀려고 정해 둔 명령의 순서예요. 로봇은 적힌 줄을 그대로만 해요. 버그는 목표와 다르게 만든 틀린 줄이에요.</p>
+  </aside>
+
+  <p class="note">카드와 몸으로 하는 활동 전에 해 보는 연습이에요.</p>
+  <p class="ai">그림 일부는 생성형 AI로 만들었어요.</p>
+</main>
 
 <script>
-(function(){
+(function () {
   'use strict';
-  var $ = function(id){ return document.getElementById(id); };
+  var $ = function (id) { return document.getElementById(id); };
   var NS = 'http://www.w3.org/2000/svg';
-  var CMDS = ['앞으로 한 칸', '오른쪽 돌기', '왼쪽 돌기', '집기'];
+  var CM = ['앞으로 한 칸', '오른쪽 돌기', '왼쪽 돌기', '집기'];
   var N = 4, CELL = 25, HALF = 12.5;
-  var START = { x:0, y:3, dir:0 };
-  var ITEM = { x:2, y:1 };
-  var GOAL = { x:3, y:0 };
-  var guess = null, stamped = false, goalEl = null;
-  var cellEls = [];
+  var START = { x: 0, y: 3, dir: 0 };
+  var DX = [0, 1, 0, -1], DY = [-1, 0, 1, 0];
+  function rnd(n) { return Math.floor(Math.random() * n); }
+  function ro(w) { var c = w.charCodeAt(w.length - 1) - 0xAC00, j = c % 28; return (c >= 0 && c < 11172 && j !== 0 && j !== 8) ? '으로' : '로'; }
+  function say(t, m) { if (window.Fun) { Fun.say(t, m); } }
 
-  var lines = ['', '', '', '', '', ''];   // 교사가 고른다. 미리 채우지 않는다.
-  var n = 0;                              // 실행한 줄 수
-  var rowEls = [], btnEls = [];
-
-  (function board(){
-    for (var r = 0; r < N; r++) for (var c = 0; c < N; c++){
-      var e = document.createElementNS(NS, 'rect');
-      e.setAttribute('x', c * CELL); e.setAttribute('y', r * CELL);
-      e.setAttribute('width', CELL); e.setAttribute('height', CELL);
-      e.setAttribute('class', 'cellbg');
-      e.setAttribute('tabindex', '0'); e.setAttribute('role', 'button');
-      e.setAttribute('aria-label', (r + 1) + '행 ' + (c + 1) + '열, 끝 칸으로 예상');
-      (function(cc, rr){
-        function pick(){ guess = { x:cc, y:rr }; render(); }
-        e.addEventListener('click', pick);
-        e.addEventListener('keydown', function(ev){ if (ev.key === 'Enter' || ev.key === ' '){ ev.preventDefault(); pick(); } });
-      })(c, r);
-      $('cells').appendChild(e);
-      cellEls.push(e);
+  // 줄 여섯 개를 위에서부터 실행해 줄마다의 상태(0줄 뒤 ~ 6줄 뒤)를 돌려 준다
+  function stepAll(prog, item) {
+    var s = { x: START.x, y: START.y, dir: START.dir, held: false, stopped: false };
+    var out = [{ x: s.x, y: s.y, dir: s.dir, held: false, stopped: false }];
+    for (var i = 0; i < 6; i++) {
+      var c = prog[i];
+      if (!s.stopped && c) {
+        if (c === CM[0]) {
+          var nx = s.x + DX[s.dir], ny = s.y + DY[s.dir];
+          if (nx < 0 || nx >= N || ny < 0 || ny >= N) { s.stopped = true; } else { s.x = nx; s.y = ny; }
+        } else if (c === CM[1]) { s.dir = (s.dir + 1) % 4; }
+        else if (c === CM[2]) { s.dir = (s.dir + 3) % 4; }
+        else if (c === CM[3]) { if (item && s.x === item.x && s.y === item.y) { s.held = true; } }
+      }
+      out.push({ x: s.x, y: s.y, dir: s.dir, held: s.held, stopped: s.stopped });
     }
-  })();
-
-  function place(){
-    $('item').setAttribute('cx', ITEM.x * CELL + HALF);
-    $('item').setAttribute('cy', ITEM.y * CELL + HALF);
-    for (var k = 0; k < cellEls.length; k++){
-      var rr = Math.floor(k / N), cc = k % N;
-      cellEls[k].setAttribute('class', (cc === GOAL.x && rr === GOAL.y) ? 'cellbg goal' : 'cellbg');
-    }
+    return out;
   }
+  function differ(a, b) { return a.x !== b.x || a.y !== b.y || a.dir !== b.dir || a.stopped !== b.stopped; }
+  function empty6() { return ['', '', '', '', '', '']; }
 
-  // 새 판: 분실물·분실물함 자리와 명령 여섯 줄이 모두 새로 난다. 앞 판과 끝 칸이 같으면 다시 뽑는다.
-  function fresh(){
-    var prev = (function(){ var m = n; n = 6; var w = walk(); n = m; return w.x + ',' + w.y; })();
-    var tries = 0, e;
+  /* 미션마다 판 하나씩 */
+  var M = { 1: null, 2: null, 3: null };
+  var mode = 1, S = null;
+  var doneM = { 1: false, 2: false, 3: false }, stamped = false;
+  var LEARN = {
+    1: '로봇은 적힌 줄을 위에서부터 그대로 해요. 돌기는 칸은 그대로 두고 방향만 바꿔요.',
+    2: '결과가 목표와 다르면 처음 갈라지는 줄을 찾아 그 줄만 고치면 돼요.',
+    3: '명령을 순서대로 쓰고, 돌려 보며 고치면 목표에 닿아요. 같은 목표도 더 적은 줄로 해낼 수 있어요.'
+  };
+
+  function newM1(prev) {
+    var tries = 0, o, bad;
     do {
-      do { ITEM = { x:Math.floor(Math.random() * N), y:Math.floor(Math.random() * N) }; }
-      while (ITEM.x === START.x && ITEM.y === START.y);
-      do { GOAL = { x:Math.floor(Math.random() * N), y:Math.floor(Math.random() * N) }; }
-      while ((GOAL.x === ITEM.x && GOAL.y === ITEM.y) || (GOAL.x === START.x && GOAL.y === START.y));
-      for (var i = 0; i < 6; i++) lines[i] = CMDS[Math.floor(Math.random() * CMDS.length)];
-      n = 6; e = walk(); n = 0;
+      o = { lines: [], item: null, goal: null, guess: null, n: 0, over: false };
+      do { o.item = { x: rnd(N), y: rnd(N) }; } while (o.item.x === START.x && o.item.y === START.y);
+      do { o.goal = { x: rnd(N), y: rnd(N) }; } while ((o.goal.x === o.item.x && o.goal.y === o.item.y) || (o.goal.x === START.x && o.goal.y === START.y));
+      for (var i = 0; i < 6; i++) { o.lines[i] = CM[rnd(CM.length)]; }
+      var e = stepAll(o.lines, o.item)[6];
+      o.endKey = e.x + ',' + e.y;
+      var nf = 0, nt = 0;
+      for (var q = 0; q < 6; q++) { if (o.lines[q] === CM[0]) { nf++; } else if (o.lines[q] === CM[1] || o.lines[q] === CM[2]) { nt++; } }
+      bad = e.stopped || nf < 2 || nt < 1 || (e.x === START.x && e.y === START.y) || (prev && o.endKey === prev.endKey);
       tries++;
-    } while ((e.stopped || e.x + ',' + e.y === prev) && tries < 200);
-    n = 0; guess = null; stamped = false;
-    place(); render();
-    if (window.Fun) Fun.say('새 판이에요. 명령 여섯 줄과 분실물 자리가 모두 새로 나왔어요. 끝 칸부터 예상해 봐요.');
+    } while (bad && tries < 400);
+    return o;
   }
+  function newM2(prev) {
+    var tries = 0, o, ok;
+    do {
+      var P = [], f = 0, i;
+      for (i = 0; i < 6; i++) { P[i] = CM[rnd(3)]; if (P[i] === CM[0]) { f++; } }
+      var ps = stepAll(P, null);
+      var k = rnd(6), Q = P.slice(), c;
+      do { c = CM[rnd(3)]; } while (c === P[k]);
+      Q[k] = c;
+      var qs = stepAll(Q, null), d = 0;
+      for (i = 1; i <= 6; i++) { if (differ(ps[i], qs[i])) { d = i; break; } }
+      var dd = d > 0 ? d : 1, onlyFwd = (P[k] === CM[0]) !== (Q[k] === CM[0]);
+      ok = onlyFwd && d === k + 1 && (ps[dd].x !== qs[dd].x || ps[dd].y !== qs[dd].y) && !ps[6].stopped && f >= 3 && (ps[6].x !== START.x || ps[6].y !== START.y) && d > 0 &&
+           (qs[6].x !== ps[6].x || qs[6].y !== ps[6].y) && !(prev && prev.ans === d && prev.key === P.join());
+      o = { lines: Q, P: P, pst: ps, ans: d, key: P.join(), goal: { x: ps[6].x, y: ps[6].y }, item: null, guess: null, n: 0, over: false, picked: 0, solved: false };
+      tries++;
+    } while (!ok && tries < 400);
+    return o;
+  }
+  function solveMin(item, goal) {
+    var best = 99, lines = empty6();
+    (function rec(i, used) {
+      if (used >= best) { return; }
+      if (i === 6) {
+        var e = stepAll(lines, item)[6];
+        if (!e.stopped && e.held && e.x === goal.x && e.y === goal.y) { best = used; }
+        return;
+      }
+      lines[i] = '';
+      rec(i + 1, used);
+      for (var k = 0; k < 4; k++) { lines[i] = CM[k]; rec(i + 1, used + 1); }
+      lines[i] = '';
+    })(0, 0);
+    return best;
+  }
+  function newM3(prev) {
+    var tries = 0, o, best;
+    do {
+      var it, go;
+      do { it = { x: rnd(N), y: rnd(N) }; } while (it.x === START.x && it.y === START.y);
+      do { go = { x: rnd(N), y: rnd(N) }; } while ((go.x === it.x && go.y === it.y) || (go.x === START.x && go.y === START.y));
+      best = solveMin(it, go);
+      o = { lines: empty6(), item: it, goal: go, guess: null, n: 0, over: false, min: best };
+      tries++;
+    } while ((best > 6 || best < 4 || (prev && prev.item.x === it.x && prev.item.y === it.y && prev.goal.x === go.x && prev.goal.y === go.y)) && tries < 300);
+    return o;
+  }
+  var MAKE = { 1: newM1, 2: newM2, 3: newM3 };
 
-  (function rows(){
-    for (var i = 0; i < 6; i++){
-      var d = document.createElement('div');
-      d.className = 'row';
-      var no = document.createElement('span');
-      no.className = 'no'; no.textContent = String(i + 1);
-      var box = document.createElement('span');
-      box.className = 'cmds';
-      // 줄마다 단추 하나. 누를 때마다 빈칸과 명령 넷을 돈다.
-      var b = document.createElement('button');
-      b.className = 'cmd'; b.type = 'button';
-      (function(idx){
-        b.addEventListener('click', function(){
-          stamped = false;
-          var k = CMDS.indexOf(lines[idx]);
-          lines[idx] = (k + 1 < CMDS.length) ? CMDS[k + 1] : '';
-          if (n > idx) n = idx;          // 고친 줄보다 뒤는 되감는다
-          render();
+  /* 판 그리기 틀 */
+  var cellEls = [], rowEls = [], cmdEls = [], hereEls = [];
+  (function board() {
+    for (var r = 0; r < N; r++) {
+      for (var c = 0; c < N; c++) {
+        var e = document.createElementNS(NS, 'rect');
+        e.setAttribute('x', c * CELL); e.setAttribute('y', r * CELL);
+        e.setAttribute('width', CELL); e.setAttribute('height', CELL);
+        e.setAttribute('class', 'cellbg');
+        (function (cc, rr) {
+          function pick() { if (mode !== 1) { return; } if (S.locked) { $('out').textContent = '새 판을 눌러 다시 예상해요.'; return; } if (S.n > 0) { $('out').textContent = '따라가는 중에는 예상을 바꿀 수 없어요. 처음으로를 누르면 다시 예상해요.'; return; } S.guess = { x: cc, y: rr }; render(); }
+          e.addEventListener('click', pick);
+          e.addEventListener('keydown', function (ev) { if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); pick(); } });
+        })(c, r);
+        $('cells').appendChild(e);
+        cellEls.push(e);
+      }
+    }
+  })();
+  (function rows() {
+    for (var i = 0; i < 6; i++) {
+      var d = document.createElement('div'); d.className = 'row';
+      var no = document.createElement('span'); no.className = 'no'; no.textContent = String(i + 1);
+      var b = document.createElement('button'); b.className = 'cmd'; b.type = 'button';
+      var h = document.createElement('button'); h.className = 'here'; h.type = 'button'; h.textContent = '여기';
+      (function (idx) {
+        b.addEventListener('click', function () {
+          if (mode !== 3) { return; }
+          var k = CM.indexOf(S.lines[idx]);
+          S.lines[idx] = (k + 1 < CM.length) ? CM[k + 1] : '';
+          S.n = 0; $('out').textContent = ''; render();
         });
+        h.addEventListener('click', function () { pickLine(idx + 1); });
       })(i);
-      box.appendChild(b);
-      d.appendChild(no); d.appendChild(box);
+      d.appendChild(no); d.appendChild(b); d.appendChild(h);
       $('rows').appendChild(d);
-      rowEls.push(d); btnEls.push(b);
+      rowEls.push(d); cmdEls.push(b); hereEls.push(h);
     }
   })();
 
-  // 되감기는 늘 처음부터 다시 센다
-  function walk(){
-    var s = { x:START.x, y:START.y, dir:START.dir, held:false, stopped:false, path:[] };
-    s.path.push({ x:s.x, y:s.y });
-    for (var i = 0; i < n; i++){
-      var c = lines[i];
-      if (!c) continue;
-      if (c === '앞으로 한 칸'){
-        var nx = s.x + [0, 1, 0, -1][s.dir];
-        var ny = s.y + [-1, 0, 1, 0][s.dir];
-        if (nx < 0 || nx >= N || ny < 0 || ny >= N){ s.stopped = true; break; }
-        s.x = nx; s.y = ny;
-        s.path.push({ x:nx, y:ny });
-      } else if (c === '오른쪽 돌기'){ s.dir = (s.dir + 1) % 4; }
-      else if (c === '왼쪽 돌기'){ s.dir = (s.dir + 3) % 4; }
-      else if (c === '집기'){ if (s.x === ITEM.x && s.y === ITEM.y) s.held = true; }
+  function render() {
+    var st = stepAll(S.lines, S.item);
+    S.st = st;
+    var s = st[S.n];
+    var i, k;
+    for (k = 0; k < cellEls.length; k++) {
+      var rr = Math.floor(k / N), cc = k % N;
+      var isGoal = mode !== 1 && cc === S.goal.x && rr === S.goal.y;
+      cellEls[k].setAttribute('class', 'cellbg' + (isGoal ? ' goal' : '') + (mode === 1 ? ' pick' : ''));
+      if (mode === 1) {
+        cellEls[k].setAttribute('tabindex', '0'); cellEls[k].setAttribute('role', 'button');
+        cellEls[k].setAttribute('aria-label', (rr + 1) + '행 ' + (cc + 1) + '열, 끝 칸으로 예상');
+      } else {
+        cellEls[k].removeAttribute('tabindex'); cellEls[k].removeAttribute('role'); cellEls[k].removeAttribute('aria-label');
+      }
     }
-    return s;
-  }
-
-  function render(){
-    var s = walk();
-    $('bot').setAttribute('transform',
-      'translate(' + (s.x * CELL + HALF) + ',' + (s.y * CELL + HALF) + ') rotate(' + (s.dir * 90) + ')');
-    // 지나온 칸을 옅게 남긴다. 되감을 때 어디를 거쳐 왔는지 보인다.
+    $('bot').setAttribute('transform', 'translate(' + (s.x * CELL + HALF) + ',' + (s.y * CELL + HALF) + ') rotate(' + (s.dir * 90) + ')');
     var t = $('trail');
-    while (t.firstChild) t.removeChild(t.firstChild);
-    for (var j = 0; j < s.path.length - 1; j++){
+    while (t.firstChild) { t.removeChild(t.firstChild); }
+    var seen = {};
+    seen[s.x + ',' + s.y] = true;
+    for (var j = 0; j < S.n; j++) {
+      var key = st[j].x + ',' + st[j].y;
+      if (seen[key]) { continue; }
+      seen[key] = true;
       var dot = document.createElementNS(NS, 'circle');
       dot.setAttribute('class', 'trail');
-      dot.setAttribute('cx', s.path[j].x * CELL + HALF);
-      dot.setAttribute('cy', s.path[j].y * CELL + HALF);
-      dot.setAttribute('r', '3.5');
+      dot.setAttribute('cx', st[j].x * CELL + HALF); dot.setAttribute('cy', st[j].y * CELL + HALF); dot.setAttribute('r', '3.5');
       t.appendChild(dot);
     }
-    $('item').style.display = s.held ? 'none' : '';
+    if (S.item) {
+      $('item').setAttribute('cx', S.item.x * CELL + HALF); $('item').setAttribute('cy', S.item.y * CELL + HALF);
+      $('item').style.display = s.held ? 'none' : '';
+    } else { $('item').style.display = 'none'; }
     var g = $('guess');
-    g.style.display = guess ? '' : 'none';
-    if (guess){ g.setAttribute('cx', guess.x * CELL + HALF); g.setAttribute('cy', guess.y * CELL + HALF); }
-    $('stop').hidden = !s.stopped;
+    g.style.display = (mode === 1 && S.guess) ? '' : 'none';
+    if (mode === 1 && S.guess) { g.setAttribute('cx', S.guess.x * CELL + HALF); g.setAttribute('cy', S.guess.y * CELL + HALF); }
+    // 미션 2: 목표 길(점선)과 그 길을 가는 빈 동그라미
+    var rt = $('route'), gh = $('ghost');
+    if (mode === 2) {
+      var pts = [];
+      for (i = 0; i <= 6; i++) {
+        var p = S.pst[i], last = pts.length ? pts[pts.length - 1] : '';
+        var q = (p.x * CELL + HALF) + ',' + (p.y * CELL + HALF);
+        if (q !== last) { pts.push(q); }
+      }
+      rt.setAttribute('points', pts.join(' ')); rt.style.display = '';
+      gh.setAttribute('transform', 'translate(' + (S.pst[S.n].x * CELL + HALF) + ',' + (S.pst[S.n].y * CELL + HALF) + ') rotate(' + (S.pst[S.n].dir * 90) + ')'); gh.style.display = '';
+    } else { rt.style.display = 'none'; gh.style.display = 'none'; }
 
-    for (var i = 0; i < 6; i++){
-      rowEls[i].classList.toggle('done', i < n);
-      var b = btnEls[i], has = !!lines[i];
-      b.textContent = has ? lines[i] : '비어 있음';
-      b.classList.toggle('set', has);
+    for (i = 0; i < 6; i++) {
+      rowEls[i].classList.toggle('done', i < S.n);
+      var b = cmdEls[i], has = !!S.lines[i];
+      b.textContent = has ? S.lines[i] : '비어 있음';
+      b.classList.toggle('set', has && mode === 3);
       b.classList.toggle('empty', !has);
-      b.setAttribute('aria-label', (i + 1) + '번 ' + (has ? lines[i] : '비어 있음'));
+      b.disabled = (mode !== 3);
+      b.setAttribute('aria-label', (i + 1) + '번 ' + (has ? S.lines[i] : '비어 있음') + (mode === 3 ? ', 누르면 바뀜' : ''));
+      hereEls[i].hidden = (mode !== 2);
+      hereEls[i].disabled = (mode === 2 && (S.solved || S.hold || i + 1 !== S.n));
+      hereEls[i].classList.toggle('sel', mode === 2 && S.picked === i + 1);
+      hereEls[i].setAttribute('aria-label', (i + 1) + '번 줄에서 갈라졌어요');
     }
-    $('fwd').disabled = (n >= 6) || s.stopped || !guess;   // 끝 칸을 예상해야 열린다
-    $('back').disabled = (n === 0);
-    $('tip').textContent = guess ? '예상한 칸을 눌러 바꿀 수 있어요. 한 줄씩 가 봐요' : '먼저 끝 칸을 예상해 놀이판 칸을 눌러요. 그러면 한 줄 더가 열려요';
-  }
-
-  // 끝까지 갔거나 판 밖에서 멈췄을 때 한 번 짚는다
-  function finish(){
-    var s = walk();
-    var atGoal = s.x === GOAL.x && s.y === GOAL.y;
-    var msg;
-    if (guess && (guess.x !== s.x || guess.y !== s.y)){
-      msg = '예상한 칸과 다른 칸에 섰어요. 한 줄 뒤로 가며 어디서 갈렸는지 찾아봐요.';
-      if (window.Fun) Fun.say(msg, 'think');
-      if (window.Fun) Fun.shake($('bot'));
-    } else if (s.held && atGoal){
-      msg = '분실물을 들고 분실물함 칸에 섰어요. 이 줄이 목표와 같은 길이에요.';
-      if (window.Fun){ Fun.say(msg, 'cheer'); Fun.burst($('bot')); }
+    $('fwd').disabled = (S.n >= 6) || s.stopped || (mode === 1 && !S.guess);
+    $('all').hidden = (mode === 1);
+    $('all').disabled = (S.n >= 6) || s.stopped;
+    $('back').disabled = (S.n === 0);
+    var tip, leg;
+    if (mode === 1) {
+      if (S.locked) { tip = '새 판을 눌러 다시 예상해요'; }
+      else if (S.n >= 6) { tip = '처음으로를 누르면 다시 따라가요'; }
+      else { tip = S.guess ? (S.n === 0 ? '예상한 칸은 눌러서 바꿀 수 있어요. 한 줄 더를 눌러요' : '한 줄 더로 끝까지 따라가 봐요') : '먼저 로봇이 설 칸을 눌러 예상해요'; }
+      leg = '<i class="li"></i>분실물';
+    } else if (mode === 2) {
+      if (S.solved) { tip = '새 판으로 한 번 더 해 봐요'; }
+      else if (S.n >= 6 || s.stopped) { tip = '한 줄 뒤로 가며 갈라진 줄을 찾아요'; }
+      else { tip = '빈 동그라미는 목표 길의 로봇이에요. 한 줄 더로 따라가 봐요'; }
+      leg = '<i class="lr"></i>목표 길 로봇<i class="lg"></i>목표 칸';
     } else {
-      msg = s.stopped ? '판을 벗어나 멈췄어요. 몇 번째 줄에서 벗어났는지 짚어 봐요.'
-        : (guess ? '예상한 칸에 섰어요. 그래도 분실물함과 분실물은 어떤지 봐요.' : '여섯 줄을 다 갔어요. 목표와 어디가 다른지 되감아 봐요.');
-      if (window.Fun) Fun.say(msg, s.stopped ? 'think' : undefined);
+      tip = (S.n >= 6 || s.stopped) ? '줄을 눌러 고치거나 한 줄 뒤로 가 봐요' : '줄을 눌러 명령을 넣고, 한 줄 더나 끝까지를 눌러요';
+      leg = '<i class="li"></i>분실물<i class="lg"></i>분실물함';
     }
-    if (window.Fun && !stamped){ stamped = true; Fun.stamp(); }
+    $('tip').textContent = tip;
+    $('legend').innerHTML = leg;
+    syncLadder();
   }
 
-  $('fwd').addEventListener('click', function(){
-    if (n < 6){ n++; render(); var s = walk(); if (n === 6 || s.stopped) finish(); }
-  });
-  $('fresh').addEventListener('click', fresh);
-  $('back').addEventListener('click', function(){ if (n > 0){ n--; render(); } });
-  $('reset').addEventListener('click', function(){ n = 0; render(); });
+  /* 끝까지 갔을 때 상황을 짚는다 (판정 말은 쓰지 않는다) */
+  function finish() {
+    var s = S.st[S.n], atGoal = s.x === S.goal.x && s.y === S.goal.y, msg;
+    if (mode === 1) {
+      var hit = S.guess && S.guess.x === s.x && S.guess.y === s.y;
+      if (s.stopped) {
+        msg = '판을 벗어나 멈췄어요. 몇 번째 줄에서 벗어났는지 짚어 봐요.';
+        say('판 밖에서 멈췄어요.', 'think');
+      } else if (!hit) {
+        S.locked = true;
+        msg = '예상한 칸과 다른 칸에 섰어요. 한 줄 뒤로 가며 갈린 줄을 보고, 새 판에서 다시 예상해 봐요.';
+        say('예상과 다르게 나왔어요.', 'think'); if (window.Fun) { Fun.shake($('bot')); }
+      } else {
+        msg = '예상한 칸에 섰어요. 한 줄 뒤로 가며 지나온 길도 되짚어 봐요.';
+        say('예상한 칸에 섰어요.', 'cheer'); if (window.Fun) { Fun.burst($('bot')); }
+      }
+      $('out').textContent = msg;
+      if (hit && !s.stopped) { missionDone(1); } else { render(); }
+    } else if (mode === 2) {
+      $('out').textContent = atGoal ? '목표 칸에 섰어요.' : s.stopped ? '판을 벗어나 멈췄어요. 빈 동그라미와 어느 줄에서 갈라졌는지 찾아요.' : '목표 칸이 아닌 곳에 섰어요. 한 줄 뒤로 가며 빈 동그라미와 갈라지는 줄을 찾아 여기를 눌러요.';
+      if (!atGoal && window.Fun) { Fun.shake($('bot')); }
+    } else {
+      var used = 0;
+      for (var i = 0; i < 6; i++) { if (S.lines[i]) { used++; } }
+      if (s.stopped) { msg = '판을 벗어나 멈췄어요. 한 줄 뒤로 가며 어느 줄에서 벗어났는지 찾아요.'; }
+      else if (s.held && atGoal) {
+        msg = '분실물을 들고 분실물함 칸에 섰어요. ' + used + '줄을 썼어요. 이 판에서 가장 짧은 길은 ' + S.min + '줄이에요.';
+        $('out').textContent = msg;
+        say('분실물함에 닿았어요.', 'cheer'); if (window.Fun) { Fun.burst($('bot')); }
+        missionDone(3);
+        return;
+      }
+      else if (!s.held) { msg = '분실물을 못 집었어요. 집기는 분실물이 있는 칸에서 해야 해요.'; }
+      else { msg = '분실물은 들었지만 분실물함 칸이 아니에요. 줄을 고쳐 다시 해 봐요.'; }
+      $('out').textContent = msg;
+      say(s.stopped ? '판 밖에서 멈췄어요.' : !s.held ? '분실물을 아직 못 집었어요.' : '분실물함까지 못 갔어요.', 'think'); if (window.Fun) { Fun.shake($('bot')); }
+    }
+  }
 
-  place();
-  render();
+  function pickLine(i) {
+    if (mode !== 2 || S.solved) { return; }
+    if (S.n === 0) { $('out').textContent = '먼저 한 줄 더로 따라가 봐요.'; return; }
+    if (i > S.n) { $('out').textContent = '아직 따라가지 않은 줄이에요. 한 줄 더로 거기까지 가 봐요.'; return; }
+    S.picked = i; var d = S.ans, msg;
+    if (i === d) {
+      S.lines = S.P.slice(); S.n = 6; S.solved = true;
+      msg = d + '번 줄에서 갈라졌어요. 그 줄을 "' + S.P[d - 1] + '" 카드로 바꾸면 목표 칸에 가요.';
+      $('out').textContent = msg;
+      render();
+      say('갈라진 줄을 찾았어요.', 'cheer'); if (window.Fun) { Fun.burst($('bot')); }
+      missionDone(2);
+      return;
+    }
+    if (i < d) { msg = '로봇과 빈 동그라미가 ' + i + '번 줄 뒤에도 같은 칸, 같은 방향이에요. 그림에서 둘이 달라지는 때를 더 찾아봐요.'; }
+    else { msg = i + '번 줄 앞에서 벌써 달라졌어요. 그림에서 로봇과 빈 동그라미가 처음 달라지는 줄을 찾아요.'; }
+    S.wrong = (S.wrong || 0) + 1;
+    if (S.wrong % 2 === 0) {
+      var keep = S; S.hold = true; msg += ' 잠깐 그림을 보고 있어요.';
+      setTimeout(function () { keep.hold = false; if (S === keep) { render(); } }, 1000);
+    }
+    $('out').textContent = msg;
+    say('한 줄 뒤로 가며 빈 동그라미와 로봇을 견줘 봐요.', 'think');
+    render();
+  }
+
+  /* 미션 사다리 */
+  var ladderBtns = Array.prototype.slice.call(document.querySelectorAll('#ladder button'));
+  var goNext = $('goNext');
+  var NAMES = ['', '따라가기', '버그 찾기', '만들기'];
+  function syncLadder() {
+    ladderBtns.forEach(function (b) {
+      var k = +b.getAttribute('data-go');
+      if (k === mode) { b.setAttribute('aria-current', 'step'); } else { b.removeAttribute('aria-current'); }
+      b.classList.toggle('done', doneM[k]);
+    });
+    if (doneM[mode] && mode < 3) { goNext.hidden = false; goNext.textContent = '미션 ' + (mode + 1) + ' ' + NAMES[mode + 1] + ro(NAMES[mode + 1]) + ' 가기'; }
+    else { goNext.hidden = true; }
+    $('learned').textContent = doneM[mode] ? '알게 된 것: ' + LEARN[mode] : '';
+    $('fin').hidden = !(doneM[1] && doneM[2] && doneM[3]);
+  }
+  function missionDone(k) {
+    doneM[k] = true;
+    syncLadder();
+    if (doneM[1] && doneM[2] && doneM[3] && !stamped) { stamped = true; if (window.Fun) { Fun.stamp(); } }
+  }
+  var INTRO = {
+    1: '줄 여섯 개를 위에서부터 읽어 봐요.',
+    2: '점선 길이 목표예요. 로봇이 목표 길과 갈라지는 줄을 찾아요.',
+    3: '분실물을 집어 분실물함 칸에 두는 여섯 줄을 만들어요.'
+  };
+  var HOW = {
+    1: '칸을 눌러 설 곳을 예상하고, 한 줄 더로 따라가요.',
+    2: '한 줄 더로 따라가며 빈 동그라미와 로봇이 달라지면, 방금 한 그 줄의 여기를 눌러요.',
+    3: '줄을 눌러 명령을 넣고, 한 줄 더로 분실물을 옮겨 봐요.'
+  };
+  function setMode(k, fresh) {
+    mode = k;
+    if (fresh || !M[k]) { M[k] = MAKE[k](M[k]); }
+    S = M[k];
+    for (var i = 1; i <= 3; i++) { $('m' + i).hidden = (i !== k); }
+    $('out').textContent = '';
+    $('how').textContent = HOW[k];
+    render();
+    say(INTRO[k]);
+  }
+  ladderBtns.forEach(function (b) { b.addEventListener('click', function () { setMode(+b.getAttribute('data-go')); }); });
+  goNext.addEventListener('click', function () { setMode(mode + 1); try { window.scrollTo(0, 0); } catch (e) { /* 위치를 못 옮겨도 괜찮다 */ } });
+
+  $('fwd').addEventListener('click', function () {
+    if (S.n < 6) { S.n++; render(); var s = S.st[S.n]; if (S.n === 6 || s.stopped) { finish(); } }
+  });
+  $('all').addEventListener('click', function () {
+    var n = 6;
+    for (var i = 1; i <= 6; i++) { if (S.st[i].stopped) { n = i; break; } }
+    S.n = n; render(); finish();
+  });
+  $('back').addEventListener('click', function () { if (S.n > 0) { S.n--; $('out').textContent = ''; render(); } });
+  $('reset').addEventListener('click', function () { S.n = 0; $('out').textContent = ''; render(); });
+  $('fresh').addEventListener('click', function () {
+    setMode(mode, true);
+    say('새 판이에요. ' + INTRO[mode]);
+  });
+
+  setMode(1, true);
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B03" data-mission="교사 준비용이에요. 명령 여섯 줄을 짜고, 끝 칸을 예상한 뒤 한 줄씩 가며 어디서 달라지는지 찾아요."></script>
+<script src="../assets/play/fun.js" data-block="B03" data-mission="줄 여섯 개를 위에서부터 읽어 봐요."></script>
 </body>
 </html>

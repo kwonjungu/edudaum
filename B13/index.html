@@ -23,15 +23,15 @@
   .lead{font-size:14px;color:var(--muted);margin-top:3px;font-weight:700}
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
-    box-shadow:var(--hard);padding:10px;margin-top:9px}
-  h2{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--muted)}
-  .note{font-size:12.5px;color:var(--muted);font-weight:600}
+    box-shadow:var(--hard);padding:8px 10px;margin-top:8px}
+  h2{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--muted)}
+  .note{font-size:14px;color:var(--muted);font-weight:600}
 
-  table.rec{width:100%;border-collapse:collapse;table-layout:fixed;font-size:13.5px}
-  .rec th,.rec td{border:1px solid var(--line);padding:5px 4px;text-align:center;height:34px;word-break:keep-all}
-  .rec th{font-size:12px;color:var(--muted);font-weight:700}
+  table.rec{width:100%;border-collapse:collapse;table-layout:fixed;font-size:14px}
+  .rec th,.rec td{border:1px solid var(--line);padding:2px 4px;text-align:center;height:30px;word-break:keep-all}
+  .rec th{font-size:14px;color:var(--muted);font-weight:700}
   .rec col.c1{width:17%} .rec col.c2{width:17%} .rec col.c3{width:20%}
-  .rec tr.hide td{background:var(--shade);color:var(--muted);letter-spacing:.2em}
+  .rec tr.hide td{background:repeating-linear-gradient(45deg,var(--shade) 0 6px,var(--line) 6px 7px);color:var(--muted);font-weight:700}
   .rec tr.new td{animation:pop .35s ease-out}
   .rec td.stop{color:#b4532a;font-weight:700}
   .rec td.ok{color:var(--mint-d);font-weight:700}
@@ -50,13 +50,14 @@
   .btn:active:not(:disabled){transform:translate(3px,3px);box-shadow:0 0 0 var(--ink)}
   .btn:disabled{opacity:.45;cursor:default;box-shadow:none;transform:none}
   .btn[aria-pressed="true"]{background:var(--sun-l);border:3px solid var(--point)}
+  .btn[aria-pressed="true"]:disabled{opacity:1}
   .btn.main{background:var(--point);border-color:var(--point);color:#fff}
   .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
   .say{margin-top:8px;font-size:14px;font-weight:700}
   .say.dim{color:var(--muted)}
 
   .bars{display:grid;gap:5px;margin-top:8px}
-  .bar{display:grid;grid-template-columns:minmax(0,1fr) 110px 34px;gap:6px;align-items:center;font-size:13.5px;font-weight:600}
+  .bar{display:grid;grid-template-columns:minmax(0,1fr) 110px 34px;gap:6px;align-items:center;font-size:14px;font-weight:600}
   .bar i{display:block;height:14px;background:var(--line);border-radius:4px;overflow:hidden}
   .bar i b{display:block;height:100%;background:var(--sky);width:0;transition:width .4s}
   .bar.me i b{background:var(--mint)}
@@ -64,16 +65,16 @@
   .bar em{font-style:normal;font-family:'Courier New',monospace;font-weight:700;text-align:right}
   .bar.me span{text-decoration:underline;text-decoration-color:var(--point);text-decoration-thickness:3px}
 
-  .grid{display:grid;grid-template-columns:58px 1fr 1fr;gap:4px;font-size:12.5px;margin-top:4px}
+  .grid{display:grid;grid-template-columns:58px 1fr 1fr;gap:4px;font-size:14px;margin-top:4px}
   .grid .hd{white-space:pre-line;word-break:keep-all;font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:center;text-align:center}
   .grid .cell{border:1px dashed var(--line-strong);border-radius:6px;min-height:52px;padding:4px;display:flex;
     flex-wrap:wrap;gap:4px;align-content:flex-start}
-  .chip{background:var(--sky-l);border:1px solid var(--point);border-radius:999px;padding:1px 8px;font-weight:700;font-size:12.5px}
+  .chip{background:var(--sky-l);border:1px solid var(--point);border-radius:999px;padding:1px 8px;font-weight:700;font-size:14px}
   .chip.pick{background:var(--point);color:#fff}
   .cell.hot{background:var(--sun-l)}
-  .out{margin-top:8px;font-size:13.5px;border:1px dashed var(--line-strong);border-radius:var(--r-sm);
+  .out{margin-top:8px;font-size:14px;border:1px dashed var(--line-strong);border-radius:var(--r-sm);
     padding:8px 10px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere}
-  .out b{display:block;font-size:12px;color:var(--muted)}
+  .out b{display:block;font-size:14px;color:var(--muted)}
   [hidden]{display:none!important}
 
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
@@ -81,6 +82,54 @@
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+
+/* 체험 개선 2026-10-31: 안내·개념·미션 사다리 */
+.how{margin-top:8px;background:var(--sun-l,#fff6d9);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:15px;font-weight:700;line-height:1.45}
+.concept{margin-top:9px;background:var(--grape-l,#efecfd);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:14.5px;line-height:1.5}
+.concept b{font-size:14px;color:var(--point);margin-right:6px}
+.concept .more{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;background:var(--surface);border:1px solid var(--line-strong);border-radius:999px;padding:2px 10px;min-height:32px;margin-left:4px}
+.rec3{display:grid;grid-template-columns:1fr 1fr;gap:4px 8px;font-size:14px;margin-bottom:8px;padding:6px 8px;border:1px solid var(--line);border-radius:var(--r-sm)}
+.rec3 span{display:block}
+.rec3 .nn{color:var(--muted)}
+.rec3 b{font-weight:700}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:9px}
+.sb{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;min-height:46px;padding:5px 6px;line-height:1.2;
+  background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-sm);box-shadow:var(--hard-sm);word-break:keep-all}
+.sb[aria-current="step"]{background:var(--point);border-color:var(--point);color:#fff}
+.sb .ck{display:none}
+.sb.done .ck{display:inline}
+.pic{display:block;width:100%;height:112px;object-fit:cover;border-radius:var(--r-sm);margin-top:9px;border:1px solid var(--line)}
+.learn{margin-top:9px;background:var(--mint-l,#e3f6ef);border-radius:var(--r-sm);padding:8px 11px;font-size:14.5px;font-weight:700}
+.nx{margin-top:9px}
+.ask2{font-size:15px;font-weight:700;margin-bottom:8px}
+.card2{display:grid;gap:8px}
+.say2c{font-family:inherit;cursor:pointer;color:var(--ink);text-align:left;font-size:15.5px;font-weight:700;line-height:1.4;
+  background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);padding:10px 12px;min-height:52px;box-shadow:var(--hard-sm);word-break:keep-all}
+.say2c:disabled{cursor:default;box-shadow:none}
+.say2c.dim{opacity:.6;border-width:1px;border-color:var(--ink);background:var(--surface)}
+.say2c.pick{border-width:3px;border-color:var(--point);background:var(--sun-l)}
+.say2c small{display:block;font-size:14px;color:var(--muted);font-weight:600;margin-top:3px}
+.dots{display:flex;gap:6px;margin-bottom:8px}
+.dots i{width:22px;height:8px;border-radius:4px;background:var(--line-strong);display:block}
+.dots i.on{background:var(--point)}
+.dots i.now{outline:2px solid var(--ink);outline-offset:1px}
+.pool{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.pchip{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;line-height:1.25;text-align:left;
+  background:var(--sky-l);border:1px solid var(--point);border-radius:var(--r-sm);padding:5px 9px;min-height:44px;word-break:keep-all}
+.pchip small{display:block;font-size:14px;font-weight:600;color:var(--muted)}
+.pchip[aria-pressed="true"]{background:var(--point);color:#fff}
+.pchip[aria-pressed="true"] small{color:#fff}
+.pchip.bad{border:2px dashed #b4532a}
+.grid3{display:grid;grid-template-columns:58px 1fr 1fr;gap:4px;font-size:14px}
+.grid3 .hd{white-space:pre-line;word-break:keep-all;font-weight:700;color:var(--muted);display:flex;align-items:center;justify-content:center;text-align:center;font-size:14px}
+.grid3 .cell{border:1px dashed var(--line-strong);border-radius:6px;min-height:86px;padding:4px;display:flex;flex-direction:column;gap:4px}
+.grid3 .cell .put{font-family:inherit;font-size:14px;font-weight:700;min-height:36px;margin-top:auto;cursor:pointer;color:var(--ink);background:var(--surface);border:1px solid var(--line-strong);border-radius:6px}
+.grid3 .cell .put:disabled{opacity:.4;cursor:default}
+.ainote{margin-top:14px;font-size:14px;color:var(--muted)}
+.rec th{font-size:13.5px}
+.note{font-size:14px}
+.chip{font-size:14px}
+@media(max-width:400px){.grid3{grid-template-columns:48px 1fr 1fr;gap:3px}.say2c{font-size:15px}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -96,18 +145,28 @@
     <p class="lead">다 펼쳐 세어 보고 고칠 점을 골라요 · 체험 활동</p>
   </header>
 
+  <p class="how" id="how">기록 두 장만 보여요. 가장 자주 막힌 곳을 하나 누르고, 나머지 펼치기를 눌러요.</p>
+
+  <div class="steps" id="steps" role="group" aria-label="미션 고르기">
+    <button class="sb" type="button" data-go="1" aria-current="step">① 짚고 세기<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="2">② 근거 고르기<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="3">③ 표에 놓기<span class="ck"> ✓</span></button>
+  </div>
+
+  <div class="concept" id="concept"><b>알아 둘 것</b>고칠 점을 정할 때는 기록이 근거예요.<button class="more" id="more" type="button" aria-expanded="false">더 보기</button><span id="moreText" hidden> 몇 장만 보면 짐작이 빗나갈 수 있어서, 끝까지 세고 6명 중 3번처럼 수로 말해요. 6명 중 2번 이상이면 많이 막힘이에요.</span></div>
+
+  <div data-step="1" id="m1">
   <section aria-labelledby="h-rec">
-    <h2 id="h-rec">활동 기록지 <span class="note booth"><svg viewBox="0 0 26 22" aria-hidden="true"><path d="M2 9 L5 2 H21 L24 9Z" fill="#ffc845" stroke="#33302b" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 9h22v2H2z" fill="#5aa9e6" stroke="#33302b" stroke-width="1.5"/><path d="M5 11v9M21 11v9" stroke="#33302b" stroke-width="1.5"/></svg><span id="booth"></span></span></h2>
+    <h2 id="h-rec">미션 1 · 활동 기록지 <span class="note booth"><svg viewBox="0 0 26 22" aria-hidden="true"><path d="M2 9 L5 2 H21 L24 9Z" fill="#ffc845" stroke="#33302b" stroke-width="1.5" stroke-linejoin="round"/><path d="M2 9h22v2H2z" fill="#5aa9e6" stroke="#33302b" stroke-width="1.5"/><path d="M5 11v9M21 11v9" stroke="#33302b" stroke-width="1.5"/></svg><span id="booth"></span></span></h2>
     <table class="rec">
       <colgroup><col class="c1"><col class="c2"><col class="c3"><col></colgroup>
-      <thead><tr><th scope="col">친구</th><th scope="col">결과</th><th scope="col">걸린 시간</th><th scope="col">막힌 곳</th></tr></thead>
+      <thead><tr><th scope="col">친구</th><th scope="col">결과</th><th scope="col">걸린 시간</th><th scope="col">막힌 곳(잠깐 멈춘 곳도)</th></tr></thead>
       <tbody id="rows"></tbody>
     </table>
-    <p class="note" style="margin-top:6px">연습용 기록이에요. 우리 기록지는 종이에</p>
   </section>
 
   <section aria-labelledby="h-pick">
-    <h2 id="h-pick">짚기</h2>
+    <h2 id="h-pick" class="fun-sr" style="position:absolute;left:-9999px">짚기</h2>
     <p class="q">두 장만 보고, 가장 자주 막힌 곳은?</p>
     <div class="cands" id="cands"></div>
     <div class="acts">
@@ -115,15 +174,7 @@
     </div>
     <p class="say dim" id="say" aria-live="polite">한 곳을 짚어야 펼칠 수 있어요</p>
     <div class="bars" id="bars" hidden></div>
-  </section>
-
-  <section aria-labelledby="h-fix" id="fixSec" hidden>
-    <h2 id="h-fix">많이 막힘·고치기 쉬움 표</h2>
-    <div class="grid" id="grid"></div>
-    <p class="q" style="margin-top:10px">다음에 고칠 점 한 가지는?</p>
-    <div class="cands" id="fixes"></div>
-    <p class="out" id="out" hidden><b>이 부스라면 기록지 맨 아래 칸에</b><span id="outText"></span></p>
-    <p class="note" style="margin-top:8px">이제 우리 기록지로: 세기 → 1분 말하기(기록에 나온 수로) → 표에 놓기 → 맨 아래 칸 쓰기</p>
+    <p class="out" id="out" hidden><b>1분 말하기 문장</b><span id="outText"></span></p>
   </section>
 
   <section aria-label="판 넘기기">
@@ -131,7 +182,53 @@
       <button class="btn" id="next" type="button" disabled>다음 판</button>
       <button class="btn" id="reset" type="button">처음으로</button>
     </div>
+    <p class="learn" id="learn1" hidden></p>
+    <button class="btn main nx" id="nx1" type="button" hidden>다음 미션 ›</button>
   </section>
+  <img class="pic" src="../lecture/_assets/B13/hunt_booth.webp" width="1600" height="900" alt="안내판과 마이크로비트 두 대, 기록지, 초시계가 놓인 부스 책상">
+  <p class="note" style="margin-top:6px">성공한 친구도 잠깐 막힌 곳을 적어요. 연습용 기록이에요. 우리 기록지는 종이에 있어요.</p>
+  </div>
+
+  <div data-step="2" id="m2" hidden>
+  <img class="pic" src="../lecture/_assets/B13/role_record.webp" width="1600" height="900" alt="기록지에 동그라미와 가위표를 적는 손">
+  <section aria-labelledby="h-2">
+    <h2 id="h-2">미션 2 · 근거 고르기</h2>
+    <div class="dots" id="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+    <p class="ask2">같은 부스를 두고 두 친구가 말해요. 고칠 점의 근거로 쓸 말을 눌러요.</p>
+    <div class="card2" id="card2" role="group" aria-label="두 말 중 고르기"></div>
+    <p class="say" id="say2" aria-live="polite"></p>
+    <div class="acts">
+      <button class="btn main" id="next2" type="button" hidden>다음 카드 ›</button>
+      <button class="btn" id="again2" type="button" hidden>새 카드 세 장</button>
+    </div>
+    <p class="learn" id="learn2" hidden></p>
+    <button class="btn main nx" id="nx2" type="button" hidden>다음 미션 ›</button>
+  </section>
+  </div>
+
+  <div data-step="3" id="m3" hidden>
+  <img class="pic" src="../lecture/_assets/B13/talk_one_min.webp" width="1600" height="900" alt="모둠 친구들이 기록지를 보며 이야기하는 모습">
+  <section aria-labelledby="h-3">
+    <h2 id="h-3">미션 3 · 표에 놓기</h2>
+    <p class="ask2">기록 여섯 줄에서 막힌 횟수를 세어요. 칩을 누르고 놓을 칸의 단추를 눌러요. 6명 중 2번 이상이면 많이 막힘, 안내만 고치면 쉬움, 코드를 고쳐야 하면 어려움이에요.</p>
+    <div class="rec3" id="rec3" role="group" aria-label="기록 여섯 줄"></div>
+    <div class="pool" id="pool3" role="group" aria-label="막힌 곳 칩"></div>
+    <div class="grid3" id="grid3"></div>
+    <div class="acts">
+      <button class="btn main" id="check3" type="button" disabled>다 놓았어요</button>
+      <button class="btn" id="deal3" type="button">새 기록 받기</button>
+    </div>
+    <p class="say" id="say3" aria-live="polite"></p>
+    <div id="pick3" hidden>
+      <p class="q" style="margin-top:8px">먼저 고칠 점 한 가지는?</p>
+      <div class="cands" id="fix3"></div>
+      <p class="out" id="out3" hidden><b>기록지 맨 아래 칸에</b><span id="out3Text"></span></p>
+    </div>
+    <p class="learn" id="learn3" hidden></p>
+  </section>
+  </div>
+
+  <p class="ainote">그림 일부는 생성형 AI로 만들었어요</p>
 </div>
 
 <script>
@@ -144,14 +241,14 @@
     { name: '어느 버튼인지', fix: '안내에 버튼 그림·화살표', easy: true },
     { name: 'LED 모양 뜻', fix: '안내에 모양과 뜻 짝 짓기', easy: true },
     { name: '흔들기를 모름', fix: '안내에 흔들기 그림', easy: true },
-    { name: '안내 글이 김', fix: '글 줄이고 그림으로', easy: true },
+    { name: '안내 글이 김', fix: '안내 글 줄이고 그림으로', easy: true },
     { name: '수신기가 늦음', fix: '코드의 기다리기 줄이기', easy: false },
     { name: 'A·B 결과 비슷', fix: '코드에서 LED 모양 바꾸기', easy: false }
   ];
   var FRIENDS = 6, SHOWN = 2;
 
   var rowsEl = $('rows'), candsEl = $('cands'), openBtn = $('open'), sayEl = $('say'), barsEl = $('bars');
-  var fixSec = $('fixSec'), gridEl = $('grid'), fixesEl = $('fixes'), outEl = $('out'), outText = $('outText');
+  var outEl = $('out'), outText = $('outText');
   var nextBtn = $('next'), resetBtn = $('reset'), boothEl = $('booth');
 
   function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
@@ -162,7 +259,9 @@
   function take(arr, v) { var i = arr.indexOf(v); if (i >= 0) { arr.splice(i, 1); return true; } return false; }
 
   var lastKey = '', mislead = Math.random() < 0.5, booth = 0;
-  var round = null, guess = -1, step = 'pick', fixPick = -1;
+  var round = null, guess = -1, step = 'pick';
+  function jong(w) { var c = w.charCodeAt(w.length - 1) - 44032; return c >= 0 && c < 11172 && c % 28 !== 0; }
+  function josa(w, a, b) { return w + (jong(w) ? a : b); }
 
   // 한 판: 후보 셋, 줄 여섯. 가장 많은 곳 3번, 나머지 1~2번.
   function makeRound() {
@@ -208,7 +307,7 @@
       rows.push({
         who: '친구' + (r + 1),
         stop: stop,
-        sec: stop ? null : (order[r] >= 0 ? rnd(60, 95) : rnd(25, 55)),
+        sec: stop ? null : (order[r] >= 0 ? rnd(40, 95) : rnd(25, 55)),
         where: order[r]
       });
     }
@@ -235,7 +334,12 @@
       var tr = document.createElement('tr');
       if (r >= upto) {
         tr.className = 'hide';
-        cell(tr, row.who); cell(tr, '?'); cell(tr, '?'); cell(tr, '?');
+        var hc = document.createElement('td');
+        hc.colSpan = 4;
+        hc.textContent = '친구' + (r + 1) + (r < FRIENDS - 1 ? '~' + FRIENDS : '') + ' 기록은 가려져 있어요';
+        tr.appendChild(hc);
+        rowsEl.appendChild(tr);
+        break;
       } else {
         if (r === fresh) { tr.className = 'new'; }
         cell(tr, row.who);
@@ -279,13 +383,13 @@
     round = makeRound();
     booth += 1;
     boothEl.textContent = '· 부스 ' + booth;
-    guess = -1; fixPick = -1; step = 'pick';
+    guess = -1; step = 'pick';
     clearTick();
     renderRows(SHOWN, -1);
     candButtons(candsEl, pickGuess);
     openBtn.disabled = true;
     barsEl.hidden = true; barsEl.innerHTML = '';
-    fixSec.hidden = true; outEl.hidden = true;
+    outEl.hidden = true;
     nextBtn.disabled = true;
     setSay('한 곳을 짚어야 펼칠 수 있어요', false);
     if (window.Fun) { Fun.say(booth === 1 ? '기록 두 장만 보여요. 가장 자주 막힌 곳을 먼저 예측해 봐요.' : '부스 ' + booth + '의 기록이에요. 이번에도 두 장만 보고 예측해 봐요.'); }
@@ -356,58 +460,17 @@
     var tally = ' 친구 ' + FRIENDS + '명 중 ' + round.success + '명 성공, 1분 안에 ' + round.inMin + '명.';
     if (guess === round.winner) {
       setSay('짚은 곳이 가장 많이 막혔어요(' + topN + '번).' + tally, true);
-      if (window.Fun) { Fun.say('두 장으로 짚은 곳이 다 세어 본 것과 같았어요. 이번엔 두 장이 실제와 같은 쪽을 가리켰네요.', 'cheer'); Fun.burst(barsEl); }
+      if (window.Fun) { Fun.burst(barsEl); }
+      missionDone(1, '두 장만 보고 짚으면 다 센 결과와 달라질 수 있어요. 끝까지 세고 6명 중 3번처럼 수로 말해요.', '이번엔 두 장이 실제와 같은 쪽을 가리켰어요.', 'cheer');
     } else {
       setSay("짚은 곳 " + myN + "번, 가장 많은 곳 '" + top.name + "' " + topN + '번. ' + (topN - myN) +
         '번 차이예요.' + tally, true);
-      if (window.Fun) { Fun.say('두 장으로 짚은 곳과 다 센 결과가 달랐어요. 기록이 적을 때는 어디서 갈릴 수 있을까요?', 'think'); Fun.shake(barsEl); }
+      if (window.Fun) { Fun.shake(barsEl); }
+      missionDone(1, '두 장만 보고 짚으면 다 센 결과와 달라질 수 있어요. 끝까지 세고 6명 중 3번처럼 수로 말해요.', '예상과 다르게 나왔어요. 어디서 갈렸는지 봐요.', 'think');
     }
-    renderGrid();
-    candButtons(fixesEl, pickFix);
-    fixSec.hidden = false;
-    nextBtn.disabled = false;
-    stamped = false;
-  }
-
-  function renderGrid() {
-    gridEl.innerHTML = '';
-    var heads = ['', '많이 막힘', '덜 막힘'];
-    for (var h = 0; h < 3; h++) { var e = document.createElement('div'); e.className = 'hd'; e.textContent = heads[h]; gridEl.appendChild(e); }
-    var rowsH = ['고치기\n쉬움', '고치기\n어려움'];
-    for (var r = 0; r < 2; r++) {
-      var rh = document.createElement('div'); rh.className = 'hd'; rh.textContent = rowsH[r]; gridEl.appendChild(rh);
-      for (var col = 0; col < 2; col++) {
-        var box = document.createElement('div'); box.className = 'cell';
-        for (var i = 0; i < 3; i++) {
-          var c = round.order[i], cand = round.cands[c];
-          var many = c === round.winner;
-          if ((cand.easy ? 0 : 1) === r && (many ? 0 : 1) === col) {
-            var chip = document.createElement('span');
-            chip.className = 'chip' + (c === fixPick ? ' pick' : '');
-            chip.textContent = cand.name + ' ' + round.counts[c];
-            box.appendChild(chip);
-          }
-        }
-        gridEl.appendChild(box);
-      }
-    }
-  }
-
-  // 고칠 점은 학생이 고른다. 화면은 무엇이 낫다고 말하지 않는다.
-  function pickFix(c) {
-    if (step !== 'open') { return; }
-    fixPick = c;
-    press(fixesEl, c);
-    renderGrid();
-    if (window.Fun) { Fun.burst(gridEl); }
-    var cand = round.cands[c];
-    outText.textContent = '고칠 점: ' + cand.name + ' → ' + cand.fix + ' / 까닭: ' + FRIENDS + '명 중 ' +
-      round.counts[c] + '번 막힘, 고치기 ' + (cand.easy ? '쉬움' : '어려움');
+    outText.textContent = FRIENDS + '명 중 ' + topN + '번, 「' + top.name + '」에서 막혔어요. 성공은 ' + round.success + '명, 1분 안에 성공한 친구는 ' + round.inMin + '명이에요.';
     outEl.hidden = false;
-    if (window.Fun) {
-      Fun.say('고칠 점으로 「' + cand.name + '」' + ((cand.name.charCodeAt(cand.name.length - 1) - 44032) % 28 ? '을' : '를') + ' 골랐어요. 까닭에 기록의 수가 들어 있는지 살펴봐요.');
-      if (!stamped) { stamped = true; Fun.stamp(); }
-    }
+    nextBtn.disabled = false;
   }
 
   openBtn.addEventListener('click', openAll);
@@ -415,9 +478,286 @@
   resetBtn.addEventListener('click', function () { booth = 0; newRound(); });
   window.addEventListener('pagehide', clearTick);
 
+  // ───────── 미션 사다리 ─────────
+  var HOW = [
+    '',
+    '기록 두 장만 보여요. 가장 자주 막힌 곳을 하나 누르고, 나머지 펼치기를 눌러요.',
+    '두 친구의 말 가운데 고칠 점의 근거로 쓸 말을 눌러요. 세 장을 봐요.',
+    '기록 여섯 줄에서 막힌 횟수를 세고, 칩을 칸에 놓아요. 다 놓으면 먼저 고칠 점을 골라요.'
+  ];
+  var howEl = $('how');
+  var stepBtns = document.querySelectorAll('.sb');
+  var panels = [null, $('m1'), $('m2'), $('m3')];
+  var learnEl = [null, $('learn1'), $('learn2'), $('learn3')];
+  var nxEl = [null, $('nx1'), $('nx2'), null];
+  var doneM = [false, false, false, false], ladderStamped = false, cur = 1;
+  var started2 = false, started3 = false;
+
+  function go(n, quiet) {
+    cur = n;
+    for (var i = 1; i <= 3; i++) {
+      panels[i].hidden = (i !== n);
+      stepBtns[i - 1].setAttribute('aria-current', i === n ? 'step' : 'false');
+    }
+    howEl.textContent = HOW[n];
+    if (n === 2 && !started2) { started2 = true; newRound2(); }
+    if (n === 3 && !started3) { started3 = true; newBoard3(); }
+    if (!quiet && window.Fun) {
+      Fun.say(n === 1 ? '① 짚고 세기예요. 두 장만 보고 먼저 예상해 봐요.' :
+        n === 2 ? '② 근거 고르기예요. 수가 들어 있는 말이 어느 쪽인지 봐요.' :
+        '③ 표에 놓기예요. 기록을 세어 횟수를 알아내고, 고치는 길이 안내인지 코드인지 봐요.');
+    }
+  }
+  for (var si = 0; si < stepBtns.length; si++) {
+    (function (n) { stepBtns[n - 1].addEventListener('click', function () { go(n); }); })(si + 1);
+  }
+  for (var ni = 1; ni <= 2; ni++) {
+    (function (n) { nxEl[n].addEventListener('click', function () { go(n + 1); }); })(ni);
+  }
+
+  function missionDone(n, learned, extra, mood) {
+    doneM[n] = true;
+    stepBtns[n - 1].classList.add('done');
+    learnEl[n].textContent = '알게 된 것: ' + learned;
+    learnEl[n].hidden = false;
+    if (nxEl[n]) { nxEl[n].hidden = false; }
+    var all = doneM[1] && doneM[2] && doneM[3];
+    if (window.Fun) {
+      Fun.say((extra ? extra + ' ' : '') + '알게 된 것: ' + learned + (all && !ladderStamped ? ' 세 미션을 모두 했어요.' : ''), mood || 'cheer');
+      if (all && !ladderStamped) { ladderStamped = true; Fun.stamp(); }
+    }
+  }
+
+  // ───────── 미션 2: 근거 고르기 ─────────
+  // s: 수가 들어 있어 기록에서 다시 셀 수 있는 말, w: 수가 없거나 기록이 너무 적은 말
+  var PAIRS = [
+    { s: '처음 써 본 친구 5명 중 4명이 1분 안에 성공했어요', w: '우리 부스는 잘 돼요',
+      sWhy: '몇 명 중 몇 명인지 기록에서 다시 셀 수 있어요.', wWhy: '수가 없어서 기록과 맞춰 볼 수 없어요.' },
+    { s: '6명 중 3명이 어느 버튼을 누를지 몰라 멈췄어요', w: '친구들이 좀 어려워했어요',
+      sWhy: '멈춘 친구 수와 까닭이 기록에 있어요.', wWhy: '얼마나 어려워했는지 수로 알 수 없어요.' },
+    { s: '성공한 4명이 25초에서 95초 사이에 끝냈어요', w: '다들 금방 끝냈어요',
+      sWhy: '걸린 시간이 수로 있어서 기록과 견줄 수 있어요.', wWhy: '금방이 몇 초인지 알 수 없어요.' },
+    { s: '기록 두 장만 보니 두 장 다 버튼에서 막혔어요', w: '처음 써 본 친구 6명의 기록을 모두 세어 보니 4명이 버튼에서 막혔어요',
+      sWhy: '', wWhy: '', swap: true,
+      sNote: '두 장뿐이라 나머지 기록에서는 다를 수 있어요.', wNote: '여섯 명 기록을 모두 세었으니 더 믿을 만해요.' },
+    { s: '같은 모둠 친구 2명이 쉽다고 했어요', w: '처음 써 본 다른 모둠 친구 6명 중 5명이 1분 안에 성공했어요',
+      sWhy: '', wWhy: '', swap: true,
+      sNote: '처음 써 본 친구가 아니고 기록이 두 장뿐이에요.', wNote: '처음 써 본 친구 여섯 명의 기록이라 더 믿을 만해요.' },
+    { s: '6명 중 5명이 LED 모양을 보고 뜻을 말했어요', w: 'LED 모양은 다 알아본 것 같아요',
+      sWhy: '뜻을 말한 친구 수가 기록에 있어요.', wWhy: '같아요는 짐작이라 기록과 맞춰 볼 수 없어요.' }
+  ];
+  var c2 = { cards: null, i: 0, picked: false, n: 0 };
+  var card2 = $('card2'), say2 = $('say2'), next2 = $('next2'), again2 = $('again2'), dots = $('dots').children;
+
+  function showCard2() {
+    if (c2.i >= c2.cards.length) { return; }
+    var d = c2.cards[c2.i];
+    c2.picked = false;
+    card2.innerHTML = ''; say2.textContent = '';
+    next2.hidden = true; again2.hidden = true;
+    var texts = d.swap ? [d.s, d.w] : [d.s, d.w];
+    var order = shuffle([0, 1]);
+    for (var k = 0; k < 2; k++) {
+      var which = order[k];
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'say2c';
+      b.textContent = texts[which];
+      b.setAttribute('data-w', String(which));
+      card2.appendChild(b);
+    }
+    for (var q = 0; q < 3; q++) { dots[q].className = q < c2.i ? 'on' : (q === c2.i ? 'now' : ''); }
+  }
+  function newRound2() {
+    c2.cards = shuffle(PAIRS.slice()).slice(0, 3); c2.i = 0;
+    showCard2();
+  }
+  card2.addEventListener('click', function (ev) {
+    var b = ev.target.closest ? ev.target.closest('button') : null;
+    if (!b || c2.picked || b.disabled) { return; }
+    var d = c2.cards[c2.i], w = parseInt(b.getAttribute('data-w'), 10);
+    var good = d.swap ? (w === 1) : (w === 0);
+    var btns = card2.querySelectorAll('button');
+    for (var k = 0; k < btns.length; k++) {
+      var kw = parseInt(btns[k].getAttribute('data-w'), 10);
+      if (btns[k] === b) { btns[k].classList.add('pick'); btns[k].disabled = true; }
+      else if (good) { btns[k].disabled = true; btns[k].classList.remove('pick'); btns[k].classList.add('dim'); }
+      if (!btns[k].querySelector('small')) {
+        var note = document.createElement('small');
+        if (d.swap) { note.textContent = kw === 0 ? d.sNote : d.wNote; }
+        else { note.textContent = kw === 0 ? d.sWhy : d.wWhy; }
+        btns[k].appendChild(note);
+      }
+    }
+    say2.className = 'say';
+    if (!good) {
+      say2.textContent = '예상과 다르게 나왔어요. 아래 풀이를 읽고 다른 말을 눌러 봐요.';
+      return;
+    }
+    c2.picked = true;
+    say2.textContent = '기록으로 다시 확인되는 말을 골랐어요. 풀이를 읽어 봐요.';
+    c2.i += 1;
+    if (c2.i < 3) { next2.hidden = false; }
+    else {
+      for (var z = 0; z < 3; z++) { dots[z].className = 'on'; }
+      again2.hidden = false;
+      missionDone(2, '근거는 수로 말해요. 몇 명 중 몇 명인지, 몇 명의 기록인지도 봐요.', '', 'cheer');
+    }
+  });
+  next2.addEventListener('click', showCard2);
+  again2.addEventListener('click', newRound2);
+
+  // ───────── 미션 3: 표에 놓기 ─────────
+  // 규칙: 6명 중 2번 이상이면 많이 막힘, 안내만 고치면 쉬움, 코드를 고치면 어려움
+  var b3 = null, sel3 = -1;
+  var pool3 = $('pool3'), grid3 = $('grid3'), check3 = $('check3'), deal3 = $('deal3'), say3 = $('say3');
+  var pick3 = $('pick3'), fix3 = $('fix3'), out3 = $('out3'), out3Text = $('out3Text');
+
+  function newBoard3() {
+    var idx = shuffle([0, 1, 2, 3, 4, 5]).slice(0, 4), cs;
+    do {
+      cs = idx.map(function () { return rnd(1, 3); });
+    } while (!(cs.some(function (n) { return n >= 2; }) && cs.some(function (n) { return n < 2; }) &&
+      idx.some(function (pi, j) { return POOL[pi].easy && cs[j] >= 2; }) &&
+      cs.reduce(function (x, y) { return x + y; }, 0) <= FRIENDS));
+    b3 = { c: idx.map(function (pi, j) { return { name: POOL[pi].name, fix: POOL[pi].fix, easy: POOL[pi].easy, n: cs[j], at: -1, bad: false }; }) };
+    var bag = [];
+    b3.c.forEach(function (c, j) { for (var k = 0; k < c.n; k++) { bag.push(j); } });
+    while (bag.length < FRIENDS) { bag.push(-1); }
+    b3.log = shuffle(bag);
+    var rec = $('rec3'); rec.innerHTML = '';
+    b3.log.forEach(function (j, r) {
+      var sp = document.createElement('span');
+      var bb = document.createElement('b'); bb.textContent = '친구' + (r + 1) + ' ';
+      sp.appendChild(bb);
+      var t = document.createElement('span'); t.style.display = 'inline';
+      t.textContent = j < 0 ? '막힌 곳 없음' : b3.c[j].name;
+      if (j < 0) { t.className = 'nn'; }
+      sp.appendChild(t);
+      rec.appendChild(sp);
+    });
+    sel3 = -1;
+    pick3.hidden = true; out3.hidden = true; fix3.innerHTML = '';
+    check3.disabled = true;
+    say3.textContent = '';
+    render3();
+  }
+  function want3(c) { return (c.easy ? 0 : 2) + (c.n >= 2 ? 0 : 1); }
+  function chip3(c, j) {
+    var b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'pchip' + (c.bad ? ' bad' : '');
+    b.setAttribute('aria-pressed', sel3 === j ? 'true' : 'false');
+    b.setAttribute('data-j', String(j));
+    b.appendChild(document.createTextNode(c.name));
+    var sm = document.createElement('small'); sm.textContent = '고치는 길: ' + c.fix;
+    b.appendChild(sm);
+    return b;
+  }
+  function render3() {
+    pool3.innerHTML = '';
+    var left = 0;
+    for (var j = 0; j < b3.c.length; j++) {
+      if (b3.c[j].at < 0) { pool3.appendChild(chip3(b3.c[j], j)); left += 1; }
+    }
+    if (!left) { var p = document.createElement('span'); p.className = 'note'; p.textContent = '칩을 모두 놓았어요'; pool3.appendChild(p); }
+    grid3.innerHTML = '';
+    var heads = ['', '많이 막힘\n2번 이상', '덜 막힘\n1번'];
+    for (var h = 0; h < 3; h++) { var e = document.createElement('div'); e.className = 'hd'; e.textContent = heads[h]; grid3.appendChild(e); }
+    var rowH = ['고치기\n쉬움', '고치기\n어려움'];
+    for (var r = 0; r < 2; r++) {
+      var rh = document.createElement('div'); rh.className = 'hd'; rh.textContent = rowH[r]; grid3.appendChild(rh);
+      for (var col = 0; col < 2; col++) {
+        var cell = document.createElement('div'); cell.className = 'cell';
+        var key = r * 2 + col;
+        for (j = 0; j < b3.c.length; j++) { if (b3.c[j].at === key) { cell.appendChild(chip3(b3.c[j], j)); } }
+        var put = document.createElement('button');
+        put.type = 'button'; put.className = 'put'; put.textContent = '여기에 놓기';
+        put.setAttribute('data-k', String(key));
+        put.disabled = sel3 < 0;
+        cell.appendChild(put);
+        grid3.appendChild(cell);
+      }
+    }
+    var all = true;
+    for (j = 0; j < b3.c.length; j++) { if (b3.c[j].at < 0) { all = false; } }
+    check3.disabled = !all;
+  }
+  function onBoard(ev) {
+    var t = ev.target.closest ? ev.target.closest('button') : null;
+    if (!t || !b3) { return; }
+    if (t.classList.contains('pchip')) {
+      var j = parseInt(t.getAttribute('data-j'), 10);
+      sel3 = sel3 === j ? -1 : j;
+      render3();
+      var again = (sel3 >= 0) && document.querySelector('#m3 .pchip[data-j="' + sel3 + '"]');
+      if (again) { again.focus(); }
+    } else if (t.classList.contains('put') && sel3 >= 0) {
+      var c = b3.c[sel3];
+      c.at = parseInt(t.getAttribute('data-k'), 10); c.bad = false;
+      var moved = sel3; sel3 = -1;
+      pick3.hidden = true; say3.textContent = '';
+      render3();
+      var f = document.querySelector('#m3 .pchip[data-j="' + moved + '"]');
+      if (f) { f.focus(); }
+    }
+  }
+  pool3.addEventListener('click', onBoard);
+  grid3.addEventListener('click', onBoard);
+
+  check3.addEventListener('click', function () {
+    var bad = 0, j;
+    for (j = 0; j < b3.c.length; j++) { b3.c[j].bad = (b3.c[j].at !== want3(b3.c[j])); if (b3.c[j].bad) { bad += 1; } }
+    render3();
+    if (bad) {
+      say3.className = 'say';
+      say3.textContent = '기록과 다르게 놓인 칩이 ' + bad + '개예요. 점선 테두리 칩은 기록에서 횟수를 다시 세고, 고치는 길이 안내인지 코드인지 봐요.';
+      pick3.hidden = true;
+      if (window.Fun) { Fun.shake(grid3); }
+    } else {
+      say3.className = 'say';
+      say3.textContent = '표와 기록이 모두 같아요. 이제 먼저 고칠 점을 골라요.';
+      fix3.innerHTML = '';
+      for (j = 0; j < b3.c.length; j++) {
+        var b = document.createElement('button');
+        b.type = 'button'; b.className = 'btn'; b.textContent = b.title = b3.c[j].name;
+        b.setAttribute('data-j', String(j)); b.setAttribute('aria-pressed', 'false');
+        fix3.appendChild(b);
+      }
+      pick3.hidden = false; out3.hidden = true;
+      if (window.Fun) { Fun.burst(grid3); }
+    }
+  });
+  fix3.addEventListener('click', function (ev) {
+    var t = ev.target.closest ? ev.target.closest('button') : null;
+    if (!t) { return; }
+    var j = parseInt(t.getAttribute('data-j'), 10), c = b3.c[j];
+    var bs = fix3.querySelectorAll('button');
+    for (var k = 0; k < bs.length; k++) { bs[k].setAttribute('aria-pressed', bs[k] === t ? 'true' : 'false'); }
+    if (want3(c) !== 0) {
+      out3.hidden = true;
+      say3.className = 'say';
+      say3.textContent = '이 칩은 표에서 ' + (c.n >= 2 ? '많이 막힘' : '덜 막힘') + ', ' + (c.easy ? '고치기 쉬움' : '고치기 어려움') + ' 칸에 있어요. 많이 막히고 고치기 쉬운 칸을 먼저 봐요.';
+      return;
+    }
+    say3.textContent = '';
+    out3Text.textContent = '고칠 점: ' + c.name + ' → ' + c.fix + ' / 까닭: ' + FRIENDS + '명 중 ' + c.n + '번 막힘(많이 막힘), 안내만 고치면 돼서 쉬움';
+    out3.hidden = false;
+    missionDone(3, '고칠 점은 얼마나 막혔나와 고치기 쉬운가를 함께 놓고 골라요. 까닭에는 수가 들어가요.', '', 'cheer');
+  });
+  deal3.addEventListener('click', newBoard3);
+
+  $('more').addEventListener('click', function () {
+    var t = $('moreText'), open = t.hidden;
+    t.hidden = !open;
+    this.textContent = open ? '접기' : '더 보기';
+    this.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+
+  go(1, true);
+
   newRound();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B13" data-mission="기록 두 장만 보고 가장 자주 막힌 곳을 먼저 예측해요. 나머지를 펼쳐 세어 보고 고칠 점을 골라요!"></script>
+<script src="../assets/play/fun.js" data-block="B13" data-mission="기록 두 장만 보고 먼저 예상해요. 나머지를 펼쳐 세어 보고, 근거를 고르고, 표에 놓아 고칠 점을 정해요!"></script>
 </body>
 </html>

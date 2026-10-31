@@ -29,35 +29,36 @@
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:10px;margin-top:9px}
-  h2{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--muted)}
+  h2{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--muted)}
 
-  .stage{display:grid;grid-template-columns:118px minmax(0,1fr);gap:9px;align-items:stretch}
+  .stage{display:grid;grid-template-columns:104px minmax(0,1fr);gap:9px;align-items:stretch}
   .panel{background:var(--ink);border:1px solid var(--line);border-radius:var(--r-sm);
-    padding:9px;display:flex;align-items:center;justify-content:center}
-  #led{width:100%;max-width:140px;height:auto;display:block}
+    padding:8px;display:flex;align-items:center;justify-content:center}
+  #led{width:100%;max-width:120px;height:auto;display:block}
   .px{fill:#333030}
   .px.on{fill:#FF3B2F;filter:drop-shadow(0 0 2px #FF3B2F)}
   .vbox{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm);
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
-  .vbox span{font-size:12px;font-weight:700}
+  .vbox span{font-size:14px;font-weight:700}
   .vbox b{font-family:'Courier New',monospace;font-size:clamp(30px,9vw,42px);font-weight:700;
     color:var(--point);line-height:1}
 
-  .code{margin-top:9px;display:grid;gap:6px}
-  .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 10px}
-  .card .when{font-size:11px;font-weight:700;letter-spacing:.03em;color:var(--muted)}
-  .card .line{font-size:14px;font-weight:600;margin-top:3px}
+  .code{margin-top:8px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;align-items:start}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm);padding:6px 10px}
+  .card .when{font-size:14px;font-weight:700;color:var(--muted)}
+  .card .line{font-size:15px;font-weight:600;margin-top:2px}
+  .card .line.chg{background:var(--sun-l);border-radius:6px;padding:0 6px;margin-left:-6px}
+  .card .line.none{color:var(--muted);font-weight:400}
   .card .line b.iv{display:inline-block;min-width:2.2em;text-align:center;background:var(--point-soft);
     border:1px solid var(--point);border-radius:6px;padding:0 4px}
 
-
-  .ask{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:9px}
-  .ask label{font-size:15px;font-weight:700;flex:1 1 100%}
+  .ask{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:8px}
+  .ask label{font-size:16px;font-weight:700;flex:1 1 100%}
   .ask input{font-family:'Courier New',monospace;font-size:20px;font-weight:700;width:84px;min-height:46px;
     text-align:center;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface);color:var(--ink)}
   .ask input:disabled{color:var(--muted);border-color:var(--line)}
 
-  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:700;
+  .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:700;
     background:var(--surface);border:1px solid var(--ink);border-radius:var(--r-sm);
     min-height:46px;padding:8px 12px;box-shadow:var(--hard-sm);flex:1 1 96px;
     transition:transform .1s,box-shadow .1s}
@@ -66,24 +67,23 @@
   .btn.main{background:var(--point);border-color:var(--point);color:#fff}
   .btn:disabled{opacity:.45;cursor:default;box-shadow:none}
   .ask .btn{flex:0 1 auto}
+  .ask .step{flex:0 0 46px;padding:0}
 
-  .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+  .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:8px}
 
-  .say{margin-top:8px;font-size:13.5px;font-weight:700}
+  .say{margin-top:8px;font-size:15px;font-weight:700}
   .say.dim{color:var(--muted)}
 
-
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
-  @media(max-width:420px){ .stage{grid-template-columns:1fr 1fr} }
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-  .steps{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px;min-height:34px}
+  .steps{display:flex;gap:4px;flex-wrap:wrap;margin-top:8px}
   .steps span{min-width:34px;height:34px;border:1px solid var(--line);border-radius:6px;display:inline-flex;
-    align-items:center;justify-content:center;font-family:'Courier New',monospace;font-weight:700;font-size:15px;color:var(--muted)}
+    align-items:center;justify-content:center;font-family:'Courier New',monospace;font-weight:700;font-size:15px;color:var(--muted);padding:0 3px}
   .steps span.on{border-color:var(--point);color:var(--ink);background:var(--point-soft)}
-  .diff{word-break:keep-all;margin-top:6px;font-size:13px;font-weight:700;color:var(--point)}
-  .ask .step{flex:0 0 46px;padding:0}
+  .diff{word-break:keep-all;margin-top:6px;font-size:14px;font-weight:700;color:var(--point);min-height:0}
+  .diff:empty{display:none}
   .vbox.end{border-color:var(--point);background:var(--point-soft);box-shadow:0 0 0 3px var(--point-soft)}
-  .past{list-style:none;font-size:13.5px;display:grid;gap:3px}
+  .past{list-style:none;font-size:14px;display:grid;gap:3px}
   .past li{border-bottom:1px dashed var(--line);padding:3px 0}
   .past li.empty{color:var(--muted)}
 
@@ -97,6 +97,35 @@
   .gap{display:none;margin-top:8px}
   .gap.on{display:block}
   .gap svg{width:100%;max-width:460px;height:auto;display:block;margin:0 auto}
+
+/* 체험 개선 2026-10-31: 시작 안내·미션 사다리·개념 카드·미션 2·3 */
+.how{margin:0 0 10px;font-size:16px;font-weight:600;background:var(--sun-l);border-radius:var(--r-sm);padding:8px 12px}
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0 0 4px}
+.ladder button{cursor:pointer;min-height:46px;padding:4px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+  background:var(--surface);color:var(--ink);font-family:inherit;font-size:15px;font-weight:700;line-height:1.2;word-break:keep-all}
+.ladder button[aria-current="step"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ladder button.done::after{content:" ✓";font-weight:600;color:var(--mint-d)}
+.ladder button.done[aria-current="step"]::after{color:#fff}
+.ladder button{white-space:nowrap}
+@media(max-width:460px){.ladder button{font-size:12.5px;padding:4px 2px}}
+.mhead{display:flex;gap:10px;align-items:center}
+.mhead img{width:96px;height:54px;object-fit:cover;border-radius:var(--r-sm);border:1px solid var(--line);flex:0 0 auto}
+.mhead p{font-size:16px;font-weight:700;line-height:1.35}
+.mhead p small{display:block;font-size:14px;font-weight:600;color:var(--muted)}
+.learned,.btn,.concept p,.how,.say,.mhead p{word-break:keep-all}
+.learned{margin-top:8px;padding:8px 12px;border-radius:var(--r-sm);background:var(--mint-l);font-size:15px;font-weight:700}
+.learned:empty{display:none}
+.concept{display:flex;gap:10px;align-items:center;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 12px;margin-top:9px;background:var(--surface)}
+.concept img{width:96px;height:54px;object-fit:cover;border-radius:var(--r-sm);flex:0 0 auto}
+.concept b{display:block;font-size:14px;color:var(--point)}
+.concept p{font-size:15px;font-weight:600;line-height:1.45}
+.fin{margin-top:9px;text-align:center}
+.fin img{width:100%;max-width:320px;height:auto;border-radius:var(--r);border:1px solid var(--line);display:block;margin:0 auto 6px}
+.fin p{font-size:15px;font-weight:700}
+.note{margin-top:9px;font-size:14px;color:var(--muted)}
+.ai{margin-top:6px;font-size:14px;color:var(--muted)}
+@media(max-width:420px){.lead{display:none}.nav{margin-bottom:5px}.wrap{padding-top:6px}.how{margin-bottom:6px;padding:5px 10px;font-size:15px;line-height:1.35}.ladder button{min-height:40px}#h-code{display:none}section{margin-top:6px;padding:8px}.stage{grid-template-columns:60px minmax(0,1fr);gap:6px}.panel{padding:4px}#led{max-width:52px}.vbox{flex-direction:row;gap:8px}.vbox b{font-size:28px}.code{margin-top:6px;gap:4px}.card{padding:3px 10px}.card .line{margin-top:0;font-size:14px}.card .when{font-size:12px}.ask{margin-top:6px}.mhead p small{display:none}.ladder button{font-size:13px}.stage{grid-template-columns:92px minmax(0,1fr)}.mhead img{width:64px;height:36px}.concept img{width:72px;height:41px}}
+@media(max-width:420px) and (max-height:700px){.mhead{display:none}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -112,44 +141,46 @@
     <p class="lead">예상을 먼저 적고 흔들어 견줘요 · 체험 활동</p>
   </header>
 
+  <p class="how" id="how">흔든수를 먼저 예상해서 적고, 흔들기를 눌러 확인해요. 미션은 모두 셋이에요.</p>
+
+  <nav class="ladder" id="ladder" aria-label="미션 순서">
+    <button type="button" data-go="1" aria-current="step">① 예상하기</button>
+    <button type="button" data-go="2">② 함정 찾기</button>
+    <button type="button" data-go="3">③ 거꾸로 구하기</button>
+  </nav>
+
   <section aria-labelledby="h-code">
     <h2 id="h-code">흔들기 카운터</h2>
     <div class="stage">
       <div class="panel"><svg id="led" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 엘이디 화면"></svg></div>
       <p class="vbox"><span>흔든수</span><b id="num">0</b></p>
     </div>
-    <div class="code">
-      <div class="card"><span class="when">시작하면 실행</span><p class="line">흔든수에 <b class="iv" id="initV">0</b> 저장</p></div>
-      <div class="card"><span class="when">흔들림 감지하면 실행</span><p class="line">흔든수 값 1 증가</p><p class="line">수 출력 흔든수</p></div>
-    </div>
+    <div class="code" id="code"></div>
     <p class="diff" id="diff"></p>
   </section>
 
-  <section aria-labelledby="h-round">
-    <h2 id="h-round">이번 판</h2>
-    <div class="ask">
-      <label for="guess" id="askLabel">처음 값 0, 5번 흔들면 흔든수는?</label>
-      <button class="btn step" id="minus" type="button" aria-label="하나 빼기">−</button>
-      <input id="guess" type="number" inputmode="numeric" min="0" max="99" placeholder="?">
-      <button class="btn step" id="plus" type="button" aria-label="하나 더하기">+</button>
-    </div>
-    <div class="acts">
-      <button class="btn" id="pick" type="button" disabled>예상 적기</button>
-      <button class="btn main" id="shake" type="button" disabled>흔들기</button>
-    </div>
-    <div class="steps" id="steps" aria-label="흔들 때마다 흔든수"></div>
-    <div class="gap" id="gap"></div>
-    <p class="say dim" id="say" aria-live="polite">예상을 적어야 흔들 수 있어요</p>
-    <div class="acts">
-      <button class="btn" id="next" type="button" disabled>다음 판</button>
-      <button class="btn" id="reset" type="button">처음으로</button>
-    </div>
+  <section data-step="1" id="m1" aria-label="미션 1"></section>
+  <section data-step="2" id="m2" aria-label="미션 2" hidden></section>
+  <section data-step="3" id="m3" aria-label="미션 3" hidden></section>
+
+  <aside class="concept" aria-label="개념 설명">
+    <img src="assets/cup.webp" width="96" height="54" loading="lazy" alt="종이컵 속 바둑돌을 꺼내고 넣는 두 손">
+    <div><b>알아 둘 말</b>
+    <p>변수는 수 하나를 담는 컵이에요. 흔든수는 그 컵에 붙인 이름표예요. 저장은 컵을 비우고 새 수를 넣는 일이고, 증가는 지금 수에 더하는 일이에요.</p></div>
+  </aside>
+
+  <section class="fin" id="fin" hidden>
+    <img src="assets/done.webp" width="640" height="360" loading="lazy" alt="컵, 종이, 깃발, 마이크로비트가 놓인 풀밭 책상">
+    <p>미션 셋을 모두 했어요. 이제 내 마이크로비트로 0과 10을 확인하고, 추적지에 한 문장을 써요.</p>
   </section>
 
   <section aria-labelledby="h-past">
     <h2 id="h-past">지난 판</h2>
     <ul class="past" id="past"><li class="empty">아직 없어요</li></ul>
   </section>
+  <div class="acts"><button class="btn" id="rs1" type="button">처음으로</button></div>
+  <p class="note">이 쪽은 연습이에요. 흔들기와 전송은 내 마이크로비트나 MakeCode 시뮬레이터로 해요.</p>
+  <p class="ai">그림 일부는 생성형 AI로 만들었어요.</p>
 </div>
 
 <script>
@@ -157,6 +188,11 @@
   'use strict';
   var NS = 'http://www.w3.org/2000/svg';
   var $ = function (id) { return document.getElementById(id); };
+  function rnd(n) { return Math.floor(Math.random() * n); }
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function josa(n, a, b) { var d = Math.abs(n) % 10; return ('013678'.indexOf(String(d)) >= 0) ? a : b; }
+  function say(t, m) { if (window.Fun) { Fun.say(t, m); } }
+  function mk(tag, cls, text) { var e = document.createElement(tag); if (cls) { e.className = cls; } if (text != null) { e.textContent = text; } return e; }
 
   var GLYPH = {
     '0':'111101101101111', '1':'010110010010111', '2':'111001111100111',
@@ -166,239 +202,422 @@
   };
   var INITS = [0, 10];
 
-  var numEl = $('num'), initEl = $('initV'), askEl = $('askLabel'), diffEl = $('diff');
-  var guessEl = $('guess'), minusBtn = $('minus'), plusBtn = $('plus');
-  var pickBtn = $('pick'), shakeBtn = $('shake'), nextBtn = $('next'), resetBtn = $('reset');
-  var vboxEl = numEl.parentNode, panelEl = document.querySelector('.panel'), gapEl = $('gap');
-  var stepsEl = $('steps'), sayEl = $('say'), pastEl = $('past');
+  var numEl = $('num'), diffEl = $('diff'), codeEl = $('code'), pastEl = $('past');
+  var vboxEl = numEl.parentNode, panelEl = document.querySelector('.panel');
 
+  /* ───────── LED ───────── */
   var cells = [];
   (function buildLed() {
     var led = $('led');
     for (var r = 0; r < 5; r++) {
       for (var c = 0; c < 5; c++) {
         var el = document.createElementNS(NS, 'rect');
-        el.setAttribute('x', (c * 21.25).toFixed(2));
-        el.setAttribute('y', (r * 21.25).toFixed(2));
-        el.setAttribute('width', '15');
-        el.setAttribute('height', '15');
-        el.setAttribute('rx', '3');
+        el.setAttribute('x', (c * 21.25).toFixed(2)); el.setAttribute('y', (r * 21.25).toFixed(2));
+        el.setAttribute('width', '15'); el.setAttribute('height', '15'); el.setAttribute('rx', '3');
         el.setAttribute('class', 'px');
-        led.appendChild(el);
-        cells.push(el);
+        led.appendChild(el); cells.push(el);
       }
     }
   })();
-
   function paint(ch) {
     var g = ch === null ? null : GLYPH[ch];
     for (var i = 0; i < cells.length; i++) {
-      var r = (i / 5) | 0, c = i % 5;
-      var lit = false;
+      var r = (i / 5) | 0, c = i % 5, lit = false;
       if (g && c >= 1 && c <= 3) { lit = g.charAt(r * 3 + (c - 1)) === '1'; }
       cells[i].classList.toggle('on', lit);
     }
   }
-
   var seq = null;
   function clearSeq() { if (seq) { clearTimeout(seq); seq = null; } }
   function show(v) {
     clearSeq();
     var s = String(v);
-    if (s.length === 1) { paint(s); return; }   // 한 자리 수는 그대로 멈춰 보인다
-    // 두 자리 이상은 실제 마이크로비트처럼 왼쪽으로 흘러가고, 다 지나가면 화면이 빈다
+    if (s.length === 1) { paint(s); return; }
     var cols = [], k, r;
-    for (k = 0; k < 5; k++) cols.push('00000');
+    for (k = 0; k < 5; k++) { cols.push('00000'); }
     for (var d = 0; d < s.length; d++) {
       var g = GLYPH[s.charAt(d)];
-      for (var c = 0; c < 3; c++) { var col = ''; for (r = 0; r < 5; r++) col += g.charAt(r * 3 + c); cols.push(col); }
+      for (var c = 0; c < 3; c++) { var col = ''; for (r = 0; r < 5; r++) { col += g.charAt(r * 3 + c); } cols.push(col); }
       cols.push('00000');
     }
-    for (k = 0; k < 5; k++) cols.push('00000');
+    for (k = 0; k < 5; k++) { cols.push('00000'); }
     var x = 0;
     var next = function () {
-      for (var i = 0; i < cells.length; i++) cells[i].classList.toggle('on', cols[x + (i % 5)].charAt((i / 5) | 0) === '1');
+      for (var i = 0; i < cells.length; i++) { cells[i].classList.toggle('on', cols[x + (i % 5)].charAt((i / 5) | 0) === '1'); }
       x += 1;
       seq = x + 5 <= cols.length ? setTimeout(next, 140) : null;
     };
     next();
   }
 
-  // 판: 한 쌍(처음 값 0 → 10) 안에서 흔들 횟수 n은 같다.
-  var n = 5, half = 0, init = 0, count = 0, shaken = 0, guess = null, step = 'guess';
-  var history = [];
-
-  function drawN(prev) {
-    var v = prev;
-    while (v === prev) { v = 3 + Math.floor(Math.random() * 6); }
-    return v;
+  /* ───────── 코드 카드 ───────── */
+  var ivEls = [];
+  function card(when, lines) {
+    var c = mk('div', 'card'); c.appendChild(mk('span', 'when', when));
+    lines.forEach(function (ln) {
+      var p = mk('p', 'line' + (ln.chg ? ' chg' : '') + (ln.none ? ' none' : ''));
+      if (ln.iv !== undefined) {
+        p.appendChild(document.createTextNode('흔든수에 '));
+        var b = mk('b', 'iv', String(ln.iv)); p.appendChild(b); ivEls.push(b);
+        p.appendChild(document.createTextNode(' 저장'));
+      } else if (ln.step !== undefined) {
+        p.appendChild(document.createTextNode('흔든수 값 ' + ln.step + ' 증가'));
+      } else { p.textContent = ln.t; }
+      c.appendChild(p);
+    });
+    return c;
+  }
+  function renderCode(R) {
+    codeEl.innerHTML = ''; ivEls = [];
+    var startLines, shakeLines;
+    if (R.k === 3) { startLines = [{ iv: R.userInit === null ? '?' : R.userInit }]; }
+    else { startLines = [{ iv: R.init }]; }
+    shakeLines = [];
+    if (R.variant === 'reset') { shakeLines.push({ iv: R.init, chg: true }); }
+    shakeLines.push({ step: R.s, chg: R.variant === 'step' });
+    shakeLines.push({ t: '수 출력 흔든수' });
+    codeEl.appendChild(card('시작하면 실행', startLines));
+    codeEl.appendChild(card('흔들림 감지하면 실행', shakeLines));
   }
 
-  function say(t, mood) { if (window.Fun) { Fun.say(t, mood); } }
-  // 예상과 화면의 수를 수직선 위에 점으로 놓는다.
-  function drawGap(g, v) {
+  /* ───────── 미션 상태 ───────── */
+  var NAMES = ['', '예상하기', '함정 찾기', '거꾸로 구하기'];
+  var M = {
+    1: { need: 2, rounds: 0, done: false, half: 0, n: 5, hit: [false, false], R: null },
+    2: { need: 2, rounds: 0, done: false, left: { reset: true, step: true }, lastV: null, R: null },
+    3: { need: 2, rounds: 0, done: false, R: null }
+  };
+  var LEARN = {
+    1: '마지막 수는 처음 값에 흔든 횟수를 더한 값이에요. 처음 값이 달라지면 마지막 수도 그만큼 달라져요.',
+    2: '블록이 놓인 자리와 늘리는 수에 따라 결과가 달라져요. 저장 블록이 흔들림 안에 있으면 흔들 때마다 처음 값으로 돌아가요.',
+    3: '목표에서 흔든 만큼을 빼면 처음 값을 거꾸로 구할 수 있어요.'
+  };
+  var HEAD = {
+    1: ['assets/shake.webp', '미션 1 · 예상하기', '처음 값 0과 10으로 견줘 봐요'],
+    2: ['assets/hunt.webp', '미션 2 · 함정 찾기', '코드가 판마다 달라요. 잘 읽고 예상해요'],
+    3: ['assets/change.webp', '미션 3 · 거꾸로 구하기', '목표 수가 되도록 처음 값을 정해요']
+  };
+  var HOW = {
+    1: '흔든수를 먼저 예상해서 적고, 흔들기를 눌러 확인해요. 미션은 모두 셋이에요.',
+    2: '코드가 판마다 조금씩 달라요. 노란 줄을 읽고 예상을 적은 뒤, 흔들어서 맞는지 봐요.',
+    3: '목표 수가 정해져 있어요. 처음 값을 적고 흔들어 보면서 목표에 맞춰요.'
+  };
+  var cur = 1, stamped = false, history = [];
+  var ui = {};
+
+  function build(k) {
+    var s = $('m' + k), g = k !== 3, h = HEAD[k], shl = g ? '흔들기' : '흔들어 보기';
+    var html = '<div class="mhead"><img src="' + h[0] + '" width="96" height="54" loading="lazy" alt="' +
+      (k === 1 ? '종이컵을 두 손으로 흔드는 모습' : k === 2 ? 'MakeCode 블록 코드가 놓인 화면' : '컵에 바둑돌을 넣는 손') + '">' +
+      '<p>' + h[1] + '<small>' + h[2] + '</small></p></div>' +
+      '<div class="ask"><label id="lab' + k + '" for="in' + k + '"></label>' +
+      '<button class="btn step" id="mi' + k + '" type="button" aria-label="하나 빼기">−</button>' +
+      '<input id="in' + k + '" type="number" inputmode="numeric" min="0" max="99" placeholder="?">' +
+      '<button class="btn step" id="pl' + k + '" type="button" aria-label="하나 더하기">+</button></div>' +
+      '<div class="acts">' + (g ? '<button class="btn" id="pk' + k + '" type="button" disabled>예상 적기</button>' : '') +
+      '<button class="btn main" id="sh' + k + '" type="button" disabled></button></div>' +
+      '<div class="steps" id="st' + k + '" aria-label="흔들 때마다 흔든수"></div>' +
+      '<div class="gap" id="gp' + k + '"></div>' +
+      '<p class="say dim" id="sy' + k + '" aria-live="polite"></p>' +
+      '<p class="learned" id="ln' + k + '"></p>' +
+      '<div class="acts"><button class="btn" id="nx' + k + '" type="button" disabled>다음 판</button>' +
+      '<button class="btn main" id="go' + k + '" type="button" hidden></button>' +
+      '</div>';
+    s.innerHTML = html;
+    $('sh' + k).textContent = shl;
+    ui[k] = { lab: $('lab' + k), inp: $('in' + k), mi: $('mi' + k), pl: $('pl' + k), pk: $('pk' + k), sh: $('sh' + k),
+      st: $('st' + k), gp: $('gp' + k), sy: $('sy' + k), ln: $('ln' + k), nx: $('nx' + k), go: $('go' + k) };
+  }
+
+  function setSay(k, t, strong) { ui[k].sy.textContent = t; ui[k].sy.className = strong ? 'say' : 'say dim'; }
+  function readNum(k) {
+    var t = String(ui[k].inp.value).trim();
+    return /^\d{1,2}$/.test(t) ? parseInt(t, 10) : null;
+  }
+  function lockIn(k, on) { var u = ui[k]; u.inp.disabled = on; u.mi.disabled = on; u.pl.disabled = on; }
+
+  function drawGap(k, g, v, init) {
     var lo = Math.min(g, v, init), hi = Math.max(g, v, init) + 1, span = hi - lo;
-    var X = function (k) { return 20 + (k - lo) / span * 260; };
-    var h = '<svg viewBox="0 0 300 64" role="img" aria-label="예상 ' + g + ', 화면 ' + v + '"><line x1="14" y1="36" x2="286" y2="36" stroke="#cfc6b6" stroke-width="3" stroke-linecap="round"/>';
-    h += '<text x="' + X(init) + '" y="58" text-anchor="middle" font-size="11" fill="#6f6a62">처음 ' + init + '</text>';
-    h += '<circle cx="' + X(v) + '" cy="36" r="9" fill="var(--point)"/><text x="' + X(v) + '" y="14" text-anchor="middle" font-size="12" font-weight="700">화면 ' + v + '</text>';
-    if (g !== v) {
-      h += '<line x1="' + X(g) + '" y1="36" x2="' + X(v) + '" y2="36" stroke="var(--point)" stroke-width="3" stroke-dasharray="5 4"/>';
-    }
-    h += '<circle cx="' + X(g) + '" cy="36" r="7" fill="#fff" stroke="#33302b" stroke-width="3"/>';
-    if (g !== v) { h += '<text x="' + X(g) + '" y="58" text-anchor="middle" font-size="12" font-weight="700">예상 ' + g + '</text>'; }
-    gapEl.innerHTML = h + '</svg>';
-    gapEl.classList.add('on');
+    var X = function (q) { return 20 + (q - lo) / span * 260; };
+    var h = '<svg viewBox="0 0 300 64" role="img" aria-label="예상 ' + g + ', 화면 ' + v + '"><line x1="14" y1="36" x2="286" y2="36" stroke="var(--line-strong)" stroke-width="3" stroke-linecap="round"/>';
+    h += '<text x="' + X(init) + '" y="58" text-anchor="middle" font-size="12" fill="var(--muted)">처음 ' + init + '</text>';
+    h += '<circle cx="' + X(v) + '" cy="36" r="9" fill="var(--point)"/><text x="' + X(v) + '" y="14" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">화면 ' + v + '</text>';
+    if (g !== v) { h += '<line x1="' + X(g) + '" y1="36" x2="' + X(v) + '" y2="36" stroke="var(--point)" stroke-width="3" stroke-dasharray="5 4"/>'; }
+    h += '<circle cx="' + X(g) + '" cy="36" r="7" fill="#fff" stroke="var(--ink)" stroke-width="3"/>';
+    if (g !== v) { h += '<text x="' + X(g) + '" y="58" text-anchor="middle" font-size="12" font-weight="700" fill="var(--ink)">예상 ' + g + '</text>'; }
+    ui[k].gp.innerHTML = h + '</svg>';
+    ui[k].gp.classList.add('on');
   }
 
-  function setSay(t, strong) { sayEl.textContent = t; sayEl.className = strong ? 'say' : 'say dim'; }
+  function drawN(prev, lo, span) { var v = prev; while (v === prev) { v = lo + rnd(span); } return v; }
 
-  function readGuess() {
-    var t = String(guessEl.value).trim();
-    if (!/^\d{1,2}$/.test(t)) { return null; }
-    return parseInt(t, 10);
-  }
-
-  function lockGuess(on) {
-    guessEl.disabled = on; minusBtn.disabled = on; plusBtn.disabled = on;
-  }
-
-  function openRound() {
+  /* ───────── 판 열기 ───────── */
+  function open(k, retry) {
+    var m = M[k], u = ui[k], prev = m.R, R = { k: k, phase: 'guess', shaken: 0, guess: null, variant: 'normal', s: 1 }, i;
     clearSeq(); paint(null);
-    vboxEl.classList.remove('end');
-    gapEl.classList.remove('on'); gapEl.innerHTML = '';
-    init = INITS[half];
-    count = init; shaken = 0; guess = null; step = 'guess';
-    initEl.textContent = String(init);
-    numEl.textContent = String(count);
-    diffEl.textContent = half === 1 ? '지난 판과 다른 것: 처음 값이 0에서 10으로 바뀌었어요' : '';
-    askEl.textContent = '처음 값 ' + init + ', ' + n + '번 흔들면 흔든수는?';
-    guessEl.value = '';
-    lockGuess(false);
-    pickBtn.disabled = true;
-    shakeBtn.disabled = true;
-    shakeBtn.textContent = '흔들기';
-    nextBtn.disabled = true;
-    stepsEl.innerHTML = '';
-    for (var i = 0; i < n; i++) {
-      var s = document.createElement('span');
-      s.textContent = String(i + 1) + '번';
-      stepsEl.appendChild(s);
+    if (k === 1) { R.init = INITS[m.half]; R.n = m.n; }
+    else if (k === 2) {
+      if (retry && prev) {
+        R.variant = prev.variant; R.s = prev.s;
+        R.init = 1 + rnd(9); R.n = 3 + rnd(4);
+        while (R.init === prev.init && R.n === prev.n) { R.init = 1 + rnd(9); R.n = 3 + rnd(4); }
+      }
+      else {
+        var need = [];
+        if (m.left.reset) { need.push('reset'); }
+        if (m.left.step) { need.push('step'); }
+        if (!need.length) { need = ['reset', 'step']; }
+        if (need.length > 1 && m.lastV) { need = need.filter(function (q) { return q !== m.lastV; }); }
+        R.variant = need[rnd(need.length)];
+        R.init = 1 + rnd(9); R.n = 3 + rnd(4);
+        if (R.variant === 'step') { R.s = 2 + rnd(2); }
+      }
+      m.lastV = R.variant;
+    } else {
+      R.s = m.rounds === 0 ? 1 : (m.rounds === 1 ? 2 : 1 + rnd(3));
+      R.n = m.rounds === 0 ? 6 : 3 + rnd(5);
+      R.init = 3 + rnd(15);
+      R.T = R.init + R.s * R.n; R.userInit = null; R.tries = 0;
     }
-    setSay('예상을 적어야 흔들 수 있어요', false);
-    say(half === 0 ? '새 판이에요. 처음 값 ' + init + '에서 ' + n + '번 흔들면 어디까지 갈지 먼저 예측해 봐요.' :
-      '같은 ' + n + '번인데 처음 값만 10이에요. 결과가 어떻게 달라질지 예측해 봐요.');
+    R.count = k === 3 ? 0 : R.init;
+    m.R = R;
+    u.inp.value = ''; lockIn(k, false);
+    if (u.pk) { u.pk.disabled = true; }
+    u.sh.disabled = true; u.sh.textContent = k === 3 ? '흔들어 보기' : '흔들기';
+    u.nx.disabled = true; u.nx.textContent = '다음 판'; u.gp.classList.remove('on'); u.gp.innerHTML = '';
+    u.st.innerHTML = '';
+    for (i = 0; i < R.n; i++) { u.st.appendChild(mk('span', null, (i + 1) + '번')); }
+    if (k === 3) {
+      u.lab.textContent = R.n + '번 흔들어 ' + R.T + josa(R.T, '이', '가') + ' 되게 처음 값을 정해요';
+      setSay(3, '처음 값을 적고 흔들어 봐요. 달라도 다시 할 수 있어요', false);
+      say('한 번에 ' + R.s + '씩 ' + R.n + '번 늘어서 ' + R.T + josa(R.T, '이', '가') + ' 되려면, 처음 값은 얼마였을까요?');
+    } else if (k === 2) {
+      u.lab.textContent = '이 코드로 ' + R.n + '번 흔들면 흔든수는?';
+      var nl = (m.left.reset ? 1 : 0) + (m.left.step ? 1 : 0);
+      setSay(2, '코드를 읽고 예상을 적어요' + (nl ? ' (남은 함정 ' + nl + '개)' : ''), false);
+      say(retry ? '같은 함정이에요. 수가 바뀌었으니 노란 줄을 다시 읽고 예상해 봐요.' : '코드가 달라졌어요. 노란 줄을 살펴보고 흔든수를 예상해 봐요.');
+    } else {
+      u.lab.textContent = '처음 값 ' + R.init + ', ' + R.n + '번 흔들면 흔든수는?';
+      setSay(1, '예상을 적어야 흔들 수 있어요', false);
+      if (retry) { say('같은 판이에요. 처음 값 ' + R.init + '에서 한 번에 1칸씩 ' + R.n + '번 가면 어디까지 가는지 칸을 세어 봐요.'); }
+      else say(m.half === 0 ? '처음 값 ' + R.init + '에서 ' + R.n + '번 흔들면 어디까지 갈지 먼저 예상해 봐요.' :
+        '같은 ' + R.n + '번인데 처음 값만 10이에요. 결과가 어떻게 달라질지 예상해 봐요.');
+    }
+    syncStage(k);
   }
 
-  // 예상을 적은 뒤에도 첫 흔들기 전까지는 고칠 수 있다. 고치면 다시 적어야 흔들린다.
-  function onInput() {
-    if (step === 'shake' && shaken === 0) {
-      step = 'guess';
-      shakeBtn.disabled = true;
-      shakeBtn.textContent = '흔들기';
-      setSay('예상을 고쳤어요. 다시 적어요', false);
-    }
-    if (step !== 'guess') { return; }
-    pickBtn.disabled = readGuess() === null;
-  }
-
-  function nudge(d) {
-    if (step !== 'guess' && !(step === 'shake' && shaken === 0)) { return; }
-    var g = readGuess();
-    if (g === null) { g = d > 0 ? 0 : 1; }
-    g = Math.max(0, Math.min(99, g + d));
-    guessEl.value = String(g);
-    onInput();
-  }
-
-  function pick() {
-    if (step !== 'guess') { return; }
-    var g = readGuess();
-    if (g === null) { return; }
-    guess = g;
-    step = 'shake';
-    pickBtn.disabled = true;
-    shakeBtn.disabled = false;
-    shakeBtn.textContent = '흔들기 (' + n + ')';
-    setSay('예상: ' + g + '. 흔들기 전엔 고칠 수 있어요', false);
-    say('예상: ' + g + '. 흔들 때마다 흔든수가 어떻게 변하는지 봐요.');
-    shakeBtn.focus();
-  }
-
-  function shake() {
-    if (step !== 'shake') { return; }
-    if (shaken === 0) { lockGuess(true); }
-    count += 1; shaken += 1;
-    numEl.textContent = String(count);
-    panelEl.classList.remove('wob'); numEl.classList.remove('bump'); void panelEl.offsetWidth;
-    panelEl.classList.add('wob'); numEl.classList.add('bump');
-    show(count);
-    var box = stepsEl.children[shaken - 1];
-    box.textContent = String(count);
-    box.classList.add('on'); box.classList.add('pop');
-    if (shaken < n) {
-      shakeBtn.textContent = '흔들기 (' + (n - shaken) + ')';
-      return;
-    }
-    step = 'done';
-    vboxEl.classList.add('end');
-    shakeBtn.disabled = true;
-    shakeBtn.textContent = '흔들기';
-    var d = Math.abs(count - guess);
-    setSay(d === 0 ? '예상과 화면의 수가 같아요' :
-      '예상 ' + guess + ', 화면 ' + count + '. ' + d + ' 떨어졌어요', true);
-    drawGap(guess, count);
-    if (window.Fun) {
-      if (d === 0) { Fun.say('예상과 화면의 수가 같아요. 처음 값이 ' + init + '이고 ' + n + '번 늘었기 때문이에요.', 'cheer'); Fun.burst(vboxEl); }
-      else { Fun.say('예상과 다르게 나왔어요. 처음 값 ' + init + '에서 ' + n + '번 늘린 걸 어디서 다르게 셌는지 봐요.', 'think'); Fun.shake(vboxEl); }
-      Fun.stamp();
-    }
-    history.unshift('처음 값 ' + init + ' · ' + n + '번 → ' + count + ' (예상 ' + guess + ')');
-    if (history.length > 4) { history.length = 4; }
-    renderPast();
-    if (half === 1) {
+  function syncStage(k) {
+    var R = M[k].R;
+    renderCode(R);
+    diffEl.textContent = k === 1 && M[1].half === 1 ? '지난 판과 다른 것: 처음 값이 0에서 10으로 바뀌었어요' :
+      (k === 2 && R.variant === 'reset' ? '이번 코드의 다른 점: 저장 블록이 흔들림 안에도 있어요' :
+      (k === 2 && R.variant === 'step' ? '이번 코드의 다른 점: 한 번에 ' + R.s + '씩 늘려요' : ''));
+    if (k === 1 && M[1].half === 1 && R.phase === 'done' && R.same === true) {
       diffEl.textContent = '0 판과 10 판의 흔든수를 견줘 보고, 기기에서 확인한 뒤 추적지에 한 문장으로 써요';
     }
-    nextBtn.disabled = false;
-    nextBtn.focus();
+    numEl.textContent = String(R.count);
+    vboxEl.classList.toggle('end', R.phase === 'done');
+    if (R.shaken > 0 || (k === 3 && R.ran)) { show(R.count); } else { paint(null); }
   }
 
+  /* ───────── 미션 1·2: 예상 → 흔들기 ───────── */
+  function onInput(k) {
+    var R = M[k].R, u = ui[k];
+    if (k === 3) { onInput3(); return; }
+    if (R.phase === 'shake' && R.shaken === 0) {
+      R.phase = 'guess'; u.sh.disabled = true; u.sh.textContent = '흔들기';
+      setSay(k, '예상을 고쳤어요. 다시 적어요', false);
+    }
+    if (R.phase !== 'guess') { return; }
+    var g = readNum(k);
+    u.pk.disabled = g === null;
+    if (g === null && String(u.inp.value).trim() !== '') { setSay(k, '0부터 99 사이의 수를 적어요', false); }
+  }
+  function nudge(k, d) {
+    var R = M[k].R;
+    if (k === 3) {
+      if (R.phase === 'done') { return; }
+    } else if (R.phase !== 'guess' && !(R.phase === 'shake' && R.shaken === 0)) { return; }
+    var g = readNum(k);
+    if (g === null) { g = d > 0 ? 0 : 1; }
+    ui[k].inp.value = String(Math.max(0, Math.min(99, g + d)));
+    onInput(k);
+  }
+  function pick(k) {
+    var R = M[k].R, u = ui[k];
+    if (R.phase !== 'guess') { return; }
+    var g = readNum(k);
+    if (g === null) { return; }
+    R.guess = g; R.phase = 'shake';
+    u.pk.disabled = true; u.sh.disabled = false;
+    u.sh.textContent = '흔들기 (' + R.n + ')';
+    setSay(k, '예상: ' + g + '. 흔들기 전엔 고칠 수 있어요', false);
+    say('예상: ' + g + '. 흔들 때마다 흔든수가 어떻게 변하는지 봐요.');
+    u.sh.focus();
+  }
+  function stepCount(R) {
+    if (R.variant === 'reset') { R.count = R.init; }
+    R.count += R.s;
+  }
+  function shake(k) {
+    var R = M[k].R, u = ui[k];
+    if (R.phase !== 'shake') { return; }
+    if (R.shaken === 0) { lockIn(k, true); setSay(k, '예상 ' + R.guess + '. 남은 횟수를 봐요', false); }
+    stepCount(R); R.shaken += 1;
+    numEl.textContent = String(R.count);
+    panelEl.classList.remove('wob'); numEl.classList.remove('bump'); void panelEl.offsetWidth;
+    panelEl.classList.add('wob'); numEl.classList.add('bump');
+    show(R.count);
+    var box = u.st.children[R.shaken - 1];
+    box.textContent = String(R.count); box.classList.add('on'); box.classList.add('pop');
+    if (R.shaken < R.n) { u.sh.textContent = '흔들기 (' + (R.n - R.shaken) + ')'; return; }
+    R.phase = 'done';
+    vboxEl.classList.add('end');
+    u.sh.disabled = true; u.sh.textContent = '흔들기';
+    var d = Math.abs(R.count - R.guess), same = d === 0;
+    var why = '';
+    if (k === 2 && R.variant === 'reset') { why = ' 흔들 때마다 처음 값 ' + R.init + josa(R.init, '을', '를') + ' 다시 저장해서 늘 ' + R.count + josa(R.count, '이에요', '예요') + '.'; }
+    else if (k === 2) { why = ' 한 번에 ' + R.s + '씩 ' + R.n + '번 늘어서 ' + R.count + josa(R.count, '이에요', '예요') + '.'; }
+    setSay(k, (same ? '예상과 화면의 수가 같아요.' : '예상 ' + R.guess + ', 화면 ' + R.count + '. ' + d + ' 떨어졌어요.') + why, true);
+    drawGap(k, R.guess, R.count, R.init);
+    record(k, '처음 값 ' + R.init + ' · ' + R.n + '번' + (k === 2 ? ' · ' + (R.variant === 'reset' ? '저장이 흔들림 안' : R.s + '씩') : '') +
+      ' → ' + R.count + ' (예상 ' + R.guess + ')');
+    finishRound(k, same, same ? '예상과 화면의 수가 같아요.' + (k === 1 ? ' 처음 값이 ' + R.init + josa(R.init, '이고', '고') + ' ' + R.n + '번 늘었기 때문이에요.' : why) :
+      '예상과 다르게 나왔어요.' + (k === 1 ? ' 같은 판으로 다시 해서, ' + R.init + '에서 ' + R.n + '번 가면 어디까지 가는지 칸을 세어 봐요.' : why));
+    syncStage(k);
+  }
+
+  /* ───────── 미션 3: 처음 값 정하기 ───────── */
+  function onInput3() {
+    var R = M[3].R, u = ui[3];
+    if (R.phase === 'done') { return; }
+    var g = readNum(3);
+    R.userInit = g; R.ran = false;
+    u.sh.disabled = g === null;
+    u.st.querySelectorAll('span').forEach(function (b, i) { b.textContent = (i + 1) + '번'; b.className = ''; });
+    u.gp.classList.remove('on');
+    vboxEl.classList.remove('end');
+    numEl.textContent = g === null ? '0' : String(g); paint(null);
+    ivEls.forEach(function (b) { b.textContent = g === null ? '?' : String(g); });
+    if (g === null && String(u.inp.value).trim() !== '') { setSay(3, '0부터 99 사이의 수를 적어요', false); }
+  }
+  function run3() {
+    var R = M[3].R, u = ui[3];
+    if (R.phase === 'done' || R.userInit === null) { return; }
+    R.tries += 1; R.ran = true;
+    var c = R.userInit, i;
+    for (i = 0; i < R.n; i++) {
+      c += R.s;
+      var b = u.st.children[i]; b.textContent = String(c); b.className = 'on pop';
+    }
+    R.count = c;
+    numEl.textContent = String(c); show(c);
+    panelEl.classList.remove('wob'); void panelEl.offsetWidth; panelEl.classList.add('wob');
+    var d = Math.abs(c - R.T);
+    if (d === 0) {
+      R.phase = 'done'; vboxEl.classList.add('end'); lockIn(3, true); u.sh.disabled = true;
+      setSay(3, '목표 ' + R.T + josa(R.T, '과', '와') + ' 같아졌어요. 처음 값 ' + R.userInit + '에서 ' + R.s + '씩 ' + R.n + '번 늘렸어요.', true);
+      record(3, '목표 ' + R.T + ' · ' + R.n + '번 ' + R.s + '씩 → 처음 값 ' + R.userInit);
+      finishRound(3, true, '목표와 같아졌어요. ' + R.T + '에서 흔든 만큼 ' + (R.s * R.n) + josa(R.s * R.n, '을', '를') + ' 빼면 처음 값 ' + R.userInit + josa(R.userInit, '이에요', '예요') + '.');
+    } else {
+      var t = '목표 ' + R.T + ', 화면 ' + c + '. ' + d + ' ' + (c < R.T ? '모자라요' : '넘어요') + '. 처음 값을 바꿔 다시 해 봐요.';
+      if (R.tries >= 3) { t += ' 힌트: 흔들어서 늘어나는 수는 ' + (R.s * R.n) + josa(R.s * R.n, '이에요', '예요') + '.'; }
+      setSay(3, t, true);
+      say('목표와 달라요. 처음 값을 얼마나 바꾸면 좋을지 봐요.', 'think');
+      if (window.Fun) { Fun.shake(vboxEl); }
+    }
+  }
+
+  /* ───────── 판 끝, 미션 끝 ───────── */
+  function record(k, t) {
+    history.unshift(['', '①', '②', '③'][k] + ' ' + t);
+    if (history.length > 5) { history.length = 5; }
+    renderPast();
+  }
+  function finishRound(k, same, line) {
+    var m = M[k], u = ui[k], R = m.R;
+    R.same = same;
+    if (k === 1) { if (same) { m.hit[m.half] = true; } m.rounds = (m.hit[0] ? 1 : 0) + (m.hit[1] ? 1 : 0); }
+    else if (k === 2) { if (same) { m.left[R.variant] = false; } m.rounds = (m.left.reset ? 0 : 1) + (m.left.step ? 0 : 1); }
+    else { m.rounds += 1; }
+    var justDone = !m.done && m.rounds >= m.need;
+    if (justDone) { m.done = true; u.ln.textContent = '알게 된 것: ' + LEARN[k]; }
+    if (window.Fun) {
+      if (justDone) { Fun.say('알게 된 것: ' + LEARN[k], 'cheer'); Fun.burst(vboxEl); }
+      else if (same) { Fun.say(line, 'cheer'); Fun.burst(vboxEl); }
+      else { Fun.say(line, 'think'); Fun.shake(vboxEl); }
+    }
+    u.nx.disabled = false;
+    u.nx.textContent = !same ? (k === 1 ? '같은 처음 값으로 다시' : '같은 함정으로 다시') : (m.done ? '한 판 더' : '다음 판');
+    if (k === 1 && m.rounds === 1) { /* 한 쌍의 앞 판 */ }
+    syncLadder();
+    if (m.done && !stamped && M[1].done && M[2].done && M[3].done) { stamped = true; if (window.Fun) { Fun.stamp(); } }
+    if (!m.done) { u.nx.focus(); }
+  }
   function renderPast() {
     pastEl.innerHTML = '';
-    if (!history.length) {
-      var e = document.createElement('li'); e.className = 'empty'; e.textContent = '아직 없어요';
-      pastEl.appendChild(e); return;
-    }
-    for (var i = 0; i < history.length; i++) {
-      var li = document.createElement('li'); li.textContent = history[i]; pastEl.appendChild(li);
-    }
+    if (!history.length) { pastEl.appendChild(mk('li', 'empty', '아직 없어요')); return; }
+    history.forEach(function (h) { pastEl.appendChild(mk('li', null, h)); });
+  }
+  function next(k) {
+    var m = M[k];
+    if (!m.R || m.R.phase !== 'done') { return; }
+    var same = m.R.same !== false;
+    if (k === 1 && same) { if (m.half === 0) { m.half = 1; } else { m.half = 0; m.n = drawN(m.n, 3, 6); } }
+    open(k, !same);
+    ui[k].inp.focus();
   }
 
-  function nextRound() {
-    if (step !== 'done') { return; }
-    if (half === 0) { half = 1; } else { half = 0; n = drawN(n); }
-    openRound();
-    guessEl.focus();
+  /* ───────── 미션 사다리 ───────── */
+  var ladderBtns = Array.prototype.slice.call(document.querySelectorAll('#ladder button'));
+  function syncLadder() {
+    ladderBtns.forEach(function (b) {
+      var k = +b.getAttribute('data-go');
+      if (k === cur) { b.setAttribute('aria-current', 'step'); } else { b.removeAttribute('aria-current'); }
+      b.classList.toggle('done', M[k].done);
+    });
+    [1, 2, 3].forEach(function (k) {
+      var g = ui[k].go;
+      if (M[k].done && k < 3) { g.hidden = false; g.textContent = '미션 ' + (k + 1) + ' ' + NAMES[k + 1] + '로 가기'; }
+      else { g.hidden = true; }
+    });
+    $('fin').hidden = !(M[1].done && M[2].done && M[3].done);
+  }
+  function showMission(k) {
+    cur = k;
+    $('how').textContent = HOW[k];
+    [1, 2, 3].forEach(function (q) { $('m' + q).hidden = q !== k; });
+    if (!M[k].R) { open(k); } else { syncStage(k); }
+    syncLadder();
+    if (!M[k].R.shaken && !M[k].R.ran) { /* 새 판은 처음 그대로 */ }
   }
 
-  function resetAll() {
-    n = 5; half = 0; history = [];
-    renderPast();
-    openRound();
-  }
-
-  guessEl.addEventListener('input', onInput);
-  guessEl.addEventListener('keydown', function (ev) { if (ev.key === 'Enter') { ev.preventDefault(); pick(); } });
-  minusBtn.addEventListener('click', function () { nudge(-1); });
-  plusBtn.addEventListener('click', function () { nudge(1); });
-  pickBtn.addEventListener('click', pick);
-  shakeBtn.addEventListener('click', shake);
-  nextBtn.addEventListener('click', nextRound);
-  resetBtn.addEventListener('click', resetAll);
+  [1, 2, 3].forEach(function (k) {
+    build(k);
+    var u = ui[k];
+    u.inp.addEventListener('input', function () { onInput(k); });
+    u.inp.addEventListener('keydown', function (ev) {
+      if (ev.key === 'Enter') { ev.preventDefault(); if (k === 3) { run3(); } else { pick(k); } }
+    });
+    u.mi.addEventListener('click', function () { nudge(k, -1); });
+    u.pl.addEventListener('click', function () { nudge(k, 1); });
+    if (u.pk) { u.pk.addEventListener('click', function () { pick(k); }); }
+    u.sh.addEventListener('click', function () { if (k === 3) { run3(); } else { shake(k); } });
+    u.nx.addEventListener('click', function () { next(k); });
+    u.go.addEventListener('click', function () { showMission(k + 1); try { window.scrollTo(0, 0); } catch (e) { /* 괜찮다 */ } });
+  });
+  $('rs1').addEventListener('click', function () {
+    M[1] = { need: 2, rounds: 0, done: false, half: 0, n: 5, hit: [false, false], R: null };
+    M[2] = { need: 2, rounds: 0, done: false, left: { reset: true, step: true }, lastV: null, R: null };
+    M[3] = { need: 2, rounds: 0, done: false, R: null };
+    [1, 2, 3].forEach(function (q) { ui[q].ln.textContent = ''; });
+    history = []; stamped = false; renderPast(); showMission(1);
+  });
+  ladderBtns.forEach(function (b) { b.addEventListener('click', function () { showMission(+b.getAttribute('data-go')); }); });
   document.addEventListener('visibilitychange', function () { if (document.hidden) { clearSeq(); } });
   window.addEventListener('pagehide', clearSeq);
 
-  resetAll();
+  showMission(1);
 })();
 </script>
 <script src="../assets/play/fun.js" data-block="B10" data-mission="처음 값과 흔들 횟수를 보고, 흔들기 전에 흔든수를 먼저 예상해 적어요."></script>

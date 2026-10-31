@@ -109,6 +109,45 @@ button{font-family:inherit}
 .meter i.on{background:var(--point)}
 @media (max-width:400px){.guess{gap:6px}.opt{font-size:14px}.drop{font-size:14.5px}}
 main{overflow-x:hidden}
+
+/* 체험 개선 2026-10-31: 시작 안내·미션 사다리·개념 카드·미션 2·3 */
+.how{margin:0 0 10px;font-size:16px;font-weight:600;background:var(--sun-l);border-radius:var(--r-sm);padding:8px 12px}
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0 0 10px}
+.ladder button{cursor:pointer;min-height:44px;padding:4px 4px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+  background:var(--surface);color:var(--ink);font-size:14.5px;font-weight:700;line-height:1.2}
+.ladder button[aria-current="step"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ladder button.done::after{content:" 끝";font-weight:600;color:var(--mint-d)}
+.ladder button.done[aria-current="step"]::after{color:#fff}
+.concept{margin:0 0 12px;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 12px;background:var(--surface)}
+.concept b{display:block;font-size:13.5px;color:var(--point)}
+.concept p{margin:2px 0 0;font-size:15px;font-weight:600}
+.learned{margin:10px 0 0;padding:8px 12px;border-radius:var(--r-sm);background:var(--mint-l);font-size:15px;font-weight:700}
+.learned:empty{display:none}
+.scene{display:flex;align-items:center;gap:10px;margin:0 0 10px}
+.scene img{flex:0 0 auto;width:96px;height:96px;object-fit:contain;border-radius:10px;background:var(--sun-l)}
+.scene .sc-text{flex:1;min-width:0;font-size:15.5px;font-weight:600}
+.scene .sc-text b{display:block;font-size:19px;letter-spacing:-.02em}
+.led{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;width:130px;padding:8px;border-radius:10px;background:#2b2b2b}
+.led i{display:block;aspect-ratio:1;border-radius:50%;background:#4a4a4a}
+.led i.on{background:#ff4b4b}
+.led.small{width:64px;padding:5px;gap:2px}
+.ledrow{display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin:0 0 10px}
+.ledrow figure{margin:0;text-align:center;font-size:13.5px;font-weight:600;color:var(--muted)}
+.ledrow figcaption{margin-top:3px}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 10px}
+.chips span{font-size:13.5px;font-weight:700;background:var(--sky-l);border-radius:999px;padding:3px 10px}
+.chips.kept span{background:var(--mint-l)}
+.choices{display:flex;flex-direction:column;gap:6px;margin:0 0 10px}
+.choices .opt{width:100%;text-align:left;padding:8px 12px;min-height:44px}
+.cmdline{font-size:15.5px;font-weight:700;margin:0 0 8px;padding:8px 12px;border-radius:var(--r-sm);background:var(--grape-l)}
+.goal{font-size:15.5px;font-weight:700;margin:0 0 10px;padding:8px 12px;border-radius:var(--r-sm);background:var(--pink-l)}
+.fin{margin:12px 0 0;text-align:center}
+.fin img{width:100%;max-width:420px;height:auto;border-radius:var(--r-sm)}
+.fin p{margin:6px 0 0;font-size:16px;font-weight:700}
+.ai{font-size:13.5px;color:var(--muted);font-weight:600;margin:4px 0 0}
+[hidden]{display:none !important}
+.cnt,.piece .tag,.piece .moved,.note,.ai,.ledrow figure,.chips span,.concept b,h2{font-size:14px}
+.fin .mini{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin:6px 0}.fin .mini img{width:56px;max-width:56px;height:56px;object-fit:contain;mix-blend-mode:multiply;border-radius:10px}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -117,11 +156,23 @@ main{overflow-x:hidden}
   <nav class="topnav"><span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a href="../play/">← 체험 목록</a><a href="../lessons/B01/">과정안</a></span><b>1~2</b></nav>
   <h1>물건 카드 두 칸 나누기</h1>
   <p class="lead">한 물건 속 조각을 하드웨어·소프트웨어 칸에 나눠요</p>
+  <p class="how">예상을 먼저 고르고, 조각을 눌러 칸에 넣어요. 미션은 모두 셋이에요.</p>
 
-  <section aria-labelledby="h-card">
-    <h2 id="h-card">물건 카드</h2>
+  <nav class="ladder" id="ladder" aria-label="미션 순서">
+    <button type="button" data-go="1" aria-current="step">① 나누기</button>
+    <button type="button" data-go="2">② 바꾸기</button>
+    <button type="button" data-go="3">③ 만들기</button>
+  </nav>
+
+  <aside class="concept" aria-label="개념 설명">
+    <b>알아 둘 말</b>
+    <p>하드웨어는 만질 수 있는 몸체와 부품이에요. 소프트웨어는 사람이 미리 정해 준 명령이에요. 명령으로 움직이는 물건 안에는 둘이 함께 들어 있어요. 손으로만 돌리는 물건엔 명령이 없기도 해요.</p>
+  </aside>
+
+  <section data-step="1" id="m1" aria-labelledby="h-card">
+    <h2 id="h-card">미션 1 · 조각을 두 칸에 나눠요</h2>
     <div class="card">
-      <img id="cardicon" src="" alt="" width="64" height="64" style="object-fit:contain;mix-blend-mode:multiply;border-radius:10px">
+      <img id="cardicon" src="assets/calculator.webp" alt="" width="64" height="64" style="object-fit:contain;mix-blend-mode:multiply;border-radius:10px">
       <span class="cardname" id="cardname"></span>
     </div>
     <p class="ask" id="ask">이 물건엔 무엇이 들어 있을까?</p>
@@ -133,10 +184,7 @@ main{overflow-x:hidden}
     <div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
     <p class="hint" id="hint" aria-live="polite"></p>
     <div class="tray" id="tray" aria-label="아직 안 넣은 조각"></div>
-  </section>
 
-  <section aria-labelledby="h-cols">
-    <h2 id="h-cols">두 칸</h2>
     <div class="cols">
       <div class="col hwc" id="col-hw">
         <button class="drop" type="button" id="drop-hw">하드웨어 칸<span class="cnt" id="cnt-hw">0개</span></button>
@@ -151,15 +199,110 @@ main{overflow-x:hidden}
       <button class="act" id="next" type="button">다음 물건</button>
     </div>
     <div class="out" id="out" role="status" aria-live="polite"></div>
-    <p class="note">한 물건 속 두 가지를 기록지에 적어요</p>
+    <p class="learned" id="learn1" aria-live="polite"></p>
   </section>
+
+  <section data-step="2" id="m2" hidden aria-labelledby="h-m2">
+    <h2 id="h-m2">미션 2 · 명령만 바꿔 봐요</h2>
+    <div class="scene">
+      <img src="assets/microbit.webp" alt="마이크로비트 보드" width="96" height="96">
+      <div class="sc-text"><b>마이크로비트</b><span id="m2scene"></span></div>
+    </div>
+    <div class="goal" id="m2goal"></div>
+    <div class="ledrow">
+      <figure><div class="led small" id="ledGoal" aria-hidden="true"></div><figcaption>목표 모양</figcaption></figure>
+      <figure><div class="led" id="ledNow" aria-hidden="true"></div><figcaption>지금 LED</figcaption></figure>
+    </div>
+    <p class="cmdline" id="m2cmd"></p>
+    <p class="ask" id="m2ask">명령만 바꾸면 몸체(부품)도 바뀔까?</p>
+    <div class="choices" id="m2guess" role="group" aria-labelledby="m2ask"></div>
+    <p class="ask" id="m2ask2"></p>
+    <div class="choices" id="m2cmds" role="group" aria-labelledby="m2ask2"></div>
+    <div class="row" id="m2row"></div>
+    <div class="chips kept" id="m2kept" hidden></div>
+    <div class="out" id="m2out" role="status" aria-live="polite"></div>
+    <p class="learned" id="learn2" aria-live="polite"></p>
+  </section>
+
+  <section data-step="3" id="m3" hidden aria-labelledby="h-m3">
+    <h2 id="h-m3">미션 3 · 명령을 직접 만들어요</h2>
+    <div class="scene">
+      <img id="m3img" src="assets/autodoor.webp" alt="" width="96" height="96">
+      <div class="sc-text"><b id="m3name"></b><span id="m3situ"></span></div>
+    </div>
+    <div class="goal" id="m3goal"></div>
+    <p class="ask" id="m3ask1">언제 움직일까요?</p>
+    <div class="choices" id="m3when" role="group" aria-labelledby="m3ask1"></div>
+    <p class="ask" id="m3ask2">그러면 무엇을 할까요?</p>
+    <div class="choices" id="m3what" role="group" aria-labelledby="m3ask2"></div>
+    <div class="row" id="m3row"></div>
+    <div class="out" id="m3out" role="status" aria-live="polite"></div>
+    <p class="learned" id="learn3" aria-live="polite"></p>
+    <div class="fin" id="fin" hidden>
+      <div class="mini" aria-label="만나 본 여섯 물건"><img src="assets/calculator.webp" alt="계산기" width="56" height="56"><img src="assets/crosswalk.webp" alt="보행자 신호등" width="56" height="56"><img src="assets/autodoor.webp" alt="현관 자동문" width="56" height="56"><img src="assets/thermometer.webp" alt="체온계" width="56" height="56"><img src="assets/microbit.webp" alt="마이크로비트" width="56" height="56"><img src="assets/sharpener.webp" alt="손 연필깎이" width="56" height="56"></div>
+      <p>세 미션을 모두 했어요. 명령으로 움직이는 물건 안에는 몸체와 명령이 함께 있어요.</p>
+    </div>
+  </section>
+
+  <div class="row"><button class="act main" id="goNext" type="button" hidden></button></div>
+  <p class="note">한 물건 속 두 가지를 기록지에 적어요. 이 쪽은 실물을 만져 보는 활동을 돕는 연습이에요.</p>
+  <p class="ai">그림 일부는 생성형 AI로 만들었어요.</p>
 </main>
 
 <script>
 (function () {
   'use strict';
 
-  // 물건 카드 — 지도안 탐험 구역과 도입 물건에서 고름. sw가 빈 카드는 소프트웨어가 없는 물건.
+  var $ = function (id) { return document.getElementById(id); };
+  function rnd(n) { return Math.floor(Math.random() * n); }
+  function shuffle(a) {
+    for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1); var t = a[i]; a[i] = a[j]; a[j] = t; }
+    return a;
+  }
+  function say(t, m) { if (window.Fun) { Fun.say(t, m); } }
+  function mk(tag, cls, text) { var e = document.createElement(tag); if (cls) { e.className = cls; } if (text != null) { e.textContent = text; } return e; }
+  function btn(text, cls, fn) { var b = mk('button', cls, text); b.type = 'button'; b.addEventListener('click', fn); return b; }
+
+  /* ───────── 미션 사다리 ───────── */
+  var cur = 1, doneM = { 1: false, 2: false, 3: false }, stamped = false;
+  var secs = { 1: $('m1'), 2: $('m2'), 3: $('m3') };
+  var ladderBtns = Array.prototype.slice.call(document.querySelectorAll('#ladder button'));
+  var goNext = $('goNext');
+  var NAMES = ['', '나누기', '바꾸기', '만들기'];
+
+  function showMission(n) {
+    cur = n;
+    [1, 2, 3].forEach(function (k) { secs[k].hidden = (k !== n); });
+    syncLadder();
+    if (n === 2 && !m2.target) { m2New(); }
+    if (n === 3 && !m3.sc) { m3New(); }
+    try { window.scrollTo(0, 0); } catch (e) { /* 위치를 못 옮겨도 괜찮다 */ }
+  }
+  function syncLadder() {
+    ladderBtns.forEach(function (b) {
+      var k = +b.getAttribute('data-go');
+      if (k === cur) { b.setAttribute('aria-current', 'step'); } else { b.removeAttribute('aria-current'); }
+      b.classList.toggle('done', doneM[k]);
+    });
+    if (doneM[cur] && cur < 3) {
+      goNext.hidden = false;
+      goNext.textContent = '미션 ' + (cur + 1) + ' ' + NAMES[cur + 1] + '로 가기';
+    } else { goNext.hidden = true; }
+    $('fin').hidden = !(doneM[1] && doneM[2] && doneM[3]);
+  }
+  function missionDone(n, line) {
+    doneM[n] = true;
+    $('learn' + n).textContent = '알게 된 것: ' + line;
+    syncLadder();
+    if (doneM[1] && doneM[2] && doneM[3] && !stamped) {
+      stamped = true;
+      if (window.Fun) { Fun.stamp(); }
+    }
+  }
+  ladderBtns.forEach(function (b) { b.addEventListener('click', function () { showMission(+b.getAttribute('data-go')); }); });
+  goNext.addEventListener('click', function () { showMission(cur + 1); });
+
+  /* ───────── 미션 1: 조각을 두 칸에 나누기 ───────── */
   var CARDS = [
     { name: '계산기',
       hw: ['숫자 버튼', '숫자가 뜨는 화면', '플라스틱 몸체', '안에 든 건전지'],
@@ -185,24 +328,14 @@ main{overflow-x:hidden}
   var NUM = ['', '한', '두', '세', '네'];
 
   var cardIdx = -1, prevCard = null;
-  var pieces = [];          // {text, kind, put, moved}
-  var guess = null;
-  var held = null;
-  var done = false;
-  var justChecked = false;   // 확인한 바로 그때만 옮긴 조각이 한 번 튄다
+  var pieces = [];
+  var guess = null, held = null, done = false, justChecked = false;
 
-  var $ = function (id) { return document.getElementById(id); };
   var cardicon = $('cardicon'), meter = $('meter'), cardBox = document.querySelector('.card'), cardname = $('cardname'), hint = $('hint'), tray = $('tray'), out = $('out');
   var colHw = $('col-hw'), colSw = $('col-sw');
   var dropHw = $('drop-hw'), dropSw = $('drop-sw');
   var checkBtn = $('check'), resetBtn = $('reset'), nextBtn = $('next');
-  var opts = Array.prototype.slice.call(document.querySelectorAll('.opt'));
-
-  function rnd(n) { return Math.floor(Math.random() * n); }
-  function shuffle(a) {
-    for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1); var t = a[i]; a[i] = a[j]; a[j] = t; }
-    return a;
-  }
+  var opts = Array.prototype.slice.call(document.querySelectorAll('#m1 .opt'));
 
   function pickCard() {
     var v;
@@ -215,7 +348,6 @@ main{overflow-x:hidden}
     var hwN;
     if (!card.sw.length) { hwN = 4; }
     else {
-      // 하드웨어 1~3개, 남는 자리는 소프트웨어. 묶음 크기를 넘지 않게.
       var lo = Math.max(1, 4 - card.sw.length), hi = Math.min(3, card.hw.length);
       hwN = lo + rnd(hi - lo + 1);
     }
@@ -256,7 +388,6 @@ main{overflow-x:hidden}
   }
 
   function render() {
-    // 조각 자리
     tray.textContent = '';
     [colHw, colSw].forEach(function (col) {
       while (col.children.length > 1) { col.removeChild(col.lastChild); }
@@ -285,7 +416,7 @@ main{overflow-x:hidden}
     var allIn = firstLoose() === null;
     checkBtn.disabled = done || guess === null || !allIn;
     checkBtn.classList.toggle('main', !done);
-    nextBtn.classList.toggle('main', done);   // 확인 뒤엔 다음 물건이 눈에 띈다
+    nextBtn.classList.toggle('main', done);
 
     if (done) { hint.textContent = ''; }
     else if (guess === null) { hint.textContent = '예상을 먼저 골라요'; }
@@ -299,7 +430,7 @@ main{overflow-x:hidden}
     guess = g;
     if (held === null) { held = firstLoose(); }
     render();
-    if (window.Fun) { Fun.say(guess === 'both' ? '둘 다 들어 있을 거라고 예측했어요. 조각을 나눠 확인해 봐요.' : '한쪽만이라고 예측했어요. 조각을 나눠 보면 알 수 있어요.'); }
+    say(guess === 'both' ? '둘 다 들어 있을 거라고 예측했어요. 조각을 나눠 확인해 봐요.' : '한쪽만이라고 예측했어요. 조각을 나눠 보면 알 수 있어요.');
   }
 
   function hold(i) {
@@ -314,7 +445,7 @@ main{overflow-x:hidden}
     pieces[held].landed = true;
     held = firstLoose();
     render();
-    if (window.Fun && held === null) { Fun.say('네 조각을 다 넣었어요. 두 칸에 어떻게 나뉘었는지 확인해 봐요.'); }
+    if (held === null) { say('네 조각을 다 넣었어요. 두 칸에 어떻게 나뉘었는지 확인해 봐요.'); }
   }
 
   function guessLine(actualBoth) {
@@ -344,10 +475,13 @@ main{overflow-x:hidden}
     out.classList.add('show');
     out.classList.remove('pop'); void out.offsetWidth; out.classList.add('pop');
     if (window.Fun) {
-      if (moved === 0) { Fun.say('넣은 칸 그대로예요. 이 물건에서는 두 칸이 어떻게 찼나요? 다음 물건도 예측해 봐요.', 'cheer'); Fun.burst(out); }
-      else { Fun.say('옮겨 간 조각이 있어요. 그 조각이 왜 그 칸인지 짝과 말해 봐요.', 'think'); Fun.shake(out); }
-      Fun.stamp();
+      if (moved === 0) { Fun.burst(out); } else { Fun.shake(out); }
     }
+    var learned = actualBoth
+      ? '한 물건 안에 하드웨어와 소프트웨어가 함께 들어 있어요.'
+      : '소프트웨어 칸이 빈 물건도 있어요. 손으로만 움직이면 명령이 없어요.';
+    say((moved === 0 ? '넣은 칸 그대로예요. ' : '옮겨 간 조각이 있어요. 어디서 갈렸는지 봐요. ') + '알게 된 것: ' + learned, moved === 0 ? 'cheer' : 'think');
+    missionDone(1, learned);
     justChecked = true;
     render();
     justChecked = false;
@@ -364,7 +498,7 @@ main{overflow-x:hidden}
     out.classList.remove('show', 'pop');
   }
 
-  function resetRound() { clearRound(); render(); if (window.Fun) { Fun.say('같은 물건을 처음부터 나눠 봐요. 예상을 다시 골라요.'); } }
+  function resetRound() { clearRound(); render(); say('같은 물건을 처음부터 나눠 봐요. 예상을 다시 골라요.'); }
 
   function newRound() {
     cardIdx = pickCard();
@@ -372,9 +506,10 @@ main{overflow-x:hidden}
     cardname.textContent = card.name;
     cardicon.src = 'assets/' + IMG[card.name] + '.webp';
     cardBox.classList.remove('flip'); void cardBox.offsetWidth; cardBox.classList.add('flip');
-    if (window.Fun && pieces.length) { Fun.say('새 물건 「' + card.name + '」이에요. 먼저 예상을 골라요.'); }
+    if (pieces.length) { say('새 물건 「' + card.name + '」이에요. 먼저 예상을 골라요.'); }
     pieces = dealPieces(card);
     clearRound();
+    $('learn1').textContent = doneM[1] ? $('learn1').textContent : '';
     render();
   }
 
@@ -385,7 +520,176 @@ main{overflow-x:hidden}
   resetBtn.addEventListener('click', resetRound);
   nextBtn.addEventListener('click', newRound);
 
+  /* ───────── 미션 2: 명령만 바꿔 보기 ───────── */
+  var PAT = {
+    heart: { name: '하트', rows: ['.#.#.', '#####', '#####', '.###.', '..#..'] },
+    three: { name: '숫자 3', rows: ['####.', '....#', '.###.', '....#', '####.'] },
+    smile: { name: '웃는 얼굴', rows: ['.#.#.', '.#.#.', '.....', '#...#', '.###.'] },
+    arrow: { name: '위쪽 화살표', rows: ['..#..', '.###.', '#.#.#', '..#..', '..#..'] }
+  };
+  var PKEYS = Object.keys(PAT);
+  var m2 = { btnName: 'A', target: null, cmd: null, shown: null, guess: null, done: false, start: null };
+  var ledGoal = $('ledGoal'), ledNow = $('ledNow');
+
+  function buildLed(el) { el.textContent = ''; for (var i = 0; i < 25; i++) { el.appendChild(document.createElement('i')); } }
+  function paintLed(el, key) {
+    var cells = el.children;
+    for (var i = 0; i < 25; i++) {
+      var on = key ? PAT[key].rows[Math.floor(i / 5)].charAt(i % 5) === '#' : false;
+      cells[i].className = on ? 'on' : '';
+    }
+  }
+  buildLed(ledGoal); buildLed(ledNow);
+
+  function m2Render() {
+    var g = $('m2guess'), c = $('m2cmds'), row = $('m2row');
+    g.textContent = ''; c.textContent = ''; row.textContent = '';
+    [['same', '몸체는 그대로예요'], ['change', '몸체도 바뀌어요']].forEach(function (x) {
+      var b = btn(x[1], 'opt', function () {
+        if (m2.guess === null) { say('몸체는 그대로일 것 같은지, 바뀔 것 같은지 예측했어요. 명령을 바꿔서 확인해 봐요.'); }
+        m2.guess = x[0]; m2Render();
+      });
+      b.setAttribute('aria-pressed', m2.guess === x[0] ? 'true' : 'false');
+      b.disabled = m2.done;
+      g.appendChild(b);
+    });
+    PKEYS.forEach(function (k) {
+      var b = btn(m2.btnName + ' 버튼 → ' + PAT[k].name + ' 보여 주기', 'opt', function () { m2.cmd = k; m2.done = false; m2Render(); });
+      b.setAttribute('aria-pressed', m2.cmd === k ? 'true' : 'false');
+      b.disabled = m2.guess === null || m2.done;
+      c.appendChild(b);
+    });
+    $('m2cmd').textContent = '지금 명령: ' + m2.btnName + ' 버튼을 누르면 → ' + PAT[m2.cmd].name + ' 모양을 보여 준다';
+    var press = btn(m2.btnName + ' 버튼 누르기', 'act main', m2Press);
+    press.disabled = m2.guess === null || m2.done;
+    row.appendChild(press);
+    row.appendChild(btn('한 판 더', 'act', m2New));
+    $('m2kept').hidden = m2.shown === null;
+  }
+
+  function m2Press() {
+    if (m2.guess === null || m2.done) { return; }
+    m2.shown = m2.cmd;
+    paintLed(ledNow, m2.shown);
+    var o = $('m2out');
+    o.textContent = '';
+    var kept = $('m2kept');
+    kept.textContent = '';
+    ['LED 25개 그대로', m2.btnName + ' 버튼 그대로', '작은 칩 그대로'].forEach(function (t) { kept.appendChild(mk('span', null, t)); });
+    kept.hidden = false;
+    if (m2.shown === m2.target) {
+      m2.done = true;
+      o.appendChild(mk('p', null, 'LED에 뜬 모양: ' + PAT[m2.shown].name + '. 목표 모양과 같아요.'));
+      o.appendChild(mk('p', null, m2.guess === 'same' ? '예상대로 몸체는 그대로였어요. 바뀐 건 명령이에요.' : '몸체는 그대로였어요. 바뀐 건 명령이에요.'));
+      o.classList.add('show');
+      var learned = '명령만 바꿔도 물건이 다르게 움직여요. 몸체와 부품은 그대로예요.';
+      say('알게 된 것: ' + learned, 'cheer');
+      if (window.Fun) { Fun.burst(o); }
+      missionDone(2, learned);
+    } else {
+      o.appendChild(mk('p', null, 'LED에 뜬 모양: ' + PAT[m2.shown].name + '. 목표 모양과 달라요.'));
+      o.appendChild(mk('p', null, '몸체는 그대로예요. 명령을 바꿔서 다시 눌러 봐요.'));
+      o.classList.add('show');
+      say('예상과 다르게 나왔어요. 부품은 그대로이니 명령을 바꿔 봐요.', 'think');
+      if (window.Fun) { Fun.shake(o); }
+    }
+    m2Render();
+  }
+
+  function m2New() {
+    var t = PKEYS[rnd(PKEYS.length)], s;
+    do { s = PKEYS[rnd(PKEYS.length)]; } while (s === t);
+    m2.btnName = rnd(2) ? 'A' : 'B';
+    $('m2scene').textContent = m2.btnName + ' 버튼을 누르면 LED에 모양이 떠요.';
+    $('m2ask2').textContent = m2.btnName + ' 버튼을 누르면 보여 줄 모양을 골라요';
+    m2.target = t; m2.cmd = s; m2.start = s; m2.shown = null; m2.guess = null; m2.done = false;
+    $('m2goal').textContent = '목표: LED에 ' + PAT[t].name + ' 모양이 뜨게 만들어요.';
+    paintLed(ledGoal, t); paintLed(ledNow, null);
+    var o = $('m2out'); o.textContent = ''; o.classList.remove('show');
+    $('m2kept').hidden = true;
+    m2Render();
+    say('몸체는 바뀔까요, 그대로일까요? 먼저 예상을 골라요.');
+  }
+
+  /* ───────── 미션 3: 명령 한 줄 만들기 ───────── */
+  var SCEN = [
+    { name: '현관 자동문', img: 'assets/autodoor.webp', alt: '유리 자동문',
+      situ: '문 사이에 가방이 끼었어요.', goal: '목표: 가방이 끼어도 문이 사람을 누르지 않게 하고 싶어요.',
+      when: ['사람이 다가오면', '아무도 없으면', '문 사이에 물건이 끼면'], what: ['문을 열어요', '문을 닫아요', '닫지 않고 기다려요'], ok: [2, 2] },
+    { name: '보행자 신호등', img: 'assets/crosswalk.webp', alt: '횡단보도 신호등',
+      situ: '초록불이 곧 끝나려 해요.', goal: '목표: 건너는 사람이 초록불이 곧 끝난다는 걸 알게 하고 싶어요.',
+      when: ['건너기 버튼을 누르면', '초록불 끝나기 5초 전이 되면', '초록불 20초가 지나면'], what: ['초록불을 켜요', '초록불을 깜빡여요', '빨간불로 바꿔요'], ok: [1, 1] },
+    { name: '보건실 체온계', img: 'assets/thermometer.webp', alt: '체온계',
+      situ: '잰 온도가 높게 나왔어요.', goal: '목표: 열이 나는 친구를 바로 알 수 있으면 좋겠어요.',
+      when: ['재기 단추를 누르면', '37.5도가 넘으면', '한참 안 쓰면'], what: ['온도를 재요', '삐 소리를 내요', '화면을 꺼요'], ok: [1, 1] },
+    { name: '로봇 청소기', img: '../lecture/_assets/B01/pair_robotvac.webp', alt: '거실 바닥의 로봇 청소기',
+      situ: '청소하다가 벽 앞에 닿았어요.', goal: '목표: 벽에 막혀도 멈추지 않고 방 전체를 청소하면 좋겠어요.',
+      when: ['바닥에 먼지가 있으면', '벽에 부딪히면', '충전이 얼마 안 남으면'], what: ['방향을 돌려요', '멈추고 기다려요', '충전기로 돌아가요'], ok: [1, 0] },
+    { name: '계산기', img: 'assets/calculator.webp', alt: '계산기',
+      situ: '곱셈 식을 다 눌렀어요.', goal: '목표: 3 × 4의 답을 눈으로 보고 싶어요.',
+      when: ['× 버튼을 누르면', '= 버튼을 누르면', '한참 안 쓰면'], what: ['두 수를 곱해요', '답을 화면에 띄워요', '화면을 꺼요'], ok: [1, 1] }
+  ];
+  var m3 = { sc: null, idx: -1, whenOrder: [], whatOrder: [], pw: null, pt: null, done: false };
+  var prevScen = -1;
+
+  function m3Render() {
+    var W = $('m3when'), T = $('m3what'), row = $('m3row'), sc = m3.sc;
+    W.textContent = ''; T.textContent = ''; row.textContent = '';
+    m3.whenOrder.forEach(function (i) {
+      var b = btn(sc.when[i], 'opt', function () { m3.pw = i; m3Render(); });
+      b.setAttribute('aria-pressed', m3.pw === i ? 'true' : 'false');
+      b.disabled = m3.done; W.appendChild(b);
+    });
+    m3.whatOrder.forEach(function (i) {
+      var b = btn(sc.what[i], 'opt', function () { m3.pt = i; m3Render(); });
+      b.setAttribute('aria-pressed', m3.pt === i ? 'true' : 'false');
+      b.disabled = m3.done; T.appendChild(b);
+    });
+    var run = btn('명령 실행하기', 'act main', m3Run);
+    run.disabled = m3.done || m3.pw === null || m3.pt === null;
+    row.appendChild(run);
+    row.appendChild(btn('한 판 더', 'act', m3New));
+  }
+
+  function m3Run() {
+    var sc = m3.sc, o = $('m3out');
+    if (m3.pw === null || m3.pt === null || m3.done) { return; }
+    o.textContent = '';
+    o.appendChild(mk('p', null, '명령: ' + sc.when[m3.pw] + ' → ' + sc.what[m3.pt]));
+    if (m3.pw === sc.ok[0] && m3.pt === sc.ok[1]) {
+      m3.done = true;
+      o.appendChild(mk('p', null, '물건이 목표대로 움직여요.'));
+      var learned = '명령은 언제와 무엇을 한다로 만들어요. 명령이 바뀌면 물건의 행동도 바뀌어요.';
+      say('알게 된 것: ' + learned, 'cheer');
+      if (window.Fun) { Fun.burst(o); }
+      missionDone(3, learned);
+    } else {
+      var which = m3.pw !== sc.ok[0] ? '언제' : '무엇을';
+      o.appendChild(mk('p', null, '목표와 달라요. 명령의 ' + which + ' 부분을 바꿔 봐요.'));
+      say('예상과 다르게 움직여요. 목표와 견주어 어디가 갈렸는지 봐요.', 'think');
+      if (window.Fun) { Fun.shake(o); }
+    }
+    o.classList.add('show');
+    m3Render();
+  }
+
+  function m3New() {
+    var i;
+    do { i = rnd(SCEN.length); } while (i === prevScen);
+    prevScen = i; m3.idx = i; m3.sc = SCEN[i];
+    m3.whenOrder = shuffle([0, 1, 2]); m3.whatOrder = shuffle([0, 1, 2]);
+    m3.pw = null; m3.pt = null; m3.done = false;
+    var img = $('m3img'); img.src = m3.sc.img; img.alt = m3.sc.alt;
+    $('m3name').textContent = m3.sc.name;
+    $('m3situ').textContent = m3.sc.situ;
+    $('m3goal').textContent = m3.sc.goal;
+    var o = $('m3out'); o.textContent = ''; o.classList.remove('show');
+    m3Render();
+    say('목표대로 움직이게 명령을 만들어요. 언제와 무엇을, 하나씩 골라요.');
+  }
+
   newRound();
+  syncLadder();
 })();
 </script>
 <script src="../assets/play/fun.js" data-block="B01" data-mission="물건 카드 속 조각을 하드웨어 칸과 소프트웨어 칸에 나눠 넣어요. 넣기 전에 예상부터!"></script>

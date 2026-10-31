@@ -20,11 +20,11 @@
     border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
   h1{font-size:clamp(21px,5vw,27px);font-weight:700;letter-spacing:-.035em;line-height:1.08}
-  .lead{font-size:14px;color:var(--muted);margin-top:3px;font-weight:700}
+  .lead{font-size:15px;color:var(--muted);margin-top:3px;font-weight:700}
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:10px;margin-top:9px}
-  h2{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--muted)}
+  h2{font-size:15px;font-weight:700;margin-bottom:6px;color:var(--muted)}
 
   /* 규칙 한 줄 — 판마다 바뀐다 */
   .rule{font-size:clamp(16px,4.3vw,21px);font-weight:700;letter-spacing:-.02em;
@@ -37,8 +37,8 @@
   .strip{display:grid;grid-template-columns:repeat(8,1fr);gap:3px}
   .c{position:relative;font-family:inherit;cursor:pointer;background:var(--surface);
     color:var(--ink);border:1px solid var(--line);border-radius:8px;min-height:46px;
-    padding:2px 0 12px;display:flex;align-items:center;justify-content:center}
-  .c .no{position:absolute;left:0;right:0;bottom:1px;font-size:9.5px;font-weight:700;color:var(--muted)}
+    padding:2px 0 16px;display:flex;align-items:center;justify-content:center}
+  .c .no{position:absolute;left:0;right:0;bottom:1px;font-size:14px;line-height:1.1;font-weight:700;color:var(--muted)}
   .c svg{width:17px;height:17px;display:block}
   .c.mark{background:var(--point-soft)}
   .c.guess{border:4px solid var(--ink)}
@@ -54,11 +54,11 @@
   @keyframes pk{0%{transform:scale(1)}45%{transform:scale(1.16)}100%{transform:scale(1)}}
 
   .row{display:flex;align-items:center;gap:10px;margin-top:8px}
-  .led{width:74px;height:74px;flex:none;background:var(--ink);border:1px solid var(--line);
+  .led{width:56px;height:56px;flex:none;background:var(--ink);border:1px solid var(--line);
     border-radius:var(--r-sm);padding:6px}
   .led svg{width:100%;height:100%;display:block}
   .vb{flex:1}
-  .vb .lb{display:block;font-size:12px;font-weight:700;color:var(--muted)}
+  .vb .lb{display:block;font-size:14px;font-weight:700;color:var(--muted)}
   .vb b{font-family:'Courier New',monospace;font-size:clamp(34px,9vw,46px);font-weight:700;
     line-height:1;color:var(--point);display:block}
 
@@ -72,9 +72,9 @@
   .btn.main{background:var(--point);color:#fff}
   .btn:disabled{opacity:.4;cursor:default;box-shadow:none}
 
-  .say{margin-top:7px;font-size:13.5px;font-weight:700}
+  .say{margin-top:7px;font-size:14.5px;font-weight:700}
   .say.dim{color:var(--muted);font-weight:700}
-  .note{margin-top:5px;font-size:12.5px;font-weight:700;color:var(--muted)}
+  .note{margin-top:5px;font-size:14px;font-weight:700;color:var(--muted)}
   [hidden]{display:none!important}
 
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
@@ -83,7 +83,43 @@
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 .btn{white-space:nowrap;flex:1 1 auto}
-@media(max-width:380px){.c{min-height:42px}.nav{flex-wrap:wrap}.btn{padding:8px 6px;font-size:14px}}
+@media(max-width:380px){.c{min-height:48px}.nav{flex-wrap:wrap}.btn{padding:8px 6px;font-size:14px}}
+
+/* 미션 사다리 2026-10-31 */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:9px}
+.steps .st{font-family:inherit;cursor:pointer;color:var(--ink);font-size:14px;font-weight:700;background:var(--surface);
+  border:1px solid var(--ink);border-radius:var(--r-sm);min-height:46px;padding:6px 4px;line-height:1.25}
+.steps .st[aria-current="step"]{background:var(--point);border-color:var(--point);color:#fff}
+.steps .st .ck{display:none}.steps .st.done .ck{display:inline}
+.how{margin-top:9px;background:var(--sun-l);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:15px;font-weight:700;line-height:1.45}
+.concept{margin-top:9px;background:var(--grape-l);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:14.5px;line-height:1.5}
+.concept b{display:block;font-size:14px;color:var(--point);margin-bottom:2px}
+.concept img{display:block;width:min(260px,100%);height:auto;margin:6px 0 0;border-radius:8px;border:1px solid var(--line)}
+.pic{display:block;width:100%;height:auto;border-radius:8px;border:1px solid var(--line)}
+.pic.sm{width:min(150px,38%);flex:none}
+.top{display:flex;gap:10px;align-items:center}
+.top p{font-size:14.5px;font-weight:700}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+.pair figure{margin:0;text-align:center;font-size:14px;font-weight:700}
+.pair figcaption{margin-top:3px}
+.opts{display:grid;gap:7px;margin-top:8px}
+.opt{font-family:inherit;cursor:pointer;color:var(--ink);font-size:16px;font-weight:700;text-align:left;background:var(--surface);
+  border:1px solid var(--ink);border-radius:var(--r-sm);min-height:48px;padding:8px 12px;box-shadow:var(--hard-sm)}
+.opt[aria-pressed="true"]{background:var(--point-soft);border:3px solid var(--ink)}
+.opt:disabled{cursor:default;opacity:1}
+.opt .r{display:block;font-size:14px;color:var(--muted);margin-top:2px}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px}
+.modes .opt{text-align:center}
+.res{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.res .rc{flex:1 1 120px;text-align:center;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:4px 2px;font-size:14px;font-weight:700}
+.res .rc svg{width:26px;height:26px;display:block;margin:2px auto 0}
+.res .rc.bad{background:var(--pink-l)}
+.stepper{display:flex;align-items:center;gap:8px;margin-top:8px}
+.stepper .btn{flex:0 0 52px}
+.stepper b{font-size:30px;min-width:48px;text-align:center;font-family:'Courier New',monospace;color:var(--point)}
+.ai{margin-top:12px;font-size:14px;color:var(--muted);text-align:center;font-weight:700}
+.strip .c.show{cursor:default}
+@media(max-width:380px){.pic.sm{width:34%}.top p{font-size:14px}.steps .st{font-size:14px}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -99,52 +135,143 @@
     <p class="lead">어디서 갈릴지 먼저 짚어요</p>
   </header>
 
-  <section aria-labelledby="h-r">
-    <h2 id="h-r">이번 규칙</h2>
-    <p class="rule" id="rule"></p>
-    <div class="strip" id="strip" style="margin-top:8px"></div>
-    <p class="say dim" id="say">띠에서 한 칸 짚어요</p>
-  </section>
+  <div class="steps" id="steps" role="group" aria-label="미션 고르기">
+    <button class="st" type="button" data-step="1" aria-current="step"><span class="ck">✓ </span>① 찾기</button>
+    <button class="st" type="button" data-step="2"><span class="ck">✓ </span>② 고르기</button>
+    <button class="st" type="button" data-step="3"><span class="ck">✓ </span>③ 만들기</button>
+  </div>
+  <p class="how" id="how"></p>
 
-  <section aria-labelledby="h-t">
-    <h2 id="h-t">시험</h2>
-    <div class="row">
-      <div class="led"><svg id="grid" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 화면"></svg></div>
-      <p class="vb"><span class="lb">누른 횟수</span><b id="num">0</b></p>
-    </div>
-    <div class="acts">
-      <button class="btn" id="left" type="button">A 버튼 +1</button>
-      <button class="btn main" id="right" type="button">B 버튼 판정</button>
-      <button class="btn" id="reset" type="button">다시 시작</button>
-      <button class="btn" id="next" type="button">다음 판</button>
-    </div>
-    <p class="note">마이크로비트로 다시 시험해요</p>
-  </section>
+  <div id="m1">
+    <section aria-labelledby="h-r">
+      <h2 id="h-r">미션 1 · 갈리는 칸 찾기</h2>
+      <p class="rule" id="rule"></p>
+      <div class="strip" id="strip" style="margin-top:8px"></div>
+      <p class="say dim" id="say">띠에서 한 칸 짚어요</p>
+    </section>
+
+    <section aria-labelledby="h-t">
+      <h2 id="h-t">시험</h2>
+      <div class="row">
+        <div class="led"><svg id="grid" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 화면"></svg></div>
+        <p class="vb"><span class="lb">누른 횟수</span><b id="num">0</b></p>
+      </div>
+      <div class="acts">
+        <button class="btn" id="left" type="button">A 버튼 +1</button>
+        <button class="btn main" id="right" type="button">B 버튼 시험</button>
+        <button class="btn" id="reset" type="button">다시 시작</button>
+        <button class="btn" id="next" type="button">다음 판</button>
+      </div>
+      <div class="acts" id="go1" data-to="2" hidden></div>
+      <div class="top" style="margin-top:8px">
+        <img class="pic sm" src="../lecture/_assets/B08/microbit_buttons.webp" width="1600" height="900" alt="마이크로비트의 A 버튼과 B 버튼을 두 손으로 누르는 모습">
+        <p>A 버튼은 횟수를 하나 올려요. B 버튼은 그 횟수로 시험해요.</p>
+      </div>
+    </section>
+  </div>
+
+  <div id="m2" hidden>
+    <section aria-labelledby="h-2">
+      <h2 id="h-2">미션 2 · 목표에 맞는 규칙 고르기</h2>
+      <p class="rule" id="goal2"></p>
+      <div class="pair">
+        <figure><img class="pic" src="../lecture/_assets/B08/pair_x.webp" width="1600" height="900" alt="마이크로비트 화면에 가위표가 뜬 모습"><figcaption id="cap2x"></figcaption></figure>
+        <figure><img class="pic" src="../lecture/_assets/B08/pair_heart.webp" width="1600" height="900" alt="마이크로비트 화면에 하트가 뜬 모습"><figcaption id="cap2h"></figcaption></figure>
+      </div>
+      <div class="opts" id="opts2" role="group" aria-label="규칙 고르기"></div>
+      <div class="acts"><button class="btn main" id="chk2" type="button" disabled>이 규칙으로 시험</button><button class="btn" id="nx2" type="button">다음 판</button></div>
+      <div class="res" id="res2" aria-live="polite"></div>
+      <p class="say dim" id="say2">규칙 하나를 골라요. 시험한 뒤에는 바꿀 수 없어요</p>
+      <div class="acts" id="go2" data-to="3" hidden></div>
+    </section>
+  </div>
+
+  <div id="m3" hidden>
+    <section aria-labelledby="h-3">
+      <h2 id="h-3">미션 3 · 내 규칙 만들기</h2>
+      <p class="rule" id="goal3"></p>
+      <p class="note">같거나 크면 규칙과 보다 크면 규칙, 두 가지로 모두 만들어 봐요.</p>
+      <div class="modes" id="modes3" role="group" aria-label="비교 말 고르기"></div>
+      <div class="stepper"><button class="btn" id="dn3" type="button" aria-label="기준 수 줄이기">−</button><b id="n3">8</b><button class="btn" id="up3" type="button" aria-label="기준 수 늘리기">+</button><span class="note" style="margin:0">기준 수</span></div>
+      <p class="rule" id="mine3" style="margin-top:8px"></p>
+      <div class="acts"><button class="btn main" id="t3" type="button">이 규칙으로 시험</button><button class="btn" id="nx3" type="button">새 목표</button></div>
+      <div class="strip" id="strip3" style="margin-top:8px"></div>
+      <p class="say dim" id="say3">만든 규칙을 시험하면 띠에 나와요</p>
+      <img class="pic" id="done3" style="margin-top:8px" src="../lecture/_assets/B08/mission_done.webp" width="1600" height="900" alt="탁자 위에 하트가 뜬 마이크로비트와 초록 깃발" hidden>
+    </section>
+  </div>
+
+  <aside class="concept" id="concept">
+    <b>알아 둘 것</b>
+    컴퓨터는 규칙에 적힌 대로만 갈라요. ‘10과 같거나 크면’은 10부터 하트이고, ‘10보다 크면’은 11부터 하트예요. 그래서 기준 수 바로 아래와 기준 수를 둘 다 시험해요.
+    <img src="../lecture/_assets/B08/blk_cond10.webp" width="1000" height="560" alt="만약 횟수 10 이상이면 블록">
+  </aside>
+  <p class="ai">그림 일부는 생성형 AI로 만들었어요</p>
 </div>
 
-<script src="../assets/play/fun.js" data-block="B08" data-mission="규칙 한 줄을 읽고, 하트와 가위표가 갈리는 칸을 먼저 짚어요. 한 글자에 한 칸이 옮겨 가요!"></script>
+<script src="../assets/play/fun.js" data-block="B08" data-mission="규칙을 읽고, 하트와 가위표가 갈리는 칸을 먼저 짚어요."></script>
 <script>
 (function(){
   'use strict';
   var $ = function(id){ return document.getElementById(id); };
   var NS = 'http://www.w3.org/2000/svg';
   var MAXV = 15;
-
   var HEART = [0,1,0,1,0, 1,1,1,1,1, 1,1,1,1,1, 0,1,1,1,0, 0,0,1,0,0];
   var CROSS = [1,0,0,0,1, 0,1,0,1,0, 0,0,1,0,0, 0,1,0,1,0, 1,0,0,0,1];
-
-  var n = 10, ge = true;     // 이번 판의 기준값과 규칙
-  var edge = 10;             // 실제로 갈리는 자리
-  var value = 0;             // 누른 횟수
-  var shown = null;          // 지금 LED
-  var guess = null;          // 짚은 칸
-  var tried = [];            // 시험한 칸의 결과
-  var found = false;         // 갈린 자리가 드러났나
-  var booted = false;
-  var stamped = false;       // 이 판의 도장을 찍었나
   function say(t, m){ if (window.Fun) Fun.say(t, m); }
+  function wa(n){ return [2,4,5,9,12,14,15].indexOf(n) >= 0 ? '와' : '과'; }
+  function ruleText(n, ge){ return ge ? '횟수가 ' + n + wa(n) + ' 같거나 크면 하트' : '횟수가 ' + n + '보다 크면 하트'; }
+  function cond(n, ge){ return ge ? '횟수가 ' + n + wa(n) + ' 같거나 크면' : '횟수가 ' + n + '보다 크면'; }
+  function ruleHTML(n, ge){ return ge ? '횟수가 <em>' + n + wa(n) + ' 같거나 크면</em> 하트' : '횟수가 <em>' + n + '보다 크면</em> 하트'; }
+  function isHeart(v, n, ge){ return ge ? v >= n : v > n; }
+  function firstHeart(n, ge){ var e = ge ? n : n + 1; return e > MAXV ? -1 : e; }
+  function icon(kind){
+    if (!kind) return '';
+    return kind === 'heart'
+      ? '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 17S2 12 2 7a4 4 0 018-1 4 4 0 018 1c0 5-8 10-8 10z" fill="#FF3B2F" stroke="#222222" stroke-width="1.6"/></svg>'
+      : '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="#222222" stroke-width="3" stroke-linecap="round"/></svg>';
+  }
+  function rnd(a, b){ return a + Math.floor(Math.random() * (b - a + 1)); }
 
-  var leds = [], cells = [];
+  /* ---------- 미션 사다리 ---------- */
+  var HOW = {
+    1: '하트가 처음 나올 칸을 띠에서 먼저 짚어요. 그다음 A로 올리고 B로 시험해요.',
+    2: '목표 그림을 보고 어울리는 규칙을 하나 골라요. 고르면 시험 결과가 나와요.',
+    3: '기준 수와 ‘같거나 크면’, ‘보다 크면’ 중 하나를 골라 규칙을 만들어요. 하트가 처음 나오는 칸이 목표와 같아야 해요.'
+  };
+  var done = {}, allStamped = false, cur = 1;
+  var stBtns = [].slice.call(document.querySelectorAll('#steps .st'));
+  function show(k){
+    cur = k;
+    for (var i = 1; i <= 3; i++) $('m' + i).hidden = (i !== k);
+    stBtns.forEach(function(b, i){
+      if (i + 1 === k) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+    });
+    $('how').textContent = HOW[k];
+  }
+  function markDone(k){
+    done[k] = true; stBtns[k - 1].classList.add('done');
+    if (done[1] && done[2] && done[3] && !allStamped){
+      allStamped = true;
+      if (window.Fun) Fun.stamp();
+    }
+  }
+  stBtns.forEach(function(b){ b.addEventListener('click', function(){ show(+b.getAttribute('data-step')); }); });
+  [].forEach.call(document.querySelectorAll('[data-to]'), function(box){
+    var to = +box.getAttribute('data-to'), b = document.createElement('button');
+    b.type = 'button'; b.className = 'btn main'; b.textContent = '미션 ' + to + '으로 가요'.replace('으로', to === 2 ? '로' : '으로');
+    b.addEventListener('click', function(){ show(to); });
+    box.appendChild(b);
+  });
+  [['ge', '같거나 크면'], ['gt', '보다 크면']].forEach(function(m){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'opt'; b.setAttribute('data-mode', m[0]); b.textContent = m[1];
+    $('modes3').appendChild(b);
+  });
+
+  /* ---------- 미션 1: 갈리는 칸 찾기 ---------- */
+  var n = 10, ge = true, edge = 10, value = 0, shown = null, guess = null, tried = [], found = false, booted = false;
+  var leds = [], cells = [], whyText = '';
 
   (function build(){
     for (var i = 0; i < 25; i++){
@@ -163,38 +290,27 @@
     }
   })();
 
-  function icon(kind){
-    if (!kind) return '';
-    return kind === 'heart'
-      ? '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 17S2 12 2 7a4 4 0 018-1 4 4 0 018 1c0 5-8 10-8 10z" fill="#FF3B2F" stroke="#222222" stroke-width="1.6"/></svg>'
-      : '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 5l10 10M15 5L5 15" stroke="#222222" stroke-width="3" stroke-linecap="round"/></svg>';
-  }
-
   function newRound(){
-    n = 3 + Math.floor(Math.random() * 11);       // 3~13
-    ge = Math.random() < 0.5;
+    var old = n + (ge ? 'g' : 't');
+    do { n = 3 + Math.floor(Math.random() * 11); ge = Math.random() < 0.5; } while (booted && old === n + (ge ? 'g' : 't'));
     edge = ge ? n : n + 1;
-    value = 0; shown = null; guess = null; found = false; stamped = false;
+    value = 0; shown = null; guess = null; found = false; whyText = '';
+    $('go1').hidden = true;
     tried = [];
     for (var i = 0; i <= MAXV; i++) tried.push(null);
-    // 조사는 수를 읽는 소리에 맞춘다(4와, 10과). 규칙 칸 이름은 과정안 블록의 '횟수'다.
-    var wa = (n === 4 || n === 5 || n === 9 || n === 12) ? '와' : '과';
-    $('rule').innerHTML = ge
-      ? '횟수가 <em>' + n + wa + ' 같거나 크면</em> 하트'
-      : '횟수가 <em>' + n + '보다 크면</em> 하트';
+    $('rule').innerHTML = ruleHTML(n, ge);
     render();
     if (booted) say('새 규칙이에요. 갈리는 칸을 먼저 짚어요', 'think');
     booted = true;
   }
 
-  // 짚기는 판마다 한 번. 시험을 시작하기 전에만 짚을 수 있다.
   function pick(v){
     if (tried.some(function(x){ return x !== null; })) return;
     if (guess !== null) return;
     guess = v;
     cells[v].classList.remove('pick'); void cells[v].offsetWidth; cells[v].classList.add('pick');
     render();
-    say(v + '칸을 짚었어요. 이제 A 버튼으로 횟수를 올리고 B 버튼으로 시험해요');
+    say(v + '칸을 짚었어요. A로 횟수를 올리고 B로 시험해요');
   }
 
   $('left').addEventListener('click', function(){
@@ -202,34 +318,33 @@
     value += 1; render();
   });
   $('right').addEventListener('click', function(){
-    if (guess === null) return;                  // 짚기 전에는 시험하지 않는다
-    shown = (ge ? value >= n : value > n) ? 'heart' : 'cross';
+    if (guess === null) return;
+    shown = isHeart(value, n, ge) ? 'heart' : 'cross';
     tried[value] = shown;
-    // 경계 양쪽을 둘 다 시험하면 갈린 자리가 드러난다
     var was = found;
     if (tried[edge - 1] === 'cross' && tried[edge] === 'heart') found = true;
     render();
     if (found && !was) finish();
   });
-  $('reset').addEventListener('click', function(){
-    value = 0; shown = null; render();
-  });
+  $('reset').addEventListener('click', function(){ value = 0; shown = null; render(); });
   $('next').addEventListener('click', newRound);
 
   function finish(){
-    stamped = true;
     var d = Math.abs(guess - edge);
-    var why = ge ? n + '부터 하트예요. 같거나 크면은 ' + n + ' 자리도 들어가요.'
+    whyText = ge ? n + '부터 하트예요. 같거나 크면은 ' + n + ' 자리도 들어가요.'
                  : (n + 1) + '부터 하트예요. 보다 크면은 ' + n + ' 자리는 빠져요.';
-    if (d === 0){
-      say('짚은 자리에서 갈렸어요. ' + why, 'cheer');
-      if (window.Fun) Fun.burst(cells[edge]);
-    } else {
-      say(d + '칸 옆에서 갈렸어요. ' + why, 'think');
-      if (window.Fun) Fun.shake($('strip'));
-    }
+    render();
     cells[edge].classList.remove('hit'); void cells[edge].offsetWidth; cells[edge].classList.add('hit');
-    if (window.Fun) Fun.stamp();
+    if (d === 0){ if (window.Fun) Fun.burst(cells[edge]); }
+    else { if (window.Fun) Fun.shake($('strip')); }
+    if (d === 0){
+      $('go1').hidden = false;
+      markDone(1);
+      say('알게 된 것: 같거나 크면은 그 수부터, 보다 크면은 그 수 다음부터 하트예요.', 'cheer');
+    } else {
+      $('go1').hidden = true;
+      say(guess + '칸을 짚었는데 ' + edge + '칸에서 갈렸어요. ‘다음 판’을 눌러 다시 짚어요.', 'think');
+    }
   }
 
   function render(){
@@ -237,30 +352,165 @@
     $('num').textContent = String(value);
     var pic = shown === 'heart' ? HEART : (shown === 'cross' ? CROSS : null);
     for (var i = 0; i < 25; i++) leds[i].setAttribute('fill', pic && pic[i] ? '#FF3B2F' : '#3A3630');
-
     for (var v = 0; v <= MAXV; v++){
       var c = cells[v];
       c.querySelector('.ico').innerHTML = icon(tried[v]);
       c.classList.toggle('mark', tried[v] !== null);
       c.classList.toggle('guess', guess === v);
       c.classList.toggle('edge', found && v === edge);
-      // 시험을 시작하면 띠를 잠근다. 눌러도 조용히 안 먹으면 고장인 줄 안다.
       c.disabled = tested;
       c.setAttribute('aria-label', v + (guess === v ? ' 짚음' : '') +
         (tried[v] ? (tried[v] === 'heart' ? ' 하트' : ' 가위표') : ''));
     }
-
     var s = $('say');
     if (guess === null){ s.textContent = '띠에서 한 칸 짚어요'; s.className = 'say dim'; }
-    else if (!found){ s.textContent = '눌러서 시험해요'; s.className = 'say dim'; }
-    else if (guess === edge){ s.textContent = '짚은 자리에서 갈렸어요'; s.className = 'say'; }
-    else { s.textContent = Math.abs(guess - edge) + '칸 옆에서 갈렸어요'; s.className = 'say'; }
-
+    else if (!found){ s.textContent = '눌러서 시험해요. 하트가 처음 나오는 칸 양쪽을 모두 눌러요'; s.className = 'say dim'; }
+    else if (guess === edge){ s.textContent = '짚은 자리에서 갈렸어요. ' + whyText; s.className = 'say'; }
+    else { s.textContent = Math.abs(guess - edge) + '칸 옆에서 갈렸어요. ' + whyText + ' 다음 판에서 다시 짚어요.'; s.className = 'say'; }
     $('left').disabled = value >= MAXV;
     $('right').disabled = guess === null;
   }
 
-  newRound();
+  /* ---------- 미션 2: 목표에 맞는 규칙 고르기 ---------- */
+  var n2 = 0, opts2 = [], sel2 = -1, checked2 = false, round2 = 0;
+  function newRound2(){
+    var old = n2;
+    do { n2 = rnd(3, 13); } while (n2 === old);
+    var all = [ {n: n2, ge: true}, {n: n2 - 1, ge: false}, {n: n2, ge: false}, {n: n2 - 1, ge: true} ];
+    all.sort(function(){ return Math.random() - 0.5; });
+    opts2 = all.slice(0, 3);
+    sel2 = -1; checked2 = false; round2++;
+    $('goal2').innerHTML = '횟수 <em>' + n2 + '</em>부터 하트가 나오게 해요';
+    $('cap2x').textContent = (n2 - 1) + '번이면 가위표';
+    $('cap2h').textContent = n2 + '번이면 하트';
+    var box = $('opts2'); box.innerHTML = '';
+    opts2.forEach(function(o, i){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'opt'; b.setAttribute('aria-pressed', 'false');
+      b.innerHTML = '<span></span><span class="r" hidden></span>';
+      b.firstChild.textContent = ruleText(o.n, o.ge);
+      b.addEventListener('click', function(){ choose2(i); });
+      box.appendChild(b);
+    });
+    $('res2').innerHTML = '';
+    $('go2').hidden = true;
+    $('chk2').disabled = true;
+    var s = $('say2'); s.textContent = '규칙 하나를 골라요. 시험한 뒤에는 바꿀 수 없어요'; s.className = 'say dim';
+    if (round2 > 1) say('새 목표예요. 어울리는 규칙을 골라요', 'think');
+  }
+  function choose2(i){
+    if (checked2) return;
+    sel2 = i;
+    [].forEach.call($('opts2').children, function(b, k){ b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+    $('chk2').disabled = false;
+    var s = $('say2'); s.textContent = '이 규칙으로 시험해 봐요'; s.className = 'say dim';
+  }
+  $('chk2').addEventListener('click', function(){
+    if (sel2 < 0 || checked2) return;
+    checked2 = true;
+    var o = opts2[sel2], bad = [], html = '';
+    [n2 - 1, n2].forEach(function(v){
+      var got = isHeart(v, o.n, o.ge), want = (v === n2);
+      if (got !== want) bad.push(v + '번에서 ' + (got ? '하트' : '가위표') + '가 나왔어요');
+      html += '<div class="rc' + (got !== want ? ' bad' : '') + '">' + v + '번' + icon(got ? 'heart' : 'cross') +
+        '<span>' + (got !== want ? '목표와 달라요' : '목표와 같아요') + '</span></div>';
+    });
+    $('res2').innerHTML = html;
+    [].forEach.call($('opts2').children, function(b, k){
+      b.disabled = true;
+      var f = firstHeart(opts2[k].n, opts2[k].ge), r = b.querySelector('.r');
+      r.textContent = f < 0 ? '하트가 안 나와요' : '하트는 ' + f + '번부터예요';
+      r.hidden = false;
+    });
+    $('chk2').disabled = true;
+    var s = $('say2'); s.className = 'say';
+    if (!bad.length){
+      s.textContent = n2 + '번부터 하트가 나와서 목표와 같아요.';
+      if (window.Fun) Fun.burst($('res2'));
+    } else {
+      s.textContent = '목표와 다르게 나왔어요. ' + bad.join(', ') + '. ‘다음 판’을 눌러 다시 골라요.';
+      if (window.Fun) Fun.shake($('res2'));
+    }
+    if (!bad.length){
+      $('go2').hidden = false;
+      markDone(2);
+      say('알게 된 것: 기준 수 바로 아래와 기준 수에서 결과가 갈리는지 보면 규칙을 확인할 수 있어요.', 'cheer');
+    } else {
+      $('go2').hidden = true;
+      say('목표와 달라요. 갈린 칸을 보고 다음 판에서 다시 골라요', 'think');
+    }
+  });
+  $('nx2').addEventListener('click', newRound2);
+
+  /* ---------- 미션 3: 내 규칙 만들기 ---------- */
+  var E3 = 8, mode3 = 'ge', n3 = 8, got3 = { ge: false, gt: false }, tested3 = false, cells3 = [];
+  (function build3(){
+    for (var v = 0; v <= MAXV; v++){
+      var d = document.createElement('div');
+      d.className = 'c show';
+      d.innerHTML = '<span class="ico"></span><span class="no">' + v + '</span>';
+      $('strip3').appendChild(d); cells3.push(d);
+    }
+  })();
+  function draw3(rs, first){
+    for (var v = 0; v <= MAXV; v++){
+      var c = cells3[v];
+      c.querySelector('.ico').innerHTML = rs ? icon(isHeart(v, n3, mode3 === 'ge') ? 'heart' : 'cross') : '';
+      c.classList.toggle('mark', !!rs);
+      c.classList.toggle('edge', !!rs && v === first);
+    }
+  }
+  function ui3(){
+    $('n3').textContent = String(n3);
+    $('mine3').innerHTML = ruleHTML(n3, mode3 === 'ge');
+    [].forEach.call(document.querySelectorAll('[data-mode]'), function(b){
+      b.setAttribute('aria-pressed', b.getAttribute('data-mode') === mode3 ? 'true' : 'false');
+    });
+    $('dn3').disabled = n3 <= 0; $('up3').disabled = n3 >= MAXV;
+  }
+  function clear3(){
+    tested3 = false; draw3(false);
+    var s = $('say3'); s.textContent = '만든 규칙을 시험하면 띠에 나와요'; s.className = 'say dim';
+  }
+  function newRound3(){
+    var old = E3;
+    do { E3 = rnd(4, 12); } while (E3 === old);
+    got3 = { ge: false, gt: false }; $('done3').hidden = true;
+    $('goal3').innerHTML = '하트가 <em>' + E3 + '번부터</em> 나오게 규칙을 만들어요';
+    clear3(); ui3();
+  }
+  [].forEach.call(document.querySelectorAll('[data-mode]'), function(b){
+    b.addEventListener('click', function(){ mode3 = b.getAttribute('data-mode'); ui3(); clear3(); });
+  });
+  $('dn3').addEventListener('click', function(){ if (n3 > 0){ n3--; ui3(); clear3(); } });
+  $('up3').addEventListener('click', function(){ if (n3 < MAXV){ n3++; ui3(); clear3(); } });
+  $('nx3').addEventListener('click', function(){ newRound3(); say('새 목표예요. 규칙을 만들어 봐요', 'think'); });
+  $('t3').addEventListener('click', function(){
+    var f = firstHeart(n3, mode3 === 'ge');
+    tested3 = true; draw3(true, f);
+    var s = $('say3'); s.className = 'say';
+    if (f === E3){
+      got3[mode3] = true;
+      var other = mode3 === 'ge' ? '보다 크면' : '같거나 크면';
+      var both = got3.ge && got3.gt;
+      s.textContent = E3 + '번부터 하트가 나와요.' + (both ? '' : ' ' + other + ' 규칙으로도 만들어 봐요.');
+      if (window.Fun) Fun.burst(cells3[E3]);
+      if (both){
+        $('done3').hidden = false;
+        markDone(3);
+        say('알게 된 것: ‘' + cond(E3, true) + '’과 ‘' + cond(E3 - 1, false) + '’은 말만 다르고 하트가 나오는 칸이 같아요.', 'cheer');
+      } else {
+        say('목표대로 나왔어요. 다른 말로도 같은 자리를 만들 수 있을까요?', 'cheer');
+      }
+    } else {
+      s.textContent = '목표와 다르게 나왔어요. ' + (f < 0 ? '0~15에서 하트가 나오지 않았어요.' : '하트가 ' + f + '번부터 나와요.') + ' 기준 수나 말을 바꿔 봐요.';
+      if (window.Fun) Fun.shake($('strip3'));
+      say('목표와 달라요. 하트가 처음 나오는 칸을 보고 고쳐 봐요', 'think');
+    }
+  });
+
+  newRound(); newRound2(); newRound3();
+  show(1);
 })();
 </script>
 </body>

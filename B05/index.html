@@ -17,8 +17,6 @@
 html,body{margin:0;padding:0}
 body{
   background:var(--paper);
-  
-  
   color:var(--ink);
   font-family:"Pretendard","Noto Sans KR",-apple-system,"Segoe UI","Malgun Gothic",sans-serif;
   font-size:17px; line-height:1.45; font-weight:600;
@@ -32,7 +30,7 @@ h1{font-size:clamp(24px,5.6vw,34px);font-weight:700;letter-spacing:-.035em;margi
   background:var(--surface); border:1px solid var(--line);
   border-radius:var(--r); box-shadow:var(--hard); padding:9px; margin:0 0 9px;
 }
-.face h2{font-size:13.5px;font-weight:700;letter-spacing:-.02em;margin:0 0 8px;color:var(--muted)}
+.face h2{font-size:14px;font-weight:700;letter-spacing:-.02em;margin:0 0 8px;color:var(--muted)}
 
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 4px}
 .chip{display:inline-block;font-weight:600;font-size:14px;background:var(--point-soft);
@@ -57,6 +55,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
 @media (max-width:719px){ .wrap{grid-template-columns:minmax(0,1fr)} }
 
 .diagram svg{display:block;width:100%;max-width:262px;margin:0 auto;height:auto}
+.diagram svg.big{max-width:340px}
 
 .shape{fill:var(--surface);stroke:var(--ink);stroke-width:3}
 .node.lit .shape{fill:var(--point-soft);stroke-width:5}
@@ -72,7 +71,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   font-weight:600;
 }
 .rec span:empty::before{content:"—";color:var(--muted)}
-.say{font-size:13.5px;font-weight:700;color:var(--point);min-height:20px}
+.say{font-size:14px;font-weight:700;color:var(--point);min-height:20px;margin:4px 0}
 .ask{
   margin:10px 0 0; padding:10px 14px; font-weight:600;
   border:1.5px dashed var(--line-strong); border-radius:var(--r-sm); background:var(--point-soft);
@@ -90,12 +89,42 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   border:1px solid var(--line);border-radius:999px;padding:6px 14px;
   box-shadow:var(--hard-sm);white-space:nowrap}
 
-.tok{fill:var(--sun);stroke:var(--ink);stroke-width:3;opacity:0;transition:opacity .15s}
+.tok{fill:var(--sun,#ffd84d);stroke:var(--ink);stroke-width:3;opacity:0;transition:opacity .15s}
 .tok.on{opacity:1}
 .trail{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 6px;min-height:30px}
-.trail span{font-size:13.5px;font-weight:700;border:1px solid var(--line-strong);border-radius:999px;padding:3px 10px;background:var(--soft,#f3efe6)}
+.trail span{font-size:14px;font-weight:700;border:1px solid var(--line-strong);border-radius:999px;padding:3px 10px;background:var(--soft,#f3efe6)}
 .trail span.odd{border-style:dashed;border-color:var(--point)}
 /* 에듀다움 통일 테마 2026-09-27 */
+
+/* 체험 개선 2026-10-31: 안내, 개념, 미션 사다리 */
+.how{margin:0 0 8px;background:var(--sun-l,#fff6d9);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:15px;font-weight:700;line-height:1.45}
+.concept{margin:0 0 10px;background:var(--grape-l,#efecfd);border:1px solid var(--line);border-radius:var(--r-sm);padding:9px 12px;font-size:14.5px;line-height:1.5}
+.concept b{display:block;font-size:14px;color:var(--point);margin-bottom:2px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:0 0 10px}
+.sb{min-width:0;min-height:46px;padding:5px 6px;font-size:14px;line-height:1.2;box-shadow:var(--hard-sm);border-radius:var(--r-sm);border-color:var(--line-strong);background:var(--surface);word-break:keep-all}
+.sb[aria-current="step"]{background:var(--point);border-color:var(--point);color:#fff}
+.sb .ck{display:none}
+.sb.done .ck{display:inline}
+.mis[hidden]{display:none}
+.pic{display:block;width:100%;height:104px;object-fit:cover;border-radius:var(--r-sm);margin:0 0 8px;border:1px solid var(--line)}
+.pic[hidden]{display:none}
+.mis h2.mt{font-size:16px;color:var(--point);margin:0 0 6px}
+.ask2{font-size:14.5px;font-weight:700;margin:2px 0 8px}
+.dots{display:flex;gap:6px;margin:0 0 8px}
+.dots i{width:22px;height:8px;border-radius:4px;background:var(--line-strong);display:block}
+.dots i.on{background:var(--point)}
+.learn{margin:9px 0 0;background:var(--mint-l,#e3f6ef);border-radius:var(--r-sm);padding:8px 11px;font-size:14.5px;font-weight:700}
+.learn[hidden],.nx[hidden]{display:none}
+.nx{margin-top:9px}
+button.pk{min-width:0;flex:1 1 130px;line-height:1.2;word-break:keep-all}
+button.pk[aria-pressed="true"]{background:var(--point);border-color:var(--point);color:#fff}
+.slot{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 6px}
+.slot button{flex:1 1 140px;min-width:0;line-height:1.2;word-break:keep-all}
+.rec2{display:block;min-height:40px;margin:0 0 6px;font-size:14.5px}
+.goal{background:var(--soft,#f3efe6);border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 11px;margin:0 0 8px;font-size:14.5px;line-height:1.5}
+.ainote{margin:12px 0 0;font-size:14px;color:var(--muted)}
+.node.dim .shape{stroke-dasharray:5 4}
+@media (max-width:420px){.pic{height:64px}.sb{font-size:14px}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -104,19 +133,34 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   <nav class="topnav"><span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a href="../play/">← 체험 목록</a><a href="../lessons/B05/">과정안</a></span><b>9~10</b></nav>
   <h1>순서도 따라가며 끝 맞히기</h1>
   <p class="lead">이 책이 어느 끝으로 갈지 짚어요</p>
+  <p class="how" id="how">끝을 먼저 짚고 굴려 보기를 눌러요. 미션은 세 개예요.</p>
+  <div class="steps" id="steps" role="group" aria-label="미션 고르기">
+    <button class="sb" type="button" data-go="1" aria-current="step">① 끝 짚기<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="2">② 함정 찾기<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="3">③ 내가 잇기<span class="ck"> ✓</span></button>
+  </div>
+  <div class="concept" id="concept"><b>알아 둘 것</b>마름모는 물음이라서 예와 아니요로 길이 갈려요. 시험할 때는 두 경우를 다 굴려 봐야 해요.</div>
 
-  <section class="face">
-    <h2>이번 책</h2>
-    <div class="chips" id="chips"></div>
-  </section>
-
-  <section>
+  <section class="mis" data-step="1" id="m1" aria-labelledby="h1m">
+    <img class="pic" src="../lecture/_assets/B05/act_ask.webp" width="1600" height="900" alt="두 갈래 길 앞에서 어느 쪽으로 갈지 생각하는 로봇">
+    <h2 class="mt" id="h1m">미션 1 · 끝 짚기</h2>
+    <p class="ask2">책 두 권을 굴려 봐요. 먼저 끝을 짚고, 굴려 보기를 눌러요.</p>
+    <div class="dots" id="dots1" aria-hidden="true"><i></i><i></i></div>
+    <div class="face">
+      <h2>이번 책</h2>
+      <div class="chips" id="chips"></div>
+      <h2>어느 끝일까요</h2>
+      <div class="row">
+        <button id="guessHand" type="button" aria-pressed="false">책 건네기</button>
+        <button id="guessBook" type="button" aria-pressed="false">예약 방법 안내</button>
+      </div>
+    </div>
     <div class="wrap">
       <div class="face diagram">
         <h2>순서도</h2>
-        <svg viewBox="0 0 360 392" role="img" aria-label="도서관 대출 순서도">
+        <svg class="big" viewBox="0 0 360 392" role="img" aria-label="도서관 대출 순서도">
           <defs>
-            <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse">
               <path d="M0 0 L10 5 L0 10 z" fill="#222222"/>
             </marker>
           </defs>
@@ -154,22 +198,18 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
           </g>
           <g id="nBook" class="node">
             <rect class="shape" x="224" y="210" width="116" height="42" rx="4"/>
-            <text class="cap" x="282" y="237" text-anchor="middle" style="font-size:13.5px">예약 방법 안내</text>
+            <text class="cap" x="282" y="237" text-anchor="middle" style="font-size:14px">예약 방법 안내</text>
           </g>
           <g id="nEnd" class="node">
             <ellipse class="shape" cx="180" cy="356" rx="46" ry="19"/>
             <text class="cap" x="180" y="362" text-anchor="middle">끝</text>
           </g>
-          <circle id="tok" class="tok" r="9" cx="180" cy="26"/>
+          <circle id="tok" class="tok" r="7" cx="180" cy="26"/>
         </svg>
       </div>
 
       <div class="face">
-        <h2>어느 끝일까요</h2>
-        <div class="row">
-          <button id="guessHand" type="button" aria-pressed="false">책 건네기</button>
-          <button id="guessBook" type="button" aria-pressed="false">예약 방법 안내</button>
-        </div>
+        <h2>굴려 봐요</h2>
         <div class="row">
           <button id="run" class="main" type="button">굴려 보기</button>
           <button id="reset" type="button">다시 하기</button>
@@ -178,10 +218,65 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
         <div class="trail" id="trail" aria-label="지나온 판"></div>
         <p class="rec"><span id="recEl"></span></p>
         <p class="say" id="say" role="status" aria-live="polite"></p>
-        <p class="ask">두 끝 가운데 하나를 짚어요</p>
+        <p class="ask" id="ask1">두 끝 가운데 하나를 짚어요</p>
       </div>
     </div>
+    <p class="learn" id="learn1" hidden></p>
+    <button class="main nx" id="nx1" type="button" hidden>다음 미션 ›</button>
   </section>
+
+  <section class="mis" data-step="2" id="m2" aria-labelledby="h2m" hidden>
+    <img class="pic" src="../lecture/_assets/B05/robot_wait.webp" width="1600" height="900" alt="책을 들고 고개를 갸웃하는 로봇">
+    <h2 class="mt" id="h2m">미션 2 · 함정 찾기</h2>
+    <p class="ask2">이 순서도에는 잘못된 곳이 있어요. 두 책을 모두 굴려서 찾아봐요.</p>
+    <p class="goal" id="goal2">바라는 끝: 빌릴 수 있는 책은 책 건네기로, 빌릴 수 없는 책은 예약 방법 안내로 가야 해요.</p>
+    <div class="wrap">
+      <div class="face diagram"><h2>순서도</h2><div id="ch2"></div></div>
+      <div class="face">
+        <h2>두 책을 굴려요</h2>
+        <div class="row">
+          <button class="pk" id="runA" type="button"></button>
+          <button class="pk" id="runB" type="button"></button>
+        </div>
+        <p class="rec2" id="recA"></p>
+        <p class="rec2" id="recB"></p>
+        <h2>바라던 끝에 못 닿은 책은?</h2>
+        <div class="row" id="pickRow" role="group" aria-label="바라던 끝에 못 닿은 책 고르기">
+          <!-- pA pB pAB: JS -->
+        </div>
+        <p class="say" id="say2" role="status" aria-live="polite"></p>
+        <div class="row"><button id="new2" type="button">새 순서도</button></div>
+      </div>
+    </div>
+    <p class="learn" id="learn2" hidden></p>
+    <button class="main nx" id="nx2" type="button" hidden>다음 미션 ›</button>
+  </section>
+
+  <section class="mis" data-step="3" id="m3" aria-labelledby="h3m" hidden>
+    <img class="pic" src="../lecture/_assets/B05/tool_cards.webp" width="1600" height="900" alt="책상 위에서 순서도 카드를 이어 붙이는 손">
+    <h2 class="mt" id="h3m">미션 3 · 내가 잇기</h2>
+    <p class="goal" id="goal3"></p>
+    <div class="wrap">
+      <div class="face diagram"><h2>내 순서도</h2><div id="ch3"></div></div>
+      <div class="face">
+        <h2>칸을 눌러 바꿔요</h2>
+        <div class="slot" id="slotRow">
+          <!-- sY sN: JS -->
+        </div>
+        <h2>두 경우를 굴려요</h2>
+        <div class="row" id="runRow3">
+          <!-- r3a r3b: JS -->
+        </div>
+        <p class="rec2" id="rec3a"></p>
+        <p class="rec2" id="rec3b"></p>
+        <p class="say" id="say3" role="status" aria-live="polite"></p>
+        <div class="row" id="newRow3"></div>
+      </div>
+    </div>
+    <p class="learn" id="learn3" hidden></p>
+    <img class="pic" id="fin3" src="../lecture/_assets/B05/mission_done.webp" width="1600" height="900" alt="완성한 순서도를 들고 있는 로봇" hidden>
+  </section>
+  <p class="ainote">그림 일부는 생성형 AI로 만들었어요</p>
 </main>
 
 <script>
@@ -189,7 +284,53 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   'use strict';
 
   var STEP = 380;
+  var calm = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+  function $(id) { return document.getElementById(id); }
+  function say(t, m) { if (window.Fun) { Fun.say(t, m); } }
+  function pickOne(a, avoid) { var x; do { x = a[Math.floor(Math.random() * a.length)]; } while (a.length > 1 && x === avoid); return x; }
 
+  function mk(host, id, cls, txt) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.id = id; if (cls) { b.className = cls; } if (txt) { b.textContent = txt; }
+    $(host).appendChild(b);
+    return b;
+  }
+  mk('pickRow', 'pA', 'pk').disabled = true; mk('pickRow', 'pB', 'pk').disabled = true; mk('pickRow', 'pAB', 'pk', '둘 다').disabled = true;
+  mk('slotRow', 'sY'); mk('slotRow', 'sN');
+  mk('runRow3', 'r3a', 'pk'); mk('runRow3', 'r3b', 'pk'); mk('newRow3', 'new3', '', '다른 상황');
+
+  /* ---------- 미션 사다리 ---------- */
+  var done = { 1: false, 2: false, 3: false };
+  var stamped = false;
+  var stepBtns = document.querySelectorAll('.sb');
+  function go(n) {
+    for (var i = 1; i <= 3; i++) { $('m' + i).hidden = (i !== n); }
+    for (var j = 0; j < stepBtns.length; j++) {
+      if (+stepBtns[j].getAttribute('data-go') === n) { stepBtns[j].setAttribute('aria-current', 'step'); }
+      else { stepBtns[j].removeAttribute('aria-current'); }
+    }
+    if (n === 1) { say('책이 어느 끝으로 갈지 먼저 짚어요.'); }
+    if (n === 2) { say('순서도에서 잘못된 곳을 찾아요. 두 책을 모두 굴려 봐요.', 'think'); }
+    if (n === 3) { say('이번에는 내가 직접 이어 봐요. 두 경우를 다 굴려요.'); }
+  }
+  for (var si = 0; si < stepBtns.length; si++) {
+    stepBtns[si].addEventListener('click', function (e) { go(+e.currentTarget.getAttribute('data-go')); });
+  }
+  function complete(n, line) {
+    var first = !done[n];
+    done[n] = true;
+    stepBtns[n - 1].classList.add('done');
+    var L = $('learn' + n);
+    L.textContent = '알게 된 것: ' + line;
+    L.hidden = false;
+    if ($('nx' + n)) { $('nx' + n).hidden = false; }
+    if (first) { say(line, 'cheer'); }
+    if (done[1] && done[2] && done[3] && !stamped) { stamped = true; if (window.Fun) { Fun.stamp(); } }
+  }
+  $('nx1').addEventListener('click', function () { go(2); });
+  $('nx2').addEventListener('click', function () { go(3); });
+
+  /* ---------- 미션 1: 끝 짚기 ---------- */
   var BOOKS = [
     { traits: ['그림책', '서가에 꽂혀 있음'], avail: true },
     { traits: ['과학책', '빌린 사람 없음'], avail: true },
@@ -199,14 +340,14 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
     { traits: ['백과사전', '지금 대출 중'], avail: false }
   ];
 
-  var chipsEl = document.getElementById('chips');
-  var guessHandBtn = document.getElementById('guessHand');
-  var guessBookBtn = document.getElementById('guessBook');
-  var runBtn = document.getElementById('run');
-  var resetBtn = document.getElementById('reset');
-  var nextBtn = document.getElementById('next');
-  var recEl = document.getElementById('recEl');
-  var sayEl = document.getElementById('say');
+  var chipsEl = $('chips');
+  var guessHandBtn = $('guessHand');
+  var guessBookBtn = $('guessBook');
+  var runBtn = $('run');
+  var resetBtn = $('reset');
+  var nextBtn = $('next');
+  var recEl = $('recEl');
+  var sayEl = $('say');
 
   var LEFT = ['nStart', 'e0', 'nCheck', 'e1', 'nAsk', 'eL', 'nLog', 'eL2', 'nHand', 'eLE', 'nEnd'];
   var RIGHT = ['nStart', 'e0', 'nCheck', 'e1', 'nAsk', 'eR', 'nBook', 'eRE', 'nEnd'];
@@ -217,22 +358,16 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   var prevBookIdx = null, prevSwapped = null;
   var guess = null;
   var running = false;
-  var ran = false;       // 확인을 눌렀나. 그 뒤로는 짚기가 잠긴다.
+  var ran = false;
   var timer = null;
-  var tok = document.getElementById('tok');
-  var trailEl = document.getElementById('trail');
-  var TOKPOS = { nStart:[180,26], nCheck:[180,77], nAsk:[180,148], nLog:[78,231], nHand:[78,291], nBook:[282,231], nEnd:[180,356] };
+  var runs1 = 0, firstSw = null, roundCounted = false;
+  var tok = $('tok');
+  var trailEl = $('trail');
+  var TOKPOS = { nStart:[180,26], nCheck:[180,77], nAsk:[180,148], nLog:[26,231], nHand:[26,291], nBook:[230,231], nEnd:[180,340] };
   function moveTok(id){ if (TOKPOS[id]) { tok.setAttribute('cx', TOKPOS[id][0]); tok.setAttribute('cy', TOKPOS[id][1]); tok.classList.add('on'); } }
-  function say(t, m){ if (window.Fun) { Fun.say(t, m); } }
-
-  var calm = window.matchMedia
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    : false;
 
   function clearLit() {
-    for (var i = 0; i < ALL.length; i += 1) {
-      document.getElementById(ALL[i]).classList.remove('lit');
-    }
+    for (var i = 0; i < ALL.length; i += 1) { $(ALL[i]).classList.remove('lit'); }
     tok.classList.remove('on');
   }
 
@@ -240,8 +375,10 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
     var bi, sw;
     do {
       bi = Math.floor(Math.random() * BOOKS.length);
-      sw = Math.random() < (1 / 3);
-    } while (bi === prevBookIdx && sw === prevSwapped);
+      if (runs1 === 0) { sw = Math.random() < 0.5; }
+      else if (runs1 === 1) { sw = !firstSw; }   // 두 판 가운데 한 판은 글자가 뒤바뀐 판
+      else { sw = Math.random() < (1 / 3); }
+    } while (bi === prevBookIdx && (runs1 >= 2 ? sw === prevSwapped : true));
     prevBookIdx = bi; prevSwapped = sw;
     return { bi: bi, sw: sw };
   }
@@ -258,9 +395,9 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   }
 
   function lock(on) {
-    runBtn.disabled = on || guess === null;
+    runBtn.disabled = on || guess === null || ran;
     resetBtn.disabled = on;
-    nextBtn.disabled = on;
+    nextBtn.disabled = on || !roundCounted;
     guessHandBtn.disabled = on || ran;
     guessBookBtn.disabled = on || ran;
   }
@@ -279,7 +416,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   }
 
   function walk() {
-    if (running || guess === null) { return; }
+    if (running || guess === null || ran) { return; }
     var book = BOOKS[bookIdx];
     var takeLeft = swapped ? !book.avail : book.avail;
     var reached = takeLeft ? '책 건네기' : '예약 방법 안내';
@@ -296,20 +433,26 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
       trailEl.appendChild(t);
       while (trailEl.children.length > 4) { trailEl.removeChild(trailEl.firstChild); }
       recEl.textContent = '→ ' + reached;
-      sayEl.textContent = reached === guess ? '짚은 곳에 닿았어요' : '다른 끝으로 갔어요';
-      if (window.Fun) {
+      sayEl.textContent = odd ? '다른 끝으로 갔어요' : '짚은 곳에 닿았어요';
+      if (!odd && !roundCounted) {
+        roundCounted = true; runs1 += 1;
+        if (runs1 === 1) { firstSw = swapped; }
+      }
+      $('ask1').textContent = odd ? '다시 하기를 눌러 끝을 다시 짚어요' : '다음 판을 눌러 다른 책도 굴려 봐요';
+      var dots = $('dots1').children;
+      for (var d = 0; d < dots.length; d++) { if (d < runs1) { dots[d].className = 'on'; } }
+      if (runs1 >= 2 && (firstSw || swapped)) {
+        complete(1, '책은 물음의 답과 같은 글자가 붙은 화살표를 따라가요. 글자가 뒤바뀌면 끝도 바뀌어요.');
+      } else if (window.Fun) {
         if (odd) { say('예상과 다른 끝이에요. 마름모에서 예·아니요 글자가 어디에 붙었는지 다시 봐요.', 'think'); Fun.shake(recEl); }
-        else { say('짚은 곳에 닿았어요. 글자가 뒤바뀐 판이면 어떻게 달라질지 다음 판에서 봐요.', 'cheer'); Fun.burst(recEl); }
-        Fun.stamp();
+        else { say(swapped ? '짚은 곳에 닿았어요. 다음 판에서는 예·아니요 글자를 다시 읽어 봐요.' : '짚은 곳에 닿았어요. 다음 판에서는 예·아니요 글자가 달라질 수 있어요.', 'cheer'); Fun.burst(recEl); }
       }
       running = false;
       lock(false);
     }
 
     if (calm) {
-      for (var i = 0; i < path.length; i += 1) {
-        document.getElementById(path[i]).classList.add('lit');
-      }
+      for (var i = 0; i < path.length; i += 1) { $(path[i]).classList.add('lit'); }
       ran = true; lock(false);
       finishWalk();
       return;
@@ -319,7 +462,7 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
     running = true; ran = true;
     lock(true);
     timer = setInterval(function () {
-      document.getElementById(path[k]).classList.add('lit');
+      $(path[k]).classList.add('lit');
       moveTok(path[k]);
       k += 1;
       if (k >= path.length) {
@@ -330,24 +473,28 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   }
 
   function resetRun() {
-    ran = false;
     if (running) { return; }
+    ran = false;
     halt();
     clearLit();
     recEl.textContent = '';
     sayEl.textContent = '';
+    $('ask1').textContent = '두 끝 가운데 하나를 짚어요';
+    lock(false);
   }
 
   function newRound() {
+    if (running) { return; }
     ran = false;
+    roundCounted = false;
     halt();
+    $('ask1').textContent = '두 끝 가운데 하나를 짚어요';
     var r = pickRound();
     bookIdx = r.bi; swapped = r.sw;
     guess = null;
     loadBook();
-    // 화살표대로만 걷는다. 뒤바뀐 판은 예·아니요 글자부터 뒤바뀌어 있다.
-    document.getElementById('ynL').textContent = swapped ? '아니요' : '예';
-    document.getElementById('ynR').textContent = swapped ? '예' : '아니요';
+    $('ynL').textContent = swapped ? '아니요' : '예';
+    $('ynR').textContent = swapped ? '예' : '아니요';
     guessHandBtn.setAttribute('aria-pressed', 'false');
     guessBookBtn.setAttribute('aria-pressed', 'false');
     clearLit();
@@ -364,7 +511,250 @@ button:disabled{opacity:.45;cursor:not-allowed;box-shadow:none}
   nextBtn.addEventListener('click', newRound);
   window.addEventListener('pagehide', halt);
 
+  /* ---------- 미션 2·3 공통: 순서도 그리기와 굴리기 ---------- */
+  var NS = 'http://www.w3.org/2000/svg';
+  var uid = 0;
+  var busy = false;
+
+  // cfg = { check, q, left:{lab,nodes,toEnd}, right:{lab,nodes,toEnd} }
+  function Chart(host, cfg) {
+    var p = 'c' + (uid++) + '-';
+    this.p = p; this.cfg = cfg; this.pos = {};
+    var X = { L: 78, R: 282 }, o = '';
+    function node(id, shape, cx, cy, label, size) {
+      return '<g id="' + p + id + '" class="node">' + shape + '<text class="cap" x="' + cx + '" y="' + (cy + 5) + '" text-anchor="middle" style="font-size:' + size + 'px">' + label + '</text></g>';
+    }
+    o += '<svg class="big" viewBox="0 0 360 372" role="img" aria-label="순서도"><defs><marker id="' + p + 'a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="12" markerHeight="12" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="#222222"/></marker></defs>';
+    function edge(id, d) { return '<path id="' + p + id + '" class="edge" style="marker-end:url(#' + p + 'a)" d="' + d + '"/>'; }
+    o += edge('e0', 'M180 40 V52') + edge('e1', 'M180 90 V110');
+    var sides = ['L', 'R'];
+    for (var s = 0; s < 2; s++) {
+      var S = sides[s], br = (S === 'L') ? cfg.left : cfg.right, x = X[S], n = br.nodes.length;
+      o += edge('e' + S, (S === 'L' ? 'M106 142 H78 V204' : 'M254 142 H282 V204'));
+      for (var i = 1; i < n; i++) { o += edge('e' + S + 'b' + i, 'M' + x + ' ' + (204 + 60 * (i - 1) + 42) + ' V' + (204 + 60 * i)); }
+      if (br.toEnd) { o += edge('e' + S + 'E', 'M' + x + ' ' + (204 + 60 * (n - 1) + 42) + ' V346 H' + (S === 'L' ? 134 : 226)); }
+    }
+    o += node('start', '<ellipse class="shape" cx="180" cy="22" rx="44" ry="18"/>', 180, 22, '시작', 15);
+    o += node('check', '<rect class="shape" x="118" y="52" width="124" height="38" rx="4"/>', 180, 71, cfg.check, 16);
+    o += node('ask', '<polygon class="shape" points="180,110 254,142 180,174 106,142"/>', 180, 142, cfg.q, 14.5);
+    o += '<text class="yn" x="102" y="134" text-anchor="end">' + (cfg.left.lab) + '</text><text class="yn" x="258" y="134" text-anchor="start">' + (cfg.right.lab) + '</text>';
+    this.pos.start = [180, 22]; this.pos.check = [180, 71]; this.pos.ask = [180, 142]; this.pos.end = [180, 330];
+    for (var s2 = 0; s2 < 2; s2++) {
+      var S2 = sides[s2], br2 = (S2 === 'L') ? cfg.left : cfg.right;
+      for (var k = 0; k < br2.nodes.length; k++) {
+        var cy = 204 + 60 * k + 21, cx = X[S2];
+        o += node('n' + S2 + k, '<rect class="shape" x="' + (cx - 62) + '" y="' + (cy - 21) + '" width="124" height="42" rx="4"/>', cx, cy, br2.nodes[k], 15);
+        this.pos['n' + S2 + k] = [cx - 56, cy];
+      }
+    }
+    o += node('end', '<ellipse class="shape" cx="180" cy="346" rx="44" ry="18"/>', 180, 346, '끝', 15);
+    o += '<circle id="' + p + 'tok" class="tok" r="7" cx="180" cy="22"/></svg>';
+    host.innerHTML = o;
+  }
+  Chart.prototype.el = function (id) { return $(this.p + id); };
+  Chart.prototype.clear = function () {
+    var all = $(this.p + 'start').ownerSVGElement.querySelectorAll('.lit');
+    for (var i = 0; i < all.length; i++) { all[i].classList.remove('lit'); }
+    this.el('tok').classList.remove('on');
+  };
+  // 답이 예(yes=true)일 때 따라가는 길. 책은 그 답과 같은 글자가 붙은 화살표로 간다.
+  Chart.prototype.route = function (yes) {
+    var want = yes ? '예' : '아니요';
+    var S = (this.cfg.left.lab === want) ? 'L' : 'R';
+    var br = (S === 'L') ? this.cfg.left : this.cfg.right;
+    var ids = ['start', 'e0', 'check', 'e1', 'ask', 'e' + S];
+    for (var i = 0; i < br.nodes.length; i++) {
+      if (i > 0) { ids.push('e' + S + 'b' + i); }
+      ids.push('n' + S + i);
+    }
+    if (br.toEnd) { ids.push('e' + S + 'E'); ids.push('end'); }
+    return { ids: ids, stops: br.nodes.slice(), reachedEnd: !!br.toEnd };
+  };
+  Chart.prototype.play = function (yes, cb) {
+    var self = this, r = this.route(yes), k = 0;
+    this.clear();
+    function lit(id) {
+      self.el(id).classList.add('lit');
+      var key = id;
+      if (self.pos[key]) { var t = self.el('tok'); t.setAttribute('cx', self.pos[key][0]); t.setAttribute('cy', self.pos[key][1]); t.classList.add('on'); }
+    }
+    if (calm) { for (var i = 0; i < r.ids.length; i++) { lit(r.ids[i]); } cb(r); return; }
+    busy = true; syncBusy();
+    var tm = setInterval(function () {
+      lit(r.ids[k]); k += 1;
+      if (k >= r.ids.length) { clearInterval(tm); busy = false; syncBusy(); cb(r); }
+    }, STEP);
+  };
+  function line(name, r) {
+    var s = name + ' → ' + (r.stops.length ? r.stops.join(' → ') : '(아무 일도 없음)');
+    s += r.reachedEnd ? ' → 끝' : ' (여기서 멈춤)';
+    return s;
+  }
+  var busyFns = [];
+  function syncBusy() { for (var i = 0; i < busyFns.length; i++) { busyFns[i](); } }
+
+  /* ---------- 미션 2: 함정 찾기 ---------- */
+  var AV = [['그림책', '서가에 있음'], ['과학책', '서가에 있음'], ['위인전', '어제 반납됨']];
+  var UN = [['동화책', '다른 친구가 빌림'], ['만화책', '아직 안 돌아옴'], ['백과사전', '지금 대출 중']];
+  var KINDS = ['swap', 'noHand', 'deadEnd'];
+  var HINT = {
+    swap: '예·아니요 글자가 뒤바뀌어 있어서 두 책 모두 반대 끝으로 갔어요.',
+    noHand: '예 쪽 길에 책 건네기가 빠져 있어서 빌릴 수 있는 책이 책을 못 받아요.',
+    deadEnd: '예약 방법 안내에서 끝으로 가는 화살표가 없어서 길이 멈춰요.'
+  };
+  var m2 = { chart: null, kind: null, a: null, b: null, ra: null, rb: null, solved: false, prevKind: null };
+
+  function build2() {
+    var kind = pickOne(KINDS, m2.prevKind);
+    m2.prevKind = kind; m2.kind = kind;
+    m2.a = pickOne(AV, m2.a); m2.b = pickOne(UN, m2.b);
+    m2.ra = null; m2.rb = null; m2.solved = false;
+    var cfg = {
+      check: '책 상태 확인', q: '대출 가능인가?',
+      left: { lab: '예', nodes: ['기록 남기기', '책 건네기'], toEnd: true },
+      right: { lab: '아니요', nodes: ['예약 방법 안내'], toEnd: true }
+    };
+    if (kind === 'swap') { cfg.left.lab = '아니요'; cfg.right.lab = '예'; }
+    if (kind === 'noHand') { cfg.left.nodes = ['기록 남기기']; }
+    if (kind === 'deadEnd') { cfg.right.toEnd = false; }
+    m2.chart = new Chart($('ch2'), cfg);
+    $('runA').textContent = m2.a[0] + ' 굴리기 (' + m2.a[1] + ')';
+    $('runB').textContent = m2.b[0] + ' 굴리기 (' + m2.b[1] + ')';
+    $('pA').textContent = m2.a[0]; $('pB').textContent = m2.b[0];
+    $('recA').textContent = ''; $('recB').textContent = '';
+    $('say2').textContent = '';
+    $('pA').disabled = true; $('pB').disabled = true; $('pAB').disabled = true;
+    syncBusy();
+  }
+  function sync2() {
+    $('runA').disabled = busy; $('runB').disabled = busy; $('new2').disabled = busy;
+    var ready = m2.ra && m2.rb && !busy;
+    $('pA').disabled = !ready; $('pB').disabled = !ready; $('pAB').disabled = !ready;
+  }
+  busyFns.push(sync2);
+  function odd2(isAvail, r) {
+    var want = isAvail ? '책 건네기' : '예약 방법 안내';
+    return !(r.reachedEnd && r.stops.indexOf(want) >= 0);
+  }
+  function run2(which) {
+    if (busy) { return; }
+    var bk = which === 'a' ? m2.a : m2.b;
+    m2.chart.play(which === 'a', function (r) {
+      if (which === 'a') { m2.ra = r; $('recA').textContent = line(bk[0], r); }
+      else { m2.rb = r; $('recB').textContent = line(bk[0], r); }
+      $('say2').textContent = (m2.ra && m2.rb) ? '두 줄을 견주어 봐요. 바라던 끝에 못 닿은 책은 누구일까요?' : '다른 책도 굴려 봐요. 한 책만 보면 놓칠 수 있어요.';
+      syncBusy();
+    });
+  }
+  function pick2(c) {
+    if (!(m2.ra && m2.rb) || busy) { return; }
+    var oa = odd2(true, m2.ra), ob = odd2(false, m2.rb);
+    var truth = (oa && ob) ? 'AB' : (oa ? 'A' : 'B');
+    if (c === truth) {
+      m2.solved = true;
+      $('say2').textContent = '잘못된 곳: ' + HINT[m2.kind];
+      complete(2, '한 가지 경우만 시험하면 잘못된 곳을 놓칠 수 있어요. 예로 가는 경우와 아니요로 가는 경우를 둘 다 굴려 봐요.');
+    } else {
+      $('say2').textContent = '두 줄을 다시 견주어 봐요. 바라던 끝에 닿지 못한 길이 어디인지 찾아요.';
+      say('예상과 달라요. 두 줄을 다시 견주어 봐요.', 'think');
+      if (window.Fun) { Fun.shake($('say2')); }
+    }
+  }
+  $('runA').addEventListener('click', function () { run2('a'); });
+  $('runB').addEventListener('click', function () { run2('b'); });
+  $('pA').addEventListener('click', function () { pick2('A'); });
+  $('pB').addEventListener('click', function () { pick2('B'); });
+  $('pAB').addEventListener('click', function () { pick2('AB'); });
+  $('new2').addEventListener('click', function () { if (!busy) { build2(); say('새 순서도예요. 이번에도 두 책을 모두 굴려 봐요.'); } });
+
+  /* ---------- 미션 3: 내가 잇기 ---------- */
+  var SITS = [
+    { check: '책 상태 확인', q: '대출 가능인가?', acts: ['책 건네기', '예약 방법 안내', '서가에 꽂기'],
+      yes: ['그림책', '서가에 있음'], no: ['백과사전', '지금 대출 중'], yTo: 0, nTo: 1, pre: '기록 남기기' },
+    { check: '하늘 보기', q: '비가 오나요?', acts: ['우산 챙기기', '모자 쓰기', '가방 메기'],
+      yes: ['비 오는 아침', ''], no: ['맑은 아침', ''], yTo: 0, nTo: 1 },
+    { check: '신호등 보기', q: '초록불인가요?', acts: ['길 건너기', '멈춰 기다리기', '뒤로 가기'],
+      yes: ['초록불', ''], no: ['빨간불', ''], yTo: 0, nTo: 1 }
+  ];
+  var m3 = { i: -1, chart: null, y: 0, n: 0, ra: null, rb: null, solved: false };
+
+  function name3(it) { return it[0]; }
+  function draw3() {
+    var S = SITS[m3.i];
+    m3.chart = new Chart($('ch3'), {
+      check: S.check, q: S.q,
+      left: { lab: '예', nodes: S.pre ? [S.pre, S.acts[m3.y]] : [S.acts[m3.y]], toEnd: true },
+      right: { lab: '아니요', nodes: [S.acts[m3.n]], toEnd: true }
+    });
+    $('sY').textContent = '예 → ' + S.acts[m3.y];
+    $('sN').textContent = '아니요 → ' + S.acts[m3.n];
+    m3.ra = null; m3.rb = null; m3.solved = false;
+    $('rec3a').textContent = ''; $('rec3b').textContent = '';
+    $('say3').textContent = '';
+    syncBusy();
+  }
+  function start3() {
+    m3.i = (m3.i + 1) % SITS.length;
+    var S = SITS[m3.i];
+    // 두 칸 모두 어긋난 채로 시작하고, 어떻게 어긋날지는 판마다 달라진다
+    var wy = [], wn = [], q;
+    for (q = 0; q < S.acts.length; q++) { if (q !== S.yTo) { wy.push(q); } if (q !== S.nTo) { wn.push(q); } }
+    m3.y = pickOne(wy, m3.y); m3.n = pickOne(wn, m3.n);
+    $('goal3').innerHTML = '<b>할 일</b> 두 경우가 각각 바라는 끝에 닿게 이어요.' + (S.pre ? ' 예 길에는 먼저 ' + S.pre + ' 칸이 있어요.' : '') + '<br>' +
+      (S.yes[1] ? S.yes[0] + '(' + S.yes[1] + ')' : S.yes[0]) + ' → ' + S.acts[S.yTo] + '<br>' +
+      (S.no[1] ? S.no[0] + '(' + S.no[1] + ')' : S.no[0]) + ' → ' + S.acts[S.nTo];
+    $('r3a').textContent = S.yes[0] + ' 굴리기';
+    $('r3b').textContent = S.no[0] + ' 굴리기';
+    draw3();
+  }
+  function sync3() {
+    $('sY').disabled = busy; $('sN').disabled = busy; $('r3a').disabled = busy; $('r3b').disabled = busy; $('new3').disabled = busy;
+  }
+  busyFns.push(sync3);
+  function check3() {
+    if (!(m3.ra && m3.rb)) { return; }
+    var S = SITS[m3.i];
+    var okA = m3.ra.stops[m3.ra.stops.length - 1] === S.acts[S.yTo];
+    var okB = m3.rb.stops[m3.rb.stops.length - 1] === S.acts[S.nTo];
+    if (okA && okB) {
+      m3.solved = true;
+      $('say3').textContent = '두 경우 모두 바라던 끝에 닿았어요.';
+      $('fin3').hidden = false;
+      complete(3, '순서도는 예와 아니요 두 길을 모두 알맞게 이어야 해요. 만든 뒤에는 두 경우를 다 시험해요.');
+    } else {
+      var bad = !okA ? S.yes[0] : S.no[0];
+      $('say3').textContent = bad + '의 끝이 바라던 곳과 달라요. 어느 칸을 바꿀지 생각해 봐요.';
+      say('예상과 달라요. 어느 칸이 달라야 할지 봐요.', 'think');
+    }
+  }
+  function run3(which) {
+    if (busy) { return; }
+    var S = SITS[m3.i];
+    m3.chart.play(which === 'a', function (r) {
+      var nm = which === 'a' ? S.yes[0] : S.no[0];
+      if (which === 'a') { m3.ra = r; $('rec3a').textContent = line(nm, r); }
+      else { m3.rb = r; $('rec3b').textContent = line(nm, r); }
+      if (m3.ra && m3.rb) { check3(); }
+      else { $('say3').textContent = '한 경우만 굴렸어요. 다른 경우도 굴려 봐요.'; }
+    });
+  }
+  function cycle(which) {
+    if (busy) { return; }
+    var S = SITS[m3.i];
+    if (which === 'y') { m3.y = (m3.y + 1) % S.acts.length; } else { m3.n = (m3.n + 1) % S.acts.length; }
+    draw3();
+    $('say3').textContent = '바꿨어요. 두 경우를 다시 굴려 봐요.';
+  }
+  $('sY').addEventListener('click', function () { cycle('y'); });
+  $('sN').addEventListener('click', function () { cycle('n'); });
+  $('r3a').addEventListener('click', function () { run3('a'); });
+  $('r3b').addEventListener('click', function () { run3('b'); });
+  $('new3').addEventListener('click', function () { if (!busy) { start3(); say('새 상황이에요. 두 칸을 알맞게 이어 봐요.'); } });
+
   newRound();
+  build2();
+  start3();
+  go(1);
 })();
 </script>
 <script src="../assets/play/fun.js" data-block="B05" data-mission="책 한 권이 순서도를 따라 어느 끝으로 갈지 먼저 짚고, 화살표대로 굴려 확인해요."></script>

@@ -37,14 +37,14 @@
 
   .crit{display:grid;gap:4px;margin-bottom:10px;font-size:15px}
   .crit p{display:flex;gap:8px;align-items:baseline}
-  .crit .k{flex:none;font-size:13px;font-weight:600;border-radius:999px;padding:1px 9px;border:1px solid var(--line)}
+  .crit .k{flex:none;font-size:14px;font-weight:600;border-radius:999px;padding:1px 9px;border:1px solid var(--line)}
   .crit .k2{background:var(--point);border-color:var(--point);color:#fff}
 
   .tbl{display:grid;gap:4px;margin-top:8px}
-  .tr{display:grid;grid-template-columns:1.2em 1fr 3.1em 3.6em 3.6em 3.6em;gap:4px;align-items:center;
+  .tr{display:grid;grid-template-columns:1.2em minmax(0,1fr) 3.1em 4.4em 3.8em 3.8em;gap:4px;align-items:center;
     font:inherit;font-size:15px;color:var(--ink);text-align:left;width:100%}
   .th span{white-space:nowrap}
-  .th{font-size:12px;letter-spacing:-.03em;color:var(--muted);padding:0 10px}
+  .th{font-size:15px;letter-spacing:-.03em;color:var(--muted);padding:0 11px}
   button.tr{background:#fff;border:1px solid var(--ink);border-radius:var(--r-sm);min-height:44px;padding:4px 10px;cursor:pointer}
   button.tr:disabled{cursor:default;border-color:var(--line)}
   button.tr[aria-pressed="true"]{background:var(--point-soft);outline:2px solid var(--point);outline-offset:-1px}
@@ -52,7 +52,7 @@
   button.tr.extra{border-style:dashed;border-color:var(--ink);background:#fff;outline:none}
   .tr .tag2{animation:pop .35s ease-out}
   .tr .w{display:flex;align-items:center;gap:6px;min-width:0}
-  .tr .w img{flex:none;width:30px;height:30px;object-fit:contain}
+  .tr .w img{flex:none;width:32px;height:32px;object-fit:contain}
   .tr .g{border-radius:8px;padding:3px 2px;border:1px solid transparent}
   .tr .g.y{background:var(--sky-l);border-color:var(--sky)}
   .tr .g.n{background:var(--sun-l);border-color:var(--sun)}
@@ -61,10 +61,10 @@
   .tr .g2.flip{animation:flip .45s ease-out both}
   @keyframes flip{0%{transform:rotateX(90deg);opacity:0}100%{transform:none;opacity:1}}
   @keyframes pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.15);opacity:1}100%{transform:scale(1)}}
-  .tr .no{color:var(--muted);font-size:13px}
+  .tr .no{color:var(--muted);font-size:14px}
   .tr .num{text-align:right}
   .tr .g{text-align:center;font-weight:600;font-size:14px}
-  .tr .tag2{display:block;font-size:11px;font-weight:600;color:var(--point);text-align:center;line-height:1}
+  .tr .tag2{display:block;font-size:14px;font-weight:600;color:var(--point);text-align:center;line-height:1.1}
 
   .bars{display:grid;gap:6px}
   .bline{display:grid;grid-template-columns:5.6em 1fr 2.6em;gap:8px;align-items:center;font-size:14px}
@@ -86,17 +86,57 @@
   :focus-visible{outline:2px solid var(--ink);outline-offset:2px}
   .tr .w span{white-space:nowrap}
   @media(max-width:430px){
-    .tr{grid-template-columns:minmax(4.6em,1fr) 2.7em 3.1em 3.7em 3.7em;font-size:14px;gap:3px}
+    .tr{grid-template-columns:minmax(4.2em,1fr) 2.7em 4.2em 3.7em 3.7em;font-size:14px;gap:3px}
     .tr>:first-child{display:none}
     button.tr{padding:4px 7px}
-    .th{padding:0 7px}
-    .tr .g{font-size:13px}
-    .tr .w img{width:26px;height:26px}
+    .th{padding:0 8px;letter-spacing:-.06em;font-size:14px}
+    .tr .g{font-size:14px}
+    .tr .w img{width:32px;height:32px}
   }
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+
+/* 체험 개선 2026-10-31: 시작 안내·미션 사다리·개념 카드·미션 2·3 */
+.how{margin:12px 0 10px;font-size:16px;font-weight:600;background:var(--sun-l);border-radius:var(--r-sm);padding:8px 12px}
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0 0 10px}
+.ladder button{font:inherit;cursor:pointer;min-height:44px;padding:4px 4px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+  background:var(--surface);color:var(--ink);font-size:14.5px;font-weight:700;line-height:1.2}
+.ladder button[aria-current="step"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ladder button.done::after{content:" 끝";font-weight:600;color:var(--mint-d)}
+.ladder button.done[aria-current="step"]::after{color:#fff}
+.concept{margin:0 0 4px;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 12px;background:var(--surface)}
+.concept b{display:block;font-size:14px;color:var(--point)}
+.concept p{margin:2px 0 0;font-size:15px;font-weight:600}
+.learned{margin:10px 0 0;padding:8px 12px;border-radius:var(--r-sm);background:var(--mint-l);font-size:15px;font-weight:700}
+.learned:empty{display:none}
+.ban{display:block;width:100%;height:84px;aspect-ratio:auto;object-fit:cover;border-radius:var(--r-sm);margin:0 0 10px}
+.mini{display:grid;gap:3px;margin-top:8px}
+.mr{display:grid;grid-template-columns:minmax(0,1fr) 40px 58px 54px;gap:4px;align-items:center;font-size:14px;
+  border:1px solid var(--line);border-radius:var(--r-sm);padding:3px 6px;background:#fff;min-height:36px}
+.mr.m3{grid-template-columns:minmax(0,1fr) 40px 58px 48px 48px}
+.mr.mh{border:0;background:none;font-size:14px;color:var(--muted);min-height:0;padding:0 6px;letter-spacing:-.06em}
+.mr .w{display:flex;align-items:center;gap:5px;min-width:0}
+.mr .w img{flex:none;width:32px;height:32px;object-fit:contain}
+.mr .w span{white-space:nowrap}
+.mr .n{text-align:right}
+.mr .g{text-align:center;border-radius:6px;font-weight:600;font-size:14px;padding:2px 0;border:1px solid transparent}
+.mr .g.y{background:var(--sky-l);border-color:var(--sky)}
+.mr .g.n{background:var(--sun-l);border-color:var(--sun)}
+.mr .g.q{color:var(--muted);border:1px dashed var(--line-strong)}
+.mr.hit{box-shadow:inset 5px 0 0 var(--point)}
+.crit2{font-size:16px;font-weight:600;margin:6px 0 4px}
+.pick{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}
+.pick button{font:inherit;font-size:15px;font-weight:600;cursor:pointer;min-height:44px;min-width:48px;flex:1 1 0;padding:4px 8px;
+  background:#fff;color:var(--ink);border:1px solid var(--ink);border-radius:var(--r-sm)}
+.pick button[aria-pressed="true"]{background:var(--ink);color:#fff}
+.pick+.pick{margin-top:6px}
+.stat{margin-top:8px;font-size:15px;font-weight:600}
+.mr .w{gap:3px}
+.concept summary{cursor:pointer;font-size:15px;font-weight:700;min-height:32px;display:flex;align-items:center;gap:6px}
+.concept summary b{display:inline;font-size:inherit}
+.concept[open] summary{margin-bottom:2px}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -108,11 +148,24 @@
   </nav>
   <header>
     <h1>기준 바꿔 다시 나누기 활동</h1>
-    <p class="lead">기준2로 바꾸면 묶음이 달라질 줄을 짚어요</p>
+    <p class="lead">기준을 바꾸면 어느 줄의 묶음이 달라질까요?</p>
   </header>
 
+  <p class="how" id="how">기준1의 답이 기준2에서 바뀔 줄을 눌러요. 확인하면 기준2의 답이 열려요.</p>
+  <nav class="ladder" id="ladder" aria-label="미션 순서">
+    <button type="button" data-go="1" aria-current="step">① 짚기</button>
+    <button type="button" data-go="2">② 바꾸기</button>
+    <button type="button" data-go="3">③ 만들기</button>
+  </nav>
+  <details class="concept" aria-label="개념 설명">
+    <summary><b>알아 둘 말</b> 기준이 바뀌면 묶음도 바뀌어요</summary>
+    <p>기준은 줄마다 '예'나 '아니요'로 답하는 물음이에요. 기준을 바꾸면 같은 사람이 다른 묶음에 들어가요. 기준 숫자와 똑같은 값은 '보다 오래'·'보다 많이'에 들지 않아요.</p>
+  </details>
+
+  <div data-step="1" id="m1">
   <section aria-labelledby="h1t">
-    <h2 id="h1t">등교 표 <span class="hint">줄마다 한 사람</span></h2>
+    <img class="ban" src="../lecture/_assets/B24/sort_desk.webp" alt="책상 위 카드를 두 무리로 나누는 손" width="1600" height="900">
+    <h2 id="h1t">미션 1 · 달라질 줄을 짚어요</h2>
     <div class="crit">
       <p><span class="k">기준1</span><span id="c1"></span></p>
       <p><span class="k k2">기준2</span><span id="c2"></span></p>
@@ -134,9 +187,49 @@
       <button class="btn main" id="nextBtn" type="button">다음 판</button>
       <button class="btn" id="resetBtn" type="button">다시 하기</button>
     </div>
+    <p class="learned" id="learn1" aria-live="polite"></p>
   </section>
 
-  <p class="foot">판마다 뽑은 예시 표예요. 우리 반 표는 엔트리에서 나눠요.</p>
+  </div>
+
+  <div data-step="2" id="m2" hidden>
+    <section aria-labelledby="h2m">
+      <img class="ban" src="../lecture/_assets/B24/time_clock.webp" alt="집 앞에서 시계를 올려다보는 학생 뒷모습" width="1600" height="900">
+      <h2 id="h2m">미션 2 · 숫자를 바꿔 봐요</h2>
+      <p class="hint" id="m2goal"></p>
+      <p class="crit2" id="m2q"></p>
+      <div class="pick" id="m2vals" role="group" aria-label="기준 숫자"></div>
+      <div class="mini" id="m2list"></div>
+      <p class="stat" id="m2stat" aria-live="polite"></p>
+      <div class="acts"><button class="btn main" id="m2ok" type="button" disabled>확인하기</button><button class="btn main" id="m2more" type="button" hidden>한 판 더</button></div>
+      <p class="learned" id="learn2" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <div data-step="3" id="m3" hidden>
+    <section aria-labelledby="h3m">
+      <img class="ban" src="../lecture/_assets/B24/crosswalk.webp" alt="횡단보도를 건너는 학생 뒷모습" width="1600" height="900">
+      <h2 id="h3m">미션 3 · 기준을 만들어요</h2>
+      <p class="hint">'목표'가 '예'인 줄만 내 기준에서도 '예'가 되게 해요. 고른 뒤 확인하기를 눌러요.</p>
+      <div class="pick" id="m3keys" role="group" aria-label="기준 항목"></div>
+      <div class="pick" id="m3vals" role="group" aria-label="기준 숫자"></div>
+      <p class="crit2" id="m3q"></p>
+      <div class="mini" id="m3list"></div>
+      <p class="stat" id="m3stat" aria-live="polite"></p>
+      <div class="acts"><button class="btn main" id="m3ok" type="button" disabled>확인하기</button><button class="btn main" id="m3more" type="button" hidden>한 판 더</button></div>
+      <p class="learned" id="learn3" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <div class="acts"><button class="btn main" id="goNext" type="button" hidden>다음 미션으로</button></div>
+
+  <section id="fin" hidden aria-labelledby="hfin">
+    <img class="ban" src="../lecture/_assets/B24/mission_done.webp" alt="도장이 찍힌 종이와 자전거 거치대 모형" width="1600" height="900">
+    <h2 id="hfin">세 미션을 마쳤어요</h2>
+    <p class="hint">우리 반 표는 엔트리에서 직접 나눠 봐요. 미션 2·3의 한 판 더를 누르면 새 표가 나와요. 위의 ① 짚기를 눌러 다음 판을 해 봐도 돼요.</p>
+  </section>
+
+  <p class="foot">판마다 뽑은 예시 표예요. 우리 반 표는 엔트리에서 나눠요. 그림 일부는 생성형 AI로 만들었어요.</p>
 </div>
 
 <script>
@@ -260,7 +353,7 @@
         ' 횡단보도 ' + r.x + '개 기준1 ' + g(ans(c1, r)) + (checked ? ' 기준2 ' + g(ans(c2, r)) + (ch ? ' 달라짐' : '') : ''));
     });
     $('hint').textContent = checked ? '띠가 붙은 줄이 달라진 줄, 점선은 그대로인 줄이에요'
-      : nMark === 0 ? '기준2로 묶음이 달라질 줄을 모두 눌러요'
+      : nMark === 0 ? '기준2 답이 기준1 답과 바뀔 줄(예에서 아니요, 아니요에서 예)을 모두 눌러요'
       : nMark + '줄 짚었어요. 확인 전엔 바꿔도 돼요';
     $('checkBtn').disabled = checked || nMark === 0;
     $('nextBtn').disabled = !checked;
@@ -321,8 +414,8 @@
         Fun.say('예상과 다르게 나온 줄이 있어요. 띠가 붙은 줄과 점선 줄을 견줘 봐요.', 'think');
         Fun.shake($('tbl'));
       }
-      Fun.stamp();
     }
+    missionDone(1, '같은 사람도 기준이 바뀌면 다른 묶음에 들어갈 수 있어요.');
     $('s2').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   });
   $('nextBtn').addEventListener('click', function(){ if (checked){ newRound(); window.scrollTo(0, 0); if (window.Fun) Fun.say('새 표와 새 기준이 나왔어요. 기준2에서 갈릴 줄을 먼저 짚어요.'); } });
@@ -330,6 +423,195 @@
     marked = rows.map(function(){ return false; }); checked = false; render(); window.scrollTo(0, 0);
     if (window.Fun) Fun.say('같은 표로 다시 짚어 봐요. 이번엔 어디가 달라질까요?', 'think');
   });
+
+  /* ───────── 미션 사다리 ───────── */
+  var cur = 1, doneM = { 1:false, 2:false, 3:false }, stamped = false;
+  var secs = { 1:$('m1'), 2:$('m2'), 3:$('m3') };
+  var ladderBtns = Array.prototype.slice.call(document.querySelectorAll('#ladder button'));
+  var goNext = $('goNext');
+  var NAMES = ['', '짚기', '바꾸기', '만들기'];
+  var INTRO = ['', '', '숫자를 하나 고르고 확인하기를 눌러요. 예가 목표 사람 수가 되게 해요.', '항목과 숫자를 고르고 확인하기를 눌러요. 목표와 같은 줄이 되게 해요.'];
+  var HOW = ['', '기준1의 답이 기준2에서 바뀔 줄을 눌러요. 확인하면 기준2의 답이 열려요.', '숫자 하나를 고르고 확인하기를 눌러요. 예가 목표 사람 수가 되면 끝나요.', '항목과 숫자를 고르고 확인하기를 눌러요. 목표와 같은 줄이 되면 끝나요.'];
+
+  function showMission(n){
+    cur = n;
+    [1, 2, 3].forEach(function(k){ secs[k].hidden = (k !== n); });
+    syncLadder();
+    $('how').textContent = HOW[n];
+    if (n === 2 && !m2.rows.length) m2New();
+    if (n === 3 && !m3.rows.length) m3New();
+    if (window.Fun && INTRO[n]) Fun.say(INTRO[n]);
+    try { window.scrollTo(0, 0); } catch (e) { /* 위치를 못 옮겨도 괜찮다 */ }
+  }
+  function syncLadder(){
+    ladderBtns.forEach(function(b){
+      var k = +b.getAttribute('data-go');
+      if (k === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+      b.classList.toggle('done', doneM[k]);
+    });
+    if (doneM[cur] && cur < 3){
+      goNext.hidden = false;
+      goNext.textContent = '미션 ' + (cur + 1) + ' 하러 가기';
+    } else goNext.hidden = true;
+    $('fin').hidden = !(doneM[1] && doneM[2] && doneM[3]);
+  }
+  function missionDone(n, line){
+    doneM[n] = true;
+    $('learn' + n).textContent = '알게 된 것: ' + line;
+    syncLadder();
+    if (window.Fun && n > 1) Fun.say('알게 된 것: ' + line, 'cheer');
+    if (doneM[1] && doneM[2] && doneM[3] && !stamped){
+      stamped = true;
+      if (window.Fun) Fun.stamp();
+    }
+  }
+  ladderBtns.forEach(function(b){ b.addEventListener('click', function(){ showMission(+b.getAttribute('data-go')); }); });
+  goNext.addEventListener('click', function(){ showMission(cur + 1); });
+
+  /* ───────── 미션 2·3 공통 ───────── */
+  var KEYS = {
+    t:{ name:'걸리는 시간이', unit:'분', tail:'보다 오래 걸리나?', vals:[5, 10, 15, 20, 25], col:'시간' },
+    x:{ name:'횡단보도를', unit:'개', tail:'보다 많이 건너나?', vals:[0, 1, 2, 3], col:'횡단보도' }
+  };
+  function mk(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function mkRows(){
+    var out = [];
+    for (var i = 0; i < ROWS; i++){
+      var w = pickWay(), d = WAYS[w], t = rnd(d.t[0], d.t[1]);
+      if (Math.random() < .5) t = Math.max(5, Math.round(t / 5) * 5);
+      out.push({ w:w, t:t, x:rnd(d.x[0], d.x[1]) });
+    }
+    return out;
+  }
+  function cntOver(rs, key, n){ return rs.filter(function(r){ return r[key] > n; }).length; }
+  function pick(a){ return a[rnd(0, a.length - 1)]; }
+  function yn(v){ return v ? '예' : '아니요'; }
+  function drawList(box, rs, key, n, target){
+    box.innerHTML = '';
+    var h = mk('div', 'mr mh' + (target ? ' m3' : ''));
+    h.setAttribute('aria-hidden', 'true');
+    ['등교 방법', '시간', '횡단보도'].forEach(function(t, i){ h.appendChild(mk('span', i ? 'n' : '', t)); });
+    if (target) h.appendChild(mk('span', 'g', '목표'));
+    h.appendChild(mk('span', 'g', target ? '내 기준' : '기준'));
+    box.appendChild(h);
+    rs.forEach(function(r, i){
+      var row = mk('div', 'mr' + (target ? ' m3' : ''));
+      var w = mk('span', 'w'), im = document.createElement('img');
+      im.src = 'assets/' + IMG[r.w] + '.webp'; im.alt = ''; im.width = 24; im.height = 24;
+      w.appendChild(im); w.appendChild(mk('span', '', r.w));
+      row.appendChild(w); row.appendChild(mk('span', 'n', r.t + '분')); row.appendChild(mk('span', 'n', r.x + '개'));
+      if (target) row.appendChild(mk('span', 'g ' + (target[i] ? 'y' : 'n'), yn(target[i])));
+      var g;
+      if (key === null || n === null) g = mk('span', 'g q', '?');
+      else { var v = r[key] > n; g = mk('span', 'g ' + (v ? 'y' : 'n'), yn(v)); }
+      row.appendChild(g);
+      box.appendChild(row);
+    });
+  }
+  function drawVals(box, key, n, fn){
+    box.innerHTML = '';
+    KEYS[key].vals.forEach(function(v){
+      var b = mk('button', '', v + KEYS[key].unit); b.type = 'button';
+      b.setAttribute('aria-pressed', n === v ? 'true' : 'false');
+      b.addEventListener('click', function(){ fn(v); });
+      box.appendChild(b);
+    });
+  }
+  function qText(key, n){ return KEYS[key].name + ' ' + (n === null ? '○' : n + KEYS[key].unit) + KEYS[key].tail; }
+
+  /* ───────── 미션 2: 숫자 바꾸기 (고른 뒤 확인) ───────── */
+  var m2 = { rows:[], key:'t', sel:null, shown:null, goal:0, done:false };
+  function distinct(rs, key){
+    var o = {}; KEYS[key].vals.forEach(function(v){ o[cntOver(rs, key, v)] = 1; });
+    return Object.keys(o).length;
+  }
+  function m2New(){
+    var tries = 0, nStar;
+    do {
+      m2.rows = mkRows(); m2.key = pick(['t', 'x']);
+      nStar = pick(KEYS[m2.key].vals); m2.goal = cntOver(m2.rows, m2.key, nStar); tries++;
+    } while ((m2.goal < 2 || m2.goal > 6 || distinct(m2.rows, m2.key) < 3) && tries < 400);
+    m2.sel = null; m2.shown = null; m2.done = false;
+    $('m2goal').textContent = "숫자를 골라서 '예'가 " + m2.goal + '명이 되게 해요.';
+    $('m2more').hidden = true;
+    m2Render('');
+  }
+  function m2Render(msg){
+    $('m2q').textContent = qText(m2.key, m2.sel);
+    drawVals($('m2vals'), m2.key, m2.sel, function(v){ if (m2.done) return; m2.sel = v; m2.shown = null; m2Render(''); });
+    drawList($('m2list'), m2.rows, m2.key, m2.shown, null);
+    $('m2ok').disabled = m2.sel === null || m2.done;
+    $('m2stat').textContent = msg || ("목표 '예' " + m2.goal + (m2.sel === null ? '명 · 숫자를 골라요' : '명 · 고른 뒤 확인하기를 눌러요'));
+  }
+  $('m2ok').addEventListener('click', function(){
+    if (m2.sel === null || m2.done) return;
+    m2.shown = m2.sel;
+    var c = cntOver(m2.rows, m2.key, m2.shown), d = c - m2.goal, msg;
+    if (d === 0){
+      m2.done = true; $('m2more').hidden = false;
+      m2Render('예가 ' + c + '명이에요. 목표와 같아요');
+      if (window.Fun) Fun.burst($('m2list'));
+      missionDone(2, '기준 숫자를 바꾸면 같은 표에서도 예 묶음의 사람 수가 달라져요.');
+    } else {
+      msg = d > 0 ? '목표보다 ' + d + '명 많아요. 다른 숫자를 골라 봐요' : '목표보다 ' + (-d) + '명 적어요. 다른 숫자를 골라 봐요';
+      m2Render(msg);
+      if (window.Fun) Fun.say(msg + '.', 'think');
+    }
+  });
+  $('m2more').addEventListener('click', function(){ m2New(); if (window.Fun) Fun.say('새 표가 나왔어요. 숫자를 골라 목표 사람 수를 만들어 봐요.'); });
+
+  /* ───────── 미션 3: 기준 만들기 (고른 뒤 확인) ───────── */
+  var m3 = { rows:[], target:[], key:null, n:null, shown:false, done:false };
+  function m3Diff(){
+    var d = 0;
+    m3.rows.forEach(function(r, i){ if ((r[m3.key] > m3.n) !== m3.target[i]) d++; });
+    return d;
+  }
+  function m3New(){
+    var tries = 0, key, n, tg, k;
+    do {
+      m3.rows = mkRows(); key = pick(['t', 'x']); n = pick(KEYS[key].vals);
+      m3.rows[rnd(0, ROWS - 1)][key] = n;           // 기준 숫자와 똑같은 줄을 하나 둔다
+      tg = m3.rows.map(function(r){ return r[key] > n; });
+      k = tg.filter(Boolean).length; tries++;
+    } while ((k < 2 || k > 6) && tries < 300);
+    m3.target = tg; m3.key = null; m3.n = null; m3.shown = false; m3.done = false;
+    $('m3more').hidden = true;
+    m3Render('');
+  }
+  function m3Render(msg){
+    var kb = $('m3keys'); kb.innerHTML = '';
+    ['t', 'x'].forEach(function(k){
+      var b = mk('button', '', KEYS[k].col); b.type = 'button';
+      b.setAttribute('aria-pressed', m3.key === k ? 'true' : 'false');
+      b.addEventListener('click', function(){ if (m3.done) return; if (m3.key !== k){ m3.key = k; m3.n = null; } m3.shown = false; m3Render(''); });
+      kb.appendChild(b);
+    });
+    if (m3.key) drawVals($('m3vals'), m3.key, m3.n, function(v){ if (m3.done) return; m3.n = v; m3.shown = false; m3Render(''); });
+    else $('m3vals').innerHTML = '';
+    $('m3q').textContent = m3.key ? qText(m3.key, m3.n) : '먼저 항목을 골라요';
+    drawList($('m3list'), m3.rows, m3.shown ? m3.key : null, m3.shown ? m3.n : null, m3.target);
+    var ready = m3.key !== null && m3.n !== null;
+    $('m3ok').disabled = !ready || m3.done;
+    $('m3stat').textContent = msg || (ready ? '다 골랐으면 확인하기를 눌러요' : '항목과 숫자를 모두 골라요');
+  }
+  $('m3ok').addEventListener('click', function(){
+    if (m3.key === null || m3.n === null || m3.done) return;
+    m3.shown = true;
+    var d = m3Diff(), msg;
+    if (d === 0){
+      m3.done = true; $('m3more').hidden = false;
+      m3Render('목표와 모든 줄이 같아요');
+      if (window.Fun) Fun.burst($('m3list'));
+      missionDone(3, '기준을 직접 만들면 표를 내가 원하는 두 묶음으로 나눌 수 있어요.');
+    } else {
+      msg = '목표와 다른 줄이 ' + d + '줄 있어요. 다시 골라 봐요';
+      if (m3.rows.some(function(r){ return r[m3.key] === m3.n; })) msg += '. 기준 숫자와 똑같은 값의 줄은 어느 쪽에 있나 봐요';
+      m3Render(msg);
+      if (window.Fun) Fun.say(msg + '.', 'think');
+    }
+  });
+  $('m3more').addEventListener('click', function(){ m3New(); if (window.Fun) Fun.say('새 목표가 나왔어요. 항목과 숫자를 다시 골라 봐요.'); });
 
   newRound();
 })();

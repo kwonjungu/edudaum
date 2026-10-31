@@ -14,6 +14,7 @@
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html{-webkit-text-size-adjust:100%}
+  body{word-break:keep-all;overflow-wrap:break-word}
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5;
     
@@ -32,18 +33,20 @@
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:10px;margin-top:9px}
-  h2{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--muted)}
+  h2{font-size:14px;font-weight:700;margin-bottom:5px;color:var(--muted);word-break:keep-all}
 
   .stage{display:grid;grid-template-columns:118px minmax(0,1fr);gap:9px;align-items:stretch}
   .panel{background:var(--ink);border:1px solid var(--line);border-radius:var(--r-sm);
     padding:9px;display:flex;align-items:center;justify-content:center}
-  #grid{width:100%;max-width:140px;height:auto;display:block}
+  #grid,#grid3{width:100%;max-width:140px;height:auto;display:block}
   .dot{fill:#3A3630}
 
   .steps{list-style:none;display:flex;flex-direction:column;gap:5px;justify-content:center}
-  .steps li{font-size:13px;font-weight:600;color:var(--muted);background:var(--paper);
+  .steps li{font-size:14px;font-weight:600;color:var(--muted);background:var(--paper);
     border:1px solid var(--line);border-radius:9px;padding:6px 9px;transition:background .12s,color .12s}
   .steps li.on{background:var(--point);color:#fff;border-width:2.5px}
+  .steps li span{word-break:keep-all}
+  .fun-guide .fun-say b{font-size:14px}
   .steps li.mark{border-style:dashed;border-width:2.5px}
   .swapline{margin-top:8px;display:inline-block;padding:5px 12px;border:1.5px dashed var(--line-strong);
     border-radius:999px;background:var(--point-soft);font-weight:700;font-size:15px}
@@ -62,13 +65,13 @@
   .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
 
   .reveal{margin-top:8px;font-family:'Courier New',monospace;font-weight:700;font-size:14px;color:var(--muted)}
-  .say{margin-top:6px;font-size:13.5px;font-weight:700}
+  .say{margin-top:6px;font-size:14px;font-weight:700;word-break:keep-all}
   .say.dim{color:var(--muted);font-weight:700}
-  .note{margin-top:8px;font-size:12px;font-weight:700;color:var(--muted)}
+  .note{margin-top:8px;font-size:14px;font-weight:700;color:var(--muted)}
 
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
-  @media(max-width:420px){ .stage{grid-template-columns:1fr} }
-  @media(max-width:400px){ .acts .btn{white-space:nowrap;padding:8px 6px;font-size:13px;flex:1 1 0} }
+  @media(max-width:420px){ .stage{grid-template-columns:92px minmax(0,1fr);gap:7px} .panel{padding:6px} .steps li{padding:4px 7px;gap:6px} .mini{width:20px;height:20px} .fun-guide{min-height:0;margin:2px 0 4px} .fun-guide img{width:44px;height:44px} .fun-say{margin-bottom:4px;padding:5px 10px} h1{font-size:21px} .how{margin-top:4px;padding:6px 10px} .ladder{margin-top:6px} section{margin-top:7px;padding:8px} }
+  @media(max-width:400px){ .chip{gap:3px;padding:4px 4px;white-space:nowrap;font-size:13px} .acts .btn{white-space:nowrap;padding:8px 6px;font-size:14px;flex:1 1 0} }
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* 에듀다움 통일 테마 2026-09-27 */
@@ -80,6 +83,51 @@
   @keyframes pop{0%{transform:translateX(-14px);opacity:.3}60%{transform:translateX(5px)}100%{transform:none;opacity:1}}
   .led-on{filter:drop-shadow(0 0 3px #FF3B2F)}
   .tag{background:var(--point)}
+
+/* 미션 사다리 2026-10-31 */
+  .how{margin-top:8px;font-size:15px;font-weight:700;background:var(--point-soft);border-radius:var(--r-sm);padding:8px 12px}
+  .ladder{display:flex;gap:6px;margin-top:9px}
+  .ladder button{flex:1 1 0;font-family:inherit;cursor:pointer;font-size:14px;font-weight:700;color:var(--muted);
+    background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-sm);min-height:46px;padding:6px 4px}
+  .ladder button[aria-current="step"]{background:var(--point);color:#fff;border-color:var(--point)}
+  .ladder button{display:flex;align-items:center;justify-content:center;gap:4px;word-break:keep-all;white-space:nowrap}
+  .ladder .n{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--line);color:var(--ink);font-size:14px;line-height:1;flex:none}
+  .ladder button[aria-current="step"] .n{background:#fff;color:var(--point)}
+  .ladder button.done .n{background:var(--point);color:#fff}
+  .concept{display:flex;gap:10px;align-items:center}
+  .concept p{font-size:14px;font-weight:600;line-height:1.55}
+  .concept img,.pic{display:block;width:100%;height:auto;border-radius:var(--r-sm);background:var(--point-soft)}
+  .concept img{width:96px;height:54px;flex:none;object-fit:cover}
+  .concept{margin-top:12px}
+  .res{display:flex;gap:8px;align-items:center;margin-top:8px}
+  .res img{width:84px;height:84px;flex:none;object-fit:cover;border-radius:var(--r-sm);background:var(--point-soft)}
+  .res .learn{margin-top:0;flex:1}
+  .res[hidden]{display:none}
+  .finish img{width:100%;max-width:420px;height:auto;aspect-ratio:3/1;object-fit:cover;object-position:60% 0;margin:0 auto 6px}
+  @keyframes blink{0%,100%{box-shadow:none}50%{box-shadow:0 0 0 3px var(--point)}}
+  .chips.blink .chip{animation:blink .5s ease 2}
+  .pic{aspect-ratio:16/9;max-height:150px;object-fit:cover;object-position:center 45%;margin-bottom:8px}
+  .ask{font-size:15px;font-weight:700;margin-bottom:6px}
+  .learn{margin-top:8px;font-size:14px;font-weight:700;background:var(--point-soft);border-radius:var(--r-sm);padding:7px 11px}
+  .chips{display:flex;gap:6px;margin:4px 0 8px}
+  .chip{flex:1 1 0;min-width:0;display:flex;align-items:center;gap:5px;font-size:14px;font-weight:700;word-break:keep-all;
+    border:1px solid var(--line);border-radius:9px;padding:4px 6px;background:var(--paper)}
+  .chip .mini{width:18px;height:18px;padding:1px}
+  .chip b{color:var(--point)}
+  .lbl{font-size:14px;font-weight:700;color:var(--muted);margin-top:6px}
+  .linebtn{font-family:inherit;cursor:pointer;text-align:left;color:var(--ink);font-size:14px;font-weight:700;
+    background:var(--paper);border:1px solid var(--line-strong);border-radius:9px;padding:6px 9px;min-height:44px;
+    display:flex;align-items:center;gap:8px;width:100%}
+  .linebtn[aria-pressed="true"]{background:var(--point-soft);border:3px solid var(--point)}
+  .linebtn:disabled{cursor:default}
+  .linebtn.ok{border-color:var(--point)}
+  .stage3 .steps{gap:6px}
+  .finish{text-align:center}
+  .finish[hidden]{display:none}
+  .finish p{font-size:14px;font-weight:700;margin-top:4px}
+  .aimark{margin-top:10px;font-size:14px;font-weight:700;color:var(--muted)}
+  [hidden]{display:none!important}
+  
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -95,73 +143,141 @@
     <p class="lead">끝나고 남는 그림은 무엇일까</p>
   </header>
 
-  <section aria-labelledby="h-v">
-    <h2 id="h-v">이번 블록</h2>
-    <div class="stage">
-      <div class="panel">
-        <svg id="grid" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 LED 화면"></svg>
+  <p class="how" id="how">두 줄을 바꾸면 마지막에 남는 그림을 먼저 고르고, 바꿔 켜 봐요.</p>
+
+  <nav class="ladder" id="ladder" aria-label="미션 차례">
+    <button type="button" data-go="1" aria-current="step"><span class="n">1</span><span>예상하기</span></button>
+    <button type="button" data-go="2"><span class="n">2</span><span>거꾸로 찾기</span></button>
+    <button type="button" data-go="3"><span class="n">3</span><span>직접 바꾸기</span></button>
+  </nav>
+
+
+  <!-- 미션 1: 예상하기 -->
+  <div data-step="1" id="m1">
+    <section aria-labelledby="h-v">
+      <h2 id="h-v">미션 1 · 바꾸기 전에 예상해요</h2>
+      <div class="stage">
+        <div class="panel">
+          <svg id="grid" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 LED 화면"></svg>
+        </div>
+        <ol class="steps" id="steps" aria-label="시작하면 실행 안의 블록">
+          <li data-n="0">시작하면 실행</li>
+          <li data-n="1" id="line1"></li>
+          <li data-n="2" id="line2"></li>
+          <li data-n="3" id="line3"></li>
+        </ol>
       </div>
-      <ol class="steps" id="steps" aria-label="시작하면 실행 안의 블록">
-        <li data-n="0">시작하면 실행</li>
-        <li data-n="1" id="line1"></li>
-        <li data-n="2" id="line2"></li>
-        <li data-n="3" id="line3"></li>
-      </ol>
-    </div>
-    <p class="swapline" id="swapline"></p>
+      <p class="swapline" id="swapline"></p>
+    </section>
+
+    <section aria-labelledby="h-g">
+      <h2 id="h-g">바꾼 뒤 마지막에 남는 그림은</h2>
+      <div class="guess" id="guess">
+        <button class="btn" type="button" data-g="heart">하트</button>
+        <button class="btn" type="button" data-g="smile">웃는 얼굴</button>
+        <button class="btn" type="button" data-g="house">집</button>
+      </div>
+      <p class="say dim" id="say">셋 가운데 하나를 골라요</p>
+      <div class="acts">
+        <button class="btn main" id="go" type="button" disabled>바꿔 켜 보기</button>
+        <button class="btn" id="replay" type="button" disabled>다시 보기</button>
+        <button class="btn" id="next" type="button">다음 판</button>
+      </div>
+      <div class="res" id="res1" hidden><img src="assets/led_cut1.webp" width="640" height="360" alt="마이크로비트 LED에 하트가 켜진 모습"><p class="learn" id="learn1"></p></div>
+    </section>
+  </div>
+
+  <!-- 미션 2: 거꾸로 찾기 -->
+  <div data-step="2" id="m2" hidden>
+    <section aria-labelledby="h-b">
+      <h2 id="h-b">미션 2 · 어느 두 줄을 바꿨을까</h2>
+      <p class="lbl">처음 블록 차례</p>
+      <div class="chips" id="b-before" aria-label="처음 차례"></div>
+      <p class="lbl">바꾼 뒤 LED에 나온 차례</p>
+      <div class="chips" id="b-after" aria-label="바꾼 뒤 차례"></div>
+      <p class="ask">서로 자리를 바꾼 두 줄을 골라요</p>
+      <div class="guess" id="b-guess"></div>
+      <p class="say dim" id="b-say">처음 차례와 바뀐 차례를 견주어 보고 골라요</p>
+      <div class="acts"><button class="btn" id="b-next" type="button">다음 판</button></div>
+      <div class="res" id="res2" hidden><img src="assets/scene_swap.webp" width="640" height="360" alt="두 아이가 노트북의 블록과 마이크로비트를 함께 보는 모습"><p class="learn" id="learn2"></p></div>
+    </section>
+  </div>
+
+  <!-- 미션 3: 직접 바꾸기 -->
+  <div data-step="3" id="m3" hidden>
+    <section aria-labelledby="h-c">
+      <h2 id="h-c">미션 3 · 목표 차례로 만들어요</h2>
+      <p class="lbl">만들어야 할 차례</p>
+      <div class="chips" id="c-target" aria-label="목표 차례"></div>
+      <p class="ask">두 줄을 차례로 눌러 자리를 바꿔요</p>
+      <div class="stage stage3">
+        <div class="panel">
+          <svg id="grid3" viewBox="0 0 100 100" role="img" aria-label="마이크로비트 LED 화면"></svg>
+        </div>
+        <div class="steps" id="c-lines"></div>
+      </div>
+      <p class="say dim" id="c-say"></p>
+      <div class="acts">
+        <button class="btn main" id="c-go" type="button" disabled>LED로 켜 보기</button>
+        <button class="btn" id="c-reset" type="button">처음으로</button>
+        <button class="btn" id="c-next" type="button">다음 판</button>
+      </div>
+      <div class="res" id="res3" hidden><img src="../lecture/_assets/B07/led_cut2.webp" width="1600" height="900" alt="마이크로비트 LED에 웃는 얼굴이 켜진 모습"><p class="learn" id="learn3"></p></div>
+    </section>
+  </div>
+
+  <section class="concept" aria-label="개념 설명">
+    <p><b>알아 둘 것</b> 블록은 위에서 아래로 한 줄씩 차례대로 실행돼요. 두 줄의 자리를 바꾸면 LED에 나오는 차례가 달라지고, 맨 아래 줄이 끼면 마지막에 남는 그림도 달라져요.</p>
+    <img src="assets/scene_order.webp" width="640" height="360" alt="라면을 끓이고 우유를 따르고 신발을 신는 생활 장면" style="display:block">
   </section>
 
-  <section aria-labelledby="h-g">
-    <h2 id="h-g">바꾼 뒤 마지막에 남는 그림은</h2>
-    <div class="guess" id="guess">
-      <button class="btn" type="button" data-g="heart">하트</button>
-      <button class="btn" type="button" data-g="smile">웃는 얼굴</button>
-      <button class="btn" type="button" data-g="house">집</button>
-    </div>
-    <p class="say dim" id="say">셋 가운데 하나를 짚어요</p>
-    <div class="acts">
-      <button class="btn main" id="go" type="button" disabled>바꿔 켜 보기</button>
-      <button class="btn" id="replay" type="button" disabled>다시 보기</button>
-      <button class="btn" id="next" type="button">다음 판</button>
-    </div>
-    <p class="note">마이크로비트로 옮겨 봐요</p>
+  <section class="finish" id="finish" hidden aria-label="미션을 모두 마쳤어요">
+    <img src="assets/mission_done.webp" width="640" height="360" alt="마이크로비트 이름표를 건 아이가 두 팔을 들고 있는 모습">
+    <p>세 미션을 모두 해 봤어요. 이제 마이크로비트에서 직접 자리를 바꿔 봐요.</p>
   </section>
+
+  <p class="note">마이크로비트로 옮겨 봐요</p>
+  <p class="aimark">그림 일부는 생성형 AI로 만들었어요.</p>
 </div>
 
 <script>
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
-
-  var gridEl = $('grid');
-  var lineEls = [
-    document.querySelector('.steps li[data-n="0"]'),
-    $('line1'), $('line2'), $('line3')
-  ];
-  var guessWrap = $('guess');
-  var guessBtns = Array.prototype.slice.call(guessWrap.querySelectorAll('.btn'));
-  var goBtn = $('go');
-  var replayBtn = $('replay');
-  var nextBtn = $('next');
-  var swapEl = $('swapline');
-  var sayEl = $('say');
-
   var NS = 'http://www.w3.org/2000/svg';
   var OFF = '#3A3630';
   var ON = '#FF3B2F';   // 마이크로비트 LED는 빨간색뿐
-  var SHOW = 700;    // 한 그림이 켜져 있는 시간(ms)
+  var SHOW = 700;       // 한 그림이 켜져 있는 시간(ms)
 
   var IMAGES = {
     heart: [0,1,0,1,0, 1,1,1,1,1, 1,1,1,1,1, 0,1,1,1,0, 0,0,1,0,0],
     smile: [0,0,0,0,0, 0,1,0,1,0, 0,0,0,0,0, 1,0,0,0,1, 0,1,1,1,0],
     house: [0,0,1,0,0, 0,1,1,1,0, 1,1,1,1,1, 0,1,1,1,0, 0,1,0,1,0]
   };
+  var KEYS = ['heart', 'smile', 'house'];
   var LABEL = { heart: '하트', smile: '웃는 얼굴', house: '집' };
   var SUBJ = { heart: '하트가', smile: '웃는 얼굴이', house: '집이' };
   var PAIRS = [[0, 1], [0, 2], [1, 2]];
 
-  var cells = [];
-  (function buildGrid() {
+  var LEARN = {
+    1: '알게 된 것: 블록은 위에서부터 차례대로 실행돼요. 바꾼 두 줄에 맨 아래 줄이 있어야 마지막 그림이 달라져요.',
+    2: '알게 된 것: 바뀐 차례를 보면, 어느 두 줄이 자리를 바꿨는지 거꾸로 찾을 수 있어요.',
+    3: '알게 된 것: 두 줄씩 맞바꾸면 어떤 차례든 만들 수 있어요. 한 번에 되는 차례도, 두 번이 드는 차례도 있어요.'
+  };
+  var done = { 1: false, 2: false, 3: false };
+  var allStamped = false;
+
+  function shuffle(arr) {
+    for (var i = arr.length - 1; i > 0; i -= 1) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+    }
+    return arr;
+  }
+  function samePerm(a, b) { return a[0] === b[0] && a[1] === b[1] && a[2] === b[2]; }
+
+  function makeGrid(svg) {
+    var cs = [];
     for (var r = 0; r < 5; r++) {
       for (var c = 0; c < 5; c++) {
         var el = document.createElementNS(NS, 'rect');
@@ -172,17 +288,16 @@
         el.setAttribute('rx', '3');
         el.setAttribute('class', 'dot');
         el.style.fill = OFF;
-        gridEl.appendChild(el);
-        cells.push(el);
+        svg.appendChild(el);
+        cs.push(el);
       }
     }
-  })();
-
-  function setLed(key) {
-    var pic = key ? IMAGES[key] : null;
-    for (var i = 0; i < 25; i++) { cells[i].style.fill = pic && pic[i] ? ON : OFF; }
+    return cs;
   }
-
+  function setLed(cs, key) {
+    var pic = key ? IMAGES[key] : null;
+    for (var i = 0; i < 25; i++) { cs[i].style.fill = pic && pic[i] ? ON : OFF; }
+  }
   function miniSvg(key) {
     var pic = IMAGES[key], h = '<svg class="mini" viewBox="0 0 100 100" aria-hidden="true">';
     for (var i = 0; i < 25; i++) {
@@ -190,75 +305,89 @@
     }
     return h + '</svg>';
   }
-
-  function showLine(n) {
-    for (var k = 0; k < 4; k++) { lineEls[k].classList.toggle('on', k === n); }
+  function chipsHtml(ord) {
+    var h = '';
+    for (var k = 0; k < 3; k++) { h += '<span class="chip"><b>' + (k + 1) + '</b>' + miniSvg(ord[k]) + '<span>' + LABEL[ord[k]] + '</span></span>'; }
+    return h;
   }
 
-  function renderLines(ord, pair) {
+  var timers = [];
+  function clearTimers() { while (timers.length) { clearTimeout(timers.pop()); } }
+
+  var RES_PIC = { heart: ['assets/led_cut1.webp', '마이크로비트 LED에 하트가 켜진 모습'], smile: ['../lecture/_assets/B07/led_cut2.webp', '마이크로비트 LED에 웃는 얼굴이 켜진 모습'] };
+  function resPic(n, key) {
+    var box = $('res' + n), img = box.querySelector('img'), old = box.querySelector('svg.mini');
+    if (old) { old.parentNode.removeChild(old); }
+    var d = RES_PIC[key];
+    if (d) { img.hidden = false; img.src = d[0]; img.alt = d[1]; }
+    else {
+      img.hidden = true;
+      var t = document.createElement('div'); t.innerHTML = miniSvg(key);
+      var sv = t.firstChild; sv.setAttribute('style', 'width:84px;height:84px;flex:none'); sv.setAttribute('role', 'img'); sv.setAttribute('aria-label', 'LED 5x5 칸에 집 모양이 켜진 모습'); sv.removeAttribute('aria-hidden');
+      box.insertBefore(sv, img);
+    }
+  }
+  function learn(n) {
+    var el = $('learn' + n);
+    var first = !done[n];
+    el.textContent = LEARN[n];
+    $('res' + n).hidden = false;
+    if (window.Fun && first) { Fun.say(LEARN[n], 'cheer'); }
+    done[n] = true;
+    document.querySelector('#ladder [data-go="' + n + '"]').classList.add('done');
+    if (done[1] && done[2] && done[3]) {
+      $('finish').hidden = false;
+      if (!allStamped) { allStamped = true; if (window.Fun) { Fun.stamp(); } }
+    }
+  }
+
+  /* ---------- 미션 1: 예상하기 ---------- */
+  var gridEl = $('grid');
+  var cells = makeGrid(gridEl);
+  var lineEls = [document.querySelector('.steps li[data-n="0"]'), $('line1'), $('line2'), $('line3')];
+  var guessWrap = $('guess');
+  var guessBtns = Array.prototype.slice.call(guessWrap.querySelectorAll('.btn'));
+  var goBtn = $('go'), replayBtn = $('replay'), nextBtn = $('next');
+  var swapEl = $('swapline'), sayEl = $('say');
+
+  function showLine(n) { for (var k = 0; k < 4; k++) { lineEls[k].classList.toggle('on', k === n); } }
+  function renderLines(ord, pr) {
     for (var k = 0; k < 3; k++) {
       var li = lineEls[k + 1];
       li.innerHTML = miniSvg(ord[k]) + '<span>아이콘 출력 ' + LABEL[ord[k]] + '</span>';
-      li.classList.toggle('mark', !!pair && (k === pair[0] || k === pair[1]));
+      li.classList.toggle('mark', !!pr && (k === pr[0] || k === pr[1]));
     }
   }
 
-  var order = [];      // 바꾸기 전 차례
-  var after = [];      // 바꾼 뒤 차례
-  var pair = null;     // 자리를 바꿀 두 줄
-  var guess = null;
-  var ran = false;
-  var timers = [];
-  var lastKey = '';
-  var stamped = false;
+  var order = [], after = [], pair = null, guess = null, ran = false, lastKey = '';
 
-  function clearTimers() {
-    for (var i = 0; i < timers.length; i += 1) { clearTimeout(timers[i]); }
-    timers = [];
-  }
-
-  function shuffle(arr) {
-    for (var i = arr.length - 1; i > 0; i -= 1) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
-    }
-    return arr;
-  }
-
-  // 판마다 세 그림의 차례와 바꿀 두 줄을 새로 뽑는다.
   function draw() {
-    var ord = shuffle(['heart', 'smile', 'house']);
+    var ord = shuffle(KEYS.slice());
     var p = PAIRS[Math.floor(Math.random() * PAIRS.length)];
     return { order: ord, pair: p, key: ord.join(',') + '|' + p.join('') };
   }
 
   function newRound() {
     clearTimers();
-    var r = draw();
-    var tries = 0;
+    $('res1').hidden = true;
+    var r = draw(), tries = 0;
     while (r.key === lastKey && tries < 8) { r = draw(); tries += 1; }
     lastKey = r.key;
-
-    order = r.order; pair = r.pair; guess = null; ran = false; stamped = false;
+    order = r.order; pair = r.pair; guess = null; ran = false;
     after = order.slice();
     after[pair[0]] = order[pair[1]];
     after[pair[1]] = order[pair[0]];
-
     renderLines(order, pair);
     swapEl.textContent = (pair[0] + 1) + '번과 ' + (pair[1] + 1) + '번 자리 바꾸기';
     showLine(-1);
-    setLed(null);
-
+    setLed(cells, null);
     for (var i = 0; i < guessBtns.length; i += 1) {
       guessBtns[i].disabled = false;
       guessBtns[i].setAttribute('aria-pressed', 'false');
     }
-    goBtn.disabled = true;
-    replayBtn.disabled = true;
-    nextBtn.disabled = false;
-    sayEl.textContent = '셋 가운데 하나를 짚어요';
+    goBtn.disabled = true; replayBtn.disabled = true; nextBtn.disabled = false;
+    sayEl.textContent = '셋 가운데 하나를 골라요';
     sayEl.className = 'say dim';
-    if (window.Fun) { Fun.say('새 판이에요. 자리를 바꾸기 전에 마지막 그림부터 예상해요.'); }
   }
 
   function pickGuess(g) {
@@ -269,42 +398,37 @@
       b.disabled = true;
       b.setAttribute('aria-pressed', b.getAttribute('data-g') === g ? 'true' : 'false');
     }
-    goBtn.disabled = false;
+    goBtn.disabled = false; nextBtn.disabled = true;
     goBtn.focus();
-    sayEl.textContent = '바꿔 켜 보기를 눌러요';
+    sayEl.textContent = '이제 바꿔 켜 보기를 눌러요';
     sayEl.className = 'say dim';
   }
 
   function finishLap() {
     var last = after[2];
-    sayEl.textContent = SUBJ[last] + ' 남았어요';
+    ran = true; m1Running = false;
+    resPic(1, last);
     sayEl.className = 'say';
-    if (window.Fun) {
-      if (!stamped) { stamped = true; Fun.stamp(); }
-      if (guess === last) { Fun.say('짚은 그림과 마지막 그림이 같아요. 어느 줄이 마지막이 됐는지 짝과 말해 봐요.', 'cheer'); }
-      else { Fun.say('예상과 다르게 나왔어요. 바꾼 줄이 마지막 줄이었는지 봐요.', 'think'); }
-      Fun.burst(gridEl);
-    }
-    ran = true;
-    goBtn.disabled = true;
-    replayBtn.disabled = false;
-    nextBtn.disabled = false;
+    var hit = guess === last;
+    sayEl.textContent = SUBJ[last] + ' 남았어요. ' + (hit ? '고른 그림과 같아요.' : '고른 그림과 달라요. 바꾼 줄에 맨 아래 줄이 있었는지 보고, 다음 판에서 한 번 더 예상해요.');
+    if (hit) { if (window.Fun) { Fun.burst(gridEl); } learn(1); }
+    else { lineEls[pair[0] + 1].classList.add('pop'); lineEls[pair[1] + 1].classList.add('pop'); }
+    goBtn.disabled = true; replayBtn.disabled = false; nextBtn.disabled = false;
   }
 
-  // 바꾼 차례대로 한 바퀴만 돈다. 마지막 그림은 켜진 채로 남는다.
+  var m1Running = false;
   function lap() {
-    clearTimers();
+    clearTimers(); m1Running = true;
     renderLines(order, pair);
     showLine(-1);
-    setLed(null);
+    setLed(cells, null);
     swapEl.textContent = (pair[0] + 1) + '번과 ' + (pair[1] + 1) + '번 자리 바꾸는 중';
     var k = 0;
     function step() {
       showLine(k + 1);
-      setLed(after[k]);
+      setLed(cells, after[k]);
       k += 1;
-      if (k < 3) { timers.push(setTimeout(step, SHOW)); }
-      else { timers.push(setTimeout(finishLap, SHOW)); }
+      timers.push(setTimeout(k < 3 ? step : finishLap, SHOW));
     }
     timers.push(setTimeout(function () {
       renderLines(after, pair);
@@ -316,40 +440,205 @@
     }, 600));
   }
 
-  function run() {
-    if (guess === null || ran) { return; }
-    goBtn.disabled = true;
-    nextBtn.disabled = true;
-    lap();
-  }
-
-  function replay() {
-    if (!ran) { return; }
-    replayBtn.disabled = true;
-    nextBtn.disabled = true;
-    lap();
-  }
-
+  goBtn.addEventListener('click', function () { if (guess === null || ran) { return; } goBtn.disabled = true; nextBtn.disabled = true; lap(); });
+  replayBtn.addEventListener('click', function () { if (!ran) { return; } replayBtn.disabled = true; nextBtn.disabled = true; lap(); });
+  nextBtn.addEventListener('click', newRound);
   guessWrap.addEventListener('click', function (ev) {
     var btn = ev.target.closest ? ev.target.closest('.btn') : null;
-    if (!btn) { return; }
-    pickGuess(btn.getAttribute('data-g'));
+    if (btn) { pickGuess(btn.getAttribute('data-g')); }
   });
 
-  goBtn.addEventListener('click', run);
-  replayBtn.addEventListener('click', replay);
-  nextBtn.addEventListener('click', newRound);
+  /* ---------- 미션 2: 거꾸로 찾기 ---------- */
+  var bBefore = $('b-before'), bAfter = $('b-after'), bSay = $('b-say'), bNext = $('b-next');
+  var bBtns = [];
+  PAIRS.forEach(function (pr) {
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'btn';
+    b.setAttribute('data-p', pr.join(','));
+    b.textContent = (pr[0] + 1) + '번과 ' + (pr[1] + 1) + '번';
+    $('b-guess').appendChild(b);
+    bBtns.push(b);
+  });
+  var bOrder = [], bAfterOrd = [], bPair = null, bPicked = false, bLast = '', bWrong = 0;
 
-  // 화면을 벗어나면 도는 바퀴를 멈추고, 돌아오면 다시 보기로 이어 볼 수 있게 한다.
-  function stopLap() {
-    if (!timers.length) { return; }
-    clearTimers();
-    if (guess !== null) { ran = true; replayBtn.disabled = false; nextBtn.disabled = false; sayEl.textContent = '다시 보기를 눌러요'; showLine(-1); }
+  function bRound() {
+    var ord, p, key, tries = 0;
+    do {
+      ord = shuffle(KEYS.slice());
+      p = PAIRS[Math.floor(Math.random() * PAIRS.length)];
+      key = ord.join(',') + '|' + p.join('');
+      tries += 1;
+    } while (key === bLast && tries < 8);
+    bLast = key;
+    bOrder = ord; bPair = p; bPicked = false; bWrong = 0; bNext.disabled = true; bAfter.classList.remove('blink');
+    bAfterOrd = ord.slice();
+    bAfterOrd[p[0]] = ord[p[1]];
+    bAfterOrd[p[1]] = ord[p[0]];
+    bBefore.innerHTML = chipsHtml(bOrder);
+    bAfter.innerHTML = chipsHtml(bAfterOrd);
+    for (var i = 0; i < bBtns.length; i += 1) { bBtns[i].disabled = false; bBtns[i].setAttribute('aria-pressed', 'false'); }
+    bSay.textContent = '처음 차례와 바뀐 차례를 견주어 보고 골라요';
+    bSay.className = 'say dim';
   }
-  document.addEventListener('visibilitychange', function () { if (document.hidden) { stopLap(); } });
-  window.addEventListener('pagehide', stopLap);
+
+  function bPick(btn) {
+    if (bPicked || btn.disabled) { return; }
+    var p = btn.getAttribute('data-p').split(',');
+    var a = +p[0], b = +p[1];
+    var test = bOrder.slice();
+    test[a] = bOrder[b]; test[b] = bOrder[a];
+    btn.disabled = true;
+    btn.setAttribute('aria-pressed', 'true');
+    bSay.className = 'say';
+    if (samePerm(test, bAfterOrd)) {
+      bPicked = true;
+      for (var i = 0; i < bBtns.length; i += 1) { bBtns[i].disabled = true; }
+      bSay.textContent = (a + 1) + '번과 ' + (b + 1) + '번을 바꾸면 보인 차례와 같아져요.';
+      if (window.Fun) { Fun.burst($('b-after')); }
+      bNext.disabled = false;
+      learn(2);
+    } else {
+      bWrong += 1;
+      bSay.textContent = '그렇게 바꾸면 ' + LABEL[test[0]] + ', ' + LABEL[test[1]] + ', ' + LABEL[test[2]] + ' 차례가 돼요. 바뀐 차례와 견주어 다시 골라요.' + (bWrong >= 2 ? ' 처음과 위치가 달라진 칸을 찾아봐요.' : '');
+      bAfter.classList.remove('blink'); void bAfter.offsetWidth; bAfter.classList.add('blink');
+    }
+  }
+  $('b-guess').addEventListener('click', function (ev) {
+    var btn = ev.target.closest ? ev.target.closest('.btn') : null;
+    if (btn) { bPick(btn); }
+  });
+  bNext.addEventListener('click', bRound);
+
+  /* ---------- 미션 3: 직접 바꾸기 ---------- */
+  var cGrid = $('grid3'), cCells = makeGrid(cGrid);
+  var cLines = $('c-lines'), cTarget = $('c-target'), cSay = $('c-say');
+  var cGo = $('c-go'), cReset = $('c-reset'), cNext = $('c-next');
+  var cStart = [], cCur = [], cGoal = [], cSel = null, cSwaps = 0, cReached = false, cRan = false, cLast = '';
+
+  function cRender() {
+    cLines.textContent = '';
+    for (var k = 0; k < 3; k++) {
+      var b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'linebtn' + (cReached ? ' ok' : '');
+      b.setAttribute('data-i', k);
+      b.setAttribute('aria-pressed', cSel === k ? 'true' : 'false');
+      b.disabled = cReached;
+      b.innerHTML = '<b>' + (k + 1) + '</b>' + miniSvg(cCur[k]) + '<span>아이콘 출력 ' + LABEL[cCur[k]] + '</span>';
+      cLines.appendChild(b);
+    }
+  }
+
+  function cRound() {
+    clearTimers();
+    $('res3').hidden = true;
+    var tries = 0, st, goal, key;
+    do {
+      st = shuffle(KEYS.slice());
+      goal = shuffle(KEYS.slice());
+      key = st.join(',') + '>' + goal.join(',');
+      tries += 1;
+    } while ((samePerm(st, goal) || key === cLast) && tries < 20);
+    cLast = key;
+    cStart = st; cGoal = goal;
+    cTarget.innerHTML = chipsHtml(cGoal);
+    cResetState();
+  }
+
+  function cResetState() {
+    clearTimers();
+    cCur = cStart.slice(); cSel = null; cSwaps = 0; cReached = false; cRan = false;
+    setLed(cCells, null);
+    cRender();
+    cGo.disabled = true; cReset.disabled = false; cNext.disabled = false;
+    cSay.className = 'say dim';
+    cSay.textContent = '바꿀 줄 하나를 누르고, 서로 바꿀 줄 하나를 더 눌러요';
+  }
+
+  function cTap(i) {
+    if (cReached) { return; }
+    if (cSel === null) { cSel = i; cRender(); cSay.textContent = (i + 1) + '번을 골랐어요. 서로 바꿀 줄을 눌러요'; return; }
+    if (cSel === i) { cSel = null; cRender(); cSay.textContent = '다시 고를 수 있어요'; return; }
+    var t = cCur[cSel]; cCur[cSel] = cCur[i]; cCur[i] = t;
+    cSwaps += 1;
+    var a = cSel + 1, b = i + 1;
+    cSel = null;
+    if (samePerm(cCur, cGoal)) {
+      cReached = true;
+      cSay.className = 'say';
+      cSay.textContent = a + '번과 ' + b + '번을 바꿨어요. 목표 차례가 됐어요. 바꾼 횟수는 ' + cSwaps + '번이에요.';
+      cRender();
+      cGo.disabled = false;
+      cGo.focus();
+    } else {
+      cSay.className = 'say dim';
+      cSay.textContent = a + '번과 ' + b + '번을 바꿨어요. 아직 목표 차례와 달라요.';
+      cRender();
+    }
+  }
+
+  function cLap() {
+    clearTimers();
+    cGo.disabled = true; cNext.disabled = true; cReset.disabled = true;
+    setLed(cCells, null);
+    var k = 0;
+    function step() {
+      setLed(cCells, cCur[k]);
+      k += 1;
+      timers.push(setTimeout(k < 3 ? step : cFinish, SHOW));
+    }
+    timers.push(setTimeout(step, 400));
+  }
+  function cFinish() {
+    cRan = true;
+    resPic(3, cCur[2]);
+    cSay.textContent = '목표 차례대로 켜졌어요. 마지막에 ' + SUBJ[cCur[2]] + ' 남았어요.';
+    if (window.Fun) { Fun.burst(cGrid); }
+    learn(3);
+    cGo.disabled = false; cNext.disabled = false; cReset.disabled = false;
+  }
+  cLines.addEventListener('click', function (ev) {
+    var btn = ev.target.closest ? ev.target.closest('.linebtn') : null;
+    if (btn) { cTap(+btn.getAttribute('data-i')); }
+  });
+  cGo.addEventListener('click', function () { if (cReached) { cLap(); } });
+  cReset.addEventListener('click', cResetState);
+  cNext.addEventListener('click', cRound);
+
+  /* ---------- 미션 오가기 ---------- */
+  var ladderBtns = Array.prototype.slice.call($('ladder').querySelectorAll('button'));
+  function stopAll() {
+    if (timers.length) {
+      clearTimers();
+      if (m1Running) { m1Running = false; ran = true; replayBtn.disabled = false; nextBtn.disabled = false; sayEl.textContent = '다시 보기를 눌러요'; showLine(-1); }
+      cNext.disabled = false; cReset.disabled = false; cGo.disabled = !cReached;
+    }
+  }
+  function go(n) {
+    stopAll();
+    for (var i = 0; i < ladderBtns.length; i += 1) {
+      var on = +ladderBtns[i].getAttribute('data-go') === n;
+      if (on) { ladderBtns[i].setAttribute('aria-current', 'step'); } else { ladderBtns[i].removeAttribute('aria-current'); }
+      $('m' + (i + 1)).hidden = !on;
+    }
+    $('how').textContent = n === 1 ? '두 줄을 바꾸면 마지막에 남는 그림을 먼저 고르고, 바꿔 켜 봐요.' :
+      n === 2 ? '처음 차례와 바뀐 차례를 견주어, 자리를 바꾼 두 줄을 골라요.' : '두 줄을 차례로 눌러 맞바꿔서 목표 차례를 만들어요.';
+    if (window.Fun) {
+      Fun.say(n === 1 ? '자리를 바꾸기 전에 마지막 그림부터 예상해요.' :
+              n === 2 ? '바뀐 차례를 보고, 어느 두 줄을 바꿨는지 찾아요.' : '두 줄씩 맞바꿔서 목표 차례를 만들어요.');
+    }
+  }
+  $('ladder').addEventListener('click', function (ev) {
+    var b = ev.target.closest ? ev.target.closest('button') : null;
+    if (b) { go(+b.getAttribute('data-go')); }
+  });
+
+  document.addEventListener('visibilitychange', function () { if (document.hidden) { stopAll(); } });
+  window.addEventListener('pagehide', stopAll);
 
   newRound();
+  bRound();
+  cRound();
 })();
 </script>
 <script src="../assets/play/fun.js" data-block="B07" data-mission="블록 두 줄의 자리를 바꾸면 마지막에 남는 그림이 뭘까? 켜 보기 전에 예상부터!"></script>

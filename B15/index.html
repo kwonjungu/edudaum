@@ -16,31 +16,28 @@
   html{-webkit-text-size-adjust:100%}
   body{font-family:Pretendard,'Apple SD Gothic Neo','Malgun Gothic',system-ui,sans-serif;
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5}
-  .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px}
+  .wrap{max-width:640px;margin:0 auto;padding:10px 14px 22px;overflow-x:hidden}
 
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-  .back{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:600;
-    font-size:14px;background:var(--surface);border:1px solid var(--ink);border-radius:999px;
-    padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
-  .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;border:1px solid var(--line);
-    border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
 
   h1{font-size:clamp(21px,5.0vw,27px);font-weight:700;letter-spacing:-.035em;line-height:1.15}
   .lead{font-size:14.5px;color:var(--muted);margin-top:5px;font-weight:600}
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:12px;margin-top:11px}
-  h2{font-size:13px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted);text-align:center}
+  h2{font-size:14px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted);text-align:center}
 
-  .scene{display:flex;align-items:center;justify-content:center;gap:10px;font-size:17px;font-weight:700;margin-bottom:10px}
-  .scene img{flex:0 0 auto;width:72px;height:72px;display:block;border-radius:16px;object-fit:contain;background:#f8f6f1}
+  .scene{display:flex;align-items:center;justify-content:center;gap:10px;font-size:16px;font-weight:700;margin-bottom:6px}
+  #slots .arrow{display:none}
+  section{padding:10px 12px}
+  .card{min-height:44px!important;padding:5px 12px!important}
+  .scene img{flex:0 0 auto;width:48px;height:48px;display:block;border-radius:16px;object-fit:contain;background:#f8f6f1}
   .scene.flip{animation:b15flip .42s ease}
   @keyframes b15flip{0%{transform:rotateX(80deg);opacity:.2}100%{transform:none;opacity:1}}
 
   .slots{display:flex;flex-direction:column;gap:7px}
   .slot{width:100%;text-align:left;font-family:inherit;cursor:pointer;color:var(--ink);
     background:var(--soft);border:1px dashed var(--line-strong);border-radius:var(--r-sm);
-    min-height:58px;padding:7px 12px;display:flex;flex-direction:column;justify-content:center}
+    min-height:50px;padding:5px 12px;display:flex;flex-direction:column;justify-content:center}
   .slot{position:relative;padding-left:46px;border-left:6px solid var(--bar,var(--line-strong))}
   .slot.s0{--bar:var(--sky,#5aa9e6)}
   .slot.s1{--bar:var(--sun,#ffc845)}
@@ -49,13 +46,13 @@
     background:var(--bar);color:var(--ink);font-weight:700;font-size:14px;display:grid;place-items:center}
   .slot.drop .sc{animation:b15drop .3s ease}
   @keyframes b15drop{0%{transform:translateY(-14px);opacity:0}100%{transform:none;opacity:1}}
-  .slot .sl{font-size:12.5px;font-weight:700;color:var(--muted)}
+  .slot .sl{font-size:14px;font-weight:700;color:var(--muted)}
   .slot .sc{font-size:15.5px;font-weight:600;min-height:1.4em}
   .slot.full{background:var(--surface);border:1px solid var(--line)}
   .slot.full,.slot.far,.slot.same{border-left:6px solid var(--bar)}
   .slot.far{background:var(--pink-l,#ffeef1);border:2px solid var(--pink,#ff8fa3);border-left:6px solid var(--bar)}
   .slot.same{background:var(--mint-l,#e3f6ef);border:2px solid var(--mint,#4cbf9a);border-left:6px solid var(--bar)}
-  .slot .sd{font-size:13px;font-weight:700;color:var(--ink)}
+  .slot .sd{font-size:14px;font-weight:700;color:var(--ink)}
   .slot:disabled{cursor:default}
   .arrow{text-align:center;color:var(--muted);font-size:15px;line-height:1}
 
@@ -77,7 +74,7 @@
   .btn.sub{flex:1 1 100px}
   .btn:disabled{opacity:.45;cursor:not-allowed}
 
-  .note{margin-top:8px;font-size:13px;font-weight:600;color:var(--muted)}
+  .note{margin-top:8px;font-size:14px;font-weight:600;color:var(--muted)}
 
   button, a{outline-offset:3px}
   :focus-visible{outline:2px solid var(--ink);outline-offset:3px}
@@ -85,219 +82,354 @@
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+
+.topnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px}
+.topnav a{display:inline-flex;align-items:center;text-decoration:none;color:var(--ink);font-weight:600;font-size:14px;
+  background:var(--surface);border:1px solid var(--ink);border-radius:999px;padding:9px 15px;min-height:44px;box-shadow:var(--hard-sm)}
+.topnav b{font-weight:700;font-size:14px;background:var(--point);color:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;box-shadow:var(--hard-sm);white-space:nowrap}
+.how{margin:10px 0 0;font-size:16px;font-weight:600;background:var(--point-soft);border-radius:var(--r-sm);padding:8px 12px}
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:10px 0 0}
+.ladder button{font-family:inherit;cursor:pointer;min-height:44px;padding:4px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+  background:var(--surface);color:var(--ink);font-size:14.5px;font-weight:700;line-height:1.2}
+.ladder button[aria-current="step"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ladder button.done::after{content:" 끝";font-weight:600;color:#2f8f6f}
+.ladder button.done[aria-current="step"]::after{color:#fff}
+.concept{margin:10px 0 0;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 12px;background:var(--surface)}
+.concept b{display:block;font-size:14px;color:var(--point)}
+.concept p{margin:2px 0 0;font-size:15px;font-weight:600}
+.learned{margin-top:10px;padding:8px 12px;border-radius:var(--r-sm);background:#e3f6ef;font-size:15px;font-weight:700}
+.learned:empty{display:none}
+.ask{font-size:15px;font-weight:700;margin:4px 0 8px;text-align:center}
+.opts{display:flex;flex-direction:column;gap:7px}
+.fin{margin-top:11px;text-align:center}
+.fin img{width:100%;max-width:420px;height:auto;border-radius:var(--r-sm);display:block;margin:0 auto 6px}
+.fin p{font-size:15px;font-weight:700}
+.ai{margin-top:6px;font-size:14px;color:var(--muted);font-weight:600}
+[hidden]{display:none!important}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
-<div class="wrap">
-  <nav class="nav">
-    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">← 체험 목록</a><a class="back" href="../lessons/B15/">과정안</a></span>
-    <span class="tag">1~2</span>
+<main class="wrap">
+  <nav class="topnav"><span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a href="../play/">← 체험 목록</a><a href="../lessons/B15/">과정안</a></span><b>1~2</b></nav>
+
+  <h1>세 칸으로 나누기 활동</h1>
+    <p class="how" id="how">카드를 누르면 1번 칸부터 차례로 들어가요. 세 칸이 차면 확인하기를 눌러요.</p>
+
+  <nav class="ladder" id="ladder" aria-label="미션 순서">
+    <button type="button" data-go="1" aria-current="step">① 나누기</button>
+    <button type="button" data-go="2">② 찾기</button>
+    <button type="button" data-go="3">③ 만들기</button>
   </nav>
 
-  <header>
-    <h1>세 칸으로 나누기 활동</h1>
-    <p class="lead">장면 카드를 받아들였나·알아냈나·해 주었나 칸에 놓아요</p>
-  </header>
-
-  <section aria-labelledby="h-c">
-    <h2 id="h-c">카드</h2>
-    <div class="scene" id="sceneBox"><span id="sceneIcon" aria-hidden="true"></span><span id="scene"></span></div>
+  <section data-step="1" id="m1" aria-labelledby="h1m">
+    <h2 id="h1m">미션 1 · 카드를 세 칸에 나눠요</h2>
+    <div class="scene" id="sceneBox"><img id="sceneIcon" src="assets/weather.webp" alt="" width="48" height="48"><span id="scene"></span></div>
     <div class="cards" id="cards"></div>
-  </section>
-
-  <section aria-labelledby="h-s">
-    <h2 id="h-s">세 칸</h2>
-    <div class="slots" id="slots"></div>
-    <p class="status dim" id="status" aria-live="polite">카드를 눌러 위 칸부터 채워요</p>
+    <div class="slots" id="slots" style="margin-top:10px"></div>
+    <p class="status dim" id="status" aria-live="polite">카드를 누르면 1번 칸부터 들어가요</p>
     <div class="acts">
       <button class="btn main" id="checkBtn" type="button" disabled>확인하기</button>
       <button class="btn sub" id="againBtn" type="button">다시 하기</button>
-      <button class="btn sub" id="nextBtn" type="button">다음 장면</button>
+      <button class="btn sub" id="nextBtn" type="button" disabled>다음 장면</button>
     </div>
-    <p class="note">어느 것이 인공지능인지는 교실에서 이야기해요</p>
+    <p class="learned" id="learn1" aria-live="polite"></p>
   </section>
-</div>
+
+  <section data-step="2" id="m2" hidden aria-labelledby="h2m">
+    <h2 id="h2m">미션 2 · 어긋난 칸을 찾아요</h2>
+    <div class="scene"><img id="icon2" src="assets/faces.webp" alt="" width="48" height="48"><span id="scene2"></span></div>
+    <p class="ask">세 칸 가운데 다른 장면에서 온 칸이 하나 있어요. 어느 칸일까요?</p>
+    <div class="slots" id="slots2"></div>
+    <p class="status dim" id="status2" aria-live="polite">어긋난 것 같은 칸을 눌러요</p>
+    <div class="acts"><button class="btn main" id="next2" type="button" hidden>한 판 더</button></div>
+    <p class="learned" id="learn2" aria-live="polite"></p>
+  </section>
+
+  <section data-step="3" id="m3" hidden aria-labelledby="h3m">
+    <h2 id="h3m">미션 3 · 세 칸을 스스로 이어요</h2>
+    <div class="scene"><img id="icon3" src="assets/video.webp" alt="" width="48" height="48"><span id="scene3"></span></div>
+    <p class="ask" id="ask3"></p>
+    <div class="opts" id="opts3"></div>
+    <div class="slots" id="slots3" style="margin-top:10px"></div>
+    <p class="status dim" id="status3" aria-live="polite"></p>
+    <div class="acts"><button class="btn main" id="next3" type="button" hidden>한 판 더</button></div>
+    <p class="learned" id="learn3" aria-live="polite"></p>
+  </section>
+
+  <div class="acts"><button class="btn main" id="goNext" type="button" hidden></button></div>
+  <div class="fin" id="fin" hidden>
+    <img src="../lecture/_assets/B15/present_board.webp" alt="교실 칠판에 카드를 붙여 정리하는 학생들" width="420" height="236">
+    <p>세 미션을 모두 했어요. 어떤 장면이든 받아들이고, 알아내고, 해 주는 세 칸이 이어져요.</p>
+  </div>
+  <aside class="concept" aria-label="개념 설명">
+    <b>알아 둘 말</b>
+    <p>인공지능 프로그램은 먼저 무언가를 받아들이고(보기·듣기), 알아낸 뒤(판단), 무언가를 해 줘요(결과). 장면이 달라도 세 칸은 같아요.</p>
+  </aside>
+  <p class="note">어느 것이 인공지능인지는 교실에서 이야기해요</p>
+  <p class="ai">그림 일부는 생성형 AI로 만들었어요.</p>
+</main>
 
 <script>
 (function(){
   'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+  function rnd(n) { return Math.floor(Math.random() * n); }
+  function shuffle(a) { for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1), t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function say(t, m) { if (window.Fun) { Fun.say(t, m); } }
+  function mk(tag, cls, text) { var e = document.createElement(tag); if (cls) { e.className = cls; } if (text != null) { e.textContent = text; } return e; }
 
-  // 지도안 1차시 활동1: 무엇을 받아들였나(보기·듣기) / 무엇을 알아냈나(판단) / 무엇을 해 주었나(결과)
   var SLOT_NAMES = ['받아들였나 (보기·듣기)', '알아냈나 (판단)', '해 주었나 (결과)'];
-  // 장면 카드. 배열 순서가 제 칸 순서다. 앞 둘은 지도안 도입 장면, 뒤 둘은 활동2 사례 카드.
-  var SCENES = [
-    ['음성 비서에게 날씨 묻기', ['“오늘 날씨 어때?” 말을 들어요', '날씨를 묻는 말인 줄 알아내요', '“맑아요”라고 알려 줘요']],
-    ['사진첩이 얼굴별로 묶어 주기', ['사진 속 얼굴을 봐요', '같은 사람끼리 알아내요', '얼굴별로 사진을 묶어 줘요']],
-    ['손동작 알아보기', ['카메라로 손 모양을 봐요', '주먹인지 보자기인지 알아내요', '알아낸 모양을 화면에 띄워요']],
-    ['영상 추천', ['내가 본 영상 목록을 읽어요', '좋아할 만한 영상을 골라내요', '다음 볼 영상을 띄워 줘요']]
-  ];
+  var SHORT = ['받아들인 것', '알아낸 것', '해 준 일'];
   var NUM = ['', '한', '두', '세'];
-  var ST = 'fill="none" stroke="#33302b" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"';
-  var ICONS = ['weather', 'faces', 'hand', 'video'].map(function (n) { return '<img src="assets/' + n + '.webp" alt="" width="72" height="72">'; });
+  // 장면 카드. 배열 순서가 제 칸 순서다.
+  var SCENES = [
+    ['음성 비서에게 날씨 묻기', 'weather', ['“오늘 날씨 어때?” 말을 들어요', '날씨를 묻는 말인 줄 알아내요', '“맑아요”라고 알려 줘요']],
+    ['사진첩이 얼굴별로 묶어 주기', 'album', ['사진 속 얼굴을 봐요', '같은 사람끼리 알아내요', '얼굴별로 사진을 묶어 줘요']],
+    ['손동작 알아보기', 'hand', ['카메라로 손 모양을 봐요', '주먹인지 보자기인지 알아내요', '알아낸 모양을 화면에 띄워요']],
+    ['영상 추천', 'video', ['내가 본 영상 목록을 읽어요', '좋아할 만한 영상을 골라내요', '다음 볼 영상을 띄워 줘요']]
+  ];
+  // 미션 3: 같은 장면에서 입력이 달라지면 세 칸이 모두 달라진다.
+  var MAKE = [
+    ['음성 비서에게 말 걸기', 'weather', [
+      ['“내일 비 와?” 말을 들어요', '내일 날씨를 묻는 말인 줄 알아내요', '내일 날씨를 알려 줘요'],
+      ['“7시에 깨워 줘” 말을 들어요', '알람 시각을 맞추라는 말인 줄 알아내요', '7시에 알람을 맞춰 줘요'],
+      ['“신나는 노래 틀어 줘” 말을 들어요', '음악을 틀라는 말인 줄 알아내요', '신나는 노래를 틀어 줘요']]],
+    ['사진첩 정리하기', '', [
+      ['사진 속 강아지를 봐요', '강아지가 찍힌 사진인 줄 알아내요', '강아지 사진끼리 묶어 줘요'],
+      ['사진 속 음식을 봐요', '음식이 찍힌 사진인 줄 알아내요', '음식 사진끼리 묶어 줘요'],
+      ['사진 속 바다 풍경을 봐요', '바다 풍경 사진인 줄 알아내요', '바다 사진끼리 묶어 줘요']]],
+    ['영상 추천받기', 'video', [
+      ['내가 본 영상 목록을 읽어요(요리가 많아요)', '요리 영상을 자주 본다고 알아내요', '다음 볼 요리 영상을 띄워 줘요'],
+      ['내가 본 영상 목록을 읽어요(축구가 많아요)', '축구 영상을 자주 본다고 알아내요', '다음 볼 축구 영상을 띄워 줘요'],
+      ['내가 본 영상 목록을 읽어요(동물이 많아요)', '동물 영상을 자주 본다고 알아내요', '다음 볼 동물 영상을 띄워 줘요']]]
+  ];
+  function icon(n) { return 'assets/' + n + '.webp'; }
 
-  var sceneIdx = -1, order = [0, 1, 2];
-  var slots = [null, null, null];   // 칸마다 놓인 카드(제 칸 번호)
-  var confirmed = false, lastPut = -1;
+  /* ───── 미션 사다리 ───── */
+  var cur = 1, doneM = { 1: false, 2: false, 3: false }, stamped = false;
+  var secs = { 1: $('m1'), 2: $('m2'), 3: $('m3') };
+  var ladderBtns = [].slice.call(document.querySelectorAll('#ladder button'));
+  var goNext = $('goNext');
+  var NAMES = ['', '나누기', '찾기', '만들기'];
+  var sc2 = -1, sc3 = -1;
+  var HOW = ['', '카드를 누르면 1번 칸부터 차례로 들어가요. 세 칸이 차면 확인하기를 눌러요.',
+    '위 칸부터 차례로 이어 읽어요. 앞뒤와 이어지지 않는 칸을 눌러요.',
+    '칸마다 하나씩 골라요. 첫 칸을 정하면 나머지도 그 입력에서 이어져야 해요.'];
+  function ro(w) { var c = w.charCodeAt(w.length - 1) - 0xAC00; return (c >= 0 && c % 28 !== 0 && c % 28 !== 8) ? '으로' : '로'; }
+  function showMission(n) {
+    cur = n;
+    [1, 2, 3].forEach(function (k) { secs[k].hidden = (k !== n); });
+    if (n === 2 && sc2 === -1) { m2New(); }
+    if (n === 3 && sc3 === -1) { m3New(); }
+    $('how').textContent = HOW[n];
+    syncLadder();
+    try { window.scrollTo(0, 0); } catch (e) { /* 위치를 못 옮겨도 괜찮다 */ }
+  }
+  function syncLadder() {
+    ladderBtns.forEach(function (b) {
+      var k = +b.getAttribute('data-go');
+      if (k === cur) { b.setAttribute('aria-current', 'step'); } else { b.removeAttribute('aria-current'); }
+      b.classList.toggle('done', doneM[k]);
+    });
+    if (doneM[cur] && cur < 3) { goNext.hidden = false; goNext.textContent = '미션 ' + (cur + 1) + ' ' + NAMES[cur + 1] + ro(NAMES[cur + 1]) + ' 가기'; }
+    else { goNext.hidden = true; }
+    $('fin').hidden = !(doneM[1] && doneM[2] && doneM[3]);
+  }
+  function missionDone(n, line, mood) {
+    doneM[n] = true;
+    $('learn' + n).textContent = '알게 된 것: ' + line;
+    say('알게 된 것: ' + line, mood || 'think');
+    syncLadder();
+    if (doneM[1] && doneM[2] && doneM[3] && !stamped) { stamped = true; if (window.Fun) { Fun.stamp(); } }
+  }
+  ladderBtns.forEach(function (b) { b.addEventListener('click', function () { showMission(+b.getAttribute('data-go')); }); });
+  goNext.addEventListener('click', function () { showMission(cur + 1); });
 
-  var sceneEl = document.getElementById('scene');
-  var sceneBox = document.getElementById('sceneBox');
-  var sceneIcon = document.getElementById('sceneIcon');
-  var cardsEl = document.getElementById('cards');
-  var slotsEl = document.getElementById('slots');
-  var statusEl = document.getElementById('status');
-  var checkBtn = document.getElementById('checkBtn');
-  var againBtn = document.getElementById('againBtn');
-  var nextBtn = document.getElementById('nextBtn');
-
-  var slotBtns = [];
-  (function buildSlots(){
+  /* 칸 단추 만들기 */
+  function buildSlots(box, onClick) {
+    var arr = [];
     for (var k = 0; k < 3; k++) {
-      if (k > 0) {
-        var ar = document.createElement('div');
-        ar.className = 'arrow'; ar.setAttribute('aria-hidden', 'true'); ar.textContent = '↓';
-        slotsEl.appendChild(ar);
-      }
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'slot';
+      if (k > 0) { var ar = mk('div', 'arrow', '↓'); ar.setAttribute('aria-hidden', 'true'); box.appendChild(ar); }
+      var b = mk('button', 'slot'); b.type = 'button';
       b.innerHTML = '<span class="no" aria-hidden="true">' + (k + 1) + '</span><span class="sl"></span><span class="sc"></span><span class="sd"></span>';
       b.querySelector('.sl').textContent = SLOT_NAMES[k];
-      (function (idx) { b.addEventListener('click', function () { takeOut(idx); }); })(k);
-      slotsEl.appendChild(b);
-      slotBtns.push(b);
+      (function (i) { b.addEventListener('click', function () { onClick(i); }); })(k);
+      box.appendChild(b); arr.push(b);
     }
-  })();
-
-  var cardBtns = [];
-  (function buildCards(){
-    for (var i = 0; i < 3; i++) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'card';
-      (function (idx) { b.addEventListener('click', function () { putIn(idx); }); })(i);
-      cardsEl.appendChild(b);
-      cardBtns.push(b);
-    }
-  })();
-
-  function shuffle(){
-    var a;
-    do {
-      a = [0, 1, 2];
-      for (var i = 2; i > 0; i--) {
-        var j = Math.floor(Math.random() * (i + 1));
-        var t = a[i]; a[i] = a[j]; a[j] = t;
-      }
-    } while (a[0] === 0 && a[1] === 1);   // 칸 순서 그대로 놓이지 않게
-    return a;
+    return arr;
+  }
+  function setSlot(b, k, text, state, note, drop) {
+    b.querySelector('.sc').textContent = text || '';
+    b.querySelector('.sd').textContent = note || '';
+    b.className = 'slot s' + k + (text ? ' full' : '') + (state ? ' ' + state : '') + (drop ? ' drop' : '');
+    b.setAttribute('aria-label', SLOT_NAMES[k] + (text ? ', ' + text : ', 빈 칸') + (note ? ', ' + note : ''));
   }
 
-  function newRound(){
+  /* ───── 미션 1: 카드를 세 칸에 나누기 ───── */
+  var sceneIdx = -1, order = [0, 1, 2], slots = [null, null, null], confirmed = false, lastPut = -1;
+  var slotBtns = buildSlots($('slots'), function (k) { takeOut(k); });
+  var cardBtns = [], cardsEl = $('cards');
+  for (var ci = 0; ci < 3; ci++) {
+    var cb = mk('button', 'card'); cb.type = 'button';
+    (function (i) { cb.addEventListener('click', function () { putIn(i); }); })(ci);
+    cardsEl.appendChild(cb); cardBtns.push(cb);
+  }
+  var checkBtn = $('checkBtn'), againBtn = $('againBtn'), nextBtn = $('nextBtn'), statusEl = $('status'), sceneBox = $('sceneBox');
+
+  function shuffle3() { var a; do { a = shuffle([0, 1, 2]); } while (a[0] === 0 && a[1] === 1); return a; }
+  function newRound() {
     var s, first = sceneIdx === -1;
-    do { s = Math.floor(Math.random() * SCENES.length); } while (s === sceneIdx);
-    sceneIdx = s;
-    order = shuffle();
-    slots = [null, null, null];
-    confirmed = false;
-    lastPut = -1;
+    do { s = rnd(SCENES.length); } while (s === sceneIdx);
+    sceneIdx = s; order = shuffle3(); slots = [null, null, null]; confirmed = false; lastPut = -1;
     render();
     sceneBox.classList.remove('flip'); void sceneBox.offsetWidth; sceneBox.classList.add('flip');
-    if (!first && window.Fun) Fun.say('새 장면 「' + SCENES[sceneIdx][0] + '」이에요. 카드를 칸에 놓아 봐요.');
+    if (!first) { say('새 장면 「' + SCENES[sceneIdx][0] + '」이에요. 카드를 칸에 놓아 봐요.'); }
   }
-
-  function putIn(pos){
-    if (confirmed) return;
+  function putIn(pos) {
+    if (confirmed) { return; }
     var card = order[pos];
-    if (slots.indexOf(card) !== -1) return;
+    if (slots.indexOf(card) !== -1) { return; }
     var k = slots.indexOf(null);
-    if (k === -1) return;
-    slots[k] = card;
-    lastPut = k;
-    render();
-    if (window.Fun && slots.indexOf(null) === -1) Fun.say('세 칸이 다 찼어요. 확인하기 전에 순서를 한 번 더 읽어 봐요.', 'think');
+    if (k === -1) { return; }
+    slots[k] = card; lastPut = k; render();
+    if (slots.indexOf(null) === -1) { say('세 칸이 다 찼어요. 확인하기 전에 순서를 한 번 더 읽어 봐요.', 'think'); }
   }
-
-  function takeOut(k){
-    if (confirmed || slots[k] === null) return;
-    slots[k] = null;
-    lastPut = -1;
-    render();
-  }
-
-  function doCheck(){
-    if (confirmed || slots.indexOf(null) !== -1) return;
-    confirmed = true;
-    lastPut = -1;
-    render();
+  function takeOut(k) { if (confirmed || slots[k] === null) { return; } slots[k] = null; lastPut = -1; render(); }
+  function doCheck() {
+    if (confirmed || slots.indexOf(null) !== -1) { return; }
+    confirmed = true; lastPut = -1; render();
     nextBtn.focus({ preventScroll: true });
     var off = 0;
-    for (var k = 0; k < 3; k++) if (slots[k] !== k) off++;
-    if (window.Fun) {
-      if (off) {
-        Fun.say('제 칸에서 떨어진 카드가 ' + off + '장 있어요. 그 카드가 왜 그 칸이 아닌지 살펴봐요.', 'think');
-        Fun.shake(slotsEl);
-      } else {
-        Fun.say('세 장이 모두 그 칸에 있었어요. 다음 장면에서도 같은 세 칸을 찾아봐요.', 'cheer');
-        Fun.burst(slotsEl);
-      }
-      Fun.stamp();
+    for (var k = 0; k < 3; k++) { if (slots[k] !== k) { off++; } }
+    if (window.Fun) { if (off) { Fun.shake($('slots')); } else { Fun.burst($('slots')); } }
+    if (off === 0) { missionDone(1, '어떤 장면이든 먼저 받아들이고, 알아내고, 해 주는 순서예요.', 'cheer'); }
+    else {
+      var first = -1; for (var q = 0; q < 3; q++) { if (slots[q] !== q && first < 0) { first = q; } }
+      say(off + '장이 제 칸에서 떨어져 있어요. ' + (first + 1) + '번 칸부터 다시 읽어 봐요. 다시 하기를 눌러 같은 장면을 다시 놓아요.', 'think');
     }
   }
-
-  function doAgain(){
-    // 확인 전이면 놓은 카드를 다 뺀다. 확인한 뒤에는 다음 장면과 같다.
-    if (!confirmed) {
-      slots = [null, null, null]; lastPut = -1; render();
-      if (window.Fun) Fun.say('카드를 모두 뺐어요. 같은 장면을 처음부터 놓아 봐요.', 'think');
-      return;
-    }
-    newRound();
+  function doAgain() {
+    slots = [null, null, null]; lastPut = -1; confirmed = false; render(); say('카드를 모두 뺐어요. 같은 장면을 처음부터 놓아 봐요.', 'think');
   }
+  checkBtn.addEventListener('click', doCheck); againBtn.addEventListener('click', doAgain); nextBtn.addEventListener('click', function () { if (nextBtn.disabled) { return; } newRound(); });
 
-  checkBtn.addEventListener('click', doCheck);
-  againBtn.addEventListener('click', doAgain);
-  nextBtn.addEventListener('click', newRound);
-
-  function render(){
-    var texts = SCENES[sceneIdx][1];
-    sceneEl.textContent = SCENES[sceneIdx][0];
-    sceneIcon.innerHTML = ICONS[sceneIdx];
-
+  function render() {
+    var sc = SCENES[sceneIdx], texts = sc[2];
+    $('scene').textContent = sc[0];
+    $('sceneIcon').src = icon(sc[1]);
     for (var i = 0; i < 3; i++) {
-      var c = order[i];
-      cardBtns[i].textContent = texts[c];
-      cardBtns[i].disabled = confirmed || slots.indexOf(c) !== -1;
+      cardBtns[i].textContent = texts[order[i]];
+      cardBtns[i].disabled = confirmed || slots.indexOf(order[i]) !== -1;
     }
-
     var off = 0;
     for (var k = 0; k < 3; k++) {
-      var b = slotBtns[k], v = slots[k];
-      b.querySelector('.sc').textContent = v === null ? '' : texts[v];
-      var d = (confirmed && v !== null) ? Math.abs(k - v) : 0;
-      if (d) off++;
-      b.querySelector('.sd').textContent = confirmed ? (d ? NUM[d] + ' 칸 떨어짐' : '같은 칸') : '';
-      b.className = 'slot s' + k + (v !== null ? ' full' : '') + (confirmed && v !== null ? (d ? ' far' : ' same') : '') + (k === lastPut ? ' drop' : '');
-      b.disabled = confirmed || v === null;
-      b.setAttribute('aria-label', SLOT_NAMES[k] + (v === null ? ', 빈 칸' : ', ' + texts[v]));
+      var v = slots[k], d = (confirmed && v !== null) ? Math.abs(k - v) : 0;
+      if (d) { off++; }
+      setSlot(slotBtns[k], k, v === null ? '' : texts[v], confirmed && v !== null ? (d ? 'far' : 'same') : '',
+        confirmed ? (d ? NUM[d] + ' 칸 떨어짐' : '같은 칸') : '', k === lastPut);
+      slotBtns[k].disabled = confirmed || v === null;
     }
     checkBtn.disabled = confirmed || slots.indexOf(null) !== -1;
-    // 확인한 뒤에는 '다음 장면'이 주 단추가 된다.
     checkBtn.className = 'btn ' + (confirmed ? 'sub' : 'main');
-    nextBtn.className = 'btn ' + (confirmed ? 'main' : 'sub');
-
+    nextBtn.className = 'btn ' + (confirmed && off === 0 ? 'main' : 'sub');
+    nextBtn.disabled = !(confirmed && off === 0);
     if (!confirmed) {
-      var n = 3 - slots.filter(function (x) { return x === null; }).length;
-      statusEl.textContent = n === 0 ? '카드를 눌러 위 칸부터 채워요'
-        : n < 3 ? '칸을 누르면 카드가 빠져요' : '확인하면 드러나요';
+      var n = slots.filter(function (x) { return x !== null; }).length;
+      statusEl.textContent = n === 0 ? '카드를 누르면 1번 칸부터 들어가요' : n < 3 ? '칸을 누르면 카드가 빠져요' : '확인하면 드러나요';
       statusEl.className = 'status dim';
     } else {
-      statusEl.textContent = off ? NUM[off] + ' 장이 제 칸에서 떨어져 있었어요' : '세 장 모두 그 칸이었어요';
+      statusEl.textContent = off ? off + '장이 제 칸에서 떨어져 있어요. 다시 하기로 같은 장면을 다시 놓아요.' : '세 장 모두 그 칸이었어요';
       statusEl.className = 'status';
     }
   }
 
+  /* ───── 미션 2: 어긋난 칸 찾기 ───── */
+  var bad2 = 0, from2 = 0, revealed2 = false;
+  var slots2 = buildSlots($('slots2'), function (i) { pick2(i); });
+  function m2New() {
+    var s; do { s = rnd(SCENES.length); } while (s === sc2);
+    var t; do { t = rnd(SCENES.length); } while (t === s);
+    sc2 = s; from2 = t; bad2 = rnd(3); revealed2 = false; tried2 = [];
+    var texts = SCENES[s][2].slice(); texts[bad2] = SCENES[t][2][bad2];
+    $('scene2').textContent = SCENES[s][0]; $('icon2').src = icon(SCENES[s][1]);
+    for (var k = 0; k < 3; k++) { setSlot(slots2[k], k, texts[k], '', ''); slots2[k].disabled = false; }
+    $('status2').textContent = '어긋난 칸을 눌러요'; $('status2').className = 'status dim';
+    $('next2').hidden = true;
+  }
+  var tried2 = [];
+  function pick2(i) {
+    if (revealed2 || tried2.indexOf(i) !== -1) { return; }
+    var texts = SCENES[sc2][2].slice(); texts[bad2] = SCENES[from2][2][bad2];
+    var st = $('status2');
+    if (i !== bad2) {
+      tried2.push(i);
+      setSlot(slots2[i], i, texts[i], 'same', '이어지는 칸이에요');
+      slots2[i].disabled = true;
+      st.className = 'status'; st.textContent = '이 칸은 이어져요. 첫 칸부터 차례로 이어 읽어 봐요. 다른 칸을 눌러요.';
+      say('예상과 달랐어요. 첫 칸부터 차례로 이어 읽어 봐요.', 'think');
+      return;
+    }
+    revealed2 = true;
+    for (var k = 0; k < 3; k++) {
+      var isBad = k === bad2;
+      setSlot(slots2[k], k, texts[k], isBad ? 'far' : 'same', isBad ? '「' + SCENES[from2][0] + '」에서 온 칸' : '이어지는 칸');
+      slots2[k].disabled = true;
+    }
+    st.className = 'status';
+    st.textContent = '어긋난 칸을 찾았어요. ' + SHORT[bad2] + '이 다른 장면 것이에요.';
+    $('next2').hidden = false;
+    missionDone(2, '한 장면의 세 칸은 서로 이어져요. 받아들인 것에서 판단과 결과가 나와요.', 'cheer');
+  }
+  $('next2').addEventListener('click', m2New);
+
+  /* ───── 미션 3: 세 칸 스스로 이어 만들기 ───── */
+  var pick3 = [null, null, null], ord3 = [];
+  var ASK = ['먼저 어떤 입력을 받아들일지 골라요', '그 입력에서 무엇을 알아낼지 골라요', '마지막으로 무엇을 해 줄지 골라요'];
+  var slots3 = buildSlots($('slots3'), function (k) { if (pick3[k] !== null) { pick3[k] = null; m3Render(); } });
+  function setIcon3(n) { var im = $('icon3'); if (n) { im.src = icon(n); im.hidden = false; } else { im.hidden = true; im.removeAttribute('src'); } }
+  function m3New() {
+    var s; do { s = rnd(MAKE.length); } while (s === sc3);
+    sc3 = s; pick3 = [null, null, null];
+    ord3 = [shuffle([0, 1, 2]), shuffle([0, 1, 2]), shuffle([0, 1, 2])];
+    $('scene3').textContent = MAKE[s][0]; setIcon3(MAKE[s][1]);
+    $('next3').hidden = true;
+    m3Render();
+  }
+  function m3Render() {
+    var v = MAKE[sc3][2], st = pick3.indexOf(null), box = $('opts3'), all = st === -1;
+    box.textContent = '';
+    $('ask3').textContent = all ? '세 칸이 모두 찼어요' : ASK[st];
+    if (!all) {
+      ord3[st].forEach(function (o) {
+        var b = mk('button', 'card', v[o][st]); b.type = 'button';
+        b.addEventListener('click', function () { pick3[st] = o; m3Render(); });
+        box.appendChild(b);
+      });
+    }
+    var ok = all && pick3[0] === pick3[1] && pick3[1] === pick3[2];
+    for (var k = 0; k < 3; k++) {
+      var has = pick3[k] !== null, bad = all && !ok && pick3[k] !== pick3[0];
+      setSlot(slots3[k], k, has ? v[pick3[k]][k] : '', all ? (bad ? 'far' : 'same') : '', all ? (bad ? '앞 칸과 이어지지 않아요' : '이어져요') : '');
+      slots3[k].disabled = !has;
+    }
+    var s = $('status3');
+    if (!all) { s.className = 'status dim'; s.textContent = pick3[0] === null ? '칸을 누르면 그 칸을 다시 고를 수 있어요' : '이어서 골라요'; return; }
+    s.className = 'status';
+    if (ok) {
+      s.textContent = '세 칸이 한 줄로 이어졌어요. 한 판 더 하면 다른 장면이 나와요.';
+      $('next3').hidden = false;
+      missionDone(3, '입력이 바뀌면 알아내는 것도, 해 주는 일도 함께 바뀌어요.', 'cheer');
+    } else {
+      s.textContent = '이어지지 않는 칸이 있어요. 그 칸을 눌러 다시 골라요.';
+      say('입력과 이어지지 않는 칸이 있어요. 첫 칸을 다시 읽어 봐요.', 'think');
+    }
+  }
+  $('next3').addEventListener('click', m3New);
+
   newRound();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B15" data-mission="장면 카드 세 장을 받아들였나, 알아냈나, 해 주었나 칸에 놓아요. 다 놓기 전에는 확인할 수 없어요!"></script>
+<script src="../assets/play/fun.js" data-block="B15" data-mission="카드를 세 칸에 놓고 확인해요. 어긋난 칸도 찾고, 직접 이어 보아요!"></script>
 </body>
 </html>

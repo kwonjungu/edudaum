@@ -104,6 +104,48 @@ main{overflow-x:hidden}
 
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
+
+/* 체험 개선 2026-10-31: 시작 안내·미션 사다리·개념 카드·미션 2·3 */
+.how{margin:0 0 10px;font-size:16px;font-weight:600;background:var(--sun-l);border-radius:var(--r-sm);padding:8px 12px}
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0 0 10px}
+.ladder button{cursor:pointer;font-family:inherit;min-height:44px;padding:4px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+  background:var(--surface);color:var(--ink);font-size:14.5px;font-weight:700;line-height:1.2}
+.ladder button[aria-current="step"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ladder button.done::after{content:" ✓";font-weight:600;color:var(--mint-d)}
+.ladder button.done[aria-current="step"]::after{color:#fff}
+.concept{margin:10px 0 10px;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 12px;background:var(--surface)}
+.concept b{display:block;font-size:14px;color:var(--point)}
+.concept p{margin:2px 0 0;font-size:15px;font-weight:600;word-break:keep-all}
+.learned{margin:10px 0 0;padding:8px 12px;border-radius:var(--r-sm);background:var(--mint-l);font-size:15px;font-weight:700;word-break:keep-all}
+.learned:empty{display:none}
+.scene{display:flex;align-items:center;gap:10px;margin:0 0 10px}
+.scene img{flex:0 0 auto;width:128px;height:72px;object-fit:cover;border-radius:10px}
+.scene p{margin:0;font-size:15.5px;font-weight:600;word-break:keep-all}
+.try{display:flex;flex-direction:column;gap:6px}
+.try .bin{font-size:14px;text-align:left;padding:6px 8px}
+.try .bin.used{background:var(--sky-l)}
+.out{margin:8px 0 0;min-height:22px;font-size:14.5px;font-weight:700;word-break:keep-all}
+.pick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:8px 0 0}
+.cards3{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+.card3{border:1px solid var(--line);border-radius:var(--r-sm);padding:8px;background:var(--paper)}
+.card3 .name{margin:0 0 4px}
+.card3 .io{margin:0 0 6px}
+.card3.chosen{border-color:var(--ink);border-width:2px}
+.rules{display:flex;flex-direction:column;gap:6px;margin:8px 0 0}
+.rules .bin{text-align:left;padding:8px 10px}
+.fin{margin:12px 0 0;text-align:center}
+.fin img{width:100%;max-width:420px;height:auto;border-radius:var(--r-sm)}
+.fin p{margin:6px 0 0;font-size:16px;font-weight:700}
+.ai{font-size:14px;color:var(--muted);font-weight:600;margin:8px 0 0}
+[hidden]{display:none !important}
+.note,.key,.sensor,.tag,.io,.msg,h2{font-size:14px}
+@media (max-width:400px){.scene img{width:96px;height:54px}.try .bin{font-size:13.5px}
+  main{padding:8px 12px 20px}.topnav{margin:0 0 6px}.topnav a{min-height:36px;padding:5px 12px}
+  h1{margin:0 0 3px}.lead{display:none}.how{margin:0 0 6px;padding:5px 10px;font-size:15px}
+  .ladder{margin:0 0 6px}.ladder button{min-height:36px}
+  section{padding:8px;margin:0 0 6px}h2{margin:0 0 4px}.track{margin:0 0 5px}.ask{margin:0 0 6px;font-size:15px}
+  .ico{width:36px;height:36px;margin:0 0 2px}.case{padding:5px}.name{margin:0 0 4px}.sensor{margin-left:0;margin-top:2px}
+  .bins{gap:4px}.bin{min-height:40px}.msg{margin-top:6px}.acts{margin-top:6px}.btn{min-height:42px}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -111,31 +153,127 @@ main{overflow-x:hidden}
 <main>
   <nav class="topnav"><span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a href="../play/">← 체험 목록</a><a href="../lessons/B16/">과정안</a></span><b>3~4</b></nav>
   <h1>기계와 인공지능 짝 가르기</h1>
-  <p class="lead">짝마다 두 장을 칸에 짚고 확인해요</p>
+  <p class="lead">카드를 칸에 놓고, 입력을 바꿔 보고, 규칙을 만들어요</p>
+  <p class="how" id="how">카드마다 칸을 먼저 고르고 확인을 눌러요. 미션은 모두 셋이에요.</p>
 
+  <nav class="ladder" id="ladder" aria-label="미션 순서">
+    <button type="button" data-go="1" aria-current="step">① 가르기</button>
+    <button type="button" data-go="2">② 바꿔 보기</button>
+    <button type="button" data-go="3">③ 규칙 만들기</button>
+  </nav>
+
+  <div data-step="1" id="m1">
   <section aria-labelledby="h-pair">
-    <h2 id="h-pair">이번 짝 <span class="round" id="round"></span></h2>
+    <h2 id="h-pair">미션 1 · 이번 짝 <span class="round" id="round"></span></h2>
     <div class="track" id="track" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-    <p class="ask">정해진 조건 하나로 반응하나요, 데이터로 배운 대로 여러 가지를 보고 판단하나요?</p>
+    <p class="ask">조건 하나로 늘 같게 반응하나요, 배운 대로 판단하나요?</p>
     <div class="pair" id="pair"></div>
-    <p class="key">기계: 단순히 반응하는 기계 · 인공지능: 데이터로 배운 대로 여러 가지를 보고 판단하는 인공지능</p>
   </section>
 
   <section aria-labelledby="h-chk">
-    <h2 id="h-chk">확인</h2>
     <p class="msg dim" id="msg" role="status" aria-live="polite">두 장 모두 칸을 짚어요</p>
     <div class="acts">
       <button class="btn main" id="confirmBtn" type="button" disabled>확인하기</button>
       <button class="btn" id="resetBtn" type="button">다시 하기</button>
-      <button class="btn" id="nextBtn" type="button">다음 짝</button>
+      <button class="btn" id="nextBtn" type="button" disabled>다음 짝</button>
     </div>
-    <p class="note">까닭은 비교표에 한 줄로 써요</p>
+    <p class="note">짝을 확인해야 다음 짝이 열려요. 까닭은 비교표에 한 줄로 써요</p>
+    <p class="learned" id="learn1"></p>
   </section>
+  </div>
+
+  <div data-step="2" id="m2" hidden>
+  <section aria-labelledby="h-m2">
+    <h2 id="h-m2">미션 2 · 입력을 바꿔 눌러 봐요</h2>
+    <p class="ask">두 장치에 다른 입력을 넣어요. 장치마다 세 가지를 모두 눌러 봐요.</p>
+    <div class="pair" id="devs"></div>
+    <div id="m2ask" hidden>
+      <p class="ask">입력이 달라도 결과가 늘 같았던 장치는 어느 쪽이에요?</p>
+      <div class="pick" id="m2pick"></div>
+    </div>
+    <p class="msg dim" id="m2msg" role="status" aria-live="polite">입력을 눌러 봐요</p>
+    <p class="learned" id="learn2"></p>
+    <div class="acts"><button class="btn" id="m2again" type="button" hidden>새 장치로 다시</button></div>
+  </section>
+  </div>
+
+  <div data-step="3" id="m3" hidden>
+  <section aria-labelledby="h-m3">
+    <h2 id="h-m3">미션 3 · 함정을 피해 규칙을 만들어요 <span class="round" id="m3round"></span></h2>
+    <div class="scene">
+      <img src="../lecture/_assets/B16/hand_model.webp" alt="손목에 찬 마이크로비트로 손동작을 알아보는 장면" width="128" height="72">
+      <p id="m3scene">센서가 있는 카드가 섞여 있어요. 세 장 가운데 인공지능 한 장을 골라요.</p>
+    </div>
+    <div class="cards3" id="cards3"></div>
+    <div id="m3rule" hidden>
+      <div class="rules" id="rules"></div>
+    </div>
+    <p class="msg dim" id="m3msg" role="status" aria-live="polite">인공지능이라고 생각하는 카드를 눌러요</p>
+    <div class="acts"><button class="btn main" id="m3next" type="button" hidden>다음 판</button></div>
+    <p class="learned" id="learn3"></p>
+  </section>
+  </div>
+
+  <aside class="concept" aria-label="개념 설명">
+    <b>알아 둘 말</b>
+    <p>기계는 정해 둔 조건 하나에 늘 같게 반응해요. 인공지능은 데이터로 배운 대로 여러 가지를 보고 판단해요. 센서가 있다고 모두 인공지능은 아니에요.</p>
+  </aside>
+
+  <div class="acts"><button class="btn main" id="goNext" type="button" hidden></button></div>
+
+  <div class="fin" id="fin" hidden>
+    <img src="../lecture/_assets/B16/mission_done.webp" alt="새싹 도장이 찍힌 종이와 깃발" width="420" height="236">
+    <p>미션 셋을 모두 했어요. 비교표에 까닭을 한 줄 써 봐요.</p>
+  </div>
+  <p class="ai">그림 일부는 생성형 AI로 만들었어요</p>
 </main>
 
 <script>
 (function () {
   'use strict';
+
+  var $ = function (id) { return document.getElementById(id); };
+  function say(t, m) { if (window.Fun) { Fun.say(t, m); } }
+  function mk(tag, cls, text) { var e = document.createElement(tag); if (cls) { e.className = cls; } if (text != null) { e.textContent = text; } return e; }
+  function rnd(n) { return Math.floor(Math.random() * n); }
+  var curM = 1, doneM = { 1: false, 2: false, 3: false }, stampedAll = false;
+  var secs = { 1: $('m1'), 2: $('m2'), 3: $('m3') };
+  var ladderBtns = Array.prototype.slice.call(document.querySelectorAll('#ladder button'));
+  var goNext = $('goNext');
+  var HOW = ['', '카드마다 칸을 먼저 고르고 확인을 눌러요. 미션은 모두 셋이에요.', '두 장치에 입력을 모두 눌러 보고, 결과가 늘 같았던 쪽을 골라요.', '세 장 가운데 인공지능 한 장을 골라요. 세 판 뒤에 규칙을 만들어요.', '세 판에서 본 것으로 규칙 한 줄을 골라요.'];
+  function syncLadder() {
+    ladderBtns.forEach(function (b) {
+      var k = +b.getAttribute('data-go');
+      if (k === curM) { b.setAttribute('aria-current', 'step'); } else { b.removeAttribute('aria-current'); }
+      b.classList.toggle('done', doneM[k]);
+    });
+    if (doneM[curM] && curM < 3) {
+      goNext.hidden = false;
+      goNext.textContent = '미션 ' + (curM + 1) + (curM + 1 === 2 ? '로' : '으로') + ' 가기';
+    } else { goNext.hidden = true; }
+    $('fin').hidden = !(doneM[1] && doneM[2] && doneM[3]);
+  }
+  function showMission(n) {
+    curM = n;
+    [1, 2, 3].forEach(function (k) { secs[k].hidden = (k !== n); });
+    $('how').textContent = (n === 3 && !$('m3rule').hidden) ? HOW[4] : HOW[n];
+    syncLadder();
+    if (n === 2 && !m2s.ready) { m2New(); }
+    if (n === 3 && !m3s.ready) { m3New(); }
+    try { window.scrollTo(0, 0); } catch (e) { /* 위치를 못 옮겨도 괜찮다 */ }
+  }
+  function missionDone(n, line) {
+    doneM[n] = true;
+    $('learn' + n).textContent = '알게 된 것: ' + line;
+    say('알게 된 것: ' + line, 'cheer');
+    syncLadder();
+    if (doneM[1] && doneM[2] && doneM[3] && !stampedAll) {
+      stampedAll = true;
+      if (window.Fun) { Fun.stamp(); }
+    }
+  }
+  ladderBtns.forEach(function (b) { b.addEventListener('click', function () { showMission(+b.getAttribute('data-go')); }); });
+  goNext.addEventListener('click', function () { showMission(curM + 1); });
 
   // 지도안 3차시 활동2의 사례 카드 여덟 장과 짝. io 는 활동1 비교 활동지의 '받아들이는 것 → 하는 일'.
   // ref: 'm' 기계, 'a' 인공지능, null 생각이 나뉨(지도안: 단정하지 않는다)
@@ -180,7 +318,8 @@ main{overflow-x:hidden}
   try { reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
 
   var queue = shuffle([1, 2, 3, 4]);
-  var cur = [], guess = [], shown = [], confirmed = false, revealing = false, lastKey = '', gen = 0, stamped = false;
+  var cur = [], guess = [], shown = [], confirmed = false, revealing = false, lastKey = '', gen = 0;
+  var settled = {}, nSettled = 0, isLesson = false;
 
   function shuffle(arr) {
     var a = arr.slice();
@@ -202,10 +341,12 @@ main{overflow-x:hidden}
   function drawPair() {
     if (queue.length) {
       var p = queue.shift();
+      isLesson = true;
       var two = [];
       CARDS.forEach(function (c, i) { if (c.pair === p) { two.push(i); } });
       return shuffle(two);
     }
+    isLesson = false;
     // 섞은 짝의 절반은 '센서 있음' 두 장끼리 낸다 — 센서가 있다고 인공지능은 아니라는 지도안 유의점
     var from = [];
     var sensorOnly = Math.random() < 0.5;
@@ -227,10 +368,10 @@ main{overflow-x:hidden}
   function newRound() {
     gen++;
     dealt++;
-    roundEl.textContent = dealt <= 4 ? '지도안 짝 ' + dealt + '/4' : '섞은 짝';
-    var tr = document.getElementById('track').children;
-    for (var q = 0; q < 4; q++) { tr[q].className = dealt > 4 || q < dealt - 1 ? 'on' : (q === dealt - 1 ? 'now' : ''); }
     cur = drawPair();
+    roundEl.textContent = nSettled < 4 ? (nSettled + 1) + '/4' : '한 판 더';
+    var tr = document.getElementById('track').children;
+    for (var q = 0; q < 4; q++) { tr[q].className = q < nSettled ? 'on' : (q === nSettled ? 'now' : ''); }
     lastKey = keyOf(cur[0], cur[1]);
     guess = [null, null]; shown = [false, false];
     confirmed = false; revealing = false;
@@ -262,9 +403,11 @@ main{overflow-x:hidden}
     if (confirmed || guess[0] === null || guess[1] === null) { return; }
     confirmed = true; revealing = true;
     var myGen = gen;
-    var off = 0, talk = [];
+    var off = 0, talk = [], hitRef = 0;
+    var lessonPair = isLesson ? CARDS[cur[0]].pair : 0;
     cur.forEach(function (ci, s) {
       var c = CARDS[ci];
+      if (c.ref !== null && guess[s] === c.ref) { hitRef++; }
       if (c.ref !== null && guess[s] !== 'q' && guess[s] !== c.ref) { off++; }
       if (tagOf(c, guess[s]).indexOf('모둠에서 따져 봐요') >= 0) { talk.push(c.n); }
     });
@@ -276,7 +419,13 @@ main{overflow-x:hidden}
       setTimeout(function () {
         if (myGen !== gen) { return; }
         shown[1] = true; revealing = false;
-        msgEl.textContent = off === 0 ? '구분 기준과 반대 칸에 놓은 카드는 없어요' : '구분 기준과 반대 칸에 놓은 카드가 ' + COUNT[off] + '이에요';
+        var ok = off === 0 && hitRef > 0;
+        if (lessonPair) {
+          if (ok) { if (!settled[lessonPair]) { settled[lessonPair] = true; nSettled++; } }
+          else if (queue.indexOf(lessonPair) < 0) { queue.push(lessonPair); }
+        }
+        msgEl.textContent = (off === 0 ? '구분 기준과 반대 칸에 놓은 카드는 없어요' : '구분 기준과 반대 칸에 놓은 카드가 ' + COUNT[off] + '이에요') +
+          (lessonPair && !ok ? (off === 0 ? '. 한쪽 칸을 정해서 이 짝을 한 번 더 봐요' : '. 이 짝은 한 번 더 나와요') : '');
         msgEl.className = 'msg';
         render();
         if (window.Fun) {
@@ -290,8 +439,8 @@ main{overflow-x:hidden}
             Fun.say('구분 기준과 다른 칸이 있어요. 어디서 갈렸는지 딱지를 봐요.' + (talk.length ? ' 「모둠에서 따져 봐요」가 뜬 카드는 모둠에서 따져 봐요.' : ''), 'think');
             var offEl = pairEl.querySelector('.case.off'); if (offEl) { Fun.shake(offEl); }
           }
-          if (!stamped) { stamped = true; Fun.stamp(); }
         }
+        if (nSettled >= 4 && !doneM[1]) { missionDone(1, '센서가 있다고 모두 인공지능은 아니에요. 늘 같게 반응하면 기계예요.'); }
         try { nextBtn.focus({ preventScroll: true }); } catch (e) {}
       }, delay);
     }, delay);
@@ -351,7 +500,7 @@ main{overflow-x:hidden}
     var both = guess[0] !== null && guess[1] !== null;
     confirmBtn.disabled = confirmed || !both;
     resetBtn.disabled = confirmed || (guess[0] === null && guess[1] === null);
-    nextBtn.disabled = revealing;
+    nextBtn.disabled = !confirmed || revealing;
     nextBtn.classList.toggle('go', confirmed && !revealing);
     if (!confirmed) {
       msgEl.textContent = both ? '확인하기를 눌러요' : '두 장 모두 칸을 짚어요';
@@ -359,17 +508,197 @@ main{overflow-x:hidden}
     }
   }
 
+  /* ───────── 미션 2: 입력을 바꿔 보기 ───────── */
+  var DEVS = {
+    door: { n: '자동문', img: 'door', kind: 'm', ins: [['사람이 다가가요', '문이 열려요'], ['수레가 다가가요', '문이 열려요'], ['큰 강아지가 다가가요', '문이 열려요']] },
+    hall_light: { n: '복도 전등', img: 'hall_light', kind: 'm', ins: [['사람이 지나가요', '불이 켜져요'], ['고양이가 지나가요', '불이 켜져요'], ['짐을 든 사람이 지나가요', '불이 켜져요']] },
+    recommend: { n: '영상 추천', img: 'recommend', kind: 'a', ins: [['동물 영상을 봤어요', '동물 영상을 더 골라 줘요'], ['요리 영상을 봤어요', '요리 영상을 더 골라 줘요'], ['노래 영상을 봤어요', '노래 영상을 더 골라 줘요']] },
+    gesture: { n: '손동작 알아보기', img: 'gesture', kind: 'a', ins: [['손을 흔들어요', '손 흔들기로 알아봐요'], ['주먹을 쥐어요', '주먹으로 알아봐요'], ['손바닥을 펴요', '손바닥으로 알아봐요']] }
+  };
+  var m2s = { ready: false, keys: [], used: {}, answered: false, last: '' };
+  function m2New() {
+    var ms = ['door', 'hall_light'], as = ['recommend', 'gesture'];
+    var pair = [ms[rnd(2)], as[rnd(2)]];
+    if (pair.join() === m2s.last) { pair = [ms[ms.indexOf(pair[0]) ? 0 : 1], as[as.indexOf(pair[1]) ? 0 : 1]]; }
+    m2s.last = pair.join();
+    if (Math.random() < 0.5) { pair.reverse(); }
+    m2s.keys = pair; m2s.used = {}; m2s.answered = false; m2s.ready = true;
+    var box = $('devs'); box.innerHTML = '';
+    pair.forEach(function (k) {
+      var d = DEVS[k];
+      var c = mk('div', 'case');
+      var im = mk('img', 'ico'); im.src = 'assets/' + d.img + '.webp'; im.alt = ''; im.width = 64; im.height = 64;
+      c.appendChild(im);
+      c.appendChild(mk('p', 'name', d.n));
+      var g = mk('div', 'try'); g.setAttribute('role', 'group'); g.setAttribute('aria-label', d.n + ' 입력 고르기');
+      var out = mk('p', 'out', '입력을 눌러 봐요');
+      d.ins.forEach(function (it, i) {
+        var b = mk('button', 'bin', it[0]); b.type = 'button';
+        b.addEventListener('click', function () {
+          out.textContent = it[1];
+          b.classList.add('used'); m2s.used[k + i] = true;
+          if (window.Fun) { Fun.burst(out); }
+          m2Check();
+        });
+        g.appendChild(b);
+      });
+      c.appendChild(g); c.appendChild(out);
+      box.appendChild(c);
+    });
+    $('m2msg').textContent = '입력을 눌러 봐요'; $('m2msg').className = 'msg dim';
+    $('m2ask').hidden = true; if (!doneM[2]) { $('learn2').textContent = ''; } $('m2again').hidden = true;
+    var pk = $('m2pick'); pk.innerHTML = '';
+    pair.forEach(function (k) {
+      var b = mk('button', 'btn', DEVS[k].n); b.type = 'button';
+      b.addEventListener('click', function () { m2Answer(k); });
+      pk.appendChild(b);
+    });
+    say('두 장치에 다른 입력을 넣어 봐요. 결과가 같은지 달라지는지 살펴요.');
+  }
+  function m2Check() {
+    var n = Object.keys(m2s.used).length;
+    if (n >= 6) {
+      $('m2ask').hidden = false;
+      if (!m2s.answered) {
+        $('m2msg').textContent = '여섯 가지를 다 눌러 봤어요'; $('m2msg').className = 'msg';
+        say('결과를 비교해 봐요. 늘 같았던 쪽은 어디였나요?');
+      }
+    } else {
+      $('m2msg').textContent = '입력 ' + n + '/6 눌러 봤어요';
+    }
+  }
+  function m2Answer(k) {
+    if (m2s.answered) { return; }
+    var same = m2s.keys.filter(function (x) { return DEVS[x].kind === 'm'; })[0];
+    if (k !== same) {
+      Array.prototype.forEach.call($('m2pick').children, function (b) { if (b.textContent === DEVS[k].n) { b.disabled = true; } });
+      $('m2msg').textContent = '예상과 다르게 나왔어요. 두 장치의 결과 줄을 다시 읽어 봐요'; $('m2msg').className = 'msg';
+      if (window.Fun) { Fun.shake($('devs')); }
+      return;
+    }
+    m2s.answered = true;
+    Array.prototype.forEach.call($('m2pick').children, function (b) { b.disabled = true; });
+    var other = m2s.keys.filter(function (x) { return x !== same; })[0];
+    var line = '예상대로 나왔어요. ' +
+      DEVS[same].n + (hasBatchim(DEVS[same].n) ? '은' : '는') + ' 입력이 달라도 정해 둔 조건이면 늘 같게 반응해요. ' + DEVS[other].n + (hasBatchim(DEVS[other].n) ? '은' : '는') + ' 배운 것을 바탕으로 들어온 것이 무엇인지 판단해요.';
+    $('m2msg').textContent = line; $('m2msg').className = 'msg';
+    $('m2again').hidden = false;
+    missionDone(2, '기계는 정해 둔 조건이 맞으면 무엇이 와도 늘 같은 일을 해요. 인공지능은 배운 것을 바탕으로 들어온 것이 무엇인지 판단해요.');
+  }
+  $('m2again').addEventListener('click', m2New);
+
+  /* ───────── 미션 3: 함정 카드 피하고 규칙 만들기 ───────── */
+  var MACH = [
+    { n: '손 건조기', s: true, io: '손을 넣으면 → 늘 같은 바람이 나온다', why: '센서가 있지만 정해진 대로만 해요' },
+    { n: '센서 수도', s: true, io: '손을 가까이 대면 → 늘 같게 물이 나온다', why: '센서가 있지만 정해진 대로만 해요' },
+    { n: '현관 센서등', s: true, io: '다가오면 → 늘 같게 불이 켜진다', why: '센서가 있지만 정해진 대로만 해요' },
+    { n: '알람 시계', s: false, io: '맞춘 시각 → 늘 같게 울린다', why: '정해 둔 시각이 되면 울려요' },
+    { n: '엘리베이터 버튼', s: false, io: '누른 층 → 정해진 대로 움직인다', why: '정해 둔 규칙대로 움직여요' }
+  ];
+  var AIS = [
+    { n: '번역 앱', s: false, io: '말이나 글 → 뜻을 헤아려 다른 말로 바꾼다', why: '많은 글을 배워 뜻을 판단해요' },
+    { n: '음성 비서', s: false, io: '내 목소리 → 말을 알아듣고 답한다', why: '많은 목소리를 배워 알아들어요' },
+    { n: '글자 읽기 앱', s: true, io: '카메라에 찍힌 글 → 글자를 알아본다', why: '많은 글자 모양을 배워 알아봐요' },
+    { n: '자동 자막', s: false, io: '말소리 → 글자로 바꿔 보여 준다', why: '많은 말소리를 배워 글자로 바꿔요' }
+  ];
+  var m3s = { ready: false, round: 0, answered: false, usedA: [], usedM: [], aiHit: 0 };
+  function pickFrom(arr, n, avoid) {
+    var a = arr.slice().sort(function () { return Math.random() - 0.5; });
+    a = a.filter(function (x) { return avoid.indexOf(x.n) < 0; }).concat(a.filter(function (x) { return avoid.indexOf(x.n) >= 0; }));
+    return a.slice(0, n);
+  }
+  function m3New() {
+    m3s.ready = true; m3s.round = 0; m3s.usedA = []; m3s.usedM = []; m3s.aiHit = 0;
+    $('m3scene').textContent = '센서가 있는 카드가 섞여 있어요. 세 장 가운데 인공지능 한 장을 골라요.';
+    $('m3rule').hidden = true; $('rules').innerHTML = ''; $('learn3').textContent = '';
+    m3Round();
+  }
+  function m3Round() {
+    m3s.round++; m3s.answered = false;
+    $('m3round').textContent = m3s.round <= 3 ? m3s.round + '/3' : '한 판 더';
+    var sensorM = pickFrom(MACH.filter(function (x) { return x.s; }), 1, m3s.usedM)[0];
+    var otherM = pickFrom(MACH.filter(function (x) { return x !== sensorM; }), 1, m3s.usedM)[0];
+    var ai = pickFrom(AIS, 1, m3s.usedA)[0];
+    m3s.usedA.push(ai.n); m3s.usedM.push(sensorM.n, otherM.n);
+    var list = [sensorM, otherM, ai].map(function (c, i) { return { c: c, ai: i === 2 }; }).sort(function () { return Math.random() - 0.5; });
+    var box = $('cards3'); box.innerHTML = '';
+    list.forEach(function (it, i) {
+      var d = mk('div', 'card3');
+      var h = mk('p', 'name', it.c.n);
+      if (it.c.s) { h.appendChild(mk('span', 'sensor', '센서 있음')); }
+      d.appendChild(h);
+      d.appendChild(mk('p', 'io', it.c.io));
+      var why = mk('p', 'tag', ''); why.hidden = true; d.appendChild(why);
+      var b = mk('button', 'btn', '이게 인공지능'); b.type = 'button';
+      b.addEventListener('click', function () { m3Answer(list, i, box); });
+      d.appendChild(b);
+      box.appendChild(d);
+    });
+    $('m3msg').textContent = '인공지능이라고 생각하는 카드를 눌러요'; $('m3msg').className = 'msg dim';
+    $('m3next').hidden = true;
+    say(m3s.round === 1 ? '세 장 가운데 인공지능은 한 장이에요. 센서 딱지에 끌리지 않는지 봐요.' : '새 판이에요. 이번에도 인공지능은 한 장이에요.');
+  }
+  function m3Answer(list, pick, box) {
+    if (m3s.answered) { return; }
+    m3s.answered = true;
+    var cards = box.children;
+    var hit = list[pick].ai;
+    list.forEach(function (it, i) {
+      var tg = cards[i].querySelector('.tag');
+      tg.textContent = (it.ai ? '인공지능 · ' : '기계 · ') + it.c.why; tg.hidden = false;
+      cards[i].querySelector('button').disabled = true;
+    });
+    cards[pick].classList.add('chosen');
+    if (hit) {
+      m3s.aiHit++;
+      $('m3msg').textContent = '예상대로 나왔어요. 센서가 있느냐보다 배운 대로 판단하느냐를 봤어요.';
+      if (window.Fun) { Fun.burst(cards[pick]); }
+    } else {
+      $('m3msg').textContent = '예상과 다르게 나왔어요. 딱지를 읽고 어디서 갈렸는지 봐요.';
+      if (window.Fun) { Fun.shake(cards[pick]); }
+    }
+    $('m3msg').className = 'msg';
+    var nb = $('m3next');
+    nb.hidden = false;
+    nb.textContent = (m3s.round < 3 || m3s.aiHit < 1) ? '다음 판' : '규칙 만들러 가기';
+    if (m3s.round >= 3 && m3s.aiHit < 1) { $('m3msg').textContent += ' 인공지능 카드를 아직 못 골랐어요. 한 판 더 해 봐요.'; }
+    try { nb.focus({ preventScroll: true }); } catch (e) {}
+  }
+  $('m3next').addEventListener('click', function () {
+    if (m3s.round < 3 || m3s.aiHit < 1) { m3Round(); return; }
+    $('m3scene').textContent = '세 판에서 본 것으로 우리 규칙 한 줄을 골라요.'; $('how').textContent = HOW[4];
+    $('cards3').innerHTML = ''; $('m3next').hidden = true; $('m3round').textContent = '';
+    $('m3msg').textContent = '규칙 하나를 고르면 빈틈이 있는지 알려 줘요';
+    var R = [
+      ['센서가 있으면 인공지능이에요', '손 건조기와 센서 수도에도 센서가 있어요. 그런데 늘 같게만 반응해요. 이 규칙은 기계까지 인공지능으로 만들어요.', false],
+      ['배운 대로 여러 가지를 보고 판단하면 인공지능이에요', '센서가 없는 영상 추천도, 센서가 있는 손동작 알아보기도 이 규칙으로 가를 수 있어요.', true],
+      ['화면이 있으면 인공지능이에요', '계산기와 전자레인지에도 화면이 있어요. 그런데 정해진 대로만 해요. 이 규칙은 기계까지 인공지능으로 만들어요.']
+    ];
+    var rb = $('rules'); rb.innerHTML = '';
+    R.forEach(function (r) {
+      var b = mk('button', 'bin', r[0]); b.type = 'button';
+      b.addEventListener('click', function () {
+        $('m3msg').textContent = r[1];
+        Array.prototype.forEach.call(rb.children, function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        if (r[2]) { missionDone(3, '기준은 센서나 화면이 아니라, 배운 대로 여러 가지를 보고 판단하느냐예요.'); }
+      });
+      rb.appendChild(b);
+    });
+    $('m3rule').hidden = false;
+    say('규칙 후보 셋 가운데 하나를 골라 봐요. 빈틈이 있는지 알려 줄게요.');
+  });
+
   confirmBtn.addEventListener('click', confirmRound);
   resetBtn.addEventListener('click', function () {
     if (confirmed) { return; }
     guess = [null, null]; render();
     if (window.Fun) { Fun.say('이 판의 짚기를 지웠어요. 다시 예측해 봐요.'); }
   });
-  nextBtn.addEventListener('click', newRound);
+  nextBtn.addEventListener('click', function () { if (!confirmed || revealing) { return; } newRound(); });
 
   newRound();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B16" data-mission="카드 두 장을 칸에 먼저 짚어 봐요. '센서 있음' 딱지에 끌리지 않는지 확인해 봐요."></script>
+<script src="../assets/play/fun.js" data-block="B16" data-mission="카드를 칸에 먼저 놓아 봐요. '센서 있음' 딱지에 끌리지 않는지 확인해 봐요."></script>
 </body>
 </html>

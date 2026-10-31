@@ -94,6 +94,41 @@
   .bar .tg{font-size:12px;color:var(--muted)}
   @media (max-width:400px){.mrow{grid-template-columns:96px 1fr}.mname{font-size:13px}.bar{grid-template-columns:52px 1fr 40px}}
   .gb{font-size:13.5px}
+
+/* 체험 개선 2026-10-31: 시작 안내·미션 사다리·개념 카드·미션 3 */
+.how{margin:8px 0 0;font-size:16px;font-weight:600;background:var(--point-soft);border-radius:var(--r-sm);padding:8px 12px}
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0 0}
+.ladder button{min-height:44px;padding:4px 4px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+  background:var(--surface);font-size:14.5px;font-weight:700;line-height:1.2}
+.ladder button[aria-current="step"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ladder button.done::after{content:" 끝";font-weight:600;color:var(--green)}
+.ladder button.done[aria-current="step"]::after{color:#fff}
+.concept{margin:8px 0 0;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 12px;background:var(--surface)}
+.concept b{display:block;font-size:14px;color:var(--point)}
+.concept p{margin:2px 0 0;font-size:15px;font-weight:600}
+.pic{display:block;width:100%;height:auto;border-radius:var(--r-sm);margin-top:8px;background:var(--soft)}
+.pic.short{max-height:150px;object-fit:cover}
+.pic.low{object-position:center 100%}
+.fun-stamp{top:auto!important;bottom:150px}
+.learned{margin-top:10px;padding:8px 12px;border-radius:var(--r-sm);background:#E9F8F0;font-size:15px;font-weight:700}
+.learned:empty{display:none}
+.mname{display:flex;flex-direction:column;align-items:center;gap:2px}
+.mname img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:4px}
+.cardimg{display:block;width:100%;max-height:130px;object-fit:cover;border-radius:var(--r-sm);margin-top:8px}
+.go{background:var(--ink);border-color:var(--ink)}
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.fb{min-height:64px;padding:4px;border:1px solid var(--ink);border-radius:var(--r-sm);background:var(--surface);font-size:14px;font-weight:700;line-height:1.2;word-break:keep-all}
+.fb small{display:block;font-size:14px;font-weight:600;color:var(--muted)}
+.fb[aria-pressed="true"]{background:var(--point);border-color:var(--point);color:#fff}
+.fb[aria-pressed="true"] small{color:#fff}
+.tgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}
+.tc{border:1px solid var(--line);border-radius:var(--r-sm);padding:3px;background:var(--surface);font-size:14px;font-weight:700;text-align:center;line-height:1.25}
+.tc svg{display:block;width:100%;height:44px;background:var(--soft);border-radius:4px}
+.tc .res{display:block;min-height:1.25em;color:var(--muted)}
+.tc .res.ok{color:var(--ink)}
+.tlog{margin-top:8px;font-size:14px;font-weight:700;display:grid;gap:2px}
+.tlog span{background:var(--soft);border-radius:6px;padding:3px 8px}
+@media (max-width:400px){.fb{font-size:14px}.tc{font-size:14px}}
 /* 에듀다움 통일 테마 2026-09-27 */
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
@@ -113,17 +148,28 @@
     <p class="safe">태블릿을 꼭 쥐고 책상 위에서 작게 움직여요</p>
   </header>
 
+  <p class="how">녹화를 눌러 동작마다 샘플 3개를 모아요. 시험 카드가 나오면 화면이 무엇으로 알아볼지 먼저 짚어요.</p>
+  <nav class="ladder" id="ladder" aria-label="미션 순서">
+    <button type="button" data-go="1" aria-current="step">① 모으고 짚기</button>
+    <button type="button" data-go="2" disabled>② 8개로</button>
+    <button type="button" data-go="3">③ 특징 고르기</button>
+  </nav>
+
+  <div data-step="1" id="m1">
+
   <section aria-labelledby="h1s">
-    <h2 id="h1s">① 샘플 · 동작마다 3개</h2>
-    <div id="rows"></div>
+    <h2 id="h1s">미션 1 · 샘플을 모으고 시험을 짚어요</h2>
     <button class="btn" id="rec" type="button">녹화</button>
     <div class="pick" id="pick" hidden></div>
     <p class="say dim" id="say1"></p>
+    <div id="rows"></div>
   </section>
 
   <section aria-labelledby="h2s" id="sec2" hidden>
-    <h2 id="h2s">② 시험 · 시험 담당의 새 시도</h2>
+    <h2 id="h2s">시험 · 시험 담당의 새 시도</h2>
     <div class="cardline"><span class="card" id="card"></span><span class="log" id="log"></span></div>
+    <p class="cap">짧게 하려고 카드를 여섯 장만 써요. 실제 수업에서는 동작마다 다섯 번씩 해요.</p>
+    <img class="cardimg" id="cardimg" src="assets/gesture_palm.webp" width="320" height="180" alt="">
     <button class="btn" id="try" type="button">시도</button>
     <svg class="big" id="big" viewBox="0 0 300 110" preserveAspectRatio="none" aria-hidden="true"></svg>
     <p class="legend">x 실선 · y 긴 점선 · z 짧은 점선</p>
@@ -131,27 +177,59 @@
     <button class="btn" id="ok" type="button" disabled>확인</button>
     <p class="say dim" id="say2"></p>
     <div class="bars" id="bars" aria-label="동작별 확신 %"></div>
+    <p class="cap">확신 %는 얼마나 닮았는지예요. 맞았다는 뜻은 아니에요(연습용 셈).</p>
     <table class="cf" aria-label="헷갈림 판">
       <thead><tr><th>카드 \ 알아봄</th><th>손바닥</th><th>손등</th><th>손가락</th></tr></thead>
       <tbody id="cfb"></tbody>
     </table>
   </section>
 
-  <section aria-labelledby="h3s" id="sec3" hidden>
-    <h2 id="h3s">③ 샘플 8개로 늘리면</h2>
-    <p class="say dim">바꾸는 것은 샘플 수 하나 · 같은 시도 여섯 번 가운데 몇 번 알아볼까</p>
+  <div class="row2">
+    <button class="btn ghost" id="again" type="button" disabled>새 카드</button>
+    <button class="btn ghost" id="reset" type="button">다시 하기</button>
+  </div>
+  <p class="learned" id="lrn1"></p>
+  <div id="go2box"></div>
+  <img class="pic short" src="assets/wrist_band.webp" width="640" height="360" alt="손목 바깥쪽에 마이크로비트를 검은 밴드로 감은 모습">
+  </div>
+
+  <div data-step="2" id="m2" hidden>
+  <section aria-labelledby="h3s" id="sec3">
+    <h2 id="h3s">미션 2 · 샘플을 8개로 늘리면</h2>
+    <img class="pic short low" src="assets/pair_recorder.webp" width="640" height="360" alt="노트북 앞에서 손목 센서로 샘플을 더 녹화하는 모습">
+    <p class="say dim">바꾸는 것은 샘플 수 하나예요. 같은 시도 여섯 번 가운데 몇 번 알아볼까요?</p>
     <div class="guess7" id="g7" role="group" aria-label="몇 번 알아볼지 짚기"></div>
     <button class="btn ghost" id="more" type="button" disabled>5개씩 더</button>
     <button class="btn" id="r2" type="button" disabled>2회차 확인</button>
     <p class="say dim" id="say3"></p>
     <p class="sum" id="sum" hidden></p>
   </section>
-
-  <div class="row2">
-    <button class="btn ghost" id="again" type="button" disabled>새 카드</button>
-    <button class="btn ghost" id="reset" type="button">다시 하기</button>
+  <p class="learned" id="lrn2"></p>
+  <div id="go3box"></div>
   </div>
-  <p class="foot">연습용 기록이에요 · CreateAI로 다시 해 봐요</p>
+
+  <div data-step="3" id="m3" hidden>
+  <section aria-labelledby="h4s">
+    <h2 id="h4s">미션 3 · 보는 특징을 골라요</h2>
+    <img class="pic short" src="assets/pair_tester.webp" width="640" height="360" alt="샘플을 만들지 않은 친구가 손목 센서로 새 동작을 해 보는 모습">
+    <p class="say dim">화면은 특징을 보고 알아봐요. 켠 특징만 쓰면 새 그래프 6장을 몇 장 알아볼까요? 눌러 보기 전에 생각해요.</p>
+    <div class="feats" id="feats" role="group" aria-label="보는 특징 고르기"></div>
+    <p class="say dim">특징을 켠 다음, 여섯 장 가운데 몇 장을 알아볼지 먼저 짚어요.</p>
+    <div class="guess7" id="g3" role="group" aria-label="몇 장 알아볼지 짚기"></div>
+    <div class="tgrid" id="tgrid"></div>
+    <div class="row2"><button class="btn" id="run3" type="button" disabled>알아보기</button><button class="btn ghost" id="new3" type="button">새 그래프</button></div>
+    <div class="tlog" id="tlog" aria-live="polite"></div>
+  </section>
+  <p class="learned" id="lrn3"></p>
+  <img class="pic" id="doneimg" src="assets/mission_done.webp" width="640" height="360" alt="손 씻기 코치를 찬 손목과 해결단 깃발, 도장이 찍힌 종이" hidden>
+  </div>
+
+  <aside class="concept" aria-label="개념 설명">
+    <b>알아 둘 것</b>
+    <p>손목 센서는 움직임을 x·y·z 그래프로 보내요. 컴퓨터는 새 그래프를 샘플 그래프와 견주어 가장 닮은 동작으로 알아봐요. 녹화한 샘플은 학습 데이터, 시험 담당의 새 시도는 시험 데이터예요.</p>
+  </aside>
+
+  <p class="foot">연습용 기록이에요 · CreateAI로 다시 해 봐요<br>그림 일부는 생성형 AI로 만들었어요</p>
 </div>
 
 <script>
@@ -160,6 +238,7 @@
   var $ = function (id) { return document.getElementById(id); };
   var NAME = ['손바닥 문지르기', '손등 문지르기', '손가락 문지르기'];
   var SHORT = ['손바닥', '손등', '손가락'];
+  var IMG = ['assets/gesture_palm.webp', 'assets/gesture_back.webp', 'assets/gesture_finger.webp'];
   var N = 50, DUR = 2;          /* 연습 그래프: 2초 · 50점 */
 
   function say(t, m) { if (window.Fun) { Fun.say(t, m); } }
@@ -258,7 +337,7 @@
     } catch (err) { fail(); }
   }
   var needPerm = typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function';
-  if (needPerm) { $('perm').hidden = false; } else if (typeof DeviceMotionEvent !== 'undefined') { attach(); }
+  if (needPerm) { $('perm').hidden = !(navigator.maxTouchPoints > 0); } else if (typeof DeviceMotionEvent !== 'undefined') { attach(); }
   document.addEventListener('visibilitychange', function () {
     if (document.hidden) detach(); else if (!needPerm || sensor.on) attach();
   });
@@ -308,7 +387,9 @@
     for (var m = 0; m < 3; m++) {
       var row = document.createElement('div'); row.className = 'mrow';
       var b = document.createElement('button'); b.type = 'button'; b.className = 'mname';
-      b.textContent = NAME[m]; b.setAttribute('aria-pressed', 'false');
+      var im = document.createElement('img'); im.src = IMG[m]; im.alt = ''; im.width = 320; im.height = 180;
+      var tx = document.createElement('span'); tx.textContent = NAME[m];
+      b.appendChild(im); b.appendChild(tx); b.setAttribute('aria-pressed', 'false');
       (function (k) { b.addEventListener('click', function () { if (!st.busy && !st.locked) { st.sel = k; st.picker = null; paint(); } }); })(m);
       var slots = document.createElement('div'); slots.className = 'slots';
       row.appendChild(b); row.appendChild(slots); $('rows').appendChild(row);
@@ -437,14 +518,18 @@
     st.r1.push(res);
     st.conf[card][res.pred] += 1;
     st.lastCell = card * 3 + res.pred;
-    var mk = res.pred === card ? '○ ' : '✕ ';
-    var msg = res.pred === g
-      ? mk + '짚은 대로 ' + NAME[g] + '로 알아봤어요 · 확신 ' + res.conf[g] + '%'
-      : mk + NAME[res.pred] + '로 알아봤어요 · 짚은 ' + SHORT[g] + '은 확신 ' + res.conf[g] + '%';
+    var mk = res.pred === card ? '○ 카드와 같게 ' : '✕ 카드와 달리 ';
+    var msg = mk + NAME[res.pred] + '로 알아봤어요 · ' + (res.pred === g
+      ? '내가 짚은 대로예요'
+      : '내가 짚은 ' + SHORT[g] + '은 확신 ' + res.conf[g] + '%');
     $('say2').className = 'say'; $('say2').textContent = msg;
     paintBars(res);
     var same = res.pred === g;
-    if (st.ci + 1 >= 6) { say(same ? '짚은 대로 나왔어요. 여섯 장을 다 했어요. 이제 샘플이 8개가 되면 몇 번 알아볼지 예측해 봐요.' : '짚은 것과 다르게 나왔어요. 여섯 장을 다 했어요. 헷갈림 판에서 어디가 갈렸는지 보고, 8개가 되면 어떨지 예측해 봐요.', same ? 'cheer' : 'think'); }
+    if (st.ci + 1 >= 6) {
+      var ln = '알게 된 것: 화면은 샘플 그래프와 가장 닮은 동작으로 알아봐요. 샘플끼리 닮으면 헷갈릴 수 있어요.';
+      $('lrn1').textContent = ln; $('go2').hidden = false;
+      say(ln, same ? 'cheer' : 'think');
+    }
     else { say(same ? '짚은 대로 알아봤어요. 막대에서 두 번째로 높은 동작도 봐요. 다음 카드도 먼저 짚어 봐요.' : '짚은 것과 다르게 나왔어요. 어디서 갈렸는지 샘플 그래프와 견줘 봐요.', same ? 'cheer' : 'think'); }
     if (window.Fun) { if (same) { Fun.burst($('say2')); } else { Fun.shake($('say2')); } }
     st.cur = null; st.guess = null; st.ci += 1;
@@ -465,6 +550,8 @@
 
   function paintTest() {
     var done = st.ci >= 6;
+    var ci = $('cardimg'); ci.hidden = done;
+    if (!done) { ci.src = IMG[st.cards[st.ci]]; ci.alt = NAME[st.cards[st.ci]] + ' 그림'; }
     $('card').textContent = done ? '카드 6장을 다 했어요' : '카드 ' + (st.ci + 1) + ' / 6 · ' + NAME[st.cards[st.ci]];
     var log = $('log'); log.textContent = '';
     for (var i = 0; i < 6; i++) {
@@ -531,8 +618,10 @@
     $('say3').className = 'say'; $('say3').textContent = '샘플 3개 ' + n1 + '/6 → 샘플 8개 ' + n2 + '/6 · ' + msg;
     $('sum').hidden = false;
     var mood = n2 > n1 ? 'cheer' : 'think';
-    say(n2 > n1 ? '샘플 3개 때보다 알아본 횟수가 늘었어요. 어느 시도가 달라졌는지 헷갈림 판과 견줘 봐요.' : (n2 === n1 ? '알아본 횟수가 그대로예요. 샘플을 늘려도 같을 수 있어요. 어느 시도가 헷갈렸는지 봐요.' : '알아본 횟수가 줄었어요. 샘플이 늘면 더 좋아진다고 정해진 것은 아니에요. 어느 시도가 달라졌는지 봐요.'), mood);
-    if (window.Fun) { Fun.stamp(); if (n2 === g) { Fun.burst($('say3')); } else { Fun.shake($('say3')); } }
+    var ln2 = '알게 된 것: 샘플 수를 바꾸면 결과가 달라질 수 있어요. 늘린다고 꼭 늘어나는 것은 아니에요.';
+    $('lrn2').textContent = ln2; $('go3').hidden = false;
+    say(ln2, mood);
+    if (window.Fun) { if (n2 === g) { Fun.burst($('say3')); } else { Fun.shake($('say3')); } }
     $('sum').textContent = '활동지에 옮겨 적을 것 · 샘플 3개: ' + per(st.r1) + ' / 샘플 8개: ' + per(res) + ' / 1회차 헷갈림: ' + mix();
     paint();
   }
@@ -570,11 +659,11 @@
     $('sec2').hidden = !isFull && !st.locked;
     paintTest();
     var t3 = st.ci >= 6;
-    $('sec3').hidden = !t3;
     g7Btns.forEach(function (b, k) { b.disabled = st.r2 !== null; b.setAttribute('aria-pressed', st.g7 === k ? 'true' : 'false'); });
     $('more').disabled = !t3 || st.added || st.busy || st.g7 === null;
     $('r2').disabled = !t3 || !st.added || st.busy || st.g7 === null || st.r2 !== null;
     $('again').disabled = st.busy || !st.locked;
+    paintLadder();
     $('reset').disabled = st.busy;
   }
 
@@ -582,19 +671,161 @@
     if (st.busy) return;
     var keep = st.samples.map(function (l) { return l.slice(0, 3); });
     st = fresh(keep);
-    clearSays(); paint();
+    clearSays(); showMission(1); paint();
     say('샘플은 그대로 두고 새 시험 카드를 섞었어요. 이번에도 먼저 짚어 봐요.');
   }
   function resetAll() {
     if (st.busy) return;
     st = fresh(null);
-    clearSays(); paint();
+    m3done = false; new3();
+    clearSays(); showMission(1); paint();
     say('처음부터 해 봐요. 동작마다 샘플 3개를 녹화해요.');
   }
   function clearSays() {
     ['say1', 'say2', 'say3'].forEach(function (id) { $(id).textContent = ''; $(id).className = 'say dim'; });
     $('sum').hidden = true; $('big').innerHTML = ''; $('bars').textContent = '';
+    $('lrn1').textContent = ''; $('lrn2').textContent = ''; $('go2').hidden = true; $('go3').hidden = true;
   }
+
+
+  /* ── 미션 사다리 ── */
+  var cur = 1, m3done = false, stamped = false;
+  function showMission(n) {
+    cur = n;
+    [1, 2, 3].forEach(function (k) { $('m' + k).hidden = k !== n; });
+    paintLadder();
+    var h = $('ladder'); if (h.scrollIntoView) { h.scrollIntoView({ block: 'start', behavior: 'auto' }); }
+  }
+  function paintLadder() {
+    var bs = $('ladder').querySelectorAll('button');
+    var dn = [st.ci >= 6, st.r2 !== null, m3done];
+    for (var i = 0; i < 3; i++) {
+      bs[i].setAttribute('aria-current', cur === i + 1 ? 'step' : 'false');
+      bs[i].className = dn[i] ? 'done' : '';
+    }
+    bs[1].disabled = !dn[0];
+    if (dn[0] && dn[1] && dn[2] && !stamped) { stamped = true; if (window.Fun) { Fun.stamp(); } }
+  }
+  [1, 2, 3].forEach(function (k) {
+    $('ladder').querySelectorAll('button')[k - 1].addEventListener('click', function () { if (!this.disabled) showMission(k); });
+  });
+  [2, 3].forEach(function (k) {
+    var b = document.createElement('button'); b.type = 'button'; b.className = 'btn go'; b.id = 'go' + k; b.hidden = true;
+    b.textContent = k === 2 ? '미션 2로 가요' : '미션 3으로 가요';
+    b.addEventListener('click', function () { showMission(k); });
+    $('go' + k + 'box').appendChild(b);
+  });
+
+  /* ── 미션 3: 켠 특징만으로 새 그래프 6장 알아보기 ── */
+  var FEAT = [
+    { name: '손 방향', note: '손이 위냐 아래냐', idx: [0, 1, 2] },
+    { name: '움직이는 방향', note: '어느 쪽으로 흔드나', idx: [3, 4, 5] },
+    { name: '빠르기', note: '얼마나 자주 오가나', idx: [6] }
+  ];
+  var cent = [0, 1, 2].map(function (m) {
+    var sum = [0, 0, 0, 0, 0, 0, 0];
+    for (var j = 0; j < 40; j++) { var f = feat(gen(m, null, 0)); for (var i = 0; i < 7; i++) sum[i] += f[i] / 40; }
+    return sum;
+  });
+  var t3 = { batch: [], on: [false, false, false], ran: {}, nran: 0, g: null };
+  var g3Btns = [];
+  var featBtns = [];
+  function cls3(f, mask) {
+    var idx = [];
+    FEAT.forEach(function (g, k) { if (mask & (1 << k)) idx = idx.concat(g.idx); });
+    var best = 1e9, b = 0;
+    for (var m = 0; m < 3; m++) {
+      var d = 0; idx.forEach(function (i) { d += Math.pow(f[i] - cent[m][i], 2); });
+      if (d < best) { best = d; b = m; }
+    }
+    return b;
+  }
+  function counts3(batch) {
+    var n = [];
+    for (var mask = 1; mask < 8; mask++) { var c = 0; batch.forEach(function (t) { if (cls3(t.f, mask) === t.m) c++; }); n[mask] = c; }
+    return n;
+  }
+  /* 켜는 특징에 따라 결과가 달라지는 판만 내놓는다 */
+  function newBatch() {
+    var best = null;
+    for (var tr = 0; tr < 300; tr++) {
+      var hab = { tilt: rnd(-0.3, 0.3), speed: rnd(0.8, 1.25), amp: rnd(0.75, 1.25) };
+      var b = shuffle([0, 0, 1, 1, 2, 2]).map(function (m) { var p = gen(m, hab, 0); return { m: m, pts: p, f: feat(p) }; });
+      var n = counts3(b), vals = n.slice(1), single = Math.max(n[1], n[2], n[4]);
+      best = b;
+      if (n[7] >= 4 && n[7] > single && Math.max.apply(null, vals) - Math.min.apply(null, vals) >= 2) break;
+    }
+    return best;
+  }
+  function paint3() {
+    var g = $('tgrid'); g.textContent = '';
+    t3.batch.forEach(function (t, i) {
+      var d = document.createElement('div'); d.className = 'tc';
+      var sv = svgEl(100, 44); drawSvg(sv, t.pts, 100, 44, 2); d.appendChild(sv);
+      var a = document.createElement('span'); a.textContent = '카드 ' + SHORT[t.m]; d.appendChild(a);
+      var r = document.createElement('span'); r.className = 'res'; r.id = 'res' + i; d.appendChild(r);
+      g.appendChild(d);
+    });
+    featBtns.forEach(function (b, k) { b.setAttribute('aria-pressed', t3.on[k] ? 'true' : 'false'); });
+    g3Btns.forEach(function (b, k) { b.setAttribute('aria-pressed', t3.g === k ? 'true' : 'false'); });
+    $('run3').disabled = (!t3.on[0] && !t3.on[1] && !t3.on[2]) || t3.g === null;
+  }
+  (function build3() {
+    for (var v = 0; v <= 6; v++) {
+      var vb = document.createElement('button'); vb.type = 'button'; vb.className = 'gb';
+      vb.textContent = String(v); vb.setAttribute('aria-label', v + '장'); vb.setAttribute('aria-pressed', 'false');
+      (function (k) { vb.addEventListener('click', function () { t3.g = k; say('여섯 장 가운데 ' + k + '장이라고 짚었어요. 알아보기를 눌러 견줘 봐요.'); paint3(); }); })(v);
+      $('g3').appendChild(vb); g3Btns.push(vb);
+    }
+    FEAT.forEach(function (f, k) {
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'fb';
+      b.setAttribute('aria-pressed', 'false');
+      b.innerHTML = f.name + '<small>' + f.note + '</small>';
+      b.addEventListener('click', function () {
+        t3.on[k] = !t3.on[k];
+        t3.batch.forEach(function (t, i) { var r = $('res' + i); if (r) { r.textContent = ''; r.className = 'res'; } });
+        paint3();
+      });
+      $('feats').appendChild(b); featBtns.push(b);
+    });
+  })();
+  function names(mask) {
+    var o = []; FEAT.forEach(function (f, k) { if (mask & (1 << k)) o.push(f.name); });
+    return o.join('+');
+  }
+  function run3() {
+    if ($('run3').disabled) return;
+    var mask = (t3.on[0] ? 1 : 0) | (t3.on[1] ? 2 : 0) | (t3.on[2] ? 4 : 0), n = 0;
+    t3.batch.forEach(function (t, i) {
+      var p = cls3(t.f, mask), ok = p === t.m; if (ok) n++;
+      var r = $('res' + i); r.textContent = (ok ? '○ ' : '✕ ') + SHORT[p] + '으로'; r.className = 'res' + (ok ? ' ok' : '');
+    });
+    var gg = t3.g, cmp = n === gg ? '짚은 대로예요' : (n > gg ? '짚은 것보다 ' + (n - gg) + '장 더 알아봤어요' : '짚은 것보다 ' + (gg - n) + '장 덜 알아봤어요');
+    t3.g = null;
+    var line = document.createElement('span'); line.textContent = names(mask) + ' → 여섯 장 가운데 ' + n + '장 · ' + cmp;
+    $('tlog').insertBefore(line, $('tlog').firstChild);
+    if (!t3.ran[mask]) { t3.ran[mask] = true; t3.nran++; }
+    if (window.Fun) { Fun.shake($('tgrid')); }
+    paint3();
+    if (t3.nran >= 2) {
+      var ln = '알게 된 것: 켠 특징에 따라 알아보는 횟수가 달라져요. 한 가지 특징만 보면 헷갈리는 동작이 생겨요.';
+      $('lrn3').textContent = ln; m3done = true;
+      say(ln, 'cheer');
+      $('doneimg').hidden = false;
+      paintLadder();
+    } else {
+      say('이 특징으로는 여섯 장 가운데 ' + n + '장이에요. 다른 특징을 켜거나 꺼서 달라지는지 봐요.', 'think');
+    }
+  }
+  function new3() {
+    t3.batch = newBatch(); t3.on = [false, false, false]; t3.ran = {}; t3.nran = 0; t3.g = null;
+    $('tlog').textContent = ''; $('lrn3').textContent = ''; $('doneimg').hidden = true; m3done = false;
+    paint3(); paintLadder();
+    say('새 그래프 여섯 장이 나왔어요. 보는 특징을 골라 알아보게 해 봐요.');
+  }
+  $('run3').addEventListener('click', run3);
+  $('new3').addEventListener('click', new3);
+  t3.batch = newBatch();
 
   st = fresh(null);
   $('perm').addEventListener('click', askPerm);
@@ -605,6 +836,7 @@
   $('r2').addEventListener('click', confirm2);
   $('again').addEventListener('click', newCards);
   $('reset').addEventListener('click', resetAll);
+  paint3();
   paint();
 })();
 </script>
