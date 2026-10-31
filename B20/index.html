@@ -17,17 +17,17 @@
   body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Malgun Gothic',sans-serif;
     background:var(--paper);color:var(--ink);font-size:17px;line-height:1.5}
   .wrap{max-width:760px;margin:0 auto;padding:12px 14px 30px}
-  .nav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
-  .back{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);
+  .topnav{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .topnav a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;color:var(--ink);
     font-weight:600;font-size:14px;background:var(--surface);border:1px solid var(--ink);
     border-radius:999px;padding:9px 15px;box-shadow:var(--hard-sm);min-height:44px}
-  .tag{font-weight:700;font-size:14px;background:var(--point);color:#fff;
+  .topnav b{font-weight:700;font-size:14px;background:var(--point);color:#fff;
     border:1px solid var(--line);border-radius:999px;padding:8px 14px;box-shadow:var(--hard-sm)}
   h1{font-size:clamp(23px,5.4vw,34px);font-weight:700;letter-spacing:-.035em;line-height:1.05}
   .lead{font-size:14px;color:var(--muted);font-weight:700;margin-top:5px}
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:8px 11px;margin-top:7px}
-  h2{font-size:13.5px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted)}
+  h2{font-size:14px;font-weight:700;letter-spacing:-.02em;margin-bottom:8px;color:var(--muted)}
   button{font-family:inherit;cursor:pointer;color:var(--ink)}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
     border:1px solid var(--ink);background:var(--sun-l);font-size:14.5px;font-weight:700;
@@ -51,7 +51,7 @@
   .rule .cond{flex:1;min-width:0;font-size:14px;font-weight:600;word-break:keep-all}
   .rule .mk2{flex:0 0 auto;display:none}
   .rule.target .mk2{display:block}
-  .hint{font-size:12.5px;font-weight:700;color:var(--muted);margin-top:8px}
+  .hint{font-size:14px;font-weight:700;color:var(--muted);margin-top:8px}
 
   /* 상자 딱지: 색과 함께 글자(가·나·다·보류)를 적는다 */
   .bx{display:inline-block;font-weight:700;border:1px solid var(--ink);border-radius:8px;padding:1px 9px;line-height:1.4}
@@ -73,154 +73,216 @@
   .cards{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;perspective:700px}
   .card{position:relative;border:1px solid var(--line);border-radius:10px;background:var(--paper);
     padding:4px 2px 4px;text-align:center;line-height:1;display:flex;flex-direction:column;align-items:center;gap:3px}
-  .card .idx{position:absolute;left:3px;top:2px;font-size:9px;font-weight:600;color:var(--muted)}
-  .card svg.shape{display:block;width:100%;max-width:52px;height:auto;margin-top:6px}
-  .card .v{font-size:12.5px;line-height:1.2;white-space:nowrap}
-  .card .v .bx{padding:0 6px;font-size:12.5px;border-radius:6px}
-  .card .v .was{color:var(--muted);font-size:11px;font-weight:700;text-decoration:line-through;margin-right:2px}
+  .card .idx{position:absolute;left:3px;top:1px;font-size:14px;font-weight:700;color:var(--muted);line-height:1}
+  .card svg.shape{display:block;width:100%;max-width:52px;height:auto;margin-top:12px}
+  .card .v{font-size:14px;line-height:1.2;white-space:nowrap;display:flex;flex-direction:column;align-items:center;gap:2px}
+  .card .v .bx{padding:0 6px;font-size:14px;border-radius:6px}
+  .card .v .was{color:var(--muted);font-size:14px;font-weight:700;text-decoration:line-through}
   .card.diff{background:var(--sun-l);border-color:var(--ink);border-width:2.5px;animation:b20-flip .6s ease both;animation-delay:var(--d,0s)}
-  .card .mk{position:absolute;right:3px;top:3px;display:none}
+  .card .mk{position:absolute;right:2px;top:2px;display:none}
   .card.diff .mk{display:block}
   .card.fresh{animation:b20-in .35s ease both;animation-delay:var(--d,0s)}
   @keyframes b20-flip{0%{transform:rotateY(90deg) scale(.9)}60%{transform:rotateY(-12deg) scale(1.06)}100%{transform:none}}
   @keyframes b20-in{0%{opacity:0;transform:translateY(6px) scale(.9)}100%{opacity:1;transform:none}}
   @media (max-width:430px){
+    .scene img{width:64px}
+    .scene{margin-bottom:4px}
+    .lead{display:none}
+    h1{font-size:21px}
     .wrap{padding:10px 10px 26px}
-    .btn{font-size:13.5px;padding:8px 6px}
-    .card .v{font-size:11.5px}.card .v .bx{font-size:11.5px;padding:0 4px}
-    .card .v .was{font-size:10px}
+    .btn{font-size:14px;padding:8px 6px}
+    .card .v .bx{padding:0 4px}
+    #m1 .scene{display:none}
+    #hint1{margin-top:4px}
+    .cards{gap:4px}
   }
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+  /* 체험 개선 2026-10-31: 시작 안내 · 미션 사다리 · 개념 · 미션 2·3 */
+  .how{margin-top:8px;font-size:16px;font-weight:600;background:var(--sun-l);border-radius:var(--r-sm);padding:8px 12px}
+  .ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px}
+  .ladder button{min-height:44px;padding:4px;border:1px solid var(--line-strong);border-radius:var(--r-sm);
+    background:var(--surface);font-size:14.5px;font-weight:700;line-height:1.2}
+  .ladder button[aria-current="step"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .ladder button.done::after{content:" 끝";font-weight:600;color:#1f7a5c}
+  .ladder button.done[aria-current="step"]::after{color:#fff}
+  .concept{margin-top:8px;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 12px;background:var(--surface)}
+  .concept b{display:block;font-size:14px;color:var(--point)}
+  .concept p{margin-top:2px;font-size:15px;font-weight:600;word-break:keep-all}
+  .scene{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .scene img{flex:0 0 auto;width:120px;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:10px}
+  .scene p{flex:1;min-width:0;font-size:15.5px;font-weight:600;word-break:keep-all}
+  .pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:8px}
+  .pair figure{margin:0;text-align:center;font-size:14px;font-weight:700}
+  .pair img{display:block;width:100%;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:10px;margin-bottom:3px}
+  .why{margin-top:6px;font-size:15px;font-weight:600;word-break:keep-all}
+  .why:empty{display:none}
+  .learned{margin-top:8px;padding:8px 12px;border-radius:var(--r-sm);background:var(--mint-l);font-size:15px;font-weight:700;word-break:keep-all}
+  .learned:empty{display:none}
+  .goal{margin-top:8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:8px 12px;border-radius:var(--r-sm);background:var(--pink-l);font-size:15.5px;font-weight:700}
+  .goal .gcard{flex:0 0 auto;width:56px;height:56px;background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;display:grid;place-items:center}
+  .goal .gcard svg{width:46px;height:46px}
+  .rule .cond small{display:block;font-size:14px;font-weight:700;color:var(--muted)}
+  .rule.catch{border-color:var(--ink);border-width:2.5px;background:var(--sun-l)}
+  .rule.newr{border-color:var(--ink);border-width:2.5px;border-style:dashed;background:var(--mint-l)}
+  .rule .up{flex:0 0 auto;min-width:44px;min-height:44px;border:1px solid var(--ink);border-radius:8px;background:var(--sun-l);font-size:14px;font-weight:700;padding:0 6px}
+  .rule .up:disabled{opacity:.35;cursor:default}
+  .pick{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px;align-items:center}
+  .pick .lab{flex:0 0 100%;font-size:15px;font-weight:700}
+  .pick button{flex:1 1 60px;min-height:46px;font-size:15px;font-weight:700;border:1px solid var(--line-strong);border-radius:9px;background:var(--surface)}
+  .pick button[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+  .pick .sw{display:inline-block;width:14px;height:14px;border-radius:50%;border:1px solid var(--ink);margin-right:5px;vertical-align:-2px}
+  .fin{margin-top:10px;text-align:center}
+  .fin img{width:100%;max-width:420px;height:auto;aspect-ratio:16/9;object-fit:cover;border-radius:var(--r-sm)}
+  .fin p{margin-top:6px;font-size:16px;font-weight:700}
+  .note,.ai{font-size:14px;color:var(--muted);font-weight:600;margin-top:8px}
+  [hidden]{display:none !important}
+  .cmain{margin-top:9px;display:flex}
+  .cmain .btn{flex:1}
+  .fin .fun-stamp{position:relative;right:auto;top:auto;margin:8px auto 0}
+  .rule.moved{animation:b20-in .35s ease both}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
 <body>
-<div class="wrap">
-  <nav class="nav">
-    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a class="back" href="../play/">체험 목록</a><a class="back" href="../lessons/B20/">과정안</a></span>
-    <span class="tag">11~12</span>
+<main class="wrap">
+  <nav class="topnav">
+    <span style="display:inline-flex;gap:8px;flex-wrap:wrap;align-items:center"><a href="../play/">체험 목록</a><a href="../lessons/B20/">과정안</a></span>
+    <b>11~12</b>
   </nav>
   <header>
     <h1>규칙 순서 바꾸면 옮길 카드 짚기</h1>
     <p class="lead">몇 장이 옮겨갈지 짚어요</p>
   </header>
+  <p class="how" id="how">규칙표와 아래 카드를 살펴보고, 몇 장이 옮겨갈지 숫자로 미리 골라요(짚기). 그다음 순서 바꾸기를 눌러요.</p>
 
-  <section aria-labelledby="h-rule">
-    <h2 id="h-rule">규칙표</h2>
-    <div class="rules" id="rules"></div>
-    <p class="hint" id="hint">표시된 두 줄이 자리를 바꿔요</p>
+  <nav class="ladder" id="ladder" aria-label="미션 순서">
+    <button type="button" data-go="1" aria-current="step">① 짚기</button>
+    <button type="button" data-go="2">② 바꾸기</button>
+    <button type="button" data-go="3">③ 만들기</button>
+  </nav>
 
-    <div class="gstrip" id="gstrip" role="group" aria-label="옮겨갈 카드 수 짚기"></div>
-    <p class="msg dim" id="msg" role="status" aria-live="polite">몇 장이 옮겨갈지 짚어요</p>
+
+  <section data-step="1" id="m1" aria-labelledby="h-m1">
+    <h2 id="h-m1">미션 1 · 몇 장이 옮겨갈까</h2>
+    <div class="scene">
+      <img src="../lecture/_assets/B20/cover.webp" alt="종이상자 로봇이 게시판의 규칙표 앞에 서 있는 그림" width="1600" height="900">
+      <p>표시된 두 줄이 자리를 바꾸면 카드 18장 가운데 몇 장이 다른 상자로 갈까요? 규칙표와 카드를 보고 숫자를 골라요.</p>
+    </div>
+    <p class="hint" id="hint1">표시된 두 줄이 자리를 바꿔요</p>
+    <div class="rules" id="rules1"></div>
+    <div class="gstrip" id="gstrip1" role="group" aria-label="옮겨갈 카드 수 짚기"></div>
+    <p class="msg dim" id="msg1" role="status" aria-live="polite">아래 카드 18장을 세어 보고 몇 장일지 짚어요</p>
+    <h2 style="margin-top:10px">카드 18장</h2>
+    <div class="cards" id="cards1"></div>
+    <p class="why" id="why1"></p>
     <div class="acts">
       <button class="btn main" id="swapBtn" type="button" disabled>순서 바꾸기</button>
-      <button class="btn" id="reset" type="button">다시 하기</button>
-      <button class="btn" id="nextBtn" type="button">다음 판</button>
+      <button class="btn" id="reset1" type="button">다시 하기</button>
+      <button class="btn" id="next1" type="button" disabled>다음 판</button>
+    </div>
+    <p class="learned" id="learn1"></p>
+  </section>
+
+  <section data-step="2" id="m2" hidden aria-labelledby="h-m2">
+    <h2 id="h-m2">미션 2 · 줄 순서를 바꿔 보내요</h2>
+    <div class="scene">
+      <img src="../lecture/_assets/B20/stuck_robot.webp" alt="로봇 탈을 쓴 학생이 카드 한 장을 들고 고개를 갸웃하는 그림" width="1600" height="900">
+      <p>카드 한 장이 원하는 상자로 가게 줄 순서를 바꿔요.</p>
+    </div>
+    <div class="goal" id="goal2"></div>
+    <div class="rules" id="rules2" style="margin-top:8px"></div>
+    <p class="msg" id="msg2" role="status" aria-live="polite"></p>
+    <div class="acts">
+      <button class="btn" id="reset2" type="button">처음 순서로</button>
+      <button class="btn" id="next2" type="button" disabled>다음 카드</button>
+    </div>
+    <p class="learned" id="learn2"></p>
+  </section>
+
+  <section data-step="3" id="m3" hidden aria-labelledby="h-m3">
+    <h2 id="h-m3">미션 3 · 새 줄을 만들어 넣어요</h2>
+    <div class="pair">
+      <figure><img src="../lecture/_assets/B20/step_top.webp" alt="규칙표 맨 위에 노란 종이띠를 끼우는 손" width="1600" height="900" loading="lazy">맨 위에 넣기</figure>
+      <figure><img src="../lecture/_assets/B20/step_bottom.webp" alt="규칙표 맨 아래에 노란 종이띠를 붙이는 손" width="1600" height="900" loading="lazy">맨 아래에 넣기</figure>
+    </div>
+    <div class="pick" id="pickColor" role="group" aria-label="새 줄의 색"><span class="lab">새 줄의 색을 골라요</span></div>
+    <div class="pick" id="pickBox" role="group" aria-label="새 줄의 상자"><span class="lab">보낼 상자를 골라요</span></div>
+    <div class="rules" id="rules3" style="margin-top:8px"></div>
+    <div class="gstrip" id="gstrip3" role="group" aria-label="맨 위에 넣었을 때 바뀔 카드 수 짚기"></div>
+    <p class="msg dim" id="msg3" role="status" aria-live="polite">색과 상자를 고르고, 맨 위에 넣으면 몇 장이 바뀔지 짚어요</p>
+    <p class="why" id="why3"></p>
+    <div class="acts">
+      <button class="btn main" id="topBtn" type="button" disabled>맨 위에 넣기</button>
+      <button class="btn" id="botBtn" type="button" disabled>맨 아래에 넣기</button>
+      <button class="btn" id="next3" type="button" disabled>새 판</button>
+    </div>
+    <p class="learned" id="learn3"></p>
+    <h2 style="margin-top:10px">카드 18장</h2>
+    <div class="cards" id="cards3"></div>
+    <div class="fin" id="fin" hidden>
+      <img src="../lecture/_assets/B20/mission_done.webp" alt="해결단 깃발과 도장이 찍힌 종이와 종이상자 로봇 도장" width="1600" height="900" loading="lazy">
+      <p>세 미션을 모두 했어요. 줄 순서가 카드가 가는 길을 정해요.</p>
     </div>
   </section>
 
-  <section aria-labelledby="h-card">
-    <h2 id="h-card">카드 18장</h2>
-    <div class="cards" id="cards"></div>
-  </section>
-</div>
+  <aside class="concept" aria-label="개념 설명">
+    <b>알아 둘 것</b>
+    <p>규칙표는 위에서부터 읽어요. 카드는 처음 걸린 줄에서 멈추고, 그 줄의 상자로 가요. 그래서 줄 순서가 바뀌면 가는 상자도 달라질 수 있어요.</p>
+  </aside>
+
+  <div class="cmain"><button class="btn main" id="goNext" type="button" hidden></button></div>
+  <p class="note">이 쪽은 종이 규칙표 활동을 돕는 연습이에요. 종이 활동은 그대로 해요.</p>
+  <p class="ai">그림 일부는 생성형 AI로 만들었어요.</p>
+</main>
 
 <script>
 (function(){
   'use strict';
   var INK = '#222222';
-  var NUM = ['①', '②', '③', '④'];
-  var IDS = ['edge', 'colorA', 'colorB', 'edgeShape'];
-  var IDX = { edge: 0, colorA: 1, colorB: 2, edgeShape: 3 };
-  var PAIRS_OTHER = [['edge', 'colorA'], ['edge', 'colorB'], ['edge', 'edgeShape'],
-    ['colorA', 'edgeShape'], ['colorB', 'edgeShape']];
+  var NUM = ['①', '②', '③', '④', '⑤'];
   var BXCLS = { '가': 'ba', '나': 'bb', '다': 'bc', '보류': 'bn' };
+  var COLORS = [['빨강', '#EF4444'], ['파랑', '#3D5AFE'], ['노랑', '#F5C518']];
   var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  var rulesBox = document.getElementById('rules');
-  var cardsBox = document.getElementById('cards');
-  var gstrip = document.getElementById('gstrip');
-  var msgEl = document.getElementById('msg');
-  var hintEl = document.getElementById('hint');
-  var swapBtn = document.getElementById('swapBtn');
-  var resetBtn = document.getElementById('reset');
-  var nextBtn = document.getElementById('nextBtn');
-
-  var RULES, cardDeck, baseOrder, curOrder, pos1, pos2, guess, confirmed, lastSig;
-  lastSig = null;
+  var $ = function (id) { return document.getElementById(id); };
 
   function say(t, m) { if (window.Fun) { Fun.say(t, m); } }
-
+  function rnd(n) { return Math.floor(Math.random() * n); }
   function shuffle(arr) {
     var a = arr.slice();
-    for (var i = a.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var t = a[i]; a[i] = a[j]; a[j] = t;
-    }
+    for (var i = a.length - 1; i > 0; i--) { var j = rnd(i + 1); var t = a[i]; a[i] = a[j]; a[j] = t; }
     return a;
   }
+  function mk(tag, cls, text) { var e = document.createElement(tag); if (cls) { e.className = cls; } if (text != null) { e.textContent = text; } return e; }
 
+  /* 공통: 카드와 규칙 */
   function buildCards() {
-    var COLORS = [['빨강', '#EF4444'], ['파랑', '#3D5AFE'], ['노랑', '#F5C518']];
-    var SHAPES = ['동그라미', '세모', '네모'];
-    var deck = [];
+    var SHAPES = ['동그라미', '세모', '네모'], deck = [];
     [false, true].forEach(function (edge) {
       SHAPES.forEach(function (sh) {
-        COLORS.forEach(function (co) {
-          deck.push({ shape: sh, color: co[0], hex: co[1], edge: edge });
-        });
+        COLORS.forEach(function (co) { deck.push({ shape: sh, color: co[0], hex: co[1], edge: edge }); });
       });
     });
     deck.forEach(function (c, i) { c.n = i + 1; });
     return shuffle(deck);
   }
-
-  function makeRound() {
+  function makeRules() {
     var colors = shuffle(['빨강', '파랑', '노랑']);
     var colorA = colors[0], colorB = colors[1];
-    var shapes = ['동그라미', '세모', '네모'];
-    var shapeZ = shapes[Math.floor(Math.random() * 3)];
-    var rules = [
+    var shapeZ = ['동그라미', '세모', '네모'][rnd(3)];
+    return [
       { cond: '테두리가 있으면', box: '가', f: function (c) { return c.edge; } },
       { cond: colorA + '이면', box: '나', f: function (c) { return c.color === colorA; } },
       { cond: colorB + '이면', box: '다', f: function (c) { return c.color === colorB; } },
       { cond: '테두리 있는 ' + shapeZ + '면', box: '다', f: function (c) { return c.edge && c.shape === shapeZ; } }
     ];
-    var pairIds = Math.random() < 0.3
-      ? ['colorA', 'colorB']
-      : PAIRS_OTHER[Math.floor(Math.random() * PAIRS_OTHER.length)];
-    // 두 줄은 늘 이웃해서 놓는다(옮겨가는 장수가 0~6 안에 든다). 다만 더 위 줄이 먼저
-    // 가져간 카드는 옮겨가지 않으므로, 장수는 두 줄의 겹침에서 위 줄 몫을 뺀 만큼이다.
-    var restIds = IDS.filter(function (id) { return pairIds.indexOf(id) < 0; });
-    var restOrder = shuffle(restIds);
-    var slot = Math.floor(Math.random() * 3);
-    var pairOrder = Math.random() < 0.5 ? [pairIds[0], pairIds[1]] : [pairIds[1], pairIds[0]];
-    var order = new Array(4);
-    order[slot] = IDX[pairOrder[0]];
-    order[slot + 1] = IDX[pairOrder[1]];
-    var ri = 0;
-    for (var i = 0; i < 4; i++) { if (order[i] === undefined) { order[i] = IDX[restOrder[ri++]]; } }
-    var p1 = slot, p2 = slot + 1;
-    return { rules: rules, order: order, p1: p1, p2: p2, deck: buildCards() };
   }
-
-  function sigOf(r) {
-    return r.rules.map(function (x) { return x.cond + x.box; }).join('|') + '#' + r.order.join(',') +
-      '#' + r.p1 + ',' + r.p2;
-  }
-
-  function judge(ord, card) {
-    for (var i = 0; i < ord.length; i++) { if (RULES[ord[i]].f(card)) { return RULES[ord[i]].box; } }
+  function judge(list, card) {
+    for (var i = 0; i < list.length; i++) { if (list[i].f(card)) { return list[i].box; } }
     return '보류';
   }
-
-  function boxEl(name) {
-    var s = document.createElement('span');
-    s.className = 'bx ' + BXCLS[name];
-    s.textContent = name;
-    return s;
-  }
-
+  function firstIdx(list, c) { for (var i = 0; i < list.length; i++) { if (list[i].f(c)) { return i; } } return -1; }
+  function boxEl(name) { return mk('span', 'bx ' + BXCLS[name], name); }
   function shapeSvg(c) {
     var inner = '';
     if (c.shape === '동그라미') { inner = '<circle cx="22" cy="23" r="9.5" fill="' + c.hex + '" stroke="' + INK + '" stroke-width="2.2"/>'; }
@@ -229,159 +291,386 @@
     var ring = c.edge ? '<rect x="3.2" y="3.2" width="37.6" height="37.6" rx="8" fill="none" stroke="' + INK + '" stroke-width="2.6"/>' : '';
     return '<svg class="shape" viewBox="0 0 44 44" aria-hidden="true" focusable="false">' + ring + inner + '</svg>';
   }
-
   var MARK = '<svg class="mk" width="14" height="14" viewBox="0 0 14 14" aria-hidden="true" focusable="false">'
     + '<path d="M7 1.5 8.7 5.2 12.5 5.7 9.7 8.4 10.4 12.2 7 10.4 3.6 12.2 4.3 8.4 1.5 5.7 5.3 5.2Z"'
     + ' fill="#ffc845" stroke="' + INK + '" stroke-width="1.4" stroke-linejoin="round"/></svg>';
   var SWAPICON = '<svg width="16" height="16" viewBox="0 0 20 20" aria-hidden="true" focusable="false">'
     + '<path d="M4 7h10M11 4l3 3-3 3M16 13H6M9 10l-3 3 3 3" fill="none" stroke="' + INK + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  function cardDesc(c) { return c.color + ' ' + c.shape + (c.edge ? ', 테두리 있음' : ', 테두리 없음'); }
 
-  // 두 줄이 자리를 바꾸는 움직임: 아래로 온 줄은 위에서, 위로 온 줄은 아래에서 미끄러진다.
-  function slideRows(rowH) {
-    var a = rulesBox.children[pos1], b = rulesBox.children[pos2];
-    if (reduce || !a || !a.animate) { return; }
-    a.animate([{ transform: 'translateY(' + rowH + 'px)' }, { transform: 'none' }], { duration: 420, easing: 'ease-out' });
-    b.animate([{ transform: 'translateY(' + (-rowH) + 'px)' }, { transform: 'none' }], { duration: 420, easing: 'ease-out' });
-  }
-
-  function drawRules(slide) {
-    var rowH = 0;
-    if (slide && rulesBox.children[1]) {
-      rowH = rulesBox.children[1].getBoundingClientRect().top - rulesBox.children[0].getBoundingClientRect().top;
+  // 규칙표. o: cls(i), tell(i), up(k), swapMark(i)
+  function drawRules(box, list, o) {
+    box.innerHTML = '';
+    for (var i = 0; i < list.length; i++) {
+      var r = list[i];
+      var extra = o.cls ? o.cls(i) : '';
+      var row = mk('div', 'rule' + (extra ? ' ' + extra : ''));
+      row.appendChild(mk('span', 'num', NUM[i]));
+      var cond = mk('span', 'cond', r.cond);
+      var t = o.tell ? o.tell(i) : '';
+      if (t) { cond.appendChild(mk('small', null, t)); }
+      row.appendChild(cond);
+      row.appendChild(boxEl(r.box));
+      if (o.swapMark && o.swapMark(i)) { var m = mk('span', 'mk2'); m.innerHTML = SWAPICON; row.appendChild(m); }
+      if (o.up) {
+        var up = mk('button', 'up', '위로'); up.type = 'button';
+        up.setAttribute('aria-label', NUM[i] + '번 줄을 위로 올리기');
+        if (i === 0) { up.disabled = true; } else { (function (k) { up.addEventListener('click', function () { o.up(k); }); })(i); }
+        row.appendChild(up);
+      }
+      box.appendChild(row);
     }
-    rulesBox.innerHTML = '';
-    for (var i = 0; i < curOrder.length; i++) {
-      var r = RULES[curOrder[i]];
-      var isPair = (i === pos1 || i === pos2);
-      var row = document.createElement('div');
-      row.className = 'rule' + (isPair ? (confirmed ? ' done' : ' target') : '');
-      var num = document.createElement('span'); num.className = 'num'; num.textContent = NUM[i];
-      var cond = document.createElement('span'); cond.className = 'cond'; cond.textContent = r.cond;
-      var mk2 = document.createElement('span'); mk2.className = 'mk2'; mk2.innerHTML = SWAPICON;
-      row.appendChild(num); row.appendChild(cond); row.appendChild(boxEl(r.box)); row.appendChild(mk2);
-      rulesBox.appendChild(row);
-    }
-    if (slide) { slideRows(rowH); }
   }
-
-  function drawCards(fresh) {
-    cardsBox.innerHTML = '';
+  function slide(box, i, j) {
+    var a = box.children[i], b = box.children[j];
+    if (reduce || !a || !b || !a.animate) { return; }
+    var h = box.children[1].getBoundingClientRect().top - box.children[0].getBoundingClientRect().top;
+    var d = (j - i) * h;
+    a.animate([{ transform: 'translateY(' + d + 'px)' }, { transform: 'none' }], { duration: 380, easing: 'ease-out' });
+    b.animate([{ transform: 'translateY(' + (-d) + 'px)' }, { transform: 'none' }], { duration: 380, easing: 'ease-out' });
+  }
+  function drawCards(box, deck, baseList, nowList, fresh) {
+    box.innerHTML = '';
     var k = 0;
-    for (var i = 0; i < cardDeck.length; i++) {
-      var c = cardDeck[i];
-      var before = judge(baseOrder, c);
-      var now = confirmed ? judge(curOrder, c) : before;
-      var changed = confirmed && now !== before;
-      var tile = document.createElement('div');
-      tile.className = 'card' + (changed ? ' diff' : '') + (fresh ? ' fresh' : '');
+    for (var i = 0; i < deck.length; i++) {
+      var c = deck[i];
+      var before = judge(baseList, c);
+      var now = nowList ? judge(nowList, c) : before;
+      var changed = !!nowList && now !== before;
+      var tile = mk('div', 'card' + (changed ? ' diff' : '') + (fresh ? ' fresh' : ''));
       if (changed) { tile.style.setProperty('--d', (0.08 * k++) + 's'); }
       else if (fresh) { tile.style.setProperty('--d', (0.012 * i) + 's'); }
       tile.setAttribute('role', 'img');
-      tile.setAttribute('aria-label', c.color + ' ' + c.shape + (c.edge ? ', 테두리 있음' : ', 테두리 없음')
-        + (now === '보류' ? ', 규칙 없음' : ', 상자 ' + now) + (changed ? ', 달라짐, 전에는 ' + before : ''));
-      var idx = document.createElement('span'); idx.className = 'idx'; idx.textContent = String(c.n);
-      var mark = document.createElement('span'); mark.innerHTML = MARK;
-      var pic = document.createElement('span'); pic.style.width = '100%'; pic.style.display = 'flex'; pic.style.justifyContent = 'center'; pic.innerHTML = shapeSvg(c);
-      var val = document.createElement('span'); val.className = 'v';
-      if (changed) {
-        var was = document.createElement('span'); was.className = 'was'; was.textContent = before;
-        val.appendChild(was);
-      }
+      tile.setAttribute('aria-label', cardDesc(c) + (now === '보류' ? ', 규칙 없음' : ', 상자 ' + now) + (changed ? ', 달라짐, 전에는 ' + before : ''));
+      tile.appendChild(mk('span', 'idx', String(c.n)));
+      var mark = mk('span'); mark.innerHTML = MARK; tile.appendChild(mark);
+      var pic = mk('span'); pic.style.width = '100%'; pic.style.display = 'flex'; pic.style.justifyContent = 'center'; pic.innerHTML = shapeSvg(c);
+      tile.appendChild(pic);
+      var val = mk('span', 'v');
+      if (changed) { val.appendChild(mk('span', 'was', before)); }
       val.appendChild(boxEl(now));
-      tile.appendChild(idx); tile.appendChild(mark); tile.appendChild(pic); tile.appendChild(val);
-      cardsBox.appendChild(tile);
+      tile.appendChild(val);
+      box.appendChild(tile);
     }
   }
-
-  function drawGuess() {
-    gstrip.innerHTML = '';
+  function drawGuess(box, cur, off, onPick) {
+    box.innerHTML = '';
     for (var n = 0; n <= 6; n++) {
-      var b = document.createElement('button');
-      b.type = 'button'; b.className = 'gc';
-      b.textContent = String(n);
-      b.setAttribute('aria-pressed', guess === n ? 'true' : 'false');
+      var b = mk('button', 'gc', String(n)); b.type = 'button';
+      b.setAttribute('aria-pressed', cur === n ? 'true' : 'false');
       b.setAttribute('aria-label', n + '장');
-      b.disabled = confirmed;
-      (function (v) { b.addEventListener('click', function () { pick(v); }); })(n);
-      gstrip.appendChild(b);
+      b.disabled = off;
+      (function (v) { b.addEventListener('click', function () { onPick(v); }); })(n);
+      box.appendChild(b);
     }
   }
+  function setMsg(el, t, dim) { el.textContent = t; el.className = 'msg' + (dim ? ' dim' : ''); }
+  function diffText(actual, guess, tail, none) {
+    var d = actual - guess;
+    return d === 0 ? (actual === 0 ? '짚은 대로 한 장도 ' + none : '짚은 대로 ' + actual + '장 ' + tail) : (d > 0 ? (d + '장 더 ' + tail) : ((-d) + '장 덜 ' + tail));
+  }
 
-  function pick(n) {
-    if (confirmed) { return; }
-    guess = n;
-    drawGuess();
+  /* 미션 사다리 */
+  var cur = 1, doneM = { 1: false, 2: false, 3: false }, stamped = false, started = {};
+  var secs = { 1: $('m1'), 2: $('m2'), 3: $('m3') };
+  var ladderBtns = Array.prototype.slice.call(document.querySelectorAll('#ladder button'));
+  var goNext = $('goNext');
+  var NAMES = ['', '짚기', '바꾸기', '만들기'];
+  var HOW = ['', '규칙표와 아래 카드를 살펴보고, 몇 장이 옮겨갈지 숫자로 미리 골라요(짚기). 그다음 순서 바꾸기를 눌러요.', '카드가 가야 할 상자를 보고, 줄 옆의 위로 단추를 눌러 줄을 올려요.', '새 줄의 색과 상자를 고르고, 몇 장이 바뀔지 짚은 뒤 맨 위에 넣어요. 그다음 맨 아래에도 넣어요.'];
+  function showMission(n) {
+    cur = n;
+    [1, 2, 3].forEach(function (k) { secs[k].hidden = (k !== n); });
+    if (n === 2 && !started[2]) { started[2] = true; m2New(); }
+    if (n === 3 && !started[3]) { started[3] = true; m3New(); }
+    if (n === 1) { say('표시된 두 줄이 자리를 바꾸면 카드가 몇 장 옮겨갈까요? 먼저 짚어요.'); }
+    $('how').textContent = HOW[n];
+    syncLadder();
+    try { window.scrollTo(0, 0); } catch (e) { /* 위치를 못 옮겨도 괜찮다 */ }
+  }
+  function syncLadder() {
+    ladderBtns.forEach(function (b) {
+      var k = +b.getAttribute('data-go');
+      if (k === cur) { b.setAttribute('aria-current', 'step'); } else { b.removeAttribute('aria-current'); }
+      b.classList.toggle('done', doneM[k]);
+    });
+    if (doneM[cur] && cur < 3) {
+      goNext.hidden = false;
+      goNext.textContent = '미션 ' + (cur + 1) + ' ' + NAMES[cur + 1] + '로 가기';
+    } else { goNext.hidden = true; }
+    $('fin').hidden = !(doneM[1] && doneM[2] && doneM[3]);
+  }
+  function missionDone(n, line, m) {
+    doneM[n] = true;
+    $('learn' + n).textContent = '알게 된 것: ' + line;
+    say('알게 된 것: ' + line, m);
+    syncLadder();
+    if (doneM[1] && doneM[2] && doneM[3] && !stamped) {
+      stamped = true;
+      if (window.Fun) { Fun.stamp(); var st = document.querySelector('.fun-stamp'); if (st) { $('fin').appendChild(st); } }
+    }
+  }
+  ladderBtns.forEach(function (b) { b.addEventListener('click', function () { showMission(+b.getAttribute('data-go')); }); });
+  goNext.addEventListener('click', function () { showMission(cur + 1); });
+
+  /* 미션 1: 몇 장이 옮겨갈까 */
+  var m1 = { rules: null, base: null, now: null, p1: 0, p2: 1, deck: null, guess: null, confirmed: false, sig: null };
+  var swapBtn = $('swapBtn');
+
+  function makeRound1() {
+    var rules = makeRules();
+    var IDX = { edge: 0, colorA: 1, colorB: 2, edgeShape: 3 };
+    var IDS = ['edge', 'colorA', 'colorB', 'edgeShape'];
+    var OTHER = [['edge', 'colorA'], ['edge', 'colorB'], ['edge', 'edgeShape'], ['colorA', 'edgeShape'], ['colorB', 'edgeShape']];
+    var pairIds = Math.random() < 0.3 ? ['colorA', 'colorB'] : OTHER[rnd(OTHER.length)];
+    var restIds = IDS.filter(function (id) { return pairIds.indexOf(id) < 0; });
+    var restOrder = shuffle(restIds);
+    var slot = rnd(3);
+    var pairOrder = Math.random() < 0.5 ? [pairIds[0], pairIds[1]] : [pairIds[1], pairIds[0]];
+    var order = new Array(4);
+    order[slot] = IDX[pairOrder[0]]; order[slot + 1] = IDX[pairOrder[1]];
+    var ri = 0;
+    for (var i = 0; i < 4; i++) { if (order[i] === undefined) { order[i] = IDX[restOrder[ri++]]; } }
+    return { rules: rules, order: order, p1: slot, p2: slot + 1, deck: buildCards() };
+  }
+  function sig1(r) {
+    return r.rules.map(function (x) { return x.cond + x.box; }).join('|') + '#' + r.order.join(',') + '#' + r.p1;
+  }
+  function paint1(slideRows) {
+    drawRules($('rules1'), m1.confirmed ? m1.now : m1.base, {
+      cls: function (i) { return (i === m1.p1 || i === m1.p2) ? (m1.confirmed ? 'done' : 'target') : ''; },
+      swapMark: function (i) { return !m1.confirmed && (i === m1.p1 || i === m1.p2); }
+    });
+    if (slideRows) { slide($('rules1'), m1.p1, m1.p2); }
+  }
+  function pick1(n) {
+    if (m1.confirmed) { return; }
+    m1.guess = n;
+    drawGuess($('gstrip1'), n, false, pick1);
     swapBtn.disabled = false;
-    msgEl.textContent = '순서 바꾸기를 눌러요';
-    msgEl.className = 'msg dim';
-    say(n === 0 ? '한 장도 안 옮겨간다고 예측했어요. 두 줄에 모두 맞아도 위 줄이 먼저 가져가면 안 옮겨가요. 18장을 훑어봐요.'
-      : n + '장이 옮겨간다고 예측했어요. 위 줄이 먼저 가져간 카드는 빼고, 두 줄에 모두 맞는 카드를 세어 봐요.');
+    setMsg($('msg1'), '순서 바꾸기를 눌러요', true);
+    say(n === 0 ? '한 장도 안 옮겨간다고 짚었어요. 두 줄에 모두 걸려도 위 줄이 먼저 가져가면 안 옮겨가요. 18장을 훑어봐요.'
+      : n + '장이 옮겨간다고 짚었어요. 위 줄이 먼저 가져간 카드는 빼고, 두 줄에 모두 걸리는 카드를 세어 봐요.');
   }
-
-  function doSwap() {
-    if (confirmed || guess === null) { return; }
-    confirmed = true;
-    curOrder = baseOrder.slice();
-    var t = curOrder[pos1]; curOrder[pos1] = curOrder[pos2]; curOrder[pos2] = t;
+  function doSwap1() {
+    if (m1.confirmed || m1.guess === null) { return; }
+    var ord = m1.base.slice();
+    var t = ord[m1.p1]; ord[m1.p1] = ord[m1.p2]; ord[m1.p2] = t;
+    m1.now = ord;
     var actual = 0;
-    cardDeck.forEach(function (c) { if (judge(baseOrder, c) !== judge(curOrder, c)) { actual++; } });
-    var diff = actual - guess;
-    var msg = diff === 0 ? ('짚은 대로 ' + actual + '장 옮겨갔어요')
-      : (diff > 0 ? (diff + '장 더 옮겨갔어요') : ((-diff) + '장 덜 옮겨갔어요'));
-    msgEl.textContent = msg;
-    msgEl.className = 'msg';
-    hintEl.textContent = '순서가 바뀌었어요';
-    drawRules(true); drawCards(false); drawGuess();
+    m1.deck.forEach(function (c) { if (judge(m1.base, c) !== judge(m1.now, c)) { actual++; } });
+    var diff = actual - m1.guess;
+    m1.confirmed = true;
+    setMsg($('msg1'), diffText(actual, m1.guess, '옮겨갔어요', '안 옮겨갔어요'));
+    $('hint1').textContent = '순서가 바뀌었어요';
+    paint1(true); drawCards($('cards1'), m1.deck, m1.base, m1.now, false); drawGuess($('gstrip1'), m1.guess, true, pick1);
     swapBtn.disabled = true;
-    if (window.Fun) {
-      // 판정은 위 줄이 먼저 가져간다: 두 줄에 모두 맞는 카드도 더 위 줄에 먼저 걸리면 안 옮겨간다.
-      var both = 0, taken = 0, same = 0, above = curOrder.slice(0, pos1);
-      var rA = RULES[baseOrder[pos1]], rB = RULES[baseOrder[pos2]];
-      cardDeck.forEach(function (c) {
-        if (!(rA.f(c) && rB.f(c))) { return; }
-        both++;
-        if (above.some(function (i) { return RULES[i].f(c); })) { taken++; }
-        else if (rA.box === rB.box) { same++; }
-      });
-      var why;
-      if (both === 0) { why = '두 줄에 함께 맞는 카드가 없어서, 순서를 바꿔도 달라지지 않아요.'; }
-      else {
-        why = '두 줄에 함께 맞는 카드 ' + both + '장 가운데 ' + (taken ? '위 줄이 먼저 가져간 ' + taken + '장' : '')
-          + (taken && same ? '과 ' : '') + (same ? '두 줄 상자가 같은 ' + same + '장' : '')
-          + ((taken || same) ? '은 빼서 ' : '') + actual + '장이 옮겨갔어요.';
-      }
-      if (actual === 0) { say('한 장도 옮겨가지 않았어요. ' + why, diff === 0 ? 'cheer' : 'think'); }
-      else if (diff === 0) { say('별표 카드가 옮겨간 카드예요. ' + why, 'cheer'); }
-      else { say('예상과 다르게 나왔어요. ' + why, 'think'); }
-      if (diff === 0) { Fun.burst(cardsBox); } else { Fun.shake(cardsBox); }
-      Fun.stamp();
+    var above = m1.base.slice(0, m1.p1), rA = m1.base[m1.p1], rB = m1.base[m1.p2];
+    var both = 0, taken = 0, same = 0;
+    m1.deck.forEach(function (c) {
+      if (!(rA.f(c) && rB.f(c))) { return; }
+      both++;
+      if (above.some(function (r) { return r.f(c); })) { taken++; }
+      else if (rA.box === rB.box) { same++; }
+    });
+    var why;
+    if (both === 0) { why = '두 줄에 함께 걸리는 카드가 없어서, 순서를 바꿔도 달라지지 않아요.'; }
+    else {
+      why = '두 줄에 함께 걸리는 카드 ' + both + '장 가운데 ' + (taken ? '위 줄이 먼저 가져간 ' + taken + '장' : '')
+        + (taken && same ? '과 ' : '') + (same ? '두 줄 상자가 같은 ' + same + '장' : '')
+        + ((taken || same) ? (actual === 0 ? '을 빼면 옮겨간 카드는 한 장도 없어요.' : '은 빼서 ' + actual + '장이 옮겨갔어요.') : ' 가운데 ' + actual + '장이 옮겨갔어요.');
     }
+    $('why1').textContent = (diff === 0 ? '' : '짚은 수와 달라요. ') + (actual > 0 ? '별표 카드가 옮겨간 카드예요. ' : '') + why;
+    if (window.Fun) { if (diff === 0) { Fun.burst($('cards1')); } else { Fun.shake($('cards1')); } }
+    $('reset1').disabled = true;
+    $('next1').disabled = false;
+    if (diff !== 0) { $('why1').textContent += ' 다음 판에서 두 줄에 함께 걸리는 카드부터 세어 봐요.'; say('짚은 수와 달랐어요. 다음 판에서는 두 줄에 함께 걸리는 카드부터 세어 봐요.', 'think'); return; }
+    missionDone(1, '두 줄에 함께 걸리는 카드도, 위 줄이 먼저 가져가면 상자가 안 바뀌어요.', 'cheer');
   }
-
-  function restartRound(fresh) {
-    curOrder = baseOrder.slice();
-    guess = null; confirmed = false;
-    hintEl.textContent = '표시된 두 줄이 자리를 바꿔요';
-    msgEl.textContent = '몇 장이 옮겨갈지 짚어요';
-    msgEl.className = 'msg dim';
-    swapBtn.disabled = true;
-    drawRules(false); drawCards(!!fresh); drawGuess();
+  function restart1(fresh) {
+    m1.now = null; m1.guess = null; m1.confirmed = false;
+    $('hint1').textContent = '표시된 두 줄이 자리를 바꿔요';
+    setMsg($('msg1'), '아래 카드 18장을 세어 보고 몇 장일지 짚어요', true);
+    $('why1').textContent = '';
+    swapBtn.disabled = true; $('reset1').disabled = false;
+    paint1(false); drawCards($('cards1'), m1.deck, m1.base, null, !!fresh); drawGuess($('gstrip1'), null, false, pick1);
   }
-
-  function newRound() {
-    var r, sig, tries = 0;
-    do { r = makeRound(); sig = sigOf(r); tries++; } while (lastSig !== null && sig === lastSig && tries < 10);
-    lastSig = sig;
-    RULES = r.rules; baseOrder = r.order; pos1 = r.p1; pos2 = r.p2; cardDeck = r.deck;
-    restartRound(true);
+  function new1() {
+    var r, s, tries = 0;
+    do { r = makeRound1(); s = sig1(r); tries++; } while (m1.sig !== null && s === m1.sig && tries < 10);
+    m1.sig = s; m1.rules = r.rules; m1.base = r.order.map(function (i) { return r.rules[i]; });
+    m1.p1 = r.p1; m1.p2 = r.p2; m1.deck = r.deck;
+    restart1(true); $('next1').disabled = true;
     say('새 판이에요. 표시된 두 줄이 자리를 바꾸면 카드가 몇 장 옮겨갈까요? 먼저 짚어요.');
   }
+  swapBtn.addEventListener('click', doSwap1);
+  $('reset1').addEventListener('click', function () { restart1(false); say('같은 판을 처음부터 해요. 다시 짚어 봐요.'); });
+  $('next1').addEventListener('click', new1);
 
-  swapBtn.addEventListener('click', doSwap);
-  resetBtn.addEventListener('click', function () { restartRound(false); say('같은 판을 처음부터 해요. 다시 짚어 봐요.'); });
-  nextBtn.addEventListener('click', newRound);
+  /* 미션 2: 카드를 원하는 상자로 보내기 */
+  var m2 = { start: null, list: null, card: null, goal: null, arrived: false };
+  function m2New() {
+    var order, deck, card, goal = null, tries = 0;
+    while (!goal && tries < 300) {
+      tries++;
+      order = shuffle(makeRules()); deck = buildCards();
+      card = deck[rnd(deck.length)];
+      var f = firstIdx(order, card);
+      if (f < 0) { continue; }
+      var fb = order[f].box;
+      var others = order.filter(function (r) { return r.f(card) && r.box !== fb; });
+      if (others.length) { goal = others[rnd(others.length)].box; }
+    }
+    m2.start = order.slice(); m2.list = order.slice(); m2.card = card; m2.goal = goal; m2.arrived = false;
+    var g = $('goal2'); g.innerHTML = '';
+    var gc = mk('span', 'gcard'); gc.innerHTML = shapeSvg(card); gc.setAttribute('role', 'img'); gc.setAttribute('aria-label', cardDesc(card));
+    g.appendChild(gc);
+    var tx = mk('span'); tx.appendChild(document.createTextNode('이 카드를 '));
+    tx.appendChild(boxEl(goal)); tx.appendChild(document.createTextNode(' 상자로 보내요.'));
+    g.appendChild(tx);
+    $('learn2').textContent = ''; $('next2').disabled = true;
+    paint2();
+    say('이 카드를 ' + goal + ' 상자로 보내려면 어느 줄을 위로 올려야 할까요? 카드가 멈추는 줄에 표시가 있어요.');
+  }
+  function paint2() {
+    var c = m2.card, fi = firstIdx(m2.list, c);
+    drawRules($('rules2'), m2.list, {
+      cls: function (i) { return i === fi ? 'catch' : ''; },
+      tell: function (i) { return i === fi ? '카드가 여기서 멈춰요' : (m2.list[i].f(c) ? '카드가 걸리지만 위 줄이 먼저예요' : ''); },
+      up: function (k) { swap2(k); }
+    });
+    if (m2.arrived) {
+      Array.prototype.forEach.call($('rules2').querySelectorAll('.up'), function (b) { b.disabled = true; });
+    }
+    setMsg($('msg2'), '지금 카드는 ' + judge(m2.list, c) + ' 상자로 가요.');
+  }
+  function swap2(k) {
+    if (m2.arrived) { return; }
+    var l = m2.list; var t = l[k]; l[k] = l[k - 1]; l[k - 1] = t;
+    var now = judge(l, m2.card);
+    if (now === m2.goal) { m2.arrived = true; }
+    paint2();
+    slide($('rules2'), k - 1, k);
+    if (m2.arrived) {
+      $('next2').disabled = false;
+      setMsg($('msg2'), '카드가 ' + now + ' 상자로 갔어요. 그 상자 줄이 위로 올라와서 카드를 먼저 가져갔어요.');
+      if (window.Fun) { Fun.burst($('goal2')); }
+      missionDone(2, '줄 순서를 바꾸면 같은 카드도 다른 상자로 가요. 위에 있는 줄이 먼저 가져가요.', 'cheer');
+    } else {
+      say('지금은 ' + now + ' 상자예요. 원하는 곳은 ' + m2.goal + ' 상자예요. 어느 줄이 카드를 먼저 가져가는지 봐요.', 'think');
+    }
+  }
+  $('reset2').addEventListener('click', function () {
+    m2.list = m2.start.slice(); m2.arrived = false; $('learn2').textContent = ''; paint2();
+    say('처음 순서로 돌렸어요. 다른 줄을 올려 봐요.');
+  });
+  $('next2').addEventListener('click', m2New);
 
-  newRound();
+  /* 미션 3: 새 줄을 맨 위와 맨 아래에 넣기 */
+  var m3 = { base: null, deck: null, color: null, box: null, guess: null, topShown: false, topN: 0 };
+  function pickBtns(box, items, key) {
+    items.forEach(function (it) {
+      var b = mk('button', null); b.type = 'button'; b.setAttribute('aria-pressed', 'false');
+      if (it.hex) { var sw = mk('span', 'sw'); sw.style.background = it.hex; b.appendChild(sw); }
+      b.appendChild(document.createTextNode(it.name));
+      b.addEventListener('click', function () {
+        m3[key] = it.name;
+        Array.prototype.forEach.call(box.querySelectorAll('button'), function (x) { x.setAttribute('aria-pressed', x === b ? 'true' : 'false'); });
+        m3Update();
+      });
+      box.appendChild(b);
+    });
+  }
+  pickBtns($('pickColor'), COLORS.map(function (c) { return { name: c[0], hex: c[1] }; }), 'color');
+  pickBtns($('pickBox'), [{ name: '가' }, { name: '나' }, { name: '다' }], 'box');
+
+  function newRule3() {
+    var col = m3.color;
+    return { cond: col + '이면', box: m3.box, f: function (c) { return c.color === col; } };
+  }
+  function paint3(list, newIdx) {
+    drawRules($('rules3'), list || m3.base, {
+      cls: function (i) { return i === newIdx ? 'newr' : ''; },
+      tell: function (i) { return i === newIdx ? '새로 만든 줄' : ''; }
+    });
+  }
+  function m3Update() {
+    m3.topShown = false; m3.guess = null;
+    $('learn3').textContent = ''; $('why3').textContent = '';
+    paint3(null, -1);
+    drawCards($('cards3'), m3.deck, m3.base, null, false);
+    var ready = !!(m3.color && m3.box);
+    drawGuess($('gstrip3'), null, !ready, pick3);
+    $('topBtn').disabled = true; $('botBtn').disabled = true; $('next3').disabled = true;
+    if (ready) { setMsg($('msg3'), m3.color + '이면 ' + m3.box + ' 줄을 맨 위에 넣으면 몇 장의 상자가 바뀔까요? 짚어요', true); }
+    else { setMsg($('msg3'), '색과 상자를 고르고, 맨 위에 넣으면 몇 장이 바뀔지 짚어요', true); }
+  }
+  function pick3(n) {
+    m3.guess = n;
+    drawGuess($('gstrip3'), n, false, pick3);
+    $('topBtn').disabled = false;
+    setMsg($('msg3'), '맨 위에 넣기를 눌러요', true);
+    say(n + '장이 바뀐다고 짚었어요. 새 줄이 맨 위에 있으면 그 색 카드 6장을 먼저 가져가요. 그 가운데 상자가 달라질 카드를 세어 봐요.');
+  }
+  function count3(pos) {
+    var l = m3.base.slice(), r = newRule3();
+    if (pos === 'top') { l.unshift(r); } else { l.push(r); }
+    var n = 0;
+    m3.deck.forEach(function (c) { if (judge(m3.base, c) !== judge(l, c)) { n++; } });
+    return { list: l, n: n, idx: pos === 'top' ? 0 : l.length - 1 };
+  }
+  function put3(pos) {
+    var res = count3(pos);
+    paint3(res.list, res.idx);
+    drawCards($('cards3'), m3.deck, m3.base, res.list, false);
+    if (pos === 'top') {
+      m3.topShown = true; m3.topN = res.n;
+      var diff = res.n - m3.guess;
+      if (diff !== 0) {
+        var g0 = m3.guess; m3.topShown = false;
+        setMsg($('msg3'), '실제로는 ' + (res.n === 0 ? '한 장도 안' : res.n + '장의 상자가') + ' 바뀌었어요. 짚은 ' + g0 + '장과 달라요.');
+        $('why3').textContent = '별표 카드가 상자가 바뀐 카드예요. 맨 위 줄은 그 색 카드를 모두 먼저 가져가요. 새 판에서는 그 색 카드 가운데 원래 다른 상자로 가던 카드부터 세어 봐요.';
+        drawGuess($('gstrip3'), g0, true, pick3); $('topBtn').disabled = true; $('botBtn').disabled = true; $('next3').disabled = false;
+        if (window.Fun) { Fun.shake($('cards3')); }
+        say('짚은 수와 달랐어요. 새 판에서는 그 색 카드 가운데 원래 다른 상자로 가던 카드부터 세어 봐요.', 'think');
+        return;
+      }
+      setMsg($('msg3'), diffText(res.n, m3.guess, '상자가 바뀌었어요', '상자가 안 바뀌었어요') + '. 이제 맨 아래에도 넣어 봐요.');
+      $('why3').textContent = res.n === 0 ? '바뀐 카드가 없어요. 그 색 카드가 이미 그 상자로 가고 있었어요.' : '별표 카드가 상자가 바뀐 카드예요. 맨 위 줄은 그 색 카드를 모두 먼저 가져가요.';
+      $('botBtn').disabled = false;
+      if (window.Fun) { if (diff === 0) { Fun.burst($('cards3')); } else { Fun.shake($('cards3')); } }
+      say('짚은 대로예요. 이제 같은 줄을 맨 아래에 넣어 견줘 봐요.', 'cheer');
+    } else {
+      var same3 = res.n === m3.topN;
+      if (same3) {
+        setMsg($('msg3'), '이번에는 위·아래가 같아요. 둘 다 ' + (res.n === 0 ? '한 장도 안 바뀌었어요' : res.n + '장이 바뀌었어요') + '.');
+        $('why3').textContent = (res.n === 0 ? '그 색 카드가 이미 그 상자로 가고 있었거나 다른 줄에 걸리지 않았어요.' : '상자가 바뀐 카드가 모두 원래 어느 줄에도 안 걸리던 카드뿐이었어요.') + ' 다른 색이나 상자를 골라 한 번 더 해 봐요.';
+        $('botBtn').disabled = true; $('next3').disabled = false; m3.topShown = false;
+        say('위·아래 결과가 같았어요. 다른 색이나 상자로 한 번 더 해 보면 맨 위와 맨 아래가 달라지는 걸 볼 수 있어요.', 'think');
+        return;
+      }
+      setMsg($('msg3'), '맨 아래에 넣으면 ' + (res.n === 0 ? '한 장도 안 바뀌어요' : res.n + '장만 바뀌어요') + '. 맨 위에 넣었을 때는 ' + (m3.topN === 0 ? '한 장도 안 바뀌었어요' : m3.topN + '장이 바뀌었어요') + '.');
+      $('why3').textContent = '맨 아래 줄은 위 줄들이 다 가져가고 남은, 어느 줄에도 안 걸린 카드만 가져가요.';
+      $('next3').disabled = false;
+      missionDone(3, '새 줄을 맨 위에 넣으면 그 색 카드를 먼저 가져가고, 맨 아래에 넣으면 남은 카드만 가져가요.', 'cheer');
+    }
+  }
+  function m3New() {
+    m3.base = shuffle(makeRules()); m3.deck = buildCards();
+    m3.color = null; m3.box = null; m3.guess = null; m3.topShown = false;
+    Array.prototype.forEach.call(document.querySelectorAll('#pickColor button, #pickBox button'), function (x) { x.setAttribute('aria-pressed', 'false'); });
+    $('learn3').textContent = ''; $('why3').textContent = '';
+    paint3(null, -1);
+    drawCards($('cards3'), m3.deck, m3.base, null, true);
+    drawGuess($('gstrip3'), null, true, pick3);
+    $('topBtn').disabled = true; $('botBtn').disabled = true; $('next3').disabled = true;
+    setMsg($('msg3'), '색과 상자를 고르고, 맨 위에 넣으면 몇 장이 바뀔지 짚어요', true);
+    say('새 줄을 직접 만들어요. 색과 상자를 고르고, 맨 위에 넣으면 카드가 몇 장 바뀔지 먼저 짚어요.');
+  }
+  $('topBtn').addEventListener('click', function () { if (m3.guess !== null) { put3('top'); } });
+  $('botBtn').addEventListener('click', function () { if (m3.topShown) { put3('bottom'); } });
+  $('next3').addEventListener('click', m3New);
+
+  new1();
 })();
 </script>
 <script src="../assets/play/fun.js" data-block="B20" data-mission="규칙 두 줄이 자리를 바꾸면 카드가 몇 장 옮겨갈까요? 바꾸기 전에 먼저 짚어요!"></script>

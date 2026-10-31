@@ -40,10 +40,14 @@
   #cam{width:100%;height:100%;object-fit:cover;display:block}
   #pad{width:100%;height:100%;display:block;background:#fff;touch-action:none;cursor:crosshair}
   [hidden]{display:none!important}
-  .priv{position:absolute;left:7px;bottom:7px;right:7px;font-size:11px;font-weight:700;
-    color:var(--paper);background:rgba(20,20,20,.82);border-radius:999px;padding:3px 9px;text-align:center}
+  .priv{display:block;margin:3px 0 0;font-size:12px;font-weight:700;color:var(--muted);text-align:center}
+.wait{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:8px;text-align:center;color:#fff;font-size:13px;font-weight:700;line-height:1.3}
+.scene.big{flex-direction:column;align-items:stretch}
+.scene.big img{width:100%;height:auto;aspect-ratio:16/9;max-height:150px}
+button.tile{padding:0;cursor:pointer;font-family:inherit}
+button.tile:hover{border-color:var(--point)}
 
-  .order{font-size:14px;font-weight:700;background:var(--point-soft);border:1px solid var(--line);
+  .order{word-break:keep-all;overflow-wrap:break-word;font-size:14px;font-weight:700;background:var(--point-soft);border:1px solid var(--line);
     border-radius:var(--r-sm);padding:6px 9px;margin-bottom:6px}
 
   .pick{display:flex;align-items:center;gap:6px;margin-top:5px;flex-wrap:wrap}
@@ -87,7 +91,7 @@
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* 재미 개편 2026-10-29 */
-.view{max-height:none;aspect-ratio:4/3;max-width:230px;margin:0 auto}
+.view{max-height:none;aspect-ratio:4/3;max-width:200px;margin:0 auto}
 .cur{position:absolute;left:6px;top:6px;font-size:11.5px;font-weight:700;color:var(--ink);background:var(--sun-l);
   border:1px solid var(--line-strong);border-radius:999px;padding:2px 9px;max-width:calc(100% - 12px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .opt{display:inline-flex;align-items:center;gap:5px}
@@ -115,6 +119,48 @@
 .btn.go{background:var(--mint);border-color:var(--mint-d);color:#143d30}
 @media(max-width:400px){.opt{padding:6px 9px;font-size:13.5px}.opt svg{width:22px}.tray{gap:2px}}
 
+/* 체험 개선 2026-10-31: 시작 안내·미션 사다리·개념 카드·미션 2·3 */
+.how{margin:8px 0 0;font-size:16px;font-weight:600;background:var(--sun-l);border-radius:var(--r-sm);padding:8px 12px}
+.ladder{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0 0}
+.ladder button{cursor:pointer;min-height:44px;padding:4px 4px;border:1px solid var(--line-strong);border-radius:var(--r-sm);font-family:inherit;
+  background:var(--surface);color:var(--ink);font-size:14.5px;font-weight:700;line-height:1.2}
+.ladder button[aria-current="step"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.ladder button.done::after{content:" 끝";font-weight:600;color:var(--mint-d)}
+.ladder button.done[aria-current="step"]::after{color:#fff}
+.concept{margin:8px 0 0;border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 12px;background:var(--surface)}
+.concept b{display:block;font-size:14px;color:var(--point)}
+.concept p{margin:2px 0 0;font-size:15px;font-weight:600}
+.learned{margin:8px 0 0;padding:8px 12px;border-radius:var(--r-sm);background:var(--mint-l);font-size:15px;font-weight:700}
+.learned:empty{display:none}
+.scene{display:flex;align-items:center;gap:10px;margin:0 0 6px}
+.scene img{flex:0 0 auto;width:120px;height:68px;object-fit:cover;border-radius:10px;background:var(--sun-l)}
+.scene .order{flex:1;min-width:0;margin:0}
+.scene .sc-text{word-break:keep-all;overflow-wrap:break-word;flex:1;min-width:0;font-size:15px;font-weight:700}
+.goal{font-size:15px;font-weight:700;margin:0 0 6px;padding:7px 10px;border-radius:var(--r-sm);background:var(--sun-l)}
+.pgrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin:6px 0 0}
+.pgrid.six{grid-template-columns:repeat(6,minmax(0,1fr))}
+.pt{font-family:inherit;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:58px;padding:2px 1px;border:2px solid var(--line-strong);border-radius:8px;color:var(--ink);
+  font-size:14px;font-weight:700;line-height:1.2;text-align:center;min-width:0}
+button.pt{cursor:pointer}
+.pt.w{background:#fff}.pt.d{background:#d2a574}
+.pt.gone{border-style:dashed;background:var(--soft);opacity:.55}
+.pt[aria-pressed="true"]{border-color:var(--point);box-shadow:0 0 0 3px var(--sun)}
+.pt[aria-pressed="true"]::after{content:"✓";position:absolute;right:2px;top:0;color:var(--point);font-size:15px;line-height:1.1}
+.pt.pop{animation:tilepop .3s ease-out}
+.kinds{display:flex;flex-wrap:wrap;gap:5px;margin:6px 0 0}
+.kinds span{font-size:14px;font-weight:700;background:var(--sky-l);border-radius:999px;padding:3px 10px}
+.fin{margin:10px 0 0;text-align:center}
+.fin img{width:100%;max-width:420px;height:auto;border-radius:var(--r-sm)}
+.fin p{margin:6px 0 0;font-size:16px;font-weight:700}
+.ai{font-size:14px;color:var(--muted);font-weight:600;margin:8px 0 0}
+.opt.wide{min-height:44px}
+@media(max-width:400px){.scene:not(.big) img{width:96px;height:54px}.pt{font-size:14px;min-height:54px}.pgrid.six{grid-template-columns:repeat(4,minmax(0,1fr))}}
+
+.cur,.pick .lb,.bar .nm,.bar .n,.tile .ag,.legend,.practice,.note,h2{font-size:14px}
+.bar .nm{width:8.6em}.tile .ag{font-size:10px}
+.priv{white-space:normal;line-height:1.25}
+
 /* 에듀다움 통일 테마 2026-09-27 */
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
@@ -131,16 +177,26 @@
     <h1>약속한 조건대로 자료 담기</h1>
     <p class="lead">몇 장이 섞였나요</p>
   </header>
+  <p class="how" id="how">약속을 읽고 각도와 배경을 골라 담아요. 미션은 모두 셋이에요.</p>
 
+  <nav class="ladder" id="ladder" aria-label="미션 순서">
+    <button type="button" data-go="1" aria-current="step">① 담기</button>
+    <button type="button" data-go="2">② 찾기</button>
+    <button type="button" data-go="3">③ 만들기</button>
+  </nav>
+
+  <div data-step="1" id="m1">
   <section aria-labelledby="h-v">
-    <h2 id="h-v">지금 조건</h2>
-    <p class="order" id="order"></p>
+    <h2 id="h-v">미션 1 · 약속대로 담아요</h2>
+    <div class="scene"><img id="m1img" src="../lecture/_assets/B27/step_range.webp" alt="책상 위에서 손에 쥔 페트병을 태블릿으로 찍는 모습" width="120" height="68"><p class="order" id="order"></p></div>
+    <p class="note">그림은 배경 예시예요</p>
     <div class="view">
       <video id="cam" playsinline muted hidden></video>
       <canvas id="pad" width="320" height="240" hidden></canvas>
       <span class="cur" id="cur" hidden></span>
-      <span class="priv">손과 물건만 비춰요 · 화면에만 보이고 저장되지 않아요</span>
+      <span class="wait" id="wait">카메라 허락을 눌러요. 안 되면 '그려서 연습'을 눌러요</span>
     </div>
+    <p class="priv">손과 물건만 비춰요. 화면에만 보이고 저장되지 않아요.</p>
     <div class="pick" role="group" aria-label="각도">
       <span class="lb">각도</span>
       <button class="opt" type="button" id="oTop" aria-pressed="false"><svg viewBox="0 0 26 22" aria-hidden="true"><rect x="7" y="1.5" width="12" height="7" rx="2" fill="currentColor"/><circle cx="13" cy="5" r="1.8" fill="#fff" fill-opacity=".85"/><path d="M13 10v5m-3-2.5 3 3 3-3" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/><rect x="7" y="17.5" width="12" height="3" rx="1.5" fill="currentColor" fill-opacity=".55"/></svg>위에서</button>
@@ -152,13 +208,14 @@
       <button class="opt" type="button" id="oDesk" aria-pressed="false"><svg viewBox="0 0 26 22" aria-hidden="true"><rect x="3" y="4" width="20" height="14" rx="2" fill="#b98a5c" stroke="currentColor" stroke-width="1.6"/><path d="M6 9h14M6 13h14" stroke="#8a6238" stroke-width="1.2"/></svg>책상</button>
     </div>
     <p class="practice" id="practice" hidden>연습 모드 · 손으로 그려 담아요</p>
+    <button class="btn" id="usePad" type="button" hidden>그려서 연습</button>
   </section>
 
   <section aria-labelledby="h-b">
     <h2 id="h-b">담은 장수</h2>
     <div class="bars" id="bars"></div>
     <div class="tray" id="tray" aria-label="담은 줄"></div>
-    <p class="legend">초록 테두리는 약속한 조건, 노란 점선은 다른 조건이에요</p>
+    <p class="legend">초록 테두리는 약속한 조건, 노란 점선은 다른 조건이에요. 담은 칸을 누르면 그 칸만 빠져요.</p>
     <div class="acts">
       <button class="btn main" id="grab" type="button">담기</button>
       <button class="btn" id="undo" type="button">한 장 빼기</button>
@@ -169,7 +226,44 @@
     </div>
     <p class="note" id="why">조건을 먼저 골라요</p>
     <p class="note"><b>진짜 자료는 따로 모아요</b></p>
+    <p class="learned" id="learn1" aria-live="polite"></p>
   </section>
+  </div>
+
+  <div data-step="2" id="m2" hidden>
+    <section aria-labelledby="h-m2">
+      <h2 id="h-m2">미션 2 · 섞인 칸을 찾아 빼요</h2>
+      <div class="scene big"><img id="m2img" src="../lecture/_assets/B27/cand_recycle.webp" alt="흰 종이 위 페트병, 캔, 종이팩을 위에서 태블릿으로 찍는 모습" width="320" height="180"><p class="sc-text" id="m2want"></p></div>
+      <p class="note">그림은 배경 예시예요</p>
+      <div class="pick" role="group" aria-label="섞인 칸 수 예상"><span class="lb" style="width:auto">섞인 칸은 몇 개?</span><span id="m2guess" style="display:contents"></span></div>
+      <div class="pgrid" id="m2board" aria-label="담아 둔 열 칸"></div>
+      <div class="acts" id="m2acts"></div>
+      <p class="note" id="m2why">먼저 섞인 칸이 몇 개일지 골라요</p>
+      <p class="learned" id="learn2" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <div data-step="3" id="m3" hidden>
+    <section aria-labelledby="h-m3">
+      <h2 id="h-m3">미션 3 · 약속을 직접 만들어요</h2>
+      <div class="scene"><img src="../lecture/_assets/B27/step_consent.webp" alt="교실에서 카메라, 달력, 지우개 그림 안내판을 들어 보이고 친구가 손을 드는 모습" width="120" height="68"><p class="sc-text" id="m3goal"></p></div>
+      <div id="m3box"></div>
+      <p class="learned" id="learn3" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <div class="acts"><button class="btn main" id="goNext" type="button" hidden>다음 미션</button></div>
+
+  <aside class="concept" aria-label="개념 설명">
+    <b>알아 둘 말</b>
+    <p>AI에게 줄 자료는 같은 조건으로 모아야 해요. 페트병은 흰 종이에서, 캔은 책상에서 찍으면 AI가 물건 대신 배경을 보고 고를 수 있어요. 그래서 모든 무리를 같은 약속대로 찍어요.</p>
+  </aside>
+
+  <div class="fin" id="fin" hidden>
+    <img src="../lecture/_assets/B27/mission_done.webp" alt="초록 새싹 깃발과 도장 찍힌 종이, 마이크로비트, 분리배출 그림이 뜬 태블릿" width="420" height="236">
+    <p>약속을 정하고, 담고, 섞인 것도 찾았어요.</p>
+  </div>
+  <p class="ai">그림 일부는 생성형 AI로 만들었어요.</p>
 </div>
 
 <script>
@@ -214,6 +308,13 @@
     // '책상'은 받침 ㅇ이 있어 '으로'가 붙고 '종이'는 받침이 없어 '로'가 붙는다.
     var bg = (order.b === '흰') ? '흰 종이로' : '책상으로';
     $('order').textContent = '약속 · ' + order.a + '에서 · ' + bg + ' ' + CNTWORD[order.n];
+    setBgImg('m1img', order.b);
+  }
+  // 그림은 약속의 배경과 맞춘다(흰 종이는 종이 위 그림, 책상은 책상 위 그림)
+  function setBgImg(id, b){
+    var im = $(id);
+    if (b === '흰'){ im.src = '../lecture/_assets/B27/cand_recycle.webp'; im.alt = '흰 종이 위 페트병, 캔, 종이팩을 위에서 태블릿으로 찍는 모습'; }
+    else { im.src = '../lecture/_assets/B27/step_range.webp'; im.alt = '책상 위에서 손에 쥔 페트병을 태블릿으로 찍는 모습'; }
   }
   newOrder();
 
@@ -247,11 +348,13 @@
       var n = count(p.a, p.b);
       var isTarget = (p.a === order.a && p.b === order.b);
       nums[i].textContent = isTarget ? (n + '/' + order.n) : String(n);
-      fills[i].setAttribute('width', (Math.min(n, MAX) / MAX * 96).toFixed(1));
+      fills[i].setAttribute('width', (isTarget ? Math.min(n, order.n) / order.n * 96 : Math.min(n, MAX) / MAX * 96).toFixed(1));
       barEls[i].classList.toggle('target', isTarget);
     });
     var ready = (angle !== null && back !== null && !!source);
     var full = kept.length >= MAX;
+    $('usePad').hidden = !!source;
+    $('wait').hidden = !!source;
     $('grab').disabled = !ready || full;
     $('undo').disabled = kept.length === 0;
 
@@ -263,8 +366,8 @@
     else if (full && have < order.n) msg = '스무 장이 찼어요';
     // 약속한 장수와 조건은 넘으면 안 되는 상한이다. 딱 맞고 섞인 것이 없을 때만 "약속대로"라고 쓴다.
     else if (have === order.n && other === 0) msg = '약속대로 담았어요';
-    else if (have > order.n) msg = '약속보다 ' + (have - order.n) + '장 더 담았어요. 넘친 것은 지워요';
-    else if (have === order.n) msg = '장수는 맞지만 다른 조건 ' + other + '장이 섞였어요. 섞인 것은 지워요';
+    else if (have > order.n) msg = '약속보다 ' + (have - order.n) + '장 더 담았어요. 넘친 칸을 눌러 빼요';
+    else if (have === order.n) msg = '장수는 맞지만 다른 조건 ' + other + '장이 섞였어요. 섞인 칸을 눌러 빼요';
     else msg = (order.n - have) + '장 더 담아요';
     $('why').textContent = msg;
     var cur = $('cur');
@@ -277,14 +380,15 @@
   function renderTray(){
     var tray = $('tray');
     tray.textContent = '';
+    var t;
     for (var i = 0; i < MAX; i++){
-      var t = document.createElement('span');
       var k = kept[i];
-      if (!k){ t.className = 'tile'; tray.appendChild(t); continue; }
+      if (!k){ t = document.createElement('span'); t.className = 'tile'; tray.appendChild(t); continue; }
+      t = document.createElement('button'); t.type = 'button';
+      (function(idx){ t.addEventListener('click', function(){ removeAt(idx); }); })(i);
       var isT = (k.angle === order.a && k.back === order.b);
       t.className = 'tile on ' + (isT ? 'match' : 'mix') + (i === lastIdx ? ' pop' : '');
-      t.setAttribute('role', 'img');
-      t.setAttribute('aria-label', (i + 1) + '번째 ' + NAME[k.angle] + ' · ' + NAME[k.back] + (isT ? ', 약속한 조건' : ', 다른 조건'));
+      t.setAttribute('aria-label', (i + 1) + '번째 ' + NAME[k.angle] + ' · ' + NAME[k.back] + (isT ? ', 약속한 조건' : ', 다른 조건') + ', 누르면 뺍니다');
       var c = document.createElement('canvas'); c.width = S; c.height = S;
       c.getContext('2d').putImageData(k.img, 0, 0);
       var ag = document.createElement('i'); ag.className = 'ag'; ag.textContent = k.angle;
@@ -302,7 +406,7 @@
   }
   function afterPick(){
     if (angle !== null && back !== null){
-      say('지금 조건은 ' + NAME[angle] + ' · ' + NAME[back] + '이에요. 위의 약속과 견주어 보고 담아요.');
+      say('지금 조건은 ' + NAME[angle] + ' · ' + NAME[back] + (back === '흰' ? '예요' : '이에요') + '. 위의 약속과 견주어 보고 담아요.');
     }
   }
   function pickAngle(v){ lastIdx = -1; angle = v; setPressed(); render(); afterPick(); }
@@ -335,19 +439,19 @@
     if (source === 'pad') clearPad();
     var isT = (angle === order.a && back === order.b);
     var have = count(order.a, order.b);
-    render();
+    render(); checkM1();
     if (!isT){
       say('약속과 다른 조건으로 담겼어요. 줄에서 노란 점선 칸을 찾아봐요.', 'think');
       if (window.Fun) Fun.shake($('tray'));
     } else if (have > order.n){
-      say('약속한 ' + order.n + '장을 넘었어요. 약속보다 많이 모으면 안 돼요. 넘친 칸을 지워요.', 'think');
+      say('약속한 ' + order.n + '장을 넘었어요. 약속보다 많이 모으면 안 돼요. 넘친 칸을 눌러 빼요.', 'think');
       if (window.Fun) Fun.shake($('tray'));
     } else if (have >= order.n && !done){
       done = true;
       var other = kept.length - have;
       if (other > 0) say('약속한 장수에 닿았어요. 다른 조건 ' + other + '장이 섞여 있어요. 어디서 섞였는지 줄을 훑어봐요.', 'think');
       else say('약속한 장수에 닿았어요. 줄에 섞인 칸이 있는지 한 번 더 훑어봐요.', 'cheer');
-      if (window.Fun){ Fun.burst($('tray')); Fun.stamp(); }
+      if (window.Fun){ Fun.burst($('tray')); }
     } else if (have < order.n){
       say('약속 칸에 ' + have + '장이에요. ' + (order.n - have) + '장 남았어요.');
     }
@@ -358,10 +462,20 @@
       }
     }
   });
-  $('undo').addEventListener('click', function(){
-    kept.pop(); lastIdx = -1;
+  function afterRemove(){
+    lastIdx = -1;
     if (count(order.a, order.b) < order.n) done = false;
-    render();
+    render(); checkM1();
+  }
+  function removeAt(i){
+    var k = kept[i]; if (!k) return;
+    kept.splice(i, 1);
+    afterRemove();
+    say('그 칸을 뺐어요. ' + (k.angle === order.a && k.back === order.b ? '약속한 조건 칸이었어요.' : '다른 조건 칸이었어요.') + ' 줄을 다시 훑어봐요.');
+  }
+  $('undo').addEventListener('click', function(){
+    kept.pop();
+    afterRemove();
     say('마지막 한 장을 뺐어요. 줄에서 어떤 조건이 남았는지 봐요.');
   });
   $('reset').addEventListener('click', function(){
@@ -399,6 +513,7 @@
   pad.addEventListener('pointerup', function(){ drawing = false; });
   pad.addEventListener('pointercancel', function(){ drawing = false; });
 
+  $('usePad').addEventListener('click', function(){ if (!source) usePad(); });
   function usePad(){
     source = 'pad'; cam.hidden = true; pad.hidden = false;
     practiceEl.hidden = false;
@@ -418,6 +533,7 @@
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ usePad(); return; }
     navigator.mediaDevices.getUserMedia({ video:{ facingMode:'environment' }, audio:false })
       .then(function(s){
+        if (source === 'pad'){ s.getTracks().forEach(function(t){ t.stop(); }); return; }
         stream = s; cam.srcObject = s; cam.hidden = false; pad.hidden = true;
         source = 'cam'; practiceEl.hidden = true;
         render();
@@ -435,8 +551,183 @@
 
   setPressed();
   render();
+
+  /* ───────── 미션 사다리 ───────── */
+  var cur = 1, doneM = { 1:false, 2:false, 3:false }, stamped = false;
+  var secs = { 1:$('m1'), 2:$('m2'), 3:$('m3') };
+  var ladderBtns = Array.prototype.slice.call(document.querySelectorAll('#ladder button'));
+  var goNext = $('goNext');
+  var NAMES = ['', '담기', '찾기', '만들기'];
+  var HOW = ['', $('how').textContent,
+    '열 칸을 보고 섞인 칸이 몇 개일지 먼저 골라요. 그다음 섞인 칸을 눌러 빼요.',
+    '상황 글을 읽고 각도와 배경을 골라 약속을 정해요.'];
+  function mk(tag, cls, text){ var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function btn(text, cls, fn){ var b = mk('button', cls, text); b.type = 'button'; b.addEventListener('click', fn); return b; }
+  function showMission(n){
+    cur = n;
+    [1, 2, 3].forEach(function(k){ secs[k].hidden = (k !== n); });
+    syncLadder();
+    if (n === 2 && !m2.set) m2New();
+    if (n === 3 && !m3.sit) m3New();
+    if (n === 1) startCam(); else stopCam();
+    $('how').textContent = HOW[n];
+    try { window.scrollTo(0, 0); } catch (e) {}
+  }
+  function syncLadder(){
+    ladderBtns.forEach(function(b){
+      var k = +b.getAttribute('data-go');
+      if (k === cur) b.setAttribute('aria-current', 'step'); else b.removeAttribute('aria-current');
+      b.classList.toggle('done', doneM[k]);
+    });
+    if (doneM[cur] && cur < 3){ goNext.hidden = false; goNext.textContent = '미션 ' + (cur + 1) + ' ' + NAMES[cur + 1]; }
+    else goNext.hidden = true;
+    $('fin').hidden = !(doneM[1] && doneM[2] && doneM[3]);
+  }
+  function missionDone(n, line){
+    var first = !doneM[n];
+    doneM[n] = true;
+    $('learn' + n).textContent = '알게 된 것: ' + line;
+    syncLadder();
+    if (first) say('알게 된 것: ' + line, 'cheer');
+    if (doneM[1] && doneM[2] && doneM[3] && !stamped){ stamped = true; if (window.Fun) Fun.stamp(); }
+  }
+  ladderBtns.forEach(function(b){ b.addEventListener('click', function(){ showMission(+b.getAttribute('data-go')); }); });
+  goNext.addEventListener('click', function(){ showMission(cur + 1); });
+  function checkM1(){
+    if (kept.length > 0 && kept.length === count(order.a, order.b) && kept.length === order.n)
+      missionDone(1, '같은 조건으로만 담으면 한 줄에 깨끗이 모여요.');
+  }
+
+  /* ───────── 미션 2: 섞인 칸 찾아 빼기 ───────── */
+  var m2 = { set:null, want:null, sel:{}, gone:{}, last:'', guess:0, bad:0 };
+  function m2New(){
+    var p, key;
+    do { p = PAIRS[Math.floor(Math.random() * 4)]; key = p.a + p.b; } while (key === m2.last);
+    m2.last = key;
+    var bad = 2 + Math.floor(Math.random() * 4), others = PAIRS.filter(function(q){ return q !== p; });
+    var set = [], i;
+    for (i = 0; i < 10; i++) set.push(i < bad ? others[Math.floor(Math.random() * 3)] : p);
+    for (i = set.length - 1; i > 0; i--){ var j = Math.floor(Math.random() * (i + 1)), t = set[i]; set[i] = set[j]; set[j] = t; }
+    m2.set = set; m2.want = p; m2.sel = {}; m2.gone = {}; m2.guess = 0; m2.bad = bad;
+    setBgImg('m2img', p.b);
+    drawGuess();
+    var bg = p.b === '흰' ? '흰 종이' : '책상';
+    $('m2want').textContent = '약속은 ' + NAME[p.a] + ' · ' + bg + (p.b === '흰' ? '예요' : '이에요') + '. 다른 조건으로 섞인 칸을 골라 빼요.';
+    $('m2why').textContent = '먼저 섞인 칸이 몇 개일지 골라요';
+    m2Draw();
+  }
+  function drawGuess(){
+    var g = $('m2guess'); g.textContent = '';
+    [2, 3, 4, 5].forEach(function(n){
+      var b = btn(n + '개', 'opt', function(){
+        if (m2.guess) return;
+        m2.guess = n; drawGuess(); m2Draw();
+        $('m2why').textContent = '예상은 ' + n + '개예요. 약속과 다른 칸을 눌러 고른 뒤 빼요';
+        say('예상을 골랐어요. 이제 열 칸을 훑어보며 섞인 칸을 찾아요.');
+      });
+      b.setAttribute('aria-pressed', m2.guess === n ? 'true' : 'false');
+      if (m2.guess && m2.guess !== n) b.disabled = true;
+      g.appendChild(b);
+    });
+  }
+  function m2Draw(){
+    var bd = $('m2board'); bd.textContent = '';
+    m2.set.forEach(function(q, i){
+      var b = mk('button', 'pt ' + (q.b === '흰' ? 'w' : 'd') + (m2.gone[i] ? ' gone' : ''));
+      b.type = 'button';
+      b.appendChild(mk('span', '', q.a)); b.appendChild(mk('span', '', q.b === '흰' ? '흰' : '책상'));
+      b.setAttribute('aria-pressed', m2.sel[i] ? 'true' : 'false');
+      b.setAttribute('aria-label', (i + 1) + '번 칸 ' + NAME[q.a] + ' · ' + NAME[q.b] + (m2.gone[i] ? ', 뺐어요' : ''));
+      b.disabled = !!m2.gone[i] || !m2.guess;
+      b.addEventListener('click', function(){ m2.sel[i] = !m2.sel[i]; b.setAttribute('aria-pressed', m2.sel[i] ? 'true' : 'false'); m2Btn(); });
+      bd.appendChild(b);
+    });
+    m2Btn();
+  }
+  function m2Btn(){
+    var any = Object.keys(m2.sel).some(function(k){ return m2.sel[k]; });
+    var rm = $('m2rm'); if (rm) rm.disabled = !any || !m2.guess;
+  }
+  var rmBtn = btn('빼기', 'btn main', function(){
+    var wrong = 0, left = 0;
+    m2.set.forEach(function(q, i){ if (m2.sel[i] && !m2.gone[i]){ m2.gone[i] = true; if (q === m2.want) wrong++; } });
+    m2.sel = {};
+    m2.set.forEach(function(q, i){ if (!m2.gone[i] && q !== m2.want) left++; });
+    m2Draw();
+    if (!left && !wrong){
+      $('m2why').textContent = '섞인 칸을 모두 뺐어요. 예상은 ' + m2.guess + '개였고 섞인 칸은 ' + m2.bad + '개였어요.';
+      say('예상은 ' + m2.guess + '개였고 섞인 칸은 ' + m2.bad + '개였어요.');
+      missionDone(2, '자료를 모은 뒤에도 조건을 훑어보고 섞인 것은 빼야 해요.');
+      return;
+    }
+    var msg = (wrong ? '약속에 맞는 칸 ' + wrong + '개도 빠졌어요. 되돌리기로 다시 해 봐요. ' : '') + (left ? '다른 조건 ' + left + '칸이 남았어요.' : '');
+    $('m2why').textContent = msg; say(msg, 'think'); if (window.Fun) Fun.shake($('m2board'));
+  });
+  rmBtn.id = 'm2rm'; rmBtn.disabled = true;
+  $('m2acts').appendChild(rmBtn);
+  $('m2acts').appendChild(btn('되돌리기', 'btn', function(){ m2.sel = {}; m2.gone = {}; $('m2why').textContent = '모두 되돌렸어요. 다시 골라요'; m2Draw(); }));
+  $('m2acts').appendChild(btn('새 판', 'btn', function(){ m2New(); say('새 약속이에요. 열 칸을 훑어봐요.'); }));
+
+  /* ───────── 미션 3: 상황에 맞춰 약속 만들기 ───────── */
+  var SITS = [
+    { t:'교실 책상은 나무색이고 흰 종이가 없어요. 책상이 좁아 위에서만 찍을 수 있어요.', a:'위', b:'책상', noA:'옆에서 찍을 자리가 없어요', noB:'흰 종이가 없어요' },
+    { t:'흰 종이가 있어요. 위에서 찍으면 그림자가 져서 옆에서만 찍을 수 있어요.', a:'옆', b:'흰', noA:'위에서는 그림자가 져요', noB:'흰 종이가 있으니 흰 종이 위에 놓고 찍으면 돼요' },
+    { t:'흰 종이가 없어요. 물건이 길어서 옆에서만 찍을 수 있어요.', a:'옆', b:'책상', noA:'위에서는 물건이 다 안 들어와요', noB:'흰 종이가 없어요' },
+    { t:'흰 종이가 있어요. 옆은 벽이 막혀서 위에서만 찍을 수 있어요.', a:'위', b:'흰', noA:'옆은 벽이 막혀 있어요', noB:'흰 종이가 있으니 흰 종이 위에 놓고 찍으면 돼요' }
+  ];
+  var m3 = { sit:null, a:null, b:null, last:-1 };
+  function m3New(){
+    var k; do { k = Math.floor(Math.random() * SITS.length); } while (k === m3.last);
+    m3.last = k; m3.sit = SITS[k]; m3.a = null; m3.b = null;
+    $('m3goal').textContent = m3.sit.t;
+    var box = $('m3box'); box.textContent = '';
+    var g1 = mk('div', 'pick'); g1.setAttribute('role', 'group'); g1.setAttribute('aria-label', '각도');
+    g1.appendChild(mk('span', 'lb', '각도'));
+    var g2 = mk('div', 'pick'); g2.setAttribute('role', 'group'); g2.setAttribute('aria-label', '배경');
+    g2.appendChild(mk('span', 'lb', '배경'));
+    var bs = {}, set;
+    function mkOpt(g, key, text, fn){
+      var b = btn(text, 'opt', function(){ fn(); sync(); });
+      b.setAttribute('aria-pressed', 'false'); bs[key] = b; g.appendChild(b);
+    }
+    mkOpt(g1, 'a위', '위에서', function(){ m3.a = '위'; });
+    mkOpt(g1, 'a옆', '옆에서', function(){ m3.a = '옆'; });
+    mkOpt(g2, 'b흰', '흰 종이', function(){ m3.b = '흰'; });
+    mkOpt(g2, 'b책상', '책상', function(){ m3.b = '책상'; });
+    function sync(){
+      bs['a위'].setAttribute('aria-pressed', m3.a === '위' ? 'true' : 'false');
+      bs['a옆'].setAttribute('aria-pressed', m3.a === '옆' ? 'true' : 'false');
+      bs['b흰'].setAttribute('aria-pressed', m3.b === '흰' ? 'true' : 'false');
+      bs['b책상'].setAttribute('aria-pressed', m3.b === '책상' ? 'true' : 'false');
+      set.disabled = !(m3.a && m3.b);
+    }
+    var res = mk('p', 'note', '각도와 배경을 고르고 약속을 정해요');
+    var kinds = mk('div', 'kinds');
+    var acts = mk('div', 'acts');
+    set = btn('약속 정하기', 'btn main', function(){
+      var why = [];
+      if (m3.a !== m3.sit.a) why.push(m3.sit.noA);
+      if (m3.b !== m3.sit.b) why.push(m3.sit.noB || '지금 상황에 맞는 배경을 다시 골라요');
+      kinds.textContent = '';
+      if (why.length){
+        res.textContent = '이 자리에서는 지키기 어려워요. ' + why.join('. ') + '. 다시 골라요.';
+        say('상황과 약속이 안 어울려요. 상황 글을 다시 읽어 봐요.', 'think');
+        if (window.Fun) Fun.shake(box);
+        return;
+      }
+      var bg = m3.b === '흰' ? '흰 종이' : '책상';
+      res.textContent = '약속 · ' + NAME[m3.a] + ' · ' + bg + ' · 각자 세 장';
+      kinds.appendChild(mk('span', '', '모둠 네 명이 같은 약속이면 한 칸에 12장'));
+      kinds.appendChild(mk('span', '', '모둠 네 명이 제각각이면 네 칸에 3장씩'));
+      missionDone(3, '상황에 맞는 약속을 먼저 정하면 모두가 같은 조건으로 모을 수 있어요. 실제 수업에서도 약속을 먼저 정하고 모아요.');
+    });
+    set.disabled = true;
+    acts.appendChild(set);
+    acts.appendChild(btn('다음 상황', 'btn', function(){ m3New(); say('새 상황이에요. 상황 글을 읽고 약속을 정해요.'); }));
+    box.appendChild(g1); box.appendChild(g2); box.appendChild(acts); box.appendChild(res); box.appendChild(kinds);
+  }
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B27" data-mission="약속을 읽고, 각도와 배경을 같게 골라 약속한 장수만큼 담아요. 다른 조건이 섞이면 줄에 그대로 보여요."></script>
+<script src="../assets/play/fun.js" data-block="B27" data-mission="약속을 읽고, 각도와 배경을 골라 약속한 장수만큼 담아요. 다른 조건이 섞이면 줄에 보여요."></script>
 </body>
 </html>
