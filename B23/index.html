@@ -252,7 +252,7 @@ button.bar:disabled{cursor:default;border-color:var(--line)}
       el.setAttribute('aria-label', sec(i) + ' 빛 세기 ' + r.v[i] +
         (isRec && o.showRec ? ', 기록에 들어감' : '') +
         (o.reveal && !isRec ? ', 기록으로 짐작한 값 ' + Math.round(lineAt(r, o.rec, i)) : '') +
-        ((Array.isArray(o.spike) ? o.spike.indexOf(i) >= 0 : o.spike === i) ? ', 튀는 막대' : ''));
+        ((Array.isArray(o.spike) ? o.spike.indexOf(i) >= 0 : o.spike === i) ? ', ' + (o.spikeName || '튀는 막대') : ''));
       row.appendChild(el);
       box.appendChild(row);
     }
@@ -462,9 +462,12 @@ button.bar:disabled{cursor:default;border-color:var(--line)}
   /* ───────── 미션 3: 적을 때 직접 정하기 ───────── */
   function m3Rec() { return [0, 6].concat(m3.picks).sort(function (a, b) { return a - b; }); }
   function m3New() {
-    var tries = 0, bestD, wide = Math.random() < .45;  // wide: 어느 막대부터 값이 계단처럼 바뀌는 판
+    var tries = 0, bestD, roll = Math.random(), wide = roll < .4;  // wide: 어느 막대부터 값이 계단처럼 바뀌는 판
     do {
-      m3.r = wide ? makeRound(7, false, rnd(2, 5), rnd(40, 79), 1, 0, true) : makeRound(7, false, rnd(1, 5));
+      m3.r = wide ? makeRound(7, false, rnd(2, 5), rnd(40, 79), 1, 0, true)
+        : roll < .7 ? makeRound(7, false, rnd(1, 5))
+        : makeRound(7, false, rnd(0, 1) ? 1 : 5, rnd(40, 79), 3);  // 너비 3 출렁임 판(가장자리에 걸친 판만 풀려서 1·5칸): 답이 20~40초 가운데로 오게
+      m3.r.step = wide;
       bestD = 1e9;
       for (var i = 1; i <= 5; i++) { for (var j = i + 1; j <= 5; j++) { bestD = Math.min(bestD, worst(m3.r, [0, i, j, 6]).d); } }
       tries++;
@@ -488,7 +491,7 @@ button.bar:disabled{cursor:default;border-color:var(--line)}
     var r = m3.r, rec = m3Rec();
     drawBars($('chart3'), r, {
       rec: rec, showRec: true, reveal: m3.checked, pick: m3.picks, lock: m3.checked,
-      spike: m3.checked ? r.b : -1,
+      spike: m3.checked ? (r.step ? r.b : r.sp) : -1, spikeName: r.step ? '값이 바뀌기 시작한 막대' : '튀는 막대',
       canPick: function (i) { return i > 0 && i < 6; },
       click: function (k) {
         var p = m3.picks.indexOf(k);
@@ -501,6 +504,7 @@ button.bar:disabled{cursor:default;border-color:var(--line)}
       : m3.picks.length < 2 ? '막대를 눌러 두 번 골라요. (' + m3.picks.length + '/2)'
       : '둘을 골랐어요. 마음이 바뀌면 다른 막대를 눌러도 돼요.';
     $('ks3').hidden = !m3.checked;
+    $('ks3').textContent = r.step ? '값이 바뀌기 시작한 막대' : '튀는 막대';
     $('chk3').disabled = m3.picks.length < 2 || m3.checked;
     $('next3').disabled = !m3.checked;
   }
@@ -511,19 +515,22 @@ button.bar:disabled{cursor:default;border-color:var(--line)}
     var best = 1e9, bi = 1, bj = 2, i, j;
     for (i = 1; i <= 5; i++) { for (j = i + 1; j <= 5; j++) {
       var d = worst(r, [0, i, j, 6]).d; if (d < best) { best = d; bi = i; bj = j; } } }
-    var t, mood;
+    var t, mood, nm = (r.step ? '값이 바뀌기 시작한 막대 ' : '튀는 막대 ') + sec(r.b);
     if (m3.picks.indexOf(r.b) >= 0) {
-      t = w.d <= 12 ? '튀는 막대 ' + sec(r.b) + '가 기록에 들어갔어요. 가장 크게 놓친 차이는 ' + ye(w.d) + '.'
-        : '튀는 막대 ' + sec(r.b) + '는 기록에 들어갔지만, 다른 막대에서 놓친 차이가 ' + ye(w.d) + '.';
+      t = w.d <= 12 ? nm + '가 기록에 들어갔어요. 가장 크게 놓친 차이는 ' + ye(w.d) + '.'
+        : nm + '는 기록에 들어갔지만, 다른 막대에서 놓친 차이가 ' + ye(w.d) + '.';
       mood = w.d <= 12 ? 'cheer' : 'think';
-      if (w.d <= 12 && window.Fun) { Fun.burst($('chk3')); }
+    } else if (w.d <= 12) {
+      mood = 'cheer';
+      t = nm + '는 기록에서 빠졌지만, 가장 크게 놓친 차이가 ' + ye(w.d) + '. 12 아래로 잘 골랐어요.';
     } else {
       mood = 'think';
-      t = '튀는 막대 ' + sec(r.b) + '가 기록에서 빠졌어요. 가장 큰 차이가 ' + ye(w.d) + '.';
+      t = nm + '가 기록에서 빠졌어요. 가장 큰 차이가 ' + ye(w.d) + '.';
     }
+    if (w.d <= 12 && window.Fun) { Fun.burst($('chk3')); }
     if (w.d > 12) {
       m3.miss++;
-      if (m3.miss === 1) { t += m3.picks.indexOf(r.b) >= 0 ? ' 튀는 막대 ' + sec(r.b) + ' 양옆 가운데 기록이 빈 쪽을 살펴봐요.' : ' 튀는 막대 ' + sec(r.b) + ' 둘레에 기록이 있는지 살펴봐요.'; }
+      if (m3.miss === 1) { t += m3.picks.indexOf(r.b) >= 0 ? ' ' + nm + ' 양옆 가운데 기록이 빈 쪽을 살펴봐요.' : ' ' + nm + ' 둘레에 기록이 있는지 살펴봐요.'; }
       else { t += ' ' + sec(bi) + '와 ' + sec(bj) + '에 적으면 ' + best + '까지 줄어요.'; }
     }
     if (w.d <= 12) { m3.ok = true; } else { t += ' 12 아래가 아니에요. 다시 하기로 다른 두 때를 골라 보거나, 다음 판으로 가 봐요.'; }
