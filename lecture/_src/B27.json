@@ -9,6 +9,7 @@
  "lead": "c7",
  "next": "해결단 28호 미션: 전달 전 안전 점검 회의",
  "ai_orig": [],
+ "not_ai": ["../_assets/B27/pred28_u.webp", "../_assets/B27/pred30_u.webp", "../_assets/B27/pred33_u.webp", "../_assets/B27/pred28_test.webp", "../_assets/B27/pred30_wrong.webp", "../_assets/B27/pred33_compare.webp"],
  "slides": [
   {
    "type": "cover",
@@ -476,11 +477,11 @@
      "① 처음: 약속과 조건"
     ],
     [
-     "../_shots/B27/zc_pick.webp",
+     "../_shots/B27/zc_pick_big.webp",
      "② 조건 맞춰 담기"
     ],
     [
-     "../_shots/B27/zc_result.webp",
+     "../_shots/B27/zc_result_big.webp",
      "③ 섞인 조건 찾기"
     ]
    ],
@@ -496,7 +497,7 @@
    "type": "open",
    "tag": "28차시 활동4",
    "title": "선택: 글 자료도 같은 방식으로",
-   "img": "../_shots/B27/lab_s0_u.webp",
+   "img": "../_shots/B27/lab_s0_v.webp",
    "contain": true,
    "todo": "시간이 남는 팀만 해요. AI 실험실의 <b>문장 분류 모델</b>에서도 무리마다 문장을 세 개 이상 가르쳐요. 이름 같은 개인 정보는 넣지 않아요.",
    "bubbles": [
