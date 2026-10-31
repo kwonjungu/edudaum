@@ -503,7 +503,7 @@
 
     fixBtns.forEach(function(btn, j){
       var fixedAlready = st.fixed.indexOf(FIX[j].k) >= 0;
-      btn.lastChild.textContent = FIX[j].nm + (fixedAlready ? ' · 해 봄' : '');
+      btn.lastChild.textContent = FIX[j].nm + (fixedAlready ? ' · 해 봄' : '');
       btn.disabled = over || done || fixedAlready;
       btn.setAttribute('aria-pressed', st.pick === j ? 'true' : 'false');
     });
@@ -722,8 +722,11 @@
       if (after === 0) s3 = ' · 한 번에 끝났어요';
       else {
         anyLeft = true;
-        s3 = after === before ? (b.causes.length === 2 ? ' · 다른 원인 칸에 가려 아직 달라지지 않았어요' : ' · 달라진 칸이 없어요') : ' · ✕가 남았어요';
-        if (b.causes.length === 2) s3 += ' (원인이 둘이었어요)'; else ruleOk = false;
+        var hit = fixed.length && b.causes.indexOf(fixed[0]) >= 0;
+        var two = b.causes.length === 2 && hit;
+        s3 = after === before ? (two ? ' · 다른 원인이 같은 칸에 남아 있어 아직 ✕ 수가 그대로예요' : ' · 달라진 칸이 없어요') : ' · ✕가 남았어요';
+        if (two) s3 += ' (원인이 둘이었어요)';
+        if (b.causes.length !== 2) ruleOk = false;
       }
       r.appendChild(s1); r.appendChild(document.createTextNode(s2 + s3));
       runs.appendChild(r);
