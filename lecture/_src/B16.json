@@ -150,8 +150,8 @@
    "type": "open",
    "tag": "3차시 활동1",
    "title": "같은 마이크로비트, 두 방식 비교하기",
-   "img": "../_assets/B16/noise_light.webp",
-   "todo": "소음 신호등 코드를 함께 봐요. <b>소리 크기 &gt; 기준 → 빨간불</b> 소리가 기준보다 크면 늘 빨간불이에요. 그다음 <b>받아들이는 것 · 하는 일 · 판단이 있는가</b>를 나란히 적어요.",
+   "img": "../_assets/B16/noise_light_all.webp",
+   "todo": "소음 신호등 코드를 함께 봐요. <b>소리 크기 &gt; 기준 → 빨간불</b><br>소리가 기준보다 크면 늘 같은 빨간불이 켜져요.",
    "bubbles": [
     {
      "c": "c3",
@@ -164,7 +164,7 @@
    "tag": "3차시 활동1",
    "title": "둘 중 하나: 처음 보는 일을 만나면?",
    "a": {
-    "img": "../_assets/B16/noise_light.webp",
+    "img": "../_assets/B16/noise_light_all.webp",
     "label": "소음 신호등",
     "contain": true
    },
@@ -227,9 +227,9 @@
      "back": "<b>다가오는 사람</b>을 느끼면 늘 같게 문을 열어요. 센서가 있어도 정해진 대로예요."
     },
     {
-     "img": "../_assets/B16/card_timer.webp",
-     "front": "주방 타이머",
-     "back": "<b>맞춰 둔 시간</b>이 되면 늘 같게 울려요."
+     "img": "../_assets/B16/card_face_group.webp",
+     "front": "사진 속 얼굴 묶기",
+     "back": "<b>사진 속 생김새</b>를 보고 같은 사람끼리 스스로 묶어요."
     },
     {
      "img": "../_assets/B16/card_calculator.webp",
@@ -237,9 +237,9 @@
      "back": "<b>누른 숫자</b>를 정해진 대로 셈해요."
     },
     {
-     "img": "../_assets/B16/card_hall_light.webp",
-     "front": "복도 전등",
-     "back": "<b>지나가는 움직임</b>을 느끼면 늘 같게 불을 켜요."
+     "img": "../_assets/B16/card_gesture.webp",
+     "front": "손동작 알아보기",
+     "back": "<b>손의 움직임</b>을 보고 어떤 동작인지 알아봐요. 틀릴 때도 있어요."
     }
    ],
    "bubbles": [
@@ -255,9 +255,9 @@
    "title": "카드 뒤집기: 무엇을 받아들이고 어떻게 할까? ②",
    "cards": [
     {
-     "img": "../_assets/B16/card_face_group.webp",
-     "front": "사진 속 얼굴 묶기",
-     "back": "<b>사진 속 생김새</b>를 보고 같은 사람끼리 스스로 묶어요."
+     "img": "../_assets/B16/card_timer.webp",
+     "front": "주방 타이머",
+     "back": "<b>맞춰 둔 시간</b>이 되면 늘 같게 울려요."
     },
     {
      "img": "../_assets/B16/card_recommend.webp",
@@ -265,9 +265,9 @@
      "back": "<b>내가 본 영상들</b>을 바탕으로 볼 만한 영상을 골라 줘요."
     },
     {
-     "img": "../_assets/B16/card_gesture.webp",
-     "front": "손동작 알아보기",
-     "back": "<b>손의 움직임</b>을 보고 어떤 동작인지 알아봐요. 틀릴 때도 있어요."
+     "img": "../_assets/B16/card_hall_light.webp",
+     "front": "복도 전등",
+     "back": "<b>지나가는 움직임</b>을 느끼면 늘 같게 불을 켜요."
     },
     {
      "img": "../_assets/B16/card_step.webp",
@@ -461,7 +461,7 @@
     [
      4,
      {
-      "img": "../_assets/B16/present_card.webp",
+      "img": "../_assets/B16/present_sticker.webp",
       "t": "판단이 들어 있으면 공감 스티커 붙이기"
      }
     ]
@@ -477,7 +477,7 @@
    "type": "ws",
    "tag": "4차시 활동4",
    "title": "전달 카드 만들기",
-   "img": "../_shots/B16/ws_act4_1.webp",
+   "img": "../_shots/B16/ws_act4_ex.webp",
    "bubbles": [
     {
      "c": "c3",
