@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var S = [].slice.call(document.querySelectorAll('.s')), cur = 0, pg = document.getElementById('pg');
+  var S = [].slice.call(document.querySelectorAll('.s:not(.exp)')), cur = 0, pg = document.getElementById('pg');
   var start = parseInt((location.hash.match(/\d+/) || [1])[0], 10) - 1;
   function fit() {
     var k = Math.min(innerWidth / 1280, innerHeight / 720);
@@ -9,9 +9,20 @@
   function steps(s) { return [].slice.call(s.querySelectorAll('[data-step]')).sort(function (a, b) { return a.dataset.step - b.dataset.step; }); }
   function reset(s) { steps(s).forEach(function (x) { x.classList.add('hide'); }); }
   var cycle = null;
+  // 「예시 보기」: 같은 자리에서 빈 활동지와 예시 답 판을 바꿔 보여 준다
+  function exSet(b, on) {
+    var im = b.parentNode.querySelector('.zoom.ws img'); if (!im) return;
+    im.src = on ? b.dataset.ex : b.dataset.blank; b.setAttribute('aria-pressed', on ? 'true' : 'false');
+    b.querySelector('.t').textContent = on ? '빈 활동지' : '예시 보기';
+  }
+  function exOff(s) { [].forEach.call(s.querySelectorAll('.exbtn[aria-pressed="true"]'), function (b) { exSet(b, false); }); }
+  [].forEach.call(document.querySelectorAll('.exbtn'), function (b) {
+    new Image().src = b.dataset.ex;
+    b.addEventListener('click', function (ev) { ev.stopPropagation(); exSet(b, b.getAttribute('aria-pressed') !== 'true'); });
+  });
   function show(i) {
     if (i < 0 || i >= S.length) return;
-    S[cur].classList.remove('cur'); cur = i; S[cur].classList.add('cur'); reset(S[cur]);
+    S[cur].classList.remove('cur'); exOff(S[cur]); cur = i; S[cur].classList.add('cur'); reset(S[cur]);
     pg.textContent = (cur + 1) + ' / ' + S.length; history.replaceState(null, '', '#' + (cur + 1));
     clearInterval(cycle);
     var shots = S[cur].querySelectorAll('.scr img'), lbs = S[cur].querySelectorAll('.scr .lb');
@@ -20,6 +31,7 @@
   function next() { var h = S[cur].querySelector('[data-step].hide'); if (h) h.classList.remove('hide'); else show(cur + 1); }
   function prev() { show(cur - 1); }
   document.addEventListener('keydown', function (ev) {
+    if (ev.target.closest && ev.target.closest('.exbtn') && (ev.key === ' ' || ev.key === 'Enter')) return;   // 단추는 스페이스·엔터로 누른다
     if (ev.key === 'ArrowRight' || ev.key === ' ' || ev.key === 'PageDown') { ev.preventDefault(); next(); }
     if (ev.key === 'ArrowLeft' || ev.key === 'PageUp') { ev.preventDefault(); prev(); }
     if (ev.key === 'f' || ev.key === 'F') toggleFs();

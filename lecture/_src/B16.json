@@ -10,7 +10,7 @@
  "next": "해결단 17호 미션: 인공지능의 눈과 귀 체험하기",
  "ai_orig": [
   "../_assets/B16/orig/image1.webp",
-  "../_shots/B16/ws_act4_ex.webp"
+  "../_shots/B16/ws_act4_card.webp"
  ],
  "slides": [
   {
@@ -478,7 +478,7 @@
    "type": "ws",
    "tag": "4차시 활동4",
    "title": "전달 카드 만들기",
-   "img": "../_shots/B16/ws_act4_ex.webp",
+   "img": "../_shots/B16/ws_act4_card.webp",
    "bubbles": [
     {
      "c": "c3",

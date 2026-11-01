@@ -10,11 +10,11 @@ const path = require('path'); const { pathToFileURL } = require('url');
   p.on('requestfailed', r => res.errors.push('없는 파일: ' + decodeURIComponent(r.url()).split('/').slice(-3).join('/')));
   p.on('request', r => { const u = r.url(); if (!u.startsWith('file:') && !u.startsWith('data:')) res.external.push(u.slice(0, 80)); });
   await p.goto(pathToFileURL(path.resolve(`lecture/${B}/index.html`)).href, { waitUntil: 'networkidle0' });
-  res.slides = await p.$$eval('.s', x => x.length);
+  res.slides = await p.$$eval('.s:not(.exp)', x => x.length);
   for (let i = 0; i < 200; i++) { await p.keyboard.press('ArrowRight'); }
   const r = await p.evaluate(() => {
     const out = { small: [], overflow: [] };
-    document.querySelectorAll('.s').forEach((s, i) => {
+    document.querySelectorAll('.s:not(.exp)').forEach((s, i) => {
       s.style.display = 'flex'; s.style.transform = 'none'; s.style.position = 'relative'; s.style.left = '0'; s.style.top = '0';
       s.querySelectorAll('[data-step]').forEach(x => x.classList.remove('hide'));
       const R = s.getBoundingClientRect();
@@ -33,8 +33,8 @@ const path = require('path'); const { pathToFileURL } = require('url');
   // 금지어·시간 표시(분·초)
   // 활동지 쪽: 새 판 PDF 쪽 수(ws_pages.json)보다 큰 쪽을 가리키면 잡는다
   const wsN = (JSON.parse(require('fs').readFileSync(__dirname + '/ws_pages.json', 'utf8')))[B];
-  res.wspage = wsN ? await p.evaluate(n => [...document.querySelectorAll('.s')].flatMap((s, i) => [...s.textContent.matchAll(/활동지\s*(\d+)\s*쪽/g)].filter(m => +m[1] > n).map(m => (i + 1) + ':' + m[0])), wsN) : [];
-  res.words = await p.evaluate(() => [...document.querySelectorAll('.s')].flatMap((s, i) => (s.textContent.match(/맞았어요|틀렸어요|잘했어요|정답|오답|대단해요|점수|등수|(?<![가-힣])[한두세네]\s*시간(?![표씩])|\d+\s*(?:분|초)\s*(?:동안|간\b|안에|이내|만에|씩|짜리|발표|말하기|인터뷰|설명|토의|활동)|\(\s*\d+\s*분\s*\)/g) || []).map(w => (i + 1) + ':' + w)));
+  res.wspage = wsN ? await p.evaluate(n => [...document.querySelectorAll('.s:not(.exp)')].flatMap((s, i) => [...s.textContent.matchAll(/활동지\s*(\d+)\s*쪽/g)].filter(m => +m[1] > n).map(m => (i + 1) + ':' + m[0])), wsN) : [];
+  res.words = await p.evaluate(() => [...document.querySelectorAll('.s:not(.exp)')].flatMap((s, i) => (s.textContent.match(/맞았어요|틀렸어요|잘했어요|정답|오답|대단해요|점수|등수|(?<![가-힣])[한두세네]\s*시간(?![표씩])|\d+\s*(?:분|초)\s*(?:동안|간\b|안에|이내|만에|씩|짜리|발표|말하기|인터뷰|설명|토의|활동)|\(\s*\d+\s*분\s*\)/g) || []).map(w => (i + 1) + ':' + w)));
   // 원고의 words_ok: 학습 내용 속 값(과정안 예시 등)은 예외로 둔다
   try { const ok = JSON.parse(require('fs').readFileSync(`lecture/_src/${B}.json`, 'utf8')).words_ok || []; res.words = res.words.filter(w => !ok.some(o => w.endsWith(':' + o) || w.split(':')[1] && o.includes(w.split(':')[1]))); } catch (e) {}
   console.log(JSON.stringify(res)); await b.close();

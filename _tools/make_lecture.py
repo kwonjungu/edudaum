@@ -124,6 +124,22 @@ def slide(s, d):
     return body
 
 
+def ex_of(s, out):   # ws·wrap 장 그림 옆에 같은 이름의 _ex.webp가 있으면 그 상대 경로(원고 키 "ex": false면 없음)
+    if s.get('ex') is False or s['type'] not in ('ws', 'wrap') or not s.get('img', '').endswith('.webp'): return None
+    x = s['img'][:-5] + '_ex.webp'
+    return x if os.path.exists(os.path.normpath(os.path.join(out, x))) else None
+
+
+def exbtn(s, ex):   # 「예시 보기」 단추: 장 오른쪽 위(제목 줄 옆), 그림·말풍선 바깥
+    return (f'<button class="exbtn" type="button" aria-pressed="false" data-blank="{s["img"]}" data-ex="{ex}">'
+            f'<span class="t">예시 보기</span></button>') if ex else ''
+
+
+def expage(s, ex):   # PDF·인쇄에서만 보이는 예시 답 쪽(화면에서는 display:none)
+    return (f'<span class="exmark">예시 답</span>{tag(s)}<h2 class="h">{s["title"]}</h2>'
+            f'<div class="zoom ws"><img src="{ex}" alt=""></div>{note(s, "top")}')
+
+
 def link(s):   # 바로가기 단추 + QR (원고의 link: [이름, 주소])
     if not s.get('link'): return ''
     nm, url = s['link']
@@ -146,13 +162,20 @@ def build(B):
     mins = {s['tag']: s['min'] for s in d['slides'] if s.get('tag') and s.get('min')}
     for s in d['slides']:
         if s.get('tag') in mins and not s.get('min'): s['min'] = mins[s['tag']]
+    exs = [ex_of(s, out) for s in d['slides']]; T = N + sum(1 for x in exs if x)   # 인쇄 쪽 수 = 장 수 + 예시 쪽 수
+    k = 0
     for i, s in enumerate(d['slides']):
+        k += 1
         USED_AI[0] = False; USED_ORIG[0] = False; body = slide(s, d)
         src = ([f'그림: {B} 교수학습 과정안'] if USED_ORIG[0] else []) + (['생성형 AI로 만든 그림이 있어요'] if USED_AI[0] else [])
         if s.get('src') is not None: src = [s['src']] if isinstance(s['src'], str) and s['src'] else list(s['src'] or [])   # 원고에서 출처 줄을 직접 지정(빈 값이면 줄 없음)
         aim = f'<span class="aisl">{" · ".join(src)}</span>' if src else ''
-        parts.append(f'<section class="s t-{s["type"]}" data-i="{i}">{body}'
-                     f'<div class="grass"></div>{aim}<span class="pn">{B} · {i + 1} / {N}</span></section>')
+        parts.append(f'<section class="s t-{s["type"]}" data-i="{i}">{body}{exbtn(s, exs[i])}'
+                     f'<div class="grass"></div>{aim}<span class="pn pn-s">{B} · {i + 1} / {N}</span><span class="pn pn-p">{B} · {k} / {T}</span></section>')
+        if exs[i]:
+            k += 1
+            parts.append(f'<section class="s t-{s["type"]} exp" data-i="{i}" data-ex="1">{expage(s, exs[i])}'
+                         f'<div class="grass"></div><span class="pn pn-p">{B} · {k} / {T}</span></section>')
     doc = (f'<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">'
            f'<title>{B} 강의교안 — {html.escape(d["title_plain"])} — 에듀다움</title><style>{CSS}</style></head>'
            f'<body><main class="deck">{"".join(parts)}</main><nav class="ctl"><button id="prev" title="앞 장">←</button><span id="pg"></span><button id="nextb" title="다음">→</button><button id="fs" title="전체 화면 (F)">⛶ 전체 화면</button>'
@@ -160,7 +183,7 @@ def build(B):
     open(os.path.join(out, 'index.html'), 'w', encoding='utf-8').write(doc)
     pdf = os.path.join(out, f'{B}_강의교안.pdf')
     subprocess.run(['node', os.path.join(ROOT, '_tools', 'lecture_pdf.cjs'), os.path.join(out, 'index.html'), pdf], check=True)
-    print(B, N, '장 →', out)
+    print(B, N, '장 +', T - N, '예시 쪽 →', out)
 
 
 if __name__ == '__main__':

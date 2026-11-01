@@ -245,3 +245,12 @@ background:radial-gradient(circle at 20px 46px,var(--grass-l) 26px,transparent 2
 .wsside{grid-template-rows:minmax(0,1fr)}.wsside .zoom.ws{min-height:0;overflow:hidden}.wsside .zin{height:100%}
 
 .oc.txt{padding-top:30px}
+
+/* 11-01: 활동지 「예시 보기」 단추(화면), 예시 답 쪽(인쇄 전용) */
+.s > .exbtn.exbtn{position:absolute;right:44px;top:8px;z-index:6;font-family:'Jua';font-size:22px;line-height:1.1;padding:5px 18px;border-radius:999px;border:3px solid var(--ink);background:#fff;color:var(--ink);cursor:pointer;box-shadow:0 3px 0 var(--ink)}
+.exbtn:hover{background:var(--paper)}.exbtn:focus-visible{outline:4px solid var(--grass);outline-offset:3px}
+.exbtn[aria-pressed="true"]{background:var(--ink);color:#fff}
+.s > .exmark.exmark{position:absolute;right:44px;top:8px;z-index:6;font-family:'Jua';font-size:24px;line-height:1.1;padding:5px 20px;border-radius:999px;background:#1d4ed8;color:#fff}
+.pn-p{display:none}
+@media screen{.s.exp{display:none!important}}
+@media print{.exbtn{display:none!important}.pn-s{display:none}.pn-p{display:block}}
