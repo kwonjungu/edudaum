@@ -37,6 +37,9 @@ window.__wsCells = function () {
           if (ln) { const tr = el.parentElement, tbl = el.closest('table'), ci = [...tr.children].indexOf(el); push(ln, 'text', `행:${T(tr.children[0]) || '-'} / 열:${T(tbl.rows[0].children[ci])} (고른 까닭)`); }
           continue;
         }
+        if (T(el) && el.classList.contains('left') && el.parentElement.classList.contains('empty') && /^(시작 )?\d+\.( 끝)?$/.test(T(el))) { // 번호만 적힌 절차 줄
+          push(el, 'text', `절차 줄 ${T(el)} | 안내: ${lastSay(el.closest('table'))}`, { keep: true }); continue;
+        }
         if (T(el)) continue;
         const tr = el.parentElement, tbl = el.closest('table'); const ci = [...tr.children].indexOf(el);
         const prev = el.previousElementSibling;
@@ -52,6 +55,19 @@ window.__wsCells = function () {
       if (el.matches('.lines')) { push(el, 'text', `줄 칸 | 안내: ${lastSay(el)}`); continue; }
       if (el.matches('.blank')) { push(el, 'text', `빈칸 | 문장: ${T(el.closest('p') || el.parentElement)}`); continue; }
       if (el.matches('.box')) { if (T(el)) continue; push(el, 'text', `상자 | 안내: ${lastSay(el)}`); continue; }
+    }
+    // 글자가 이미 든 칸 가운데 답을 받는 칸(기존 번호가 밀리지 않게 구역 맨 뒤에 붙인다)
+    //  replace: 기대/안내 안내문이 든 칸, prefix: ' / 5' 앞에 답을 붙이는 칸, suffix: '/ 다른 점' 뒤에 답을 붙이는 칸
+    for (const el of s.querySelectorAll('td')) {
+      if (el.classList.contains('ex') || el.querySelector('.pick')) continue;
+      const t = T(el); const tr = el.parentElement, tbl = el.closest('table'); const ci = [...tr.children].indexOf(el);
+      const rowh = T(tr.children[0]) && tr.children[0] !== el ? T(tr.children[0]) : '';
+      const col = tbl.rows[0] ? T(tbl.rows[0].children[ci]) : '';
+      const ctxBase = `${rowh ? '행:' + rowh + ' / ' : ''}열:${col}`;
+      const div = [...el.children].find(c => c.tagName === 'DIV');
+      if (div && /^기대 안내① 안내②$/.test(T(div))) push(div, 'text', `${ctxBase} | 안내문 칸(기대, 안내①, 안내②)`, { mode: 'replace' });
+      else if (/^\/\s*\d+$/.test(t)) push(el, 'text', `${ctxBase} | 앞에 숫자를 쓰는 칸 ${t}`, { mode: 'prefix' });
+      else if (/\/\s*다른 점$/.test(t)) push(el, 'text', `${ctxBase} | 뒤에 쓰는 칸 ${t}`, { mode: 'suffix' });
     }
   });
   return out;

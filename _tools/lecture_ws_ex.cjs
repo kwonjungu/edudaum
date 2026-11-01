@@ -32,13 +32,20 @@ const FIND = fs.readFileSync(path.join(__dirname, 'ws_cells_find.js'), 'utf8');
       if (v === '') continue;
       if (BAN.test(v) && c.kind !== 'pick') bad.push(id + ' ' + v);
       if (c.kind === 'pick') {
-        const opt = [...c.el.querySelectorAll('i')].find(i => i.innerText.trim() === v);
-        if (opt) opt.classList.add('ansp'); else bad.push(id + ' 고르기에 없는 값: ' + v);
+        for (const one of String(v).split('|')) {
+          const opt = [...c.el.querySelectorAll('i')].find(i => i.innerText.trim() === one.trim());
+          if (opt) opt.classList.add('ansp'); else bad.push(id + ' 고르기에 없는 값: ' + one);
+        }
         continue;
       }
       const sp = document.createElement('span'); sp.className = 'ans'; sp.textContent = v;
       const host = c.el;
-      if (host.matches('td')) { host.innerHTML = ''; host.appendChild(sp); }
+      const mode = c.info.mode;
+      if (mode === 'prefix') { sp.style.display = 'inline'; sp.style.padding = '0 1mm 0 0'; host.insertBefore(sp, host.firstChild); continue; }
+      if (mode === 'suffix') { sp.style.display = 'inline'; sp.style.padding = '0 0 0 1mm'; host.appendChild(sp); continue; }
+      if (mode === 'replace') { sp.style.whiteSpace = 'pre-line'; sp.style.lineHeight = '7.2mm'; sp.style.padding = '0'; host.innerHTML = ''; host.appendChild(sp); }
+      else if (c.info.keep) { sp.style.display = 'inline'; sp.style.padding = '0 0 0 1mm'; const f = host.querySelector('span'); if (f) host.insertBefore(sp, f); else host.appendChild(sp); }
+      else if (host.matches('td')) { host.innerHTML = ''; host.appendChild(sp); }
       else if (host.matches('.blank')) { host.innerHTML = ''; host.appendChild(sp); }
       else { host.innerHTML = ''; host.appendChild(sp); }
       const r = host.getBoundingClientRect(), s = sp.getBoundingClientRect();
