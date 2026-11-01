@@ -61,6 +61,12 @@ const FIND = fs.readFileSync(path.join(__dirname, 'ws_cells_find.js'), 'utf8');
   }, ANS);
   // 표 줄 높이가 늘었는지(원본 대비) 확인: 빈 판 목록과 견준다
   const list = [];
+  const GEO = () => [...document.querySelectorAll('section.act, section.review')].map(sec => { const R = sec.getBoundingClientRect(); return [...sec.children].map(c => { const r = c.getBoundingClientRect(); return [(r.top - R.top) * 2.5, (r.bottom - R.top) * 2.5]; }).concat([[0, R.height * 2.5]]); });
+  const geoEx = await p.evaluate(GEO);
+  const pb = await b.newPage(); await pb.emulateMediaType('print'); await pb.setViewport({ width: 680, height: 983, deviceScaleFactor: 2.5 });
+  await pb.goto(pathToFileURL(SRC).href, { waitUntil: 'networkidle0' }); await pb.evaluate(() => document.fonts.ready);
+  const geoBlank = await pb.evaluate(GEO);
+  fs.writeFileSync(`${OUT}/_geo.json`, JSON.stringify({ geoEx, geoBlank })); await pb.close(); await p.bringToFront();
   if (!NOSHOT) {
     const secs = await p.$$('section.act, section.review'); let k = 0;
     for (const s of secs) {
@@ -95,8 +101,46 @@ async function toWebp() {
     const m = f.match(/^(ws_act\d+)_(\d)(\d)\.webp$/); if (!m) continue;   // 빈 판 ws_act2_12.webp = _1 + _2 위아래
     const a = made[`${m[1]}_${m[2]}`], c = made[`${m[1]}_${m[3]}`]; if (!a || !c) continue;
     const [W, H] = await dim(`${OUT}/${f}`);
+    if (a.h + c.h !== H) { await cropLike(f, m[1], W, H); continue; }   // 두 컷 합이 빈 판 높이와 다르면 빈 판은 활동 칸 한 구간을 자른 것이다
     const A = await sharp(a.buf).resize(W, a.h).toBuffer(), C = await sharp(c.buf).resize(W, H - a.h).toBuffer();
     await sharp({ create: { width: W, height: H, channels: 3, background: '#fff' } }).composite([{ input: A, top: 0, left: 0 }, { input: C, top: a.h, left: 0 }]).webp({ quality: 82, effort: 6 }).toFile(`${OUT}/${f.replace('.webp', '_ex.webp')}`);
   }
   console.log(B, '예시 webp', fs.readdirSync(OUT).filter(x => /_ex\.webp$/.test(x)).join(' '));
+}
+
+// 빈 판이 활동 칸(ws_actK.png) 한 구간을 자른 그림이면(두 컷을 이은 것이 아니면), 빈 판이 잘린 자리를 빈 칸 그림에서 찾아
+// (위쪽은 어느 아래 요소 위에서 몇 px, 아래쪽은 어느 요소 아래에서 몇 px) 예시 칸 그림에서 같은 요소 기준으로 같은 구간을 자른다.
+async function cropLike(f, secName, W, H) {
+  // 빈 판은 활동 칸 그림의 한 구간을 어떤 배율 s, 왼쪽 여백 ox로 줄여 자른 것이다. 줄 어둡기 윤곽으로 (s, 세로 자리)를, 열 윤곽으로 ox를 찾고
+  // 같은 틀을 예시 칸 그림에 적용한다. 예시 쪽은 줄이 늘어난 만큼 요소 위치(_geo.json)로 위·아래 끝을 옮긴다.
+  const sharp = require(`${ROOT}/node_modules/sharp`);
+  const k = +secName.replace('ws_act', '');
+  const geo = JSON.parse(fs.readFileSync(`${OUT}/_geo.json`, 'utf8'));
+  const gb = geo.geoBlank[k - 1], ge = geo.geoEx[k - 1];
+  const PAD = 200;
+  const mb = await sharp(`${OUT}/${secName}.png`).metadata(), me = await sharp(`${OUT}/${secName}_ex.png`).metadata();
+  const T = await sharp(`${OUT}/${f}`).greyscale().raw().toBuffer();
+  const dark = (buf, w, h) => { const rows = new Float64Array(h), cols = new Float64Array(w); for (let y = 0; y < h; y++) for (let x = 0; x < w; x++) { const v = buf[y * w + x] < 200 ? 1 : 0; rows[y] += v; cols[x] += v; } return { rows, cols }; };
+  const tp = dark(T, W, H);
+  const corr = (a, b) => { let d = 0; for (let i = 0; i < a.length; i++) d += Math.abs(a[i] - b[i]); return d; };
+  let best = { d: 1e18 }, bx = { ox: 0 };
+  for (let s = 0.86; s <= 0.93; s += 0.001) {
+    const sw = Math.round(mb.width * s), sh = Math.round(mb.height * s);
+    const S = await sharp(`${OUT}/${secName}.png`).resize(sw, sh, { fit: 'fill' }).greyscale().raw().toBuffer();
+    const rowsS = new Float64Array(sh); for (let y = 0; y < sh; y++) for (let x = 0; x < sw; x++) if (S[y * sw + x] < 200) rowsS[y]++;
+    let by0 = 0, bd = 1e18; for (let y = 0; y + H <= sh; y++) { const d = corr(rowsS.subarray(y, y + H), tp.rows); if (d < bd) { bd = d; by0 = y; } }
+    const cs = new Float64Array(sw); for (let y = by0; y < by0 + H; y++) for (let x = 0; x < sw; x++) if (S[y * sw + x] < 200) cs[x]++;
+    let cd = 1e18, cox = 0; for (let ox = -60; ox <= 120; ox++) { let d = 0; for (let x = 0; x < W; x++) { const sx = x - ox; d += Math.abs((sx >= 0 && sx < sw ? cs[sx] : 0) - tp.cols[x]); } if (d < cd) { cd = d; cox = ox; } }
+    if (bd + cd < best.d) { best = { d: bd + cd, s, y: by0 }; bx = { ox: cox }; }
+  }
+  const { s, y: by } = best;
+  const y0 = by / s, y1 = (by + H) / s;                       // 빈 칸 그림 안의 자르기 자리(px)
+  const nearest = (arr, v, idx) => arr.reduce((bi, g, i) => Math.abs(g[idx] - v) < Math.abs(arr[bi][idx] - v) ? i : bi, 0);
+  const i = nearest(gb, y0, 0), j = nearest(gb, y1, 1);
+  const e0 = Math.max(0, ge[i][0] + (y0 - gb[i][0])), e1 = Math.min(ge[j][1] + (y1 - gb[j][1]), me.height);
+  const e0r = Math.round(e0), hh = Math.round(e1 - e0);
+  const left = Math.round(-bx.ox / s), cw = Math.round(W / s);
+  const ext = await sharp(`${OUT}/${secName}_ex.png`).extend({ left: PAD, right: PAD, background: '#fff' }).png().toBuffer();
+  await sharp(ext).extract({ left: PAD + left, top: e0r, width: cw, height: hh }).resize(W, H, { fit: 'fill' }).webp({ quality: 82, effort: 6 }).toFile(`${OUT}/${f.replace('.webp', '_ex.webp')}`);
+  console.log(f, `배율 ${s.toFixed(3)} 왼쪽 ${bx.ox} 빈 판 자리 ${Math.round(y0)}~${Math.round(y1)} → 예시 ${e0r}~${e0r + hh}`);
 }
