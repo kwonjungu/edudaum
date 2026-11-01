@@ -248,11 +248,11 @@ background:radial-gradient(circle at 20px 46px,var(--grass-l) 26px,transparent 2
 
 /* 11-01: 활동지 「예시 보기」 단추(화면), 예시 답 쪽(인쇄 전용) */
 .s > .exbtn.exbtn{position:absolute;right:28px;bottom:40px;top:auto;z-index:8;display:flex;align-items:center;gap:8px;font-family:'Jua';font-size:26px;line-height:1;padding:10px 22px 10px 17px;border-radius:999px;border:3px solid var(--ink);background:#fff;color:var(--ink);cursor:pointer;box-shadow:4px 4px 0 var(--ink)}
-.exbtn::before{content:'';width:26px;height:26px;flex:none;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c8f48' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z'/%3E%3Ccircle cx='12' cy='12' r='3'/%3E%3C/svg%3E")}
+.exbtn::before{content:'';width:30px;height:30px;flex:none;background:no-repeat center/contain url('../../assets/icons/exbtn/show.svg')}
 .s > .exbtn.exbtn:hover{background:var(--paper)}.s > .exbtn.exbtn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}.exbtn:focus-visible{outline:4px solid var(--grass);outline-offset:3px}
 .s > .exbtn.exbtn[aria-pressed="true"]{background:var(--grass-l);color:var(--grass-d);border-color:var(--grass-d);box-shadow:4px 4px 0 var(--grass-d)}
 @media screen{.s:has(> .exbtn) .bubrow,.s:has(> .exbtn) .wraprow{margin-right:186px}.s:has(> .exbtn) .wsside .col{padding-bottom:44px;justify-content:flex-start;gap:8px}.s:has(> .exbtn) .wsside .talk{font-size:21px;line-height:1.35;padding:9px 14px}.s:has(> .exbtn) .wsside .talk b.nm{font-size:17px}.s:has(> .exbtn) .wsside .face{width:64px;height:64px}.s:has(> .exbtn) .wsside .bub{gap:10px}}
-.exbtn[aria-pressed="true"]::before{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235c8f48' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M9 14 4 9l5-5'/%3E%3Cpath d='M4 9h11a5 5 0 0 1 0 10h-3'/%3E%3C/svg%3E")}
+.exbtn[aria-pressed="true"]::before{background-image:url('../../assets/icons/exbtn/back.svg')}
 .s > .exmark.exmark{position:absolute;right:44px;top:8px;z-index:6;font-family:'Jua';font-size:24px;line-height:1.1;padding:5px 20px;border-radius:999px;background:#1d4ed8;color:#fff}
 .pn-p{display:none}
 @media screen{.s.exp{display:none!important}}
