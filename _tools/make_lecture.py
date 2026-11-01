@@ -127,7 +127,18 @@ def slide(s, d):
 def ex_of(s, out):   # ws·wrap 장 그림 옆에 같은 이름의 _ex.webp가 있으면 그 상대 경로(원고 키 "ex": false면 없음)
     if s.get('ex') is False or s['type'] not in ('ws', 'wrap') or not s.get('img', '').endswith('.webp'): return None
     x = s['img'][:-5] + '_ex.webp'
-    return x if os.path.exists(os.path.normpath(os.path.join(out, x))) else None
+    px = os.path.normpath(os.path.join(out, x))
+    if not os.path.exists(px) or not has_answer(os.path.normpath(os.path.join(out, s['img'])), px): return None
+    return x
+
+
+def has_answer(pb, px):   # 예시 판에 빈 판에 없던 파란 예시 글씨가 있어야 단추를 단다(11-01: 보여 줄 답이 없는 장에 단추가 붙던 것 막기)
+    from PIL import Image
+    import numpy as np
+    a = np.asarray(Image.open(pb).convert('RGB')).astype(int); b = np.asarray(Image.open(px).convert('RGB')).astype(int)
+    if a.shape != b.shape: return True
+    ch = np.abs(a - b).sum(2) > 60
+    return int((ch & (b[:, :, 2] > 150) & (b[:, :, 0] < 110)).sum()) >= 300
 
 
 def exbtn(s, ex):   # 「예시 보기」 단추: 장 오른쪽 아래에 크게(11-01 사용자 요청)
