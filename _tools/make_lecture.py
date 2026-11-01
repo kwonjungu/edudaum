@@ -130,7 +130,7 @@ def ex_of(s, out):   # ws·wrap 장 그림 옆에 같은 이름의 _ex.webp가 �
     return x if os.path.exists(os.path.normpath(os.path.join(out, x))) else None
 
 
-def exbtn(s, ex):   # 「예시 보기」 단추: 장 오른쪽 위(제목 줄 옆), 그림·말풍선 바깥
+def exbtn(s, ex):   # 「예시 보기」 단추: 장 오른쪽 아래에 크게(11-01 사용자 요청)
     return (f'<button class="exbtn" type="button" aria-pressed="false" data-blank="{s["img"]}" data-ex="{ex}">'
             f'<span class="t">예시 보기</span></button>') if ex else ''
 
