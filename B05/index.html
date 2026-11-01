@@ -124,7 +124,7 @@ button.pk[aria-pressed="true"]{background:var(--point);border-color:var(--point)
 .goal{background:var(--soft,#f3efe6);border:1px dashed var(--line-strong);border-radius:var(--r-sm);padding:8px 11px;margin:0 0 8px;font-size:14.5px;line-height:1.5}
 .ainote{margin:12px 0 0;font-size:14px;color:var(--muted)}
 .node.dim .shape{stroke-dasharray:5 4}
-@media (max-width:420px){.pic{height:64px}.sb{font-size:14px}}
+@media (max-width:420px){#m1 .pic{display:none}.pic{height:64px}.sb{font-size:14px}}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 </head>
@@ -139,7 +139,6 @@ button.pk[aria-pressed="true"]{background:var(--point);border-color:var(--point)
     <button class="sb" type="button" data-go="2">② 함정 찾기<span class="ck"> ✓</span></button>
     <button class="sb" type="button" data-go="3">③ 내가 잇기<span class="ck"> ✓</span></button>
   </div>
-  <div class="concept" id="concept"><b>알아 둘 것</b>마름모는 물음이라서 예와 아니요로 길이 갈려요. 시험할 때는 두 경우를 다 굴려 봐야 해요.</div>
 
   <section class="mis" data-step="1" id="m1" aria-labelledby="h1m">
     <img class="pic" src="../lecture/_assets/B05/act_ask.webp" width="1600" height="900" alt="두 갈래 길 앞에서 어느 쪽으로 갈지 생각하는 로봇">
@@ -153,6 +152,11 @@ button.pk[aria-pressed="true"]{background:var(--point);border-color:var(--point)
       <div class="row">
         <button id="guessHand" type="button" aria-pressed="false">책 건네기</button>
         <button id="guessBook" type="button" aria-pressed="false">예약 방법 안내</button>
+      </div>
+      <div class="row">
+          <button id="run" class="main" type="button">굴려 보기</button>
+          <button id="reset" type="button">다시 하기</button>
+          <button id="next" type="button">다음 판</button>
       </div>
     </div>
     <div class="wrap">
@@ -209,12 +213,7 @@ button.pk[aria-pressed="true"]{background:var(--point);border-color:var(--point)
       </div>
 
       <div class="face">
-        <h2>굴려 봐요</h2>
-        <div class="row">
-          <button id="run" class="main" type="button">굴려 보기</button>
-          <button id="reset" type="button">다시 하기</button>
-          <button id="next" type="button">다음 판</button>
-        </div>
+        <h2>지나온 판</h2>
         <div class="trail" id="trail" aria-label="지나온 판"></div>
         <p class="rec"><span id="recEl"></span></p>
         <p class="say" id="say" role="status" aria-live="polite"></p>
@@ -276,6 +275,7 @@ button.pk[aria-pressed="true"]{background:var(--point);border-color:var(--point)
     <p class="learn" id="learn3" hidden></p>
     <img class="pic" id="fin3" src="../lecture/_assets/B05/mission_done.webp" width="1600" height="900" alt="완성한 순서도를 들고 있는 로봇" hidden>
   </section>
+  <div class="concept" id="concept"><b>알아 둘 것</b>마름모는 물음이라서 예와 아니요로 길이 갈려요. 시험할 때는 두 경우를 다 굴려 봐야 해요.</div>
   <p class="ainote">그림 일부는 생성형 AI로 만들었어요</p>
 </main>
 
@@ -360,7 +360,7 @@ button.pk[aria-pressed="true"]{background:var(--point);border-color:var(--point)
   var running = false;
   var ran = false;
   var timer = null;
-  var runs1 = 0, firstSw = null, roundCounted = false;
+  var runs1 = 0, firstSw = null, roundCounted = false, m1Missed = false, roundId = 0;
   var tok = $('tok');
   var trailEl = $('trail');
   var TOKPOS = { nStart:[180,26], nCheck:[180,77], nAsk:[180,148], nLog:[26,231], nHand:[26,291], nBook:[230,231], nEnd:[180,340] };
@@ -397,7 +397,7 @@ button.pk[aria-pressed="true"]{background:var(--point);border-color:var(--point)
   function lock(on) {
     runBtn.disabled = on || guess === null || ran;
     resetBtn.disabled = on;
-    nextBtn.disabled = on || !roundCounted;
+    nextBtn.disabled = on || !(roundCounted || m1Missed);
     guessHandBtn.disabled = on || ran;
     guessBookBtn.disabled = on || ran;
   }
@@ -412,6 +412,7 @@ button.pk[aria-pressed="true"]{background:var(--point);border-color:var(--point)
     guess = label;
     guessHandBtn.setAttribute('aria-pressed', String(label === '책 건네기'));
     guessBookBtn.setAttribute('aria-pressed', String(label === '예약 방법 안내'));
+    if (guess !== null) { $('ask1').textContent = '굴려 보기를 눌러요'; }
     lock(false);
   }
 
@@ -430,19 +431,32 @@ button.pk[aria-pressed="true"]{background:var(--point);border-color:var(--point)
       var t = document.createElement('span');
       t.textContent = BOOKS[bookIdx].traits[0] + ' → ' + reached + (swapped ? ' (글자가 뒤바뀐 판)' : '');
       if (odd) { t.className = 'odd'; }
+      t.setAttribute('data-r', roundId);
+      var lastT = trailEl.lastChild;
+      if (lastT && lastT.getAttribute('data-r') === String(roundId)) {
+        t.textContent += ' · 다시 본 것';
+        trailEl.removeChild(lastT);
+      }
       trailEl.appendChild(t);
       while (trailEl.children.length > 4) { trailEl.removeChild(trailEl.firstChild); }
       recEl.textContent = '→ ' + reached;
-      sayEl.textContent = odd ? '다른 끝으로 갔어요' : '짚은 곳에 닿았어요';
-      if (!odd && !roundCounted) {
+      sayEl.textContent = odd ? '다른 끝으로 갔어요' : (m1Missed ? '닿았지만 세지 않는 판이에요' : '짚은 곳에 닿았어요');
+      if (odd) { m1Missed = true; }
+      if (!odd && !m1Missed && !roundCounted) {
         roundCounted = true; runs1 += 1;
         if (runs1 === 1) { firstSw = swapped; }
       }
-      $('ask1').textContent = odd ? '다시 하기를 눌러 끝을 다시 짚어요' : '다음 판을 눌러 다른 책도 굴려 봐요';
+      var fin1 = done[1];
+      $('ask1').textContent = odd ? '빗나간 판은 세지 않아요. 다시 하기로 이 판을 다시 보거나, 다음 판으로 새 책을 굴려요'
+        : (m1Missed ? '이 판은 세지 않아요. 다음 판을 눌러 새 책을 굴려요'
+        : (fin1 ? '아래 다음 미션을 눌러요' : '다음 판을 눌러 다른 책도 굴려 봐요'));
       var dots = $('dots1').children;
       for (var d = 0; d < dots.length; d++) { if (d < runs1) { dots[d].className = 'on'; } }
-      if (runs1 >= 2 && (firstSw || swapped)) {
+      if (!odd && !m1Missed && runs1 >= 2 && (firstSw || swapped)) {
         complete(1, '책은 물음의 답과 같은 글자가 붙은 화살표를 따라가요. 글자가 뒤바뀌면 끝도 바뀌어요.');
+        $('ask1').textContent = '아래 다음 미션을 눌러요';
+      } else if (m1Missed && !odd && window.Fun) {
+        say('이 판은 이미 빗나가서 세지 않아요. 다음 판에서 새 책을 굴려 봐요.', 'think');
       } else if (window.Fun) {
         if (odd) { say('예상과 다른 끝이에요. 마름모에서 예·아니요 글자가 어디에 붙었는지 다시 봐요.', 'think'); Fun.shake(recEl); }
         else { say(swapped ? '짚은 곳에 닿았어요. 다음 판에서는 예·아니요 글자를 다시 읽어 봐요.' : '짚은 곳에 닿았어요. 다음 판에서는 예·아니요 글자가 달라질 수 있어요.', 'cheer'); Fun.burst(recEl); }
@@ -486,7 +500,7 @@ button.pk[aria-pressed="true"]{background:var(--point);border-color:var(--point)
   function newRound() {
     if (running) { return; }
     ran = false;
-    roundCounted = false;
+    roundCounted = false; m1Missed = false; roundId += 1;
     halt();
     $('ask1').textContent = '두 끝 가운데 하나를 짚어요';
     var r = pickRound();

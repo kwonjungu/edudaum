@@ -74,6 +74,7 @@
   .say.dim{color:var(--muted);font-weight:700}
 
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
+  @media(max-width:420px){#m1:not([hidden]){display:flex;flex-direction:column}#m1>.acts{order:1;flex:none}#m1>#slotTally1,#m1>.say{order:2}#m1>.learn,#m1>.nx{order:3;flex:none}}
   @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
 /* 에듀다움 통일 테마 2026-09-27 */
@@ -326,7 +327,7 @@ section[hidden]{display:none}
     $('slotLed' + n).appendChild($('ledBox'));
     $('slotTally' + n).appendChild($('tallyBox'));
     drawHeart(false);
-    var hows = { 1: '하트가 몇 번 나타날지 하나 고르고, 돌려 보기를 눌러 세어 봐요.', 2: '긴 코드와 같은 결과가 나오는 짧은 코드 카드를 골라요.', 3: '− + 로 바깥과 안쪽 횟수를 정하고 돌려 봐요.' };
+    var hows = { 1: '하트가 몇 번 나타날지 하나 고르고, 돌려 보기를 눌러 세어 봐요.', 2: '긴 코드와 같은 결과가 나오는 짧은 코드 카드를 골라요.', 3: how3() };
     $('how').textContent = hows[n];
     if (n === 1) { setCap(cap1); setTally(ran1 ? total : 0, guess); F(ran1 ? '한 판 더 하려면 다음 판을 눌러요.' : '블록을 읽고 하트가 몇 번 나타날지 먼저 골라요.'); }
     if (n === 2) { setCap(12); setTally(0, null); if (!started2) { started2 = true; deal2(); } else { F('긴 코드와 같은 결과가 나오는 짧은 코드를 골라요.'); } }
@@ -553,6 +554,7 @@ section[hidden]{display:none}
   function cap3() { setCap(Math.max(target3, outer * inner)); }
   function syncAll3() { for (var i = 0; i < rows3.length; i++) { rows3[i].sync(); } }
   function changed3() { if (timer === null) { cap3(); drawHeart(false); setTally(0, null); } }
+  function how3() { return fixedN ? '안쪽 횟수를 − + 로 정하고 돌려 봐요.' : '− + 로 바깥과 안쪽 횟수를 정하고 돌려 봐요.'; }
   function deal3() {
     interrupt(); busy3 = false;
     var r, tries = 0;
@@ -565,6 +567,7 @@ section[hidden]{display:none}
     lastKey3 = r.key; target3 = r.a * r.b; fixedN = r.fix ? r.a : 0;
     outer = r.fix ? r.a : 1; inner = 1; tries3 = 0;
     goal3.textContent = '목표: 하트가 ' + target3 + '번 나타나게 해요.' + (fixedN ? ' 바깥 반복은 ' + fixedN + '번으로 정해져 있어요.' : '');
+    if (cur === 3) { $('how').textContent = how3(); }
     renderCode3(); cap3();
     go3.disabled = false;
     drawHeart(false); setTally(0, null);
