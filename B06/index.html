@@ -106,7 +106,8 @@
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
 <style>
-  @media(max-width:480px){.pic{max-height:56px;object-position:var(--op,center)}.how{margin-top:6px}.fun-guide{min-height:0;margin:2px 0 4px}.fun-guide img{width:52px;height:52px}.fun-say{padding:5px 10px;font-size:14px;margin-bottom:6px}}
+  #m1 .pic{max-height:80px}
+  @media(max-width:480px){#m1 .pic{display:none}.pic{max-height:56px;object-position:var(--op,center)}.how{margin-top:6px}.fun-guide{min-height:0;margin:2px 0 4px}.fun-guide img{width:52px;height:52px}.fun-say{padding:5px 10px;font-size:14px;margin-bottom:6px}}
 @media(max-width:420px){
     .deck{row-gap:18px;margin-top:14px}
     .cell{position:relative;padding-bottom:22px}
@@ -132,7 +133,7 @@
     <p class="lead">절차 나는 몇 장을 빠뜨릴까</p>
   </header>
 
-  <p class="how" id="how">나가 몇 장을 빠뜨릴지 0장·1장·2장에서 골라요. 돌려 보기를 누르면 두 절차가 카드를 훑어요.</p>
+  <p class="how" id="how">절차 나는 처음 찾으면 멈춰요. 몇 장을 빠뜨릴지 0장·1장·2장에서 골라요.</p>
 
   <div class="steps" id="steps" role="group" aria-label="미션 고르기">
     <button class="sb" type="button" data-go="1" aria-current="step">① 예측<span class="ck"> ✓</span></button>
@@ -146,7 +147,12 @@
     <img class="pic" src="../lecture/_assets/B06/verify.webp" width="1600" height="900" alt="두 사람이 세모 카드와 동그라미 카드를 하나씩 내놓은 모습" style="--op:center 75%">
     <h2 id="h-d">미션 1 · 몇 장 빠뜨릴까</h2>
     <p class="cond">△이고 5보다 큰 카드 모두 찾기</p>
-    <h2 style="margin-top:8px">나는 몇 장을 빠뜨릴까요</h2>
+    <div class="deck" id="deck1"></div>
+    <div class="proc">
+      <p><span class="who">가</span>끝까지 다 본다</p>
+      <p><span class="who">나</span>처음 찾으면 멈춘다</p>
+    </div>
+    <h2 style="margin-top:8px">절차 나는 몇 장을 빠뜨릴까요</h2>
     <div class="guess" id="guess">
       <button class="btn" type="button" data-g="0">0장</button>
       <button class="btn" type="button" data-g="1">1장</button>
@@ -157,11 +163,6 @@
       <button class="btn main" id="run" type="button" disabled>돌려 보기</button>
       <button class="btn" id="replay" type="button" disabled>다시 보기</button>
       <button class="btn" id="next" type="button" disabled>다음 판</button>
-    </div>
-    <div class="deck" id="deck1"></div>
-    <div class="proc">
-      <p><span class="who">가</span>끝까지 다 본다</p>
-      <p><span class="who">나</span>처음 찾으면 멈춘다</p>
     </div>
     <div class="counts">
       <div class="cbox"><span>가 확인한 수</span><b id="cA">0</b></div>
@@ -371,11 +372,11 @@
   });
   runBtn.addEventListener('click', function () {
     if (c1.timer || guess === null || ran1) { return; }
-    runBtn.disabled = true; animate(c1, finish1);
+    runBtn.disabled = true; $('deck1').scrollIntoView({block:'nearest'}); animate(c1, finish1);
   });
   replayBtn.addEventListener('click', function () {
     if (c1.timer || !ran1) { return; }
-    animate(c1, function () { clearNow(c1.cells); });
+    $('deck1').scrollIntoView({block:'nearest'}); animate(c1, function () { clearNow(c1.cells); });
   });
   $('next').addEventListener('click', newRound1);
 
@@ -472,7 +473,7 @@
       $('say3').className = 'say';
       if (c3.an.miss === target) {
         $('say3').textContent = '나가 ' + target + '장 빠뜨렸어요';
-        say('만든 대로 나왔어요. 답 카드가 모두 ' + c3.an.found + '장이고, 나는 첫 장 뒤를 못 봤어요.', 'cheer');
+        say('만든 대로 나왔어요. 답 카드가 모두 ' + c3.an.found + '장이고, 나는 첫 답 카드에서 멈춰서 그 뒤를 못 봤어요.', 'cheer');
         if (window.Fun) { Fun.burst($('cM3')); }
         finishMission(3, '답 카드를 앞에 하나, 뒤에 몇 장 놓으면 빠뜨림 수를 정할 수 있어요. 그래서 모두 찾을 때는 나가 알맞지 않을 수 있어요.');
       } else {
@@ -506,7 +507,7 @@
     stopTimer(c2);
   }
   var HOW = {
-    1: '나가 몇 장을 빠뜨릴지 0장·1장·2장에서 골라요. 돌려 보기를 누르면 두 절차가 카드를 훑어요.',
+    1: '절차 나는 처음 찾으면 멈춰요. 몇 장을 빠뜨릴지 0장·1장·2장에서 골라요.',
     2: '나가 못 볼 카드를 눌러 고르고 확인을 눌러요.',
     3: '카드를 눌러 모양과 숫자를 바꿔 목표대로 묶음을 만들고 돌려 봐요.'
   };
