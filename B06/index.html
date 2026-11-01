@@ -32,7 +32,7 @@
 
   section{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);
     box-shadow:var(--hard);padding:10px;margin-top:9px}
-  h2{font-size:13px;font-weight:700;margin-bottom:6px;color:var(--muted)}
+  h2{font-size:14px;font-weight:700;margin-bottom:6px;color:var(--muted)}
 
   .cond{display:inline-block;padding:6px 14px;border:1px solid var(--line);border-radius:999px;
     background:var(--point-soft);font-weight:600;font-size:15px}
@@ -42,7 +42,7 @@
   .cell{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}
   .slot{display:block;height:20px;line-height:20px}
   .mk{display:inline-block;min-width:20px;padding:0 6px;background:var(--ink);color:var(--paper);
-    border-radius:999px;font-weight:700;font-size:12px;text-align:center}
+    border-radius:999px;font-weight:700;font-size:14px;text-align:center}
   .mk.b{background:var(--point);color:var(--ink);border:1px solid var(--line)}
   .card{width:100%;min-height:58px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
     border:1px solid var(--line);border-radius:var(--r-sm);background:var(--surface);
@@ -52,11 +52,11 @@
   .cell.entry{animation:deal .35s ease-out both}
   @keyframes deal{from{opacity:0;transform:translateY(-10px) rotate(-4deg)}to{opacity:1;transform:none}}
 
-  .how{margin-top:9px;display:grid;gap:5px}
-  .how p{margin:0;font-weight:700;font-size:14px}
+  .proc{margin-top:9px;display:grid;gap:5px}
+  .proc p{margin:0;font-weight:700;font-size:14px}
   .who{display:inline-block;min-width:20px;margin-right:8px;padding:1px 8px;
     border:1px solid var(--line);border-radius:999px;background:var(--point-soft);
-    font-weight:700;text-align:center;font-size:12px}
+    font-weight:700;text-align:center;font-size:14px}
 
   .guess{display:flex;gap:7px;flex-wrap:wrap;margin-top:2px}
   .btn{font-family:inherit;cursor:pointer;color:var(--ink);font-size:15px;font-weight:700;
@@ -72,16 +72,30 @@
   .counts{display:flex;gap:8px;margin-top:9px}
   .cbox{flex:1;background:var(--paper);border:1px solid var(--line);border-radius:var(--r-sm);
     padding:7px 8px;text-align:center}
-  .cbox span{display:block;font-size:12px;font-weight:700;color:var(--muted)}
+  .cbox span{display:block;font-size:14px;font-weight:700;color:var(--muted)}
   .cbox b{font-family:'Courier New',monospace;font-size:clamp(20px,6vw,26px);font-weight:700;color:var(--point)}
 
   .acts{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
 
   .card.hit{border-width:4px;border-color:var(--ink)}
   .card.miss{border-style:dashed;border-width:3.5px;background:var(--point-soft)}
-  .gone{display:inline-block;font-size:12px;font-weight:700;color:var(--ink)}
+  .gone{display:inline-block;font-size:14px;font-weight:700;color:var(--ink)}
   .say{margin-top:8px;font-size:13.5px;font-weight:700}
   .say.dim{color:var(--muted);font-weight:700}
+  .how{margin-top:8px;font-size:15px;font-weight:700}
+  .steps{display:flex;gap:6px;margin-top:8px}
+  .sb{flex:1;font-family:inherit;cursor:pointer;font-size:14px;font-weight:700;min-height:44px;padding:6px 4px;background:var(--surface);border:1px solid var(--line-strong);border-radius:var(--r-sm);color:var(--ink)}
+  .sb[aria-current="step"]{background:var(--point);color:#fff;border-color:var(--point)}
+  .ck{display:none}.sb.done .ck{display:inline}
+  .concept{margin-top:8px;background:var(--grape-l,#efecfd);border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 12px;font-size:14.5px;line-height:1.5}
+  .concept summary{cursor:pointer;font-weight:700;min-height:28px}
+  .concept p{margin-top:5px}
+  .pic{display:block;width:100%;height:auto;max-height:150px;object-fit:cover;object-position:var(--op,center);border-radius:var(--r-sm);margin-bottom:8px}
+  .learn{margin-top:8px;padding:7px 10px;background:var(--sun-l);border-radius:var(--r-sm);font-size:14.5px;font-weight:700}
+  .ask{font-size:15px;font-weight:700;margin-bottom:2px}
+  button.card{font-family:inherit;color:var(--ink);cursor:pointer}
+  button.card[aria-pressed="true"]{border:3px solid var(--point);background:var(--point-soft)}
+  .ainote{margin-top:12px;font-size:14px;color:var(--muted)}
   [hidden]{display:none!important}
 
   :focus-visible{outline:3px solid var(--point);outline-offset:3px}
@@ -91,6 +105,20 @@
 .btn.main{background:var(--point);border-color:var(--point);color:#fff}
 </style>
 <link rel="stylesheet" href="../assets/play/fun.css">
+<style>
+  @media(max-width:480px){.pic{max-height:56px;object-position:var(--op,center)}.how{margin-top:6px}.fun-guide{min-height:0;margin:2px 0 4px}.fun-guide img{width:52px;height:52px}.fun-say{padding:5px 10px;font-size:14px;margin-bottom:6px}}
+@media(max-width:420px){
+    .deck{row-gap:18px;margin-top:14px}
+    .cell{position:relative;padding-bottom:22px}
+    .slot{height:0;width:100%;order:-1;overflow:visible;position:static;z-index:2}
+    .slot .mk,.slot .gone{position:absolute;top:-10px;white-space:nowrap;line-height:18px;font-size:13px}
+    .slot .mk{top:-18px}
+    .slotA .mk{left:2px}
+    .slotB .mk,.slotB .gone{right:2px;left:auto}
+    .slotB .gone{top:auto;bottom:0;right:auto;left:50%;transform:translateX(-50%);background:var(--point-soft);border:1px solid var(--line);border-radius:999px;padding:0 6px}
+    .card.now{border:3px solid var(--point)}
+  }
+</style>
 </head>
 <body>
 <div class="wrap">
@@ -104,270 +132,408 @@
     <p class="lead">절차 나는 몇 장을 빠뜨릴까</p>
   </header>
 
-  <section aria-labelledby="h-d">
-    <h2 id="h-d">이번 묶음</h2>
-    <p class="cond">△이고 5보다 큰 카드 모두 찾기</p>
-    <div class="deck" id="deck"></div>
-    <div class="how">
-      <p><span class="who">가</span>끝까지 다 본다</p>
-      <p><span class="who">나</span>처음 찾으면 멈춘다</p>
-    </div>
-  </section>
+  <p class="how" id="how">나가 몇 장을 빠뜨릴지 0장·1장·2장에서 골라요. 돌려 보기를 누르면 두 절차가 카드를 훑어요.</p>
 
-  <section aria-labelledby="h-g">
-    <h2 id="h-g">나는 몇 장을 빠뜨릴까요</h2>
+  <div class="steps" id="steps" role="group" aria-label="미션 고르기">
+    <button class="sb" type="button" data-go="1" aria-current="step">① 예측<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="2">② 빠진 카드<span class="ck"> ✓</span></button>
+    <button class="sb" type="button" data-go="3">③ 검증 묶음<span class="ck"> ✓</span></button>
+  </div>
+
+  <details class="concept" id="concept"><summary>같은 카드도 절차에 따라 보는 장수가 달라요.</summary><p>가는 끝까지 다 보고, 나는 처음 찾으면 멈춰요. 그래서 나는 뒤에 있는 답 카드를 빠뜨릴 수 있어요.</p><p>모두 찾기에서는 먼저 빠뜨린 카드가 없는지 보고, 그다음 본 장수를 견줘요.</p><p>나는 한 장만 찾으면 될 때는 알맞은 절차예요.</p></details>
+
+  <section aria-labelledby="h-d" data-step="1" id="m1">
+    <img class="pic" src="../lecture/_assets/B06/verify.webp" width="1600" height="900" alt="두 사람이 세모 카드와 동그라미 카드를 하나씩 내놓은 모습" style="--op:center 75%">
+    <h2 id="h-d">미션 1 · 몇 장 빠뜨릴까</h2>
+    <p class="cond">△이고 5보다 큰 카드 모두 찾기</p>
+    <h2 style="margin-top:8px">나는 몇 장을 빠뜨릴까요</h2>
     <div class="guess" id="guess">
       <button class="btn" type="button" data-g="0">0장</button>
       <button class="btn" type="button" data-g="1">1장</button>
       <button class="btn" type="button" data-g="2">2장</button>
+    </div>
+    <p class="say dim" id="say">셋 가운데 하나를 짚어요</p>
+    <div class="acts">
+      <button class="btn main" id="run" type="button" disabled>돌려 보기</button>
+      <button class="btn" id="replay" type="button" disabled>다시 보기</button>
+      <button class="btn" id="next" type="button" disabled>다음 판</button>
+    </div>
+    <div class="deck" id="deck1"></div>
+    <div class="proc">
+      <p><span class="who">가</span>끝까지 다 본다</p>
+      <p><span class="who">나</span>처음 찾으면 멈춘다</p>
     </div>
     <div class="counts">
       <div class="cbox"><span>가 확인한 수</span><b id="cA">0</b></div>
       <div class="cbox"><span>나 확인한 수</span><b id="cB">0</b></div>
       <div class="cbox"><span>나 빠뜨린 수</span><b id="cM">0</b></div>
     </div>
-    <p class="say dim" id="say">셋 가운데 하나를 짚어요</p>
-    <div class="acts">
-      <button class="btn main" id="run" type="button" disabled>돌려 보기</button>
-      <button class="btn" id="replay" type="button" disabled>다시 보기</button>
-      <button class="btn" id="next" type="button">다음 판</button>
-    </div>
+    <p class="learn" id="learn1" hidden></p>
   </section>
+
+  <section aria-labelledby="h-2" data-step="2" id="m2" hidden>
+    <img class="pic" src="../lecture/_assets/B06/battle.webp" width="1600" height="900" alt="두 모둠이 카드를 놓고 절차를 견주는 교실 모습" style="--op:center 55%">
+    <h2 id="h-2">미션 2 · 빠진 카드 짚기</h2>
+    <p class="cond">△이고 5보다 큰 카드 모두 찾기</p>
+    <p class="ask">나가 빠뜨릴 카드를 눌러 골라요. 빠뜨릴 카드가 없으면 그냥 확인을 눌러요.</p>
+    <div class="deck" id="deck2"></div>
+    <p class="say dim" id="say2">나는 첫 답 카드에서 멈춰요</p>
+    <div class="acts">
+      <button class="btn main" id="chk2" type="button">확인</button>
+      <button class="btn" id="next2" type="button" disabled>새 묶음</button>
+    </div>
+    <p class="learn" id="learn2" hidden></p>
+  </section>
+
+  <section aria-labelledby="h-3" data-step="3" id="m3" hidden>
+    <img class="pic" src="../lecture/_assets/B06/design.webp" width="1600" height="900" alt="칸이 그려진 종이에 붙임쪽지를 붙이고, 옆에 세모·동그라미 카드가 놓인 책상" style="--op:center">
+    <h2 id="h-3">미션 3 · 검증 묶음 만들기</h2>
+    <p class="ask" id="goal3"></p>
+    <p class="ask" style="font-weight:600;color:var(--muted);font-size:14px">나를 시험하는 묶음을 검증 묶음이라고 해요. 카드를 누르면 모양과 숫자가 바뀌어요. 다 만들면 돌려 봐요.</p>
+    <div class="deck" id="deck3"></div>
+    <div class="counts">
+      <div class="cbox"><span>가 확인한 수</span><b id="cA3">0</b></div>
+      <div class="cbox"><span>나 확인한 수</span><b id="cB3">0</b></div>
+      <div class="cbox"><span>나 빠뜨린 수</span><b id="cM3">0</b></div>
+    </div>
+    <p class="say dim" id="say3">카드를 눌러 바꿔 봐요</p>
+    <div class="acts">
+      <button class="btn main" id="run3" type="button">돌려 보기</button>
+      <button class="btn" id="next3" type="button">새 목표</button>
+    </div>
+    <p class="learn" id="learn3" hidden></p>
+  </section>
+
+  <p class="ainote">그림 일부는 생성형 AI로 만들었어요</p>
 </div>
 
 <script>
 (function () {
   'use strict';
-
   var STEP = 320;
   var $ = function (id) { return document.getElementById(id); };
-
-  var deckEl = $('deck');
-  var guessWrap = $('guess');
-  var guessBtns = Array.prototype.slice.call(guessWrap.querySelectorAll('.btn'));
-  var runBtn = $('run');
-  var replayBtn = $('replay');
-  var nextBtn = $('next');
-  var sayEl = $('say');
-  var cAEl = $('cA');
-  var cBEl = $('cB');
-  var cMEl = $('cM');
-
-  var mkA = document.createElement('span'); mkA.className = 'mk'; mkA.textContent = '가';
-  var mkB = document.createElement('span'); mkB.className = 'mk b'; mkB.textContent = '나';
-
-  var calm = window.matchMedia
-    ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    : false;
-
-  var deck = [];          // { tri: 세모인가, n: 숫자 }
-  var aStop = 7;
-  var bStop = 7;
-  var miss = 0;           // 절차 나가 빠뜨린 장수
-  var guess = null;
-  var ran = false;
-  var timer = null;
-  var cells = [];
-  var lastKey = '';
+  var calm = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)').matches : false;
+  var done = { 1: false, 2: false, 3: false };
   var stamped = false;
 
   function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
   function fits(c) { return c.tri && c.n > 5; }
-
   function shuffle(arr) {
     for (var i = arr.length - 1; i > 0; i -= 1) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+      var j = Math.floor(Math.random() * (i + 1)); var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
     }
     return arr;
   }
+  function keyOf(d) { return d.map(function (c) { return (c.tri ? 'T' : 'O') + c.n; }).join(','); }
+  function say(t, m) { if (window.Fun) { Fun.say(t, m); } }
 
-  // 조건에 맞는 카드 수를 먼저 뽑는다. 빠뜨림 0·1·2가 셋에 하나쯤씩 나온다.
-  function draw() {
-    var r = Math.random();
-    var m = r < 0.15 ? 0 : (r < 0.35 ? 1 : (r < 0.68 ? 2 : 3));
+  function analyse(deck) {
+    var b = 7, found = 0, i;
+    for (i = 0; i < 8; i += 1) { if (fits(deck[i])) { if (found === 0) { b = i; } found += 1; } }
+    return { aStop: 7, bStop: b, found: found, miss: found > 0 ? found - 1 : 0 };
+  }
+  function filler() {
+    if (Math.random() < 0.5) { return { tri: false, n: rnd(1, 9) }; }
+    return { tri: true, n: rnd(1, 5) };
+  }
+  function makeDeck(matches, five) {
     var d = [], i;
-    for (i = 0; i < m; i += 1) { d.push({ tri: true, n: rnd(6, 9) }); }
-    if (Math.random() < 0.6) { d.push({ tri: true, n: 5 }); }   // 숫자 5 카드
-    while (d.length < 8) {
-      if (Math.random() < 0.5) { d.push({ tri: true, n: rnd(1, 4) }); }
-      else { d.push({ tri: false, n: rnd(1, 9) }); }
-    }
-    d = shuffle(d);
-    var key = d.map(function (c) { return (c.tri ? 'T' : 'O') + c.n; }).join(',');
-    return { deck: d, key: key };
+    for (i = 0; i < matches; i += 1) { d.push({ tri: true, n: rnd(6, 9) }); }
+    if (five) { d.push({ tri: true, n: 5 }); }
+    while (d.length < 8) { d.push(filler()); }
+    return shuffle(d);
   }
-
-  function halt() {
-    if (timer !== null) { clearInterval(timer); timer = null; }
+  function cardHTML(c) {
+    return (c.tri
+      ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L22 21 H2 Z" fill="#ffc845" stroke="#33302b" stroke-width="1.8" stroke-linejoin="round"/></svg>'
+      : '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#e6f3fc" stroke="#33302b" stroke-width="1.8"/></svg>')
+      + '<span aria-hidden="true">' + c.n + '</span>';
   }
+  function label(c) { return (c.tri ? '세모 ' : '동그라미 ') + c.n; }
+  function mk(cls, t) { var s = document.createElement('span'); s.className = cls; s.textContent = t; return s; }
 
-  function newRound() {
-    halt();
-    var r = draw();
-    var tries = 0;
-    while (r.key === lastKey && tries < 8) { r = draw(); tries += 1; }
-    lastKey = r.key;
-
-    deck = r.deck;
-    aStop = 7;
-    bStop = 7;
-    var found = 0, i;
-    for (i = 0; i < 8; i += 1) {
-      if (fits(deck[i])) { if (found === 0) { bStop = i; } found += 1; }
-    }
-    miss = found > 0 ? found - 1 : 0;
-    guess = null;
-    ran = false;
-
-    deckEl.innerHTML = '';
-    cells = [];
-    for (i = 0; i < 8; i += 1) {
+  function renderDeck(el, deck, asButton) {
+    el.innerHTML = '';
+    var cells = [];
+    for (var i = 0; i < 8; i += 1) {
       var cell = document.createElement('div');
-      cell.className = 'cell';
-      var slotA = document.createElement('span'); slotA.className = 'slot slotA';
-      var card = document.createElement('div'); card.className = 'card';
-      card.innerHTML = (deck[i].tri
-        ? '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 L22 21 H2 Z" fill="#ffc845" stroke="#33302b" stroke-width="1.8" stroke-linejoin="round"/></svg>'
-        : '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="#e6f3fc" stroke="#33302b" stroke-width="1.8"/></svg>')
-        + '<span aria-hidden="true">' + deck[i].n + '</span>';
       cell.className = 'cell entry';
       cell.style.animationDelay = (i * 40) + 'ms';
-      card.setAttribute('aria-label', (deck[i].tri ? '세모 ' : '동그라미 ') + deck[i].n);
-      var slotB = document.createElement('span'); slotB.className = 'slot slotB';
-      cell.appendChild(slotA); cell.appendChild(card); cell.appendChild(slotB);
-      deckEl.appendChild(cell);
-      cells.push(cell);
+      var sA = document.createElement('span'); sA.className = 'slot slotA';
+      var card = document.createElement(asButton ? 'button' : 'div');
+      if (asButton) { card.type = 'button'; card.setAttribute('aria-pressed', 'false'); }
+      card.className = 'card';
+      card.innerHTML = cardHTML(deck[i]);
+      card.setAttribute('aria-label', (i + 1) + '번 ' + label(deck[i]));
+      var sB = document.createElement('span'); sB.className = 'slot slotB';
+      cell.appendChild(sA); cell.appendChild(card); cell.appendChild(sB);
+      el.appendChild(cell); cells.push(cell);
     }
-    cells[0].querySelector('.slotA').appendChild(mkA);
-    cells[0].querySelector('.slotB').appendChild(mkB);
-
-    cAEl.textContent = '0';
-    cBEl.textContent = '0';
-    cMEl.textContent = '0';
-
-    for (var k = 0; k < guessBtns.length; k += 1) {
-      guessBtns[k].disabled = false;
-      guessBtns[k].setAttribute('aria-pressed', 'false');
-    }
-    runBtn.disabled = true;
-    replayBtn.disabled = true;
-    sayEl.textContent = '셋 가운데 하나를 짚어요';
-    sayEl.className = 'say dim';
-    if (window.Fun) { Fun.say('새 묶음이에요. 나는 첫 카드를 찾으면 멈춰요. 몇 장을 빠뜨릴지 먼저 예측해 봐요.'); }
+    return cells;
   }
+  function slot(cells, i, w) { return cells[i].querySelector(w === 'A' ? '.slotA' : '.slotB'); }
 
-  function pickGuess(g) {
-    if (guess !== null || ran) { return; }
-    guess = parseInt(g, 10);
-    for (var i = 0; i < guessBtns.length; i += 1) {
-      var b = guessBtns[i];
-      b.disabled = true;
-      b.setAttribute('aria-pressed', b.getAttribute('data-g') === g ? 'true' : 'false');
+  function stopTimer(ctx) { if (ctx.timer) { clearInterval(ctx.timer); ctx.timer = null; } }
+  function clearNow(cells) { for (var j = 0; j < cells.length; j += 1) { cells[j].querySelector('.card').classList.remove('now'); } }
+
+  function animate(ctx, onEnd) {
+    stopTimer(ctx);
+    var an = ctx.an;
+    function put(a, b) {
+      slot(ctx.cells, a, 'A').appendChild(ctx.mA);
+      slot(ctx.cells, b, 'B').appendChild(ctx.mB);
+      for (var j = 0; j < 8; j += 1) { ctx.cells[j].querySelector('.card').classList.toggle('now', j === b && !calm); }
     }
-    runBtn.disabled = false;
-    if (window.Fun) { Fun.say(guess + '장으로 예측했어요. 이제 돌려서 확인해 봐요.'); }
-    sayEl.textContent = '돌려 보기를 눌러요';
-    sayEl.className = 'say dim';
-  }
-
-  function putA(i) { cells[i].querySelector('.slotA').appendChild(mkA); }
-  function putB(i) {
-    cells[i].querySelector('.slotB').appendChild(mkB);
-    for (var j = 0; j < cells.length; j += 1) { cells[j].querySelector('.card').classList.toggle('now', j === i && !calm); }
-  }
-
-  // 조건에 맞는 카드는 테두리를 굵게, 나가 지나치지 못한 카드는 점선으로 드러낸다.
-  function markCards() {
-    for (var i = 0; i < 8; i += 1) {
-      if (!fits(deck[i])) { continue; }
-      var card = cells[i].querySelector('.card');
-      card.classList.add('hit');
-      if (i > bStop) {
-        card.classList.add('miss');
-        var g = document.createElement('span');
-        g.className = 'gone'; g.textContent = '빠짐';
-        cells[i].querySelector('.slotB').appendChild(g);
-      }
-    }
-  }
-
-  function finish() {
-    for (var j = 0; j < cells.length; j += 1) { cells[j].querySelector('.card').classList.remove('now'); }
-    cAEl.textContent = String(aStop + 1);
-    cBEl.textContent = String(bStop + 1);
-    cMEl.textContent = String(miss);
-    markCards();
-
-    if (guess === miss) {
-      sayEl.textContent = '짚은 만큼 빠뜨렸어요';
-    } else {
-      sayEl.textContent = '나는 ' + miss + '장 빠뜨렸어요 · ' + Math.abs(guess - miss) + '장 차이';
-    }
-    sayEl.className = 'say';
-    ran = true;
-    runBtn.disabled = true;
-    replayBtn.disabled = false;
-    if (window.Fun) {
-      var five = deck.some(function (c) { return c.tri && c.n === 5; });
-      var tail = five ? ' △5는 5보다 크지 않아서 답이 아니에요.' : '';
-      if (guess === miss) {
-        Fun.say('예상한 대로 나왔어요. 가는 ' + (aStop + 1) + '장, 나는 ' + (bStop + 1) + '장 봤어요.' + tail, 'cheer');
-        Fun.burst(cMEl);
-      } else {
-        Fun.say('예상과 다르게 나왔어요. 나가 멈춘 뒤 남은 카드에서 갈렸는지 봐요.' + tail, 'think');
-        Fun.shake(cMEl);
-      }
-      if (!stamped) { stamped = true; Fun.stamp(); }
-    }
-  }
-
-  function play(showFromStart) {
-    halt();
-    putA(0); putB(0);
-    if (calm) {
-      putA(aStop); putB(bStop);
-      if (showFromStart) { finish(); }
-      return;
-    }
+    put(0, 0);
+    if (calm) { put(an.aStop, an.bStop); onEnd(); return; }
     var k = 0;
-    timer = setInterval(function () {
+    ctx.timer = setInterval(function () {
       k += 1;
-      if (k <= aStop) { putA(k); }
-      if (k <= bStop) { putB(k); }
-      if (k >= aStop && k >= bStop) {
-        halt();
-        if (showFromStart) { finish(); }
-      }
+      put(Math.min(k, an.aStop), Math.min(k, an.bStop));
+      if (k >= an.aStop && k >= an.bStop) { stopTimer(ctx); onEnd(); }
     }, STEP);
   }
-
-  function run() {
-    if (timer !== null || guess === null || ran) { return; }
-    runBtn.disabled = true;
-    play(true);
+  function markCards(ctx) {
+    for (var i = 0; i < 8; i += 1) {
+      if (!fits(ctx.deck[i])) { continue; }
+      var card = ctx.cells[i].querySelector('.card');
+      card.classList.add('hit');
+      if (i > ctx.an.bStop) {
+        card.classList.add('miss');
+        slot(ctx.cells, i, 'B').appendChild(mk('gone', '빠짐'));
+      }
+    }
+  }
+  function finishMission(n, line) {
+    done[n] = true;
+    var btn = document.querySelector('.sb[data-go="' + n + '"]');
+    if (btn) { btn.classList.add('done'); }
+    var l = $('learn' + n); l.textContent = '알게 된 것 · ' + line; l.hidden = false;
+    if (done[1] && done[2] && done[3] && !stamped) { stamped = true; if (window.Fun) { Fun.stamp(); } }
   }
 
-  function replay() {
-    if (timer !== null || !ran) { return; }
-    play(false);
-  }
+  // ---------- 미션 1 ----------
+  var c1 = { deck: [], cells: [], an: null, timer: null, mA: mk('mk', '가'), mB: mk('mk b', '나') };
+  var guess = null, ran1 = false, last1 = '';
+  var guessWrap = $('guess');
+  var guessBtns = Array.prototype.slice.call(guessWrap.querySelectorAll('.btn'));
+  var runBtn = $('run'), replayBtn = $('replay'), sayEl = $('say');
 
+  function newRound1() {
+    stopTimer(c1);
+    var d, tries = 0, r, m;
+    do {
+      r = Math.random(); m = r < 0.15 ? 0 : (r < 0.35 ? 1 : (r < 0.68 ? 2 : 3));
+      d = makeDeck(m, Math.random() < 0.6); tries += 1;
+    } while (keyOf(d) === last1 && tries < 8);
+    last1 = keyOf(d);
+    c1.deck = d; c1.an = analyse(d);
+    c1.cells = renderDeck($('deck1'), d, false);
+    slot(c1.cells, 0, 'A').appendChild(c1.mA); slot(c1.cells, 0, 'B').appendChild(c1.mB);
+    guess = null; ran1 = false;
+    $('cA').textContent = '0'; $('cB').textContent = '0'; $('cM').textContent = '0';
+    guessBtns.forEach(function (b) { b.disabled = false; b.setAttribute('aria-pressed', 'false'); });
+    runBtn.disabled = true; replayBtn.disabled = true; $('next').disabled = true;
+    $('learn1').hidden = true;
+    sayEl.textContent = '셋 가운데 하나를 짚어요'; sayEl.className = 'say dim';
+    say('새 묶음이에요. 나는 첫 답 카드에서 멈춰요. 몇 장을 빠뜨릴지 먼저 짚어 봐요.');
+  }
+  function finish1() {
+    clearNow(c1.cells);
+    $('cA').textContent = String(c1.an.aStop + 1);
+    $('cB').textContent = String(c1.an.bStop + 1);
+    $('cM').textContent = String(c1.an.miss);
+    markCards(c1);
+    var miss = c1.an.miss;
+    sayEl.textContent = guess === miss ? '짚은 만큼 빠뜨렸어요' : '나는 ' + miss + '장 빠뜨렸어요 · ' + Math.abs(guess - miss) + '장 차이';
+    sayEl.className = 'say';
+    ran1 = true; runBtn.disabled = true; replayBtn.disabled = false; $('next').disabled = false;
+    var five = c1.deck.some(function (c) { return c.tri && c.n === 5; });
+    var tail = five ? ' △5는 5보다 크지 않아서 답이 아니에요.' : '';
+    if (guess === miss) {
+      say('예상한 대로 나왔어요. 가는 ' + (c1.an.aStop + 1) + '장, 나는 ' + (c1.an.bStop + 1) + '장 봤어요.' + tail, 'cheer');
+      if (window.Fun) { Fun.burst($('cM')); }
+    } else {
+      say('예상과 다르게 나왔어요. 나가 멈춘 뒤 남은 카드에서 갈렸는지 봐요.' + tail, 'think');
+      if (window.Fun) { Fun.shake($('cM')); }
+    }
+    if (guess === miss) { finishMission(1, '나는 처음 찾은 카드 뒤에 있는 답 카드를 빠뜨려요.'); }
+    else { sayEl.textContent = '나는 ' + miss + '장 빠뜨렸어요 · 다음 판에서 다시 짚어 봐요'; }
+  }
   guessWrap.addEventListener('click', function (ev) {
     var btn = ev.target.closest ? ev.target.closest('.btn') : null;
-    if (!btn) { return; }
-    pickGuess(btn.getAttribute('data-g'));
+    if (!btn || guess !== null || ran1) { return; }
+    guess = parseInt(btn.getAttribute('data-g'), 10);
+    guessBtns.forEach(function (b) { b.disabled = true; b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); });
+    runBtn.disabled = false;
+    say(guess + '장으로 짚었어요. 돌려 보기를 눌러 확인해 봐요.');
+    sayEl.textContent = '돌려 보기를 눌러요';
   });
+  runBtn.addEventListener('click', function () {
+    if (c1.timer || guess === null || ran1) { return; }
+    runBtn.disabled = true; animate(c1, finish1);
+  });
+  replayBtn.addEventListener('click', function () {
+    if (c1.timer || !ran1) { return; }
+    animate(c1, function () { clearNow(c1.cells); });
+  });
+  $('next').addEventListener('click', newRound1);
 
-  runBtn.addEventListener('click', run);
-  replayBtn.addEventListener('click', replay);
-  nextBtn.addEventListener('click', newRound);
-  document.addEventListener('visibilitychange', function () { if (document.hidden) { halt(); } });
-  window.addEventListener('pagehide', halt);
+  // ---------- 미션 2 ----------
+  var c2 = { deck: [], cells: [], an: null, timer: null, mA: mk('mk', '가'), mB: mk('mk b', '나') };
+  var checked2 = false, last2 = '';
+  function newRound2() {
+    var d, tries = 0;
+    do { d = makeDeck(Math.random() < 0.25 ? 1 : rnd(2, 3), Math.random() < 0.5); tries += 1; } while (keyOf(d) === last2 && tries < 8);
+    last2 = keyOf(d);
+    c2.deck = d; c2.an = analyse(d); checked2 = false; $('next2').disabled = true;
+    c2.cells = renderDeck($('deck2'), d, true);
+    slot(c2.cells, 0, 'B').appendChild(c2.mB);
+    $('chk2').disabled = false; $('learn2').hidden = true;
+    $('say2').textContent = '나는 첫 답 카드에서 멈춰요'; $('say2').className = 'say dim';
+    say('나가 멈춘 뒤에 남는 답 카드는 어느 것일까요? 눌러서 골라 봐요.');
+  }
+  $('deck2').addEventListener('click', function (ev) {
+    var card = ev.target.closest ? ev.target.closest('button.card') : null;
+    if (!card || checked2) { return; }
+    card.setAttribute('aria-pressed', card.getAttribute('aria-pressed') === 'true' ? 'false' : 'true');
+  });
+  $('chk2').addEventListener('click', function () {
+    if (checked2) { return; }
+    checked2 = true; $('chk2').disabled = true;
+    var an = c2.an, i, same = true;
+    slot(c2.cells, an.bStop, 'B').appendChild(c2.mB);
+    for (i = 0; i < 8; i += 1) {
+      var card = c2.cells[i].querySelector('.card');
+      var picked = card.getAttribute('aria-pressed') === 'true';
+      var missed = fits(c2.deck[i]) && i > an.bStop;
+      if (picked !== missed) { same = false; }
+    }
+    markCards(c2);
+    $('say2').className = 'say';
+    $('say2').textContent = '나는 ' + an.miss + '장 빠뜨렸어요';
+    if (same) { say('고른 카드와 빠진 카드가 같아요. 나가 멈춘 자리 뒤를 살펴본 거예요.', 'cheer'); }
+    else { say('예상과 다르게 나왔어요. 점선 카드가 나가 못 본 카드예요. 나가 멈춘 자리 뒤를 봐요.', 'think'); }
+    $('next2').disabled = false;
+    if (same) { finishMission(2, '나가 멈춘 자리 뒤에 있는 답 카드가 빠져요. 앞에 있는 카드는 빠지지 않아요.'); }
+    else { $('say2').textContent = '나는 ' + an.miss + '장 빠뜨렸어요 · 새 묶음으로 다시 골라 봐요'; }
+  });
+  $('next2').addEventListener('click', newRound2);
 
-  newRound();
+  // ---------- 미션 3 ----------
+  var TYPES = [{ tri: false, n: 4 }, { tri: true, n: 3 }, { tri: true, n: 5 }, { tri: true, n: 7 }, { tri: true, n: 9 }];
+  var c3 = { deck: [], cells: [], an: null, timer: null, mA: mk('mk', '가'), mB: mk('mk b', '나') };
+  var target = 1, lastT = 0;
+  function typeIndex(c) {
+    for (var i = 0; i < TYPES.length; i += 1) { if (TYPES[i].tri === c.tri && TYPES[i].n === c.n) { return i; } }
+    return 0;
+  }
+  function newRound3() {
+    stopTimer(c3);
+    target = lastT === 1 ? 2 : (lastT === 2 ? 1 : rnd(1, 2)); lastT = target;
+    var d = [], i, t;
+    for (i = 0; i < 8; i += 1) { t = TYPES[rnd(0, 2)]; d.push({ tri: t.tri, n: t.n }); }
+    c3.deck = d;
+    $('goal3').textContent = '나가 꼭 ' + target + '장 빠뜨리는 묶음을 만들어요.';
+    draw3(-1);
+    resetCounts3();
+    $('learn3').hidden = true;
+    say('답 카드는 △이면서 5보다 커요. 몇 장을 어디에 놓으면 나가 ' + target + '장 빠뜨릴까요?');
+  }
+  function resetCounts3() {
+    $('cA3').textContent = '0'; $('cB3').textContent = '0'; $('cM3').textContent = '0';
+    $('say3').textContent = '카드를 눌러 바꿔 봐요'; $('say3').className = 'say dim';
+  }
+  function draw3(focusIdx) {
+    c3.cells = renderDeck($('deck3'), c3.deck, true);
+    c3.cells.forEach(function (c) { c.classList.remove('entry'); c.style.animationDelay = ''; });
+    slot(c3.cells, 0, 'A').appendChild(c3.mA); slot(c3.cells, 0, 'B').appendChild(c3.mB);
+    if (focusIdx >= 0) { c3.cells[focusIdx].querySelector('.card').focus(); }
+  }
+  $('deck3').addEventListener('click', function (ev) {
+    var card = ev.target.closest ? ev.target.closest('button.card') : null;
+    if (!card || c3.timer) { return; }
+    var i = c3.cells.indexOf(card.parentNode);
+    if (i < 0) { return; }
+    var t = TYPES[(typeIndex(c3.deck[i]) + 1) % TYPES.length];
+    c3.deck[i] = { tri: t.tri, n: t.n };
+    draw3(i);
+    resetCounts3();
+  });
+  $('run3').addEventListener('click', function () {
+    if (c3.timer) { return; }
+    c3.an = analyse(c3.deck);
+    animate(c3, function () {
+      clearNow(c3.cells);
+      $('cA3').textContent = '8';
+      $('cB3').textContent = String(c3.an.bStop + 1);
+      $('cM3').textContent = String(c3.an.miss);
+      markCards(c3);
+      $('say3').className = 'say';
+      if (c3.an.miss === target) {
+        $('say3').textContent = '나가 ' + target + '장 빠뜨렸어요';
+        say('만든 대로 나왔어요. 답 카드가 모두 ' + c3.an.found + '장이고, 나는 첫 장 뒤를 못 봤어요.', 'cheer');
+        if (window.Fun) { Fun.burst($('cM3')); }
+        finishMission(3, '답 카드를 앞에 하나, 뒤에 몇 장 놓으면 빠뜨림 수를 정할 수 있어요. 그래서 모두 찾을 때는 나가 알맞지 않을 수 있어요.');
+      } else {
+        $('say3').textContent = '나는 ' + c3.an.miss + '장 빠뜨렸어요 · 목표는 ' + target + '장';
+        say(c3.an.found === 0 ? '예상과 다르게 나왔어요. 답 카드가 없어요. △이면서 5보다 큰 카드를 놓아 봐요.' + (c3.deck.some(function (c) { return c.tri && c.n === 5; }) ? ' △5는 5보다 크지 않아서 답이 아니에요.' : '') : '예상과 다르게 나왔어요. 답 카드가 ' + c3.an.found + '장이에요. 첫 장 뒤에 몇 장이 있는지 봐요.', 'think');
+        if (window.Fun) { Fun.shake($('cM3')); }
+      }
+    });
+  });
+  $('next3').addEventListener('click', newRound3);
+
+  // ---------- 미션 고르기 ----------
+  var stepBtns = Array.prototype.slice.call(document.querySelectorAll('.sb'));
+  function placeEnd(c) {
+    slot(c.cells, c.an.aStop, 'A').appendChild(c.mA); slot(c.cells, c.an.bStop, 'B').appendChild(c.mB);
+  }
+  function settle() {
+    if (c1.timer) {
+      stopTimer(c1); clearNow(c1.cells);
+      if (ran1) { placeEnd(c1); replayBtn.disabled = false; }
+      else {
+        slot(c1.cells, 0, 'A').appendChild(c1.mA); slot(c1.cells, 0, 'B').appendChild(c1.mB);
+        runBtn.disabled = false; sayEl.textContent = '돌려 보기를 다시 눌러요'; sayEl.className = 'say dim';
+      }
+    }
+    if (c3.timer) {
+      stopTimer(c3); clearNow(c3.cells);
+      slot(c3.cells, 0, 'A').appendChild(c3.mA); slot(c3.cells, 0, 'B').appendChild(c3.mB);
+      resetCounts3();
+    }
+    stopTimer(c2);
+  }
+  var HOW = {
+    1: '나가 몇 장을 빠뜨릴지 0장·1장·2장에서 골라요. 돌려 보기를 누르면 두 절차가 카드를 훑어요.',
+    2: '나가 못 볼 카드를 눌러 고르고 확인을 눌러요.',
+    3: '카드를 눌러 모양과 숫자를 바꿔 목표대로 묶음을 만들고 돌려 봐요.'
+  };
+  function go(n) {
+    settle();
+    $('how').textContent = HOW[n];
+    stepBtns.forEach(function (b) {
+      if (b.getAttribute('data-go') === String(n)) { b.setAttribute('aria-current', 'step'); }
+      else { b.removeAttribute('aria-current'); }
+    });
+    [1, 2, 3].forEach(function (k) { $('m' + k).hidden = k !== n; });
+  }
+  stepBtns.forEach(function (b) {
+    b.addEventListener('click', function () {
+      var n = parseInt(b.getAttribute('data-go'), 10);
+      go(n);
+      if (n === 1) { say(ran1 ? '미션 1이에요. 다음 판을 눌러 새 묶음으로 짚어 봐요.' : '미션 1이에요. 나가 몇 장을 빠뜨릴지 짚어 봐요.'); }
+      if (n === 2) { if (!c2.deck.length) { newRound2(); } else { say('나가 멈춘 뒤에 남는 답 카드는 어느 것일까요? 눌러서 골라 봐요.'); } }
+      if (n === 3) { if (!c3.deck.length) { newRound3(); } else { say('나가 꼭 ' + target + '장 빠뜨리는 묶음을 만들어 봐요.'); } }
+    });
+  });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) { settle(); } });
+  window.addEventListener('pagehide', function () { settle(); });
+
+  newRound1();
 })();
 </script>
-<script src="../assets/play/fun.js" data-block="B06" data-mission="같은 여덟 장을 두 절차로 훑어요. 나가 몇 장을 빠뜨릴지 먼저 예측하고 확인해요!"></script>
+<script src="../assets/play/fun.js" data-block="B06" data-mission="같은 여덟 장을 두 절차로 훑어요. 나가 몇 장을 빠뜨릴지 먼저 짚어 봐요!"></script>
 </body>
 </html>
